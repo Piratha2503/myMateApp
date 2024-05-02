@@ -29,6 +29,7 @@ class _otpPage extends State<otpPage>{
       backgroundColor: MyMateThemes.backgroundWhite,
       appBar: AppBar(
         title: const Text(""),
+        backgroundColor: MyMateThemes.backgroundWhite,
       ),
       body: Column(
         mainAxisSize: MainAxisSize.max,

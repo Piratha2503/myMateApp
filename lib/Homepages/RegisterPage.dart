@@ -14,16 +14,14 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
 
-  void Check(){
-    showCountryPicker(
-      context: context,
-      showPhoneCode: true, // optional. Shows phone code before the country name.
-      onSelect: (Country country) {
-        print(country.displayName);
-      },
-    );
-  }
+  late String phoneNumber = "";
 
+  void Check(){
+   print("Hello");
+  }
+  void handlePhoneNumber(){
+    print("Phone Number is:- $phoneNumber");
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -61,19 +59,24 @@ class _RegisterPageState extends State<RegisterPage> {
            child: Padding(padding: EdgeInsets.all(50),
                       child: IntlPhoneField(
                         inputFormatters: [
-                          LengthLimitingTextInputFormatter(1),
+                          LengthLimitingTextInputFormatter(10),
                           FilteringTextInputFormatter.digitsOnly,
                         ],
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: "Phone number",
                         ),
+                        onChanged: (number){
+                          setState(() {
+                            phoneNumber = number.completeNumber;
+                          });
+                          }
                       )
               ),),
           Center(
             child: SizedBox(
               height: 58,
               width: 166,
-              child: ElevatedButton(onPressed: Check,
+              child: ElevatedButton(onPressed: handlePhoneNumber,
                 style: const ButtonStyle(
                   foregroundColor: MaterialStatePropertyAll(Colors.white),
                   backgroundColor: MaterialStatePropertyAll(MyMateThemes.primaryGreen),

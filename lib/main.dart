@@ -4,6 +4,7 @@ import 'package:mymateapp/Homepages/GenerateChart.dart';
 import 'package:mymateapp/Homepages/NameAndGenderPage.dart';
 import 'package:mymateapp/Homepages/RegisterPage.dart';
 import 'package:mymateapp/Homepages/StartPage.dart';
+import 'package:mymateapp/Homepages/Test2.dart';
 import 'package:mymateapp/Homepages/WelcomeScreen.dart';
 import 'package:mymateapp/Homepages/Test.dart';
 import 'package:mymateapp/Homepages/OTPPage.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.blue[200]
       ),
       debugShowCheckedModeBanner: false,
-      home: const GenerateChart(),
+      home: const ChartOptions(),
     );
   }
 }
