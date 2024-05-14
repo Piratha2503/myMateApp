@@ -16,6 +16,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   late String phoneNumber = "";
 
+
   void Check(){
    print("Hello");
   }
@@ -25,6 +26,9 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
 
+void CountrySet(country){
+  print(country);
+}
     return Scaffold(
     backgroundColor: Color(0xFFFBFFFB),
     appBar: AppBar(
@@ -58,6 +62,9 @@ class _RegisterPageState extends State<RegisterPage> {
          Center(
            child: Padding(padding: EdgeInsets.all(50),
                       child: IntlPhoneField(
+                        onCountryChanged: (country){
+                          print(country.code);
+                        },
                         inputFormatters: [
                           LengthLimitingTextInputFormatter(10),
                           FilteringTextInputFormatter.digitsOnly,
