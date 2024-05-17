@@ -12,7 +12,7 @@ class MyMateThemes{
 
   static const double buttonFontSize = 18;
   static const double nomalFontSize = 18;
-  static const double subHeadFontSize = 22;
+  static const double subHeadFontSize = 20;
 }
 class CommonButtonStyle{
 

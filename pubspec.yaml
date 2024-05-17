@@ -36,7 +36,11 @@ dependencies:
   cupertino_icons: ^1.0.6
   flutter_svg: ^2.0.10
   country_picker: ^2.0.25
+  csc_picker: ^0.2.7
+  google_places_flutter: ^2.0.8
   intl_phone_field:
+  http: ^1.2.1
+  flutter_typeahead: ^5.2.0
 
 
 dev_dependencies:
