@@ -66,7 +66,7 @@ class _otpPage extends State<otpPage>{
                             height: 68,
                             width: 64,
                             child: TextField(
-                              style: Theme.of(context).textTheme.headline6,
+                              style: Theme.of(context).textTheme.headlineLarge,
                               decoration: const InputDecoration(border: OutlineInputBorder(),hoverColor: Color(0xFF19434E)),
                               keyboardType: TextInputType.number,
                               textAlign: TextAlign.center,
@@ -81,7 +81,7 @@ class _otpPage extends State<otpPage>{
                             height: 68,
                             width: 64,
                             child: TextField(
-                              style: Theme.of(context).textTheme.headline6,
+                              style: Theme.of(context).textTheme.headlineLarge,
                               decoration: const InputDecoration(border: OutlineInputBorder(),),
                               keyboardType: TextInputType.number,
                               textAlign: TextAlign.center,
@@ -96,7 +96,7 @@ class _otpPage extends State<otpPage>{
                             height: 68,
                             width: 64,
                             child: TextField(
-                              style: Theme.of(context).textTheme.headline6,
+                              style: Theme.of(context).textTheme.headlineLarge,
                               decoration: const InputDecoration(border: OutlineInputBorder(),),
                               keyboardType: TextInputType.number,
                               textAlign: TextAlign.center,
@@ -112,7 +112,7 @@ class _otpPage extends State<otpPage>{
                             height: 68,
                             width: 64,
                             child: TextField(
-                              style: Theme.of(context).textTheme.headline6,
+                              style: Theme.of(context).textTheme.headlineLarge,
                               decoration: const InputDecoration(border: OutlineInputBorder(),),
                               keyboardType: TextInputType.number,
                               textAlign: TextAlign.center,
