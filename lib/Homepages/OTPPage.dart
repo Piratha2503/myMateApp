@@ -10,7 +10,6 @@ class otpPage extends StatefulWidget{
 
   @override
   State<otpPage> createState() => _otpPage();
-
 }
 
 class _otpPage extends State<otpPage>{
@@ -56,77 +55,79 @@ class _otpPage extends State<otpPage>{
           Center(
               child: SizedBox(
                 width: 350,
-                 child: Form(
-
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-
-                        children: [
-                          SizedBox(
-                            height: 68,
-                            width: 64,
-                            child: TextField(
-                              style: Theme.of(context).textTheme.headlineLarge,
-                              decoration: const InputDecoration(border: OutlineInputBorder(),hoverColor: Color(0xFF19434E)),
-                              keyboardType: TextInputType.number,
-                              textAlign: TextAlign.center,
-                              inputFormatters: [
-                                LengthLimitingTextInputFormatter(1),
-                                FilteringTextInputFormatter.digitsOnly
-                              ],
-                            ),
-                          ),
-
-                          SizedBox(
-                            height: 68,
-                            width: 64,
-                            child: TextField(
-                              style: Theme.of(context).textTheme.headlineLarge,
-                              decoration: const InputDecoration(border: OutlineInputBorder(),),
-                              keyboardType: TextInputType.number,
-                              textAlign: TextAlign.center,
-                              inputFormatters: [
-                                LengthLimitingTextInputFormatter(1),
-                                FilteringTextInputFormatter.digitsOnly
-
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 68,
-                            width: 64,
-                            child: TextField(
-                              style: Theme.of(context).textTheme.headlineLarge,
-                              decoration: const InputDecoration(border: OutlineInputBorder(),),
-                              keyboardType: TextInputType.number,
-                              textAlign: TextAlign.center,
-                              inputFormatters: [
-                                LengthLimitingTextInputFormatter(1),
-                                FilteringTextInputFormatter.digitsOnly
-
-                              ],
-                            ),
-                          ),
-
-                          SizedBox(
-                            height: 68,
-                            width: 64,
-                            child: TextField(
-                              style: Theme.of(context).textTheme.headlineLarge,
-                              decoration: const InputDecoration(border: OutlineInputBorder(),),
-                              keyboardType: TextInputType.number,
-                              textAlign: TextAlign.center,
-                              inputFormatters: [
-                                LengthLimitingTextInputFormatter(1),
-                                FilteringTextInputFormatter.digitsOnly
-
-                              ],
-                            ),
-                          ),
+                child: Form(
+                    child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    SizedBox(
+                      height: 68,
+                      width: 64,
+                      child: TextField(
+                        style: Theme.of(context).textTheme.headlineLarge,
+                        decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            hoverColor: Color(0xFF19434E)),
+                        keyboardType: TextInputType.number,
+                        textAlign: TextAlign.center,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(1),
+                          FilteringTextInputFormatter.digitsOnly
                         ],
-                      )
-                 )
-              ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 68,
+                      width: 64,
+                      child: TextField(
+                        style: Theme.of(context).textTheme.headlineLarge,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                        ),
+                        keyboardType: TextInputType.number,
+                        textAlign: TextAlign.center,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(1),
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 68,
+                      width: 64,
+                      child: TextField(
+                        style: Theme.of(context).textTheme.headlineLarge,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                        ),
+                        keyboardType: TextInputType.number,
+                        textAlign: TextAlign.center,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(1),
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 68,
+                      width: 64,
+                      child: TextField(
+                        style: Theme.of(context).textTheme.headlineLarge,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                        ),
+                        keyboardType: TextInputType.number,
+                        textAlign: TextAlign.center,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(1),
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                      ),
+                    ),
+                  ],
+                ))),
+          ),
+          Container(
+            height: 25,
           ),
           Container(height: 25,),
           const Center(
