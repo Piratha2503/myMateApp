@@ -16,6 +16,7 @@ import 'package:csc_picker/csc_picker.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:mymateapp/ManagePages/ManagePage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           primaryColor: Colors.blue[200]),
       debugShowCheckedModeBanner: false,
-      home: const ProfilePage(),
+      home: const ManagePage(),
     );
   }
 }
