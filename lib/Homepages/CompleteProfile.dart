@@ -207,7 +207,10 @@ class _PageOneState extends State<PageOne> {
                 ),
                 SizedBox(height: 20),
                 GestureDetector(
-                  //onTap: choose,
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    //_isSwitched = false;
+                  },
                   child: SvgPicture.asset(
                     'assets/images/Active.svg',
                   ),
