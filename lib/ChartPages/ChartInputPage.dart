@@ -58,8 +58,6 @@ class _ChartInputPageState extends State<ChartInputPage> {
             width: 375,
             child: Nadchathira(),
           ),
-
-
         ],
       ),
     );
@@ -81,7 +79,8 @@ Widget DOB() {
     ),
   );
 }
-Widget TOB(){
+
+Widget TOB() {
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 20),
     child: const TextField(
@@ -95,13 +94,14 @@ Widget TOB(){
       )),
     ),
   );
-}Widget Rasi(){
+}
+
+Widget Rasi() {
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 20),
     child: const TextField(
-
       decoration: InputDecoration(
-        hintText: "Rasi",
+          hintText: "Rasi",
           hintStyle: TextStyle(
             fontSize: 20,
             color: Colors.black87,
@@ -115,12 +115,13 @@ Widget TOB(){
     ),
   );
 }
-Widget Nadchathira(){
+
+Widget Nadchathira() {
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 20),
     child: const TextField(
       decoration: InputDecoration(
-        hintText: "Nadchathira",
+          hintText: "Nadchathira",
           suffix: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -131,17 +132,16 @@ Widget Nadchathira(){
   );
 }
 
-
 Widget PlaceSearch() {
   TextEditingController controller = TextEditingController();
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 20),
     child: GooglePlaceAutoCompleteTextField(
       boxDecoration: const BoxDecoration(
-      borderRadius:  BorderRadius.only(bottomLeft: Radius.zero),
-      border: Border(bottom: BorderSide(style: BorderStyle.solid),
-      )
-      ),
+          borderRadius: BorderRadius.only(bottomLeft: Radius.zero),
+          border: Border(
+            bottom: BorderSide(style: BorderStyle.solid),
+          )),
       textEditingController: controller,
       googleAPIKey: "AIzaSyAoxfRZPpxjemh98ITN_FnpSElHr7kmNYs",
       inputDecoration: const InputDecoration(
