@@ -20,8 +20,10 @@ class _ChartCalPageState extends State<ChartCalPage>{
     final uri = Uri.parse(url);
     final response = await http.get(uri);
     if (response.statusCode == 200) {
+
       final List<dynamic> jsonBody = jsonDecode(response.body);
       return jsonBody.map((user) => user as String).toList();
+
     } else {
       throw Exception('Failed to load city names');
     }

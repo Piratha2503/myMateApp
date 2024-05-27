@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 
+
 class NameAndGender extends StatefulWidget {
 
   const NameAndGender({super.key});
@@ -16,14 +17,16 @@ class NameAndGender extends StatefulWidget {
 class _NameAndGenderState extends State<NameAndGender>{
 
   String Gender = "";
+
   void onPressed(){
     print("object");
   }
-void Changed(){
+
+  void Changed(){
     setState(() {
       Gender = "Male";
     });
-}
+  }
   @override
   Widget build(BuildContext context){
 
@@ -37,7 +40,7 @@ void Changed(){
           children: [
             Form(child: Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   width: 300, // Set the width of the TextField
                   height: 50, // Set the height of the TextField
                   child: TextField(
@@ -48,7 +51,7 @@ void Changed(){
                   ),
                 ),
                 Container(height: 50,),
-                SizedBox(
+                const SizedBox(
                   width: 300, // Set the width of the TextField
                   height: 50, // Set the height of the TextField
                   child: TextField(
@@ -76,7 +79,7 @@ void Changed(){
                         fixedSize: MaterialStatePropertyAll(Size(120, 120))
                       ),
                     ),
-                    SizedBox(width: 30,),
+                    const SizedBox(width: 30,),
                     ElevatedButton.icon(
                       onPressed: Changed,
                       label: const Text(""),
@@ -96,7 +99,7 @@ void Changed(){
                   ],
 
                 ),
-                SizedBox(height: 65,),
+                const SizedBox(height: 65,),
                 SizedBox(
                   height: 58,
                   width: 166,
@@ -105,9 +108,7 @@ void Changed(){
                       foregroundColor: MaterialStatePropertyAll(Colors.white),
                       backgroundColor: MaterialStatePropertyAll(MyMateThemes.primaryGreen),
                       shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.zero)),
-                    ), child: Text(
-                      "Next"
-                      ,style: TextStyle(fontSize: MyMateThemes.buttonFontSize),),
+                    ), child: const Text("Next",style: TextStyle(fontSize: MyMateThemes.buttonFontSize),),
                   ),
                 ),
 
@@ -126,13 +127,11 @@ class MyInputDecorations extends InputDecoration{
 
   final String myHint;
 
- MyInputDecorations(this.myHint);
+ const MyInputDecorations(this.myHint);
  @override
- // TODO: implement hintText
  String? get hintText => myHint;
 
  @override
- // TODO: implement hintStyle
  TextStyle? get hintStyle => const TextStyle(
    fontSize: 28,
    fontFamily: "Work Sans",

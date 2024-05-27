@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mymateapp/ChartPages/ChartCalPage.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:mymateapp/ManagePages/SummaryPage.dart';
 import 'package:mymateapp/dbConnection/crudApp.dart';
 import 'firebase_options.dart';
 import 'package:mymateapp/ChartPages/ChartInputPage.dart';
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           primaryColor: Colors.blue[200]),
       debugShowCheckedModeBanner: false,
-      home: const ManualChartPage(),
+      home: const ProfilePage(),
     );
   }
 }

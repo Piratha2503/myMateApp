@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mymateapp/MyMateThemes.dart';
-import 'package:responsive_screen_type/responsive_screen_type.dart';
 
 class Settingspage extends StatefulWidget {
   const Settingspage({Key? key}) : super(key: key);

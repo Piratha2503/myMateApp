@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mymateapp/MyMateThemes.dart';
-import 'package:ring_button_group/ring_button_group.dart';
+
 
 class ManualChartPage extends StatefulWidget {
   const ManualChartPage({Key? key}) : super(key: key);

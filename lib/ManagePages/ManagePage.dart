@@ -5,8 +5,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mymateapp/ManagePages/AboutPage.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import '../Homepages/bottom_navigation_bar.dart';
-import 'package:responsive_screen_type/responsive_screen_type.dart';
-//import 'package:mymateapp/ManagePages/AboutPage.dart';
 import 'package:mymateapp/ManagePages/AccountPage.dart';
 import 'package:mymateapp/ManagePages/AllActionPage.dart';
 import 'package:mymateapp/ManagePages/HelpPage.dart';
