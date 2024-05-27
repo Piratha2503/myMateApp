@@ -6,14 +6,13 @@ import 'package:mymateapp/ManagePages/AboutPage.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import '../Homepages/bottom_navigation_bar.dart';
 import 'package:responsive_screen_type/responsive_screen_type.dart';
-import 'package:mymateapp/ManagePages/AboutPage.dart';
+//import 'package:mymateapp/ManagePages/AboutPage.dart';
 import 'package:mymateapp/ManagePages/AccountPage.dart';
 import 'package:mymateapp/ManagePages/AllActionPage.dart';
 import 'package:mymateapp/ManagePages/HelpPage.dart';
 import 'package:mymateapp/ManagePages/SettingsPage.dart';
 import 'package:mymateapp/ManagePages/SummaryPage.dart';
 import 'package:mymateapp/ManagePages/TokenPage.dart';
-import 'package:mymateapp/ManagePages/ManagePage.dart';
 
 class ManagePage extends StatefulWidget {
   const ManagePage({Key? key}) : super(key: key);
@@ -31,9 +30,10 @@ class _ManagePageState extends State<ManagePage> {
       builder: (BuildContext context) {
         return AlertDialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(20.0)),
-          ),
-          contentPadding: EdgeInsets.all(20.0),
+
+              //borderRadius: BorderRadius.all(Radius.(20.0)),
+              ),
+          contentPadding: EdgeInsets.all(60.0),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -46,18 +46,23 @@ class _ManagePageState extends State<ManagePage> {
               ),
               SizedBox(height: 20.0),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).pop();
+                  //_isSwitched = false;
+                },
                 child: SvgPicture.asset(
                   'assets/images/ok.svg',
                 ),
               ),
               SizedBox(height: 30.0),
               SizedBox(
-                width: double.infinity,
+                // width: double.infinity,
                 child: GestureDetector(
                   onTap: () {
+                    setState(() {
+                      _isSwitched = false;
+                    });
                     Navigator.of(context).pop();
-                    //_isSwitched = false;
                   },
                   child: SvgPicture.asset(
                     'assets/images/cancel.svg',
@@ -114,10 +119,13 @@ class _ManagePageState extends State<ManagePage> {
                 padding: const EdgeInsets.all(20.0),
                 child: Row(
                   children: [
-                    SvgPicture.asset(
-                      'assets/images/smc.svg',
-                      // width: 30,
-                      // height: 30,
+                    GestureDetector(
+                      onTap: () {},
+                      child: SvgPicture.asset(
+                        'assets/images/smc.svg',
+                        // width: 30,
+                        // height: 30,
+                      ),
                     ),
                     SizedBox(width: 16),
                     Expanded(
@@ -132,13 +140,6 @@ class _ManagePageState extends State<ManagePage> {
                               color: MyMateThemes.textGreen,
                             ),
                           ),
-                          // Text(
-                          //   'Tokens left',
-                          //   style: TextStyle(
-                          //     fontSize: 12,
-                          //     color: MyMateThemes.textGreen,
-                          //   ),
-                          // ),
                           SizedBox(width: 10),
                           Row(
                             children: [
@@ -193,8 +194,9 @@ class _ManagePageState extends State<ManagePage> {
             left: 18,
             right: 18,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                SizedBox(width: 25),
                 Text(
                   'Profile invisible mode',
                   style: TextStyle(
@@ -203,17 +205,20 @@ class _ManagePageState extends State<ManagePage> {
                     color: MyMateThemes.primaryGreen,
                   ),
                 ),
-                SizedBox(width: 80),
-                Switch(
-                  value: _isSwitched,
-                  onChanged: (value) {
-                    setState(() {
-                      _isSwitched = value;
-                      if (_isSwitched) {
-                        _showCustomDialog();
-                      }
-                    });
-                  },
+                SizedBox(width: 110),
+                Transform.scale(
+                  scale: 0.8,
+                  child: Switch(
+                    value: _isSwitched,
+                    onChanged: (value) {
+                      setState(() {
+                        _isSwitched = value;
+                        if (_isSwitched) {
+                          _showCustomDialog();
+                        }
+                      });
+                    },
+                  ),
                 ),
               ],
             ),
@@ -333,42 +338,48 @@ class _ManagePageState extends State<ManagePage> {
                 ),
                 SizedBox(height: 10),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    SizedBox(width: 20),
                     Text(
                       "Terms & Policies",
                       style: TextStyle(color: MyMateThemes.primaryGreen),
                     )
                   ],
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 25),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    SizedBox(width: 20),
                     GestureDetector(
                       onTap: () {},
                       child: SvgPicture.asset(
                         'assets/images/Fb.svg',
                       ),
                     ),
+                    SizedBox(width: 25),
                     GestureDetector(
                       onTap: () {},
                       child: SvgPicture.asset(
                         'assets/images/In.svg',
                       ),
                     ),
+                    SizedBox(width: 25),
                     GestureDetector(
                       onTap: () {},
                       child: SvgPicture.asset(
                         'assets/images/X.svg',
                       ),
                     ),
+                    SizedBox(width: 25),
                     GestureDetector(
                       onTap: () {},
                       child: SvgPicture.asset(
                         'assets/images/Tk.svg',
                       ),
                     ),
+                    SizedBox(width: 25),
                     GestureDetector(
                       onTap: () {},
                       child: SvgPicture.asset(

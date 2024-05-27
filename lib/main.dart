@@ -20,6 +20,8 @@ import 'package:csc_picker/csc_picker.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:mymateapp/ManagePages/ManagePage.dart';
+import 'package:mymateapp/ChartPages/ManualChartPage.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,7 +43,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           primaryColor: Colors.blue[200]),
       debugShowCheckedModeBanner: false,
-      home: const crudApp(),
+      home: const ManualChartPage(),
     );
   }
 }

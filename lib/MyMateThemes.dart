@@ -9,6 +9,10 @@ class MyMateThemes {
   static const containerViolet = Color(0xFFF5F5F7);
   static const textGreen = Color(0xFF666666);
   static const textGray = Color.fromRGBO(27, 31, 27, 100);
+  static const premiumAccent = Color(0xFFFFB743);
+  static const primaryViolet = Color(0xFF7D67EE);
+  static const secondaryViolet = Color(0xFFE2E6FE);
+  static const textViolet = Color(0xFF666666);
 
   static const double buttonFontSize = 18;
   static const double nomalFontSize = 18;
