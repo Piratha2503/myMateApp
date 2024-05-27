@@ -3,7 +3,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'bottom_navigation_bar.dart';
-import 'package:responsive_screen_type/responsive_screen_type.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);

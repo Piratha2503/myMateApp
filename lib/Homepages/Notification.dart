@@ -13,7 +13,7 @@ class NotificationProvider with ChangeNotifier {
   // Mock fetching data from a database
   void fetchNotificationCount() {
     // Simulate a network call and update the count
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 2), () {
       setNotificationCount(15); // Example count
     });
   }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 
+
 class NameAndGender extends StatefulWidget {
   const NameAndGender({super.key});
 
@@ -11,18 +12,19 @@ class NameAndGender extends StatefulWidget {
   State<NameAndGender> createState() => _NameAndGenderState();
 }
 
-class _NameAndGenderState extends State<NameAndGender> {
+class _NameAndGenderState extends State<NameAndGender>{
+
   String Gender = "";
-  void onPressed() {
+
+  void onPressed(){
     print("object");
   }
 
-  void Changed() {
+  void Changed(){
     setState(() {
       Gender = "Male";
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,10 +35,9 @@ class _NameAndGenderState extends State<NameAndGender> {
       body: Center(
         child: Column(
           children: [
-            Form(
-                child: Column(
+            Form(child: Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   width: 300, // Set the width of the TextField
                   height: 50, // Set the height of the TextField
                   child: TextField(
@@ -46,10 +47,8 @@ class _NameAndGenderState extends State<NameAndGender> {
                     ),
                   ),
                 ),
-                Container(
-                  height: 50,
-                ),
-                SizedBox(
+                Container(height: 50,),
+                const SizedBox(
                   width: 300, // Set the width of the TextField
                   height: 50, // Set the height of the TextField
                   child: TextField(
@@ -67,40 +66,37 @@ class _NameAndGenderState extends State<NameAndGender> {
                       label: const Text(""),
                       icon: Icon(Icons.male_rounded),
                       style: const ButtonStyle(
-                          foregroundColor:
-                              MaterialStatePropertyAll(Colors.indigo),
-                          alignment: Alignment.center,
-                          textStyle: MaterialStatePropertyAll(
-                              TextStyle(fontWeight: FontWeight.w800)),
-                          iconSize: MaterialStatePropertyAll(70),
-                          shape: MaterialStatePropertyAll(
-                              RoundedRectangleBorder()),
-                          fixedSize: MaterialStatePropertyAll(Size(120, 120))),
+                        foregroundColor: MaterialStatePropertyAll(Colors.indigo),
+                        alignment: Alignment.center,
+                        textStyle: MaterialStatePropertyAll(TextStyle(
+                          fontWeight: FontWeight.w800
+                        )),
+                        iconSize: MaterialStatePropertyAll(70),
+                        shape: MaterialStatePropertyAll(RoundedRectangleBorder()),
+                        fixedSize: MaterialStatePropertyAll(Size(120, 120))
+                      ),
                     ),
-                    SizedBox(
-                      width: 30,
-                    ),
+                    const SizedBox(width: 30,),
                     ElevatedButton.icon(
                       onPressed: Changed,
                       label: const Text(""),
                       icon: Icon(Icons.female_outlined),
                       style: const ButtonStyle(
-                          foregroundColor:
-                              MaterialStatePropertyAll(Colors.purple),
+                       foregroundColor: MaterialStatePropertyAll(Colors.purple),
                           alignment: Alignment.center,
                           textStyle: MaterialStatePropertyAll(TextStyle(
-                            fontWeight: FontWeight.w800,
+                              fontWeight: FontWeight.w800,
+                            
                           )),
                           iconSize: MaterialStatePropertyAll(70),
-                          shape: MaterialStatePropertyAll(
-                              RoundedRectangleBorder()),
-                          fixedSize: MaterialStatePropertyAll(Size(120, 120))),
+                          shape: MaterialStatePropertyAll(RoundedRectangleBorder()),
+                          fixedSize: MaterialStatePropertyAll(Size(120, 120))
+                      ),
                     ),
                   ],
+
                 ),
-                SizedBox(
-                  height: 65,
-                ),
+                const SizedBox(height: 65,),
                 SizedBox(
                   height: 58,
                   width: 166,
@@ -108,17 +104,12 @@ class _NameAndGenderState extends State<NameAndGender> {
                     onPressed: onPressed,
                     style: const ButtonStyle(
                       foregroundColor: MaterialStatePropertyAll(Colors.white),
-                      backgroundColor:
-                          MaterialStatePropertyAll(MyMateThemes.primaryColor),
-                      shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.zero)),
-                    ),
-                    child: Text(
-                      "Next",
-                      style: TextStyle(fontSize: MyMateThemes.buttonFontSize),
-                    ),
+                      backgroundColor: MaterialStatePropertyAll(MyMateThemes.primaryGreen),
+                      shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.zero)),
+                    ), child: const Text("Next",style: TextStyle(fontSize: MyMateThemes.buttonFontSize),),
                   ),
                 ),
+
               ],
             ))
           ],
@@ -135,6 +126,9 @@ class MyInputDecorations extends InputDecoration {
   @override
   // TODO: implement hintText
   String? get hintText => myHint;
+ const MyInputDecorations(this.myHint);
+ @override
+ String? get hintText => myHint;
 
   @override
   // TODO: implement hintStyle
@@ -143,3 +137,9 @@ class MyInputDecorations extends InputDecoration {
         fontFamily: "Work Sans",
       );
 }
+ @override
+ TextStyle? get hintStyle => const TextStyle(
+   fontSize: 28,
+   fontFamily: "Work Sans",
+
+ );

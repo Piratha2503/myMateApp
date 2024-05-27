@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 
 class ChartOptions extends StatefulWidget {
+class ChartOptions extends StatefulWidget{
   const ChartOptions({super.key});
 
   @override

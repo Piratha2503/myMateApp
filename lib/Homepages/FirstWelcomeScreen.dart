@@ -72,7 +72,7 @@ class _FrontPageState extends State<FrontPage>
                     AnimatedOpacity(
                       opacity: showHello ? 1.0 : 0.0,
                       duration: Duration(milliseconds: 5000),
-                      child: Text(
+                      child: const Text(
                         'Hello',
                         style: TextStyle(
                           color: MyMateThemes.primaryColor,
@@ -82,10 +82,7 @@ class _FrontPageState extends State<FrontPage>
                       ),
                     ),
                     // Add spacing between "Hello" and "Your Name"
-                    SizedBox(
-                        width:
-                            10), // Add spacing between "Hello" and "Your Name"
-
+                    SizedBox(width: 10), // Add spacing between "Hello" and "Your Name"
                     SizedBox(width: 70),
                     Stack(
                       children: [
