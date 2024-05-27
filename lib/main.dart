@@ -20,6 +20,8 @@ import 'package:mymateapp/ManagePages/ManagePage.dart';
 import 'package:mymateapp/ChartPages/ManualRasiChartPage.dart';
 import 'package:mymateapp/ChartPages/ManualNavamsaChartPage.dart';
 
+import 'Homepages/CompleteProfile.dart';
+
 void main() {
   runApp(const MyApp());
 }

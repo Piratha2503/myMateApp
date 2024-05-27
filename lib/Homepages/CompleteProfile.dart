@@ -722,7 +722,6 @@ class _PageThreeState extends State<PageThree> {
               ],
             ),
           ),
-
           SizedBox(height: 10),
           Container(
             width: 346,
@@ -769,96 +768,6 @@ class _PageThreeState extends State<PageThree> {
             ),
           ),
           SizedBox(height: 10),
-          Container(
-            width: 346,
-            height: 46,
-            color: MyMateThemes.secondaryColor,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  "Father",
-                  style: TextStyle(color: MyMateThemes.textColor),
-                ),
-                SizedBox(
-                    width: 100), // Placeholder space between text and dropdown
-                DropdownButton<String>(
-                  value: _selectedLanguage,
-                  onChanged: (String? value) {
-                    setState(() {
-                      _selectedLanguage = value!;
-                    });
-                  },
-                  items: <String>[
-                    '--  Select Option  --',
-                    'Government',
-                    'Private',
-                    'Self Employed',
-                    'Unemployed',
-                  ].map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                        value,
-                        style: value == '-- Select Option --'
-                            ? TextStyle(
-                                color: Colors
-                                    .grey) // Customize style for default option
-                            : TextStyle(color: MyMateThemes.textColor),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 10),
-          Container(
-            width: 346,
-            height: 46,
-            color: MyMateThemes.secondaryColor,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  "Mother",
-                  style: TextStyle(color: MyMateThemes.textColor),
-                ),
-                SizedBox(
-                    width: 100), // Placeholder space between text and dropdown
-                DropdownButton<String>(
-                  value: _selectedLanguage,
-                  onChanged: (String? value) {
-                    setState(() {
-                      _selectedLanguage = value!;
-                    });
-                  },
-                  items: <String>[
-                    '--  Select Option  --',
-                    'Government',
-                    'Private',
-                    'Self Employed',
-                    'Unemployed',
-                  ].map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                        value,
-                        style: value == '-- Select Option --'
-                            ? TextStyle(
-                                color: Colors
-                                    .grey) // Customize style for default option
-                            : TextStyle(color: MyMateThemes.textColor),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ],
-            ),
-          ),
-          //GestureDetector(),
           SizedBox(height: 10),
           Container(
             width: 346,
