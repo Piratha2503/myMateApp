@@ -110,7 +110,7 @@ class _NameAndGenderState extends State<NameAndGender> {
                     style: const ButtonStyle(
                       foregroundColor: MaterialStatePropertyAll(Colors.white),
                       backgroundColor:
-                          MaterialStatePropertyAll(MyMateThemes.primaryGreen),
+                          MaterialStatePropertyAll(MyMateThemes.primaryColor),
                       shape: MaterialStatePropertyAll(RoundedRectangleBorder(
                           borderRadius: BorderRadius.zero)),
                     ),
@@ -132,24 +132,13 @@ class _NameAndGenderState extends State<NameAndGender> {
 class MyInputDecorations extends InputDecoration {
   final String myHint;
 
-  MyInputDecorations(this.myHint);
-  @override
-  // TODO: implement hintText
-  String? get hintText => myHint;
   const MyInputDecorations(this.myHint);
   @override
   String? get hintText => myHint;
 
   @override
-  // TODO: implement hintStyle
   TextStyle? get hintStyle => const TextStyle(
         fontSize: 28,
         fontFamily: "Work Sans",
       );
 }
-
-@override
-TextStyle? get hintStyle => const TextStyle(
-      fontSize: 28,
-      fontFamily: "Work Sans",
-    );
