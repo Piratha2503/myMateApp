@@ -13,11 +13,94 @@ class ManualChartPage extends StatefulWidget {
 }
 
 class _ManualChartPageState extends State<ManualChartPage> {
-  int _selectedIndex = 0;
-  int _selectedButtonIndex = 0;
+  // Define the initial state for the SVGs
+  Map<String, bool> tapped = {
+    'Sun': false,
+    'Mercury': false,
+    'Mars': false,
+    'Saturn': false,
+    'Jupiter': false,
+    'Rahu': false,
+    'Ketu': false,
+    'Venus': false,
+    'Moon': false,
+  };
 
-  bool isButtonSelected(int index) {
-    return _selectedButtonIndex == index;
+  get identifier => null;
+
+  // Function to handle the tap and change the state
+  void _onTap(String planet) {
+    setState(() {
+      tapped[planet] =
+          !(tapped[planet] ?? false); // Provide a default value if null
+    });
+    print('$planet button pressed');
+  }
+
+  Map<String, bool> selected = {
+    'one': false,
+    'two': false,
+    'three': false,
+    'four': false,
+    'five': false,
+    'six': false,
+    'seven': false,
+    'eight': false,
+    'nine': false,
+    'ten': false,
+    'eleven': false,
+    'twelve': false,
+  };
+
+  void _onSelect(String button) {
+    setState(() {
+      tapped[button] =
+          !(tapped[button] ?? false); // Provide a default value if null
+    });
+    print('$button button pressed');
+  }
+
+  int? selectedTopBox;
+  Map<String, int> segmentToBoxMap = {};
+
+  bool isSegmentSelected(String segment) {
+    return segmentToBoxMap.containsKey(segment);
+  }
+
+  int? getSegmentBadge(String segment) {
+    return segmentToBoxMap[segment];
+  }
+
+  void _onTapTopBox(int boxNumber) {
+    setState(() {
+      selectedTopBox = boxNumber;
+    });
+  }
+
+  void _onTapBottomSegment(String segment) {
+    if (selectedTopBox != null) {
+      setState(() {
+        if (segmentToBoxMap.containsKey(segment) &&
+            segmentToBoxMap[segment] == selectedTopBox) {
+          segmentToBoxMap.remove(segment);
+        } else {
+          segmentToBoxMap[segment] = selectedTopBox!;
+        }
+      });
+    }
+    print('$segment button pressed');
+  }
+
+  void _resetSelections() {
+    setState(() {
+      segmentToBoxMap.clear();
+      selectedTopBox = null;
+    });
+  }
+
+  void _storeSelections() {
+    // Implement the logic to store selections as needed
+    print('Selections stored: $segmentToBoxMap');
   }
 
   @override
@@ -46,7 +129,7 @@ class _ManualChartPageState extends State<ManualChartPage> {
               Text(
                 "to calculate Astrology Chart",
                 style: TextStyle(
-                    color: MyMateThemes.primaryGreen,
+                    color: MyMateThemes.primaryViolet,
                     fontSize: 14,
                     fontWeight: FontWeight.bold),
               ),
@@ -57,150 +140,47 @@ class _ManualChartPageState extends State<ManualChartPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                width: 290,
-                height: 184,
+                width: 310,
+                height: 208,
                 color: Colors.white,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(height: 10),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Positioned(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                _selectedButtonIndex = 1;
-                              });
-                            },
-                            style: ButtonStyle(
-                              // Use the isButtonSelected function to determine button color
-                              foregroundColor: MaterialStateProperty.all(
-                                isButtonSelected(1)
-                                    ? MyMateThemes.primaryGreen
-                                    : MyMateThemes.secondaryGreen,
-                              ),
-                              backgroundColor: MaterialStateProperty.all(
-                                isButtonSelected(1)
-                                    ? MyMateThemes.primaryGreen
-                                    : MyMateThemes.secondaryGreen,
-                              ),
-                              shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                borderRadius: BorderRadius.zero,
-                              )),
-                              side: MaterialStateProperty.all(BorderSide.none),
-                              minimumSize:
-                                  MaterialStateProperty.all(Size(56.75, 47.67)),
-                            ),
-                            child: Text(
-                              "1",
-                              style: TextStyle(color: Colors.white),
-                            ),
+                        SizedBox(width: 10),
+                        GestureDetector(
+                          onTap: () => _onTapTopBox(1),
+                          child: Opacity(
+                            opacity: (selectedTopBox == 1) ? 1.0 : 0.6,
+                            child: SvgPicture.asset('assets/images/one.svg'),
                           ),
                         ),
                         SizedBox(width: 10),
-                        Positioned(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                _selectedButtonIndex = 2;
-                              });
-                            },
-                            style: ButtonStyle(
-                              // Use the isButtonSelected function to determine button color
-                              foregroundColor: MaterialStateProperty.all(
-                                isButtonSelected(2)
-                                    ? MyMateThemes.primaryGreen
-                                    : MyMateThemes.secondaryGreen,
-                              ),
-                              backgroundColor: MaterialStateProperty.all(
-                                isButtonSelected(2)
-                                    ? MyMateThemes.primaryGreen
-                                    : MyMateThemes.secondaryGreen,
-                              ),
-                              shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                borderRadius: BorderRadius.zero,
-                              )),
-                              side: MaterialStateProperty.all(BorderSide.none),
-                              minimumSize:
-                                  MaterialStateProperty.all(Size(56.75, 47.67)),
-                            ),
-                            child: Text(
-                              "2",
-                              style: TextStyle(color: Colors.white),
-                            ),
+                        GestureDetector(
+                          onTap: () => _onTapTopBox(2),
+                          child: Opacity(
+                            opacity: (selectedTopBox == 2) ? 1.0 : 0.6,
+                            child: SvgPicture.asset('assets/images/two.svg'),
                           ),
                         ),
                         SizedBox(width: 10),
-                        Positioned(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                _selectedButtonIndex = 3;
-                              });
-                            },
-                            style: ButtonStyle(
-                              // Use the isButtonSelected function to determine button color
-                              foregroundColor: MaterialStateProperty.all(
-                                isButtonSelected(3)
-                                    ? MyMateThemes.primaryGreen
-                                    : MyMateThemes.secondaryGreen,
-                              ),
-                              backgroundColor: MaterialStateProperty.all(
-                                isButtonSelected(3)
-                                    ? MyMateThemes.primaryGreen
-                                    : MyMateThemes.secondaryGreen,
-                              ),
-                              shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                borderRadius: BorderRadius.zero,
-                              )),
-                              side: MaterialStateProperty.all(BorderSide.none),
-                              minimumSize:
-                                  MaterialStateProperty.all(Size(56.75, 47.67)),
-                            ),
-                            child: Text(
-                              "3",
-                              style: TextStyle(color: Colors.white),
-                            ),
+                        GestureDetector(
+                          onTap: () => _onTapTopBox(3),
+                          child: Opacity(
+                            opacity: (selectedTopBox == 3) ? 1.0 : 0.6,
+                            child: SvgPicture.asset('assets/images/three.svg'),
                           ),
                         ),
                         SizedBox(width: 10),
-                        Positioned(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                _selectedButtonIndex = 4;
-                              });
-                            },
-                            style: ButtonStyle(
-                              // Use the isButtonSelected function to determine button color
-                              foregroundColor: MaterialStateProperty.all(
-                                isButtonSelected(4)
-                                    ? MyMateThemes.primaryGreen
-                                    : MyMateThemes.secondaryGreen,
-                              ),
-                              backgroundColor: MaterialStateProperty.all(
-                                isButtonSelected(4)
-                                    ? MyMateThemes.primaryGreen
-                                    : MyMateThemes.secondaryGreen,
-                              ),
-                              shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                borderRadius: BorderRadius.zero,
-                              )),
-                              side: MaterialStateProperty.all(BorderSide.none),
-                              minimumSize:
-                                  MaterialStateProperty.all(Size(56.75, 47.67)),
-                            ),
-                            child: Text(
-                              "4",
-                              style: TextStyle(color: Colors.white),
-                            ),
+                        GestureDetector(
+                          onTap: () => _onTapTopBox(4),
+                          child: Opacity(
+                            opacity: (selectedTopBox == 4) ? 1.0 : 0.6,
+                            child: SvgPicture.asset('assets/images/four.svg'),
                           ),
                         ),
                         SizedBox(width: 10),
@@ -208,142 +188,39 @@ class _ManualChartPageState extends State<ManualChartPage> {
                     ),
                     SizedBox(height: 10),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Positioned(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                _selectedButtonIndex = 5;
-                              });
-                            },
-                            style: ButtonStyle(
-                              // Use the isButtonSelected function to determine button color
-                              foregroundColor: MaterialStateProperty.all(
-                                isButtonSelected(5)
-                                    ? MyMateThemes.primaryGreen
-                                    : MyMateThemes.secondaryGreen,
-                              ),
-                              backgroundColor: MaterialStateProperty.all(
-                                isButtonSelected(5)
-                                    ? MyMateThemes.primaryGreen
-                                    : MyMateThemes.secondaryGreen,
-                              ),
-                              shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                borderRadius: BorderRadius.zero,
-                              )),
-                              side: MaterialStateProperty.all(BorderSide.none),
-                              minimumSize:
-                                  MaterialStateProperty.all(Size(56.75, 47.67)),
-                            ),
-                            child: Text(
-                              "5",
-                              style: TextStyle(color: Colors.white),
-                            ),
+                        SizedBox(width: 10),
+                        GestureDetector(
+                          onTap: () => _onTapTopBox(5),
+                          child: Opacity(
+                            opacity: (selectedTopBox == 5) ? 1.0 : 0.6,
+                            child: SvgPicture.asset('assets/images/five.svg'),
                           ),
                         ),
                         SizedBox(width: 10),
-                        Positioned(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                _selectedButtonIndex = 6;
-                              });
-                            },
-                            style: ButtonStyle(
-                              // Use the isButtonSelected function to determine button color
-                              foregroundColor: MaterialStateProperty.all(
-                                isButtonSelected(6)
-                                    ? MyMateThemes.primaryGreen
-                                    : MyMateThemes.secondaryGreen,
-                              ),
-                              backgroundColor: MaterialStateProperty.all(
-                                isButtonSelected(6)
-                                    ? MyMateThemes.primaryGreen
-                                    : MyMateThemes.secondaryGreen,
-                              ),
-                              shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                borderRadius: BorderRadius.zero,
-                              )),
-                              side: MaterialStateProperty.all(BorderSide.none),
-                              minimumSize:
-                                  MaterialStateProperty.all(Size(56.75, 47.67)),
-                            ),
-                            child: Text(
-                              "6",
-                              style: TextStyle(color: Colors.white),
-                            ),
+                        GestureDetector(
+                          onTap: () => _onTapTopBox(6),
+                          child: Opacity(
+                            opacity: (selectedTopBox == 6) ? 1.0 : 0.6,
+                            child: SvgPicture.asset('assets/images/six.svg'),
                           ),
                         ),
                         SizedBox(width: 10),
-                        Positioned(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                _selectedButtonIndex = 7;
-                              });
-                            },
-                            style: ButtonStyle(
-                              // Use the isButtonSelected function to determine button color
-                              foregroundColor: MaterialStateProperty.all(
-                                isButtonSelected(7)
-                                    ? MyMateThemes.primaryGreen
-                                    : MyMateThemes.secondaryGreen,
-                              ),
-                              backgroundColor: MaterialStateProperty.all(
-                                isButtonSelected(7)
-                                    ? MyMateThemes.primaryGreen
-                                    : MyMateThemes.secondaryGreen,
-                              ),
-                              shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                borderRadius: BorderRadius.zero,
-                              )),
-                              side: MaterialStateProperty.all(BorderSide.none),
-                              minimumSize:
-                                  MaterialStateProperty.all(Size(56.75, 47.67)),
-                            ),
-                            child: Text(
-                              "7",
-                              style: TextStyle(color: Colors.white),
-                            ),
+                        GestureDetector(
+                          onTap: () => _onTapTopBox(7),
+                          child: Opacity(
+                            opacity: (selectedTopBox == 7) ? 1.0 : 0.6,
+                            child: SvgPicture.asset('assets/images/seven.svg'),
                           ),
                         ),
                         SizedBox(width: 10),
-                        Positioned(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                _selectedButtonIndex = 8;
-                              });
-                            },
-                            style: ButtonStyle(
-                              // Use the isButtonSelected function to determine button color
-                              foregroundColor: MaterialStateProperty.all(
-                                isButtonSelected(8)
-                                    ? MyMateThemes.primaryGreen
-                                    : MyMateThemes.secondaryGreen,
-                              ),
-                              backgroundColor: MaterialStateProperty.all(
-                                isButtonSelected(8)
-                                    ? MyMateThemes.primaryGreen
-                                    : MyMateThemes.secondaryGreen,
-                              ),
-                              shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                borderRadius: BorderRadius.zero,
-                              )),
-                              side: MaterialStateProperty.all(BorderSide.none),
-                              minimumSize:
-                                  MaterialStateProperty.all(Size(56.75, 47.67)),
-                            ),
-                            child: Text(
-                              "8",
-                              style: TextStyle(color: Colors.white),
-                            ),
+                        GestureDetector(
+                          onTap: () => _onTapTopBox(8),
+                          child: Opacity(
+                            opacity: (selectedTopBox == 8) ? 1.0 : 0.6,
+                            child: SvgPicture.asset('assets/images/eight.svg'),
                           ),
                         ),
                         SizedBox(width: 10),
@@ -351,142 +228,39 @@ class _ManualChartPageState extends State<ManualChartPage> {
                     ),
                     SizedBox(height: 10),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Positioned(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                _selectedButtonIndex = 9;
-                              });
-                            },
-                            style: ButtonStyle(
-                              // Use the isButtonSelected function to determine button color
-                              foregroundColor: MaterialStateProperty.all(
-                                isButtonSelected(9)
-                                    ? MyMateThemes.primaryGreen
-                                    : MyMateThemes.secondaryGreen,
-                              ),
-                              backgroundColor: MaterialStateProperty.all(
-                                isButtonSelected(9)
-                                    ? MyMateThemes.primaryGreen
-                                    : MyMateThemes.secondaryGreen,
-                              ),
-                              shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                borderRadius: BorderRadius.zero,
-                              )),
-                              side: MaterialStateProperty.all(BorderSide.none),
-                              minimumSize:
-                                  MaterialStateProperty.all(Size(56.75, 47.67)),
-                            ),
-                            child: Text(
-                              "9",
-                              style: TextStyle(color: Colors.white),
-                            ),
+                        SizedBox(width: 10),
+                        GestureDetector(
+                          onTap: () => _onTapTopBox(9),
+                          child: Opacity(
+                            opacity: (selectedTopBox == 9) ? 1.0 : 0.6,
+                            child: SvgPicture.asset('assets/images/nine.svg'),
                           ),
                         ),
                         SizedBox(width: 10),
-                        Positioned(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                _selectedButtonIndex = 10;
-                              });
-                            },
-                            style: ButtonStyle(
-                              // Use the isButtonSelected function to determine button color
-                              foregroundColor: MaterialStateProperty.all(
-                                isButtonSelected(10)
-                                    ? MyMateThemes.primaryGreen
-                                    : MyMateThemes.secondaryGreen,
-                              ),
-                              backgroundColor: MaterialStateProperty.all(
-                                isButtonSelected(10)
-                                    ? MyMateThemes.primaryGreen
-                                    : MyMateThemes.secondaryGreen,
-                              ),
-                              shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                borderRadius: BorderRadius.zero,
-                              )),
-                              side: MaterialStateProperty.all(BorderSide.none),
-                              minimumSize:
-                                  MaterialStateProperty.all(Size(56.75, 47.67)),
-                            ),
-                            child: Text(
-                              "10",
-                              style: TextStyle(color: Colors.white),
-                            ),
+                        GestureDetector(
+                          onTap: () => _onTapTopBox(10),
+                          child: Opacity(
+                            opacity: (selectedTopBox == 10) ? 1.0 : 0.6,
+                            child: SvgPicture.asset('assets/images/ten.svg'),
                           ),
                         ),
                         SizedBox(width: 10),
-                        Positioned(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                _selectedButtonIndex = 11;
-                              });
-                            },
-                            style: ButtonStyle(
-                              // Use the isButtonSelected function to determine button color
-                              foregroundColor: MaterialStateProperty.all(
-                                isButtonSelected(11)
-                                    ? MyMateThemes.primaryGreen
-                                    : MyMateThemes.secondaryGreen,
-                              ),
-                              backgroundColor: MaterialStateProperty.all(
-                                isButtonSelected(11)
-                                    ? MyMateThemes.primaryGreen
-                                    : MyMateThemes.secondaryGreen,
-                              ),
-                              shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                borderRadius: BorderRadius.zero,
-                              )),
-                              side: MaterialStateProperty.all(BorderSide.none),
-                              minimumSize:
-                                  MaterialStateProperty.all(Size(56.75, 47.67)),
-                            ),
-                            child: Text(
-                              "11",
-                              style: TextStyle(color: Colors.white),
-                            ),
+                        GestureDetector(
+                          onTap: () => _onTapTopBox(11),
+                          child: Opacity(
+                            opacity: (selectedTopBox == 11) ? 1.0 : 0.6,
+                            child: SvgPicture.asset('assets/images/eleven.svg'),
                           ),
                         ),
                         SizedBox(width: 10),
-                        Positioned(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                _selectedButtonIndex = 12;
-                              });
-                            },
-                            style: ButtonStyle(
-                              // Use the isButtonSelected function to determine button color
-                              foregroundColor: MaterialStateProperty.all(
-                                isButtonSelected(12)
-                                    ? MyMateThemes.primaryGreen
-                                    : MyMateThemes.secondaryGreen,
-                              ),
-                              backgroundColor: MaterialStateProperty.all(
-                                isButtonSelected(12)
-                                    ? MyMateThemes.primaryGreen
-                                    : MyMateThemes.secondaryGreen,
-                              ),
-                              shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                borderRadius: BorderRadius.zero,
-                              )),
-                              side: MaterialStateProperty.all(BorderSide.none),
-                              minimumSize:
-                                  MaterialStateProperty.all(Size(56.75, 47.67)),
-                            ),
-                            child: Text(
-                              "12",
-                              style: TextStyle(color: Colors.white),
-                            ),
+                        GestureDetector(
+                          onTap: () => _onTapTopBox(12),
+                          child: Opacity(
+                            opacity: (selectedTopBox == 12) ? 1.0 : 0.6,
+                            child: SvgPicture.asset('assets/images/twelve.svg'),
                           ),
                         ),
                         SizedBox(width: 10),
@@ -498,139 +272,297 @@ class _ManualChartPageState extends State<ManualChartPage> {
               ),
             ],
           ),
-          SizedBox(height: 60),
+          SizedBox(height: 10),
           Container(
             height: 400,
             width: 300,
-            child: SizedBox(
-              width: 100, //set a width
-              height: 100, //set a height, should be same with width
-              child: Stack(
-                children: [
-                  Positioned(
-                    left: -3,
-                    bottom: 70,
-                    child: GestureDetector(
-                      onTap: () {
-                        print('Mercury button is pressed');
-                      },
-                      child: SvgPicture.asset(
-                        'assets/images/Mercury.svg',
-                      ),
+            child: Stack(
+              children: [
+                Positioned(
+                  top: 35,
+                  left: 25,
+                  child: GestureDetector(
+                    onTap: () => _onTapBottomSegment('Sun'),
+                    child: Stack(
+                      children: [
+                        Opacity(
+                          opacity: isSegmentSelected('Sun') ? 0.7 : 1.0,
+                          child: SvgPicture.asset('assets/images/Sun.svg'),
+                        ),
+                        if (getSegmentBadge('Sun') != null)
+                          Positioned(
+                            top: 80,
+                            right: 80,
+                            child: CircleAvatar(
+                              radius: 13,
+                              backgroundColor: MyMateThemes
+                                  .premiumAccent, // Set your desired background color here
+                              child: Text(
+                                getSegmentBadge('Sun').toString(),
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors
+                                        .white), // You can also set the text color
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
                   ),
-                  Positioned(
-                    right: 8,
-                    top: 30,
-                    child: GestureDetector(
-                      onTap: () {
-                        print('Mars button pressed');
-                      },
-                      child: SvgPicture.asset(
-                        'assets/images/Mars.svg',
-                      ),
+                ),
+                Positioned(
+                  left: 207,
+                  top: 74,
+                  child: GestureDetector(
+                    onTap: () => _onTapBottomSegment('Mercury'),
+                    child: Stack(
+                      children: [
+                        Opacity(
+                          opacity: isSegmentSelected('Mercury') ? 0.7 : 1.0,
+                          child: SvgPicture.asset('assets/images/Mercury.svg'),
+                        ),
+                        if (getSegmentBadge('Mercury') != null)
+                          Positioned(
+                            top: 27,
+                            right: -2,
+                            child: CircleAvatar(
+                              radius: 13,
+                              backgroundColor: MyMateThemes.premiumAccent,
+                              child: Text(
+                                getSegmentBadge('Mercury').toString(),
+                                style: TextStyle(
+                                    fontSize: 12, color: Colors.white),
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
                   ),
-                  Positioned(
-                    right: 0,
-                    bottom: 70,
-                    child: GestureDetector(
-                      onTap: () {
-                        print('Venus button pressed');
-                      },
-                      child: SvgPicture.asset(
-                        'assets/images/Saturn.svg',
-                      ),
+                ),
+                Positioned(
+                  left: 152,
+                  top: 30,
+                  child: GestureDetector(
+                    onTap: () => _onTapBottomSegment('Mars'),
+                    child: Stack(
+                      children: [
+                        Opacity(
+                          opacity: isSegmentSelected('Mars') ? 0.7 : 1.0,
+                          child: SvgPicture.asset('assets/images/Mars.svg'),
+                        ),
+                        if (getSegmentBadge('Mars') != null)
+                          Positioned(
+                            top: 0,
+                            right: 30,
+                            child: CircleAvatar(
+                              radius: 13,
+                              backgroundColor: MyMateThemes.premiumAccent,
+                              child: Text(
+                                getSegmentBadge('Mars').toString(),
+                                style: TextStyle(
+                                    fontSize: 12, color: Colors.white),
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
                   ),
-                  Positioned(
-                    left: -3,
-                    bottom: 63,
-                    child: GestureDetector(
-                      onTap: () {
-                        print('Jupiter button pressed');
-                      },
-                      child: SvgPicture.asset(
-                        'assets/images/Jupiter.svg',
-                      ),
+                ),
+                Positioned(
+                  left: 55,
+                  top: 245,
+                  child: GestureDetector(
+                    onTap: () => _onTapBottomSegment('Saturn'),
+                    child: Stack(
+                      children: [
+                        Opacity(
+                          opacity: isSegmentSelected('Saturn') ? 0.7 : 1.0,
+                          child: SvgPicture.asset('assets/images/Saturn.svg'),
+                        ),
+                        if (getSegmentBadge('Saturn') != null)
+                          Positioned(
+                            top: 61,
+                            right: 38,
+                            child: CircleAvatar(
+                              radius: 13,
+                              backgroundColor: MyMateThemes.premiumAccent,
+                              child: Text(
+                                getSegmentBadge('Saturn').toString(),
+                                style: TextStyle(
+                                    fontSize: 12, color: Colors.white),
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
                   ),
-                  Positioned(
-                    left: 0,
-                    top: 30,
-                    child: GestureDetector(
-                      onTap: () {
-                        print('Rahu button pressed');
-                      },
-                      child: SvgPicture.asset(
-                        'assets/images/Rahu.svg',
-                      ),
+                ),
+                Positioned(
+                  left: 213,
+                  top: 178,
+                  child: GestureDetector(
+                    onTap: () => _onTapBottomSegment('Jupiter'),
+                    child: Stack(
+                      children: [
+                        Opacity(
+                          opacity: isSegmentSelected('Jupiter') ? 0.7 : 1.0,
+                          child: SvgPicture.asset('assets/images/Jupiter.svg'),
+                        ),
+                        if (getSegmentBadge('Jupiter') != null)
+                          Positioned(
+                            top: 40,
+                            right: 3,
+                            child: CircleAvatar(
+                              radius: 13,
+                              backgroundColor: MyMateThemes.premiumAccent,
+                              child: Text(
+                                getSegmentBadge('Jupiter').toString(),
+                                style: TextStyle(
+                                    fontSize: 12, color: Colors.white),
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
                   ),
-                  Positioned(
-                    left: 0,
-                    top: 30,
-                    child: GestureDetector(
-                      onTap: () {
-                        print('Ketu button pressed');
-                      },
-                      child: SvgPicture.asset(
-                        'assets/images/Ketu.svg',
-                        // height: 100,
-                        // width: 100,
-                      ),
+                ),
+                Positioned(
+                  left: 0,
+                  top: 185,
+                  child: GestureDetector(
+                    onTap: () => _onTapBottomSegment('Rahu'),
+                    child: Stack(
+                      children: [
+                        Opacity(
+                          opacity: isSegmentSelected('Rahu') ? 0.7 : 1.0,
+                          child: SvgPicture.asset('assets/images/Rahu.svg'),
+                        ),
+                        if (getSegmentBadge('Rahu') != null)
+                          Positioned(
+                            top: 40,
+                            right: 65,
+                            child: CircleAvatar(
+                              radius: 13,
+                              backgroundColor: MyMateThemes.premiumAccent,
+                              child: Text(
+                                getSegmentBadge('Rahu').toString(),
+                                style: TextStyle(
+                                    fontSize: 12, color: Colors.white),
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
                   ),
-                  Positioned(
-                    left: 3,
-                    bottom: 70,
-                    child: GestureDetector(
-                      onTap: () {
-                        print('Venus button pressed');
-                      },
-                      child: SvgPicture.asset(
-                        'assets/images/Venus.svg',
-                      ),
+                ),
+                Positioned(
+                  left: 0,
+                  top: 82,
+                  child: GestureDetector(
+                    onTap: () => _onTapBottomSegment('Ketu'),
+                    child: Stack(
+                      children: [
+                        Opacity(
+                          opacity: isSegmentSelected('Ketu') ? 0.7 : 1.0,
+                          child: SvgPicture.asset('assets/images/Ketu.svg'),
+                        ),
+                        if (getSegmentBadge('Ketu') != null)
+                          Positioned(
+                            top: 30,
+                            right: 64,
+                            child: CircleAvatar(
+                              radius: 13,
+                              backgroundColor: MyMateThemes.premiumAccent,
+                              child: Text(
+                                getSegmentBadge('Ketu').toString(),
+                                style: TextStyle(
+                                    fontSize: 12, color: Colors.white),
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
                   ),
-                  Positioned(
-                    left: 0,
-                    top: 30,
-                    child: GestureDetector(
-                      onTap: () {
-                        print('Moon button pressed');
-                      },
-                      child: SvgPicture.asset(
-                        'assets/images/Moon.svg',
-                      ),
+                ),
+                Positioned(
+                  left: 159,
+                  top: 239,
+                  child: GestureDetector(
+                    onTap: () => _onTapBottomSegment('Venus'),
+                    child: Stack(
+                      children: [
+                        Opacity(
+                          opacity: isSegmentSelected('Venus') ? 0.7 : 1.0,
+                          child: SvgPicture.asset('assets/images/Venus.svg'),
+                        ),
+                        if (getSegmentBadge('Venus') != null)
+                          Positioned(
+                            top: 65,
+                            right: 28,
+                            child: CircleAvatar(
+                              radius: 13,
+                              backgroundColor: MyMateThemes.premiumAccent,
+                              child: Text(
+                                getSegmentBadge('Venus').toString(),
+                                style: TextStyle(
+                                    fontSize: 12, color: Colors.white),
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
                   ),
-                  // Add more Positioned widgets for other buttons similarly
-
-                  Positioned(
-                    bottom: 80,
-                    right: 25,
-                    child: GestureDetector(
-                      onTap: () {
-                        print('Center button pressed');
-                      },
-                      child: SvgPicture.asset(
-                        'assets/images/Sun.svg',
-                      ),
+                ),
+                Positioned(
+                  left: 47,
+                  top: 30,
+                  child: GestureDetector(
+                    onTap: () => _onTapBottomSegment('Moon'),
+                    child: Stack(
+                      children: [
+                        Opacity(
+                          opacity: isSegmentSelected('Moon') ? 0.7 : 1.0,
+                          child: SvgPicture.asset('assets/images/Moon.svg'),
+                        ),
+                        if (getSegmentBadge('Moon') != null)
+                          Positioned(
+                            top: -2,
+                            right: 50,
+                            child: CircleAvatar(
+                              radius: 13,
+                              backgroundColor: MyMateThemes.premiumAccent,
+                              child: Text(
+                                getSegmentBadge('Moon').toString(),
+                                style: TextStyle(
+                                    fontSize: 12, color: Colors.white),
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-              //total number of buttons in group
-
-              //   ],
-              //   type: RingButtonGroupType
-              //       .MULTIPLE_SELECTABLE, // allow multiple select
-              //   pressedIndex: const {
-              //     1
-              //   }, //default selected buttons index, start from 0
-              //   shadowEffect: true,
+                ),
+                // Add more Positioned widgets for other buttons similarly
+              ],
             ),
+          ),
+          SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  _resetSelections();
+                },
+                child: SvgPicture.asset('assets/images/ast_edit.svg'),
+              ),
+              GestureDetector(
+                onTap: () {
+                  _storeSelections();
+                },
+                child: SvgPicture.asset('assets/images/can.svg'),
+              ),
+            ],
           ),
         ],
       ),
