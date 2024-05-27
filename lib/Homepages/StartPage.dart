@@ -17,7 +17,7 @@ class _StartPageState extends State<StartPage> {
   @override
   Widget build(BuildContext context) {
     return AnimatedSplashScreen(
-      backgroundColor: MyMateThemes.primaryGreen,
+      backgroundColor: MyMateThemes.primaryColor,
       splash: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -26,7 +26,7 @@ class _StartPageState extends State<StartPage> {
             style: TextStyle(
                 fontSize: 40,
                 fontWeight: FontWeight.bold,
-                color: MyMateThemes.backgroundWhite),
+                color: MyMateThemes.backgroundColor),
           ),
         ],
       ),

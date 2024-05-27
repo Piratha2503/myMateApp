@@ -14,118 +14,123 @@ class ChartInputPage extends StatefulWidget {
 }
 
 class _ChartInputPageState extends State<ChartInputPage> {
-  
-  void onPressed(){
-    
-  }
+  void onPressed() {}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyMateThemes.backgroundWhite,
+      backgroundColor: MyMateThemes.backgroundColor,
       appBar: AppBar(),
       body: Column(
         children: [
-          SizedBox(height: 150, width: 400,
+          SizedBox(
+            height: 150,
+            width: 400,
             child: ContainerColumn(),
           ),
-          const SizedBox( height: 2, ),
-
-          SizedBox( height: 50, width: 375,
+          const SizedBox(
+            height: 2,
+          ),
+          SizedBox(
+            height: 50,
+            width: 375,
             child: PlaceSearch(),
           ),
-          const SizedBox( height: 2, ),
-
-          SizedBox( height: 50, width: 375,
+          const SizedBox(
+            height: 2,
+          ),
+          SizedBox(
+            height: 50,
+            width: 375,
             child: DOB(),
           ),
-          SizedBox( height: 50, width: 375,
+          SizedBox(
+            height: 50,
+            width: 375,
             child: TOB(),
           ),
-          SizedBox( height: 50, width: 375,
+          SizedBox(
+            height: 50,
+            width: 375,
             child: Rasi(),
           ),
-          SizedBox( height: 50, width: 375,
+          SizedBox(
+            height: 50,
+            width: 375,
             child: Nadchathira(),
           ),
-         
-
         ],
       ),
     );
   }
 }
 
-Widget DOB(){
-  return Container(
-    padding: EdgeInsets.symmetric(horizontal: 20),
-    child: const TextField(
-      decoration: InputDecoration(
-            suffix: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Icon(Icons.calendar_month_rounded),
-                Icon(Icons.arrow_drop_down_sharp),
-              ],
-            )
-      ),
-    ),
-  );
-}
-Widget TOB(){
+Widget DOB() {
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 20),
     child: const TextField(
       decoration: InputDecoration(
           suffix: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Icon(Icons.access_time),
-              Icon(Icons.arrow_drop_down_sharp),
-            ],
-          )
-      ),
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Icon(Icons.calendar_month_rounded),
+          Icon(Icons.arrow_drop_down_sharp),
+        ],
+      )),
     ),
   );
-}Widget Rasi(){
+}
+
+Widget TOB() {
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 20),
     child: const TextField(
-
       decoration: InputDecoration(
-        hintText: "Rasi",
+          suffix: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Icon(Icons.access_time),
+          Icon(Icons.arrow_drop_down_sharp),
+        ],
+      )),
+    ),
+  );
+}
+
+Widget Rasi() {
+  return Container(
+    padding: EdgeInsets.symmetric(horizontal: 20),
+    child: const TextField(
+      decoration: InputDecoration(
+          hintText: "Rasi",
           hintStyle: TextStyle(
             fontSize: 20,
             color: Colors.black87,
-
           ),
           suffix: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Icon(Icons.arrow_drop_down_sharp),
             ],
-          )
-      ),
+          )),
     ),
   );
 }
-Widget Nadchathira(){
+
+Widget Nadchathira() {
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 20),
     child: const TextField(
       decoration: InputDecoration(
-        hintText: "Nadchathira",
+          hintText: "Nadchathira",
           suffix: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-
               Icon(Icons.arrow_drop_down_sharp),
             ],
-          )
-      ),
+          )),
     ),
   );
 }
-
 
 Widget PlaceSearch() {
   TextEditingController controller = TextEditingController();
@@ -133,14 +138,13 @@ Widget PlaceSearch() {
     padding: EdgeInsets.symmetric(horizontal: 20),
     child: GooglePlaceAutoCompleteTextField(
       boxDecoration: const BoxDecoration(
-      borderRadius:  BorderRadius.only(bottomLeft: Radius.zero),
-      border: Border(bottom: BorderSide(style: BorderStyle.solid),
-      )
-      ),
+          borderRadius: BorderRadius.only(bottomLeft: Radius.zero),
+          border: Border(
+            bottom: BorderSide(style: BorderStyle.solid),
+          )),
       textEditingController: controller,
       googleAPIKey: "AIzaSyAoxfRZPpxjemh98ITN_FnpSElHr7kmNYs",
       inputDecoration: const InputDecoration(
-
         hintText: "Place of Birth (City)",
         border: InputBorder.none,
         enabledBorder: InputBorder.none,
@@ -184,47 +188,36 @@ Widget PlaceSearch() {
   );
 }
 
-
-Widget ContainerColumn(){
+Widget ContainerColumn() {
   return const Column(
-
     children: [
       Text(
         "Enter birth details",
         style: TextStyle(
             fontSize: MyMateThemes.subHeadFontSize,
-            color: MyMateThemes.textGray
-        ),
+            color: MyMateThemes.textGray),
       ),
       Text(
         "to calculate Astrology chart ",
         style: TextStyle(
             fontSize: MyMateThemes.subHeadFontSize,
-            color: MyMateThemes.textGreen
-        ),
-
+            color: MyMateThemes.textColor),
       ),
-      SizedBox(height: 10,),
-      
+      SizedBox(
+        height: 10,
+      ),
       Text(
         "Make sure this number can receive SMS.",
-      style: TextStyle(
-        fontSize: 14
-      ),),
+        style: TextStyle(fontSize: 14),
+      ),
       Text(
-            "You will receive your activation code",
-
-        style: TextStyle(
-            fontSize: 14
-        ),),
+        "You will receive your activation code",
+        style: TextStyle(fontSize: 14),
+      ),
       Text(
         "through it.",
-
-        style: TextStyle(
-            fontSize: 14
-        ),),
-
-
+        style: TextStyle(fontSize: 14),
+      ),
     ],
   );
 }

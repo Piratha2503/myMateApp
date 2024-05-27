@@ -26,10 +26,10 @@ class _otpPage extends State<otpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: MyMateThemes.backgroundWhite,
+        backgroundColor: MyMateThemes.backgroundColor,
         appBar: AppBar(
           title: const Text(""),
-          backgroundColor: MyMateThemes.backgroundWhite,
+          backgroundColor: MyMateThemes.backgroundColor,
         ),
         body: Column(mainAxisSize: MainAxisSize.max, children: [
           const Center(
@@ -150,7 +150,7 @@ class _otpPage extends State<otpPage> {
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: MyMateThemes.textGreen),
+                      color: MyMateThemes.textColor),
                 )
               ],
             ),

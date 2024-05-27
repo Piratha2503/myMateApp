@@ -44,7 +44,7 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
                   Text(
                     'Complete Profile',
                     style: TextStyle(
-                      color: MyMateThemes.textGreen,
+                      color: MyMateThemes.textColor,
                       fontSize: 20,
                       fontWeight: FontWeight.w500,
                     ),
@@ -63,9 +63,9 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
           FlutterStepIndicator(
             height: 24,
             paddingLine: const EdgeInsets.symmetric(horizontal: 0),
-            positiveColor: MyMateThemes.primaryGreen,
-            progressColor: MyMateThemes.primaryGreen.withOpacity(0.3),
-            negativeColor: MyMateThemes.primaryGreen.withOpacity(0.3),
+            positiveColor: MyMateThemes.primaryColor,
+            progressColor: MyMateThemes.primaryColor.withOpacity(0.3),
+            negativeColor: MyMateThemes.primaryColor.withOpacity(0.3),
             padding: const EdgeInsets.all(3),
             list: stepStates,
             onChange: (index) {},
@@ -90,9 +90,9 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
             },
             style: const ButtonStyle(
               foregroundColor:
-                  MaterialStatePropertyAll(MyMateThemes.backgroundWhite),
+                  MaterialStatePropertyAll(MyMateThemes.backgroundColor),
               backgroundColor:
-                  MaterialStatePropertyAll(MyMateThemes.primaryGreen),
+                  MaterialStatePropertyAll(MyMateThemes.primaryColor),
               shape: MaterialStatePropertyAll(
                 RoundedRectangleBorder(borderRadius: BorderRadius.zero),
               ),
@@ -318,14 +318,14 @@ class _PageTwoState extends State<PageTwo> {
           Container(
             width: 346,
             height: 46,
-            color: MyMateThemes.secondaryGreen,
+            color: MyMateThemes.secondaryColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   "Civil Status",
-                  style: TextStyle(color: MyMateThemes.textGreen),
+                  style: TextStyle(color: MyMateThemes.textColor),
                 ),
                 SizedBox(
                     width: 90), // Placeholder space between text and dropdown
@@ -350,7 +350,7 @@ class _PageTwoState extends State<PageTwo> {
                             ? TextStyle(
                                 color: Colors
                                     .grey) // Customize style for default option
-                            : TextStyle(color: MyMateThemes.textGreen),
+                            : TextStyle(color: MyMateThemes.textColor),
                       ),
                     );
                   }).toList(),
@@ -363,14 +363,14 @@ class _PageTwoState extends State<PageTwo> {
           Container(
             width: 346,
             height: 46,
-            color: MyMateThemes.secondaryGreen,
+            color: MyMateThemes.secondaryColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   "Employment Type",
-                  style: TextStyle(color: MyMateThemes.textGreen),
+                  style: TextStyle(color: MyMateThemes.textColor),
                 ),
                 SizedBox(
                     width: 40), // Placeholder space between text and dropdown
@@ -396,7 +396,7 @@ class _PageTwoState extends State<PageTwo> {
                             ? TextStyle(
                                 color: Colors
                                     .grey) // Customize style for default option
-                            : TextStyle(color: MyMateThemes.textGreen),
+                            : TextStyle(color: MyMateThemes.textColor),
                       ),
                     );
                   }).toList(),
@@ -408,7 +408,7 @@ class _PageTwoState extends State<PageTwo> {
           Container(
             width: 346,
             height: 46,
-            color: MyMateThemes.secondaryGreen,
+            color: MyMateThemes.secondaryColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -418,7 +418,7 @@ class _PageTwoState extends State<PageTwo> {
                 ),
                 Text(
                   "Occupation",
-                  style: TextStyle(color: MyMateThemes.textGreen),
+                  style: TextStyle(color: MyMateThemes.textColor),
                 ),
                 SizedBox(
                   width: 70, // Adjust the width as needed
@@ -428,11 +428,11 @@ class _PageTwoState extends State<PageTwo> {
                     decoration: InputDecoration(
                       hintText: 'Enter your Occupation',
                       hintStyle: TextStyle(
-                          color: MyMateThemes.textGreen.withOpacity(0.5)),
+                          color: MyMateThemes.textColor.withOpacity(0.5)),
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.symmetric(horizontal: 10),
                     ),
-                    style: TextStyle(color: MyMateThemes.textGreen),
+                    style: TextStyle(color: MyMateThemes.textColor),
                   ),
                 ),
               ],
@@ -443,7 +443,7 @@ class _PageTwoState extends State<PageTwo> {
           Container(
             width: 346,
             height: 46,
-            color: MyMateThemes.secondaryGreen,
+            color: MyMateThemes.secondaryColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -453,7 +453,7 @@ class _PageTwoState extends State<PageTwo> {
                 ),
                 Text(
                   "Height",
-                  style: TextStyle(color: MyMateThemes.textGreen),
+                  style: TextStyle(color: MyMateThemes.textColor),
                 ),
                 SizedBox(
                   width: 100, // Adjust the width as needed
@@ -463,11 +463,11 @@ class _PageTwoState extends State<PageTwo> {
                     decoration: InputDecoration(
                       hintText: 'Enter your height',
                       hintStyle: TextStyle(
-                          color: MyMateThemes.textGreen.withOpacity(0.5)),
+                          color: MyMateThemes.textColor.withOpacity(0.5)),
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.symmetric(horizontal: 10),
                     ),
-                    style: TextStyle(color: MyMateThemes.textGreen),
+                    style: TextStyle(color: MyMateThemes.textColor),
                   ),
                 ),
               ],
@@ -477,14 +477,14 @@ class _PageTwoState extends State<PageTwo> {
           Container(
             width: 346,
             height: 46,
-            color: MyMateThemes.secondaryGreen,
+            color: MyMateThemes.secondaryColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   "District",
-                  style: TextStyle(color: MyMateThemes.textGreen),
+                  style: TextStyle(color: MyMateThemes.textColor),
                 ),
                 SizedBox(width: 110),
                 DropdownButton<String>(
@@ -507,7 +507,7 @@ class _PageTwoState extends State<PageTwo> {
                             ? TextStyle(
                                 color: Colors
                                     .grey) // Customize style for default option
-                            : TextStyle(color: MyMateThemes.textGreen),
+                            : TextStyle(color: MyMateThemes.textColor),
                       ),
                     );
                   }).toList(),
@@ -519,7 +519,7 @@ class _PageTwoState extends State<PageTwo> {
           Container(
             width: 346,
             height: 46,
-            color: MyMateThemes.secondaryGreen,
+            color: MyMateThemes.secondaryColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -529,7 +529,7 @@ class _PageTwoState extends State<PageTwo> {
                 ),
                 Text(
                   "Education",
-                  style: TextStyle(color: MyMateThemes.textGreen),
+                  style: TextStyle(color: MyMateThemes.textColor),
                 ),
                 SizedBox(
                   width: 80, // Adjust the width as needed
@@ -539,11 +539,11 @@ class _PageTwoState extends State<PageTwo> {
                     decoration: InputDecoration(
                       hintText: 'Enter your Education',
                       hintStyle: TextStyle(
-                          color: MyMateThemes.textGreen.withOpacity(0.5)),
+                          color: MyMateThemes.textColor.withOpacity(0.5)),
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.symmetric(horizontal: 10),
                     ),
-                    style: TextStyle(color: MyMateThemes.textGreen),
+                    style: TextStyle(color: MyMateThemes.textColor),
                   ),
                 ),
               ],
@@ -564,7 +564,7 @@ class _PageTwoState extends State<PageTwo> {
                         horizontal: 10.0), // Adjust padding as needed
                     child: Text(
                       "Enter the code from the sms we sent xxxxxxxxxxxxxxxxxxxx yyyyyyyyyyyyyyyyyyy to +94 7x xxx xxx",
-                      style: TextStyle(color: MyMateThemes.textGreen),
+                      style: TextStyle(color: MyMateThemes.textColor),
                     ),
                   ),
                 ),
@@ -591,7 +591,7 @@ class _PageTwoState extends State<PageTwo> {
           Container(
             width: 346,
             height: 46,
-            color: MyMateThemes.secondaryGreen,
+            color: MyMateThemes.secondaryColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -601,7 +601,7 @@ class _PageTwoState extends State<PageTwo> {
                 ),
                 Text(
                   "Contact Number",
-                  style: TextStyle(color: MyMateThemes.textGreen),
+                  style: TextStyle(color: MyMateThemes.textColor),
                 ),
                 SizedBox(
                   width: 40, // Adjust the width as needed
@@ -611,11 +611,11 @@ class _PageTwoState extends State<PageTwo> {
                     decoration: InputDecoration(
                       hintText: 'Enter your Contact Number',
                       hintStyle: TextStyle(
-                          color: MyMateThemes.textGreen.withOpacity(0.5)),
+                          color: MyMateThemes.textColor.withOpacity(0.5)),
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.symmetric(horizontal: 10),
                     ),
-                    style: TextStyle(color: MyMateThemes.textGreen),
+                    style: TextStyle(color: MyMateThemes.textColor),
                   ),
                 ),
               ],
@@ -648,14 +648,14 @@ class _PageThreeState extends State<PageThree> {
           Container(
             width: 346,
             height: 46,
-            color: MyMateThemes.secondaryGreen,
+            color: MyMateThemes.secondaryColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   "Religion",
-                  style: TextStyle(color: MyMateThemes.textGreen),
+                  style: TextStyle(color: MyMateThemes.textColor),
                 ),
                 SizedBox(
                     width: 90), // Placeholder space between text and dropdown
@@ -680,7 +680,7 @@ class _PageThreeState extends State<PageThree> {
                             ? TextStyle(
                                 color: Colors
                                     .grey) // Customize style for default option
-                            : TextStyle(color: MyMateThemes.textGreen),
+                            : TextStyle(color: MyMateThemes.textColor),
                       ),
                     );
                   }).toList(),
@@ -692,7 +692,7 @@ class _PageThreeState extends State<PageThree> {
           Container(
             width: 346,
             height: 46,
-            color: MyMateThemes.secondaryGreen,
+            color: MyMateThemes.secondaryColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -702,7 +702,7 @@ class _PageThreeState extends State<PageThree> {
                 ),
                 Text(
                   "Caste",
-                  style: TextStyle(color: MyMateThemes.textGreen),
+                  style: TextStyle(color: MyMateThemes.textColor),
                 ),
                 SizedBox(
                   width: 70, // Adjust the width as needed
@@ -712,11 +712,11 @@ class _PageThreeState extends State<PageThree> {
                     decoration: InputDecoration(
                       hintText: 'Enter your Caste',
                       hintStyle: TextStyle(
-                          color: MyMateThemes.textGreen.withOpacity(0.5)),
+                          color: MyMateThemes.textColor.withOpacity(0.5)),
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.symmetric(horizontal: 10),
                     ),
-                    style: TextStyle(color: MyMateThemes.textGreen),
+                    style: TextStyle(color: MyMateThemes.textColor),
                   ),
                 ),
               ],
@@ -727,14 +727,14 @@ class _PageThreeState extends State<PageThree> {
           Container(
             width: 346,
             height: 46,
-            color: MyMateThemes.secondaryGreen,
+            color: MyMateThemes.secondaryColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   "Language",
-                  style: TextStyle(color: MyMateThemes.textGreen),
+                  style: TextStyle(color: MyMateThemes.textColor),
                 ),
                 SizedBox(
                     width: 80), // Placeholder space between text and dropdown
@@ -760,7 +760,7 @@ class _PageThreeState extends State<PageThree> {
                             ? TextStyle(
                                 color: Colors
                                     .grey) // Customize style for default option
-                            : TextStyle(color: MyMateThemes.textGreen),
+                            : TextStyle(color: MyMateThemes.textColor),
                       ),
                     );
                   }).toList(),
@@ -772,14 +772,14 @@ class _PageThreeState extends State<PageThree> {
           Container(
             width: 346,
             height: 46,
-            color: MyMateThemes.secondaryGreen,
+            color: MyMateThemes.secondaryColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   "Father",
-                  style: TextStyle(color: MyMateThemes.textGreen),
+                  style: TextStyle(color: MyMateThemes.textColor),
                 ),
                 SizedBox(
                     width: 100), // Placeholder space between text and dropdown
@@ -805,7 +805,7 @@ class _PageThreeState extends State<PageThree> {
                             ? TextStyle(
                                 color: Colors
                                     .grey) // Customize style for default option
-                            : TextStyle(color: MyMateThemes.textGreen),
+                            : TextStyle(color: MyMateThemes.textColor),
                       ),
                     );
                   }).toList(),
@@ -817,14 +817,14 @@ class _PageThreeState extends State<PageThree> {
           Container(
             width: 346,
             height: 46,
-            color: MyMateThemes.secondaryGreen,
+            color: MyMateThemes.secondaryColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   "Mother",
-                  style: TextStyle(color: MyMateThemes.textGreen),
+                  style: TextStyle(color: MyMateThemes.textColor),
                 ),
                 SizedBox(
                     width: 100), // Placeholder space between text and dropdown
@@ -850,7 +850,7 @@ class _PageThreeState extends State<PageThree> {
                             ? TextStyle(
                                 color: Colors
                                     .grey) // Customize style for default option
-                            : TextStyle(color: MyMateThemes.textGreen),
+                            : TextStyle(color: MyMateThemes.textColor),
                       ),
                     );
                   }).toList(),
@@ -863,7 +863,7 @@ class _PageThreeState extends State<PageThree> {
           Container(
             width: 346,
             height: 46,
-            color: MyMateThemes.secondaryGreen,
+            color: MyMateThemes.secondaryColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -873,7 +873,7 @@ class _PageThreeState extends State<PageThree> {
                 ),
                 Text(
                   "No of Sibilings",
-                  style: TextStyle(color: MyMateThemes.textGreen),
+                  style: TextStyle(color: MyMateThemes.textColor),
                 ),
                 SizedBox(
                   width: 100, // Adjust the width as needed
@@ -883,11 +883,11 @@ class _PageThreeState extends State<PageThree> {
                     decoration: InputDecoration(
                       hintText: 'Enter Number',
                       hintStyle: TextStyle(
-                          color: MyMateThemes.textGreen.withOpacity(0.5)),
+                          color: MyMateThemes.textColor.withOpacity(0.5)),
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.symmetric(horizontal: 10),
                     ),
-                    style: TextStyle(color: MyMateThemes.textGreen),
+                    style: TextStyle(color: MyMateThemes.textColor),
                   ),
                 ),
               ],
