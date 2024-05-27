@@ -14,31 +14,28 @@ class NameAndGender extends StatefulWidget {
 
 }
 
-class _NameAndGenderState extends State<NameAndGender>{
-
+class _NameAndGenderState extends State<NameAndGender> {
   String Gender = "";
-
-  void onPressed(){
+  void onPressed() {
     print("object");
   }
-
-  void Changed(){
+void Changed(){
     setState(() {
       Gender = "Male";
     });
-  }
+}
   @override
-  Widget build(BuildContext context){
-
+  Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyMateThemes.backgroundWhite,
+      backgroundColor: MyMateThemes.backgroundColor,
       appBar: AppBar(
-        backgroundColor: MyMateThemes.backgroundWhite,
+        backgroundColor: MyMateThemes.backgroundColor,
       ),
       body: Center(
         child: Column(
           children: [
-            Form(child: Column(
+            Form(
+                child: Column(
               children: [
                 const SizedBox(
                   width: 300, // Set the width of the TextField
@@ -113,8 +110,7 @@ class _NameAndGenderState extends State<NameAndGender>{
                 ),
 
               ],
-            )
-            )
+            ))
           ],
         ),
       ),
@@ -123,8 +119,7 @@ class _NameAndGenderState extends State<NameAndGender>{
   }
 }
 
-class MyInputDecorations extends InputDecoration{
-
+class MyInputDecorations extends InputDecoration {
   final String myHint;
 
  const MyInputDecorations(this.myHint);

@@ -4,16 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 
-class otpPage extends StatefulWidget{
-
+class otpPage extends StatefulWidget {
   const otpPage({super.key});
 
   @override
   State<otpPage> createState() => _otpPage();
 }
 
-class _otpPage extends State<otpPage>{
-  void Check(){
+class _otpPage extends State<otpPage> {
+  void Check() {
     showCountryPicker(
       context: context,
       showPhoneCode: true, // optional. Shows phone code before the country name.
@@ -22,26 +21,26 @@ class _otpPage extends State<otpPage>{
       },
     );
   }
+
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyMateThemes.backgroundWhite,
-      appBar: AppBar(
-        title: const Text(""),
-        backgroundColor: MyMateThemes.backgroundWhite,
-      ),
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-      const Center(
-      child: Text("Enter your phone number",
-        style: TextStyle(
-          fontSize: 20,
-          fontFamily: "Work Sans",
-          fontWeight: FontWeight.w500,
+        backgroundColor: MyMateThemes.backgroundColor,
+        appBar: AppBar(
+          title: const Text(""),
+          backgroundColor: MyMateThemes.backgroundColor,
         ),
-      ),
-    ),
+        body: Column(mainAxisSize: MainAxisSize.max, children: [
+          const Center(
+            child: Text(
+              "Enter your phone number",
+              style: TextStyle(
+                fontSize: 20,
+                fontFamily: "Work Sans",
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
           Container(
             height: 15,
           ),
@@ -169,8 +168,7 @@ class _otpPage extends State<otpPage>{
   }
 }
 
-
-class MyTextStyle extends TextStyle{
+class MyTextStyle extends TextStyle {
   @override
   // TODO: implement fontSize
   double? get fontSize => 14;

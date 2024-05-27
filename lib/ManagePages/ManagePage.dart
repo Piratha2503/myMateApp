@@ -39,7 +39,7 @@ class _ManagePageState extends State<ManagePage> {
                 "Turn on visible mode?",
                 style: TextStyle(
                   fontSize: 18.0,
-                  color: MyMateThemes.primaryGreen,
+                  color: MyMateThemes.primaryColor,
                 ),
               ),
               SizedBox(height: 20.0),
@@ -82,7 +82,7 @@ class _ManagePageState extends State<ManagePage> {
           // Main content (if any)
           Positioned.fill(
             child: Container(
-              color: MyMateThemes.backgroundWhite, // Background color
+              color: MyMateThemes.backgroundColor, // Background color
             ),
           ),
           // Fixed AppBar
@@ -91,7 +91,7 @@ class _ManagePageState extends State<ManagePage> {
             left: 0,
             right: 0,
             child: AppBar(
-              backgroundColor: MyMateThemes.primaryGreen,
+              backgroundColor: MyMateThemes.primaryColor,
               title: Text('Manage', style: TextStyle(color: Colors.white)),
               centerTitle: true,
               leading: IconButton(
@@ -108,7 +108,7 @@ class _ManagePageState extends State<ManagePage> {
             left: 18,
             right: 18,
             child: Card(
-              color: MyMateThemes.backgroundWhite,
+              color: MyMateThemes.backgroundColor,
               elevation: 4,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
@@ -135,7 +135,7 @@ class _ManagePageState extends State<ManagePage> {
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: MyMateThemes.textGreen,
+                              color: MyMateThemes.textColor,
                             ),
                           ),
                           SizedBox(width: 10),
@@ -145,7 +145,7 @@ class _ManagePageState extends State<ManagePage> {
                                 'Tokens left',
                                 style: TextStyle(
                                   fontSize: 12,
-                                  color: MyMateThemes.textGreen,
+                                  color: MyMateThemes.textColor,
                                 ),
                               ),
                             ],
@@ -163,7 +163,7 @@ class _ManagePageState extends State<ManagePage> {
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  color: MyMateThemes.primaryGreen,
+                                  color: MyMateThemes.primaryColor,
                                 ),
                               ),
                               Spacer(),
@@ -172,7 +172,7 @@ class _ManagePageState extends State<ManagePage> {
                                 child: Text(
                                   '+ Add Tokens',
                                   style: TextStyle(
-                                    color: MyMateThemes.primaryGreen,
+                                    color: MyMateThemes.primaryColor,
                                   ),
                                 ),
                               ),
@@ -200,7 +200,7 @@ class _ManagePageState extends State<ManagePage> {
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
-                    color: MyMateThemes.primaryGreen,
+                    color: MyMateThemes.primaryColor,
                   ),
                 ),
                 SizedBox(width: 110),
@@ -341,7 +341,7 @@ class _ManagePageState extends State<ManagePage> {
                     SizedBox(width: 20),
                     Text(
                       "Terms & Policies",
-                      style: TextStyle(color: MyMateThemes.primaryGreen),
+                      style: TextStyle(color: MyMateThemes.primaryColor),
                     )
                   ],
                 ),

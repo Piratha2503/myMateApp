@@ -49,9 +49,9 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyMateThemes.backgroundWhite,
+      backgroundColor: MyMateThemes.backgroundColor,
       appBar: AppBar(
-        backgroundColor: MyMateThemes.backgroundWhite,
+        backgroundColor: MyMateThemes.backgroundColor,
         title: SafeArea(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -73,7 +73,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                   Text(
                     '@user240676',
                     style: TextStyle(
-                      color: MyMateThemes.textGreen,
+                      color: MyMateThemes.textColor,
                       fontSize: 20,
                       fontWeight: FontWeight.w500,
                     ),
@@ -106,7 +106,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                     Text(
                       'Full Name',
                       style: TextStyle(
-                        color: MyMateThemes.primaryGreen,
+                        color: MyMateThemes.primaryColor,
                         fontSize: 20,
                         fontWeight: FontWeight.w500,
                       ),
@@ -114,7 +114,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                     Text(
                       'Special Mention (Optional)',
                       style: TextStyle(
-                        color: MyMateThemes.textGreen,
+                        color: MyMateThemes.textColor,
                         fontSize: 14,
                         fontWeight: FontWeight.normal,
                       ),
@@ -137,7 +137,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                                 '27 Years',
                                 style: TextStyle(
                                   color: MyMateThemes
-                                      .textGreen, // Use your desired text color
+                                      .textColor, // Use your desired text color
                                   fontSize: 12, // Adjust font size as needed
                                   fontWeight: FontWeight
                                       .normal, // Adjust font weight as needed
@@ -147,7 +147,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                                 '12 Dec 1997',
                                 style: TextStyle(
                                   color: MyMateThemes
-                                      .primaryGreen, // Use your desired text color
+                                      .primaryColor, // Use your desired text color
                                   fontSize: 10, // Adjust font size as needed
                                   fontWeight: FontWeight
                                       .normal, // Adjust font weight as needed
@@ -158,7 +158,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                           foregroundDecoration: BoxDecoration(
                               border: Border(
                                   right: BorderSide(
-                                      color: MyMateThemes.secondaryGreen,
+                                      color: MyMateThemes.secondaryColor,
                                       width: 3))),
                         ),
                         const Padding(
@@ -168,7 +168,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                             thickness: 2,
                             indent: 40,
                             endIndent: 100,
-                            color: MyMateThemes.secondaryGreen,
+                            color: MyMateThemes.secondaryColor,
                           ),
                         ),
                         Container(
@@ -186,7 +186,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                                 'Teacher',
                                 style: TextStyle(
                                   color: MyMateThemes
-                                      .textGreen, // Use your desired text color
+                                      .textColor, // Use your desired text color
                                   fontSize: 12, // Adjust font size as needed
                                   fontWeight: FontWeight
                                       .normal, // Adjust font weight as needed
@@ -196,7 +196,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                                 'Mannar - SL',
                                 style: TextStyle(
                                   color: MyMateThemes
-                                      .primaryGreen, // Use your desired text color
+                                      .primaryColor, // Use your desired text color
                                   fontSize: 10, // Adjust font size as needed
                                   fontWeight: FontWeight
                                       .normal, // Adjust font weight as needed
@@ -207,7 +207,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                           foregroundDecoration: BoxDecoration(
                               border: Border(
                                   right: BorderSide(
-                                      color: MyMateThemes.secondaryGreen,
+                                      color: MyMateThemes.secondaryColor,
                                       width: 5))),
                         ),
                         const VerticalDivider(
@@ -232,7 +232,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                                 'Jaffna',
                                 style: TextStyle(
                                   color: MyMateThemes
-                                      .textGreen, // Use your desired text color
+                                      .textColor, // Use your desired text color
                                   fontSize: 12, // Adjust font size as needed
                                   fontWeight: FontWeight
                                       .normal, // Adjust font weight as needed
@@ -242,7 +242,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                                 'Sri Lanka',
                                 style: TextStyle(
                                   color: MyMateThemes
-                                      .primaryGreen, // Use your desired text color
+                                      .primaryColor, // Use your desired text color
                                   fontSize: 10, // Adjust font size as needed
                                   fontWeight: FontWeight
                                       .normal, // Adjust font weight as needed
@@ -260,7 +260,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                         Container(
                           width: 340,
                           height: 100,
-                          color: MyMateThemes.secondaryGreen,
+                          color: MyMateThemes.secondaryColor,
                           child: const Center(
                             child: Text(
                               'Bio (192 letters)',
@@ -268,7 +268,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                                   .center, // Align the text at the center horizontally
                               style: TextStyle(
                                 color: MyMateThemes
-                                    .textGreen, // Adjust the text color as needed
+                                    .textColor, // Adjust the text color as needed
                                 fontSize: 12,
                                 fontWeight: FontWeight.normal,
                               ),
@@ -299,13 +299,13 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                               Container(
                                 width: 340,
                                 height: 500,
-                                color: MyMateThemes.secondaryGreen,
+                                color: MyMateThemes.secondaryColor,
                                 child: Center(
                                   child: Text(
                                     'Container 2',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      color: MyMateThemes.textGreen,
+                                      color: MyMateThemes.textColor,
                                       fontSize: 12,
                                       fontWeight: FontWeight.normal,
                                     ),
@@ -334,13 +334,13 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                               Container(
                                 width: 340,
                                 height: 500,
-                                color: MyMateThemes.secondaryGreen,
+                                color: MyMateThemes.secondaryColor,
                                 child: Center(
                                   child: Text(
                                     'Container 3',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      color: MyMateThemes.textGreen,
+                                      color: MyMateThemes.textColor,
                                       fontSize: 12,
                                       fontWeight: FontWeight.normal,
                                     ),
@@ -368,13 +368,13 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                               Container(
                                 width: 340,
                                 height: 500,
-                                color: MyMateThemes.secondaryGreen,
+                                color: MyMateThemes.secondaryColor,
                                 child: Center(
                                   child: Text(
                                     'Container 4',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      color: MyMateThemes.textGreen,
+                                      color: MyMateThemes.textColor,
                                       fontSize: 12,
                                       fontWeight: FontWeight.normal,
                                     ),
@@ -412,13 +412,13 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                     // Use the isButtonSelected function to determine button color
                     foregroundColor: MaterialStateProperty.all(
                       isButtonSelected(0)
-                          ? MyMateThemes.secondaryGreen
-                          : MyMateThemes.containerViolet,
+                          ? MyMateThemes.secondaryColor
+                          : MyMateThemes.containerColor,
                     ),
                     backgroundColor: MaterialStateProperty.all(
                       isButtonSelected(0)
-                          ? MyMateThemes.secondaryGreen
-                          : MyMateThemes.containerViolet,
+                          ? MyMateThemes.secondaryColor
+                          : MyMateThemes.containerColor,
                     ),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                       borderRadius: BorderRadius.zero,
@@ -441,7 +441,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                       Text(
                         'Astrology',
                         style: TextStyle(
-                          color: MyMateThemes.primaryGreen,
+                          color: MyMateThemes.primaryColor,
                           fontSize: 10,
                           fontWeight: FontWeight.normal,
                         ),
@@ -464,13 +464,13 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                     // Use the isButtonSelected function to determine button color
                     foregroundColor: MaterialStateProperty.all(
                       isButtonSelected(1)
-                          ? MyMateThemes.secondaryGreen
-                          : MyMateThemes.containerViolet,
+                          ? MyMateThemes.secondaryColor
+                          : MyMateThemes.containerColor,
                     ),
                     backgroundColor: MaterialStateProperty.all(
                       isButtonSelected(1)
-                          ? MyMateThemes.secondaryGreen
-                          : MyMateThemes.containerViolet,
+                          ? MyMateThemes.secondaryColor
+                          : MyMateThemes.containerColor,
                     ),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                       borderRadius: BorderRadius.zero,
@@ -493,7 +493,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                       Text(
                         'Family',
                         style: TextStyle(
-                          color: MyMateThemes.primaryGreen,
+                          color: MyMateThemes.primaryColor,
                           fontSize: 10,
                           fontWeight: FontWeight.normal,
                         ),
@@ -516,13 +516,13 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                     // Use the isButtonSelected function to determine button color
                     foregroundColor: MaterialStateProperty.all(
                       isButtonSelected(2)
-                          ? MyMateThemes.secondaryGreen
-                          : MyMateThemes.containerViolet,
+                          ? MyMateThemes.secondaryColor
+                          : MyMateThemes.containerColor,
                     ),
                     backgroundColor: MaterialStateProperty.all(
                       isButtonSelected(2)
-                          ? MyMateThemes.secondaryGreen
-                          : MyMateThemes.containerViolet,
+                          ? MyMateThemes.secondaryColor
+                          : MyMateThemes.containerColor,
                     ),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                       borderRadius: BorderRadius.zero,
@@ -545,7 +545,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                       Text(
                         'About me',
                         style: TextStyle(
-                          color: MyMateThemes.primaryGreen,
+                          color: MyMateThemes.primaryColor,
                           fontSize: 10,
                           fontWeight: FontWeight.normal,
                         ),
@@ -570,7 +570,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
               style: const ButtonStyle(
                 foregroundColor: MaterialStatePropertyAll(Colors.white),
                 backgroundColor:
-                    MaterialStatePropertyAll(MyMateThemes.primaryGreen),
+                    MaterialStatePropertyAll(MyMateThemes.primaryColor),
                 shape: MaterialStatePropertyAll(
                     RoundedRectangleBorder(borderRadius: BorderRadius.zero)),
                 // alignment: Alignment(231, 689)

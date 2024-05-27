@@ -53,11 +53,11 @@ class _FrontPageState extends State<FrontPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyMateThemes.backgroundWhite,
+      backgroundColor: MyMateThemes.backgroundColor,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(40.0), // here the desired height
         child: AppBar(
-          backgroundColor: MyMateThemes.backgroundWhite,
+          backgroundColor: MyMateThemes.backgroundColor,
           title: SafeArea(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -75,7 +75,7 @@ class _FrontPageState extends State<FrontPage>
                       child: const Text(
                         'Hello',
                         style: TextStyle(
-                          color: MyMateThemes.primaryGreen,
+                          color: MyMateThemes.primaryColor,
                           fontSize: 20,
                           fontWeight: FontWeight.w500,
                         ),
@@ -98,13 +98,13 @@ class _FrontPageState extends State<FrontPage>
                             child: Container(
                               //padding: EdgeInsets.all(0),
                               decoration: BoxDecoration(
-                                color: MyMateThemes.secondaryGreen,
+                                color: MyMateThemes.secondaryColor,
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               child: Text(
                                 badgeValue1.toString(),
                                 style: TextStyle(
-                                  color: MyMateThemes.primaryGreen,
+                                  color: MyMateThemes.primaryColor,
                                   fontSize: badgeValue1 > 9 ? 12 : 16,
                                 ),
                               ),
@@ -128,13 +128,13 @@ class _FrontPageState extends State<FrontPage>
                             child: Container(
                               //padding: EdgeInsets.all(2),
                               decoration: BoxDecoration(
-                                color: MyMateThemes.secondaryGreen,
+                                color: MyMateThemes.secondaryColor,
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               child: Text(
                                 badgeValue2.toString(),
                                 style: TextStyle(
-                                  color: MyMateThemes.primaryGreen,
+                                  color: MyMateThemes.primaryColor,
                                   fontSize: badgeValue2 > 9 ? 12 : 16,
                                 ),
                               ),
@@ -158,7 +158,7 @@ class _FrontPageState extends State<FrontPage>
               child: Text(
                 'Congratulations',
                 style: TextStyle(
-                  color: MyMateThemes.primaryGreen,
+                  color: MyMateThemes.primaryColor,
                   fontSize: 20,
                   fontWeight: FontWeight.w500,
                 ),
@@ -168,7 +168,7 @@ class _FrontPageState extends State<FrontPage>
               child: Text(
                 "You're successfully registered",
                 style: TextStyle(
-                  color: MyMateThemes.textGreen,
+                  color: MyMateThemes.textColor,
                   fontSize: 14,
                   fontWeight: FontWeight.normal,
                 ),
@@ -191,7 +191,7 @@ class _FrontPageState extends State<FrontPage>
               child: Text(
                 'View Matches',
                 style: TextStyle(
-                  color: MyMateThemes.primaryGreen,
+                  color: MyMateThemes.primaryColor,
                   fontSize: MyMateThemes.subHeadFontSize,
                   fontWeight: FontWeight.bold,
                 ),
@@ -209,7 +209,7 @@ class _FrontPageState extends State<FrontPage>
                 Text(
                   'Free',
                   style: TextStyle(
-                    color: MyMateThemes.textGreen,
+                    color: MyMateThemes.textColor,
                     fontSize: MyMateThemes.nomalFontSize,
                     fontWeight: FontWeight.normal,
                   ),
@@ -233,7 +233,7 @@ class _FrontPageState extends State<FrontPage>
                       Text(
                         'Premium',
                         style: TextStyle(
-                          color: MyMateThemes.primaryGreen,
+                          color: MyMateThemes.primaryColor,
                           fontSize: MyMateThemes.nomalFontSize,
                           fontWeight: FontWeight.bold,
                         ),
@@ -250,13 +250,13 @@ class _FrontPageState extends State<FrontPage>
                 Container(
                   width: 164,
                   height: 188,
-                  color: MyMateThemes.containerViolet,
+                  color: MyMateThemes.containerColor,
                   alignment: Alignment.bottomLeft,
                 ),
                 Container(
                   width: 164,
                   height: 188,
-                  color: MyMateThemes.secondaryGreen,
+                  color: MyMateThemes.secondaryColor,
                   alignment: Alignment.bottomRight,
                 ),
               ],
@@ -273,7 +273,7 @@ class _FrontPageState extends State<FrontPage>
                   child: Text(
                     'Complete Profile',
                     style: TextStyle(
-                      color: MyMateThemes.primaryGreen,
+                      color: MyMateThemes.primaryColor,
                       fontSize: MyMateThemes.nomalFontSize,
                       fontWeight: FontWeight.w500,
                     ),
@@ -290,7 +290,7 @@ class _FrontPageState extends State<FrontPage>
                     style: const ButtonStyle(
                       foregroundColor: MaterialStatePropertyAll(Colors.white),
                       backgroundColor:
-                          MaterialStatePropertyAll(MyMateThemes.primaryGreen),
+                          MaterialStatePropertyAll(MyMateThemes.primaryColor),
                       shape: MaterialStatePropertyAll(RoundedRectangleBorder(
                           borderRadius: BorderRadius.zero)),
                     ),

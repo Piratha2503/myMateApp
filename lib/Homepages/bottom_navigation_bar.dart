@@ -34,7 +34,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
       height: 100,
       child: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        backgroundColor: MyMateThemes.backgroundWhite,
+        backgroundColor: MyMateThemes.backgroundColor,
         items: [
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
@@ -42,8 +42,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               // width: 28.04,
               // height: 28,
               color: _selectedIndex == 0 // Use _selectedIndex here
-                  ? MyMateThemes.primaryGreen
-                  : MyMateThemes.secondaryGreen,
+                  ? MyMateThemes.primaryColor
+                  : MyMateThemes.secondaryColor,
             ),
             label: 'Home',
           ),
@@ -53,8 +53,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               // width: 32,
               // height: 42,
               color: _selectedIndex == 1 // Use _selectedIndex here
-                  ? MyMateThemes.primaryGreen
-                  : MyMateThemes.secondaryGreen,
+                  ? MyMateThemes.primaryColor
+                  : MyMateThemes.secondaryColor,
             ),
             label: 'Explore',
           ),
@@ -65,8 +65,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               // width: 24.5,
               // height: 28,
               color: _selectedIndex == 2 // Use _selectedIndex here
-                  ? MyMateThemes.primaryGreen
-                  : MyMateThemes.secondaryGreen,
+                  ? MyMateThemes.primaryColor
+                  : MyMateThemes.secondaryColor,
             ),
             label: 'Notifications',
           ),
@@ -76,15 +76,15 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               // width: 26.13,
               // height: 28,
               color: _selectedIndex == 3 // Use _selectedIndex here
-                  ? MyMateThemes.primaryGreen
-                  : MyMateThemes.secondaryGreen,
+                  ? MyMateThemes.primaryColor
+                  : MyMateThemes.secondaryColor,
             ),
             label: 'Profile',
           ),
         ],
         currentIndex: _selectedIndex, // Use _selectedIndex here
-        selectedItemColor: MyMateThemes.primaryGreen,
-        unselectedItemColor: MyMateThemes.secondaryGreen,
+        selectedItemColor: MyMateThemes.primaryColor,
+        unselectedItemColor: MyMateThemes.secondaryColor,
         onTap: (index) {
           setState(() {
             _selectedIndex = index; // Update _selectedIndex when tapped

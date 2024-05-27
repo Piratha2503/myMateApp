@@ -4,15 +4,14 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 
-
-class ManualChartPage extends StatefulWidget {
-  const ManualChartPage({Key? key}) : super(key: key);
+class ManualNavamsaChartPage extends StatefulWidget {
+  const ManualNavamsaChartPage({Key? key}) : super(key: key);
 
   @override
-  State<ManualChartPage> createState() => _ManualChartPageState();
+  State<ManualNavamsaChartPage> createState() => _ManualNavamsaChartPage();
 }
 
-class _ManualChartPageState extends State<ManualChartPage> {
+class _ManualNavamsaChartPage extends State<ManualNavamsaChartPage> {
   // Define the initial state for the SVGs
   Map<String, bool> tapped = {
     'Sun': false,
@@ -98,6 +97,29 @@ class _ManualChartPageState extends State<ManualChartPage> {
     });
   }
 
+  bool _areAllSelectionsComplete() {
+    // Define the list of all required segments
+    List<String> requiredSegments = [
+      'Sun',
+      'Mercury',
+      'Mars',
+      'Saturn',
+      'Jupiter',
+      'Rahu',
+      'Ketu',
+      'Venus',
+      'Moon'
+    ];
+
+    // Check if each required segment has a selection
+    for (String segment in requiredSegments) {
+      if (!segmentToBoxMap.containsKey(segment)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   void _storeSelections() {
     // Implement the logic to store selections as needed
     print('Selections stored: $segmentToBoxMap');
@@ -114,9 +136,9 @@ class _ManualChartPageState extends State<ManualChartPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Enter Chart Rasi",
+                  "Enter Chart Navamsa",
                   style: TextStyle(
-                      color: MyMateThemes.textGreen,
+                      color: MyMateThemes.textColor,
                       fontSize: 15,
                       fontWeight: FontWeight.bold),
                 ),
@@ -129,7 +151,7 @@ class _ManualChartPageState extends State<ManualChartPage> {
               Text(
                 "to calculate Astrology Chart",
                 style: TextStyle(
-                    color: MyMateThemes.primaryViolet,
+                    color: MyMateThemes.primaryColor,
                     fontSize: 14,
                     fontWeight: FontWeight.bold),
               ),
@@ -279,8 +301,8 @@ class _ManualChartPageState extends State<ManualChartPage> {
             child: Stack(
               children: [
                 Positioned(
-                  top: 35,
-                  left: 25,
+                  top: 110,
+                  left: 80,
                   child: GestureDetector(
                     onTap: () => _onTapBottomSegment('Sun'),
                     child: Stack(
@@ -291,18 +313,15 @@ class _ManualChartPageState extends State<ManualChartPage> {
                         ),
                         if (getSegmentBadge('Sun') != null)
                           Positioned(
-                            top: 80,
-                            right: 80,
+                            top: 10,
+                            right: 15,
                             child: CircleAvatar(
                               radius: 13,
-                              backgroundColor: MyMateThemes
-                                  .premiumAccent, // Set your desired background color here
+                              backgroundColor: MyMateThemes.premiumAccent,
                               child: Text(
                                 getSegmentBadge('Sun').toString(),
                                 style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors
-                                        .white), // You can also set the text color
+                                    fontSize: 12, color: Colors.white),
                               ),
                             ),
                           ),
@@ -542,7 +561,6 @@ class _ManualChartPageState extends State<ManualChartPage> {
                     ),
                   ),
                 ),
-                // Add more Positioned widgets for other buttons similarly
               ],
             ),
           ),
@@ -558,7 +576,15 @@ class _ManualChartPageState extends State<ManualChartPage> {
               ),
               GestureDetector(
                 onTap: () {
-                  _storeSelections();
+                  if (_areAllSelectionsComplete()) {
+                    _storeSelections();
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content: Text(
+                              'Please complete all selections before proceeding.')),
+                    );
+                  }
                 },
                 child: SvgPicture.asset('assets/images/can.svg'),
               ),
