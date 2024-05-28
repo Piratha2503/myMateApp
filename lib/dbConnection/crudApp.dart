@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/dbConnection/Firebase.dart';
+import 'package:mymateapp/dbConnection/viewPage.dart';
 
 class crudApp extends StatefulWidget{
   const crudApp({super.key});
@@ -19,7 +21,7 @@ class _crudAppState extends State<crudApp>{
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: CupertinoColors.systemBlue,
+        backgroundColor: MyMateThemes.primaryColor,
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: firebase.getClients(),
@@ -39,7 +41,7 @@ class _crudAppState extends State<crudApp>{
             itemCount: clients.length,
             itemBuilder: (context, index) {
               final client = clients[index];
-              final clientName = client['Name'];
+              final clientName = client['full_name'];
               final docId = client.id;
 
               return ListTile(
@@ -53,7 +55,9 @@ class _crudAppState extends State<crudApp>{
                   firebase.deleteClient(docId);
                 }, icon: const Icon(Icons.settings)),
                 onTap: (){
-                  firebase.updateClient(docId,"Jathu");
+                  Navigator.push(context,MaterialPageRoute(builder:
+                  (context)=>viewPage(docId: docId,)));
+                  //firebase.updateClient(docId,"Jathu");
                 },
 
               );
@@ -63,7 +67,9 @@ class _crudAppState extends State<crudApp>{
       ),
       floatingActionButton: FloatingActionButton(onPressed: (){
         firebase.addClient();
-      }),
+      }, child: Icon(Icons.add,size: 30,weight: 600,),
+      backgroundColor: MyMateThemes.textColor,
+      foregroundColor: Colors.white,),
     );
   }
 }

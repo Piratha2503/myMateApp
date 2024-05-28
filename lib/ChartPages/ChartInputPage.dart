@@ -49,7 +49,6 @@ class _ChartInputPageState extends State<ChartInputPage> {
           SizedBox( height: 50, width: 375,
             child: Nadchathira(),
           ),
-         
 
         ],
       ),
@@ -125,7 +124,6 @@ Widget Nadchathira() {
     ),
   );
 }
-
 
 Widget PlaceSearch() {
   TextEditingController controller = TextEditingController();

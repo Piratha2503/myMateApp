@@ -103,7 +103,7 @@ void Changed(){
                   child: ElevatedButton(onPressed: onPressed,
                     style: const ButtonStyle(
                       foregroundColor: MaterialStatePropertyAll(Colors.white),
-                      backgroundColor: MaterialStatePropertyAll(MyMateThemes.primaryGreen),
+                      backgroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
                       shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.zero)),
                     ), child: const Text("Next",style: TextStyle(fontSize: MyMateThemes.buttonFontSize),),
                   ),

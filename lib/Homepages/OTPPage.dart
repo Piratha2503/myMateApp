@@ -129,7 +129,7 @@ class _otpPage extends State<otpPage> {
             height: 25,
           ),
           Container(height: 25,),
-          const Center(
+          Center(
            child:  Row(
               mainAxisAlignment: MainAxisAlignment.center,
 
@@ -140,7 +140,7 @@ class _otpPage extends State<otpPage> {
                 Text(" 01.44",style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: MyMateThemes.textGreen
+                    color: MyMateThemes.textGray
                 ),)
               ],
             ),

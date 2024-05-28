@@ -34,7 +34,7 @@ class _ChartCalPageState extends State<ChartCalPage>{
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: MyMateThemes.backgroundWhite,
+        backgroundColor: MyMateThemes.backgroundColor,
       ),
       body: Center(
         child: TypeAheadField <String>(
@@ -73,6 +73,5 @@ class _ChartCalPageState extends State<ChartCalPage>{
 }
 
 /*
-ListView.builder(
 
  */
