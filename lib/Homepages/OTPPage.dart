@@ -15,13 +15,13 @@ class _otpPage extends State<otpPage> {
   void Check() {
     showCountryPicker(
       context: context,
-      showPhoneCode: true, // optional. Shows phone code before the country name.
+      showPhoneCode:
+          true, // optional. Shows phone code before the country name.
       onSelect: (Country country) {
         print(country.displayName);
       },
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,14 +45,20 @@ class _otpPage extends State<otpPage> {
             height: 15,
           ),
           Center(
-            child: Text("Enter the code from the sms we sent", style: MyTextStyle()),
+            child: Text("Enter the code from the sms we sent",
+                style: MyTextStyle()),
           ),
           Center(
-            child: Text("to +94 xx xxxxxxx",style: MyTextStyle(),),
+            child: Text(
+              "to +94 xx xxxxxxx",
+              style: MyTextStyle(),
+            ),
           ),
-          const SizedBox(height: 100,),
+          const SizedBox(
+            height: 100,
+          ),
           Center(
-              child: SizedBox(
+            child: SizedBox(
                 width: 350,
                 child: Form(
                     child: Row(
@@ -134,14 +140,19 @@ class _otpPage extends State<otpPage> {
               mainAxisAlignment: MainAxisAlignment.center,
 
               children: <Widget>[
-                Text("Resend OTP again in ",style: TextStyle(
-                  fontSize: 20,
-                ),),
-                Text(" 01.44",style: TextStyle(
+                Text(
+                  "Resend OTP again in ",
+                  style: TextStyle(
                     fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: MyMateThemes.textGray
-                ),)
+                  ),
+                ),
+                Text(
+                  " 01.44",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: MyMateThemes.textColor),
+                )
               ],
             ),
           ),
@@ -156,15 +167,13 @@ class _otpPage extends State<otpPage> {
                 onPressed: Check,
                 style: CommonButtonStyle.commonButtonStyle(),
                 child: Text(
-                  "Verify"
-                  ,style: TextStyle(fontSize: MyMateThemes.buttonFontSize),),
+                  "Verify",
+                  style: TextStyle(fontSize: MyMateThemes.buttonFontSize),
+                ),
               ),
             ),
           )
-
-    ]
-      )
-    );
+        ]));
   }
 }
 

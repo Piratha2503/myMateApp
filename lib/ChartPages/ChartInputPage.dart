@@ -117,7 +117,6 @@ Widget Nadchathira() {
           suffix: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-
               Icon(Icons.arrow_drop_down_sharp),
             ],
           )),
@@ -138,7 +137,6 @@ Widget PlaceSearch() {
       textEditingController: controller,
       googleAPIKey: "AIzaSyAoxfRZPpxjemh98ITN_FnpSElHr7kmNYs",
       inputDecoration: const InputDecoration(
-
         hintText: "Place of Birth (City)",
         border: InputBorder.none,
         enabledBorder: InputBorder.none,
@@ -184,7 +182,6 @@ Widget PlaceSearch() {
 
 Widget ContainerColumn() {
   return const Column(
-
     children: [
       Text(
         "Enter birth details",
@@ -202,7 +199,7 @@ Widget ContainerColumn() {
         height: 10,
       ),
       SizedBox(height: 10,),
-      
+
       Text(
         "Make sure this number can receive SMS.",
         style: TextStyle(fontSize: 14),

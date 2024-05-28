@@ -16,14 +16,17 @@ class NameAndGender extends StatefulWidget {
 
 class _NameAndGenderState extends State<NameAndGender> {
   String Gender = "";
+
   void onPressed() {
     print("object");
   }
-void Changed(){
+
+  void Changed() {
     setState(() {
       Gender = "Male";
     });
-}
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +50,9 @@ void Changed(){
                     ),
                   ),
                 ),
-                Container(height: 50,),
+                Container(
+                  height: 50,
+                ),
                 const SizedBox(
                   width: 300, // Set the width of the TextField
                   height: 50, // Set the height of the TextField
@@ -76,7 +81,6 @@ void Changed(){
                         fixedSize: MaterialStatePropertyAll(Size(120, 120))
                       ),
                     ),
-                    const SizedBox(width: 30,),
                     ElevatedButton.icon(
                       onPressed: Changed,
                       label: const Text(""),
@@ -86,7 +90,7 @@ void Changed(){
                           alignment: Alignment.center,
                           textStyle: MaterialStatePropertyAll(TextStyle(
                               fontWeight: FontWeight.w800,
-                            
+
                           )),
                           iconSize: MaterialStatePropertyAll(70),
                           shape: MaterialStatePropertyAll(RoundedRectangleBorder()),
@@ -103,19 +107,23 @@ void Changed(){
                   child: ElevatedButton(onPressed: onPressed,
                     style: const ButtonStyle(
                       foregroundColor: MaterialStatePropertyAll(Colors.white),
-                      backgroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
-                      shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.zero)),
-                    ), child: const Text("Next",style: TextStyle(fontSize: MyMateThemes.buttonFontSize),),
+                      backgroundColor:
+                          MaterialStatePropertyAll(MyMateThemes.primaryColor),
+                      shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.zero)),
+                    ),
+                    child: const Text(
+                      "Next",
+                      style: TextStyle(fontSize: MyMateThemes.buttonFontSize),
+                    ),
                   ),
                 ),
-
               ],
             ))
           ],
         ),
       ),
     );
-
   }
 }
 
@@ -126,11 +134,9 @@ class MyInputDecorations extends InputDecoration {
  @override
  String? get hintText => myHint;
 
- @override
- TextStyle? get hintStyle => const TextStyle(
-   fontSize: 28,
-   fontFamily: "Work Sans",
-
- );
-
+  @override
+  TextStyle? get hintStyle => const TextStyle(
+        fontSize: 28,
+        fontFamily: "Work Sans",
+      );
 }

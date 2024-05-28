@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mymateapp/MyMateThemes.dart';
-import 'package:mymateapp/Homepages/FirstWelcomeScreen.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
   final int selectedIndex;
@@ -19,13 +18,25 @@ class CustomBottomNavigationBar extends StatefulWidget {
 }
 
 class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
-  late int _selectedIndex; // Declare _selectedIndex here
+  late int _selectedIndex;
 
   @override
   void initState() {
     super.initState();
-    _selectedIndex =
-        widget.selectedIndex; // Initialize _selectedIndex in initState
+    _selectedIndex = widget.selectedIndex;
+  }
+
+  BottomNavigationBarItem _buildBottomNavigationBarItem(
+      String assetName, String label, int index) {
+    return BottomNavigationBarItem(
+      icon: SvgPicture.asset(
+        assetName,
+        color: _selectedIndex == index
+            ? MyMateThemes.primaryColor
+            : MyMateThemes.secondaryColor,
+      ),
+      label: label,
+    );
   }
 
   @override
@@ -36,60 +47,23 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         type: BottomNavigationBarType.fixed,
         backgroundColor: MyMateThemes.backgroundColor,
         items: [
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/images/Group 2141.svg',
-              // width: 28.04,
-              // height: 28,
-              color: _selectedIndex == 0 // Use _selectedIndex here
-                  ? MyMateThemes.primaryColor
-                  : MyMateThemes.secondaryColor,
-            ),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/images/Group 2142.svg',
-              // width: 32,
-              // height: 42,
-              color: _selectedIndex == 1 // Use _selectedIndex here
-                  ? MyMateThemes.primaryColor
-                  : MyMateThemes.secondaryColor,
-            ),
-            label: 'Explore',
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/images/Group 2143.svg',
-
-              // width: 24.5,
-              // height: 28,
-              color: _selectedIndex == 2 // Use _selectedIndex here
-                  ? MyMateThemes.primaryColor
-                  : MyMateThemes.secondaryColor,
-            ),
-            label: 'Notifications',
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/images/Group 2144.svg',
-              // width: 26.13,
-              // height: 28,
-              color: _selectedIndex == 3 // Use _selectedIndex here
-                  ? MyMateThemes.primaryColor
-                  : MyMateThemes.secondaryColor,
-            ),
-            label: 'Profile',
-          ),
+          _buildBottomNavigationBarItem(
+              'assets/images/Group 2141.svg', 'Home', 0),
+          _buildBottomNavigationBarItem(
+              'assets/images/Group 2142.svg', 'Explore', 1),
+          _buildBottomNavigationBarItem(
+              'assets/images/Group 2143.svg', 'Notifications', 2),
+          _buildBottomNavigationBarItem(
+              'assets/images/Group 2144.svg', 'Profile', 3),
         ],
-        currentIndex: _selectedIndex, // Use _selectedIndex here
+        currentIndex: _selectedIndex,
         selectedItemColor: MyMateThemes.primaryColor,
         unselectedItemColor: MyMateThemes.secondaryColor,
         onTap: (index) {
           setState(() {
-            _selectedIndex = index; // Update _selectedIndex when tapped
+            _selectedIndex = index;
           });
-          widget.onItemTapped(index); // Call the provided callback function
+          widget.onItemTapped(index);
         },
       ),
     );

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'BadgeWidget.dart';
 import 'bottom_navigation_bar.dart';
 
 class FrontPage extends StatefulWidget {
@@ -17,15 +18,8 @@ class _FrontPageState extends State<FrontPage>
   bool showHello = true;
   int _selectedIndex = 0;
 
-  // Badge values for the SVG images
-  int badgeValue1 = 0;
+  int badgeValue1 = 1;
   int badgeValue2 = 10;
-  String truncateText(String text, int maxLength) {
-    if (text.length <= maxLength) {
-      return text;
-    }
-    return text.substring(0, maxLength) + '...';
-  }
 
   @override
   void initState() {
@@ -54,277 +48,226 @@ class _FrontPageState extends State<FrontPage>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyMateThemes.backgroundColor,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(40.0), // here the desired height
-        child: AppBar(
-          backgroundColor: MyMateThemes.backgroundColor,
-          title: SafeArea(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    // SizedBox(
-                    //   width: 70,
-                    // ),
-                    AnimatedOpacity(
-                      opacity: showHello ? 1.0 : 0.0,
-                      duration: Duration(milliseconds: 5000),
-                      child: const Text(
-                        'Hello',
-                        style: TextStyle(
-                          color: MyMateThemes.primaryColor,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                    // Add spacing between "Hello" and "Your Name"
-                    SizedBox(width: 10), // Add spacing between "Hello" and "Your Name"
-                    SizedBox(width: 70),
-                    Stack(
-                      children: [
-                        SvgPicture.asset(
-                          'assets/images/Group 2157.svg',
-                          // width: 30,
-                          // height: 30,
-                        ),
-                        if (badgeValue1 > 0) ...[
-                          Positioned(
-                            top: -2,
-                            right: -1,
-                            child: Container(
-                              //padding: EdgeInsets.all(0),
-                              decoration: BoxDecoration(
-                                color: MyMateThemes.secondaryColor,
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              child: Text(
-                                badgeValue1.toString(),
-                                style: TextStyle(
-                                  color: MyMateThemes.primaryColor,
-                                  fontSize: badgeValue1 > 9 ? 12 : 16,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ],
-                    ),
-                    SizedBox(width: 25),
-                    Stack(
-                      children: [
-                        SvgPicture.asset(
-                          'assets/images/Group 2153.svg',
-                          // width: 30,
-                          // height: 30,
-                        ),
-                        if (badgeValue2 > 0) ...[
-                          Positioned(
-                            top: -2,
-                            right: -1,
-                            child: Container(
-                              //padding: EdgeInsets.all(2),
-                              decoration: BoxDecoration(
-                                color: MyMateThemes.secondaryColor,
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              child: Text(
-                                badgeValue2.toString(),
-                                style: TextStyle(
-                                  color: MyMateThemes.primaryColor,
-                                  fontSize: badgeValue2 > 9 ? 12 : 16,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(
-              child: Text(
-                'Congratulations',
-                style: TextStyle(
-                  color: MyMateThemes.primaryColor,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-            Center(
-              child: Text(
-                "You're successfully registered",
-                style: TextStyle(
-                  color: MyMateThemes.textColor,
-                  fontSize: 14,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-            ),
-            Center(
-              child: SvgPicture.asset(
-                'assets/images/Group 2073.svg',
-                // Replace this with your SVG icon path
-                width: 230, // Adjust the width as needed
-                height: 195, // Adjust the height as needed
-                //color: MyMateThemes
-                //  .primaryGreen, // Use the desired color for the icon
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Center(
-              child: Text(
-                'View Matches',
-                style: TextStyle(
-                  color: MyMateThemes.primaryColor,
-                  fontSize: MyMateThemes.subHeadFontSize,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                // SizedBox(
-                //   width: 20,
-                // ),
-                Text(
-                  'Free',
-                  style: TextStyle(
-                    color: MyMateThemes.textColor,
-                    fontSize: MyMateThemes.nomalFontSize,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-                // SizedBox(
-                //   width: 10,
-                // ),
-                Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      SvgPicture.asset(
-                        'assets/images/Layer 1.svg',
-                        // Replace this with your SVG icon path
-                        width: 18.29, // Adjust the width as needed
-                        height: 18.29, // Adjust the height as needed
-                        // color: MyMateThemes
-                        //     .primaryGreen, // Use the desired color for the icon
-                      ),
-                      SizedBox(width: 4),
-                      Text(
-                        'Premium',
-                        style: TextStyle(
-                          color: MyMateThemes.primaryColor,
-                          fontSize: MyMateThemes.nomalFontSize,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 7),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  width: 164,
-                  height: 188,
-                  color: MyMateThemes.containerColor,
-                  alignment: Alignment.bottomLeft,
-                ),
-                Container(
-                  width: 164,
-                  height: 188,
-                  color: MyMateThemes.secondaryColor,
-                  alignment: Alignment.bottomRight,
-                ),
-              ],
-            ),
-            SizedBox(height: 15),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                InkWell(
-                  onTap: () {
-                    // Handle link tap action
-                    print('Link tapped');
-                  },
-                  child: Text(
-                    'Complete Profile',
-                    style: TextStyle(
-                      color: MyMateThemes.primaryColor,
-                      fontSize: MyMateThemes.nomalFontSize,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 164.0,
-                  height: 58.0,
-                  child: OutlinedButton(
-                    onPressed: () {
-                      // Handle button press action
-                      print('Button pressed');
-                    },
-                    style: const ButtonStyle(
-                      foregroundColor: MaterialStatePropertyAll(Colors.white),
-                      backgroundColor:
-                          MaterialStatePropertyAll(MyMateThemes.primaryColor),
-                      shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.zero)),
-                    ),
-                    // OutlinedButton.styleFrom(
-                    //     backgroundColor: MyMateThemes.primaryGreen,
-                    //     shape: RoundedRectangleBorder(
-                    //       borderRadius: BorderRadius.circular(
-                    //           10), // Adjust the border radius as needed
-                    //     ),
-                    //     alignment: Alignment.center),
-                    child: Text(
-                      'Get Started ',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: MyMateThemes.buttonFontSize,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 15),
-          ],
-        ),
-      ),
+      appBar: _buildAppBar(),
+      body: _buildBody(),
       bottomNavigationBar: CustomBottomNavigationBar(
         selectedIndex: _selectedIndex,
         onItemTapped: (index) {
           setState(() {
             _selectedIndex = index;
           });
-          // Handle navigation here based on the index
         },
+      ),
+    );
+  }
+
+  PreferredSizeWidget _buildAppBar() {
+    return PreferredSize(
+      preferredSize: Size.fromHeight(40.0),
+      child: AppBar(
+        backgroundColor: MyMateThemes.backgroundColor,
+        title: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  AnimatedOpacity(
+                    opacity: showHello ? 1.0 : 0.0,
+                    duration: Duration(milliseconds: 5000),
+                    child: const Text(
+                      'Hello',
+                      style: TextStyle(
+                        color: MyMateThemes.primaryColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  SizedBox(width: 70),
+                  BadgeWidget(
+                      assetPath: 'assets/images/Group 2157.svg',
+                      badgeValue: badgeValue1),
+                  SizedBox(width: 25),
+                  BadgeWidget(
+                      assetPath: 'assets/images/Group 2153.svg',
+                      badgeValue: badgeValue2),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBody() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          _buildHeaderText('Congratulations'),
+          _buildSubHeaderText("You're successfully registered"),
+          _buildSvgImage('assets/images/Group 2073.svg',
+              width: 230, height: 195),
+          SizedBox(height: 10),
+          _buildHeaderText('View Matches'),
+          SizedBox(height: 30),
+          _buildFreePremiumRow(),
+          SizedBox(height: 7),
+          _buildImageContainers(),
+          SizedBox(height: 15),
+          _buildFooterRow(),
+          SizedBox(height: 15),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHeaderText(String text) {
+    return Center(
+      child: Text(
+        text,
+        style: TextStyle(
+          color: MyMateThemes.primaryColor,
+          fontSize: 20,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSubHeaderText(String text) {
+    return Center(
+      child: Text(
+        text,
+        style: TextStyle(
+          color: MyMateThemes.textColor,
+          fontSize: 14,
+          fontWeight: FontWeight.normal,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSvgImage(String assetPath, {double? width, double? height}) {
+    return Center(
+      child: SvgPicture.asset(
+        assetPath,
+        width: width,
+        height: height,
+      ),
+    );
+  }
+
+  Widget _buildFreePremiumRow() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        Text(
+          'Free',
+          style: TextStyle(
+            color: MyMateThemes.textColor,
+            fontSize: MyMateThemes.nomalFontSize,
+            fontWeight: FontWeight.normal,
+          ),
+        ),
+        _buildPremiumLabel(),
+      ],
+    );
+  }
+
+  Widget _buildPremiumLabel() {
+    return Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          SvgPicture.asset(
+            'assets/images/Layer 1.svg',
+            width: 18.29,
+            height: 18.29,
+          ),
+          SizedBox(width: 4),
+          Text(
+            'Premium',
+            style: TextStyle(
+              color: MyMateThemes.primaryColor,
+              fontSize: MyMateThemes.nomalFontSize,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildImageContainers() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Container(
+          width: 164,
+          height: 188,
+          color: MyMateThemes.containerColor,
+          alignment: Alignment.bottomLeft,
+        ),
+        Container(
+          width: 164,
+          height: 188,
+          color: MyMateThemes.secondaryColor,
+          alignment: Alignment.bottomRight,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildFooterRow() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        InkWell(
+          onTap: () {
+            print('Link tapped');
+          },
+          child: Text(
+            'Complete Profile',
+            style: TextStyle(
+              color: MyMateThemes.primaryColor,
+              fontSize: MyMateThemes.nomalFontSize,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+        _buildGetStartedButton(),
+      ],
+    );
+  }
+
+  Widget _buildGetStartedButton() {
+    return SizedBox(
+      width: 164.0,
+      height: 58.0,
+      child: OutlinedButton(
+        onPressed: () {
+          print('Button pressed');
+        },
+        style: const ButtonStyle(
+          foregroundColor: MaterialStatePropertyAll(Colors.white),
+          backgroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
+          shape: MaterialStatePropertyAll(
+              RoundedRectangleBorder(borderRadius: BorderRadius.zero)),
+        ),
+        child: Text(
+          'Get Started ',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: MyMateThemes.buttonFontSize,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
     );
   }

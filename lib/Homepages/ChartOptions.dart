@@ -105,5 +105,4 @@ class _ChartOptionsState extends State<ChartOptions> {
       )),
     );
   }
-
 }
