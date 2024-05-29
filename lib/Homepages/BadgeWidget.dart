@@ -15,16 +15,18 @@ class BadgeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      clipBehavior: Clip.none,
       children: [
         SvgPicture.asset(assetPath),
         if (badgeValue > 0)
           Positioned(
-            top: -2,
-            right: -1,
+            top: -15, // Adjust the top position as needed
+            right: -10, // Adjust the right position as needed
             child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
               decoration: BoxDecoration(
                 color: MyMateThemes.secondaryColor,
-                borderRadius: BorderRadius.circular(4),
+                borderRadius: BorderRadius.circular(4), // More rounded corners
               ),
               child: Text(
                 badgeValue.toString(),
