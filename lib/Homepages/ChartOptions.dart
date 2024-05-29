@@ -16,7 +16,7 @@ class _ChartOptionsState extends State<ChartOptions> {
       body: SafeArea(
 
           child: Center(
-        child: Column(
+            child: Column(
           children: [
             Container(
               height: 10,

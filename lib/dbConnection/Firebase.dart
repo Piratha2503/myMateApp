@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 
 class Firebase{
 
-  final CollectionReference clients = FirebaseFirestore.instance.collection('clients');
+  final CollectionReference clients =
+  FirebaseFirestore.instance.collection('clients');
 
   //GET
   Stream<QuerySnapshot> getClients() {
@@ -15,15 +16,15 @@ class Firebase{
   Future<void> addClient(){
 
     return clients.add({
-      'full_name': "Pirathaban",
-      'age': 32,
+      'full_name': "Thaneswaran Suginshan",
+      'age': 28,
       'dob': '25-03-1992',
       'mobile': 0778741623,
       'mobile_countryCode': 'lk',
       'gender': 'male',
       'civil_status': 'single',
       'employment_type': 'professional',
-      'occupation':'doctor',
+      'occupation':'Engineer',
       'height':154,
       'district':'Colombo',
       'education': 'B.S.C',

@@ -100,7 +100,7 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
         } else {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => ProfilePage()),
+            MaterialPageRoute(builder: (context) => ProfilePage(docId: "",)),
           );
         }
       },

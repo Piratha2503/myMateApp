@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:mymateapp/Homepages/OTPPage.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -21,6 +22,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
   void handlePhoneNumber() {
     print("Phone Number is:- $phoneNumber");
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>const otpPage()));
+
   }
 
   @override

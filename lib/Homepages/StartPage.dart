@@ -3,7 +3,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:mymateapp/Homepages/FirstWelcomeScreen.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
-
 import 'WelcomeScreen.dart';
 
 class StartPage extends StatefulWidget {
@@ -17,7 +16,7 @@ class _StartPageState extends State<StartPage> {
   @override
   Widget build(BuildContext context) {
     return AnimatedSplashScreen(
-      backgroundColor: MyMateThemes.primaryColor,
+      backgroundColor: MyMateThemes.backgroundColor,
       splash: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -26,7 +25,7 @@ class _StartPageState extends State<StartPage> {
             style: TextStyle(
                 fontSize: 40,
                 fontWeight: FontWeight.bold,
-                color: MyMateThemes.backgroundColor),
+                color: MyMateThemes.primaryColor),
           ),
         ],
       ),

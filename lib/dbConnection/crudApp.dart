@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mymateapp/Homepages/MyProfile.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/dbConnection/Firebase.dart';
 import 'package:mymateapp/dbConnection/viewPage.dart';
@@ -45,9 +46,10 @@ class _crudAppState extends State<crudApp>{
               final docId = client.id;
 
               return ListTile(
+
                 title: Text(clientName,
                 style: const TextStyle(
-                  fontSize: 30,
+                  fontSize: 25,
                   color: Colors.orange,
                   fontWeight: FontWeight.w600
                 ),),
@@ -56,7 +58,7 @@ class _crudAppState extends State<crudApp>{
                 }, icon: const Icon(Icons.settings)),
                 onTap: (){
                   Navigator.push(context,MaterialPageRoute(builder:
-                  (context)=>viewPage(docId: docId,)));
+                  (context)=>ProfilePage(docId: docId,)));
                   //firebase.updateClient(docId,"Jathu");
                 },
 

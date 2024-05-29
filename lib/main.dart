@@ -25,10 +25,10 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:mymateapp/ManagePages/ManagePage.dart';
 
 void main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp(
-  //   options: DefaultFirebaseOptions.currentPlatform,
-  // );
+   WidgetsFlutterBinding.ensureInitialized();
+   await Firebase.initializeApp(
+     options: DefaultFirebaseOptions.currentPlatform,
+   );
   runApp(const MyApp());
 }
 
@@ -44,11 +44,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           primaryColor: Colors.blue[200]),
       debugShowCheckedModeBanner: false,
-      home: crudApp(),
+      home: StartPage(),
     );
   }
 }
-
-/*
-AIzaSyAA71gXSi3WeW2NaC4aIzMMlmuVCP0rrV8
-*/
