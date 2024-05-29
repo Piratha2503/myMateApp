@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../ManagePages/SummaryPage.dart';
+import 'BadgeWidget.dart';
 import 'bottom_navigation_bar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -67,9 +68,13 @@ class _SubscribedhomescreenPageState extends State<SubscribedhomescreenPage> {
                         ),
                       ),
                       SizedBox(width: 60),
-                      _buildBadge('assets/images/Group 2157.svg', badgeValue1),
-                      SizedBox(width: 20),
-                      _buildBadge('assets/images/Group 2153.svg', badgeValue2),
+                      BadgeWidget(
+                          assetPath: 'assets/images/Group 2157.svg',
+                          badgeValue: badgeValue1),
+                      SizedBox(width: 25),
+                      BadgeWidget(
+                          assetPath: 'assets/images/Group 2153.svg',
+                          badgeValue: badgeValue2),
                     ],
                   ),
                 ),
@@ -332,34 +337,6 @@ class _SubscribedhomescreenPageState extends State<SubscribedhomescreenPage> {
       ),
     );
   }
-}
-
-Widget _buildBadge(String assetPath, int badgeValue) {
-  return Stack(
-    clipBehavior: Clip.none,
-    children: [
-      SvgPicture.asset(assetPath),
-      if (badgeValue > 0)
-        Positioned(
-          top: -15, // Adjust the top position as needed
-          right: -10, // Adjust the right position as needed
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-            decoration: BoxDecoration(
-              color: MyMateThemes.secondaryColor,
-              borderRadius: BorderRadius.circular(4), // More rounded corners
-            ),
-            child: Text(
-              badgeValue.toString(),
-              style: TextStyle(
-                color: MyMateThemes.primaryColor,
-                fontSize: badgeValue > 9 ? 12 : 16,
-              ),
-            ),
-          ),
-        ),
-    ],
-  );
 }
 
 class Profile {
