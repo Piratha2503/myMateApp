@@ -5,7 +5,6 @@ import 'package:flutter/painting.dart';
 import 'package:mymateapp/Homepages/ChartOptions.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 
-
 class NameAndGender extends StatefulWidget {
 
   const NameAndGender({super.key});
@@ -19,8 +18,8 @@ class _NameAndGenderState extends State<NameAndGender> {
   String Gender = "";
 
   void onPressed() {
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>const ChartOptions()));
-
+    Navigator.push(context,
+    MaterialPageRoute(builder: (context)=>const ChartOptions()));
   }
 
   void Changed() {
@@ -53,9 +52,7 @@ class _NameAndGenderState extends State<NameAndGender> {
                   ),
                   ),
                 ),
-                Container(
-                  height: 50,
-                ),
+                Container( height: 50,),
                 SizedBox(
                   width: 300, // Set the width of the TextField
                   height: 50, // Set the height of the TextField

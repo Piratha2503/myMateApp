@@ -1,136 +1,75 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
-enum ColorLabel {
-  blue('Blue', Colors.blue),
-  pink('Pink', Colors.pink),
-  green('Green', Colors.lightGreenAccent),
-  yellow('Orange', Colors.orange),
-  grey('Grey', Colors.blueGrey);
-
-  const ColorLabel(this.label, this.color);
-  final String label;
-  final Color color;
-}
-
-// DropdownMenuEntry labels and values for the second dropdown menu.
-enum IconLabel {
-  smile('Smile', Icons.sentiment_satisfied_outlined),
-  cloud('Cloud', Icons.cloud_outlined, ),
-  brush('Brush', Icons.brush_outlined),
-  heart('Heart', Icons.favorite);
-
-  const IconLabel(this.label, this.icon);
-  final String label;
-  final IconData icon;
-}
-
-class DropdownMenuExample extends StatefulWidget {
-  const DropdownMenuExample({super.key});
-
-  @override
-  State<DropdownMenuExample> createState() => _DropdownMenuExampleState();
-}
-
-class _DropdownMenuExampleState extends State<DropdownMenuExample> {
-  final TextEditingController colorController = TextEditingController();
-  final TextEditingController iconController = TextEditingController();
-
-  ColorLabel? selectedColor;
-  IconLabel? selectedIcon;
+class DecoratedBoxTransitionExampleApp extends StatelessWidget {
+  const DecoratedBoxTransitionExampleApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        useMaterial3: true,
-        colorSchemeSeed: Colors.green,
+    return const MaterialApp(
+      home: DecoratedBoxTransitionExample(),
+    );
+  }
+}
+
+class DecoratedBoxTransitionExample extends StatefulWidget {
+  const DecoratedBoxTransitionExample({super.key});
+
+  @override
+  State<DecoratedBoxTransitionExample> createState() =>
+      _DecoratedBoxTransitionExampleState();
+}
+
+class _DecoratedBoxTransitionExampleState
+    extends State<DecoratedBoxTransitionExample> with TickerProviderStateMixin {
+
+  final DecorationTween decorationTween = DecorationTween(
+    begin: BoxDecoration(
+      color: const Color(0xFFFFFFFF),
+      border: Border.all(style: BorderStyle.none),
+      borderRadius: BorderRadius.circular(60.0),
+      boxShadow: const <BoxShadow>[
+        BoxShadow(
+          color: Color(0x66666666),
+          blurRadius: 10.0,
+          spreadRadius: 3.0,
+          offset: Offset(0, 6.0),
+        ),
+      ],
+    ),
+    end: BoxDecoration(
+      color: const Color(0xFFFFFFFF),
+      border: Border.all(
+        style: BorderStyle.none,
       ),
-      home: Scaffold(
-        body: SafeArea(
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    DropdownMenu<ColorLabel>(
-                      initialSelection: ColorLabel.green,
-                      controller: colorController,
-                      // requestFocusOnTap is enabled/disabled by platforms when it is null.
-                      // On mobile platforms, this is false by default. Setting this to true will
-                      // trigger focus request on the text field and virtual keyboard will appear
-                      // afterward. On desktop platforms however, this defaults to true.
-                      requestFocusOnTap: true,
-                      label: const Text('Color'),
-                      onSelected: (ColorLabel? color) {
-                        setState(() {
-                          selectedColor = color;
-                        });
-                      },
-                      dropdownMenuEntries: ColorLabel.values
-                          .map<DropdownMenuEntry<ColorLabel>>(
-                              (ColorLabel color) {
-                            return DropdownMenuEntry<ColorLabel>(
-                              value: color,
-                              label: color.label,
-                              enabled: color.label != 'Grey',
-                              style: MenuItemButton.styleFrom(
-                                foregroundColor: color.color,
-                              ),
-                            );
-                          }).toList(),
-                    ),
-                    const SizedBox(width: 10),
-                    DropdownMenu<IconLabel>(
-                      controller: iconController,
-                      enableFilter: true,
-                      requestFocusOnTap: true,
-                      leadingIcon: const Icon(Icons.search),
-                      label: const Text('Icon'),
-                      inputDecorationTheme: const InputDecorationTheme(
-                        filled: true,
-                        contentPadding: EdgeInsets.symmetric(vertical: 5.0),
-                      ),
-                      onSelected: (IconLabel? icon) {
-                        setState(() {
-                          selectedIcon = icon;
-                        });
-                      },
-                      dropdownMenuEntries:
-                      IconLabel.values.map<DropdownMenuEntry<IconLabel>>(
-                            (IconLabel icon) {
-                          return DropdownMenuEntry<IconLabel>(
-                            value: icon,
-                            label: icon.label,
-                            leadingIcon: Icon(icon.icon),
-                          );
-                        },
-                      ).toList(),
-                    ),
-                  ],
-                ),
-              ),
-              if (selectedColor != null && selectedIcon != null)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                        'You selected a ${selectedColor?.label} ${selectedIcon?.label}'),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5),
-                      child: Icon(
-                        selectedIcon?.icon,
-                        color: selectedColor?.color,
-                      ),
-                    )
-                  ],
-                )
-              else
-                const Text('Please select a color and an icon.')
-            ],
+      borderRadius: BorderRadius.zero,
+      // No shadow.
+    ),
+  );
+
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: const Duration(seconds: 3),
+  )..repeat(reverse: true);
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    return ColoredBox(
+      color: Colors.white,
+      child: Center(
+        child: DecoratedBoxTransition(
+          decoration: decorationTween.animate(_controller),
+          child: Container(
+            width: 100,
+            height: 100,
+            padding: const EdgeInsets.all(10),
+            child: const FlutterLogo(),
           ),
         ),
       ),
