@@ -45,6 +45,52 @@ class _SubscribedhomescreenPageState extends State<SubscribedhomescreenPage> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    // Show the popup dialog when the page loads
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _showPopupDialog();
+    });
+  }
+
+  void _showPopupDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text("Congratulations! You have received "),
+              Row(
+                children: [
+                  Text(
+                    "10 free",
+                    style: TextStyle(color: MyMateThemes.primaryColor),
+                  ),
+                  Text('Tokens.You can spend free'),
+                ],
+              ),
+              Text("tokens to access these Following"),
+              Text("features only"),
+              SizedBox(height: 20),
+              SvgPicture.asset('assets/images/Group 2216.svg'),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the dialog
+                },
+                style: CommonButtonStyle.commonButtonStyle(),
+                child: Text('Continue'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyMateThemes.backgroundColor,
@@ -276,7 +322,7 @@ class _SubscribedhomescreenPageState extends State<SubscribedhomescreenPage> {
                       top: 10,
                       right: 16,
                       child: Text(
-                        '78',
+                        '10',
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w500,

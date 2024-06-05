@@ -6,6 +6,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:mymateapp/Homepages/MyProfile.dart';
 import 'package:mymateapp/MyMateThemes.dart';
+import 'package:mymateapp/Homepages/ClosableContainer.dart';
+import 'package:mymateapp/Homepages/SubscribedHomeScreen.dart';
 
 class CompleteProfilePage extends StatefulWidget {
   const CompleteProfilePage({Key? key}) : super(key: key);
@@ -21,17 +23,23 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: _buildAppBar(),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(height: 20),
-          _buildStepIndicator(),
-          Expanded(child: _buildCurrentPage(currentPage)),
-          _buildNextButton(),
-          SizedBox(height: 50),
-        ],
+      body: SingleChildScrollView(
+        padding:
+            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(height: 20),
+            _buildStepIndicator(),
+            SizedBox(height: 20), // Add space before the page content
+            _buildCurrentPage(currentPage),
+            _buildNextButton(),
+            SizedBox(height: 50),
+          ],
+        ),
       ),
     );
   }
@@ -100,20 +108,98 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
         } else {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => ProfilePage()),
+            MaterialPageRoute(builder: (context) => SubscribedhomescreenPage()),
           );
         }
       },
-      style: const ButtonStyle(
-        foregroundColor: MaterialStatePropertyAll(MyMateThemes.backgroundColor),
-        backgroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
-        shape: MaterialStatePropertyAll(
-          RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-        ),
-      ),
+      style: CommonButtonStyle.commonButtonStyle(),
       child: Text(currentPage < stepStates.length - 1 ? 'Next' : 'Complete'),
     );
   }
+}
+
+Widget _buildTextFieldRow({required String label, required String hintText}) {
+  return Container(
+    decoration: BoxDecoration(
+      color: MyMateThemes.secondaryColor,
+      borderRadius: BorderRadius.circular(8.0),
+    ),
+    width: 346,
+    height: 44,
+    child: Stack(
+      children: [
+        Positioned(
+          left: 15,
+          top: 0,
+          bottom: 0,
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(label, style: TextStyle(color: Colors.black)),
+          ),
+        ),
+        Positioned(
+          left:
+              192, // Adjust this value to set the starting position of the hint text
+          right: 0,
+          top: 0,
+          bottom: 0,
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: hintText,
+                hintStyle:
+                    TextStyle(color: MyMateThemes.textColor.withOpacity(0.5)),
+                border: InputBorder.none,
+              ),
+              style: TextStyle(color: MyMateThemes.textColor),
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget _buildDropdownRow({
+  required String label,
+  required String? value,
+  required List<String> items,
+  required ValueChanged<String?> onChanged,
+}) {
+  return Container(
+    decoration: BoxDecoration(
+      color: MyMateThemes.secondaryColor,
+      borderRadius: BorderRadius.circular(8.0),
+    ),
+    width: 346,
+    height: 42,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        SizedBox(width: 15), // Add this line
+        Text(label, style: TextStyle(color: Colors.black)),
+        Spacer(),
+        SizedBox(width: 5),
+        DropdownButton<String>(
+          value: value,
+          onChanged: onChanged,
+          items: items.map<DropdownMenuItem<String>>((String item) {
+            return DropdownMenuItem<String>(
+              value: item,
+              child: Text(
+                item,
+                style: item == '-- Select Option --'
+                    ? TextStyle(color: MyMateThemes.textColor.withOpacity(0.5))
+                    : TextStyle(color: MyMateThemes.textColor),
+              ),
+            );
+          }).toList(),
+        ),
+      ],
+    ),
+  );
 }
 
 class PageOne extends StatefulWidget {
@@ -253,25 +339,22 @@ class PageTwo extends StatefulWidget {
 
 class _PageTwoState extends State<PageTwo> {
   bool isChecked = false;
-  String? _selectedCivilStatus;
-  String? _selectedEmploymentType;
-  String? _selectedDistrict;
+  String? _selectedCivilStatus = '-- Select Option --';
+  String? _selectedEmploymentType = '-- Select Option --';
+  String? _selectedDistrict = '-- Select Option --';
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(height: 10),
           _buildDropdownRow(
             label: "Civil Status",
             value: _selectedCivilStatus,
-            items: [
-              '--  Select Option  --',
-              'Unmarried',
-              'Divorced',
-              'Widowed'
-            ],
+            items: ['-- Select Option --', 'Unmarried', 'Divorced', 'Widowed'],
             onChanged: (value) => setState(() {
               _selectedCivilStatus = value;
             }),
@@ -281,7 +364,7 @@ class _PageTwoState extends State<PageTwo> {
             label: "Employment Type",
             value: _selectedEmploymentType,
             items: [
-              '--  Select Option  --',
+              '-- Select Option --',
               'Government',
               'Private',
               'Self Employed',
@@ -294,18 +377,24 @@ class _PageTwoState extends State<PageTwo> {
           SizedBox(height: 10),
           _buildTextFieldRow(
             label: "Occupation",
-            hintText: "Enter your Occupation",
+            hintText: "Enter Occupation",
           ),
           SizedBox(height: 10),
           _buildTextFieldRow(
-            label: "Height",
-            hintText: "Enter your height",
+            label: "Height (in cm) ",
+            hintText: "Enter height",
           ),
           SizedBox(height: 10),
           _buildDropdownRow(
             label: "District",
             value: _selectedDistrict,
-            items: ['--  Select Option  --', 'Jaffna', 'Colombo'],
+            items: [
+              '-- Select Option --',
+              'Jaffna',
+              'Vavuniya',
+              'Colombo',
+              'Badulla'
+            ],
             onChanged: (value) => setState(() {
               _selectedDistrict = value;
             }),
@@ -313,80 +402,16 @@ class _PageTwoState extends State<PageTwo> {
           SizedBox(height: 10),
           _buildTextFieldRow(
             label: "Education",
-            hintText: "Enter your Education",
+            hintText: "Enter Education",
           ),
           SizedBox(height: 10),
           _buildCodeVerificationRow(),
           SizedBox(height: 10),
           _buildTextFieldRow(
             label: "Contact Number",
-            hintText: "Enter your Contact Number",
+            hintText: "Enter Contact Number",
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDropdownRow({
-    required String label,
-    required String? value,
-    required List<String> items,
-    required ValueChanged<String?> onChanged,
-  }) {
-    return Container(
-      width: 346,
-      height: 46,
-      color: MyMateThemes.secondaryColor,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(label, style: TextStyle(color: MyMateThemes.textColor)),
-          Spacer(),
-          DropdownButton<String>(
-            value: value,
-            onChanged: onChanged,
-            items: items.map<DropdownMenuItem<String>>((String item) {
-              return DropdownMenuItem<String>(
-                value: item,
-                child: Text(
-                  item,
-                  style: item == '-- Select Option --'
-                      ? TextStyle(color: Colors.grey)
-                      : TextStyle(color: MyMateThemes.textColor),
-                ),
-              );
-            }).toList(),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTextFieldRow({required String label, required String hintText}) {
-    return Container(
-      width: 346,
-      height: 46,
-      color: MyMateThemes.secondaryColor,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(width: 15),
-          Text(label, style: TextStyle(color: MyMateThemes.textColor)),
-          Spacer(),
-          Expanded(
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: hintText,
-                hintStyle:
-                    TextStyle(color: MyMateThemes.textColor.withOpacity(0.5)),
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.symmetric(horizontal: 10),
-              ),
-              style: TextStyle(color: MyMateThemes.textColor),
-            ),
-          ),
+          SizedBox(height: 80),
         ],
       ),
     );
@@ -398,6 +423,7 @@ class _PageTwoState extends State<PageTwo> {
       height: 65,
       child: Row(
         children: [
+          SizedBox(width: 10),
           Expanded(
             flex: 4,
             child: Container(
@@ -429,120 +455,210 @@ class _PageTwoState extends State<PageTwo> {
 }
 
 class PageThree extends StatefulWidget {
+  final controller = TextEditingController();
   @override
   _PageThreeState createState() => _PageThreeState();
 }
 
 class _PageThreeState extends State<PageThree> {
-  String? _selectedReligion;
-  String? _selectedLanguage;
-  String? _selectedDistrict;
+  String? _selectedReligion = '-- Select Option --';
+  String? _selectedLanguage = '-- Select Option --';
+
+  List<TextEditingController> controllers = [];
+  List<String> errors = [];
+
+  int characterCount = 0;
+  String error = '';
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Add the initial container
+    addNewContainer();
+  }
+
+  void addNewContainer() {
+    final controller = TextEditingController();
+    controllers.add(controller);
+    errors.add('');
+  }
+
+  void handleClose(int index) {
+    setState(() {
+      controllers.removeAt(index);
+      errors.removeAt(index);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        children: [
-          SizedBox(height: 10),
-          _buildDropdownRow(
-            label: "Religion",
-            value: _selectedReligion,
-            items: [
-              '--  Select Option  --',
-              'Hindu',
-              'Christian',
-              'Muslim',
-              'Buddhist'
-            ],
-            onChanged: (value) => setState(() {
-              _selectedReligion = value;
-            }),
-          ),
-          SizedBox(height: 15),
-          _buildTextFieldRow(
-            label: "Caste",
-            hintText: "Enter your Caste",
-          ),
-          SizedBox(height: 10),
-          _buildDropdownRow(
-            label: "Language",
-            value: _selectedLanguage,
-            items: ['--  Select Option  --', 'Tamil', 'Sinhala', 'English'],
-            onChanged: (value) => setState(() {
-              _selectedLanguage = value;
-            }),
-          ),
-          SizedBox(height: 10),
-          _buildTextFieldRow(
-            label: "No of Siblings",
-            hintText: "Enter Number",
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDropdownRow({
-    required String label,
-    required String? value,
-    required List<String> items,
-    required ValueChanged<String?> onChanged,
-  }) {
-    return Container(
-      width: 346,
-      height: 46,
-      color: MyMateThemes.secondaryColor,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(label, style: TextStyle(color: MyMateThemes.textColor)),
-          Spacer(),
-          DropdownButton<String>(
-            value: value,
-            onChanged: onChanged,
-            items: items.map<DropdownMenuItem<String>>((String item) {
-              return DropdownMenuItem<String>(
-                value: item,
-                child: Text(
-                  item,
-                  style: item == '-- Select Option --'
-                      ? TextStyle(color: Colors.grey)
-                      : TextStyle(color: MyMateThemes.textColor),
-                ),
-              );
-            }).toList(),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTextFieldRow({required String label, required String hintText}) {
-    return Container(
-      width: 346,
-      height: 46,
-      color: MyMateThemes.secondaryColor,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(width: 15),
-          Text(label, style: TextStyle(color: MyMateThemes.textColor)),
-          Spacer(),
-          Expanded(
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: hintText,
-                hintStyle:
-                    TextStyle(color: MyMateThemes.textColor.withOpacity(0.5)),
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.symmetric(horizontal: 10),
-              ),
-              style: TextStyle(color: MyMateThemes.textColor),
+      child: SingleChildScrollView(
+        padding:
+            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        child: Column(
+          children: [
+            SizedBox(height: 10),
+            _buildDropdownRow(
+              label: "Religion",
+              value: _selectedReligion,
+              items: [
+                '-- Select Option --',
+                'Hindu',
+                'Christian',
+                'Muslim',
+                'Buddhist'
+              ],
+              onChanged: (value) => setState(() {
+                _selectedReligion = value;
+              }),
             ),
-          ),
-        ],
+            SizedBox(height: 15),
+            _buildTextFieldRow(
+              label: "Caste",
+              hintText: "Enter your Caste",
+            ),
+            SizedBox(height: 10),
+            _buildDropdownRow(
+              label: "Language",
+              value: _selectedLanguage,
+              items: [
+                '-- Select Option --',
+                'Tamil',
+                'English',
+                'Singala',
+              ],
+              onChanged: (value) => setState(() {
+                _selectedLanguage = value;
+              }),
+            ),
+            SizedBox(height: 10),
+            _buildTextFieldRow(
+              label: "No of Siblings",
+              hintText: "Enter Number",
+            ),
+            SizedBox(height: 10),
+            // Container(
+            //   height: 93,
+            //   width: 346,
+            //   color: MyMateThemes.secondaryColor,
+            //   child: _buildTextFieldRow(
+            //     label: "Bio",
+            //     hintText: "(192 Letters)",
+            //   ),
+            // ),
+
+            Container(
+              decoration: BoxDecoration(
+                color: MyMateThemes.secondaryColor,
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              width: 346,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: IntrinsicHeight(
+                  child: Column(
+                    children: [
+                      TextField(
+                        controller: widget.controller,
+                        maxLength: 192,
+                        maxLines:
+                            null, // Allow the TextField to expand vertically
+                        minLines: 1,
+                        decoration: InputDecoration(
+                          label: Text(
+                            'Bio',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.black,
+                            ),
+                          ),
+                          hintText: '',
+                          counterText: characterCount <= 192
+                              ? '$characterCount/192'
+                              : '',
+                        ),
+                        onChanged: (text) {
+                          setState(() {
+                            characterCount = text.length;
+                            error = characterCount > 192
+                                ? 'Character limit exceeded'
+                                : '';
+                            if (characterCount > 192) {
+                              // _showAlertDialog(context);
+                            }
+                          });
+                        },
+                      ),
+                      if (error.isNotEmpty)
+                        Text(
+                          error,
+                          style: TextStyle(
+                            color: Colors.red,
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
+            SizedBox(height: 25),
+            Row(
+              children: [
+                SizedBox(width: 40),
+                Text(
+                  'Expectations',
+                  style: TextStyle(
+                      color: MyMateThemes.textColor,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 20),
+                ),
+              ],
+            ),
+            SizedBox(height: 15),
+            Column(
+              children: List.generate(
+                controllers.length,
+                (index) => ClosableContainer(
+                  controller: controllers[index],
+                  index: index,
+                  onClose: handleClose,
+                  parentContext:
+                      context, // Pass the context from the parent widget
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+            SizedBox(
+              width: 340.0, // Set desired width (adjust as needed)
+              height: 50.0, // Set desired height (adjust as needed)
+              child: ElevatedButton(
+                onPressed: () {
+                  if (controllers.length < 5) {
+                    setState(() {
+                      addNewContainer();
+                    });
+                  }
+                },
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text('+Add more'),
+                ),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                      MyMateThemes.secondaryColor),
+                  foregroundColor: MaterialStateProperty.all<Color>(
+                      MyMateThemes.primaryColor),
+                ),
+                // Choose either approach for setting width and height:
+              ),
+            ),
+            SizedBox(height: 100),
+          ],
+        ),
       ),
     );
   }
