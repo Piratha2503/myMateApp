@@ -65,7 +65,9 @@ class _otpPage extends State<otpPage> {
                     OtpSizedBox(),
                     OtpSizedBox(),
                   ],
-                ))),
+                )
+                )
+            ),
           ),
           Container(
             height: 50,
@@ -111,6 +113,32 @@ class _otpPage extends State<otpPage> {
           )
         ]));
   }
+
+  Widget OtpSizedBox(){
+    return SizedBox(
+      height: 68,
+      width: 64,
+      child: TextField(
+        onChanged: (value){
+          FocusScope.of(context).nextFocus();
+        },
+        style: const TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.w600
+        ),
+        decoration: const InputDecoration(
+          border: OutlineInputBorder(),
+        ),
+        keyboardType: TextInputType.number,
+        textAlign: TextAlign.center,
+        inputFormatters: [
+          LengthLimitingTextInputFormatter(1),
+          FilteringTextInputFormatter.digitsOnly
+        ],
+      ),
+    );
+  }
+
 }
 
 class MyTextStyle extends TextStyle {
@@ -119,25 +147,3 @@ class MyTextStyle extends TextStyle {
   double? get fontSize => 14;
 }
 
-
-Widget OtpSizedBox(){
-  return SizedBox(
-    height: 68,
-    width: 64,
-    child: TextField(
-      style: const TextStyle(
-        fontSize: 25,
-        fontWeight: FontWeight.w600
-      ),
-      decoration: const InputDecoration(
-        border: OutlineInputBorder(),
-      ),
-      keyboardType: TextInputType.number,
-      textAlign: TextAlign.center,
-      inputFormatters: [
-        LengthLimitingTextInputFormatter(1),
-        FilteringTextInputFormatter.digitsOnly
-      ],
-    ),
-  );
-}

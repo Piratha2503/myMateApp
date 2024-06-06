@@ -7,18 +7,39 @@ class Firebase{
   final CollectionReference clients =
   FirebaseFirestore.instance.collection('clients');
 
+  List<List<dynamic>> clientList = [];
+
   //GET
   Stream<QuerySnapshot> getClients() {
     return clients.snapshots();
+  }
+
+  //GET LIST
+  Future<void> getClientsList() async{
+    QuerySnapshot snapshot = await clients.get() ;
+    snapshot.docs.map((doc){
+      clientList.add([
+        doc['full_name'],
+        doc['gender'],
+        doc['education'],
+        doc['district'],
+        doc['occupation'],
+        doc['mobile'],
+        doc['religion'],
+        doc['age'],
+        doc['dob'],
+      ]);
+    });
+
   }
 
   //POST
   Future<void> addClient(){
 
     return clients.add({
-      'full_name': "Thaneswaran Suginshan",
-      'age': 28,
-      'dob': '25-03-1992',
+      'full_name': "Mannavarasan Venukanth",
+      'age': 31,
+      'dob': '28-03-1992',
       'mobile': 0778741623,
       'mobile_countryCode': 'lk',
       'gender': 'male',

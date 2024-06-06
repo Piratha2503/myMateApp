@@ -80,8 +80,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 child: const Row(
                   children: <Widget>[
                     Text("By tapping"),
-                    Text(
-                      ' "Get Started" ',
+                    Text( "Get Started" ,
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -103,9 +102,7 @@ class _WelcomePageState extends State<WelcomePage> {
               ),
             ],
           ),
-          Container(
-            height: 20,
-          ),
+          Container( height: 20, ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -116,11 +113,13 @@ class _WelcomePageState extends State<WelcomePage> {
                   onPressed: Clicked,
                   style: ButtonStyle(
                     foregroundColor: MaterialStatePropertyAll(Colors.white),
-                    backgroundColor:
-                        MaterialStatePropertyAll(MyMateThemes.primaryColor),
-                    shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero)),
-                  ),
+                    backgroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
+                              shape: MaterialStatePropertyAll(
+                                      RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.zero
+                                              )
+                                            ),
+                                          ),
                   child: const Text(
                     "Get Started",
                     style: TextStyle(fontSize: 18),

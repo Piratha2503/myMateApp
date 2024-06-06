@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mymateapp/Homepages/GenerateChart.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 
 class ChartOptions extends StatefulWidget{
@@ -10,6 +11,11 @@ class ChartOptions extends StatefulWidget{
 }
 
 class _ChartOptionsState extends State<ChartOptions> {
+
+  void onTab(){
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>GenerateChart()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,87 +60,86 @@ class _ChartOptionsState extends State<ChartOptions> {
       )),
     );
   }
-}
 
-Widget GenerateChartGestureDetector(){
-  return GestureDetector(
-    onTap: (){
-      print("Hello");
-    },
-    child: Container(
-      height: 125,
-      width: 300,
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: MyMateThemes.secondaryColor,
-            spreadRadius: 5,
-            offset: Offset(0, 3), // changes position of shadow
-          ),
-        ],
-        borderRadius: BorderRadius.circular(10),
+  Widget GenerateChartGestureDetector(){
+    return GestureDetector(
+      onTap: onTab,
+      child: Container(
+        height: 125,
+        width: 300,
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: MyMateThemes.secondaryColor,
+              spreadRadius: 5,
+              offset: Offset(0, 3), // changes position of shadow
+            ),
+          ],
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: const Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.table_chart,
+              size: 50,
+              color: MyMateThemes.textColor,
+
+            ),
+            SizedBox(height: 10,),
+            Text(
+              "Generate the chart",
+
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  color: MyMateThemes.textGray),
+            )
+          ],
+        ),
       ),
-      child: const Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.table_chart,
-            size: 50,
-            color: MyMateThemes.textColor,
+    );
+  }
 
-          ),
-          SizedBox(height: 10,),
-          Text(
-            "Generate the chart",
+  Widget ManualChartGestureDetector(){
+    return GestureDetector(
+      onTap: (){
 
-            style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-                color: MyMateThemes.textGray),
-          )
-        ],
+      },
+      child: Container(
+
+        height: 125,
+        width: 300,
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: MyMateThemes.secondaryColor,
+              spreadRadius: 5,
+              offset: Offset(0, 3), // changes position of shadow
+            ),
+          ],
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: const Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.ads_click,
+              size: 50,
+              color: MyMateThemes.textColor,
+            ),
+            SizedBox( height: 10, ),
+            Text(
+              "Enter chart manually",
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  color: MyMateThemes.textGray),
+            )
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
-Widget ManualChartGestureDetector(){
-  return GestureDetector(
-    onTap: (){
-      print("Hello");
-    },
-    child: Container(
-
-      height: 125,
-      width: 300,
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: MyMateThemes.secondaryColor,
-            spreadRadius: 5,
-            offset: Offset(0, 3), // changes position of shadow
-          ),
-        ],
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: const Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.ads_click,
-            size: 50,
-            color: MyMateThemes.textColor,
-          ),
-          SizedBox( height: 10, ),
-          Text(
-            "Enter chart manually",
-            style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-                color: MyMateThemes.textGray),
-          )
-        ],
-      ),
-    ),
-  );
 }

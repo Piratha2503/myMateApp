@@ -1,7 +1,11 @@
+import 'package:csc_picker/dropdown_with_search.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:mymateapp/MyMateThemes.dart';
-
-import 'NameAndGenderPage.dart';
+import 'package:mymateapp/ThirdpartyLibraries/GoogleAPIs.dart';
+import 'package:scroll_date_picker/scroll_date_picker.dart';
+import 'package:scroll_wheel_date_picker/scroll_wheel_date_picker.dart';
 
 class GenerateChart extends StatefulWidget {
   const GenerateChart({super.key});
@@ -10,10 +14,7 @@ class GenerateChart extends StatefulWidget {
 }
 
 class _GenerateChartState extends State<GenerateChart> {
-  List<DropdownMenuItem> dropdownMenuEntries = [
-    DropdownMenuItem(child: Text("Jaffna")),
-    DropdownMenuItem(child: Text("Kokkuvil"))
-  ];
+
   void onDateChanged() {
     print("Hi");
   }
@@ -28,15 +29,13 @@ class _GenerateChartState extends State<GenerateChart> {
       backgroundColor: MyMateThemes.backgroundColor,
       body: SafeArea(
           child: Center(
-        child: Column(
-          children: [
-            Container(
-              height: 10,
-            ),
-            const Flex(
-              direction: Axis.vertical,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Column(
               children: [
+              SizedBox( height: 10,),
+               Flex(
+                direction: Axis.vertical,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
                 Text(
                   "Enter birth details",
                   style: TextStyle(
@@ -50,44 +49,26 @@ class _GenerateChartState extends State<GenerateChart> {
                       fontSize: MyMateThemes.subHeadFontSize,
                       color: MyMateThemes.textColor),
                 ),
-                SizedBox(height: 10),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: Text("Make sure this number can receive SMS. "
-                      "You will receive your activation code "
-                      "through it."),
-                ),
-                SizedBox(height: 30),
+                SizedBox(height: 15),
               ],
             ),
             Container(
               width: 300,
               child: Column(
                 children: [
-                  CalendarDatePicker(
-                    initialDate: null,
-                    firstDate: DateTime.timestamp(),
-                    lastDate: DateTime.timestamp(),
-                    onDateChanged: (value) => {Colors.red},
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  TextField(
-                    decoration: GenerateChartsInputs("Place of birth (city)"),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  TextField(
-                    decoration: GenerateChartsInputs("Place of birth (city)"),
-                  ),
+
+                  SizedBox( height: 15,),
+                  GooglePlacesAPI("Place of birth (city)"),
+                  SizedBox( height: 7,),
+                  ScrollDate(),
+                  SizedBox( height: 7,),
+                  RasiNadchathiramInput("Rasi"),
+                  SizedBox( height: 7,),
+                  RasiNadchathiramInput("Nadchathiram"),
                 ],
               ),
             ),
-            SizedBox(
-              height: 30,
-            ),
+            SizedBox( height: 30,),
             SizedBox(
               height: 58,
               width: 166,
@@ -105,6 +86,73 @@ class _GenerateChartState extends State<GenerateChart> {
       )),
     );
   }
+
+  Widget RasiNadchathiramInput(String args){
+    String Rasi = "Your $args";
+    bool Nadchathiram = false;
+
+    List<String> rasiList = [
+      "Mesham", "Rishabam", "Mithunam", "Kadagam", "Simmam", "Kanni",
+      "Thulam", "Viruchigam", "Thanusu", "Magaram", "Kumbam", "Meenam"
+    ];
+    List<String> nadchathiraList = [
+      "Ashwini",  "Bharani", "Krittika", "Rohini", "Mrigashira",
+      "Arunthathi", "PunarPoosam", "Poosam", "Aayilyam", "Magam",
+      "Pooram", "Uththaram", "Hastham", "Chithra", "Swathi",
+      "Vishakam", "Anusham", "Keddai", "Moolam", "Pooradam",
+      "Utharadam", "Sathaya", "Thiruvonam", "Aviddam", "Pooraddathi",
+      "Uththaradathi", "Revathi",
+
+    ];
+    if(args == "Nadchathiram") Nadchathiram = true;
+    return DropdownWithSearch(
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: Colors.black45,
+            width: 1.5,
+          ),
+        ),
+      ),
+        title: "$args",
+        placeHolder: "Search your $args",
+        items: Nadchathiram ? nadchathiraList : rasiList,
+        onChanged: (val){
+          Rasi = val;
+          print(Rasi);
+        },
+        selected: Rasi,
+        label: "",
+      itemStyle: TextStyle(
+        fontSize: 15,
+        fontWeight: FontWeight.w500,
+      ),
+      selectedItemStyle: TextStyle(
+        color: Colors.black54,
+        fontSize: 20,
+        fontWeight: FontWeight.w600,
+      ),
+    );
+  }
+Widget ScrollDate(){
+  DateTime _selectedDate = DateTime.now();
+    void onDateTimeChanged(DateTime date){
+      print(date);
+    }
+    return SizedBox(
+      height: 200,
+      child: ScrollWheelDatePicker(
+
+          theme: FlatDatePickerTheme(
+              backgroundColor: MyMateThemes.backgroundColor,
+              itemTextStyle: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 20,
+              )
+          )
+      ),
+    );
+}
 }
 
 class GenerateChartsInputs extends InputDecoration {
@@ -122,3 +170,7 @@ class GenerateChartsInputs extends InputDecoration {
         fontFamily: "Work Sans",
       );
 }
+
+/*
+
+ */
