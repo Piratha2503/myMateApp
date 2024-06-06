@@ -38,11 +38,12 @@ dependencies:
   country_picker: ^2.0.25
   csc_picker: ^0.2.7
   google_places_flutter: ^2.0.8
+
   intl_phone_field:
   http: ^1.2.1
   flutter_typeahead: ^5.2.0
   flutter_stepindicator: ^0.1.7
-  image_picker: ^1.1.1
+  image_picker: ^1.1.2
   image_cropper: ^6.0.0
   animated_splash_screen: ^1.3.0
   badges: ^3.1.2

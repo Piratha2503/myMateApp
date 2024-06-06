@@ -57,34 +57,88 @@ class _SubscribedhomescreenPageState extends State<SubscribedhomescreenPage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Text("Congratulations! You have received "),
-              Row(
-                children: [
-                  Text(
-                    "10 free",
-                    style: TextStyle(color: MyMateThemes.primaryColor),
+        return Stack(
+          children: [
+            Positioned(
+              top: MediaQuery.of(context).size.height *
+                  0.55, // Adjust the top position as needed
+              left: MediaQuery.of(context).size.width *
+                  0.01, // Adjust the left position as needed
+              right: MediaQuery.of(context).size.width *
+                  0.001, // Adjust the right position as needed
+              child: Dialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Container(
+                  width: 1000, // Set your desired width
+                  height: 270, // Set your desired height
+                  padding: EdgeInsets.all(20),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(
+                        "Congratulations! You have received ",
+                        style: TextStyle(
+                          color: MyMateThemes.textColor,
+                          letterSpacing: 1.5, // Adjust letter spacing as needed
+                          wordSpacing: 2.0, // Adjust word spacing as needed
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            '10 free ',
+                            style: TextStyle(
+                              color: MyMateThemes.primaryColor,
+                              letterSpacing:
+                                  1.5, // Adjust letter spacing as needed
+                              wordSpacing: 2.0, // Adjust word spacing as needed
+                            ),
+                          ),
+                          Text(
+                            'Tokens. You can spend free',
+                            style: TextStyle(
+                              color: MyMateThemes.textColor,
+                              letterSpacing:
+                                  1.5, // Adjust letter spacing as needed
+                              wordSpacing: 2.0, // Adjust word spacing as needed
+                            ),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        "tokens to access  Following",
+                        style: TextStyle(
+                          color: MyMateThemes.textColor,
+                          letterSpacing: 1.5, // Adjust letter spacing as needed
+                          wordSpacing: 2.0, // Adjust word spacing as needed
+                        ),
+                      ),
+                      Text(
+                        "features only",
+                        style: TextStyle(
+                          color: MyMateThemes.textColor,
+                          letterSpacing: 1.5, // Adjust letter spacing as needed
+                          wordSpacing: 2.0, // Adjust word spacing as needed
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      SvgPicture.asset('assets/images/Group 2216.svg'),
+                      SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(); // Close the dialog
+                        },
+                        style: CommonButtonStyle.commonButtonStyle(),
+                        child: Text('Continue'),
+                      ),
+                    ],
                   ),
-                  Text('Tokens.You can spend free'),
-                ],
+                ),
               ),
-              Text("tokens to access these Following"),
-              Text("features only"),
-              SizedBox(height: 20),
-              SvgPicture.asset('assets/images/Group 2216.svg'),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop(); // Close the dialog
-                },
-                style: CommonButtonStyle.commonButtonStyle(),
-                child: Text('Continue'),
-              ),
-            ],
-          ),
+            ),
+          ],
         );
       },
     );
