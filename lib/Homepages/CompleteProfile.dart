@@ -8,6 +8,7 @@ import 'package:mymateapp/Homepages/MyProfile.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/Homepages/ClosableContainer.dart';
 import 'package:mymateapp/Homepages/SubscribedHomeScreen.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 
 class CompleteProfilePage extends StatefulWidget {
   const CompleteProfilePage({Key? key}) : super(key: key);
@@ -139,7 +140,7 @@ Widget _buildTextFieldRow({required String label, required String hintText}) {
         ),
         Positioned(
           left:
-              192, // Adjust this value to set the starting position of the hint text
+              180, // Adjust this value to set the starting position of the hint text
           right: 0,
           top: 0,
           bottom: 0,
@@ -182,20 +183,23 @@ Widget _buildDropdownRow({
         Text(label, style: TextStyle(color: Colors.black)),
         Spacer(),
         SizedBox(width: 5),
-        DropdownButton<String>(
-          value: value,
-          onChanged: onChanged,
-          items: items.map<DropdownMenuItem<String>>((String item) {
-            return DropdownMenuItem<String>(
-              value: item,
-              child: Text(
-                item,
-                style: item == '-- Select Option --'
-                    ? TextStyle(color: MyMateThemes.textColor.withOpacity(0.5))
-                    : TextStyle(color: MyMateThemes.textColor),
-              ),
-            );
-          }).toList(),
+        DropdownButtonHideUnderline(
+          child: DropdownButton2<String>(
+            value: value,
+            onChanged: onChanged,
+            items: items.map<DropdownMenuItem<String>>((String item) {
+              return DropdownMenuItem<String>(
+                value: item,
+                child: Text(
+                  item,
+                  style: item == '-- Select Option --'
+                      ? TextStyle(
+                          color: MyMateThemes.textColor.withOpacity(0.5))
+                      : TextStyle(color: MyMateThemes.textColor),
+                ),
+              );
+            }).toList(),
+          ),
         ),
       ],
     ),
@@ -455,7 +459,6 @@ class _PageTwoState extends State<PageTwo> {
 }
 
 class PageThree extends StatefulWidget {
-  final controller = TextEditingController();
   @override
   _PageThreeState createState() => _PageThreeState();
 }
@@ -467,15 +470,33 @@ class _PageThreeState extends State<PageThree> {
   List<TextEditingController> controllers = [];
   List<String> errors = [];
 
+  final TextEditingController _bioController = TextEditingController();
   int characterCount = 0;
   String error = '';
 
   @override
   void initState() {
     super.initState();
-
+    _bioController.addListener(_updateCharacterCount);
     // Add the initial container
     addNewContainer();
+  }
+
+  @override
+  void dispose() {
+    _bioController.removeListener(_updateCharacterCount);
+    _bioController.dispose();
+    for (var controller in controllers) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
+
+  void _updateCharacterCount() {
+    setState(() {
+      characterCount = _bioController.text.length;
+      error = characterCount > 192 ? 'Character limit exceeded' : '';
+    });
   }
 
   void addNewContainer() {
@@ -489,6 +510,93 @@ class _PageThreeState extends State<PageThree> {
       controllers.removeAt(index);
       errors.removeAt(index);
     });
+  }
+
+  Widget _buildDropdownRow({
+    required String label,
+    required String? value,
+    required List<String> items,
+    required ValueChanged<String?> onChanged,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        color: MyMateThemes.secondaryColor,
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      width: 346,
+      height: 42,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(width: 15), // Add this line
+          Text(label, style: TextStyle(color: Colors.black)),
+          Spacer(),
+          SizedBox(width: 5),
+          DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+              value: value,
+              onChanged: onChanged,
+              items: items.map<DropdownMenuItem<String>>((String item) {
+                return DropdownMenuItem<String>(
+                  value: item,
+                  child: Text(
+                    item,
+                    style: item == '-- Select Option --'
+                        ? TextStyle(
+                            color: MyMateThemes.textColor.withOpacity(0.5))
+                        : TextStyle(color: MyMateThemes.textColor),
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTextFieldRow({required String label, required String hintText}) {
+    return Container(
+      decoration: BoxDecoration(
+        color: MyMateThemes.secondaryColor,
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      width: 346,
+      height: 44,
+      child: Stack(
+        children: [
+          Positioned(
+            left: 15,
+            top: 0,
+            bottom: 0,
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(label, style: TextStyle(color: Colors.black)),
+            ),
+          ),
+          Positioned(
+            left:
+                192, // Adjust this value to set the starting position of the hint text
+            right: 0,
+            top: 0,
+            bottom: 0,
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: hintText,
+                  hintStyle:
+                      TextStyle(color: MyMateThemes.textColor.withOpacity(0.5)),
+                  border: InputBorder.none,
+                ),
+                style: TextStyle(color: MyMateThemes.textColor),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -539,16 +647,6 @@ class _PageThreeState extends State<PageThree> {
               hintText: "Enter Number",
             ),
             SizedBox(height: 10),
-            // Container(
-            //   height: 93,
-            //   width: 346,
-            //   color: MyMateThemes.secondaryColor,
-            //   child: _buildTextFieldRow(
-            //     label: "Bio",
-            //     hintText: "(192 Letters)",
-            //   ),
-            // ),
-
             Container(
               decoration: BoxDecoration(
                 color: MyMateThemes.secondaryColor,
@@ -561,11 +659,13 @@ class _PageThreeState extends State<PageThree> {
                   child: Column(
                     children: [
                       TextField(
-                        controller: widget.controller,
+                        controller: _bioController,
                         maxLength: 192,
                         maxLines:
                             null, // Allow the TextField to expand vertically
                         minLines: 1,
+                        textInputAction: TextInputAction
+                            .done, // Show done button on keyboard
                         decoration: InputDecoration(
                           label: Text(
                             'Bio',
@@ -580,17 +680,6 @@ class _PageThreeState extends State<PageThree> {
                               ? '$characterCount/192'
                               : '',
                         ),
-                        onChanged: (text) {
-                          setState(() {
-                            characterCount = text.length;
-                            error = characterCount > 192
-                                ? 'Character limit exceeded'
-                                : '';
-                            if (characterCount > 192) {
-                              // _showAlertDialog(context);
-                            }
-                          });
-                        },
                       ),
                       if (error.isNotEmpty)
                         Text(
@@ -604,7 +693,6 @@ class _PageThreeState extends State<PageThree> {
                 ),
               ),
             ),
-
             SizedBox(height: 25),
             Row(
               children: [
@@ -653,7 +741,6 @@ class _PageThreeState extends State<PageThree> {
                   foregroundColor: MaterialStateProperty.all<Color>(
                       MyMateThemes.primaryColor),
                 ),
-                // Choose either approach for setting width and height:
               ),
             ),
             SizedBox(height: 100),
