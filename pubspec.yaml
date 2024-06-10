@@ -52,6 +52,8 @@ dependencies:
   scroll_datetime_picker: ^0.1.2
   scroll_date_picker: ^3.8.0
   scroll_wheel_date_picker: ^0.0.2+1
+  scroll_time_picker: ^1.1.0
+  card_swiper: ^3.0.1
 
 
 

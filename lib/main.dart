@@ -45,8 +45,8 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
           primaryColor: Colors.blue[200]),
-      debugShowCheckedModeBanner: false,
-      home: StartPage(),
+          debugShowCheckedModeBanner: false,
+      home: GenerateChart(),
     );
   }
 }

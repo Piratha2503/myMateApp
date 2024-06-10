@@ -5,6 +5,7 @@ import 'package:google_places_flutter/model/prediction.dart';
 class GooglePlacesAPI extends StatefulWidget{
   GooglePlacesAPI(this.hint,{super.key});
   String hint;
+
   @override
   State<GooglePlacesAPI> createState() => _GooglePlacesAPIState();
 }
