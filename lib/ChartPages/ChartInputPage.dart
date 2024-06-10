@@ -35,29 +35,21 @@ class _ChartInputPageState extends State<ChartInputPage> {
             width: 375,
             child: PlaceSearch(),
           ),
-          const SizedBox(
-            height: 2,
-          ),
-          SizedBox(
-            height: 50,
-            width: 375,
+          const SizedBox( height: 2, ),
+
+          SizedBox( height: 50, width: 375,
             child: DOB(),
           ),
-          SizedBox(
-            height: 50,
-            width: 375,
+          SizedBox( height: 50, width: 375,
             child: TOB(),
           ),
-          SizedBox(
-            height: 50,
-            width: 375,
+          SizedBox( height: 50, width: 375,
             child: Rasi(),
           ),
-          SizedBox(
-            height: 50,
-            width: 375,
+          SizedBox( height: 50, width: 375,
             child: Nadchathira(),
           ),
+
         ],
       ),
     );
@@ -206,6 +198,8 @@ Widget ContainerColumn() {
       SizedBox(
         height: 10,
       ),
+      SizedBox(height: 10,),
+
       Text(
         "Make sure this number can receive SMS.",
         style: TextStyle(fontSize: 14),

@@ -1,12 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'BadgeWidget.dart';
+import '../dbConnection/Firebase.dart';
 import 'bottom_navigation_bar.dart';
 import 'custom_outline_button.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  final String docId;
+  const ProfilePage({required this.docId,Key? key}) : super(key: key);
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -14,6 +17,36 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage>
     with TickerProviderStateMixin {
+
+  String full_name = "";
+  String gender = "";
+  String education = "";
+  String district = "";
+  String occupation = "";
+  String mobile = "";
+  String religion = "";
+  String age = "";
+  String dob = "";
+
+  final Firebase firebase = Firebase();
+
+  Future<void> getClient() async {
+    DocumentSnapshot client = await firebase.clients.doc(widget.docId).get();
+
+    setState(() {
+      full_name = client['full_name']??"N/A";
+      gender = client['gender']??"N/A";
+      education = client['education']??"N/A";
+      district = client['district']??"N/A";
+      occupation = client['occupation']??"N/A";
+      mobile = client['mobile'].toString()??"N/A";
+      religion = client['religion']??"N/A";
+      age = client['age'].toString()??"N/A";
+      dob = client['dob'] ?? "N/A";
+
+    });
+  }
+
   bool _isSmall = false;
   int _selectedIndex = 0;
   int _selectedButtonIndex = 0;
@@ -27,8 +60,10 @@ class _ProfilePageState extends State<ProfilePage>
   @override
   void initState() {
     super.initState();
+    getClient();
     _scrollController.addListener(_scrollListener);
   }
+
 
   @override
   void dispose() {
@@ -36,6 +71,7 @@ class _ProfilePageState extends State<ProfilePage>
     _scrollController.dispose();
     super.dispose();
   }
+
 
   void _toggleSize() {
     setState(() {
@@ -77,7 +113,7 @@ class _ProfilePageState extends State<ProfilePage>
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                SizedBox(width: 80),
+                SizedBox(width: 50),
                 Text(
                   '@user240676',
                   style: TextStyle(
@@ -125,7 +161,7 @@ class _ProfilePageState extends State<ProfilePage>
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  'Full Name',
+                  '$full_name',
                   style: TextStyle(
                     color: MyMateThemes.primaryColor,
                     fontSize: 20,
@@ -308,11 +344,11 @@ class _ProfilePageState extends State<ProfilePage>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _buildIconWithText('assets/images/Group 2145.svg',
-                          'Hello', '12 Dec 1997'),
+                          '$age years', '$dob'),
                       _buildIconWithText('assets/images/Group 2146.svg',
-                          'Teacher', 'Mannar - SL'),
+                          '$occupation', '$district - '),
                       _buildIconWithText('assets/images/Group 2147.svg',
-                          'Jaffna', 'Sri Lanka'),
+                          '$district', 'Sri Lanka'),
                     ],
                   ),
                   SizedBox(height: 30),

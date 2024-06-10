@@ -1,7 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:mymateapp/Homepages/MyProfile.dart';
+import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/dbConnection/Firebase.dart';
+import 'package:mymateapp/dbConnection/viewPage.dart';
 
 class crudApp extends StatefulWidget{
   const crudApp({super.key});
@@ -14,12 +18,67 @@ class _crudAppState extends State<crudApp>{
 
   final Firebase firebase = Firebase();
 
+  Widget ClientCard(String msg, String img_address){
+    return Card(
+
+      shadowColor: Colors.white,
+      color: Colors.white60,
+      child: Column(
+
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image(image: AssetImage(img_address),height: 75,width: 200,),
+          SizedBox(height: 10,),
+          Text(msg,
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 17,
+            ),
+          ),
+
+        ],
+      ),
+    );
+  }
+
+  Widget MyGridContainer(String msg, String img_address){
+    return Align(
+      alignment: Alignment.topCenter,
+      child: Container(
+        height: 300, // Increase the height of the container
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          boxShadow: CupertinoContextMenu.kEndBoxShadow,
+          color: Colors.white,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Image(image: AssetImage("assets/images/a.jpeg"), height: 75),
+            SizedBox(height: 10),
+            Text(
+              msg,
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 15,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+
+  }
+
   @override
    Widget build(BuildContext context) {
 
-    return Scaffold(
+  List<List<dynamic>> MyClients = firebase.clientList;
+
+     return Scaffold(
       appBar: AppBar(
-        backgroundColor: CupertinoColors.systemBlue,
+        backgroundColor: MyMateThemes.primaryColor,
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: firebase.getClients(),
@@ -34,36 +93,29 @@ class _crudAppState extends State<crudApp>{
           }
 
           final clients = snapshot.data!.docs;
+          List<Widget> clientContainers = clients.map((client) {
+            const img_address = "assets/images/a.jpeg";
+            final clientName = client['full_name'];
+            return MyGridContainer(clientName,img_address);
+          }).toList();
+          return GridView.count(
+            scrollDirection: Axis.vertical,
+            primary: false,
+            padding: const EdgeInsets.all(10),
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            crossAxisCount: 2,
 
-          return ListView.builder(
-            itemCount: clients.length,
-            itemBuilder: (context, index) {
-              final client = clients[index];
-              final clientName = client['Name'];
-              final docId = client.id;
-
-              return ListTile(
-                title: Text(clientName,
-                style: const TextStyle(
-                  fontSize: 30,
-                  color: Colors.orange,
-                  fontWeight: FontWeight.w600
-                ),),
-                trailing: IconButton(onPressed: (){
-                  firebase.deleteClient(docId);
-                }, icon: const Icon(Icons.settings)),
-                onTap: (){
-                  firebase.updateClient(docId,"Jathu");
-                },
-
-              );
-            },
+            children: clientContainers,
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(onPressed: (){
+        floatingActionButton: FloatingActionButton(onPressed: (){
         firebase.addClient();
-      }),
+      },
+      backgroundColor: MyMateThemes.textColor,
+      foregroundColor: Colors.white,
+          child: Icon(Icons.add,size: 30,weight: 600,),),
     );
   }
 }

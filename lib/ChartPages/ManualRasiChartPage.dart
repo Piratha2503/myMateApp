@@ -184,6 +184,7 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                // Add more Positioned widgets for other buttons similarly
               ],
             ),
           ),

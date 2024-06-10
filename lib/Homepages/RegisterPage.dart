@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:mymateapp/Homepages/OTPPage.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -21,6 +23,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
   void handlePhoneNumber() {
     print("Phone Number is:- $phoneNumber");
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>const otpPage()));
+
   }
 
   @override
@@ -47,12 +51,11 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
             ),
-            Container(
-              height: 15,
-            ),
+            SizedBox(height: 15,),
             Center(
               child: Text("Make sure this number can receive SMS.",
-                  style: MyTextStyle()),
+                  style: MyTextStyle(),
+              ),
             ),
             Center(
               child: Text(
@@ -94,10 +97,10 @@ class _RegisterPageState extends State<RegisterPage> {
                   onPressed: handlePhoneNumber,
                   style: const ButtonStyle(
                     foregroundColor: MaterialStatePropertyAll(Colors.white),
-                    backgroundColor:
-                        MaterialStatePropertyAll(MyMateThemes.primaryColor),
+                    backgroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
                     shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero)),
+                        borderRadius: BorderRadius.zero)
+                    ),
                   ),
                   child: const Text(
                     "Continue",
@@ -107,12 +110,13 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             )
           ],
-        ));
+        )
+    );
   }
 }
 
-class MyTextStyle extends TextStyle {
-  @override
-  // TODO: implement fontSize
-  double? get fontSize => 14;
+TextStyle MyTextStyle(){
+  return TextStyle(
+    fontSize: 14,
+  );
 }

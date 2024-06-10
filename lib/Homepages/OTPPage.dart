@@ -2,6 +2,8 @@ import 'package:country_picker/country_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
+import 'package:mymateapp/Homepages/NameAndGenderPage.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 
 class otpPage extends StatefulWidget {
@@ -13,16 +15,9 @@ class otpPage extends StatefulWidget {
 
 class _otpPage extends State<otpPage> {
   void Check() {
-    showCountryPicker(
-      context: context,
-      showPhoneCode:
-          true, // optional. Shows phone code before the country name.
-      onSelect: (Country country) {
-        print(country.displayName);
-      },
-    );
-  }
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>const NameAndGender()));
 
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +37,7 @@ class _otpPage extends State<otpPage> {
               ),
             ),
           ),
-          Container(
+          SizedBox(
             height: 15,
           ),
           Center(
@@ -65,82 +60,23 @@ class _otpPage extends State<otpPage> {
                     child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    SizedBox(
-                      height: 68,
-                      width: 64,
-                      child: TextField(
-                        style: Theme.of(context).textTheme.headlineLarge,
-                        decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            hoverColor: Color(0xFF19434E)),
-                        keyboardType: TextInputType.number,
-                        textAlign: TextAlign.center,
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(1),
-                          FilteringTextInputFormatter.digitsOnly
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 68,
-                      width: 64,
-                      child: TextField(
-                        style: Theme.of(context).textTheme.headlineLarge,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                        ),
-                        keyboardType: TextInputType.number,
-                        textAlign: TextAlign.center,
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(1),
-                          FilteringTextInputFormatter.digitsOnly
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 68,
-                      width: 64,
-                      child: TextField(
-                        style: Theme.of(context).textTheme.headlineLarge,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                        ),
-                        keyboardType: TextInputType.number,
-                        textAlign: TextAlign.center,
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(1),
-                          FilteringTextInputFormatter.digitsOnly
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 68,
-                      width: 64,
-                      child: TextField(
-                        style: Theme.of(context).textTheme.headlineLarge,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                        ),
-                        keyboardType: TextInputType.number,
-                        textAlign: TextAlign.center,
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(1),
-                          FilteringTextInputFormatter.digitsOnly
-                        ],
-                      ),
-                    ),
+                    OtpSizedBox(),
+                    OtpSizedBox(),
+                    OtpSizedBox(),
+                    OtpSizedBox(),
                   ],
-                ))),
+                )
+                )
+            ),
           ),
           Container(
-            height: 25,
+            height: 50,
           ),
-          Container(
-            height: 25,
-          ),
+
           const Center(
-            child: Row(
+           child:  Row(
               mainAxisAlignment: MainAxisAlignment.center,
+
               children: <Widget>[
                 Text(
                   "Resend OTP again in ",
@@ -177,6 +113,32 @@ class _otpPage extends State<otpPage> {
           )
         ]));
   }
+
+  Widget OtpSizedBox(){
+    return SizedBox(
+      height: 68,
+      width: 64,
+      child: TextField(
+        onChanged: (value){
+          FocusScope.of(context).nextFocus();
+        },
+        style: const TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.w600
+        ),
+        decoration: const InputDecoration(
+          border: OutlineInputBorder(),
+        ),
+        keyboardType: TextInputType.number,
+        textAlign: TextAlign.center,
+        inputFormatters: [
+          LengthLimitingTextInputFormatter(1),
+          FilteringTextInputFormatter.digitsOnly
+        ],
+      ),
+    );
+  }
+
 }
 
 class MyTextStyle extends TextStyle {
@@ -184,3 +146,4 @@ class MyTextStyle extends TextStyle {
   // TODO: implement fontSize
   double? get fontSize => 14;
 }
+

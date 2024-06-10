@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:mymateapp/ChartPages/ChartCalPage.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:mymateapp/Homepages/FirstWelcomeScreen.dart';
+import 'package:mymateapp/Homepages/ScrollDateTimePicker.dart';
 import 'package:mymateapp/ChartPages/ManualRasiChartPage.dart';
 import 'package:mymateapp/ManagePages/SummaryPage.dart';
 import 'package:mymateapp/dbConnection/crudApp.dart';
 import 'Homepages/CompleteProfile.dart';
 import 'Homepages/FirstWelcomeScreen.dart';
 import 'Homepages/SubscribedHomeScreen.dart';
+import 'firebase_options.dart';
+import 'package:mymateapp/dbConnection/viewPage.dart';
 import 'firebase_options.dart';
 import 'package:mymateapp/ChartPages/ChartInputPage.dart';
 import 'package:mymateapp/ChartPages/ChartViewPage.dart';
@@ -32,10 +36,10 @@ import 'package:mymateapp/Homepages/OthersProfile.dart';
 import 'package:mymateapp/Homepages/AddTokenPage.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+   WidgetsFlutterBinding.ensureInitialized();
+   await Firebase.initializeApp(
+     options: DefaultFirebaseOptions.currentPlatform,
+   );
   runApp(const MyApp());
 }
 
@@ -50,12 +54,10 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
           primaryColor: Colors.blue[200]),
-      debugShowCheckedModeBanner: false,
-      home: AddTokenPage(),
+          debugShowCheckedModeBanner: false,
+      home: GenerateChart(),
     );
   }
 }
 
-/*
-AIzaSyAA71gXSi3WeW2NaC4aIzMMlmuVCP0rrV
-*/
+

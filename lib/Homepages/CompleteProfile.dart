@@ -110,6 +110,7 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => SubscribedhomescreenPage()),
+            MaterialPageRoute(builder: (context) => ProfilePage(docId: "",)),
           );
         }
       },
@@ -392,13 +393,7 @@ class _PageTwoState extends State<PageTwo> {
           _buildDropdownRow(
             label: "District",
             value: _selectedDistrict,
-            items: [
-              '-- Select Option --',
-              'Jaffna',
-              'Vavuniya',
-              'Colombo',
-              'Badulla'
-            ],
+            items: ['--  Select Option  --', 'Jaffna', 'Colombo'],
             onChanged: (value) => setState(() {
               _selectedDistrict = value;
             }),

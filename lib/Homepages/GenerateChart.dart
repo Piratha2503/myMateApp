@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mymateapp/MyMateThemes.dart';
-
-import 'NameAndGenderPage.dart';
+import 'package:mymateapp/ThirdpartyLibraries/GoogleAPIs.dart';
+import 'package:scroll_date_picker/scroll_date_picker.dart';
+import 'package:scroll_time_picker/scroll_time_picker.dart';
 
 class GenerateChart extends StatefulWidget {
   const GenerateChart({super.key});
@@ -10,16 +11,96 @@ class GenerateChart extends StatefulWidget {
 }
 
 class _GenerateChartState extends State<GenerateChart> {
-  List<DropdownMenuItem> dropdownMenuEntries = [
-    DropdownMenuItem(child: Text("Jaffna")),
-    DropdownMenuItem(child: Text("Kokkuvil"))
-  ];
-  void onDateChanged() {
-    print("Hi");
+
+  Future<void> _showDateModal(BuildContext context) {
+    DateTime date = DateTime.now();
+    return showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Column(
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                    onPressed: (){Navigator.pop(context);},
+                    icon: Icon(Icons.close,size: 30,weight: 600,))
+              ],
+            ),
+          SizedBox(
+          height: 300,
+          child: ScrollDatePicker(
+            selectedDate: date,
+            locale: Locale('en'),
+            onDateTimeChanged: (DateTime value) {
+              setState(() {
+                date = value;
+              });
+            },
+          ),
+        ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: 20,),
+                TextButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(
+                          MyMateThemes.secondaryColor
+                      ),
+                    ),
+                    onPressed: (){Navigator.pop(context);},
+                    child: Text("Select")),
+
+              ],
+            ),
+          ],
+        );
+
+      },
+    );
   }
 
-  void onPressed() {
-    print("object");
+  Future<void> _showTimeModal(BuildContext context) {
+    DateTime time = DateTime.now();
+    return showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                    onPressed: (){Navigator.pop(context);},
+                    icon: Icon(Icons.close,size: 30,weight: 600,))
+              ],
+            ),
+            SizedBox(
+              height: 150,
+              child: ScrollTimePicker(
+                selectedTime: time,
+                is12hFormat: true,
+                onDateTimeChanged: (DateTime value) {
+                  setState(() {
+                    time = value;
+                  });
+                },
+              ),
+            ),
+            SizedBox(height: 25,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                    onPressed: (){Navigator.pop(context);},
+                    child: Text("Select")),
+                ],
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -28,71 +109,43 @@ class _GenerateChartState extends State<GenerateChart> {
       backgroundColor: MyMateThemes.backgroundColor,
       body: SafeArea(
           child: Center(
-        child: Column(
-          children: [
-            Container(
-              height: 10,
-            ),
-            const Flex(
-              direction: Axis.vertical,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Column(
               children: [
-                Text(
-                  "Enter birth details",
-                  style: TextStyle(
-                    fontSize: MyMateThemes.nomalFontSize,
-                  ),
-                ),
+              SizedBox( height: 10,),
+               Flex(
+                direction: Axis.vertical,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
                 SizedBox(height: 10),
                 Text(
-                  "to calculate your Astrology chart",
+                  "Calculate your Astrology chart",
                   style: TextStyle(
                       fontSize: MyMateThemes.subHeadFontSize,
+                      fontWeight: FontWeight.w600,
                       color: MyMateThemes.textColor),
                 ),
-                SizedBox(height: 10),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: Text("Make sure this number can receive SMS. "
-                      "You will receive your activation code "
-                      "through it."),
-                ),
-                SizedBox(height: 30),
+                SizedBox(height: 15),
               ],
             ),
-            Container(
+            SizedBox(
               width: 300,
               child: Column(
                 children: [
-                  CalendarDatePicker(
-                    initialDate: null,
-                    firstDate: DateTime.timestamp(),
-                    lastDate: DateTime.timestamp(),
-                    onDateChanged: (value) => {Colors.red},
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  TextField(
-                    decoration: GenerateChartsInputs("Place of birth (city)"),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  TextField(
-                    decoration: GenerateChartsInputs("Place of birth (city)"),
-                  ),
+                  SizedBox( height: 10,),
+                  GooglePlacesAPI("Place of birth (city)"),
+                  SizedBox( height: 10,),
+                  DateTimeSelect(true),
+                  SizedBox( height: 10,),
+                  DateTimeSelect(false),
                 ],
               ),
             ),
-            SizedBox(
-              height: 30,
-            ),
+            SizedBox( height: 50,),
             SizedBox(
               height: 58,
               width: 166,
               child: ElevatedButton(
-                onPressed: onPressed,
+                onPressed: (){Navigator.pop(context);},
                 style: CommonButtonStyle.commonButtonStyle(),
                 child: Text(
                   "Next",
@@ -105,20 +158,39 @@ class _GenerateChartState extends State<GenerateChart> {
       )),
     );
   }
-}
 
-class GenerateChartsInputs extends InputDecoration {
-  final String myHint;
+  Widget DateTimeSelect(bool date){
+    return GestureDetector(
+      onTap: ()=> date ? _showDateModal(context) : _showTimeModal(context),
+      child: Container(
+          height: 50,
+          width: 300,
+          decoration: BoxDecoration(
+              border: Border(
+                  bottom: BorderSide(
+                    width: 1,
+                  )
+              )
+          ),
+          child: Padding(
+            padding: EdgeInsets.only(
+              left: 10,
+              top: 5,
+            ),
+            child: Text(date ? "Date of Birth" : "Time of Birth",
+              style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.black54,
+                  fontWeight: FontWeight.w600
+              ),),
+          )
+      ),
 
-  const GenerateChartsInputs(this.myHint);
-  @override
-  // TODO: implement hintText
-  String? get hintText => myHint;
+    );
+  }
 
-  @override
-  // TODO: implement hintStyle
-  TextStyle? get hintStyle => const TextStyle(
-        fontSize: 20,
-        fontFamily: "Work Sans",
-      );
-}
+  }
+
+
+
+

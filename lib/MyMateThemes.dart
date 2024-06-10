@@ -11,7 +11,6 @@ class MyMateThemes {
   static const containerColor = Color(0xFFF5F5F7);
   static const premiumAccent = Color(0xFFFFB743);
   static const textGray = Color.fromRGBO(27, 31, 27, 100);
-
   static const double buttonFontSize = 18;
   static const double nomalFontSize = 18;
   static const double subHeadFontSize = 20;

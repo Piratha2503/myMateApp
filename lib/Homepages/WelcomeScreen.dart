@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:mymateapp/Homepages/RegisterPage.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -12,7 +13,7 @@ class WelcomePage extends StatefulWidget {
 
 class _WelcomePageState extends State<WelcomePage> {
   void Clicked() {
-    print("Hello");
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>const RegisterPage()));
   }
 
   @override
@@ -79,8 +80,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 child: const Row(
                   children: <Widget>[
                     Text("By tapping"),
-                    Text(
-                      ' "Get Started" ',
+                    Text( "Get Started" ,
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -102,9 +102,7 @@ class _WelcomePageState extends State<WelcomePage> {
               ),
             ],
           ),
-          Container(
-            height: 20,
-          ),
+          Container( height: 20, ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -113,13 +111,15 @@ class _WelcomePageState extends State<WelcomePage> {
                 width: 166,
                 child: ElevatedButton(
                   onPressed: Clicked,
-                  style: const ButtonStyle(
+                  style: ButtonStyle(
                     foregroundColor: MaterialStatePropertyAll(Colors.white),
-                    backgroundColor:
-                        MaterialStatePropertyAll(Color(0xFF19434E)),
-                    shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero)),
-                  ),
+                    backgroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
+                              shape: MaterialStatePropertyAll(
+                                      RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.zero
+                                              )
+                                            ),
+                                          ),
                   child: const Text(
                     "Get Started",
                     style: TextStyle(fontSize: 18),
