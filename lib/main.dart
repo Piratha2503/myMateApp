@@ -29,6 +29,7 @@ import 'package:mymateapp/ManagePages/ManagePage.dart';
 import 'package:mymateapp/ChartPages/ManualNavamsaChartPage.dart';
 
 import 'package:mymateapp/Homepages/OthersProfile.dart';
+import 'package:mymateapp/Homepages/AddTokenPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,7 +51,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           primaryColor: Colors.blue[200]),
       debugShowCheckedModeBanner: false,
-      home: CompleteProfilePage(),
+      home: AddTokenPage(),
     );
   }
 }
