@@ -4,7 +4,7 @@ import 'package:mymateapp/MyMateThemes.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class AddTokenPage extends StatefulWidget {
-  const AddTokenPage({Key? key}) : super(key: key);
+  const AddTokenPage({super.key});
 
   @override
   State<AddTokenPage> createState() => _AddTokenPageState();
@@ -623,7 +623,7 @@ class _AddTokenPageState extends State<AddTokenPage> {
 }
 
 class GradientText extends StatelessWidget {
-  GradientText(this.text, {required this.gradient, this.style});
+  const GradientText(this.text, {super.key, required this.gradient, this.style});
 
   final String text;
   final TextStyle? style;
