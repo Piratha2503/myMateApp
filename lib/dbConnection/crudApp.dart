@@ -20,7 +20,6 @@ class _crudAppState extends State<crudApp>{
 
   Widget ClientCard(String msg, String img_address){
     return Card(
-
       shadowColor: Colors.white,
       color: Colors.white60,
       child: Column(
@@ -45,7 +44,8 @@ class _crudAppState extends State<crudApp>{
     return Align(
       alignment: Alignment.topCenter,
       child: Container(
-        height: 300, // Increase the height of the container
+        height: 500,
+        width: 250,// Increase the height of the container
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           boxShadow: CupertinoContextMenu.kEndBoxShadow,
@@ -96,8 +96,7 @@ class _crudAppState extends State<crudApp>{
           List<Widget> clientContainers = clients.map((client) {
             const img_address = "assets/images/a.jpeg";
             final clientName = client['full_name'];
-            return MyGridContainer(clientName,img_address);
-          }).toList();
+            return MyGridContainer(clientName,img_address);}).toList();
           return GridView.count(
             scrollDirection: Axis.vertical,
             primary: false,
