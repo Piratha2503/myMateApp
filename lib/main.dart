@@ -3,8 +3,13 @@ import 'package:mymateapp/ChartPages/ChartCalPage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:mymateapp/Homepages/FirstWelcomeScreen.dart';
 import 'package:mymateapp/Homepages/ScrollDateTimePicker.dart';
+import 'package:mymateapp/ChartPages/ManualRasiChartPage.dart';
 import 'package:mymateapp/ManagePages/SummaryPage.dart';
 import 'package:mymateapp/dbConnection/crudApp.dart';
+import 'Homepages/CompleteProfile.dart';
+import 'Homepages/FirstWelcomeScreen.dart';
+import 'Homepages/SubscribedHomeScreen.dart';
+import 'firebase_options.dart';
 import 'package:mymateapp/dbConnection/viewPage.dart';
 import 'firebase_options.dart';
 import 'package:mymateapp/ChartPages/ChartInputPage.dart';
@@ -25,6 +30,10 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:mymateapp/ManagePages/ManagePage.dart';
+import 'package:mymateapp/ChartPages/ManualNavamsaChartPage.dart';
+
+import 'package:mymateapp/Homepages/OthersProfile.dart';
+import 'package:mymateapp/Homepages/AddTokenPage.dart';
 
 void main() async {
    WidgetsFlutterBinding.ensureInitialized();

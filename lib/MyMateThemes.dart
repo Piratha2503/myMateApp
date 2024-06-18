@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 class MyMateThemes {
   static const primaryColor = Color(0xFF7D67EE);
   static const secondaryColor = Color(0xFFE2E6FE);
+  static const premiumColor = Color(0xFF0F0641);
   static const textColor = Color(0xFF666666);
   static const backgroundColor = Color(0xFFFEFEFA);
   static const containerColor = Color(0xFFF5F5F7);

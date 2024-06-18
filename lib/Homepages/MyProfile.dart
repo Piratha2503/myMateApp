@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mymateapp/MyMateThemes.dart';
+import 'BadgeWidget.dart';
 import '../dbConnection/Firebase.dart';
 import 'bottom_navigation_bar.dart';
 import 'custom_outline_button.dart';
@@ -122,40 +123,18 @@ class _ProfilePageState extends State<ProfilePage>
                   ),
                 ),
                 SizedBox(width: 40),
-                _buildBadge('assets/images/Group 2157.svg', badgeValue1),
-                SizedBox(width: 10),
-                _buildBadge('assets/images/Group 2153.svg', badgeValue2),
+                BadgeWidget(
+                    assetPath: 'assets/images/Group 2157.svg',
+                    badgeValue: badgeValue1),
+                SizedBox(width: 25),
+                BadgeWidget(
+                    assetPath: 'assets/images/Group 2153.svg',
+                    badgeValue: badgeValue2),
               ],
             ),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildBadge(String assetPath, int badgeValue) {
-    return Stack(
-      children: [
-        SvgPicture.asset(assetPath),
-        if (badgeValue > 0)
-          Positioned(
-            top: -2,
-            right: -1,
-            child: Container(
-              decoration: BoxDecoration(
-                color: MyMateThemes.secondaryColor,
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Text(
-                badgeValue.toString(),
-                style: TextStyle(
-                  color: MyMateThemes.primaryColor,
-                  fontSize: badgeValue > 9 ? 12 : 16,
-                ),
-              ),
-            ),
-          ),
-      ],
     );
   }
 
