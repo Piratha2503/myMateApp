@@ -1,15 +1,18 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mymateapp/Homepages/MoreAboutMe.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'BadgeWidget.dart';
 import '../dbConnection/Firebase.dart';
+import 'EditPage.dart';
 import 'bottom_navigation_bar.dart';
 import 'custom_outline_button.dart';
 
 class ProfilePage extends StatefulWidget {
   final String docId;
-  const ProfilePage({required this.docId,Key? key}) : super(key: key);
+
+  const ProfilePage({required this.docId, super.key});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -17,7 +20,6 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage>
     with TickerProviderStateMixin {
-
   String full_name = "";
   String gender = "";
   String education = "";
@@ -34,28 +36,24 @@ class _ProfilePageState extends State<ProfilePage>
     DocumentSnapshot client = await firebase.clients.doc(widget.docId).get();
 
     setState(() {
-      full_name = client['full_name']??"N/A";
-      gender = client['gender']??"N/A";
-      education = client['education']??"N/A";
-      district = client['district']??"N/A";
-      occupation = client['occupation']??"N/A";
-      mobile = client['mobile'].toString()??"N/A";
-      religion = client['religion']??"N/A";
-      age = client['age'].toString()??"N/A";
+      full_name = client['full_name'] ?? "N/A";
+      gender = client['gender'] ?? "N/A";
+      education = client['education'] ?? "N/A";
+      district = client['district'] ?? "N/A";
+      occupation = client['occupation'] ?? "N/A";
+      mobile = client['mobile'].toString() ?? "N/A";
+      religion = client['religion'] ?? "N/A";
+      age = client['age'].toString() ?? "N/A";
       dob = client['dob'] ?? "N/A";
-
     });
   }
 
   bool _isSmall = false;
   int _selectedIndex = 0;
   int _selectedButtonIndex = 0;
-  ScrollController _scrollController = ScrollController();
-  bool isSecondContainerVisible = true;
-  bool isThirdContainerVisible = true;
-  bool isFourthContainerVisible = true;
-  int badgeValue1 = 1;
-  int badgeValue2 = 10;
+  final ScrollController _scrollController = ScrollController();
+  int selectedAlcoholIndex = 0;
+  int selectedCookingIndex = 0;
 
   @override
   void initState() {
@@ -64,14 +62,12 @@ class _ProfilePageState extends State<ProfilePage>
     _scrollController.addListener(_scrollListener);
   }
 
-
   @override
   void dispose() {
     _scrollController.removeListener(_scrollListener);
     _scrollController.dispose();
     super.dispose();
   }
-
 
   void _toggleSize() {
     setState(() {
@@ -84,7 +80,7 @@ class _ProfilePageState extends State<ProfilePage>
   }
 
   void _scrollListener() {
-    double containerHeight = 670.0;
+    double containerHeight = 620.0;
     int newIndex = (_scrollController.offset / containerHeight).floor();
     if (newIndex != _selectedButtonIndex) {
       setState(() {
@@ -94,7 +90,7 @@ class _ProfilePageState extends State<ProfilePage>
   }
 
   void _scrollToContainer(int index) {
-    double containerHeight = 500.0;
+    double containerHeight = 550.0;
     double targetPosition = index * containerHeight - containerHeight / 2;
     _scrollController.animateTo(
       targetPosition,
@@ -124,12 +120,10 @@ class _ProfilePageState extends State<ProfilePage>
                 ),
                 SizedBox(width: 40),
                 BadgeWidget(
-                    assetPath: 'assets/images/Group 2157.svg',
-                    badgeValue: badgeValue1),
+                    assetPath: 'assets/images/Group 2157.svg', badgeValue: 1),
                 SizedBox(width: 25),
                 BadgeWidget(
-                    assetPath: 'assets/images/Group 2153.svg',
-                    badgeValue: badgeValue2),
+                    assetPath: 'assets/images/Group 2153.svg', badgeValue: 10),
               ],
             ),
           ],
@@ -161,7 +155,7 @@ class _ProfilePageState extends State<ProfilePage>
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  '$full_name',
+                  full_name,
                   style: TextStyle(
                     color: MyMateThemes.primaryColor,
                     fontSize: 20,
@@ -188,6 +182,14 @@ class _ProfilePageState extends State<ProfilePage>
     return Container(
       width: 120,
       height: 72,
+      foregroundDecoration: BoxDecoration(
+        border: Border(
+          right: BorderSide(
+            color: MyMateThemes.secondaryColor,
+            width: 2,
+          ),
+        ),
+      ),
       child: Column(
         children: [
           SvgPicture.asset(iconPath),
@@ -210,14 +212,6 @@ class _ProfilePageState extends State<ProfilePage>
           ),
         ],
       ),
-      foregroundDecoration: BoxDecoration(
-        border: Border(
-          right: BorderSide(
-            color: MyMateThemes.secondaryColor,
-            width: 2,
-          ),
-        ),
-      ),
     );
   }
 
@@ -225,11 +219,31 @@ class _ProfilePageState extends State<ProfilePage>
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        GestureDetector(
-          onTap: () {
-            print("hello");
+        ElevatedButton(
+          onPressed: () {},
+          style: ElevatedButton.styleFrom(
+            backgroundColor: MyMateThemes.primaryColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+          ),
+          child: Text('Boost '),
+        ),
+        SizedBox(width: 60),
+        ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => EditPage()),
+            );
           },
-          child: SvgPicture.asset('assets/images/EditButton.svg'),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: MyMateThemes.primaryColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+          ),
+          child: Text('Edit Profile'),
         ),
       ],
     );
@@ -241,72 +255,760 @@ class _ProfilePageState extends State<ProfilePage>
         SizedBox(width: 40),
         SvgPicture.asset('assets/images/Group 2148.svg'),
         SizedBox(width: 4),
-        Text(title),
+        Text(
+          title,
+          style: TextStyle(
+            color: MyMateThemes.primaryColor,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ],
     );
   }
 
-  Widget _buildContainers() {
+  Widget _buildContainers({required List<Widget> children}) {
+    return Column(
+      children: children,
+    );
+  }
+
+  Widget _buildProfileDetails() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(height: 20),
+          _buildSectionTitle('About me'),
+          SizedBox(height: 5),
+          Row(
+            children: [
+              SizedBox(width: 40),
+              SvgPicture.asset('assets/images/Line 11.svg'),
+            ],
+          ),
+          SizedBox(height: 10),
+          _buildInfoRow('Education', 'Bsc Computer Science'),
+          _buildInfoRow('Height', '165 CM'),
+          _buildInfoRow('Religion', 'Hinduism'),
+          _buildInfoRow('Language', 'Tamil, English'),
+          _buildInfoRow('Caste', 'Optional'),
+          _buildInfoRow('Father\'s Name', 'Bsc Computer Science'),
+          _buildInfoRow('Mother\'s Name', 'Bsc Computer Science'),
+          _buildInfoRow('Siblings', '6'),
+          SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(width: 40),
+              Text(
+                'Expectations',
+                style: TextStyle(
+                  color: MyMateThemes.textColor,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 10),
+          _buildExpectations(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInfoRow(String title, String value) {
+    return Container(
+      height: 34,
+      width: 297,
+      margin: EdgeInsets.symmetric(vertical: 5.0),
+      padding: EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        color: MyMateThemes.containerColor,
+        borderRadius: BorderRadius.circular(5.0),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+              color: MyMateThemes.textColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+            ),
+          ),
+          Text(
+            value,
+            style: TextStyle(
+              color: MyMateThemes.textColor,
+              fontSize: 14,
+              fontWeight: FontWeight.normal,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildExpectationRow(String title) {
+    return Container(
+      height: 34,
+      width: 297,
+      margin: EdgeInsets.symmetric(vertical: 5.0),
+      padding: EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        color: MyMateThemes.containerColor,
+        borderRadius: BorderRadius.circular(5.0),
+      ),
+      child: Text(
+        title,
+        style: TextStyle(
+          color: MyMateThemes.textColor,
+          fontWeight: FontWeight.bold,
+          fontSize: 14,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildExpectations() {
     return Column(
       children: [
-        Visibility(
-          visible: isSecondContainerVisible,
-          child: Container(
-            width: 340,
-            height: 500,
-            color: MyMateThemes.secondaryColor,
-            child: Center(
-              child: Text(
-                'Container 2',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: MyMateThemes.textColor,
-                  fontSize: 12,
-                  fontWeight: FontWeight.normal,
-                ),
+        _buildExpectationRow('Expectation 1'),
+        _buildExpectationRow('Expectation 2'),
+        _buildExpectationRow('Expectation 3'),
+        _buildExpectationRow('Expectation 4'),
+        _buildExpectationRow('Expectation 5'),
+        SizedBox(height: 20),
+      ],
+    );
+  }
+
+  Widget _buildPhotoGallery() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildSectionTitle('Photo Gallery'),
+        SizedBox(height: 5),
+        Row(
+          children: [
+            SizedBox(width: 40),
+            SvgPicture.asset('assets/images/Line 11.svg'),
+          ],
+        ),
+        SizedBox(height: 10),
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Column(
+                children: [
+                  Container(
+                    width: 139.5,
+                    height: 169,
+                    decoration: BoxDecoration(
+                      color: MyMateThemes.secondaryColor,
+                      borderRadius: BorderRadius.circular(
+                          20.0), // Set the border radius to make it circular
+                      image: DecorationImage(
+                        image: NetworkImage('https://via.placeholder.com/100'),
+                        fit: BoxFit
+                            .cover, // Ensure the image covers the entire container
+                      ),
+                    ),
+                  )
+                ],
               ),
-            ),
+              Column(
+                children: [
+                  Container(
+                    width: 139.5,
+                    height: 78,
+                    decoration: BoxDecoration(
+                      color: MyMateThemes.secondaryColor,
+                      borderRadius: BorderRadius.circular(
+                          20.0), // Set the border radius to make it circular
+                      image: DecorationImage(
+                        image: NetworkImage('https://via.placeholder.com/100'),
+                        fit: BoxFit
+                            .cover, // Ensure the image covers the entire container
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Container(
+                    width: 139.5,
+                    height: 78,
+                    decoration: BoxDecoration(
+                      color: MyMateThemes.secondaryColor,
+                      borderRadius: BorderRadius.circular(
+                          20.0), // Set the border radius to make it circular
+                      image: DecorationImage(
+                        image: NetworkImage('https://via.placeholder.com/100'),
+                        fit: BoxFit
+                            .cover, // Ensure the image covers the entire container
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ],
           ),
         ),
-        SizedBox(height: 15),
-        Visibility(
-          visible: isThirdContainerVisible,
-          child: Container(
-            width: 340,
-            height: 500,
-            color: MyMateThemes.secondaryColor,
-            child: Center(
-              child: Text(
-                'Container 3',
-                textAlign: TextAlign.center,
+      ],
+    );
+  }
+
+  Widget _buildAdditionalInfo() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 15),
+          _buildSectionTitle('More about me'),
+          SizedBox(height: 5),
+          Row(
+            children: [
+              SizedBox(width: 40),
+              SvgPicture.asset('assets/images/Line 11.svg'),
+            ],
+          ),
+          SizedBox(height: 10),
+          Row(
+            children: [
+              SizedBox(width: 40),
+              Text(
+                'Hobby',
                 style: TextStyle(
                   color: MyMateThemes.textColor,
-                  fontSize: 12,
-                  fontWeight: FontWeight.normal,
+                  fontSize: 14,
                 ),
               ),
-            ),
+            ],
           ),
+          SizedBox(height: 10),
+          Wrap(
+            spacing: 8.0,
+            runSpacing: 4.0,
+            children: [
+              SizedBox(width: 28),
+              _buildTag('Reading Story Book'),
+              SizedBox(width: 3),
+              _buildTag('Gardening'),
+            ],
+          ),
+          SizedBox(height: 10),
+          Row(
+            children: [
+              SizedBox(width: 40),
+              Text(
+                'Favorites',
+                style: TextStyle(
+                  color: MyMateThemes.textColor,
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 10),
+          Wrap(
+            spacing: 8.0,
+            runSpacing: 4.0,
+            children: [
+              SizedBox(width: 28),
+              _buildTag('Ice cream'),
+              SizedBox(width: 3),
+              _buildTag('Traveling'),
+            ],
+          ),
+          SizedBox(height: 15),
+          Row(
+            children: [
+              SizedBox(width: 40),
+              Text(
+                'Alcohol',
+                style: TextStyle(
+                  color: MyMateThemes.textColor,
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 10),
+          _buildAlcoholSelection(),
+          SizedBox(height: 10),
+          Row(
+            children: [
+              SizedBox(width: 40),
+              Text(
+                'Sports',
+                style: TextStyle(
+                  color: MyMateThemes.textColor,
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 15),
+          Wrap(
+            spacing: 8.0,
+            runSpacing: 4.0,
+            children: [
+              SizedBox(width: 28),
+              _buildTag('Badminton'),
+              SizedBox(width: 3),
+              _buildTag('Chess'),
+            ],
+          ),
+          SizedBox(height: 15),
+          Row(
+            children: [
+              SizedBox(width: 40),
+              Text(
+                'Cooking',
+                style: TextStyle(
+                  color: MyMateThemes.textColor,
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 10),
+          _buildCookingSelection(),
+          SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MoreAboutMePage()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: MyMateThemes.primaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+                child: Text(
+                  'Edit',
+                  style: TextStyle(color: Colors.white, letterSpacing: 1.5),
+                ),
+              ),
+              SizedBox(width: 10),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTag(String text) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+      decoration: BoxDecoration(
+        color: MyMateThemes.primaryColor,
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: Text(
+        text,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 14.0,
         ),
-        SizedBox(height: 15),
-        Visibility(
-          visible: isFourthContainerVisible,
-          child: Container(
-            width: 340,
-            height: 500,
-            color: MyMateThemes.secondaryColor,
-            child: Center(
-              child: Text(
-                'Container 4',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: MyMateThemes.textColor,
-                  fontSize: 12,
-                  fontWeight: FontWeight.normal,
+      ),
+    );
+  }
+
+  Widget _buildAlcoholSelection() {
+    return Stack(
+      children: [
+        CustomPaint(
+          size: Size(MediaQuery.of(context).size.width, 24),
+          painter: _LinePainter(),
+        ),
+        Row(
+          children: [
+            SizedBox(width: 15),
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    selectedAlcoholIndex = 0;
+                  });
+                },
+                child: Column(
+                  children: [
+                    CustomPaint(
+                      painter:
+                          _CirclePainter(isActive: selectedAlcoholIndex == 0),
+                      child: SizedBox(
+                        width: 24,
+                        height: 24,
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    Text(
+                      'Never',
+                      style: TextStyle(
+                        color: selectedAlcoholIndex == 0
+                            ? MyMateThemes.textColor
+                            : Colors.grey[700],
+                        fontSize: 10,
+                      ),
+                    ),
+                    Text(
+                      'Had',
+                      style: TextStyle(
+                        color: selectedAlcoholIndex == 0
+                            ? MyMateThemes.textColor
+                            : Colors.grey[700],
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
-          ),
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    selectedAlcoholIndex = 1;
+                  });
+                },
+                child: Column(
+                  children: [
+                    CustomPaint(
+                      painter:
+                          _CirclePainter(isActive: selectedAlcoholIndex == 1),
+                      child: SizedBox(
+                        width: 24,
+                        height: 24,
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    Text(
+                      'Rarely ',
+                      style: TextStyle(
+                        color: selectedAlcoholIndex == 1
+                            ? MyMateThemes.textColor
+                            : Colors.grey[700],
+                        fontSize: 10,
+                      ),
+                    ),
+                    Text(
+                      'Drinker',
+                      style: TextStyle(
+                        color: selectedAlcoholIndex == 1
+                            ? MyMateThemes.textColor
+                            : Colors.grey[700],
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    selectedAlcoholIndex = 2;
+                  });
+                },
+                child: Column(
+                  children: [
+                    CustomPaint(
+                      painter:
+                          _CirclePainter(isActive: selectedAlcoholIndex == 2),
+                      child: SizedBox(
+                        width: 24,
+                        height: 24,
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    Text(
+                      'Occasionally',
+                      style: TextStyle(
+                        color: selectedAlcoholIndex == 2
+                            ? MyMateThemes.textColor
+                            : Colors.grey[700],
+                        fontSize: 10,
+                      ),
+                    ),
+                    Text(
+                      'Drinker',
+                      style: TextStyle(
+                        color: selectedAlcoholIndex == 2
+                            ? MyMateThemes.textColor
+                            : Colors.grey[700],
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    selectedAlcoholIndex = 3;
+                  });
+                },
+                child: Column(
+                  children: [
+                    CustomPaint(
+                      painter:
+                          _CirclePainter(isActive: selectedAlcoholIndex == 3),
+                      child: SizedBox(
+                        width: 24,
+                        height: 24,
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    Text(
+                      'Regularly',
+                      style: TextStyle(
+                        color: selectedAlcoholIndex == 3
+                            ? MyMateThemes.textColor
+                            : Colors.grey[700],
+                        fontSize: 10,
+                      ),
+                    ),
+                    Text(
+                      'Drinker',
+                      style: TextStyle(
+                        color: selectedAlcoholIndex == 3
+                            ? MyMateThemes.textColor
+                            : Colors.grey[700],
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    selectedAlcoholIndex = 4;
+                  });
+                },
+                child: Column(
+                  children: [
+                    CustomPaint(
+                      painter:
+                          _CirclePainter(isActive: selectedAlcoholIndex == 4),
+                      child: SizedBox(
+                        width: 24,
+                        height: 24,
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    Text(
+                      'Swimming',
+                      style: TextStyle(
+                        color: selectedAlcoholIndex == 4
+                            ? MyMateThemes.textColor
+                            : Colors.grey[700],
+                        fontSize: 10,
+                      ),
+                    ),
+                    Text(
+                      ' in it (24/7)',
+                      style: TextStyle(
+                        color: selectedAlcoholIndex == 4
+                            ? MyMateThemes.textColor
+                            : Colors.grey[700],
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCookingSelection() {
+    return Stack(
+      children: [
+        CustomPaint(
+          size: Size(MediaQuery.of(context).size.width, 24),
+          painter: _LinePainter(),
+        ),
+        Row(
+          children: [
+            SizedBox(width: 15),
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    selectedCookingIndex = 0;
+                  });
+                },
+                child: Column(
+                  children: [
+                    CustomPaint(
+                      painter:
+                          _CirclePainter(isActive: selectedCookingIndex == 0),
+                      child: SizedBox(
+                        width: 24,
+                        height: 24,
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    Text(
+                      'Zero',
+                      style: TextStyle(
+                        color: selectedCookingIndex == 0
+                            ? MyMateThemes.textColor
+                            : Colors.grey[700],
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    selectedCookingIndex = 1;
+                  });
+                },
+                child: Column(
+                  children: [
+                    CustomPaint(
+                      painter:
+                          _CirclePainter(isActive: selectedCookingIndex == 1),
+                      child: SizedBox(
+                        width: 24,
+                        height: 24,
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    Text(
+                      'Novice',
+                      style: TextStyle(
+                        color: selectedCookingIndex == 1
+                            ? MyMateThemes.textColor
+                            : Colors.grey[700],
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    selectedCookingIndex = 2;
+                  });
+                },
+                child: Column(
+                  children: [
+                    CustomPaint(
+                      painter:
+                          _CirclePainter(isActive: selectedCookingIndex == 2),
+                      child: SizedBox(
+                        width: 24,
+                        height: 24,
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    Text(
+                      'Basic',
+                      style: TextStyle(
+                        color: selectedCookingIndex == 2
+                            ? MyMateThemes.textColor
+                            : Colors.grey[700],
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    selectedCookingIndex = 3;
+                  });
+                },
+                child: Column(
+                  children: [
+                    CustomPaint(
+                      painter:
+                          _CirclePainter(isActive: selectedCookingIndex == 3),
+                      child: SizedBox(
+                        width: 24,
+                        height: 24,
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    Text(
+                      'Intermediate',
+                      style: TextStyle(
+                        color: selectedCookingIndex == 3
+                            ? MyMateThemes.textColor
+                            : Colors.grey[700],
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    selectedCookingIndex = 4;
+                  });
+                },
+                child: Column(
+                  children: [
+                    CustomPaint(
+                      painter:
+                          _CirclePainter(isActive: selectedCookingIndex == 4),
+                      child: SizedBox(
+                        width: 24,
+                        height: 24,
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    Text(
+                      'Advanced',
+                      style: TextStyle(
+                        color: selectedCookingIndex == 4
+                            ? MyMateThemes.textColor
+                            : Colors.grey[700],
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );
@@ -321,6 +1023,763 @@ class _ProfilePageState extends State<ProfilePage>
         });
         // Handle navigation here based on the index
       },
+    );
+  }
+
+  Widget RasiChartDesign() {
+    return Container(
+      height: 258,
+      width: 258,
+      color: MyMateThemes.containerColor,
+      child: Stack(
+        children: [
+          Positioned(
+            top: 10,
+            left: 10,
+            child: Container(
+              height: 52,
+              width: 52,
+              decoration: BoxDecoration(
+                color: MyMateThemes.primaryColor,
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    right: 5,
+                    child: Text(
+                      '01',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 10),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 10,
+            left: 72,
+            child: Container(
+              height: 52,
+              width: 52,
+              decoration: BoxDecoration(
+                color: MyMateThemes.primaryColor,
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    right: 5,
+                    child: Text(
+                      '01',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 10),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 10,
+            left: 134,
+            child: Container(
+              height: 52,
+              width: 52,
+              decoration: BoxDecoration(
+                color: MyMateThemes.primaryColor,
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    right: 5,
+                    child: Text(
+                      '01',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 10),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 10,
+            left: 196,
+            child: Container(
+              height: 52,
+              width: 52,
+              decoration: BoxDecoration(
+                color: MyMateThemes.primaryColor,
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    right: 5,
+                    child: Text(
+                      '01',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 10),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 72,
+            left: 10,
+            child: Container(
+              height: 52,
+              width: 52,
+              decoration: BoxDecoration(
+                color: MyMateThemes.primaryColor,
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    right: 5,
+                    child: Text(
+                      '01',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 10),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 134,
+            left: 10,
+            child: Container(
+              height: 52,
+              width: 52,
+              decoration: BoxDecoration(
+                color: MyMateThemes.primaryColor,
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    right: 5,
+                    child: Text(
+                      '01',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 10),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 196,
+            left: 10,
+            child: Container(
+              height: 52,
+              width: 52,
+              decoration: BoxDecoration(
+                color: MyMateThemes.primaryColor,
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    right: 5,
+                    child: Text(
+                      '01',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 10),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 72,
+            left: 196,
+            child: Container(
+              height: 52,
+              width: 52,
+              decoration: BoxDecoration(
+                color: MyMateThemes.primaryColor,
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    right: 5,
+                    child: Text(
+                      '01',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 10),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 134,
+            left: 196,
+            child: Container(
+              height: 52,
+              width: 52,
+              decoration: BoxDecoration(
+                color: MyMateThemes.primaryColor,
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    right: 5,
+                    child: Text(
+                      '01',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 10),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 196,
+            left: 196,
+            child: Container(
+              height: 52,
+              width: 52,
+              decoration: BoxDecoration(
+                color: MyMateThemes.primaryColor,
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    right: 5,
+                    child: Text(
+                      '01',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 10),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 196,
+            left: 134,
+            child: Container(
+              height: 52,
+              width: 52,
+              decoration: BoxDecoration(
+                color: MyMateThemes.primaryColor,
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    right: 5,
+                    child: Text(
+                      '01',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 10),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 196,
+            left: 72,
+            child: Container(
+              height: 52,
+              width: 52,
+              decoration: BoxDecoration(
+                color: MyMateThemes.primaryColor,
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    right: 5,
+                    child: Text(
+                      '01',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 10),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 72,
+            left: 72,
+            child: Container(
+              height: 114,
+              width: 114,
+              decoration: BoxDecoration(
+                color: MyMateThemes.primaryColor,
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              child: Stack(
+                children: [
+                  // Positioned(
+                  //   top: 10,
+                  //   left: 10,
+                  //   child:
+                  //   SvgPicture.asset(
+                  //
+                  //       'assets/images/heart.svg'),
+                  //
+                  // ),
+                  Positioned(
+                    bottom: 5,
+                    left: 3,
+                    child: Column(
+                      children: [
+                        Text(
+                          'Hastam',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.white,
+                              fontWeight: FontWeight.normal),
+                        ),
+                        Text(
+                          'Virgo (kanni)',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.white,
+                              fontWeight: FontWeight.normal),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget NavamsaChartDesign() {
+    return Container(
+      height: 258,
+      width: 258,
+      color: MyMateThemes.containerColor,
+      child: Stack(
+        children: [
+          Positioned(
+            top: 10,
+            left: 10,
+            child: Container(
+              height: 52,
+              width: 52,
+              decoration: BoxDecoration(
+                color: MyMateThemes.primaryColor,
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    right: 5,
+                    child: Text(
+                      '01',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 10),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 10,
+            left: 72,
+            child: Container(
+              height: 52,
+              width: 52,
+              decoration: BoxDecoration(
+                color: MyMateThemes.primaryColor,
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    right: 5,
+                    child: Text(
+                      '02',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 10),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 10,
+            left: 134,
+            child: Container(
+              height: 52,
+              width: 52,
+              decoration: BoxDecoration(
+                color: MyMateThemes.primaryColor,
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    right: 5,
+                    child: Text(
+                      '03',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 10),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 10,
+            left: 196,
+            child: Container(
+              height: 52,
+              width: 52,
+              decoration: BoxDecoration(
+                color: MyMateThemes.primaryColor,
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    right: 5,
+                    child: Text(
+                      '04',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 10),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 72,
+            left: 10,
+            child: Container(
+              height: 52,
+              width: 52,
+              decoration: BoxDecoration(
+                color: MyMateThemes.primaryColor,
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    right: 5,
+                    child: Text(
+                      '05',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 10),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 134,
+            left: 10,
+            child: Container(
+              height: 52,
+              width: 52,
+              decoration: BoxDecoration(
+                color: MyMateThemes.primaryColor,
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    right: 5,
+                    child: Text(
+                      '06',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 10),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 196,
+            left: 10,
+            child: Container(
+              height: 52,
+              width: 52,
+              decoration: BoxDecoration(
+                color: MyMateThemes.primaryColor,
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    right: 5,
+                    child: Text(
+                      '07',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 10),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 72,
+            left: 196,
+            child: Container(
+              height: 52,
+              width: 52,
+              decoration: BoxDecoration(
+                color: MyMateThemes.primaryColor,
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    right: 5,
+                    child: Text(
+                      '08',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 10),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 134,
+            left: 196,
+            child: Container(
+              height: 52,
+              width: 52,
+              decoration: BoxDecoration(
+                color: MyMateThemes.primaryColor,
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    right: 5,
+                    child: Text(
+                      '09',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 10),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 196,
+            left: 196,
+            child: Container(
+              height: 52,
+              width: 52,
+              decoration: BoxDecoration(
+                color: MyMateThemes.primaryColor,
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    right: 5,
+                    child: Text(
+                      '10',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 10),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 196,
+            left: 134,
+            child: Container(
+              height: 52,
+              width: 52,
+              decoration: BoxDecoration(
+                color: MyMateThemes.primaryColor,
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    right: 5,
+                    child: Text(
+                      '11',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 10),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 196,
+            left: 72,
+            child: Container(
+              height: 52,
+              width: 52,
+              decoration: BoxDecoration(
+                color: MyMateThemes.primaryColor,
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    right: 5,
+                    child: Text(
+                      '12',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 10),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 72,
+            left: 72,
+            child: Container(
+              height: 114,
+              width: 114,
+              decoration: BoxDecoration(
+                color: MyMateThemes.primaryColor,
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    bottom: 5,
+                    left: 2,
+                    child: Column(
+                      children: [
+                        Text(
+                          'Hastam',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.white,
+                              fontWeight: FontWeight.normal),
+                        ),
+                        Text(
+                          'Virgo (kanni)',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.white,
+                              fontWeight: FontWeight.normal),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -343,12 +1802,12 @@ class _ProfilePageState extends State<ProfilePage>
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _buildIconWithText('assets/images/Group 2145.svg',
-                          '$age years', '$dob'),
+                      _buildIconWithText(
+                          'assets/images/Group 2145.svg', '$age years', dob),
                       _buildIconWithText('assets/images/Group 2146.svg',
-                          '$occupation', '$district - '),
+                          occupation, '$district - '),
                       _buildIconWithText('assets/images/Group 2147.svg',
-                          '$district', 'Sri Lanka'),
+                          district, 'Sri Lanka'),
                     ],
                   ),
                   SizedBox(height: 30),
@@ -367,9 +1826,6 @@ class _ProfilePageState extends State<ProfilePage>
                             onTap: () {
                               setState(() {
                                 _selectedButtonIndex = 0;
-                                isSecondContainerVisible = true;
-                                isThirdContainerVisible = true;
-                                isFourthContainerVisible = true;
                               });
                               _scrollToContainer(1);
                             },
@@ -383,9 +1839,6 @@ class _ProfilePageState extends State<ProfilePage>
                                 onTap: () {
                                   setState(() {
                                     _selectedButtonIndex = 1;
-                                    isSecondContainerVisible = true;
-                                    isThirdContainerVisible = true;
-                                    isFourthContainerVisible = true;
                                   });
                                   _scrollToContainer(2);
                                 },
@@ -397,9 +1850,6 @@ class _ProfilePageState extends State<ProfilePage>
                                 onTap: () {
                                   setState(() {
                                     _selectedButtonIndex = 2;
-                                    isSecondContainerVisible = true;
-                                    isThirdContainerVisible = true;
-                                    isFourthContainerVisible = true;
                                   });
                                   _scrollToContainer(3);
                                 },
@@ -419,8 +1869,116 @@ class _ProfilePageState extends State<ProfilePage>
                       SvgPicture.asset('assets/images/Line 11.svg'),
                     ],
                   ),
-                  SizedBox(height: 10),
-                  _buildContainers(),
+                  SizedBox(height: 15),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 140,
+                        height: 172,
+                        margin: EdgeInsets.symmetric(vertical: 5.0),
+                        padding: EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          color: MyMateThemes.containerColor,
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              top: 10,
+                              left: 10,
+                              child:
+                                  SvgPicture.asset('assets/images/Group.svg'),
+                            ),
+                            Positioned(
+                              bottom: 10,
+                              left: 5,
+                              child: Column(
+                                children: [
+                                  Text(
+                                    '19 OCT 1998',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: MyMateThemes.primaryColor,
+                                        fontWeight: FontWeight.normal),
+                                  ),
+                                  Text(
+                                    '10.30 AM',
+                                    style: TextStyle(
+                                        fontSize: 10,
+                                        color: MyMateThemes.textColor,
+                                        fontWeight: FontWeight.normal),
+                                  ),
+                                  Text(
+                                    'Jaffna, Sri Lanka',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: MyMateThemes.primaryColor,
+                                        fontWeight: FontWeight.normal),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 15),
+                      Container(
+                        width: 140,
+                        height: 172,
+                        margin: EdgeInsets.symmetric(vertical: 5.0),
+                        padding: EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          color: MyMateThemes.primaryColor,
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              top: 8,
+                              left: 6.5,
+                              child: SvgPicture.asset(
+                                  'assets/images/Group 2217.svg'),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              left: 48,
+                              child: Column(
+                                children: [
+                                  Text(
+                                    'Hastam',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.normal),
+                                  ),
+                                  Text(
+                                    'Virgo (kanni)',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.normal),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 40),
+                  _buildContainers(
+                    children: [
+                      RasiChartDesign(),
+                      SizedBox(height: 48),
+                      NavamsaChartDesign(),
+                      _buildProfileDetails(),
+                      SizedBox(height: 48),
+                      _buildPhotoGallery(),
+                      _buildAdditionalInfo(),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -439,41 +1997,32 @@ class _ProfilePageState extends State<ProfilePage>
                   onPressed: () {
                     setState(() {
                       _selectedButtonIndex = 0;
-                      isSecondContainerVisible = true;
-                      isThirdContainerVisible = true;
-                      isFourthContainerVisible = true;
                     });
                     _scrollToContainer(1);
                   },
                 ),
                 SizedBox(width: 10),
                 CustomOutlineButton(
-                  assetPath: 'assets/images/Group 2149.svg',
-                  label: 'Family',
+                  assetPath: 'assets/images/Group 2150.svg',
+                  label: 'About me',
                   index: 1,
                   isSelected: isButtonSelected(1),
                   onPressed: () {
                     setState(() {
                       _selectedButtonIndex = 1;
-                      isSecondContainerVisible = true;
-                      isThirdContainerVisible = true;
-                      isFourthContainerVisible = true;
                     });
                     _scrollToContainer(2);
                   },
                 ),
                 SizedBox(width: 10),
                 CustomOutlineButton(
-                  assetPath: 'assets/images/Group 2150.svg',
-                  label: 'About me',
+                  assetPath: 'assets/images/Group 2149.svg',
+                  label: 'Photo Gallery',
                   index: 2,
                   isSelected: isButtonSelected(2),
                   onPressed: () {
                     setState(() {
                       _selectedButtonIndex = 2;
-                      isSecondContainerVisible = true;
-                      isThirdContainerVisible = true;
-                      isFourthContainerVisible = true;
                     });
                     _scrollToContainer(3);
                   },
@@ -485,5 +2034,45 @@ class _ProfilePageState extends State<ProfilePage>
       ),
       bottomNavigationBar: _buildNavigationBar(),
     );
+  }
+}
+
+class _CirclePainter extends CustomPainter {
+  final bool isActive;
+
+  _CirclePainter({required this.isActive});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = isActive ? MyMateThemes.primaryColor : Colors.grey[300]!
+      ..style = PaintingStyle.fill;
+
+    canvas.drawCircle(Offset(size.width / 2, size.height / 2), 12, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
+  }
+}
+
+class _LinePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.grey[300]!
+      ..strokeWidth = 2;
+
+    double startX = size.width / 10;
+    double endX = size.width - size.width / 10;
+    double centerY = size.height / 2;
+
+    canvas.drawLine(Offset(startX, centerY), Offset(endX, centerY), paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
   }
 }
