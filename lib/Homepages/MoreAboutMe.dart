@@ -1,14 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mymateapp/MyMateThemes.dart';
-import 'BadgeWidget.dart';
-import '../dbConnection/Firebase.dart';
-import 'ClosableContainer.dart';
-import 'EditPage.dart';
 import 'MyProfile.dart';
-import 'bottom_navigation_bar.dart';
-import 'custom_outline_button.dart';
 
 class MoreAboutMePage extends StatefulWidget {
   const MoreAboutMePage({super.key});
@@ -99,6 +92,7 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
           children: [
             Row(
               children: [
+                SizedBox(height: 48),
                 SizedBox(width: 60),
                 Text(
                   'Hobby',
@@ -110,15 +104,15 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 20),
             SvgPicture.asset('assets/images/Line 11.svg'),
-            SizedBox(height: 10),
+            SizedBox(height: 20),
             _buildTextField(hobbyController, 'Add a hobby', _addHobbyTag),
             SizedBox(height: 20),
             Wrap(
               children: hobbyTags.map((tag) => _buildTag(tag)).toList(),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 40),
             Row(
               children: [
                 SizedBox(width: 60),
@@ -132,16 +126,16 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 20),
             SvgPicture.asset('assets/images/Line 11.svg'),
-            SizedBox(height: 10),
+            SizedBox(height: 20),
             _buildTextField(
                 favoritesController, 'Add a favorite', _addFavoritesTag),
             SizedBox(height: 20),
             Wrap(
               children: favoritesTags.map((tag) => _buildTag(tag)).toList(),
             ),
-            SizedBox(height: 30),
+            SizedBox(height: 40),
             Row(
               children: [
                 SizedBox(width: 60),
@@ -155,11 +149,11 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 20),
             SvgPicture.asset('assets/images/Line 11.svg'),
             SizedBox(height: 20),
             _buildAlcoholSelection(),
-            SizedBox(height: 30),
+            SizedBox(height: 45),
             Row(
               children: [
                 SizedBox(width: 60),
@@ -173,7 +167,7 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 20),
             SvgPicture.asset('assets/images/Line 11.svg'),
             SizedBox(height: 20),
             _buildTextField(sportsController, 'Add a sport', _addSportsTag),
@@ -182,7 +176,7 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
               alignment: WrapAlignment.center,
               children: sportsTags.map((tag) => _buildTag(tag)).toList(),
             ),
-            SizedBox(height: 15),
+            SizedBox(height: 45),
             Row(
               children: [
                 SizedBox(width: 60),
@@ -196,11 +190,11 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 20),
             SvgPicture.asset('assets/images/Line 11.svg'),
             SizedBox(height: 20),
             _buildCookingSelection(),
-            SizedBox(height: 30),
+            SizedBox(height: 45),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -228,7 +222,7 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                     style: TextStyle(color: Colors.black, letterSpacing: 1.5),
                   ),
                 ),
-                SizedBox(width: 20),
+                SizedBox(width: 26),
                 ElevatedButton(
                   onPressed: () {
                     // Store the selected values
@@ -247,7 +241,7 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                 ),
               ],
             ),
-            SizedBox(height: 60),
+            SizedBox(height: 68),
           ],
         ),
       ),
@@ -260,7 +254,7 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
       children: [
         Container(
           decoration: BoxDecoration(
-            color: MyMateThemes.secondaryColor,
+            color: MyMateThemes.containerColor,
             borderRadius: BorderRadius.circular(8.0),
           ),
           width: 336,
@@ -291,10 +285,13 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
           GestureDetector(
             onTap: onSubmitted,
             child: Container(
+              // width: 350,
+              // height: 50,
+
               padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
               margin: EdgeInsets.only(top: 5),
               decoration: BoxDecoration(
-                color: Colors.grey.shade300,
+                color: MyMateThemes.secondaryColor,
                 borderRadius: BorderRadius.circular(8.0),
               ),
               child: Text('+ Add "${controller.text}"'),
@@ -304,7 +301,10 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
               //       '+ Add',
               //       style: TextStyle(color: MyMateThemes.primaryColor),
               //     ),
-              //     Text('"${controller.text}"'),
+              //     Text(
+              //       '"${controller.text}"',
+              //       style: TextStyle(color: MyMateThemes.textColor),
+              //     ),
               //   ],
               // ),
             ),
@@ -358,7 +358,7 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                         height: 24,
                       ),
                     ),
-                    SizedBox(height: 5),
+                    SizedBox(height: 13),
                     Text(
                       'Never',
                       style: TextStyle(
@@ -398,7 +398,7 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                         height: 24,
                       ),
                     ),
-                    SizedBox(height: 5),
+                    SizedBox(height: 13),
                     Text(
                       'Rarely',
                       style: TextStyle(
@@ -438,7 +438,7 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                         height: 24,
                       ),
                     ),
-                    SizedBox(height: 5),
+                    SizedBox(height: 13),
                     Text(
                       'Occasionally',
                       style: TextStyle(
@@ -478,7 +478,7 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                         height: 24,
                       ),
                     ),
-                    SizedBox(height: 5),
+                    SizedBox(height: 13),
                     Text(
                       'Regularly',
                       style: TextStyle(
@@ -518,7 +518,7 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                         height: 24,
                       ),
                     ),
-                    SizedBox(height: 5),
+                    SizedBox(height: 13),
                     Text(
                       'Swimming',
                       style: TextStyle(
@@ -552,7 +552,7 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
       children: [
         CustomPaint(
           size: Size(MediaQuery.of(context).size.width, 24),
-          painter: _LinearPainter(),
+          painter: _LinearPainter(selectedCookingIndex: selectedCookingIndex),
         ),
         Row(
           children: [
@@ -568,13 +568,13 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                   children: [
                     CustomPaint(
                       painter:
-                          _CirclePainter(isActive: selectedCookingIndex == 0),
+                          _CirclePainter(isActive: selectedCookingIndex >= 0),
                       child: SizedBox(
                         width: 24,
                         height: 24,
                       ),
                     ),
-                    SizedBox(height: 5),
+                    SizedBox(height: 13),
                     Text(
                       'Zero',
                       style: TextStyle(
@@ -599,13 +599,13 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                   children: [
                     CustomPaint(
                       painter:
-                          _CirclePainter(isActive: selectedCookingIndex == 1),
+                          _CirclePainter(isActive: selectedCookingIndex >= 1),
                       child: SizedBox(
                         width: 24,
                         height: 24,
                       ),
                     ),
-                    SizedBox(height: 5),
+                    SizedBox(height: 13),
                     Text(
                       'Novice',
                       style: TextStyle(
@@ -630,13 +630,13 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                   children: [
                     CustomPaint(
                       painter:
-                          _CirclePainter(isActive: selectedCookingIndex == 2),
+                          _CirclePainter(isActive: selectedCookingIndex >= 2),
                       child: SizedBox(
                         width: 24,
                         height: 24,
                       ),
                     ),
-                    SizedBox(height: 5),
+                    SizedBox(height: 13),
                     Text(
                       'Basic',
                       style: TextStyle(
@@ -661,13 +661,13 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                   children: [
                     CustomPaint(
                       painter:
-                          _CirclePainter(isActive: selectedCookingIndex == 3),
+                          _CirclePainter(isActive: selectedCookingIndex >= 3),
                       child: SizedBox(
                         width: 24,
                         height: 24,
                       ),
                     ),
-                    SizedBox(height: 5),
+                    SizedBox(height: 13),
                     Text(
                       'Intermediate',
                       style: TextStyle(
@@ -692,13 +692,13 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                   children: [
                     CustomPaint(
                       painter:
-                          _CirclePainter(isActive: selectedCookingIndex == 4),
+                          _CirclePainter(isActive: selectedCookingIndex >= 4),
                       child: SizedBox(
                         width: 24,
                         height: 24,
                       ),
                     ),
-                    SizedBox(height: 5),
+                    SizedBox(height: 13),
                     Text(
                       'Advanced',
                       style: TextStyle(
@@ -776,55 +776,35 @@ class _LinePainter extends CustomPainter {
 }
 
 class _LinearPainter extends CustomPainter {
+  final int selectedCookingIndex;
+
+  _LinearPainter({required this.selectedCookingIndex});
+
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.grey.withOpacity(0.1)
-      ..strokeWidth = 2;
+      ..color = MyMateThemes.primaryColor
+      ..strokeWidth = 4;
 
-    double startX = size.width / 10;
-    double endX = size.width - size.width / 10;
-    double centerY = size.height / 2;
+    final double segmentWidth = size.width / 5;
 
-    canvas.drawLine(Offset(startX, centerY), Offset(endX, centerY), paint);
+    // Draw lines between circles
+    for (int i = 0; i < 4; i++) {
+      if (i < selectedCookingIndex) {
+        paint.color = MyMateThemes.primaryColor;
+      } else {
+        paint.color = Colors.grey.withOpacity(0.1);
+      }
+      canvas.drawLine(
+        Offset((i + 0.5) * segmentWidth, size.height / 2),
+        Offset((i + 1.5) * segmentWidth, size.height / 2),
+        paint,
+      );
+    }
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return false;
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return true;
   }
 }
-
-// class _LinearPainter extends CustomPainter {
-//   final int selectedCookingIndex;
-//
-//   _LinearPainter({required this.selectedCookingIndex});
-//
-//   @override
-//   void paint(Canvas canvas, Size size) {
-//     final paint = Paint()
-//       ..color = MyMateThemes.primaryColor
-//       ..strokeWidth = 4;
-//
-//     final double segmentWidth = size.width / 5;
-//
-//     // Draw lines between circles
-//     for (int i = 0; i < 4; i++) {
-//       if (i < selectedCookingIndex) {
-//         paint.color = MyMateThemes.primaryColor;
-//       } else {
-//         paint.color = Colors.grey.withOpacity(0.1);
-//       }
-//       canvas.drawLine(
-//         Offset((i + 0.5) * segmentWidth, size.height / 2),
-//         Offset((i + 1.5) * segmentWidth, size.height / 2),
-//         paint,
-//       );
-//     }
-//   }
-//
-//   @override
-//   bool shouldRepaint(CustomPainter oldDelegate) {
-//     return true;
-//   }
-// }
