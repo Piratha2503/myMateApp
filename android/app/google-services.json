@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "37746091766",
+    "firebase_url": "https://mymate-62700-default-rtdb.firebaseio.com",
+    "project_id": "mymate-62700",
+    "storage_bucket": "mymate-62700.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:37746091766:android:b4edc6320ea268e0346ed7",
+        "android_client_info": {
+          "package_name": "com.example.mymateapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBufh3akz6SqAq88FWaKZe22-3wx5n3vp0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
