@@ -20,7 +20,6 @@ class DateTimeCheck extends StatefulWidget {
           ),
           body: Center(
             child: CupertinoButton(
-              child: const Text('Show Date Picker'),
               color: Colors.lightGreen,
               borderRadius: const BorderRadius.all(Radius.circular(10)),
               onPressed: () {
@@ -32,6 +31,7 @@ class DateTimeCheck extends StatefulWidget {
                   lastDate: DateTime(2100),
                 );
               },
+              child: const Text('Show Date Picker'),
             ),
           ),
         ),

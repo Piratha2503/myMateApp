@@ -7,11 +7,10 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:mymateapp/Homepages/MyProfile.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/Homepages/ClosableContainer.dart';
-import 'package:mymateapp/Homepages/SubscribedHomeScreen.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 
 class CompleteProfilePage extends StatefulWidget {
-  const CompleteProfilePage({Key? key}) : super(key: key);
+  const CompleteProfilePage({super.key});
 
   @override
   State<CompleteProfilePage> createState() => _CompleteProfilePageState();
@@ -109,8 +108,11 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
         } else {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => SubscribedhomescreenPage()),
-            MaterialPageRoute(builder: (context) => ProfilePage(docId: "",)),
+            // MaterialPageRoute(builder: (context) => SubscribedhomescreenPage()),
+            MaterialPageRoute(
+                builder: (context) => ProfilePage(
+                      docId: "",
+                    )),
           );
         }
       },
@@ -208,6 +210,8 @@ Widget _buildDropdownRow({
 }
 
 class PageOne extends StatefulWidget {
+  const PageOne({super.key});
+
   @override
   State<PageOne> createState() => _PageOneState();
 }
@@ -242,7 +246,7 @@ class _PageOneState extends State<PageOne> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          content: Container(
+          content: SizedBox(
             height: 300,
             width: 400,
             child: Column(
@@ -301,12 +305,12 @@ class _PageOneState extends State<PageOne> {
                     : SvgPicture.asset('assets/images/circle.svg'),
               ),
               Positioned(
+                bottom: -1,
+                left: 95,
                 child: GestureDetector(
                   onTap: _openPopupScreen,
                   child: SvgPicture.asset('assets/images/edit.svg'),
                 ),
-                bottom: -1,
-                left: 95,
               ),
             ],
           ),
@@ -338,6 +342,8 @@ class _PageOneState extends State<PageOne> {
 }
 
 class PageTwo extends StatefulWidget {
+  const PageTwo({super.key});
+
   @override
   _PageTwoState createState() => _PageTwoState();
 }
@@ -417,7 +423,7 @@ class _PageTwoState extends State<PageTwo> {
   }
 
   Widget _buildCodeVerificationRow() {
-    return Container(
+    return SizedBox(
       width: 360,
       height: 65,
       child: Row(
@@ -454,6 +460,8 @@ class _PageTwoState extends State<PageTwo> {
 }
 
 class PageThree extends StatefulWidget {
+  const PageThree({super.key});
+
   @override
   _PageThreeState createState() => _PageThreeState();
 }
@@ -726,15 +734,15 @@ class _PageThreeState extends State<PageThree> {
                     });
                   }
                 },
+                style: ButtonStyle(
+                  backgroundColor: WidgetStateProperty.all<Color>(
+                      MyMateThemes.secondaryColor),
+                  foregroundColor: WidgetStateProperty.all<Color>(
+                      MyMateThemes.primaryColor),
+                ),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text('+Add more'),
-                ),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                      MyMateThemes.secondaryColor),
-                  foregroundColor: MaterialStateProperty.all<Color>(
-                      MyMateThemes.primaryColor),
                 ),
               ),
             ),

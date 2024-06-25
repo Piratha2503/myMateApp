@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mymateapp/MyMateThemes.dart';
 
 class Settingspage extends StatefulWidget {
-  const Settingspage({Key? key}) : super(key: key);
+  const Settingspage({super.key});
 
   @override
   State<Settingspage> createState() => _SettingspageState();

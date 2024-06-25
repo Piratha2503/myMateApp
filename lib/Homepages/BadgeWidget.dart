@@ -7,10 +7,10 @@ class BadgeWidget extends StatelessWidget {
   final int badgeValue;
 
   const BadgeWidget({
-    Key? key,
+    super.key,
     required this.assetPath,
     required this.badgeValue,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

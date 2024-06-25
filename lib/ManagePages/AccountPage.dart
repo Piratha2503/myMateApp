@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mymateapp/MyMateThemes.dart';
 
 class Accountpage extends StatefulWidget {
-  const Accountpage({Key? key}) : super(key: key);
+  const Accountpage({super.key});
 
   @override
   State<Accountpage> createState() => _AccountpageState();

@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mymateapp/MyMateThemes.dart';
 
 
 class Aboutpage extends StatefulWidget {
-  const Aboutpage({Key? key}) : super(key: key);
+  const Aboutpage({super.key});
 
   @override
   State<Aboutpage> createState() => _AboutpageState();

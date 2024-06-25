@@ -1,10 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mymateapp/ManagePages/AboutPage.dart';
 import 'package:mymateapp/MyMateThemes.dart';
-import '../Homepages/bottom_navigation_bar.dart';
 import 'package:mymateapp/ManagePages/AccountPage.dart';
 import 'package:mymateapp/ManagePages/AllActionPage.dart';
 import 'package:mymateapp/ManagePages/HelpPage.dart';
@@ -13,7 +10,7 @@ import 'package:mymateapp/ManagePages/SummaryPage.dart';
 import 'package:mymateapp/ManagePages/TokenPage.dart';
 
 class ManagePage extends StatefulWidget {
-  const ManagePage({Key? key}) : super(key: key);
+  const ManagePage({super.key});
 
   @override
   State<ManagePage> createState() => _ManagePageState();
@@ -90,6 +87,7 @@ class _ManagePageState extends State<ManagePage> {
             top: 0,
             left: 0,
             right: 0,
+            height: 150,
             child: AppBar(
               backgroundColor: MyMateThemes.primaryColor,
               title: Text('Manage', style: TextStyle(color: Colors.white)),
@@ -99,7 +97,6 @@ class _ManagePageState extends State<ManagePage> {
                 onPressed: () {},
               ),
             ),
-            height: 150,
           ),
           // Overlay card
           Positioned(

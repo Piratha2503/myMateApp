@@ -1,5 +1,4 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Test3 extends StatefulWidget{
@@ -27,7 +26,7 @@ class _Test3State extends State<Test3>{
                 )
               ),
             ),
-            Container(
+            SizedBox(
               height: 50,
               width: 75,
             ),

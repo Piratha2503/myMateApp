@@ -7,7 +7,7 @@ class ClosableContainer extends StatefulWidget {
   final Function(int) onClose;
   final BuildContext parentContext;
 
-  ClosableContainer({
+  const ClosableContainer({super.key, 
     required this.controller,
     required this.index,
     required this.onClose,

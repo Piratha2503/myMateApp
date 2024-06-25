@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mymateapp/MyMateThemes.dart'; // Ensure this import is correct
 
-class TextMatcher extends StatefulWidget {
+class KanaMatcher extends StatefulWidget {
   @override
-  _TextMatcherState createState() => _TextMatcherState();
+  _KanaMatcherState createState() => _KanaMatcherState();
 }
 
-class _TextMatcherState extends State<TextMatcher> {
+class _KanaMatcherState extends State<KanaMatcher> {
   final List<String> Theva = [
     'Aswini',
     'Mrigashrisha',
@@ -65,7 +65,7 @@ class _TextMatcherState extends State<TextMatcher> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Text Matcher'),
+        title: Text('Kana Matcher'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -130,10 +130,4 @@ class _TextMatcherState extends State<TextMatcher> {
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: TextMatcher(),
-  ));
 }

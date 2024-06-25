@@ -1,9 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_places_flutter/model/prediction.dart';
 import 'package:mymateapp/MyMateThemes.dart';
-import 'package:csc_picker/csc_picker.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
 
 class ChartInputPage extends StatefulWidget {
@@ -146,7 +143,7 @@ Widget PlaceSearch() {
       debounceTime: 400,
       isLatLngRequired: true,
       getPlaceDetailWithLatLng: (Prediction prediction) {
-        print("placeDetails" + prediction.lat.toString());
+        print("placeDetails${prediction.lat}");
       },
 
       itemClick: (Prediction prediction) {
@@ -167,7 +164,7 @@ Widget PlaceSearch() {
               SizedBox(
                 width: 7,
               ),
-              Expanded(child: Text("${prediction.description ?? ""}"))
+              Expanded(child: Text(prediction.description ?? ""))
             ],
           ),
         );

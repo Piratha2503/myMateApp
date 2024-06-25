@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mymateapp/ChartPages/ChartInputPage.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 
 class ChartViewPage extends StatefulWidget {
@@ -37,18 +36,18 @@ class _ChartViewPageState extends State<ChartViewPage> {
                 width: 150,
                 child: ElevatedButton(
                   onPressed: onPressed,
+                  style: ButtonStyle(
+                    foregroundColor: WidgetStateProperty.all(Colors.white),
+                    backgroundColor: WidgetStateProperty.all(
+                        Color.fromRGBO(25, 40, 78, 200)),
+                    shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero)),
+                  ),
                   child: Text(
                     "Edit",
                     style: TextStyle(
                       fontSize: 20,
                     ),
-                  ),
-                  style: ButtonStyle(
-                    foregroundColor: MaterialStateProperty.all(Colors.white),
-                    backgroundColor: MaterialStateProperty.all(
-                        Color.fromRGBO(25, 40, 78, 200)),
-                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero)),
                   ),
                 ),
               ),
@@ -60,13 +59,13 @@ class _ChartViewPageState extends State<ChartViewPage> {
                 width: 150,
                 child: ElevatedButton(
                   onPressed: onPressed,
+                  style: CommonButtonStyle.commonButtonStyle(),
                   child: Text(
                     "Next",
                     style: TextStyle(
                       fontSize: 20,
                     ),
                   ),
-                  style: CommonButtonStyle.commonButtonStyle(),
                 ),
               )
             ],

@@ -5,7 +5,7 @@ import 'bottom_navigation_bar.dart';
 import 'custom_outline_button.dart';
 
 class OtherProfilePage extends StatefulWidget {
-  const OtherProfilePage({Key? key}) : super(key: key);
+  const OtherProfilePage({super.key});
 
   @override
   State<OtherProfilePage> createState() => _OtherProfilePageState();
@@ -14,7 +14,7 @@ class OtherProfilePage extends StatefulWidget {
 class _OtherProfilePageState extends State<OtherProfilePage> {
   int _selectedIndex = 0;
   int _selectedButtonIndex = 0;
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
   bool isSecondContainerVisible = false;
   bool isThirdContainerVisible = false;
   bool isFourthContainerVisible = false;
@@ -176,6 +176,11 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
 
   Widget _buildDetailColumn(String assetPath, String text1, String text2) {
     return Container(
+      foregroundDecoration: BoxDecoration(
+        border: Border(
+          right: BorderSide(color: MyMateThemes.secondaryColor, width: 3),
+        ),
+      ),
       child: Column(
         children: [
           SvgPicture.asset(assetPath),
@@ -197,11 +202,6 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
             ),
           ),
         ],
-      ),
-      foregroundDecoration: BoxDecoration(
-        border: Border(
-          right: BorderSide(color: MyMateThemes.secondaryColor, width: 3),
-        ),
       ),
     );
   }
@@ -329,9 +329,9 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
           print('Button pressed');
         },
         style: const ButtonStyle(
-          foregroundColor: MaterialStatePropertyAll(Colors.white),
-          backgroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
-          shape: MaterialStatePropertyAll(
+          foregroundColor: WidgetStatePropertyAll(Colors.white),
+          backgroundColor: WidgetStatePropertyAll(MyMateThemes.primaryColor),
+          shape: WidgetStatePropertyAll(
               RoundedRectangleBorder(borderRadius: BorderRadius.zero)),
         ),
         child: Text(

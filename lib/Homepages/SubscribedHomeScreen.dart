@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -286,7 +285,7 @@ class _SubscribedhomescreenPageState extends State<SubscribedhomescreenPage> {
                                           ),
                                         ),
                                         Text(
-                                          '${profile.status}',
+                                          profile.status,
                                           style: TextStyle(
                                             fontSize: 12,
                                             color: MyMateThemes.textColor,
