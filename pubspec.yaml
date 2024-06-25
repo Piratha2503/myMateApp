@@ -56,6 +56,8 @@ dependencies:
   scroll_wheel_date_picker: ^0.0.2+1
   scroll_time_picker: ^1.1.0
   card_swiper: ^3.0.1
+  custom_pin_screen: ^1.0.1
+  otp_pin_field: ^1.2.4
 
 
 
@@ -118,3 +120,10 @@ fonts:
       - asset: assets/fonts/Inter-Regular.ttf
       - asset: assets/fonts/Inter-Bold.ttf
         weight: 700
+
+  - family: Tiro Tamil
+    fonts:
+      - asset: assets/fonts/TiroTamil-Regular.ttf
+      - asset: assets/fonts/TiroTamil-Italic.ttf
+        weight: 700
+

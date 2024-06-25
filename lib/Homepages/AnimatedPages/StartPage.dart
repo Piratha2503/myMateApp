@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:mymateapp/Homepages/FirstWelcomeScreen.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
-import 'WelcomeScreen.dart';
+import '../WelcomeScreen.dart';
 
 class StartPage extends StatefulWidget {
   const StartPage({Key? key}) : super(key: key);

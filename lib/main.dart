@@ -4,7 +4,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:mymateapp/Homepages/FirstWelcomeScreen.dart';
 import 'package:mymateapp/Homepages/ScrollDateTimePicker.dart';
 import 'package:mymateapp/ChartPages/ManualRasiChartPage.dart';
+import 'package:mymateapp/ManagePages/AccountPage.dart';
 import 'package:mymateapp/ManagePages/SummaryPage.dart';
+import 'package:mymateapp/Matching/Rasi.dart';
 import 'package:mymateapp/dbConnection/crudApp.dart';
 import 'Homepages/CompleteProfile.dart';
 import 'Homepages/FirstWelcomeScreen.dart';
@@ -19,7 +21,7 @@ import 'package:mymateapp/Homepages/GenerateChart.dart';
 import 'package:mymateapp/Homepages/MyProfile.dart';
 import 'package:mymateapp/Homepages/NameAndGenderPage.dart';
 import 'package:mymateapp/Homepages/RegisterPage.dart';
-import 'package:mymateapp/Homepages/StartPage.dart';
+import 'package:mymateapp/Homepages/AnimatedPages/StartPage.dart';
 import 'package:mymateapp/Homepages/Test2.dart';
 import 'package:mymateapp/Homepages/Test3.dart';
 import 'package:mymateapp/Homepages/WelcomeScreen.dart';
@@ -55,7 +57,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           primaryColor: Colors.blue[200]),
           debugShowCheckedModeBanner: false,
-      home: crudApp(),
+      home: RasiPorutham(),
     );
   }
 }

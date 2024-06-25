@@ -109,7 +109,7 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
         } else {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => SubscribedhomescreenPage()),
+            //MaterialPageRoute(builder: (context) => SubscribedhomescreenPage()),
             MaterialPageRoute(builder: (context) => ProfilePage(docId: "",)),
           );
         }
