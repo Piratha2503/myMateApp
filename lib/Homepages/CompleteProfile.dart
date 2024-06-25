@@ -737,8 +737,8 @@ class _PageThreeState extends State<PageThree> {
                 style: ButtonStyle(
                   backgroundColor: WidgetStateProperty.all<Color>(
                       MyMateThemes.secondaryColor),
-                  foregroundColor: WidgetStateProperty.all<Color>(
-                      MyMateThemes.primaryColor),
+                  foregroundColor:
+                      WidgetStateProperty.all<Color>(MyMateThemes.primaryColor),
                 ),
                 child: Align(
                   alignment: Alignment.centerLeft,

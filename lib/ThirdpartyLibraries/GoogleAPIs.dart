@@ -32,6 +32,7 @@ class _GooglePlacesAPIState extends State<GooglePlacesAPI>{
 
       width: 300,
       child: GooglePlaceAutoCompleteTextField(
+        countries: ["LK"],
         textStyle: TextStyle(
           fontWeight: FontWeight.w600,
           fontSize: 18,
@@ -51,8 +52,6 @@ class _GooglePlacesAPIState extends State<GooglePlacesAPI>{
           enabledBorder: InputBorder.none,
         ),
         debounceTime: 400,
-        // Restrict results to cities
-        // Optional: Limit results to specific countries
         isLatLngRequired: true,
         getPlaceDetailWithLatLng: (Prediction prediction) {
           print("placeDetails${prediction.lat}");
@@ -66,7 +65,6 @@ class _GooglePlacesAPIState extends State<GooglePlacesAPI>{
         containerHorizontalPadding: 10,
         itemBuilder: (context, index, Prediction prediction) {
           return Container(
-
             padding: EdgeInsets.all(10),
             child: Row(
               children: [

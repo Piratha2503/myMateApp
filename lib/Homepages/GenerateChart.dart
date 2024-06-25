@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mymateapp/ChartPages/ChartViewPage.dart';
+import 'package:mymateapp/Homepages/AnimatedPages/ChartCalculating.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/ThirdpartyLibraries/GoogleAPIs.dart';
 import 'package:scroll_date_picker/scroll_date_picker.dart';
@@ -145,7 +147,9 @@ class _GenerateChartState extends State<GenerateChart> {
               height: 58,
               width: 166,
               child: ElevatedButton(
-                onPressed: (){Navigator.pop(context);},
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(
+                      builder: (context)=>ChartCalculating()));},
                 style: CommonButtonStyle.commonButtonStyle(),
                 child: Text(
                   "Next",

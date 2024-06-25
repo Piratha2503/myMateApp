@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mymateapp/ChartPages/ChartInputPage.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 
 class ChartViewPage extends StatefulWidget {
@@ -19,10 +21,9 @@ class _ChartViewPageState extends State<ChartViewPage> {
       ),
       body: Column(
         children: [
+
           SizedBox(
-            height: 150,
-            width: 400,
-            child: ContainerColumn(),
+            height: 25,
           ),
           ChartImage(),
           SizedBox(
@@ -37,10 +38,10 @@ class _ChartViewPageState extends State<ChartViewPage> {
                 child: ElevatedButton(
                   onPressed: onPressed,
                   style: ButtonStyle(
-                    foregroundColor: WidgetStateProperty.all(Colors.white),
-                    backgroundColor: WidgetStateProperty.all(
+                    foregroundColor: MaterialStateProperty.all(Colors.white),
+                    backgroundColor: MaterialStateProperty.all(
                         Color.fromRGBO(25, 40, 78, 200)),
-                    shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.zero)),
                   ),
                   child: Text(
@@ -76,15 +77,31 @@ class _ChartViewPageState extends State<ChartViewPage> {
   }
 }
 
-Widget BorderBox() {
+Widget BorderBox(String planet,int position) {
   return Container(
     height: 70,
     width: 70,
     decoration: BoxDecoration(
       color: Colors.white,
       shape: BoxShape.rectangle,
-      border: Border.all(style: BorderStyle.solid),
+      border: Border.all(
+        color: Colors.indigo,
+          style: BorderStyle.solid),
     ),
+    child: Column(
+      children: [
+        Text(position.toString()),
+        SizedBox(height: 5,),
+        Container(
+          child: Center(
+            child: Text(planet,style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 15,
+            ),),
+          ),
+        ),
+      ],
+    )
   );
 }
 
@@ -95,7 +112,8 @@ Widget NoBorderBox() {
       decoration: BoxDecoration(
         color: Colors.white,
         shape: BoxShape.rectangle,
-      ));
+      ),
+  );
 }
 
 Widget ChartImage() {
@@ -104,72 +122,58 @@ Widget ChartImage() {
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          BorderBox(),
-          BorderBox(),
-          BorderBox(),
-          BorderBox(),
+          BorderBox("ல",1),
+          BorderBox("சூரி",2),
+          BorderBox("ரா",3),
+          BorderBox("சந்",4),
+
         ],
       ),
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          BorderBox(),
+          BorderBox("சனி",5),
           NoBorderBox(),
           NoBorderBox(),
-          BorderBox(),
+          BorderBox("குரு",6),
         ],
       ),
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          BorderBox(),
+          BorderBox("கே+சுக்",7),
           NoBorderBox(),
           NoBorderBox(),
-          BorderBox(),
+          BorderBox("செவ்",8),
         ],
       ),
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          BorderBox(),
-          BorderBox(),
-          BorderBox(),
-          BorderBox(),
+          BorderBox("பு",9),
+          BorderBox("குரு",10),
+          BorderBox("",11),
+          BorderBox("",12),
         ],
       ),
     ],
   );
 }
 
-Widget ContainerColumn() {
-  return const Column(
+Widget TitleContainer() {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
     children: [
-      Text(
-        "Enter birth details",
-        style: TextStyle(
-            fontSize: MyMateThemes.subHeadFontSize,
-            color: MyMateThemes.textGray),
+      Container(
+
+      child: Text(
+          "Your Astrology Chart",
+          style: TextStyle(
+            color: MyMateThemes.primaryColor,
+            fontSize: 20,
+            fontWeight: FontWeight.w600
+          ),
       ),
-      Text(
-        "to calculate Astrology chart ",
-        style: TextStyle(
-            fontSize: MyMateThemes.subHeadFontSize,
-            color: MyMateThemes.textColor),
-      ),
-      SizedBox(
-        height: 10,
-      ),
-      Text(
-        "Make sure this number can receive SMS.",
-        style: TextStyle(fontSize: 14),
-      ),
-      Text(
-        "You will receive your activation code",
-        style: TextStyle(fontSize: 14),
-      ),
-      Text(
-        "through it.",
-        style: TextStyle(fontSize: 14),
       ),
     ],
   );

@@ -1,76 +1,52 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:mymateapp/Homepages/MyProfile.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/dbConnection/Firebase.dart';
+import 'package:mymateapp/dbConnection/viewPage.dart';
 
-class crudApp extends StatefulWidget {
+class crudApp extends StatefulWidget{
   const crudApp({super.key});
 
   @override
   State<crudApp> createState() => _crudAppState();
 }
 
-class _crudAppState extends State<crudApp> {
+class _crudAppState extends State<crudApp>{
+
   final Firebase firebase = Firebase();
 
-  Widget ClientCard(String imgAddress) {
+  Widget ClientCard(String msg, String img_address){
     return Card(
+
       shadowColor: Colors.white,
       color: Colors.white60,
       child: Column(
+
         mainAxisSize: MainAxisSize.min,
         children: [
-          Image(
-            image: AssetImage(imgAddress),
-            height: 75,
-            width: 200,
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            "Full_name",
+          Image(image: AssetImage(img_address),height: 75,width: 200,),
+          SizedBox(height: 10,),
+          Text(msg,
             style: TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 17,
             ),
           ),
+
         ],
       ),
     );
-    // Card(
-    // shadowColor: Colors.white,
-    // color: Colors.white60,
-    // child: Column(
-    //   mainAxisSize: MainAxisSize.min,
-    //   children: [
-    //     Image(
-    //       image: AssetImage(img_address),
-    //       height: 75,
-    //       width: 200,
-    //     ),
-    //     SizedBox(
-    //       height: 10,
-    //     ),
-    //     Text(
-    //       "Full_name",
-    //       style: TextStyle(
-    //         fontWeight: FontWeight.w600,
-    //         fontSize: 17,
-    //       ),
-    //     ),
-    //   ],
-    // ),
-    //  );
   }
 
-  Widget MyGridContainer(String imgAddress) {
+  Widget MyGridContainer(String msg, String img_address){
     return Align(
       alignment: Alignment.topCenter,
       child: Container(
-        height: 350, // Increase the height of the container
-        width: 200,
+        height: 500,
+        width: 250,// Increase the height of the container
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           boxShadow: CupertinoContextMenu.kEndBoxShadow,
@@ -83,7 +59,7 @@ class _crudAppState extends State<crudApp> {
             Image(image: AssetImage("assets/images/a.jpeg"), height: 75),
             SizedBox(height: 10),
             Text(
-              "Full_Name",
+              msg,
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 15,
@@ -93,19 +69,22 @@ class _crudAppState extends State<crudApp> {
         ),
       ),
     );
+
   }
 
   @override
-  Widget build(BuildContext context) {
-    List<List<dynamic>> MyClients = firebase.clientList;
+   Widget build(BuildContext context) {
 
-    return Scaffold(
+  List<List<dynamic>> MyClients = firebase.clientList;
+
+     return Scaffold(
       appBar: AppBar(
         backgroundColor: MyMateThemes.primaryColor,
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: firebase.getClients(),
         builder: (context, snapshot) {
+
           if (snapshot.hasError) {
             return Center(child: Text('Something went wrong'));
           }
@@ -116,10 +95,9 @@ class _crudAppState extends State<crudApp> {
 
           final clients = snapshot.data!.docs;
           List<Widget> clientContainers = clients.map((client) {
-            const imgAddress = "assets/images/a.jpeg";
-            // final clientName = client['full_name'];
-            return MyGridContainer(imgAddress);
-          }).toList();
+            const img_address = "assets/images/a.jpeg";
+            final clientName = client['full_name'];
+            return MyGridContainer(clientName,img_address);}).toList();
           return GridView.count(
             scrollDirection: Axis.vertical,
             primary: false,
@@ -127,22 +105,17 @@ class _crudAppState extends State<crudApp> {
             crossAxisSpacing: 10,
             mainAxisSpacing: 10,
             crossAxisCount: 2,
+
             children: clientContainers,
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          firebase.addClient();
-        },
-        backgroundColor: MyMateThemes.textColor,
-        foregroundColor: Colors.white,
-        child: Icon(
-          Icons.add,
-          size: 30,
-          weight: 600,
-        ),
-      ),
+        floatingActionButton: FloatingActionButton(onPressed: (){
+        firebase.addClient();
+      },
+      backgroundColor: MyMateThemes.textColor,
+      foregroundColor: Colors.white,
+          child: Icon(Icons.add,size: 30,weight: 600,),),
     );
   }
 }
