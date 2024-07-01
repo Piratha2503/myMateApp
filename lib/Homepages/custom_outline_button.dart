@@ -10,36 +10,36 @@ class CustomOutlineButton extends StatelessWidget {
   final VoidCallback onPressed;
 
   const CustomOutlineButton({
-    Key? key,
+    super.key,
     required this.assetPath,
     required this.label,
     required this.index,
     required this.isSelected,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
       onPressed: onPressed,
       style: ButtonStyle(
-        foregroundColor: MaterialStateProperty.all(
+        foregroundColor: WidgetStateProperty.all(
           isSelected
               ? MyMateThemes.secondaryColor
               : MyMateThemes.containerColor,
         ),
-        backgroundColor: MaterialStateProperty.all(
+        backgroundColor: WidgetStateProperty.all(
           isSelected
               ? MyMateThemes.secondaryColor
               : MyMateThemes.containerColor,
         ),
-        shape: MaterialStateProperty.all(
+        shape: WidgetStateProperty.all(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.zero,
           ),
         ),
-        side: MaterialStateProperty.all(BorderSide.none),
-        minimumSize: MaterialStateProperty.all(Size(103.31, 40)),
+        side: WidgetStateProperty.all(BorderSide.none),
+        minimumSize: WidgetStateProperty.all(Size(103.31, 40)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,

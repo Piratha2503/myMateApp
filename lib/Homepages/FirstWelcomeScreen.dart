@@ -254,9 +254,9 @@ class _FrontPageState extends State<FrontPage>
           print('Button pressed');
         },
         style: const ButtonStyle(
-          foregroundColor: MaterialStatePropertyAll(Colors.white),
-          backgroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
-          shape: MaterialStatePropertyAll(
+          foregroundColor: WidgetStatePropertyAll(Colors.white),
+          backgroundColor: WidgetStatePropertyAll(MyMateThemes.primaryColor),
+          shape: WidgetStatePropertyAll(
               RoundedRectangleBorder(borderRadius: BorderRadius.zero)),
         ),
         child: Text(

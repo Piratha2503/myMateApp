@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:mymateapp/Homepages/RegisterPage.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 
@@ -112,9 +110,9 @@ class _WelcomePageState extends State<WelcomePage> {
                 child: ElevatedButton(
                   onPressed: Clicked,
                   style: ButtonStyle(
-                    foregroundColor: MaterialStatePropertyAll(Colors.white),
-                    backgroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
-                              shape: MaterialStatePropertyAll(
+                    foregroundColor: WidgetStatePropertyAll(Colors.white),
+                    backgroundColor: WidgetStatePropertyAll(MyMateThemes.primaryColor),
+                              shape: WidgetStatePropertyAll(
                                       RoundedRectangleBorder(
                                                   borderRadius: BorderRadius.zero
                                               )

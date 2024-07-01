@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mymateapp/MyMateThemes.dart';
 
 class Tokenpage extends StatefulWidget {
-  const Tokenpage({Key? key}) : super(key: key);
+  const Tokenpage({super.key});
 
   @override
   State<Tokenpage> createState() => _TokenpageState();

@@ -6,7 +6,7 @@ import '../MyMateThemes.dart';
 class viewPage extends StatefulWidget {
   final String docId;
 
-  const viewPage({required this.docId, Key? key}) : super(key: key);
+  const viewPage({required this.docId, super.key});
 
   @override
   State<viewPage> createState() => _viewPageState();

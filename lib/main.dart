@@ -36,10 +36,10 @@ import 'package:mymateapp/Homepages/OthersProfile.dart';
 import 'package:mymateapp/Homepages/AddTokenPage.dart';
 
 void main() async {
-   WidgetsFlutterBinding.ensureInitialized();
-   await Firebase.initializeApp(
-     options: DefaultFirebaseOptions.currentPlatform,
-   );
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -54,10 +54,8 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
           primaryColor: Colors.blue[200]),
-          debugShowCheckedModeBanner: false,
-      home: RasiPorutham(),
+      debugShowCheckedModeBanner: false,
+      home: VasiyaMatcher(),
     );
   }
 }
-
-

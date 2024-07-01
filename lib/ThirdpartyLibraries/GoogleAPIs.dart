@@ -28,7 +28,7 @@ class _GooglePlacesAPIState extends State<GooglePlacesAPI>{
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
 
       width: 300,
       child: GooglePlaceAutoCompleteTextField(
@@ -54,7 +54,7 @@ class _GooglePlacesAPIState extends State<GooglePlacesAPI>{
         debounceTime: 400,
         isLatLngRequired: true,
         getPlaceDetailWithLatLng: (Prediction prediction) {
-          print("placeDetails" + prediction.lat.toString());
+          print("placeDetails${prediction.lat}");
         },
         itemClick: (Prediction prediction) {
           controller.text = prediction.description ?? "";
@@ -72,7 +72,7 @@ class _GooglePlacesAPIState extends State<GooglePlacesAPI>{
                 SizedBox(width: 7),
                 Expanded(
                     child: Text(
-                      "${prediction.description ?? ""}",
+                      prediction.description ?? "",
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 17,

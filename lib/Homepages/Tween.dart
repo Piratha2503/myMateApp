@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class MyTween extends StatelessWidget {
+  const MyTween({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -11,6 +13,8 @@ class MyTween extends StatelessWidget {
 }
 
 class ScrollingImageAnimationDemo extends StatefulWidget {
+  const ScrollingImageAnimationDemo({super.key});
+
   @override
   _ScrollingImageAnimationDemoState createState() =>
       _ScrollingImageAnimationDemoState();

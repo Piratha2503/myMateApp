@@ -1,11 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 
 class ManualNavamsaChartPage extends StatefulWidget {
-  const ManualNavamsaChartPage({Key? key}) : super(key: key);
+  const ManualNavamsaChartPage({super.key});
 
   @override
   State<ManualNavamsaChartPage> createState() => _ManualNavamsaChartPage();

@@ -20,6 +20,7 @@ class _crudAppState extends State<crudApp>{
 
   Widget ClientCard(String msg, String img_address){
     return Card(
+
       shadowColor: Colors.white,
       color: Colors.white60,
       child: Column(
