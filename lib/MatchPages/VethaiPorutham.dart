@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mymateapp/MyMateThemes.dart';
 
 class VethaiMatcher extends StatefulWidget {
   @override
@@ -32,13 +31,44 @@ class _VethaiMatcherState extends State<VethaiMatcher> {
   void initState() {
     super.initState();
     allNames.addAll(vethaiMismatchList.expand((x) => x).toList());
+
+    // Add listeners to the text controllers
+    boyController.addListener(_checkMatch);
+    girlController.addListener(_checkMatch);
   }
 
   @override
   void dispose() {
+    boyController.removeListener(_checkMatch);
+    girlController.removeListener(_checkMatch);
     boyController.dispose();
     girlController.dispose();
     super.dispose();
+  }
+
+  void _checkMatch() {
+    setState(() {
+      String boyStarName = boyController.text.trim();
+      String girlStarName = girlController.text.trim();
+
+      // Implement your matching logic here and set the message
+      if (boyStarName.isNotEmpty && girlStarName.isNotEmpty) {
+        if (vethaiMismatchList.any((pair) =>
+            pair.contains(boyStarName) && pair.contains(girlStarName))) {
+          message = 'Not matched';
+        } else {
+          message = 'Matched';
+        }
+      } else {
+        message = 'Please enter both Star names';
+      }
+    });
+  }
+
+  void setBoyAndGirlStars(String boyStar, String girlStar) {
+    boyController.text = boyStar;
+    girlController.text = girlStar;
+    _checkMatch();
   }
 
   @override
@@ -51,41 +81,12 @@ class _VethaiMatcherState extends State<VethaiMatcher> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: <Widget>[
-            TextField(
-              controller: boyController,
-              decoration: InputDecoration(
-                labelText: 'Boy:',
-              ),
-            ),
-            SizedBox(height: 20),
-            TextField(
-              controller: girlController,
-              decoration: InputDecoration(
-                labelText: 'Girl:',
-              ),
-            ),
-            SizedBox(height: 40),
             ElevatedButton(
               onPressed: () {
-                setState(() {
-                  String boyStarName = boyController.text.trim();
-                  String girlStarName = girlController.text.trim();
-
-                  // Implement your matching logic here and set the message
-                  if (boyStarName.isNotEmpty && girlStarName.isNotEmpty) {
-                    if (vethaiMismatchList.any((pair) =>
-                        pair.contains(boyStarName) &&
-                        pair.contains(girlStarName))) {
-                      message = 'Not matched';
-                    } else {
-                      message = 'Matched';
-                    }
-                  } else {
-                    message = 'Please enter both Star names';
-                  }
-                });
+                // Example: setting the star names
+                setBoyAndGirlStars("Ashwini", "Keddai");
               },
-              child: Text('Check Match'),
+              child: Text('Check'),
             ),
             SizedBox(height: 20),
             Text(
