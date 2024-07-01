@@ -6,11 +6,11 @@ class RasiNadchathiram{
   ];
   static List<int> rasiMatchNumberList = [ 2,4,6,8 ];
 
-  static List<String> nadchathiraList = [
-    "Ashwini" "Bharani" "Kiruthigai" "Rohini" "Mirugasheeridam" "Thiruvathirai" "Punarpusham"
-    "Pusham" "Aayilyam" "Magham" "pooram" "Uththaram" "Ashththam" "Chitrai" "Swathi" "Vishakham"
-    "Anusham" "Keddai" "Moolam" "pooradam" "Uththaradam" "Thiruvonam" "Aviddam" "Sathayam"
-    "pooraddaathi" "Uththaraddathi" "Revathi"
+  static List<String> nadchathiraMatchList = [
+    "Ashwini","Bharani","Kiruthigai","Rohini","Mirugasheeridam","Thiruvathirai","Punarpusham",
+    "Pusham","Aayilyam","Magham","pooram","Uththaram","Ashththam","Chitrai","Swathi","Vishakham",
+    "Anusham","Keddai","Moolam","pooradam","Uththaradam","Thiruvonam","Aviddam","Sathayam",
+    "pooraddaathi","Uththaraddathi","Revathi",
   ];
 
   static List<Map<String,String>> YoniList =[
@@ -32,10 +32,10 @@ class RasiNadchathiram{
 
   ];
 
-  static List<List<String>> yoniMismatchList =[
-    ["Monkey" "Goat"],["Lion" "Elephant"],["Horse","Buffalo"],["Cow","Tiger"],
-    ["Cat" "Rat"],["Snake" "Rat"],["Dear" "Dog"],["Goat" "Monkey"],["Elephant" "Lion"],
-    ["Horse","Buffalo"],["Cow","Tiger"], ["Cat" "Rat"],["Snake" "Rat"],["Dear" "Dog"]
+  static List<List<String>> yoniMismatchingList =[
+    ["Monkey", "Goat"],["Lion","Elephant"],
+    ["Cat","Rat"],["Snake","Rat"],["Dear","Dog"],["Goat","Monkey"],["Elephant","Lion"],
+    ["Horse","Buffalo"],["Cow","Tiger"], ["Cat","Rat"],["Snake","Rat"],["Dear","Dog"]
   ];
 
 }

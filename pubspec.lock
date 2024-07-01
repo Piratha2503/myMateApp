@@ -656,14 +656,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
-  otp_pin_field:
-    dependency: "direct main"
-    description:
-      name: otp_pin_field
-      sha256: "3f2832702db1d07b3a2a25b0e46b26c3403ab0ce202616bf78c21a8a257e5477"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.2.4"
   package_config:
     dependency: transitive
     description:

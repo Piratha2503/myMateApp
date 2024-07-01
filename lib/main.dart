@@ -22,8 +22,6 @@ import 'package:mymateapp/Homepages/MyProfile.dart';
 import 'package:mymateapp/Homepages/NameAndGenderPage.dart';
 import 'package:mymateapp/Homepages/RegisterPage.dart';
 import 'package:mymateapp/Homepages/AnimatedPages/StartPage.dart';
-import 'package:mymateapp/Homepages/Test2.dart';
-import 'package:mymateapp/Homepages/Test3.dart';
 import 'package:mymateapp/Homepages/WelcomeScreen.dart';
 import 'package:mymateapp/Homepages/Test.dart';
 import 'package:mymateapp/Homepages/OTPPage.dart';
