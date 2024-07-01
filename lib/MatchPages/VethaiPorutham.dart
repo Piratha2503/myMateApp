@@ -33,20 +33,20 @@ class _VethaiMatcherState extends State<VethaiMatcher> {
     allNames.addAll(vethaiMismatchList.expand((x) => x).toList());
 
     // Add listeners to the text controllers
-    boyController.addListener(_checkMatch);
-    girlController.addListener(_checkMatch);
+    boyController.addListener(_checkVethaiMatch);
+    girlController.addListener(_checkVethaiMatch);
   }
 
   @override
   void dispose() {
-    boyController.removeListener(_checkMatch);
-    girlController.removeListener(_checkMatch);
+    boyController.removeListener(_checkVethaiMatch);
+    girlController.removeListener(_checkVethaiMatch);
     boyController.dispose();
     girlController.dispose();
     super.dispose();
   }
 
-  void _checkMatch() {
+  void _checkVethaiMatch() {
     setState(() {
       String boyStarName = boyController.text.trim();
       String girlStarName = girlController.text.trim();
@@ -68,7 +68,7 @@ class _VethaiMatcherState extends State<VethaiMatcher> {
   void setBoyAndGirlStars(String boyStar, String girlStar) {
     boyController.text = boyStar;
     girlController.text = girlStar;
-    _checkMatch();
+    _checkVethaiMatch();
   }
 
   @override
