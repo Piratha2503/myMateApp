@@ -48,13 +48,43 @@ class _VirutshaMatcherState extends State<VirutshaMatcher> {
     super.initState();
     allNames.addAll(Group1);
     allNames.addAll(Group2);
+
+    // Add listeners to the text controllers
+    boyController.addListener(_checkVirutshaMatch);
+    girlController.addListener(_checkVirutshaMatch);
   }
 
   @override
   void dispose() {
+    boyController.removeListener(_checkVirutshaMatch);
+    girlController.removeListener(_checkVirutshaMatch);
     boyController.dispose();
     girlController.dispose();
     super.dispose();
+  }
+
+  void _checkVirutshaMatch() {
+    setState(() {
+      String boyStarName = boyController.text.trim();
+      String girlStarName = girlController.text.trim();
+
+      if (boyStarName.isNotEmpty && girlStarName.isNotEmpty) {
+        if ((Group1.contains(boyStarName) && Group1.contains(girlStarName)) ||
+            (Group1.contains(boyStarName) && Group2.contains(girlStarName)) ||
+            (Group2.contains(boyStarName) && Group1.contains(girlStarName))) {
+          message = 'Matched';
+        } else {
+          message = 'Not Matched';
+        }
+      } else {
+        message = 'Please enter both Star names';
+      }
+    });
+  }
+
+  void setBoyAndGirlStars(String boyStar, String girlStar) {
+    boyController.text = boyStar;
+    girlController.text = girlStar;
   }
 
   @override
@@ -67,43 +97,11 @@ class _VirutshaMatcherState extends State<VirutshaMatcher> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: <Widget>[
-            TextField(
-              controller: boyController,
-              decoration: InputDecoration(
-                labelText: 'Boy:',
-              ),
-            ),
-            SizedBox(height: 20),
-            TextField(
-              controller: girlController,
-              decoration: InputDecoration(
-                labelText: 'Girl:',
-              ),
-            ),
-            SizedBox(height: 40),
             ElevatedButton(
               onPressed: () {
-                setState(() {
-                  String boyStarName = boyController.text.trim();
-                  String girlStarName = girlController.text.trim();
-
-                  if (boyStarName.isNotEmpty && girlStarName.isNotEmpty) {
-                    if ((Group1.contains(boyStarName) &&
-                            Group1.contains(girlStarName)) ||
-                        (Group1.contains(boyStarName) &&
-                            Group2.contains(girlStarName)) ||
-                        (Group2.contains(boyStarName) &&
-                            Group1.contains(girlStarName))) {
-                      message = ' Matched';
-                    } else {
-                      message = 'Not Matched';
-                    }
-                  } else {
-                    message = 'Please enter both Star names';
-                  }
-                });
+                setBoyAndGirlStars("Bharani", "Rohini");
               },
-              child: Text('Check Match'),
+              child: Text('Check'),
             ),
             SizedBox(height: 20),
             Text(
