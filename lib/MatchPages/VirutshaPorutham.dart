@@ -38,36 +38,19 @@ class _VirutshaMatcherState extends State<VirutshaMatcher> {
     'Revathi'
   ];
 
-  final List<String> allNames = [];
-  TextEditingController boyController = TextEditingController();
-  TextEditingController girlController = TextEditingController();
   String? message;
 
   @override
   void initState() {
     super.initState();
-    allNames.addAll(Group1);
-    allNames.addAll(Group2);
-
-    // Add listeners to the text controllers
-    boyController.addListener(_checkVirutshaMatch);
-    girlController.addListener(_checkVirutshaMatch);
+    // Set the boy and girl star names manually
+    String boyStarName = 'Bharani';
+    String girlStarName = 'Rohini';
+    _checkVirutshaMatch(boyStarName, girlStarName);
   }
 
-  @override
-  void dispose() {
-    boyController.removeListener(_checkVirutshaMatch);
-    girlController.removeListener(_checkVirutshaMatch);
-    boyController.dispose();
-    girlController.dispose();
-    super.dispose();
-  }
-
-  void _checkVirutshaMatch() {
+  void _checkVirutshaMatch(String boyStarName, String girlStarName) {
     setState(() {
-      String boyStarName = boyController.text.trim();
-      String girlStarName = girlController.text.trim();
-
       if (boyStarName.isNotEmpty && girlStarName.isNotEmpty) {
         if ((Group1.contains(boyStarName) && Group1.contains(girlStarName)) ||
             (Group1.contains(boyStarName) && Group2.contains(girlStarName)) ||
@@ -82,11 +65,6 @@ class _VirutshaMatcherState extends State<VirutshaMatcher> {
     });
   }
 
-  void setBoyAndGirlStars(String boyStar, String girlStar) {
-    boyController.text = boyStar;
-    girlController.text = girlStar;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,12 +75,6 @@ class _VirutshaMatcherState extends State<VirutshaMatcher> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: <Widget>[
-            ElevatedButton(
-              onPressed: () {
-                setBoyAndGirlStars("Bharani", "Rohini");
-              },
-              child: Text('Check'),
-            ),
             SizedBox(height: 20),
             Text(
               message ?? '',

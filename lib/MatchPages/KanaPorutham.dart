@@ -41,37 +41,19 @@ class _KanaMatcherState extends State<KanaMatcher> {
     'Shathabhisha'
   ];
 
-  final List<String> allNames = [];
-  TextEditingController boyController = TextEditingController();
-  TextEditingController girlController = TextEditingController();
   String? message;
 
   @override
   void initState() {
     super.initState();
-    allNames.addAll(Theva);
-    allNames.addAll(Manusa);
-    allNames.addAll(Ratchasa);
-
-    // Add listeners to the text controllers
-    boyController.addListener(_checkKanaMatch);
-    girlController.addListener(_checkKanaMatch);
+    // Set the boy and girl star names manually
+    String boyStarName = 'Aswini';
+    String girlStarName = 'Aswini';
+    _checkKanaMatch(boyStarName, girlStarName);
   }
 
-  @override
-  void dispose() {
-    boyController.removeListener(_checkKanaMatch);
-    girlController.removeListener(_checkKanaMatch);
-    boyController.dispose();
-    girlController.dispose();
-    super.dispose();
-  }
-
-  void _checkKanaMatch() {
+  void _checkKanaMatch(String boyStarName, String girlStarName) {
     setState(() {
-      String boyStarName = boyController.text.trim();
-      String girlStarName = girlController.text.trim();
-
       if (boyStarName.isNotEmpty && girlStarName.isNotEmpty) {
         if ((Theva.contains(boyStarName) && Theva.contains(girlStarName)) ||
             (Manusa.contains(boyStarName) && Manusa.contains(girlStarName)) ||
@@ -93,11 +75,6 @@ class _KanaMatcherState extends State<KanaMatcher> {
     });
   }
 
-  void setBoyAndGirlStars(String boyStar, String girlStar) {
-    boyController.text = boyStar;
-    girlController.text = girlStar;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,13 +85,6 @@ class _KanaMatcherState extends State<KanaMatcher> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: <Widget>[
-            ElevatedButton(
-              onPressed: () {
-                // Example: setting the star names
-                setBoyAndGirlStars("Aswini", "Chitra");
-              },
-              child: Text('Check'),
-            ),
             SizedBox(height: 20),
             Text(
               message ?? '',
