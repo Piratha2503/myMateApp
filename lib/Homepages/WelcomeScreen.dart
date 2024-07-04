@@ -11,7 +11,8 @@ class WelcomePage extends StatefulWidget {
 
 class _WelcomePageState extends State<WelcomePage> {
   void Clicked() {
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>const RegisterPage()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const RegisterPage()));
   }
 
   @override
@@ -78,13 +79,14 @@ class _WelcomePageState extends State<WelcomePage> {
                 child: const Row(
                   children: <Widget>[
                     Text("By tapping"),
-                    Text( "Get Started" ,
+                    Text(
+                      "Get Started",
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                           color: MyMateThemes.textColor),
                     ),
-                    Text('you agree to our'),
+                    Text(' you agree to our'),
                   ],
                 ))
           ]),
@@ -100,7 +102,9 @@ class _WelcomePageState extends State<WelcomePage> {
               ),
             ],
           ),
-          Container( height: 20, ),
+          Container(
+            height: 20,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -110,14 +114,12 @@ class _WelcomePageState extends State<WelcomePage> {
                 child: ElevatedButton(
                   onPressed: Clicked,
                   style: ButtonStyle(
-                    foregroundColor: MaterialStatePropertyAll(Colors.white),
-                    backgroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
-                              shape: MaterialStatePropertyAll(
-                                      RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.zero
-                                              )
-                                            ),
-                                          ),
+                    foregroundColor: WidgetStatePropertyAll(Colors.white),
+                    backgroundColor:
+                        WidgetStatePropertyAll(MyMateThemes.primaryColor),
+                    shape: WidgetStatePropertyAll(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero)),
+                  ),
                   child: const Text(
                     "Get Started",
                     style: TextStyle(fontSize: 18),

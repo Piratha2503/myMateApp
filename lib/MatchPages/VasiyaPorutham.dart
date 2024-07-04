@@ -22,22 +22,45 @@ class _VasiyaMatcherState extends State<VasiyaMatcher> {
     'Pisces'
   ];
 
-  final List<String> allNames = [];
-  TextEditingController boyController = TextEditingController();
-  TextEditingController girlController = TextEditingController();
   String? message;
 
   @override
   void initState() {
     super.initState();
-    allNames.addAll(Rasi);
+    // Set the boy and girl Rasi names manually
+    String boyRasiName = 'Aries';
+    String girlRasiName = 'Leo';
+    _checkMatch(boyRasiName, girlRasiName);
   }
 
-  @override
-  void dispose() {
-    boyController.dispose();
-    girlController.dispose();
-    super.dispose();
+  void _checkMatch(String boyRasiName, String girlRasiName) {
+    setState(() {
+      if (boyRasiName.isNotEmpty && girlRasiName.isNotEmpty) {
+        if (girlRasiName == 'Aries' &&
+                (boyRasiName == 'Leo' || boyRasiName == 'Scorpio') ||
+            girlRasiName == 'Taurus' &&
+                (boyRasiName == 'Cancer' || boyRasiName == 'Libra') ||
+            girlRasiName == 'Gemini' && (boyRasiName == 'Virgo') ||
+            girlRasiName == 'Cancer' &&
+                (boyRasiName == 'Scorpio' || boyRasiName == 'Sagittarius') ||
+            girlRasiName == 'Leo' && (boyRasiName == 'Capricorn') ||
+            girlRasiName == 'Virgo' &&
+                (boyRasiName == 'Taurus' || boyRasiName == 'Pisces') ||
+            girlRasiName == 'Libra' && (boyRasiName == 'Capricorn') ||
+            girlRasiName == 'Scorpio' &&
+                (boyRasiName == 'Cancer' || boyRasiName == 'Virgo') ||
+            girlRasiName == 'Sagittarius' && (boyRasiName == 'Pisces') ||
+            girlRasiName == 'Capricorn' && (boyRasiName == 'Aquarius') ||
+            girlRasiName == 'Aquarius' && (boyRasiName == 'Pisces') ||
+            girlRasiName == 'Pisces' && (boyRasiName == 'Capricorn')) {
+          message = 'Matched';
+        } else {
+          message = 'Not Matched';
+        }
+      } else {
+        message = 'Please enter both Rasi names';
+      }
+    });
   }
 
   @override
@@ -50,65 +73,6 @@ class _VasiyaMatcherState extends State<VasiyaMatcher> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: <Widget>[
-            TextField(
-              controller: boyController,
-              decoration: InputDecoration(
-                labelText: 'Boy:',
-              ),
-            ),
-            SizedBox(height: 20),
-            TextField(
-              controller: girlController,
-              decoration: InputDecoration(
-                labelText: 'Girl:',
-              ),
-            ),
-            SizedBox(height: 40),
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  String boyRasiName = boyController.text.trim();
-                  String girlRasiName = girlController.text.trim();
-
-                  if (boyRasiName.isNotEmpty && girlRasiName.isNotEmpty) {
-                    if (girlRasiName == 'Aries' &&
-                            (boyRasiName == 'Leo' ||
-                                boyRasiName == 'Scorpio') ||
-                        girlRasiName == 'Taurus' &&
-                            (boyRasiName == 'Cancer' ||
-                                boyRasiName == 'Libra') ||
-                        girlRasiName == 'Gemini' && (boyRasiName == 'Virgo') ||
-                        girlRasiName == 'Cancer' &&
-                            (boyRasiName == 'Scorpio' ||
-                                boyRasiName == 'Sagittarius') ||
-                        girlRasiName == 'Leo' && (boyRasiName == 'Capricorn') ||
-                        girlRasiName == 'Virgo' &&
-                            (boyRasiName == 'Taurus' ||
-                                boyRasiName == 'Pisces') ||
-                        girlRasiName == 'Libra' &&
-                            (boyRasiName == 'Capricorn') ||
-                        girlRasiName == 'Scorpio' &&
-                            (boyRasiName == 'Cancer' ||
-                                boyRasiName == 'Virgo') ||
-                        girlRasiName == 'Sagittarius' &&
-                            (boyRasiName == 'Pisces') ||
-                        girlRasiName == 'Capricorn' &&
-                            (boyRasiName == 'Aquarius') ||
-                        girlRasiName == 'Aquarius' &&
-                            (boyRasiName == 'Pisces') ||
-                        girlRasiName == 'Pisces' &&
-                            (boyRasiName == 'Capricorn')) {
-                      message = 'Matched';
-                    } else {
-                      message = 'Not Matched';
-                    }
-                  } else {
-                    message = 'Please enter both Rasi names';
-                  }
-                });
-              },
-              child: Text('Check Match'),
-            ),
             SizedBox(height: 20),
             Text(
               message ?? '',

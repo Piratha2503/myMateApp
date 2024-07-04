@@ -41,24 +41,38 @@ class _KanaMatcherState extends State<KanaMatcher> {
     'Shathabhisha'
   ];
 
-  final List<String> allNames = [];
-  TextEditingController boyController = TextEditingController();
-  TextEditingController girlController = TextEditingController();
   String? message;
 
   @override
   void initState() {
     super.initState();
-    allNames.addAll(Theva);
-    allNames.addAll(Manusa);
-    allNames.addAll(Ratchasa);
+    // Set the boy and girl star names manually
+    String boyStarName = 'Aswini';
+    String girlStarName = 'Aswini';
+    _checkKanaMatch(boyStarName, girlStarName);
   }
 
-  @override
-  void dispose() {
-    boyController.dispose();
-    girlController.dispose();
-    super.dispose();
+  void _checkKanaMatch(String boyStarName, String girlStarName) {
+    setState(() {
+      if (boyStarName.isNotEmpty && girlStarName.isNotEmpty) {
+        if ((Theva.contains(boyStarName) && Theva.contains(girlStarName)) ||
+            (Manusa.contains(boyStarName) && Manusa.contains(girlStarName)) ||
+            (Manusa.contains(boyStarName) && Theva.contains(girlStarName))) {
+          message = 'Matched';
+        } else if ((Ratchasa.contains(boyStarName) &&
+                Ratchasa.contains(girlStarName)) ||
+            (Ratchasa.contains(boyStarName) && Theva.contains(girlStarName)) ||
+            (Ratchasa.contains(girlStarName)) ||
+            (Theva.contains(boyStarName) && Manusa.contains(girlStarName)) ||
+            (Ratchasa.contains(boyStarName) && Manusa.contains(girlStarName))) {
+          message = 'Not Matched';
+        } else {
+          message = 'Error in entered name';
+        }
+      } else {
+        message = 'Please enter both Star names';
+      }
+    });
   }
 
   @override
@@ -71,55 +85,6 @@ class _KanaMatcherState extends State<KanaMatcher> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: <Widget>[
-            TextField(
-              controller: boyController,
-              decoration: InputDecoration(
-                labelText: 'Boy:',
-              ),
-            ),
-            SizedBox(height: 20),
-            TextField(
-              controller: girlController,
-              decoration: InputDecoration(
-                labelText: 'Girl:',
-              ),
-            ),
-            SizedBox(height: 40),
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  String boyStarName = boyController.text.trim();
-                  String girlStarName = girlController.text.trim();
-
-                  if (boyStarName.isNotEmpty && girlStarName.isNotEmpty) {
-                    if ((Theva.contains(boyStarName) &&
-                            Theva.contains(girlStarName)) ||
-                        (Manusa.contains(boyStarName) &&
-                            Manusa.contains(girlStarName)) ||
-                        (Manusa.contains(boyStarName) &&
-                            Theva.contains(girlStarName))) {
-                      message = 'Matched';
-                    } else if ((Ratchasa.contains(boyStarName) &&
-                            Ratchasa.contains(girlStarName)) ||
-                        (Ratchasa.contains(boyStarName) &&
-                            Theva.contains(girlStarName)) ||
-                        (Ratchasa.contains(girlStarName)) ||
-                        (Theva.contains(boyStarName) &&
-                            Manusa.contains(girlStarName))) {
-                      message = 'Not Matched';
-                    } else if (Ratchasa.contains(boyStarName) &&
-                        Manusa.contains(girlStarName)) {
-                      message = 'Match according to other matches';
-                    } else {
-                      message = 'Error in entered name';
-                    }
-                  } else {
-                    message = 'Please enter both Star names';
-                  }
-                });
-              },
-              child: Text('Check Match'),
-            ),
             SizedBox(height: 20),
             Text(
               message ?? '',

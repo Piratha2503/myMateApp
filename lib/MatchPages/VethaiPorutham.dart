@@ -22,36 +22,19 @@ class _VethaiMatcherState extends State<VethaiMatcher> {
     ["Mirugasheeridam", "Chitrai", "Aviddam"]
   ];
 
-  final List<String> allNames = [];
-  TextEditingController boyController = TextEditingController();
-  TextEditingController girlController = TextEditingController();
   String? message;
 
   @override
   void initState() {
     super.initState();
-    allNames.addAll(vethaiMismatchList.expand((x) => x).toList());
-
-    // Add listeners to the text controllers
-    boyController.addListener(_checkVethaiMatch);
-    girlController.addListener(_checkVethaiMatch);
+    // Set the boy and girl star names manually
+    String boyStarName = 'Ashwini';
+    String girlStarName = 'Keddai';
+    _checkVethaiMatch(boyStarName, girlStarName);
   }
 
-  @override
-  void dispose() {
-    boyController.removeListener(_checkVethaiMatch);
-    girlController.removeListener(_checkVethaiMatch);
-    boyController.dispose();
-    girlController.dispose();
-    super.dispose();
-  }
-
-  void _checkVethaiMatch() {
+  void _checkVethaiMatch(String boyStarName, String girlStarName) {
     setState(() {
-      String boyStarName = boyController.text.trim();
-      String girlStarName = girlController.text.trim();
-
-      // Implement your matching logic here and set the message
       if (boyStarName.isNotEmpty && girlStarName.isNotEmpty) {
         if (vethaiMismatchList.any((pair) =>
             pair.contains(boyStarName) && pair.contains(girlStarName))) {
@@ -65,12 +48,6 @@ class _VethaiMatcherState extends State<VethaiMatcher> {
     });
   }
 
-  void setBoyAndGirlStars(String boyStar, String girlStar) {
-    boyController.text = boyStar;
-    girlController.text = girlStar;
-    _checkVethaiMatch();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,13 +58,6 @@ class _VethaiMatcherState extends State<VethaiMatcher> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: <Widget>[
-            ElevatedButton(
-              onPressed: () {
-                // Example: setting the star names
-                setBoyAndGirlStars("Ashwini", "Keddai");
-              },
-              child: Text('Check'),
-            ),
             SizedBox(height: 20),
             Text(
               message ?? '',
