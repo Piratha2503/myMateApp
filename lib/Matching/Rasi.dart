@@ -97,7 +97,9 @@ String ThinaporuthamFunction(String girlNadchathiram,String boyNadchathiram ){
 
 }
 
-void _checkKanaMatch(String boyStarName, String girlStarName) {
+String _checkKanaMatch(String boyStarName, String girlStarName) {
+
+  String message = "";
 
     if (boyStarName.isNotEmpty && girlStarName.isNotEmpty) {
       if ((RasiNadchathiram.Theva.contains(boyStarName) &&
@@ -124,9 +126,12 @@ void _checkKanaMatch(String boyStarName, String girlStarName) {
       message = 'Please enter both Star names';
     }
 
+    return message;
+
 }
 
-void _checkRachuMatch(String boyStarName, String girlStarName) {
+String _checkRachuMatch(String boyStarName, String girlStarName) {
+  String message = "";
 
   if (boyStarName.isNotEmpty && girlStarName.isNotEmpty) {
     if ((RasiNadchathiram.Group1.contains(boyStarName) &&
@@ -146,10 +151,13 @@ void _checkRachuMatch(String boyStarName, String girlStarName) {
   } else {
     message = 'Please enter both Star names';
   }
-
+return message;
 }
 
-void _checkMatch(String boyRasiName, String girlRasiName) {
+String _checkMatch(String boyRasiName, String girlRasiName) {
+
+  String message = "";
+
   if (boyRasiName.isNotEmpty && girlRasiName.isNotEmpty) {
     if (girlRasiName == 'Mesham' &&
         (boyRasiName == 'Simmam' || boyRasiName == 'Viruchigam') ||
@@ -175,9 +183,11 @@ void _checkMatch(String boyRasiName, String girlRasiName) {
   } else {
     message = 'Please enter both Rasi names';
   }
+  return message;
 }
 
-void _checkVethaiMatch(String boyStarName, String girlStarName) {
+String _checkVethaiMatch(String boyStarName, String girlStarName) {
+  String message = "";
 
   if (boyStarName.isNotEmpty && girlStarName.isNotEmpty) {
     if (RasiNadchathiram.vethaiMismatchList.any((pair) =>
@@ -189,9 +199,13 @@ void _checkVethaiMatch(String boyStarName, String girlStarName) {
   } else {
     message = 'Please enter both Star names';
   }
+  return message;
 }
 
-void _checkVirutshaMatch(String boyStarName, String girlStarName) {
+String _checkVirutshaMatch(String boyStarName, String girlStarName) {
+
+  String message = "";
+
   if (boyStarName.isNotEmpty && girlStarName.isNotEmpty) {
     if ((RasiNadchathiram.Milk.contains(boyStarName) &&
         RasiNadchathiram.Milk.contains(girlStarName)) ||
@@ -206,5 +220,6 @@ void _checkVirutshaMatch(String boyStarName, String girlStarName) {
   } else {
     message = 'Please enter both Star names';
   }
+  return message;
 }
 

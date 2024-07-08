@@ -17,26 +17,7 @@ class _VirutshaMatcherState extends State<VirutshaMatcher> {
     // Set the boy and girl star names manually
     String boyStarName = 'Bharani';
     String girlStarName = 'Rohini';
-    _checkVirutshaMatch(boyStarName, girlStarName);
-  }
-
-  void _checkVirutshaMatch(String boyStarName, String girlStarName) {
-    setState(() {
-      if (boyStarName.isNotEmpty && girlStarName.isNotEmpty) {
-        if ((RasiNadchathiram.Milk.contains(boyStarName) &&
-                RasiNadchathiram.Milk.contains(girlStarName)) ||
-            (RasiNadchathiram.Milk.contains(boyStarName) &&
-                RasiNadchathiram.NonMilk.contains(girlStarName)) ||
-            (RasiNadchathiram.NonMilk.contains(boyStarName) &&
-                RasiNadchathiram.Milk.contains(girlStarName))) {
-          message = 'Matched';
-        } else {
-          message = 'Not Matched';
-        }
-      } else {
-        message = 'Please enter both Star names';
-      }
-    });
+    //_checkVirutshaMatch(boyStarName, girlStarName);
   }
 
   @override

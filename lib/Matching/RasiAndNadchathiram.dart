@@ -64,18 +64,6 @@ class RasiNadchathiram {
     ["Mirugasheeridam", "Chitrai", "Aviddam"]
   ];
 
-  static List<String> Theva = [
-    'Ashwini',
-    'Mirugasheeridam',
-    'Punarpusham',
-    'Pusham',
-    'Ashththam',
-    'Swathi',
-    'Anusham',
-    'Thiruvonam',
-    'Revathi'
-  ];
-
   static List<String> Manusa = [
     'Bharani',
     'Rohini',
