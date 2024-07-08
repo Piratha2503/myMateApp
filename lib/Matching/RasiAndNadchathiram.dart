@@ -1,10 +1,9 @@
-class RasiNadchathiram{
-
+class RasiNadchathiram {
   static List<String> rasiListOrder = [
     "Mesham","Rishabam","Mithunam","Kadagam","Simmam","Kanni",
     "Thulam","Viruchigam","Thanusu","Magaram","Kumbam","Meenam",
   ];
-  static List<int> rasiMatchNumberList = [ 2,4,6,8 ];
+  static List<int> rasiMatchNumberList = [2, 4, 6, 8];
 
   static List<String> nadchathiraMatchList = [
     "Ashwini","Bharani","Kiruthigai","Rohini","Mirugasheeridam","Thiruvathirai","Punarpusham",
@@ -49,5 +48,123 @@ class RasiNadchathiram{
     'Shraavan',
     'Revathi'
   ];
+  static List<List<String>> vethaiMismatchList = [
+    ["Ashwini", "Keddai"],
+    ["Bharani", "Anusham"],
+    ["Kiruthigai", "Vishakham"],
+    ["Rohini", "Swathi"],
+    ["Thiruvathirai", "Thiruvonam"],
+    ["Punarpusham", "Uththaradam"],
+    ["Pusham", "pooradam"],
+    ["Aayilyam", "Moolam"],
+    ["Magham", "Revathi"],
+    ["pooram", "Uththaraddathi"],
+    ["Uththaram", "pooraddaathi"],
+    ["Ashththam", "Sathayam"],
+    ["Mirugasheeridam", "Chitrai", "Aviddam"]
+  ];
 
+  static List<String> Theva = [
+    'Ashwini',
+    'Mirugasheeridam',
+    'Punarpusham',
+    'Pusham',
+    'Ashththam',
+    'Swathi',
+    'Anusham',
+    'Thiruvonam',
+    'Revathi'
+  ];
+
+  static List<String> Manusa = [
+    'Bharani',
+    'Rohini',
+    'Thiruvathirai',
+    'pooram',
+    'Uththaram',
+    'pooradam',
+    'Uththaradam',
+    'pooraddaathi',
+    'Uththaraddaathi'
+  ];
+  static List<String> Ratchasa = [
+    'Kiruthigai',
+    'Aayilyam',
+    'Magham',
+    'Chitrai',
+    'Vishakham',
+    'Keddai',
+    'Moolam',
+    'Aviddam',
+    'Sathayam'
+  ];
+
+  static List<String> Group1 = [
+    'Mirugasheeridam',
+    'Chitrai',
+    'Aviddam',
+  ];
+  static List<String> Group2 = [
+    'Rohini',
+    'Thiruvathirai',
+    'Ashththam',
+    'Swathi',
+    'Thiruvonam',
+    'Sathayam',
+  ];
+  static List<String> Group3 = [
+    'Kiruthigai',
+    'Punarpusham',
+    'Uththaram',
+    'Vishakham',
+    'pooraddaathi'
+  ];
+  static List<String> Group4 = [
+    'Bharani',
+    'Pusham',
+    'pooram',
+    'Anusham',
+    'pooradam',
+    'Uththaraddathi'
+  ];
+
+  static List<String> Group5 = [
+    'Ashwini',
+    'Aayilyam',
+    'Magham',
+    'Keddai',
+    'Moolam',
+    'Revathi'
+  ];
+
+  static List<String> Milk = [
+    'Mirugasheeridam',
+    'Chitrai',
+    'Aviddam',
+    'Thiruvathirai',
+    'Swathi',
+    'Sathayam',
+    'Punarpusham',
+    'Vishakham',
+    'Bharani',
+    'Uththaraddathi',
+    'Anusham',
+    'Ashwini',
+  ];
+  static List<String> NonMilk = [
+    'Rohini',
+    'Ashththam',
+    'Thiruvonam',
+    'Kiruthigai',
+    'Uththaram',
+    'pooraddaathi',
+    'Pusham',
+    'pooram',
+    'pooradam',
+    'Aayilyam',
+    'Magham',
+    'Keddai',
+    'Moolam',
+    'Revathi'
+  ];
 }
