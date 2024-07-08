@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mymateapp/Matching/RasiAndNadchathiram.dart';
 import 'package:mymateapp/MyMateThemes.dart'; // Ensure this import is correct
 
 class KanaMatcher extends StatefulWidget {
@@ -7,64 +8,36 @@ class KanaMatcher extends StatefulWidget {
 }
 
 class _KanaMatcherState extends State<KanaMatcher> {
-  final List<String> Theva = [
-    'Aswini',
-    'Mrigashrisha',
-    'Punarvasu',
-    'Pushyami',
-    'Hastha',
-    'Swaathi',
-    'Anuraadha',
-    'Shraavan',
-    'Revathi'
-  ];
-  final List<String> Manusa = [
-    'Bharani',
-    'Rohini',
-    'Arudra',
-    'Poorva Phalguni',
-    'Uthra Phalguni',
-    'Poorva ashaada',
-    'Uthra ashaada',
-    'Poorva bhadrapada',
-    'Uthra bhadrapada'
-  ];
-  final List<String> Ratchasa = [
-    'Krithika',
-    'Ashlesha',
-    'Magha',
-    'Chitra',
-    'Vishaakha',
-    'Jyeshta',
-    'Moola',
-    'Dhanista',
-    'Shathabhisha'
-  ];
-
   String? message;
 
   @override
   void initState() {
     super.initState();
     // Set the boy and girl star names manually
-    String boyStarName = 'Aswini';
-    String girlStarName = 'Aswini';
+    String boyStarName = 'Kiruthigai';
+    String girlStarName = 'Kiruthigai';
     _checkKanaMatch(boyStarName, girlStarName);
   }
 
   void _checkKanaMatch(String boyStarName, String girlStarName) {
     setState(() {
       if (boyStarName.isNotEmpty && girlStarName.isNotEmpty) {
-        if ((Theva.contains(boyStarName) && Theva.contains(girlStarName)) ||
-            (Manusa.contains(boyStarName) && Manusa.contains(girlStarName)) ||
-            (Manusa.contains(boyStarName) && Theva.contains(girlStarName))) {
+        if ((RasiNadchathiram.Theva.contains(boyStarName) &&
+                RasiNadchathiram.Theva.contains(girlStarName)) ||
+            (RasiNadchathiram.Manusa.contains(boyStarName) &&
+                RasiNadchathiram.Manusa.contains(girlStarName)) ||
+            (RasiNadchathiram.Manusa.contains(boyStarName) &&
+                RasiNadchathiram.Theva.contains(girlStarName))) {
           message = 'Matched';
-        } else if ((Ratchasa.contains(boyStarName) &&
-                Ratchasa.contains(girlStarName)) ||
-            (Ratchasa.contains(boyStarName) && Theva.contains(girlStarName)) ||
-            (Ratchasa.contains(girlStarName)) ||
-            (Theva.contains(boyStarName) && Manusa.contains(girlStarName)) ||
-            (Ratchasa.contains(boyStarName) && Manusa.contains(girlStarName))) {
+        } else if ((RasiNadchathiram.Ratchasa.contains(boyStarName) &&
+                RasiNadchathiram.Ratchasa.contains(girlStarName)) ||
+            (RasiNadchathiram.Ratchasa.contains(boyStarName) &&
+                RasiNadchathiram.Theva.contains(girlStarName)) ||
+            (RasiNadchathiram.Ratchasa.contains(girlStarName)) ||
+            (RasiNadchathiram.Theva.contains(boyStarName) &&
+                RasiNadchathiram.Manusa.contains(girlStarName)) ||
+            (RasiNadchathiram.Ratchasa.contains(boyStarName) &&
+                RasiNadchathiram.Manusa.contains(girlStarName))) {
           message = 'Not Matched';
         } else {
           message = 'Error in entered name';

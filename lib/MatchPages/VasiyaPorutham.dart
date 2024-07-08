@@ -7,52 +7,37 @@ class VasiyaMatcher extends StatefulWidget {
 }
 
 class _VasiyaMatcherState extends State<VasiyaMatcher> {
-  final List<String> Rasi = [
-    'Aries',
-    'Taurus',
-    'Gemini',
-    'Cancer',
-    'Leo',
-    'Virgo',
-    'Libra',
-    'Scorpio',
-    'Sagittarius',
-    'Capricorn',
-    'Aquarius',
-    'Pisces'
-  ];
-
   String? message;
 
   @override
   void initState() {
     super.initState();
     // Set the boy and girl Rasi names manually
-    String boyRasiName = 'Aries';
-    String girlRasiName = 'Leo';
+    String boyRasiName = 'Simmam';
+    String girlRasiName = 'Mesham';
     _checkMatch(boyRasiName, girlRasiName);
   }
 
   void _checkMatch(String boyRasiName, String girlRasiName) {
     setState(() {
       if (boyRasiName.isNotEmpty && girlRasiName.isNotEmpty) {
-        if (girlRasiName == 'Aries' &&
-                (boyRasiName == 'Leo' || boyRasiName == 'Scorpio') ||
-            girlRasiName == 'Taurus' &&
-                (boyRasiName == 'Cancer' || boyRasiName == 'Libra') ||
-            girlRasiName == 'Gemini' && (boyRasiName == 'Virgo') ||
-            girlRasiName == 'Cancer' &&
-                (boyRasiName == 'Scorpio' || boyRasiName == 'Sagittarius') ||
-            girlRasiName == 'Leo' && (boyRasiName == 'Capricorn') ||
-            girlRasiName == 'Virgo' &&
-                (boyRasiName == 'Taurus' || boyRasiName == 'Pisces') ||
-            girlRasiName == 'Libra' && (boyRasiName == 'Capricorn') ||
-            girlRasiName == 'Scorpio' &&
-                (boyRasiName == 'Cancer' || boyRasiName == 'Virgo') ||
-            girlRasiName == 'Sagittarius' && (boyRasiName == 'Pisces') ||
-            girlRasiName == 'Capricorn' && (boyRasiName == 'Aquarius') ||
-            girlRasiName == 'Aquarius' && (boyRasiName == 'Pisces') ||
-            girlRasiName == 'Pisces' && (boyRasiName == 'Capricorn')) {
+        if (girlRasiName == 'Mesham' &&
+                (boyRasiName == 'Simmam' || boyRasiName == 'Viruchigam') ||
+            girlRasiName == 'Rishabam' &&
+                (boyRasiName == 'Kadagam' || boyRasiName == 'Thulam') ||
+            girlRasiName == 'Mithunam' && (boyRasiName == 'Kanni') ||
+            girlRasiName == 'Kadagam' &&
+                (boyRasiName == 'Viruchigam' || boyRasiName == 'Thanusu') ||
+            girlRasiName == 'Simmam' && (boyRasiName == 'Magaram') ||
+            girlRasiName == 'Kanni' &&
+                (boyRasiName == 'Rishabam' || boyRasiName == 'Meenam') ||
+            girlRasiName == 'Thulam' && (boyRasiName == 'Magaram') ||
+            girlRasiName == 'Viruchigam' &&
+                (boyRasiName == 'Kadagam' || boyRasiName == 'Kanni') ||
+            girlRasiName == 'Thanusu' && (boyRasiName == 'Meenam') ||
+            girlRasiName == 'Magaram' && (boyRasiName == 'Kumbam') ||
+            girlRasiName == 'Kumbam' && (boyRasiName == 'Meenam') ||
+            girlRasiName == 'Meenam' && (boyRasiName == 'Magaram')) {
           message = 'Matched';
         } else {
           message = 'Not Matched';

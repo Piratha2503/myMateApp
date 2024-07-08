@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mymateapp/MyMateThemes.dart'; // Ensure this import is correct
+import 'package:mymateapp/MyMateThemes.dart';
+
+import '../Matching/RasiAndNadchathiram.dart'; // Ensure this import is correct
 
 class VirutshaMatcher extends StatefulWidget {
   @override
@@ -7,37 +9,6 @@ class VirutshaMatcher extends StatefulWidget {
 }
 
 class _VirutshaMatcherState extends State<VirutshaMatcher> {
-  final List<String> Group1 = [
-    'Mirugasheeridam',
-    'Chitrai',
-    'Aviddam',
-    'Thiruvathirai',
-    'Swathi',
-    'Sathayam',
-    'Punarpusham',
-    'Vishakham',
-    'Bharani',
-    'Uththaraddathi',
-    'Anusham',
-    'Ashwini',
-  ];
-  final List<String> Group2 = [
-    'Rohini',
-    'Ashththam',
-    'Thiruvonam',
-    'Kiruthigai',
-    'Uththaram',
-    'pooraddaathi',
-    'Pusham',
-    'pooram',
-    'pooradam',
-    'Aayilyam',
-    'Magham',
-    'Keddai',
-    'Moolam',
-    'Revathi'
-  ];
-
   String? message;
 
   @override
@@ -52,9 +23,12 @@ class _VirutshaMatcherState extends State<VirutshaMatcher> {
   void _checkVirutshaMatch(String boyStarName, String girlStarName) {
     setState(() {
       if (boyStarName.isNotEmpty && girlStarName.isNotEmpty) {
-        if ((Group1.contains(boyStarName) && Group1.contains(girlStarName)) ||
-            (Group1.contains(boyStarName) && Group2.contains(girlStarName)) ||
-            (Group2.contains(boyStarName) && Group1.contains(girlStarName))) {
+        if ((RasiNadchathiram.Milk.contains(boyStarName) &&
+                RasiNadchathiram.Milk.contains(girlStarName)) ||
+            (RasiNadchathiram.Milk.contains(boyStarName) &&
+                RasiNadchathiram.NonMilk.contains(girlStarName)) ||
+            (RasiNadchathiram.NonMilk.contains(boyStarName) &&
+                RasiNadchathiram.Milk.contains(girlStarName))) {
           message = 'Matched';
         } else {
           message = 'Not Matched';
