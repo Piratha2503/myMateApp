@@ -96,3 +96,115 @@ String ThinaporuthamFunction(String girlNadchathiram,String boyNadchathiram ){
   }
 
 }
+
+void _checkKanaMatch(String boyStarName, String girlStarName) {
+
+    if (boyStarName.isNotEmpty && girlStarName.isNotEmpty) {
+      if ((RasiNadchathiram.Theva.contains(boyStarName) &&
+          RasiNadchathiram.Theva.contains(girlStarName)) ||
+          (RasiNadchathiram.Manusa.contains(boyStarName) &&
+              RasiNadchathiram.Manusa.contains(girlStarName)) ||
+          (RasiNadchathiram.Manusa.contains(boyStarName) &&
+              RasiNadchathiram.Theva.contains(girlStarName))) {
+        message = 'Matched';
+      } else if ((RasiNadchathiram.Ratchasa.contains(boyStarName) &&
+          RasiNadchathiram.Ratchasa.contains(girlStarName)) ||
+          (RasiNadchathiram.Ratchasa.contains(boyStarName) &&
+              RasiNadchathiram.Theva.contains(girlStarName)) ||
+          (RasiNadchathiram.Ratchasa.contains(girlStarName)) ||
+          (RasiNadchathiram.Theva.contains(boyStarName) &&
+              RasiNadchathiram.Manusa.contains(girlStarName)) ||
+          (RasiNadchathiram.Ratchasa.contains(boyStarName) &&
+              RasiNadchathiram.Manusa.contains(girlStarName))) {
+        message = 'Not Matched';
+      } else {
+        message = 'Error in entered name';
+      }
+    } else {
+      message = 'Please enter both Star names';
+    }
+
+}
+
+void _checkRachuMatch(String boyStarName, String girlStarName) {
+
+  if (boyStarName.isNotEmpty && girlStarName.isNotEmpty) {
+    if ((RasiNadchathiram.Group1.contains(boyStarName) &&
+        RasiNadchathiram.Group1.contains(girlStarName)) ||
+        (RasiNadchathiram.Group2.contains(boyStarName) &&
+            RasiNadchathiram.Group2.contains(girlStarName)) ||
+        (RasiNadchathiram.Group3.contains(boyStarName) &&
+            RasiNadchathiram.Group3.contains(girlStarName)) ||
+        (RasiNadchathiram.Group4.contains(boyStarName) &&
+            RasiNadchathiram.Group4.contains(girlStarName)) ||
+        (RasiNadchathiram.Group5.contains(boyStarName) &&
+            RasiNadchathiram.Group5.contains(girlStarName))) {
+      message = 'Not Matched';
+    } else {
+      message = 'Matched';
+    }
+  } else {
+    message = 'Please enter both Star names';
+  }
+
+}
+
+void _checkMatch(String boyRasiName, String girlRasiName) {
+  if (boyRasiName.isNotEmpty && girlRasiName.isNotEmpty) {
+    if (girlRasiName == 'Mesham' &&
+        (boyRasiName == 'Simmam' || boyRasiName == 'Viruchigam') ||
+        girlRasiName == 'Rishabam' &&
+            (boyRasiName == 'Kadagam' || boyRasiName == 'Thulam') ||
+        girlRasiName == 'Mithunam' && (boyRasiName == 'Kanni') ||
+        girlRasiName == 'Kadagam' &&
+            (boyRasiName == 'Viruchigam' || boyRasiName == 'Thanusu') ||
+        girlRasiName == 'Simmam' && (boyRasiName == 'Magaram') ||
+        girlRasiName == 'Kanni' &&
+            (boyRasiName == 'Rishabam' || boyRasiName == 'Meenam') ||
+        girlRasiName == 'Thulam' && (boyRasiName == 'Magaram') ||
+        girlRasiName == 'Viruchigam' &&
+            (boyRasiName == 'Kadagam' || boyRasiName == 'Kanni') ||
+        girlRasiName == 'Thanusu' && (boyRasiName == 'Meenam') ||
+        girlRasiName == 'Magaram' && (boyRasiName == 'Kumbam') ||
+        girlRasiName == 'Kumbam' && (boyRasiName == 'Meenam') ||
+        girlRasiName == 'Meenam' && (boyRasiName == 'Magaram')) {
+      message = 'Matched';
+    } else {
+      message = 'Not Matched';
+    }
+  } else {
+    message = 'Please enter both Rasi names';
+  }
+}
+
+void _checkVethaiMatch(String boyStarName, String girlStarName) {
+
+  if (boyStarName.isNotEmpty && girlStarName.isNotEmpty) {
+    if (RasiNadchathiram.vethaiMismatchList.any((pair) =>
+    pair.contains(boyStarName) && pair.contains(girlStarName))) {
+      message = 'Not matched';
+    } else {
+      message = 'Matched';
+    }
+  } else {
+    message = 'Please enter both Star names';
+  }
+}
+
+void _checkVirutshaMatch(String boyStarName, String girlStarName) {
+  if (boyStarName.isNotEmpty && girlStarName.isNotEmpty) {
+    if ((RasiNadchathiram.Milk.contains(boyStarName) &&
+        RasiNadchathiram.Milk.contains(girlStarName)) ||
+        (RasiNadchathiram.Milk.contains(boyStarName) &&
+            RasiNadchathiram.NonMilk.contains(girlStarName)) ||
+        (RasiNadchathiram.NonMilk.contains(boyStarName) &&
+            RasiNadchathiram.Milk.contains(girlStarName))) {
+      message = 'Matched';
+    } else {
+      message = 'Not Matched';
+    }
+  } else {
+    message = 'Please enter both Star names';
+  }
+}
+
