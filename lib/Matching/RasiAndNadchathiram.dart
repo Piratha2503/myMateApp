@@ -38,4 +38,16 @@ class RasiNadchathiram{
     ["Horse","Buffalo"],["Cow","Tiger"], ["Cat","Rat"],["Snake","Rat"],["Dear","Dog"]
   ];
 
+  static List<String> Theva = [
+    'Aswini',
+    'Mrigashrisha',
+    'Punarvasu',
+    'Pushyami',
+    'Hastha',
+    'Swaathi',
+    'Anuraadha',
+    'Shraavan',
+    'Revathi'
+  ];
+
 }

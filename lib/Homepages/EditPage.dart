@@ -395,9 +395,9 @@ class _EditPageState extends State<EditPage> {
                   }
                 },
                 style: ButtonStyle(
-                  backgroundColor: WidgetStateProperty.all<Color>(
+                  backgroundColor: MaterialStateProperty.all<Color>(
                       MyMateThemes.secondaryColor),
-                  foregroundColor: WidgetStateProperty.all<Color>(
+                  foregroundColor: MaterialStateProperty.all<Color>(
                       MyMateThemes.primaryColor),
                 ),
                 child: Align(
