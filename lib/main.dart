@@ -6,7 +6,6 @@ import 'package:mymateapp/Homepages/ScrollDateTimePicker.dart';
 import 'package:mymateapp/ChartPages/ManualRasiChartPage.dart';
 import 'package:mymateapp/ManagePages/AccountPage.dart';
 import 'package:mymateapp/ManagePages/SummaryPage.dart';
-import 'package:mymateapp/MatchPages/VasiyaPorutham.dart';
 import 'package:mymateapp/Matching/Rasi.dart';
 import 'package:mymateapp/dbConnection/crudApp.dart';
 import 'Homepages/CompleteProfile.dart';
@@ -55,7 +54,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           primaryColor: Colors.blue[200]),
       debugShowCheckedModeBanner: false,
-      home: VasiyaMatcher(),
+      home: RasiPorutham(),
     );
   }
 }
