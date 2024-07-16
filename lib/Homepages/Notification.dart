@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mymateapp/MyMateThemes.dart';
-import 'AnimatedPages/SingleNotification.dart';
+import 'SingleNotification.dart';
 import 'bottom_navigation_bar.dart';
 import 'package:badges/badges.dart';
 
