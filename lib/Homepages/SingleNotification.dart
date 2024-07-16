@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:badges/badges.dart';
 
-import '../Notification.dart';
+import 'Notification.dart';
 
 class SingleNotificationPage extends StatelessWidget {
   int _selectedIndex = 0;
@@ -49,7 +49,7 @@ class SingleNotificationPage extends StatelessWidget {
                 SizedBox(width: 15),
                 Container(
                   height: 70,
-                  width: 370,
+                  width: 360,
                   margin: EdgeInsets.symmetric(horizontal: 5.0),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -156,7 +156,7 @@ class SingleNotificationPage extends StatelessWidget {
                 SizedBox(width: 15),
                 Container(
                   height: 70,
-                  width: 370,
+                  width: 360,
                   margin: EdgeInsets.symmetric(horizontal: 5.0),
                   decoration: BoxDecoration(
                     color: MyMateThemes.premiumAccent,
@@ -217,7 +217,7 @@ class SingleNotificationPage extends StatelessWidget {
                 SizedBox(width: 15),
                 Container(
                   height: 100,
-                  width: 370,
+                  width: 360,
                   margin: EdgeInsets.symmetric(horizontal: 5.0),
                   decoration: BoxDecoration(
                     color: MyMateThemes.primaryColor,
