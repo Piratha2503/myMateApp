@@ -3,6 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
+import '../ManagePages/ManagePage.dart';
+
 class AddTokenPage extends StatefulWidget {
   const AddTokenPage({super.key});
 
@@ -404,7 +406,7 @@ class _AddTokenPageState extends State<AddTokenPage> {
                     ),
                   ],
                 ),
-                SizedBox(height: 50),
+                SizedBox(height: 40),
                 ElevatedButton(
                   onPressed: () {
                     print('purchase Package 3');
@@ -453,31 +455,36 @@ class _AddTokenPageState extends State<AddTokenPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: SafeArea(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              GestureDetector(
-                onTap: () {},
-                child: SvgPicture.asset('assets/images/chevron-left.svg'),
-              ),
-              SizedBox(width: 80),
-              Text(
-                'Choose Your Package here',
-                style: TextStyle(
-                  color: MyMateThemes.textColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      body: Center(
+        body: SafeArea(
+      child: Center(
         child: Column(
           children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                children: [
+                  SizedBox(width: 10.0),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ManagePage()));
+                    },
+                    child: SvgPicture.asset('assets/images/chevron-left.svg'),
+                  ),
+                  SizedBox(width: 50.0),
+                  Text(
+                    "Choose you package here ",
+                    style: TextStyle(
+                        color: MyMateThemes.textColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 15),
             Text(
               'Pricing Plan',
               style: TextStyle(
@@ -503,7 +510,7 @@ class _AddTokenPageState extends State<AddTokenPage> {
                   color: MyMateThemes.textColor,
                   letterSpacing: 0.5),
             ),
-            SizedBox(height: 30),
+            SizedBox(height: 25),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -600,7 +607,7 @@ class _AddTokenPageState extends State<AddTokenPage> {
                 ),
               ],
             ),
-            SizedBox(height: 50),
+            SizedBox(height: 40),
             Center(
               child: CarouselSlider(
                 items: imageSliders,
@@ -618,12 +625,13 @@ class _AddTokenPageState extends State<AddTokenPage> {
           ],
         ),
       ),
-    );
+    ));
   }
 }
 
 class GradientText extends StatelessWidget {
-  const GradientText(this.text, {super.key, required this.gradient, this.style});
+  const GradientText(this.text,
+      {super.key, required this.gradient, this.style});
 
   final String text;
   final TextStyle? style;
