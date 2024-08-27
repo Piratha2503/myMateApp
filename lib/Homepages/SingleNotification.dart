@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mymateapp/MyMateThemes.dart';
-import 'package:badges/badges.dart';
 
 import 'Notification.dart';
 
 class SingleNotificationPage extends StatelessWidget {
-  int _selectedIndex = 0;
-  late final int badgeValue = 6;
+  final int _selectedIndex = 0;
+  final int badgeValue = 6;
+
+  const SingleNotificationPage({super.key});
 
   String? get imageUrl => null;
 
@@ -109,7 +110,7 @@ class SingleNotificationPage extends StatelessWidget {
                           ],
                         ),
                         SizedBox(width: 20),
-                        Container(
+                        SizedBox(
                           width: 200,
                           // alignment: Alignment.bottomRight,
                           child: Column(
@@ -175,7 +176,7 @@ class SingleNotificationPage extends StatelessWidget {
                     children: [
                       Row(children: [
                         SizedBox(width: 20),
-                        Container(
+                        SizedBox(
                           width: 200,
                           // alignment: Alignment.bottomRight,
                           child: Column(
@@ -257,7 +258,7 @@ class SingleNotificationPage extends StatelessWidget {
                           ],
                         ),
                         SizedBox(width: 20),
-                        Container(
+                        SizedBox(
                           width: 200,
                           // alignment: Alignment.bottomRight,
                           child: Column(

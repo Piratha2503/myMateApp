@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'BadgeWidget.dart';
+import 'CompleteProfile.dart';
 import 'bottom_navigation_bar.dart';
 
 class FrontPage extends StatefulWidget {
@@ -17,7 +18,7 @@ class _FrontPageState extends State<FrontPage>
   bool showHello = true;
   int _selectedIndex = 0;
 
-  int badgeValue1 = 1;
+  int badgeValue1 = 12;
   int badgeValue2 = 10;
 
   @override
@@ -69,21 +70,36 @@ class _FrontPageState extends State<FrontPage>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              SizedBox(height: 10),
+              SizedBox(height: 20),
               Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   AnimatedOpacity(
                     opacity: showHello ? 1.0 : 0.0,
                     duration: Duration(milliseconds: 5000),
-                    child: const Text(
-                      'Hello',
-                      style: TextStyle(
-                        color: MyMateThemes.primaryColor,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
+                    child: const Column(children: [
+                      Row(
+                        children: [
+                          Text(
+                            'Hello ,',
+                            style: TextStyle(
+                              color: MyMateThemes.primaryColor,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          SizedBox(width: 10),
+                          Text(
+                            'Your Name',
+                            style: TextStyle(
+                              color: MyMateThemes.textColor,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
+                    ]),
                   ),
                   SizedBox(width: 10),
                   SizedBox(width: 70),
@@ -108,19 +124,19 @@ class _FrontPageState extends State<FrontPage>
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          SizedBox(height: 15),
           _buildHeaderText('Congratulations'),
           _buildSubHeaderText("You're successfully registered"),
           _buildSvgImage('assets/images/Group 2073.svg',
-              width: 230, height: 195),
-          SizedBox(height: 10),
+              width: 230, height: 193),
           _buildHeaderText('View Matches'),
-          SizedBox(height: 30),
+          SizedBox(height: 27),
           _buildFreePremiumRow(),
           SizedBox(height: 7),
           _buildImageContainers(),
-          SizedBox(height: 15),
+          SizedBox(height: 14),
           _buildFooterRow(),
-          SizedBox(height: 15),
+          SizedBox(height: 14),
         ],
       ),
     );
@@ -209,13 +225,13 @@ class _FrontPageState extends State<FrontPage>
       children: [
         Container(
           width: 164,
-          height: 188,
+          height: 184,
           color: MyMateThemes.containerColor,
           alignment: Alignment.bottomLeft,
         ),
         Container(
           width: 164,
-          height: 188,
+          height: 184,
           color: MyMateThemes.secondaryColor,
           alignment: Alignment.bottomRight,
         ),
@@ -225,22 +241,52 @@ class _FrontPageState extends State<FrontPage>
 
   Widget _buildFooterRow() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        InkWell(
-          onTap: () {
-            print('Link tapped');
-          },
-          child: Text(
-            'Complete Profile',
-            style: TextStyle(
-              color: MyMateThemes.primaryColor,
-              fontSize: MyMateThemes.nomalFontSize,
-              fontWeight: FontWeight.w500,
+        SizedBox(width: 22),
+        SizedBox(
+          height: 50, //height of button
+          width: 165, //width of button
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CompleteProfilePage()),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: MyMateThemes.containerColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(3.0),
+              ),
+              // padding: EdgeInsets.all(10)
+            ),
+            child: Text(
+              'Complete Profile ',
+              style: TextStyle(color: MyMateThemes.primaryColor),
             ),
           ),
         ),
-        _buildGetStartedButton(),
+        SizedBox(width: 20),
+        SizedBox(
+          height: 50, //height of button
+          width: 164, //width of button
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CompleteProfilePage()),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: MyMateThemes.primaryColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(3.0),
+              ),
+            ),
+            child: Text('Subscribe', style: TextStyle(color: Colors.white)),
+          ),
+        ),
       ],
     );
   }
@@ -248,7 +294,7 @@ class _FrontPageState extends State<FrontPage>
   Widget _buildGetStartedButton() {
     return SizedBox(
       width: 164.0,
-      height: 58.0,
+      height: 56.0,
       child: OutlinedButton(
         onPressed: () {
           print('Button pressed');

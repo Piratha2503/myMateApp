@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mymateapp/Matching/RasiAndNadchathiram.dart';
 
 class VethaiMatcher extends StatefulWidget {
+  const VethaiMatcher({super.key});
+
   @override
   _VethaiMatcherState createState() => _VethaiMatcherState();
 }

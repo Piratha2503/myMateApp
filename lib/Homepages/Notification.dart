@@ -3,14 +3,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'SingleNotification.dart';
 import 'bottom_navigation_bar.dart';
-import 'package:badges/badges.dart';
-
-import 'SubscribedHomeScreen.dart';
-import 'bottom_navigation_bar.dart';
 
 class NotificationPage extends StatelessWidget {
-  int _selectedIndex = 0;
-  late final int badgeValue = 6;
+  final int _selectedIndex = 0;
+  final int badgeValue = 6;
+
+  const NotificationPage({super.key});
 
   String? get imageUrl => null;
 

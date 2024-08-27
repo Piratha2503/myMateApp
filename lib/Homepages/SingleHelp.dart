@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mymateapp/MyMateThemes.dart';
-import 'package:badges/badges.dart';
 
 import '../ManagePages/HelpPage.dart';
-import 'Notification.dart';
 
 class SingleHelpPage extends StatefulWidget {
+  const SingleHelpPage({super.key});
+
   @override
   _SingleHelpPageState createState() => _SingleHelpPageState();
 }
 
 class _SingleHelpPageState extends State<SingleHelpPage> {
-  int _selectedIndex = 0;
+  final int _selectedIndex = 0;
   late final int badgeValue = 6;
   final FocusNode _focusNode = FocusNode();
   final TextEditingController _controller = TextEditingController();
@@ -126,7 +126,7 @@ class _SingleHelpPageState extends State<SingleHelpPage> {
                         children: [
                           Row(children: [
                             SizedBox(width: 20),
-                            Container(
+                            SizedBox(
                               width: 200,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,

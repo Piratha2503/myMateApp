@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mymateapp/Matching/RasiAndNadchathiram.dart';
 
 class RasiPorutham extends StatefulWidget{
-  RasiPorutham({super.key});
+  const RasiPorutham({super.key});
 
   @override
   State<RasiPorutham> createState()=> _RasiPoruthamState();
@@ -53,12 +53,12 @@ String YoniPoruthamFunction(String girlNadchathiram,String boyNadchathiram){
   String boyAnimal = "";
   String girlAnimal = "";
 
-  RasiNadchathiram.YoniList.forEach((yoni){
+  for (var yoni in RasiNadchathiram.YoniList) {
    if(boyNadchathiram == yoni["Nadchathra"]) boyAnimal = yoni["Animal"].toString();
 
    if(girlNadchathiram == yoni["Nadchathra"]) girlAnimal = yoni["Animal"].toString();
 
-  });
+  }
   if(RasiNadchathiram.yoniMismatchList.contains([boyAnimal,girlAnimal])) {
     return "Yoni Mismatch";
   } else {

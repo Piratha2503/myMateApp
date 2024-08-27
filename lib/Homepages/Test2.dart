@@ -1,11 +1,9 @@
 import 'package:mymateapp/Homepages/GenerateChart.dart';
 import 'package:otp_pin_field/otp_pin_field.dart';
 import 'package:flutter/material.dart';
-import 'package:otp_pin_field/otp_pin_field.dart';
-
 
 class PinPage extends StatefulWidget {
-  PinPage({Key? key, required this.title}) : super(key: key);
+  const PinPage({super.key, required this.title});
 
   final String title;
 
@@ -71,11 +69,11 @@ class _PinPageState extends State<PinPage> {
               //
               /// gradient border Color for field pin box
               activeFieldBorderGradient:
-              LinearGradient(colors: [Colors.black, Colors.redAccent]),
+                  LinearGradient(colors: [Colors.black, Colors.redAccent]),
               filledFieldBorderGradient:
-              LinearGradient(colors: [Colors.green, Colors.tealAccent]),
+                  LinearGradient(colors: [Colors.green, Colors.tealAccent]),
               defaultFieldBorderGradient:
-              LinearGradient(colors: [Colors.orange, Colors.brown]),
+                  LinearGradient(colors: [Colors.orange, Colors.brown]),
             ),
             maxLength: 4,
 
@@ -104,8 +102,10 @@ class _PinPageState extends State<PinPage> {
                     child: Text('clear OTP')),
                 SizedBox(height: 10),
                 ElevatedButton(
-                    onPressed: () => Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => GenerateChart())),
+                    onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => GenerateChart())),
                     child: Text('Next Class')),
                 SizedBox(height: 30),
               ],
@@ -128,7 +128,7 @@ class _PinPageState extends State<PinPage> {
             /// predefine decorate of pinField use  OtpPinFieldDecoration.defaultPinBoxDecoration||OtpPinFieldDecoration.underlinedPinBoxDecoration||OtpPinFieldDecoration.roundedPinBoxDecoration
             ///use OtpPinFieldDecoration.custom  (by using this you can make Otp_Pin_Field according to yourself like you can give fieldBorderRadius,fieldBorderWidth and etc things)
             otpPinFieldDecoration:
-            OtpPinFieldDecoration.defaultPinBoxDecoration,
+                OtpPinFieldDecoration.defaultPinBoxDecoration,
           ),
         ],
       ),

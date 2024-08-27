@@ -7,7 +7,6 @@ import 'package:mymateapp/ManagePages/AllActionPage.dart';
 import 'package:mymateapp/ManagePages/HelpPage.dart';
 import 'package:mymateapp/ManagePages/SettingsPage.dart';
 import 'package:mymateapp/ManagePages/SummaryPage.dart';
-import 'package:mymateapp/ManagePages/TokenPage.dart';
 
 import '../Homepages/AddTokenPage.dart';
 

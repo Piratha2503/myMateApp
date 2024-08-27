@@ -225,7 +225,7 @@ class _HelppageState extends State<Helppage> {
                               Row(
                                 children: [
                                   SizedBox(width: 10),
-                                  Container(
+                                  SizedBox(
                                     width: 200,
                                     // alignment: Alignment.bottomRight,
                                     child: Column(
@@ -287,7 +287,7 @@ class _HelppageState extends State<Helppage> {
                               Row(
                                 children: [
                                   SizedBox(width: 10),
-                                  Container(
+                                  SizedBox(
                                     width: 200,
                                     // alignment: Alignment.bottomRight,
                                     child: Column(
@@ -349,7 +349,7 @@ class _HelppageState extends State<Helppage> {
                               Row(
                                 children: [
                                   SizedBox(width: 10),
-                                  Container(
+                                  SizedBox(
                                     width: 200,
                                     // alignment: Alignment.bottomRight,
                                     child: Column(
@@ -411,7 +411,7 @@ class _HelppageState extends State<Helppage> {
                               Row(
                                 children: [
                                   SizedBox(width: 10),
-                                  Container(
+                                  SizedBox(
                                     width: 200,
                                     // alignment: Alignment.bottomRight,
                                     child: Column(
@@ -473,7 +473,7 @@ class _HelppageState extends State<Helppage> {
                               Row(
                                 children: [
                                   SizedBox(width: 10),
-                                  Container(
+                                  SizedBox(
                                     width: 200,
                                     // alignment: Alignment.bottomRight,
                                     child: Column(
@@ -544,7 +544,7 @@ class _HelppageState extends State<Helppage> {
                         SizedBox(width: 20),
                         SvgPicture.asset('assets/images/headphone.svg'),
                         SizedBox(width: 10),
-                        Container(
+                        SizedBox(
                           width: 200,
                           // alignment: Alignment.bottomRight,
                           child: Column(

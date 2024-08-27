@@ -28,7 +28,8 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
   // Function to handle the tap and change the state
   void _onTap(String planet) {
     setState(() {
-      tapped[planet] = !(tapped[planet] ?? false); // Provide a default value if null
+      tapped[planet] =
+          !(tapped[planet] ?? false); // Provide a default value if null
     });
     print('$planet button pressed');
   }
@@ -50,7 +51,8 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
 
   void _onSelect(String button) {
     setState(() {
-      tapped[button] = !(tapped[button] ?? false); // Provide a default value if null
+      tapped[button] =
+          !(tapped[button] ?? false); // Provide a default value if null
     });
     print('$button button pressed');
   }
@@ -75,7 +77,8 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
   void _onTapBottomSegment(String segment) {
     if (selectedTopBox != null) {
       setState(() {
-        if (segmentToBoxMap.containsKey(segment) && segmentToBoxMap[segment] == selectedTopBox) {
+        if (segmentToBoxMap.containsKey(segment) &&
+            segmentToBoxMap[segment] == selectedTopBox) {
           segmentToBoxMap.remove(segment);
         } else {
           segmentToBoxMap[segment] = selectedTopBox!;
@@ -242,7 +245,7 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
               ],
             ),
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 10),
           DecoratedBox(
             decoration: ShapeDecoration(
               shape: CircleBorder(),
@@ -253,20 +256,57 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
               color: MyMateThemes.backgroundColor,
               child: Stack(
                 children: [
-                  Positioned(top: 110, left: 80, child: buildBottomSegment('Sun', 'assets/images/Sun.svg')),
-                  Positioned(left: 207, top: 74, child: buildBottomSegment('Mercury', 'assets/images/Mercury.svg')),
-                  Positioned(left: 152, top: 30, child: buildBottomSegment('Mars', 'assets/images/Mars.svg')),
-                  Positioned(left: 55, top: 245, child: buildBottomSegment('Saturn', 'assets/images/Saturn.svg')),
-                  Positioned(left: 213, top: 178, child: buildBottomSegment('Jupiter', 'assets/images/Jupiter.svg')),
-                  Positioned(left: 0, top: 185, child: buildBottomSegment('Rahu', 'assets/images/Rahu.svg')),
-                  Positioned(left: 0, top: 82, child: buildBottomSegment('Ketu', 'assets/images/Ketu.svg')),
-                  Positioned(left: 159, top: 239, child: buildBottomSegment('Venus', 'assets/images/Venus.svg')),
-                  Positioned(left: 47, top: 30, child: buildBottomSegment('Moon', 'assets/images/Moon.svg')),
+                  SizedBox(width: 20),
+                  Positioned(
+                      top: 110,
+                      left: 80,
+                      child:
+                          buildBottomSegment('Sun', 'assets/images/Sun.svg')),
+                  Positioned(
+                      left: 207,
+                      top: 74,
+                      child: buildBottomSegment(
+                          'Mercury', 'assets/images/Mercury.svg')),
+                  Positioned(
+                      left: 152,
+                      top: 30,
+                      child:
+                          buildBottomSegment('Mars', 'assets/images/Mars.svg')),
+                  Positioned(
+                      left: 55,
+                      top: 245,
+                      child: buildBottomSegment(
+                          'Saturn', 'assets/images/Saturn.svg')),
+                  Positioned(
+                      left: 213,
+                      top: 178,
+                      child: buildBottomSegment(
+                          'Jupiter', 'assets/images/Jupiter.svg')),
+                  Positioned(
+                      left: 0,
+                      top: 185,
+                      child:
+                          buildBottomSegment('Rahu', 'assets/images/Rahu.svg')),
+                  Positioned(
+                      left: 0,
+                      top: 82,
+                      child:
+                          buildBottomSegment('Ketu', 'assets/images/Ketu.svg')),
+                  Positioned(
+                      left: 159,
+                      top: 239,
+                      child: buildBottomSegment(
+                          'Venus', 'assets/images/Venus.svg')),
+                  Positioned(
+                      left: 47,
+                      top: 30,
+                      child:
+                          buildBottomSegment('Moon', 'assets/images/Moon.svg')),
                 ],
               ),
             ),
           ),
-          SizedBox(height: 80),
+          SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -281,7 +321,8 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Please complete all selections before proceeding.'),
+                        content: Text(
+                            'Please complete all selections before proceeding.'),
                       ),
                     );
                   }

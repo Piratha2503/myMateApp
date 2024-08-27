@@ -60,29 +60,34 @@ class _SubscribedhomescreenPageState extends State<SubscribedhomescreenPage> {
           children: [
             Positioned(
               top: MediaQuery.of(context).size.height *
-                  0.55, // Adjust the top position as needed
+                  0.53, // Adjust the top position as needed
               left: MediaQuery.of(context).size.width *
-                  0.01, // Adjust the left position as needed
+                  0.005, // Adjust the left position as needed
               right: MediaQuery.of(context).size.width *
-                  0.001, // Adjust the right position as needed
+                  0.005, // Adjust the right position as needed
               child: Dialog(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: Container(
-                  width: 1000, // Set your desired width
+                  width: 350, // Set your desired width
                   height: 270, // Set your desired height
                   padding: EdgeInsets.all(20),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Text(
-                        "Congratulations! You have received ",
-                        style: TextStyle(
-                          color: MyMateThemes.textColor,
-                          letterSpacing: 1.5, // Adjust letter spacing as needed
-                          wordSpacing: 2.0, // Adjust word spacing as needed
-                        ),
+                      Row(
+                        children: [
+                          Text(
+                            "Congratulations! You have received ",
+                            style: TextStyle(
+                              color: MyMateThemes.textColor,
+                              letterSpacing:
+                                  1.2, // Adjust letter spacing as needed
+                              wordSpacing: 1.1, // Adjust word spacing as needed
+                            ),
+                          ),
+                        ],
                       ),
                       Row(
                         children: [
@@ -91,8 +96,8 @@ class _SubscribedhomescreenPageState extends State<SubscribedhomescreenPage> {
                             style: TextStyle(
                               color: MyMateThemes.primaryColor,
                               letterSpacing:
-                                  1.5, // Adjust letter spacing as needed
-                              wordSpacing: 2.0, // Adjust word spacing as needed
+                                  1.2, // Adjust letter spacing as needed
+                              wordSpacing: 1.1, // Adjust word spacing as needed
                             ),
                           ),
                           Text(
@@ -100,8 +105,8 @@ class _SubscribedhomescreenPageState extends State<SubscribedhomescreenPage> {
                             style: TextStyle(
                               color: MyMateThemes.textColor,
                               letterSpacing:
-                                  1.5, // Adjust letter spacing as needed
-                              wordSpacing: 2.0, // Adjust word spacing as needed
+                                  1.2, // Adjust letter spacing as needed
+                              wordSpacing: 1.1, // Adjust word spacing as needed
                             ),
                           ),
                         ],
@@ -110,16 +115,16 @@ class _SubscribedhomescreenPageState extends State<SubscribedhomescreenPage> {
                         "tokens to access  Following",
                         style: TextStyle(
                           color: MyMateThemes.textColor,
-                          letterSpacing: 1.5, // Adjust letter spacing as needed
-                          wordSpacing: 2.0, // Adjust word spacing as needed
+                          letterSpacing: 1.2, // Adjust letter spacing as needed
+                          wordSpacing: 1.1, // Adjust word spacing as needed
                         ),
                       ),
                       Text(
                         "features only",
                         style: TextStyle(
                           color: MyMateThemes.textColor,
-                          letterSpacing: 1.5, // Adjust letter spacing as needed
-                          wordSpacing: 2.0, // Adjust word spacing as needed
+                          letterSpacing: 1.2, // Adjust letter spacing as needed
+                          wordSpacing: 1.1, // Adjust word spacing as needed
                         ),
                       ),
                       SizedBox(height: 20),
@@ -412,17 +417,17 @@ class _SubscribedhomescreenPageState extends State<SubscribedhomescreenPage> {
             ],
           ),
           SizedBox(height: 20),
-          Container(
-            width: 340,
-            height: 70,
-            decoration: BoxDecoration(
-              color: MyMateThemes.premiumAccent,
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-            child: Center(
-              child: Text('Advertisements'),
-            ),
-          ),
+          // Container(
+          //   width: 340,
+          //   height: 70,
+          //   decoration: BoxDecoration(
+          //     color: MyMateThemes.premiumAccent,
+          //     borderRadius: BorderRadius.circular(8.0),
+          //   ),
+          //   child: Center(
+          //     child: Text('Advertisements'),
+          //   ),
+          // ),
         ],
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
