@@ -127,8 +127,32 @@ class _FrontPageState extends State<FrontPage>
           SizedBox(height: 15),
           _buildHeaderText('Congratulations'),
           _buildSubHeaderText("You're successfully registered"),
-          _buildSvgImage('assets/images/Group 2073.svg',
-              width: 230, height: 193),
+          Stack(
+            children: [
+              SvgPicture.asset('assets/images/Frame.svg',
+                  width: 300, height: 220),
+              Positioned(
+                  top: 69,
+                  right: 98,
+                  child: Text(
+                    '137',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 40,
+                        fontWeight: FontWeight.w500),
+                  )),
+              Positioned(
+                  top: 118,
+                  right: 69,
+                  child: Text(
+                    'Matches Found',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500),
+                  ))
+            ],
+          ),
           _buildHeaderText('View Matches'),
           SizedBox(height: 27),
           _buildFreePremiumRow(),
@@ -225,13 +249,13 @@ class _FrontPageState extends State<FrontPage>
       children: [
         Container(
           width: 164,
-          height: 184,
+          height: 182,
           color: MyMateThemes.containerColor,
           alignment: Alignment.bottomLeft,
         ),
         Container(
           width: 164,
-          height: 184,
+          height: 182,
           color: MyMateThemes.secondaryColor,
           alignment: Alignment.bottomRight,
         ),

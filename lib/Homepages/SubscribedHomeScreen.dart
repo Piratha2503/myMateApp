@@ -192,9 +192,31 @@ class _SubscribedhomescreenPageState extends State<SubscribedhomescreenPage> {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => Summarypage()));
               },
-              child: SvgPicture.asset(
-                'assets/images/Group 2073.svg',
-                height: 230,
+              child: Stack(
+                children: [
+                  SvgPicture.asset('assets/images/Frame.svg',
+                      width: 300, height: 220),
+                  Positioned(
+                      top: 69,
+                      right: 98,
+                      child: Text(
+                        '137',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 40,
+                            fontWeight: FontWeight.w500),
+                      )),
+                  Positioned(
+                      top: 118,
+                      right: 69,
+                      child: Text(
+                        'Matches Found',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500),
+                      ))
+                ],
               ),
             ),
           ),
