@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:mymateapp/Homepages/PaymentDetailsPage.dart';
-import 'Homepages/CompleteProfile.dart';
-import 'Homepages/FirstWelcomeScreen.dart';
+import 'Homepages/CheckMatch.dart';
 import 'firebase_options.dart';
-import 'package:mymateapp/Homepages/AnimatedPages/StartPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +23,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           primaryColor: Colors.blue[200]),
       debugShowCheckedModeBanner: false,
-      home: CompleteProfilePage(),
+      home: CheckmatchPage(),
     );
   }
 }
