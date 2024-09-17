@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mymateapp/ChartPages/ChartViewPage.dart';
 import 'package:mymateapp/Homepages/AnimatedPages/ChartCalculating.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/ThirdpartyLibraries/GoogleAPIs.dart';

@@ -69,7 +69,6 @@ class _crudAppState extends State<crudApp>{
         ),
       ),
     );
-
   }
 
   @override
@@ -105,19 +104,22 @@ class _crudAppState extends State<crudApp>{
             crossAxisSpacing: 10,
             mainAxisSpacing: 10,
             crossAxisCount: 2,
-
             children: clientContainers,
           );
         },
       ),
-        floatingActionButton: FloatingActionButton(onPressed: (){
-        firebase.addClient([
-          
-        ]);
-      },
-      backgroundColor: MyMateThemes.textColor,
-      foregroundColor: Colors.white,
-          child: Icon(Icons.add,size: 30,weight: 600,),),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          firebase.addClient();
+        },
+        backgroundColor: MyMateThemes.textColor,
+        foregroundColor: Colors.white,
+        child: Icon(
+          Icons.add,
+          size: 30,
+          weight: 600,
+        ),
+      ),
     );
   }
 }

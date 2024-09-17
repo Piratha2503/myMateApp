@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           primaryColor: Colors.blue[200]),
       debugShowCheckedModeBanner: false,
-      home: ProfilePage(docId: 'EuzvIHpObxhHjOo9iutc',),
+      home: CompleteProfilePage(),
     );
   }
 }

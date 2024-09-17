@@ -7,7 +7,8 @@ import 'package:mymateapp/ManagePages/AllActionPage.dart';
 import 'package:mymateapp/ManagePages/HelpPage.dart';
 import 'package:mymateapp/ManagePages/SettingsPage.dart';
 import 'package:mymateapp/ManagePages/SummaryPage.dart';
-import 'package:mymateapp/ManagePages/TokenPage.dart';
+
+import '../Homepages/AddTokenPage.dart';
 
 class ManagePage extends StatefulWidget {
   const ManagePage({super.key});
@@ -278,7 +279,7 @@ class _ManagePageState extends State<ManagePage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Tokenpage()));
+                                builder: (context) => AddTokenPage()));
                       },
                       child: SvgPicture.asset(
                         'assets/images/Token.svg',

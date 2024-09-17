@@ -3,7 +3,7 @@ import 'package:mymateapp/Matching/RasiAndNadchathiram.dart';
 
 class RasiPorutham extends StatefulWidget{
   const RasiPorutham({super.key});
-  
+
   @override
   State<RasiPorutham> createState()=> _RasiPoruthamState();
 }
