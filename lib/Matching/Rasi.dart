@@ -17,7 +17,7 @@ class _RasiPoruthamState extends State<RasiPorutham>{
         appBar: AppBar(
           leading: ElevatedButton(
             onPressed: (){
-            String res = RasimatchingFunction("Kadagam", "Kanni");
+            String res = _checkRasiMatch("Kadagam", "Kanni");
             print(res);
           }, child: Icon(Icons.confirmation_num), ),
         ),
@@ -25,7 +25,7 @@ class _RasiPoruthamState extends State<RasiPorutham>{
   }
 }
 
-String RasimatchingFunction(String girlRasi,String boyRasi){
+String _checkRasiMatch(String girlRasi,String boyRasi){
   int girlRasiIndex = RasiNadchathiram.rasiListOrder.indexOf(girlRasi)+1;
   int boyRasiIndex = RasiNadchathiram.rasiListOrder.indexOf(boyRasi) +1;
   int RasiMatchNumber = 0;
@@ -43,11 +43,11 @@ String RasimatchingFunction(String girlRasi,String boyRasi){
   if(RasiNadchathiram.rasiMatchNumberList.contains(RasiMatchNumber)) {
     return "Rasi Not Matched";
   } else {
-    return YoniPoruthamFunction("Aayilyam", "pooram");
+    return _checkYoniMatch("Aayilyam", "pooram");
   }
 }
 
-String YoniPoruthamFunction(String girlNadchathiram,String boyNadchathiram){
+String _checkYoniMatch(String girlNadchathiram,String boyNadchathiram){
 
   String boyAnimal = "";
   String girlAnimal = "";
@@ -74,7 +74,7 @@ String YoniPoruthamFunction(String girlNadchathiram,String boyNadchathiram){
   return Resulst;
 }
 
-String ThinaporuthamFunction(String girlNadchathiram,String boyNadchathiram ){
+String _checkThinaMatch(String girlNadchathiram,String boyNadchathiram ){
   int girlNadchathiraIndex = RasiNadchathiram.nadchathiraMatchList.indexOf(girlNadchathiram)+1;
   int boyNadchathiraIndex = RasiNadchathiram.nadchathiraMatchList.indexOf(boyNadchathiram)+1;
   int nadchathiraMatchNumber = 0;

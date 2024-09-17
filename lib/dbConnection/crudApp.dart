@@ -111,7 +111,9 @@ class _crudAppState extends State<crudApp>{
         },
       ),
         floatingActionButton: FloatingActionButton(onPressed: (){
-        firebase.addClient();
+        firebase.addClient([
+          
+        ]);
       },
       backgroundColor: MyMateThemes.textColor,
       foregroundColor: Colors.white,
