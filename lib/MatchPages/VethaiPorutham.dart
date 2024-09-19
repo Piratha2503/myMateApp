@@ -9,7 +9,7 @@ class VethaiMatcher extends StatefulWidget {
 }
 
 class _VethaiMatcherState extends State<VethaiMatcher> {
-  String? message;
+  bool isMatched = false;
 
   @override
   void initState() {
@@ -17,22 +17,18 @@ class _VethaiMatcherState extends State<VethaiMatcher> {
     // Set the boy and girl star names manually
     String boyStarName = 'Ashwini';
     String girlStarName = 'Bharani';
-    _checkVethaiMatch(boyStarName, girlStarName);
+    isMatched = _checkVethaiMatch(boyStarName, girlStarName);
   }
 
-  void _checkVethaiMatch(String boyStarName, String girlStarName) {
-    setState(() {
-      if (boyStarName.isNotEmpty && girlStarName.isNotEmpty) {
-        if (RasiNadchathiram.vethaiMismatchList.any((pair) =>
-            pair.contains(boyStarName) && pair.contains(girlStarName))) {
-          message = 'Not matched';
-        } else {
-          message = 'Matched';
-        }
-      } else {
-        message = 'Please enter both Star names';
+  bool _checkVethaiMatch(String boyStarName, String girlStarName) {
+    if (boyStarName.isNotEmpty && girlStarName.isNotEmpty) {
+      if (RasiNadchathiram.vethaiMismatchList.any((pair) =>
+          pair.contains(boyStarName) && pair.contains(girlStarName))) {
+        return false;
       }
-    });
+      return true;
+    }
+    return false;
   }
 
   @override
@@ -47,7 +43,7 @@ class _VethaiMatcherState extends State<VethaiMatcher> {
           children: <Widget>[
             SizedBox(height: 20),
             Text(
-              message ?? '',
+              isMatched ? 'Matched: true' : 'Matched: false',
               style: TextStyle(fontSize: 18),
             ),
           ],

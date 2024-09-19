@@ -10,34 +10,29 @@ class VirutshaMatcher extends StatefulWidget {
 }
 
 class _VirutshaMatcherState extends State<VirutshaMatcher> {
-  String? message;
-
+  bool isMatched = false;
   @override
   void initState() {
     super.initState();
     // Set the boy and girl star names manually
     String boyStarName = 'Bharani';
     String girlStarName = 'Rohini';
-    _checkVirutshaMatch(boyStarName, girlStarName);
+    isMatched = _checkVirutshaMatch(boyStarName, girlStarName);
   }
 
-  void _checkVirutshaMatch(String boyStarName, String girlStarName) {
-    setState(() {
-      if (boyStarName.isNotEmpty && girlStarName.isNotEmpty) {
-        if ((RasiNadchathiram.Milk.contains(boyStarName) &&
-                RasiNadchathiram.Milk.contains(girlStarName)) ||
-            (RasiNadchathiram.Milk.contains(boyStarName) &&
-                RasiNadchathiram.NonMilk.contains(girlStarName)) ||
-            (RasiNadchathiram.NonMilk.contains(boyStarName) &&
-                RasiNadchathiram.Milk.contains(girlStarName))) {
-          message = 'Matched';
-        } else {
-          message = 'Not Matched';
-        }
-      } else {
-        message = 'Please enter both Star names';
+  bool _checkVirutshaMatch(String boyStarName, String girlStarName) {
+    if (boyStarName.isNotEmpty && girlStarName.isNotEmpty) {
+      if ((RasiNadchathiram.Milk.contains(boyStarName) &&
+              RasiNadchathiram.Milk.contains(girlStarName)) ||
+          (RasiNadchathiram.Milk.contains(boyStarName) &&
+              RasiNadchathiram.NonMilk.contains(girlStarName)) ||
+          (RasiNadchathiram.NonMilk.contains(boyStarName) &&
+              RasiNadchathiram.Milk.contains(girlStarName))) {
+        return true;
       }
-    });
+      return false;
+    }
+    return false;
   }
 
   @override
@@ -52,7 +47,7 @@ class _VirutshaMatcherState extends State<VirutshaMatcher> {
           children: <Widget>[
             SizedBox(height: 20),
             Text(
-              message ?? '',
+              isMatched ? 'Matched: true' : 'Matched: false',
               style: TextStyle(fontSize: 18),
             ),
           ],
