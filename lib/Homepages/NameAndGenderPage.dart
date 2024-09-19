@@ -1,7 +1,5 @@
-import 'dart:math';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
+import 'package:mymateapp/Homepages/ChartOptions.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 
 class NameAndGender extends StatefulWidget {
@@ -13,29 +11,32 @@ class NameAndGender extends StatefulWidget {
 
 }
 
-class _NameAndGenderState extends State<NameAndGender>{
-
+class _NameAndGenderState extends State<NameAndGender> {
   String Gender = "";
-  void onPressed(){
-    print("object");
+
+  void onPressed() {
+    Navigator.push(context,
+    MaterialPageRoute(builder: (context)=>const ChartOptions()));
   }
-void Changed(){
+
+  void Changed() {
     setState(() {
       Gender = "Male";
     });
-}
-  @override
-  Widget build(BuildContext context){
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyMateThemes.backgroundWhite,
+      backgroundColor: MyMateThemes.backgroundColor,
       appBar: AppBar(
-        backgroundColor: MyMateThemes.backgroundWhite,
+        backgroundColor: MyMateThemes.backgroundColor,
       ),
       body: Center(
         child: Column(
           children: [
-            Form(child: Column(
+            Form(
+                child: Column(
               children: [
                 SizedBox(
                   width: 300, // Set the width of the TextField
@@ -43,15 +44,20 @@ void Changed(){
                   child: TextField(
                     decoration: MyInputDecorations("First name"),
                     style: TextStyle(
-                      fontSize: 16,
-                    ),
+                      fontSize: 25,
+                      fontWeight: FontWeight.w500
+                  ),
                   ),
                 ),
-                Container(height: 50,),
+                Container( height: 50,),
                 SizedBox(
                   width: 300, // Set the width of the TextField
                   height: 50, // Set the height of the TextField
                   child: TextField(
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w500
+                    ),
                     decoration: MyInputDecorations("Last name"),
                   ),
                 ),
@@ -76,7 +82,7 @@ void Changed(){
                         fixedSize: MaterialStatePropertyAll(Size(120, 120))
                       ),
                     ),
-                    SizedBox(width: 30,),
+                    SizedBox(width: 50,),
                     ElevatedButton.icon(
                       onPressed: Changed,
                       label: const Text(""),
@@ -86,7 +92,7 @@ void Changed(){
                           alignment: Alignment.center,
                           textStyle: MaterialStatePropertyAll(TextStyle(
                               fontWeight: FontWeight.w800,
-                            
+
                           )),
                           iconSize: MaterialStatePropertyAll(70),
                           shape: MaterialStatePropertyAll(RoundedRectangleBorder()),
@@ -96,47 +102,41 @@ void Changed(){
                   ],
 
                 ),
-                SizedBox(height: 65,),
+                const SizedBox(height: 65,),
                 SizedBox(
                   height: 58,
                   width: 166,
                   child: ElevatedButton(onPressed: onPressed,
                     style: const ButtonStyle(
                       foregroundColor: MaterialStatePropertyAll(Colors.white),
-                      backgroundColor: MaterialStatePropertyAll(MyMateThemes.primaryGreen),
-                      shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.zero)),
-                    ), child: Text(
-                      "Next"
-                      ,style: TextStyle(fontSize: MyMateThemes.buttonFontSize),),
+                      backgroundColor:
+                          MaterialStatePropertyAll(MyMateThemes.primaryColor),
+                      shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.zero)),
+                    ),
+                    child: const Text(
+                      "Next",
+                      style: TextStyle(fontSize: MyMateThemes.buttonFontSize),
+                    ),
                   ),
                 ),
-
               ],
-            )
-            )
+            ))
           ],
         ),
       ),
     );
-
   }
 }
 
-class MyInputDecorations extends InputDecoration{
+InputDecoration MyInputDecorations(String hint){
+  return InputDecoration(
 
-  final String myHint;
+    hintText: hint,
+    hintStyle: const TextStyle(
+      fontWeight: FontWeight.w600,
+      fontSize: 25,
+    ),
 
- MyInputDecorations(this.myHint);
- @override
- // TODO: implement hintText
- String? get hintText => myHint;
-
- @override
- // TODO: implement hintStyle
- TextStyle? get hintStyle => const TextStyle(
-   fontSize: 28,
-   fontFamily: "Work Sans",
-
- );
-
+  );
 }
