@@ -18,7 +18,7 @@ class _crudAppState extends State<crudApp>{
 
   final Firebase firebase = Firebase();
 
-  Widget ClientCard(String msg, String img_address){
+  Widget ClientCard(String msg, String img_address) {
     return Card(
 
       shadowColor: Colors.white,
@@ -41,7 +41,7 @@ class _crudAppState extends State<crudApp>{
     );
   }
 
-  Widget MyGridContainer(String msg, String img_address){
+  Widget MyGridContainer(String msg, String img_address) {
     return Align(
       alignment: Alignment.topCenter,
       child: Container(
@@ -72,7 +72,7 @@ class _crudAppState extends State<crudApp>{
   }
 
   @override
-   Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
 
   List<List<dynamic>> MyClients = firebase.clientList;
 
@@ -110,7 +110,7 @@ class _crudAppState extends State<crudApp>{
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          firebase.addClient();
+          firebase.addClient([]);
         },
         backgroundColor: MyMateThemes.textColor,
         foregroundColor: Colors.white,
@@ -122,4 +122,5 @@ class _crudAppState extends State<crudApp>{
       ),
     );
   }
+
 }
