@@ -57,7 +57,7 @@ dependencies:
   scroll_time_picker: ^1.1.0
   card_swiper: ^3.0.1
   custom_pin_screen: ^1.0.1
-
+  otp_pin_field: ^1.2.4
 
 
 
@@ -111,6 +111,7 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
+
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

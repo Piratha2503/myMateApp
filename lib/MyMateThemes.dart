@@ -18,9 +18,9 @@ class MyMateThemes {
 class CommonButtonStyle {
   static ButtonStyle commonButtonStyle() {
     return ButtonStyle(
-      foregroundColor: MaterialStateProperty.all(Colors.white),
-      backgroundColor: MaterialStateProperty.all(MyMateThemes.primaryColor),
-      shape: MaterialStateProperty.all(
+      foregroundColor: WidgetStateProperty.all(Colors.white),
+      backgroundColor: WidgetStateProperty.all(MyMateThemes.primaryColor),
+      shape: WidgetStateProperty.all(
           RoundedRectangleBorder(borderRadius: BorderRadius.zero)),
     );
   }

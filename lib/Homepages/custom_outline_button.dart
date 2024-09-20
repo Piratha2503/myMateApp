@@ -23,23 +23,23 @@ class CustomOutlineButton extends StatelessWidget {
     return OutlinedButton(
       onPressed: onPressed,
       style: ButtonStyle(
-        foregroundColor: MaterialStateProperty.all(
+        foregroundColor: WidgetStateProperty.all(
           isSelected
               ? MyMateThemes.secondaryColor
               : MyMateThemes.containerColor,
         ),
-        backgroundColor: MaterialStateProperty.all(
+        backgroundColor: WidgetStateProperty.all(
           isSelected
               ? MyMateThemes.secondaryColor
               : MyMateThemes.containerColor,
         ),
-        shape: MaterialStateProperty.all(
+        shape: WidgetStateProperty.all(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.zero,
           ),
         ),
-        side: MaterialStateProperty.all(BorderSide.none),
-        minimumSize: MaterialStateProperty.all(Size(103.31, 40)),
+        side: WidgetStateProperty.all(BorderSide.none),
+        minimumSize: WidgetStateProperty.all(Size(103.31, 40)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,

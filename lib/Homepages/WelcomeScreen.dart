@@ -114,10 +114,10 @@ class _WelcomePageState extends State<WelcomePage> {
                 child: ElevatedButton(
                   onPressed: Clicked,
                   style: ButtonStyle(
-                    foregroundColor: MaterialStatePropertyAll(Colors.white),
+                    foregroundColor: WidgetStatePropertyAll(Colors.white),
                     backgroundColor:
-                        MaterialStatePropertyAll(MyMateThemes.primaryColor),
-                    shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                        WidgetStatePropertyAll(MyMateThemes.primaryColor),
+                    shape: WidgetStatePropertyAll(RoundedRectangleBorder(
                         borderRadius: BorderRadius.zero)),
                   ),
                   child: const Text(

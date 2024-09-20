@@ -93,9 +93,9 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: ElevatedButton(
                   onPressed: handlePhoneNumber,
                   style: const ButtonStyle(
-                    foregroundColor: MaterialStatePropertyAll(Colors.white),
-                    backgroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
-                    shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                    foregroundColor: WidgetStatePropertyAll(Colors.white),
+                    backgroundColor: WidgetStatePropertyAll(MyMateThemes.primaryColor),
+                    shape: WidgetStatePropertyAll(RoundedRectangleBorder(
                         borderRadius: BorderRadius.zero)
                     ),
                   ),
