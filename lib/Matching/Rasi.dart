@@ -101,88 +101,92 @@ class MatchingCalculation {
   }
 
   static bool _checkKanaMatch(String boyStarName, String girlStarName) {
-    if (boyStarName.isNotEmpty && girlStarName.isNotEmpty) {
-      if ((RasiNadchathiram.Theva.contains(boyStarName) &&
-              RasiNadchathiram.Theva.contains(girlStarName)) ||
-          (RasiNadchathiram.Manusa.contains(boyStarName) &&
-              RasiNadchathiram.Manusa.contains(girlStarName)) ||
-          (RasiNadchathiram.Manusa.contains(boyStarName) &&
-              RasiNadchathiram.Theva.contains(girlStarName))) {
-        return true;
-      }
-      return false;
-    }
-    // Return false if either boyStarName or girlStarName is empty
-    return false;
-  }
+    // String boyStarName = '';
+    // String girlStarName = '';
+    // bool isMatched = false;
 
-  static bool _checkRachuMatch(String boyStarName, String girlStarName) {
-    if (boyStarName.isNotEmpty && girlStarName.isNotEmpty) {
-      if ((RasiNadchathiram.Group1.contains(boyStarName) &&
-              RasiNadchathiram.Group1.contains(girlStarName)) ||
-          (RasiNadchathiram.Group2.contains(boyStarName) &&
-              RasiNadchathiram.Group2.contains(girlStarName)) ||
-          (RasiNadchathiram.Group3.contains(boyStarName) &&
-              RasiNadchathiram.Group3.contains(girlStarName)) ||
-          (RasiNadchathiram.Group4.contains(boyStarName) &&
-              RasiNadchathiram.Group4.contains(girlStarName)) ||
-          (RasiNadchathiram.Group5.contains(boyStarName) &&
-              RasiNadchathiram.Group5.contains(girlStarName))) {
-        return false;
-      }
+    if ((RasiNadchathiram.Theva.contains(boyStarName) &&
+            RasiNadchathiram.Theva.contains(girlStarName)) ||
+        (RasiNadchathiram.Manusa.contains(boyStarName) &&
+            RasiNadchathiram.Manusa.contains(girlStarName)) ||
+        (RasiNadchathiram.Manusa.contains(boyStarName) &&
+            RasiNadchathiram.Theva.contains(girlStarName))) {
       return true;
     }
     return false;
   }
 
-  static bool _checkVasyaMatch(String boyRasiName, String girlRasiName) {
-    if (boyRasiName.isNotEmpty && girlRasiName.isNotEmpty) {
-      if (girlRasiName == 'Mesham' &&
-              (boyRasiName == 'Simmam' || boyRasiName == 'Viruchigam') ||
-          girlRasiName == 'Rishabam' &&
-              (boyRasiName == 'Kadagam' || boyRasiName == 'Thulam') ||
-          girlRasiName == 'Mithunam' && (boyRasiName == 'Kanni') ||
-          girlRasiName == 'Kadagam' &&
-              (boyRasiName == 'Viruchigam' || boyRasiName == 'Thanusu') ||
-          girlRasiName == 'Simmam' && (boyRasiName == 'Magaram') ||
-          girlRasiName == 'Kanni' &&
-              (boyRasiName == 'Rishabam' || boyRasiName == 'Meenam') ||
-          girlRasiName == 'Thulam' && (boyRasiName == 'Magaram') ||
-          girlRasiName == 'Viruchigam' &&
-              (boyRasiName == 'Kadagam' || boyRasiName == 'Kanni') ||
-          girlRasiName == 'Thanusu' && (boyRasiName == 'Meenam') ||
-          girlRasiName == 'Magaram' && (boyRasiName == 'Kumbam') ||
-          girlRasiName == 'Kumbam' && (boyRasiName == 'Meenam') ||
-          girlRasiName == 'Meenam' && (boyRasiName == 'Magaram')) {
-        return true;
-      }
+  static bool _checkRachuMatch(String boyStarName, String girlStarName) {
+    // String boyStarName = '';
+    // String girlStarName = '';
+    // bool isMatched = false;
+
+    if ((RasiNadchathiram.Group1.contains(boyStarName) &&
+            RasiNadchathiram.Group1.contains(girlStarName)) ||
+        (RasiNadchathiram.Group2.contains(boyStarName) &&
+            RasiNadchathiram.Group2.contains(girlStarName)) ||
+        (RasiNadchathiram.Group3.contains(boyStarName) &&
+            RasiNadchathiram.Group3.contains(girlStarName)) ||
+        (RasiNadchathiram.Group4.contains(boyStarName) &&
+            RasiNadchathiram.Group4.contains(girlStarName)) ||
+        (RasiNadchathiram.Group5.contains(boyStarName) &&
+            RasiNadchathiram.Group5.contains(girlStarName))) {
       return false;
+    }
+    return true;
+  }
+
+  static bool _checkVasyaMatch(String boyRasiName, String girlRasiName) {
+    // String boyRasiName = '';
+    // String girlRasiName = '';
+    // bool isMatched = false;
+
+    if (girlRasiName == 'Mesham' &&
+            (boyRasiName == 'Simmam' || boyRasiName == 'Viruchigam') ||
+        girlRasiName == 'Rishabam' &&
+            (boyRasiName == 'Kadagam' || boyRasiName == 'Thulam') ||
+        girlRasiName == 'Mithunam' && (boyRasiName == 'Kanni') ||
+        girlRasiName == 'Kadagam' &&
+            (boyRasiName == 'Viruchigam' || boyRasiName == 'Thanusu') ||
+        girlRasiName == 'Simmam' && (boyRasiName == 'Magaram') ||
+        girlRasiName == 'Kanni' &&
+            (boyRasiName == 'Rishabam' || boyRasiName == 'Meenam') ||
+        girlRasiName == 'Thulam' && (boyRasiName == 'Magaram') ||
+        girlRasiName == 'Viruchigam' &&
+            (boyRasiName == 'Kadagam' || boyRasiName == 'Kanni') ||
+        girlRasiName == 'Thanusu' && (boyRasiName == 'Meenam') ||
+        girlRasiName == 'Magaram' && (boyRasiName == 'Kumbam') ||
+        girlRasiName == 'Kumbam' && (boyRasiName == 'Meenam') ||
+        girlRasiName == 'Meenam' && (boyRasiName == 'Magaram')) {
+      return true;
     }
     return false;
   }
 
   static bool _checkVethaiMatch(String boyStarName, String girlStarName) {
-    if (boyStarName.isNotEmpty && girlStarName.isNotEmpty) {
-      if (RasiNadchathiram.vethaiMismatchList.any((pair) =>
-          pair.contains(boyStarName) && pair.contains(girlStarName))) {
-        return false;
-      }
-      return true;
+    // String boyStarName = '';
+    // String girlStarName = '';
+    // bool isMatched = false;
+
+    if (RasiNadchathiram.vethaiMismatchList.any(
+        (pair) => pair.contains(boyStarName) && pair.contains(girlStarName))) {
+      return false;
     }
-    return false;
+    return true;
   }
 
   static bool _checkVirutshaMatch(String boyStarName, String girlStarName) {
-    if (boyStarName.isNotEmpty && girlStarName.isNotEmpty) {
-      if ((RasiNadchathiram.Milk.contains(boyStarName) &&
-              RasiNadchathiram.Milk.contains(girlStarName)) ||
-          (RasiNadchathiram.Milk.contains(boyStarName) &&
-              RasiNadchathiram.NonMilk.contains(girlStarName)) ||
-          (RasiNadchathiram.NonMilk.contains(boyStarName) &&
-              RasiNadchathiram.Milk.contains(girlStarName))) {
-        return true;
-      }
-      return false;
+    // String boyStarName = '';
+    // String girlStarName = '';
+    // bool isMatched = false;
+
+    if ((RasiNadchathiram.Milk.contains(boyStarName) &&
+            RasiNadchathiram.Milk.contains(girlStarName)) ||
+        (RasiNadchathiram.Milk.contains(boyStarName) &&
+            RasiNadchathiram.NonMilk.contains(girlStarName)) ||
+        (RasiNadchathiram.NonMilk.contains(boyStarName) &&
+            RasiNadchathiram.Milk.contains(girlStarName))) {
+      return true;
     }
     return false;
   }
