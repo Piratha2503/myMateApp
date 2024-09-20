@@ -46,7 +46,7 @@ class _GenerateChartState extends State<GenerateChart> {
                 SizedBox(height: 20,),
                 TextButton(
                     style: ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(
+                      backgroundColor: MaterialStatePropertyAll(
                           MyMateThemes.secondaryColor
                       ),
                     ),

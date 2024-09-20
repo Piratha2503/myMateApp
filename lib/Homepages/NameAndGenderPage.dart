@@ -72,14 +72,14 @@ class _NameAndGenderState extends State<NameAndGender> {
                       label: const Text(""),
                       icon: Icon(Icons.male_rounded),
                       style: const ButtonStyle(
-                        foregroundColor: WidgetStatePropertyAll(Colors.indigo),
+                        foregroundColor: MaterialStatePropertyAll(Colors.indigo),
                         alignment: Alignment.center,
-                        textStyle: WidgetStatePropertyAll(TextStyle(
+                        textStyle: MaterialStatePropertyAll(TextStyle(
                           fontWeight: FontWeight.w800
                         )),
-                        iconSize: WidgetStatePropertyAll(70),
-                        shape: WidgetStatePropertyAll(RoundedRectangleBorder()),
-                        fixedSize: WidgetStatePropertyAll(Size(120, 120))
+                        iconSize: MaterialStatePropertyAll(70),
+                        shape: MaterialStatePropertyAll(RoundedRectangleBorder()),
+                        fixedSize: MaterialStatePropertyAll(Size(120, 120))
                       ),
                     ),
                     SizedBox(width: 50,),
@@ -88,15 +88,15 @@ class _NameAndGenderState extends State<NameAndGender> {
                       label: const Text(""),
                       icon: Icon(Icons.female_outlined),
                       style: const ButtonStyle(
-                       foregroundColor: WidgetStatePropertyAll(Colors.purple),
+                       foregroundColor: MaterialStatePropertyAll(Colors.purple),
                           alignment: Alignment.center,
-                          textStyle: WidgetStatePropertyAll(TextStyle(
+                          textStyle: MaterialStatePropertyAll(TextStyle(
                               fontWeight: FontWeight.w800,
 
                           )),
-                          iconSize: WidgetStatePropertyAll(70),
-                          shape: WidgetStatePropertyAll(RoundedRectangleBorder()),
-                          fixedSize: WidgetStatePropertyAll(Size(120, 120))
+                          iconSize: MaterialStatePropertyAll(70),
+                          shape: MaterialStatePropertyAll(RoundedRectangleBorder()),
+                          fixedSize: MaterialStatePropertyAll(Size(120, 120))
                       ),
                     ),
                   ],
@@ -108,10 +108,10 @@ class _NameAndGenderState extends State<NameAndGender> {
                   width: 166,
                   child: ElevatedButton(onPressed: onPressed,
                     style: const ButtonStyle(
-                      foregroundColor: WidgetStatePropertyAll(Colors.white),
+                      foregroundColor: MaterialStatePropertyAll(Colors.white),
                       backgroundColor:
-                          WidgetStatePropertyAll(MyMateThemes.primaryColor),
-                      shape: WidgetStatePropertyAll(RoundedRectangleBorder(
+                      MaterialStatePropertyAll(MyMateThemes.primaryColor),
+                      shape: MaterialStatePropertyAll(RoundedRectangleBorder(
                           borderRadius: BorderRadius.zero)),
                     ),
                     child: const Text(

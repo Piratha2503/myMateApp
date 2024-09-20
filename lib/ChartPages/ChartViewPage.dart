@@ -35,10 +35,10 @@ class _ChartViewPageState extends State<ChartViewPage> {
                 child: ElevatedButton(
                   onPressed: onPressed,
                   style: ButtonStyle(
-                    foregroundColor: WidgetStateProperty.all(Colors.white),
-                    backgroundColor: WidgetStateProperty.all(
+                    foregroundColor: MaterialStateProperty.all(Colors.white),
+                    backgroundColor: MaterialStateProperty.all(
                         Color.fromRGBO(25, 40, 78, 200)),
-                    shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.zero)),
                   ),
                   child: Text(

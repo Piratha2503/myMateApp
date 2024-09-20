@@ -65,7 +65,7 @@ class MatchingCalculation{
       }
     });
 
-    for(List<String>yoniMatch in RasiNadchathiram.yoniMismatchingList){
+    for(List<String>yoniMatch in RasiNadchathiram.yoniMismatchList){
       if(yoniMatch[0] == boyAnimal && yoniMatch[1] == girlAnimal){
         Resulst = false;
         break;
@@ -77,8 +77,8 @@ class MatchingCalculation{
   }
 
   static bool checkThinaMatch(String girlNadchathiram,String boyNadchathiram ) {
-    int girlNadchathiraIndex = RasiNadchathiram.nadchathiraMatchList.indexOf(girlNadchathiram)+1;
-    int boyNadchathiraIndex = RasiNadchathiram.nadchathiraMatchList.indexOf(boyNadchathiram)+1;
+    int girlNadchathiraIndex = RasiNadchathiram.nadchathiraList.indexOf(girlNadchathiram)+1;
+    int boyNadchathiraIndex = RasiNadchathiram.nadchathiraList.indexOf(boyNadchathiram)+1;
     int nadchathiraMatchNumber = 0;
 
     if(girlNadchathiraIndex < boyNadchathiraIndex) {
