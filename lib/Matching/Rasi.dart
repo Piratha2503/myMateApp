@@ -18,7 +18,7 @@ class _RasiPoruthamState extends State<RasiPorutham>{
         appBar: AppBar(
           leading: ElevatedButton(
             onPressed: (){
-            bool res = MatchingCalculation.checkRasiMatch("Kadagam", "Kanni");
+            bool res = MatchingCalculation.checkRasiMatch("Kadagam", "Simmam");
             print(res);
           }, child: Icon(Icons.confirmation_num), ),
         ),
@@ -71,7 +71,7 @@ class MatchingCalculation{
         Resulst = false;
         break;
       }
-      //print(yoniMatch.toString());
+
     }
 
     return Resulst;

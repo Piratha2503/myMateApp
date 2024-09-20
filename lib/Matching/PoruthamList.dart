@@ -2,16 +2,20 @@ import 'Rasi.dart';
 
 class PoruthamList{
 
+  String girlNadchathiram = "Kadagam";
+  String boyNadchathiram = "Simmam";
+
+
   static final List<Map<String, String>> poruthamList = [
     {
       'svg': 'assets/images/whitetick.svg',
       'name': 'Dina porutham',
-      'status': MatchingCalculation.checkRasiMatch("Kadagam", "Kanni") ? 'Matched' : "Not Matched",
+      'status': MatchingCalculation.checkThinaMatch(PoruthamList().girlNadchathiram, PoruthamList().boyNadchathiram).toString(),
     },
     {
       'svg': 'assets/images/blackcross.svg',
       'name': 'Gana porutham',
-      'status': 'Matched'
+      'status': "Matched"
     },
     {
       'svg': 'assets/images/blackcross.svg',
@@ -26,7 +30,7 @@ class PoruthamList{
     {
       'svg': 'assets/images/whitetick.svg',
       'name': 'Yoni porutham',
-      'status': 'Matched'
+      'status': MatchingCalculation.checkYoniMatch(PoruthamList().girlNadchathiram, PoruthamList().boyNadchathiram).toString(),
     },
     {
       'svg': 'assets/images/whitetick.svg',
@@ -41,7 +45,7 @@ class PoruthamList{
     {
       'svg': 'assets/images/whitetick.svg',
       'name': 'Rasi porutham',
-      'status': 'Matched'
+      'status': MatchingCalculation.checkRasiMatch(PoruthamList().girlNadchathiram, PoruthamList().boyNadchathiram).toString(),
     },
     {
       'svg': 'assets/images/whitetick.svg',
