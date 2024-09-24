@@ -98,7 +98,7 @@ class MatchingCalculation{
     }
   }
 
-  static bool _checkKanaMatch(String boyStarName, String girlStarName) {
+  static bool checkKanaMatch(String boyStarName, String girlStarName) {
     // String boyStarName = '';
     // String girlStarName = '';
     // bool isMatched = false;
@@ -114,7 +114,7 @@ class MatchingCalculation{
     return false;
   }
 
-  static bool _checkRachuMatch(String boyStarName, String girlStarName) {
+  static bool checkRachuMatch(String boyStarName, String girlStarName) {
     // String boyStarName = '';
     // String girlStarName = '';
     // bool isMatched = false;
@@ -134,7 +134,7 @@ class MatchingCalculation{
     return true;
   }
 
-  static bool _checkVasyaMatch(String boyRasiName, String girlRasiName) {
+  static bool checkVasyaMatch(String boyRasiName, String girlRasiName) {
     // String boyRasiName = '';
     // String girlRasiName = '';
     // bool isMatched = false;
@@ -161,7 +161,7 @@ class MatchingCalculation{
     return false;
   }
 
-  static bool _checkVethaiMatch(String boyStarName, String girlStarName) {
+  static bool checkVethaiMatch(String boyStarName, String girlStarName) {
     // String boyStarName = '';
     // String girlStarName = '';
     // bool isMatched = false;
@@ -173,7 +173,7 @@ class MatchingCalculation{
     return true;
   }
 
-  static bool _checkVirutshaMatch(String boyStarName, String girlStarName) {
+  static bool checkVirutshaMatch(String boyStarName, String girlStarName) {
     // String boyStarName = '';
     // String girlStarName = '';
     // bool isMatched = false;

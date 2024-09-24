@@ -15,7 +15,7 @@ class PoruthamList{
     {
       'svg': 'assets/images/blackcross.svg',
       'name': 'Gana porutham',
-      'status': "Matched"
+      'status':
     },
     {
       'svg': 'assets/images/blackcross.svg',
