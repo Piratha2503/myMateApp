@@ -99,9 +99,6 @@ class MatchingCalculation{
   }
 
   static bool checkKanaMatch(String boyStarName, String girlStarName) {
-    // String boyStarName = '';
-    // String girlStarName = '';
-    // bool isMatched = false;
 
     if ((RasiNadchathiram.Theva.contains(boyStarName) &&
             RasiNadchathiram.Theva.contains(girlStarName)) ||
