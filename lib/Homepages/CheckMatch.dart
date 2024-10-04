@@ -1,11 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mymateapp/Matching/PoruthamList.dart';
 import 'package:mymateapp/Matching/Rasi.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import '../dbConnection/Firebase.dart';
-import 'bottom_navigation_bar.dart';
+import '../MyMateCommonBodies/MyMateBottomBar.dart';
 
 class CheckmatchPage extends StatefulWidget {
   const CheckmatchPage({super.key});

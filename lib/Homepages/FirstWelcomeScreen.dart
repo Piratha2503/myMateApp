@@ -3,7 +3,7 @@ import 'package:mymateapp/MyMateThemes.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'BadgeWidget.dart';
 import 'CompleteProfile.dart';
-import 'bottom_navigation_bar.dart';
+import '../MyMateCommonBodies/MyMateBottomBar.dart';
 
 class FrontPage extends StatefulWidget {
   const FrontPage({super.key});

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../ManagePages/SummaryPage.dart';
+import '../MyMateCommonBodies/MyMateBottomBar.dart';
 import 'BadgeWidget.dart';
-import 'bottom_navigation_bar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class SubscribedhomescreenPage extends StatefulWidget {
@@ -152,16 +152,16 @@ class _SubscribedhomescreenPageState extends State<SubscribedhomescreenPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyMateThemes.backgroundColor,
+
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+        children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               SafeArea(
                 child: Center(
                   child: Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text(
                         'Your Name',
@@ -439,17 +439,7 @@ class _SubscribedhomescreenPageState extends State<SubscribedhomescreenPage> {
             ],
           ),
           SizedBox(height: 20),
-          // Container(
-          //   width: 340,
-          //   height: 70,
-          //   decoration: BoxDecoration(
-          //     color: MyMateThemes.premiumAccent,
-          //     borderRadius: BorderRadius.circular(8.0),
-          //   ),
-          //   child: Center(
-          //     child: Text('Advertisements'),
-          //   ),
-          // ),
+
         ],
       ),
       bottomNavigationBar: CustomBottomNavigationBar(

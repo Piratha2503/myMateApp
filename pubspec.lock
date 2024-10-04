@@ -334,6 +334,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_draggable_gridview:
+    dependency: "direct main"
+    description:
+      name: flutter_draggable_gridview
+      sha256: "558747591fc3fccb1ecf97f8f540a160b1712b4ab12d57f3ce961d1190487164"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.12"
   flutter_keyboard_visibility:
     dependency: transitive
     description:
@@ -464,6 +472,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  image_card:
+    dependency: "direct main"
+    description:
+      name: image_card
+      sha256: bb9e459aecc19825b10d4265ba5da4125f583c2158b7e148c996ad5ea255af01
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.4"
   image_cropper:
     dependency: "direct main"
     description:
@@ -808,6 +824,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.0.2+1"
+  shaky_animated_listview:
+    dependency: "direct main"
+    description:
+      name: shaky_animated_listview
+      sha256: "5925c5865eb86c886e21e2c2eb3137ffb0b14f73761f21aea246a646f67f39f5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.5"
   sky_engine:
     dependency: transitive
     description: flutter

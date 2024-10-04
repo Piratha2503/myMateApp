@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mymateapp/Homepages/CheckMatch.dart';
 import '../dbConnection/Firebase.dart';
 import 'Rasi.dart';
 

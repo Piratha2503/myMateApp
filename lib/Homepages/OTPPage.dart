@@ -12,7 +12,9 @@ class otpPage extends StatefulWidget {
 
 class _otpPage extends State<otpPage> {
   void Check() {
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>const NameAndGender()));
+    Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context)=>const NameAndGender()));
 
   }
   @override

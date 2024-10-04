@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:mymateapp/Matching/RasiAndNadchathiram.dart';
 
@@ -55,7 +54,7 @@ class MatchingCalculation{
     String girlAnimal = "";
     bool Resulst = true;
 
-    RasiNadchathiram.YoniList.forEach((yoni){
+    for (var yoni in RasiNadchathiram.YoniList) {
       if(boyNadchathiram == yoni["Nadchathra"]) {
         boyAnimal = yoni["Animal"].toString();
       }
@@ -63,7 +62,7 @@ class MatchingCalculation{
       if(girlNadchathiram == yoni["Nadchathra"]) {
         girlAnimal = yoni["Animal"].toString();
       }
-    });
+    }
 
     for(List<String>yoniMatch in RasiNadchathiram.yoniMismatchList){
       if(yoniMatch[0] == boyAnimal && yoniMatch[1] == girlAnimal){

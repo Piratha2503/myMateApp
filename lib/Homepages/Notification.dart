@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'SingleNotification.dart';
-import 'bottom_navigation_bar.dart';
+import '../MyMateCommonBodies/MyMateBottomBar.dart';
 
 class NotificationPage extends StatelessWidget {
   final int _selectedIndex = 0;

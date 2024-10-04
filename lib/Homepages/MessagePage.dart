@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 
 import 'Notification.dart';
-import 'bottom_navigation_bar.dart';
+import '../MyMateCommonBodies/MyMateBottomBar.dart';
 
 class MessagePage extends StatefulWidget {
   const MessagePage({super.key});

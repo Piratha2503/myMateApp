@@ -26,6 +26,3 @@ class CommonButtonStyle {
   }
 }
 
-/*
-static const backgroundWhite = Color(0xFFedfaed);
- */

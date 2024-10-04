@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mymateapp/dbConnection/Clients.dart';
 
 class Firebase{
 
   final CollectionReference clients =
   FirebaseFirestore.instance.collection('clients');
 
-  List<List<dynamic>> clientList = [];
+  List<List<ClientProfile>> clientList = [];
 
   //GET
   Stream<QuerySnapshot> getClients() {
@@ -14,8 +15,11 @@ class Firebase{
 
   //GET LIST
   Future<void> getClientsList() async{
+
     QuerySnapshot snapshot = await clients.get() ;
     snapshot.docs.map((doc){
+      //ClientProfile clientProfile = ClientProfile(name: name, age: age, status: status, occupation: occupation, district: district, imageUrl: imageUrl, matchPercentage: matchPercentage)
+     // clientProfile.name = doc['full_name'];
       clientList.add([
         doc['full_name'],
         doc['gender'],

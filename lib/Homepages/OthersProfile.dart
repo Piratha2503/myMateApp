@@ -5,7 +5,7 @@ import 'package:mymateapp/Homepages/MoreAboutMe.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import '../dbConnection/Firebase.dart';
 import 'EditPage.dart';
-import 'bottom_navigation_bar.dart';
+import '../MyMateCommonBodies/MyMateBottomBar.dart';
 import 'custom_outline_button.dart';
 
 class OtherProfilePage extends StatefulWidget {
