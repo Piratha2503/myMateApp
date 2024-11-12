@@ -3,8 +3,7 @@ import 'package:mymateapp/dbConnection/Clients.dart';
 
 class Firebase{
 
-  final CollectionReference clients =
-  FirebaseFirestore.instance.collection('clients');
+  final CollectionReference clients = FirebaseFirestore.instance.collection('clients');
 
   List<List<ClientProfile>> clientList = [];
 
