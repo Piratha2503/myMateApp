@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mymateapp/Homepages/Profiles/MoreAboutMe.dart';
 import 'package:mymateapp/MyMateThemes.dart';
-
 import '../../MyMateCommonBodies/MyMateBottomBar.dart';
 import '../../dbConnection/Firebase.dart';
 import '../custom_outline_button.dart';
