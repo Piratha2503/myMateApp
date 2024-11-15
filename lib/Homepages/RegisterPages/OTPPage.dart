@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mymateapp/Homepages/NameAndGenderPage.dart';
+import 'package:mymateapp/Homepages/RegisterPages/NameAndGenderPage.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 
 class otpPage extends StatefulWidget {

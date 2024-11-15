@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mymateapp/Homepages/ChartOptions.dart';
+import 'package:mymateapp/Homepages/RegisterPages/ChartOptions.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 
 class NameAndGender extends StatefulWidget {

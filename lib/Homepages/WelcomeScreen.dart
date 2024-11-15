@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mymateapp/Homepages/RegisterPage.dart';
+import 'package:mymateapp/Homepages/RegisterPages/RegisterPage.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 
 class WelcomePage extends StatefulWidget {

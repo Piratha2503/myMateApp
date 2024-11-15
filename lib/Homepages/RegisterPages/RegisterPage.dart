@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:mymateapp/Homepages/OTPPage.dart';
+import 'package:mymateapp/Homepages/RegisterPages/OTPPage.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -115,8 +115,11 @@ class _PhoneFieldState extends State<PhoneField>{
               onChanged: (number) {
                 setState(() {
                   phoneNumber = number.completeNumber;
-                });
-              })),
+                }
+                );
+              }
+              ),
+      ),
     );
   }
 

@@ -1,12 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:mymateapp/Homepages/MoreAboutMe.dart';
+import 'package:mymateapp/Homepages/Profiles/MoreAboutMe.dart';
 import 'package:mymateapp/MyMateThemes.dart';
-import '../dbConnection/Firebase.dart';
+
+import '../../MyMateCommonBodies/MyMateBottomBar.dart';
+import '../../dbConnection/Firebase.dart';
+import '../custom_outline_button.dart';
 import 'EditPage.dart';
-import '../MyMateCommonBodies/MyMateBottomBar.dart';
-import 'custom_outline_button.dart';
 
 class OtherProfilePage extends StatefulWidget {
   final String docId;

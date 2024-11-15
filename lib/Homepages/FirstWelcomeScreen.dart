@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'BadgeWidget.dart';
-import 'CompleteProfile.dart';
+import 'Profiles/CompleteProfile.dart';
 import '../MyMateCommonBodies/MyMateBottomBar.dart';
 
 class FrontPage extends StatefulWidget {

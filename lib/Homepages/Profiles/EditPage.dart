@@ -6,7 +6,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/Homepages/ClosableContainer.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
-import '../MyMateCommonBodies/MyMateBottomBar.dart';
+import '../../MyMateCommonBodies/MyMateBottomBar.dart';
 
 class EditPage extends StatefulWidget {
   const EditPage({super.key});
