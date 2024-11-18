@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_options.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mymateapp/MyMateThemes.dart';
@@ -78,9 +79,11 @@ class _AddTokenPageState extends State<AddTokenPage> {
                 ],
               ),
               SizedBox(height: 35),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  SizedBox(width: 3),
                   SvgPicture.asset('assets/images/tick.svg'),
                   SizedBox(width: 10),
                   Text(
@@ -89,18 +92,21 @@ class _AddTokenPageState extends State<AddTokenPage> {
                         fontSize: 10, color: MyMateThemes.primaryColor),
                     textAlign: TextAlign.center,
                   ),
+
                 ],
               ),
+
+              SizedBox(height: 7),
               Text(
                 ' for 1 Day',
                 style:
-                    TextStyle(fontSize: 10, color: MyMateThemes.primaryColor),
+                TextStyle(fontSize: 10, color: MyMateThemes.primaryColor),
                 textAlign: TextAlign.start,
               ),
-              SizedBox(height: 7),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  SizedBox(width: 2),
                   SvgPicture.asset('assets/images/tick.svg'),
                   SizedBox(width: 10),
                   Text(
@@ -456,7 +462,8 @@ class _AddTokenPageState extends State<AddTokenPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
-      child: Center(
+      child:
+      Center(
         child: Column(
           children: [
             Padding(
@@ -495,7 +502,7 @@ class _AddTokenPageState extends State<AddTokenPage> {
             ),
             SizedBox(height: 5),
             Text(
-              'You need to spend tokens to access ',
+              'You Need to spend tokens to access ',
               style: TextStyle(
                   fontWeight: FontWeight.normal,
                   fontSize: 14,
@@ -503,7 +510,7 @@ class _AddTokenPageState extends State<AddTokenPage> {
                   letterSpacing: 0.5),
             ),
             Text(
-              'following features',
+              'Following features',
               style: TextStyle(
                   fontWeight: FontWeight.normal,
                   fontSize: 14,
@@ -612,7 +619,7 @@ class _AddTokenPageState extends State<AddTokenPage> {
               child: CarouselSlider(
                 items: imageSliders,
                 options: CarouselOptions(
-                  height: 400.0,
+                  height: 430.0,
                   enlargeCenterPage: true,
                   aspectRatio: 16 / 9,
                   autoPlayCurve: Curves.fastOutSlowIn,
@@ -622,6 +629,7 @@ class _AddTokenPageState extends State<AddTokenPage> {
                 ),
               ),
             ),
+
           ],
         ),
       ),
