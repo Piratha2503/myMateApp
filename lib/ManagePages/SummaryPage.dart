@@ -13,186 +13,108 @@ class Summarypage extends StatefulWidget {
 class _SummarypageState extends State<Summarypage> {
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(screenWidth * 0.04),
               child: Row(
                 children: [
-                  SizedBox(width: 10.0),
+                  SizedBox(width: screenWidth * 0.02),
                   GestureDetector(
                     onTap: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ManagePage()));
+                        context,
+                        MaterialPageRoute(builder: (context) => ManagePage()),
+                      );
                     },
-                    child: SvgPicture.asset('assets/images/chevron-left.svg'),
+                    child: SvgPicture.asset(
+                      'assets/images/chevron-left.svg',
+                      width: screenWidth * 0.06,
+                      height: screenHeight * 0.03,
+                    ),
                   ),
-                  SizedBox(width: 110.0),
+                  Spacer(),
                   Text(
-                    "Summary ",
+                    "Summary",
                     style: TextStyle(
-                        color: MyMateThemes.primaryColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20),
+                      color: MyMateThemes.primaryColor,
+                      fontWeight: FontWeight.w700,
+                      fontSize: screenWidth * 0.06,
+                    ),
                   ),
+                  Spacer(flex: 2),
                 ],
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: screenHeight * 0.02),
             Row(
               children: [
-                SizedBox(width: 50),
+                SizedBox(width: screenWidth * 0.1),
                 Text(
                   'Hi, Name',
                   style: TextStyle(
-                      fontSize: 20,
-                      color: MyMateThemes.textColor,
-                      fontWeight: FontWeight.w500),
+                    fontSize: screenWidth * 0.05,
+                    color: MyMateThemes.textColor,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ],
             ),
-            Row(children: [
-              SizedBox(width: 50),
-              Text(
-                'Here is your summary',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: MyMateThemes.primaryColor,
+            Row(
+              children: [
+                SizedBox(width: screenWidth * 0.1),
+                Text(
+                  'Here is your summary',
+                  style: TextStyle(
+                    fontSize: screenWidth * 0.035,
+                    color: MyMateThemes.primaryColor,
+                  ),
                 ),
-              ),
-            ]),
-            SizedBox(height: 30),
+              ],
+            ),
+            SizedBox(height: screenHeight * 0.03),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  width: 152,
-                  height: 176,
-                  decoration: BoxDecoration(
-                    color: MyMateThemes.primaryColor,
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  child: Stack(
-                    children: [
-                      Positioned(
-                          top: 10,
-                          left: 55,
-                          child: Text(
-                            '187',
-                            style: TextStyle(
-                                fontSize: 48,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          )),
-                      Positioned(
-                        bottom: 30,
-                        right: 60,
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  'Interests',
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 12,
-                        right: 87,
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  'received',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.normal),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                _buildSummaryCard(
+                  context,
+                  width: screenWidth * 0.4,
+                  height: screenHeight * 0.2,
+                  color: MyMateThemes.primaryColor,
+                  textColor: Colors.white,
+                  title: '187',
+                  subtitle1: 'Interests',
+                  subtitle2: 'received',
                 ),
-                SizedBox(width: 25),
-                Container(
-                  width: 166,
-                  height: 176,
-                  decoration: BoxDecoration(
-                    color: MyMateThemes.secondaryColor,
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  child: Stack(
-                    children: [
-                      Positioned(
-                          top: 10,
-                          left: 90,
-                          child: Text(
-                            '1K',
-                            style: TextStyle(
-                                fontSize: 48,
-                                color: MyMateThemes.primaryColor,
-                                fontWeight: FontWeight.bold),
-                          )),
-                      Positioned(
-                        bottom: 30,
-                        right: 72,
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  'Interests',
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      color: MyMateThemes.primaryColor,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 12,
-                        left: 12,
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  'sent',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      color: MyMateThemes.primaryColor,
-                                      fontWeight: FontWeight.normal),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                SizedBox(width: screenWidth * 0.05),
+                _buildSummaryCard(
+                  context,
+                  width: screenWidth * 0.4,
+                  height: screenHeight * 0.2,
+                  color: MyMateThemes.secondaryColor,
+                  textColor: MyMateThemes.primaryColor,
+                  title: '1K',
+                  subtitle1: 'Interests',
+                  subtitle2: 'sent',
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            SizedBox(height: screenHeight * 0.03),
+            // _buildSummaryCard(
+            //   context,
+            //   width: screenWidth * 0.9,
+            //   height: screenHeight * 0.2,
+            //   color: MyMateThemes.secondaryColor,
+            //   textColor: MyMateThemes.primaryColor,
+            //   title: '217',
+            //   subtitle1: 'Interested',
+            //   subtitle2: '',
+            // ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -240,134 +162,95 @@ class _SummarypageState extends State<Summarypage> {
               ],
             ),
             SizedBox(height: 20),
+            SizedBox(height: screenHeight * 0.03),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  width: 166,
-                  height: 176,
-                  decoration: BoxDecoration(
-                    color: MyMateThemes.secondaryColor,
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  child: Stack(
-                    children: [
-                      Positioned(
-                          top: 5,
-                          left: 88,
-                          child: Text(
-                            '1K',
-                            style: TextStyle(
-                                fontSize: 48,
-                                color: MyMateThemes.primaryColor,
-                                fontWeight: FontWeight.bold),
-                          )),
-                      Positioned(
-                        bottom: 30,
-                        right: 80,
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  'Matches',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      color: MyMateThemes.primaryColor,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 10,
-                        right: 123,
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  'sent',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      color: MyMateThemes.primaryColor,
-                                      fontWeight: FontWeight.normal),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                _buildSummaryCard(
+                  context,
+                  width: screenWidth * 0.4,
+                  height: screenHeight * 0.2,
+                  color: MyMateThemes.secondaryColor,
+                  textColor: MyMateThemes.primaryColor,
+                  title: '1K',
+                  subtitle1: 'Matches',
+                  subtitle2: 'sent',
                 ),
-                SizedBox(width: 25),
-                Container(
-                  width: 152,
-                  height: 176,
-                  decoration: BoxDecoration(
-                    color: MyMateThemes.primaryColor,
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  child: Stack(
-                    children: [
-                      Positioned(
-                          top: 10,
-                          left: 55,
-                          child: Text(
-                            '187',
-                            style: TextStyle(
-                                fontSize: 48,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          )),
-                      Positioned(
-                        bottom: 30,
-                        right: 61,
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  'Matches',
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 11,
-                        right: 85,
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  'received',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.normal),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                SizedBox(width: screenWidth * 0.05),
+                _buildSummaryCard(
+                  context,
+                  width: screenWidth * 0.4,
+                  height: screenHeight * 0.2,
+                  color: MyMateThemes.primaryColor,
+                  textColor: Colors.white,
+                  title: '187',
+                  subtitle1: 'Matches',
+                  subtitle2: 'received',
                 ),
               ],
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildSummaryCard(BuildContext context,
+      {required double width,
+        required double height,
+        required Color color,
+        required Color textColor,
+        required String title,
+        required String subtitle1,
+        required String subtitle2}) {
+    return Container(
+      width: width,
+      height: height,
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(15.0),
+      ),
+      child: Stack(
+        children: [
+          Positioned(
+            top: height * 0.1,
+            left: width * 0.5,
+            child: Text(
+              title,
+              style: TextStyle(
+                fontSize: width * 0.25,
+                color: textColor,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: height * 0.15,
+            left: width * 0.07,
+            child: Text(
+              subtitle1,
+              style: TextStyle(
+                fontSize: width * 0.13,
+                color: textColor,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 0.8
+              ),
+            ),
+          ),
+          if (subtitle2.isNotEmpty)
+            Positioned(
+              bottom: height * 0.07,
+              left: width * 0.08,
+              child: Text(
+                subtitle2,
+                style: TextStyle(
+                  fontSize: width * 0.09,
+                  color: textColor,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }
