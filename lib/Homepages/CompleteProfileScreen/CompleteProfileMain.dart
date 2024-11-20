@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_stepindicator/flutter_stepindicator.dart';
 import 'package:mymateapp/MyMateThemes.dart';
-import '../MyProfile.dart';
+import '../Profiles/MyProfile.dart';
 import 'CompleteOne.dart';
 import 'CompleteThree.dart';
 import 'CompleteTwo.dart';

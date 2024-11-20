@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
-import 'package:mymateapp/Homepages/MyProfile.dart';
+import 'package:mymateapp/Homepages/Profiles/MyProfile.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/Homepages/ClosableContainer.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
