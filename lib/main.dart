@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:mymateapp/Homepages/AddTokenPage.dart';
 import 'package:mymateapp/Homepages/CompleteProfileScreen/CompleteProfileMain.dart';
 import 'package:mymateapp/Homepages/ListViewPage.dart';
 import 'package:mymateapp/Homepages/NameAndGenderPage.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           primaryColor: Colors.blue[200]),
       debugShowCheckedModeBanner: false,
-      home: CompleteProfilePage(),
+      home: AddTokenPage(),
     );
   }
 }
