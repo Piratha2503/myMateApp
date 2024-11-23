@@ -1,7 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:mymateapp/Homepages/RegisterPages/RegisterPage.dart';
+import 'package:mymateapp/ChartPages/GenerateChart.dart';
+import 'package:mymateapp/Homepages/FirstWelcomeScreen.dart';
+import 'package:mymateapp/dbConnection/Clients.dart';
 
+import 'ChartPages/ManualRasiChartPage.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -17,6 +20,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    TestClient clientProfile = TestClient();
+    clientProfile.name = "Piratha";
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -24,7 +30,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           primaryColor: Colors.blue[200]),
       debugShowCheckedModeBanner: false,
-      home: RegisterPage(),
+      home: ManualRasiChartPage(),
     );
   }
 }

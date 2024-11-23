@@ -6,6 +6,7 @@ class Firebase{
   final CollectionReference clients = FirebaseFirestore.instance.collection('clients');
 
   List<List<ClientProfile>> clientList = [];
+  List<ClientProfile> myClients = [];
 
   //GET
   Stream<QuerySnapshot> getClients() {
@@ -13,42 +14,38 @@ class Firebase{
   }
 
   //GET LIST
-  Future<void> getClientsList() async{
-
-    QuerySnapshot snapshot = await clients.get() ;
-    snapshot.docs.map((doc){
-      //ClientProfile clientProfile = ClientProfile(name: name, age: age, status: status, occupation: occupation, district: district, imageUrl: imageUrl, matchPercentage: matchPercentage)
-     // clientProfile.name = doc['full_name'];
-      clientList.add([
-        doc['full_name'],
-        doc['gender'],
-        doc['education'],
-        doc['district'],
-        doc['occupation'],
-        doc['mobile'],
-        doc['religion'],
-        doc['age'],
-        doc['dob'],
-      ]);
+  Stream<List<ClientProfile>> getClientsStream() {
+    // Listen to real-time updates from Firestore
+    return clients.snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) {
+        return ClientProfile(
+          name: doc['full_name'],
+          age: doc['age'],
+          status: "Married",
+          occupation: doc['occupation'],
+          district: doc['district'],
+          imageUrl: "https://piratha.com/images/Piratha.jpg",
+          matchPercentage: "80%",
+        );
+      }).toList();
     });
-
   }
 
   //POST
   Future<void> addClient(){
 
     return clients.add({
-      'full_name': "Mannavarasan Venukanth",
-      'age': 31,
+      'full_name': "Aravinthan Sharan",
+      'age': 30,
       'dob': '28-03-1992',
       'mobile': 0778741623,
       'mobile_countryCode': 'lk',
       'gender': 'male',
       'civil_status': 'single',
       'employment_type': 'professional',
-      'occupation':'Engineer',
+      'occupation':'Driver',
       'height':154,
-      'district':'Colombo',
+      'district':'Kandy',
       'education': 'B.S.C',
       'religion': 'hindu',
       'caste': 'nil',

@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mymateapp/Homepages/ProfilePageScreen/MyProfileMain.dart';
 import 'package:mymateapp/MyMateThemes.dart';
+import '../Homepages/FirstWelcomeScreen.dart';
+import '../Homepages/ListViewPage.dart';
+import '../Homepages/Notification.dart';
+import 'RouterFunction.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
   final int selectedIndex;
@@ -26,17 +31,13 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
     _selectedIndex = widget.selectedIndex;
   }
 
-  BottomNavigationBarItem _buildBottomNavigationBarItem(
-      String assetName, String label, int index) {
-    return BottomNavigationBarItem(
-      icon: SvgPicture.asset(
-        assetName,
-        color: _selectedIndex == index
-            ? MyMateThemes.primaryColor
-            : MyMateThemes.secondaryColor,
-      ),
-      label: label,
-    );
+  void onTab(int index){
+    switch(index){
+      case 0: NavigatorFunction(context, FrontPage(index));
+      case 1: NavigatorFunction(context, ListViewPage(index));
+      case 2: NavigatorFunction(context,NotificationPage(index));
+      case 3: NavigatorFunction(context, ProfilePage(docId: "9l2knrHe8XLZL2S3erxy", selectedBottomBarIconIndex: 3,));
+    }
   }
 
   @override
@@ -63,9 +64,25 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           setState(() {
             _selectedIndex = index;
           });
-          widget.onItemTapped(index);
+          onTab(index);
         },
       ),
+    );
+  }
+
+  BottomNavigationBarItem _buildBottomNavigationBarItem(
+      String assetName,
+      String label,
+      int index) {
+    return BottomNavigationBarItem(
+
+      icon: SvgPicture.asset(
+        assetName,
+        color: _selectedIndex == index
+            ? MyMateThemes.primaryColor
+            : MyMateThemes.secondaryColor,
+      ),
+      label: label,
     );
   }
 }

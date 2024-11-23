@@ -137,7 +137,7 @@ class _MessagePageState extends State<MessagePage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => NotificationPage()));
+                              builder: (context) => NotificationPage(3)));
                     },
                     child: SvgPicture.asset('assets/images/chevron-left.svg'),
                   ),

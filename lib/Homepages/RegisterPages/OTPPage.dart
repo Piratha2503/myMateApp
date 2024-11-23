@@ -121,7 +121,7 @@ class _otpPage extends State<otpPage> {
         onChanged: (value){
           FocusScope.of(context).nextFocus();
         },
-        style: const TextStyle(
+        style: TextStyle(
             fontSize: 25,
             fontWeight: FontWeight.w600
         ),

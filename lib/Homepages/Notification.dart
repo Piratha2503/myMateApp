@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mymateapp/MyMateCommonBodies/RouterFunction.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'SingleNotification.dart';
 import '../MyMateCommonBodies/MyMateBottomBar.dart';
 
 class NotificationPage extends StatelessWidget {
-    final int _selectedIndex = 0;
-    const NotificationPage({super.key});
+    final int selectedBottomBarIconIndex;
+    const NotificationPage(this.selectedBottomBarIconIndex,{super.key});
 
   String? get imageUrl => null;
 
@@ -29,13 +30,7 @@ class NotificationPage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16.0, vertical: 10.0),
                     child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    SingleNotificationPage()));
-                      },
+                      onTap: () => NavigatorFunction(context, SingleNotificationPage()),
                       child: NotificationContainer(name,detail),
                     ),
                   );
@@ -46,7 +41,7 @@ class NotificationPage extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
-        selectedIndex: _selectedIndex,
+        selectedIndex: this.selectedBottomBarIconIndex,
         onItemTapped: (index) {
           // setState(() {
           //   _selectedIndex = index;

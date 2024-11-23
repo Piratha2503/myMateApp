@@ -1,9 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mymateapp/ChartPages/GenerateChart.dart';
 import 'package:mymateapp/MyMateThemes.dart';
+import 'package:mymateapp/dbConnection/Clients.dart';
 
 class ChartOptions extends StatefulWidget{
-  const ChartOptions({super.key});
+  TestClient clientProfile;
+  ChartOptions({super.key, required this.clientProfile});
 
   @override
   State<ChartOptions> createState() => _ChartOptionsState();
@@ -11,58 +14,67 @@ class ChartOptions extends StatefulWidget{
 
 class _ChartOptionsState extends State<ChartOptions> {
 
-  void onTab(){
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: MyMateThemes.backgroundColor,
+      body: SafeArea(
+          child: Center(
+            child: Column(
+              children: [
+                SizedBox(height: 10,),
+                ChartOptionsTexts(),
+                GenerateChartOption(),
+                SizedBox(height: 50),
+                Divider(height: 5),
+                SizedBox(height: 50),
+                ManualChartOption(),
+              ],
+            ),
+          )),
+    );
+  }
+
+}
+
+Widget ChartOptionsTexts(){
+  return  Flex(
+    direction: Axis.vertical,
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Text( "Choose Preferred",
+        style: TextStyle( fontSize: MyMateThemes.nomalFontSize, ),
+      ),
+      SizedBox(height: 10),
+      Text( "Astrology chart input method",
+        style: TextStyle(
+            fontSize: MyMateThemes.subHeadFontSize,
+            color: MyMateThemes.textColor
+        ),
+      ),
+      SizedBox(height: 10),
+      Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        child: Text("You can generate astrology chart with required "
+            "birth details or you can enter manually"),
+      ),
+      SizedBox(height: 30),
+    ],
+  );
+}
+
+class GenerateChartOption extends StatelessWidget {
+  void onTab(BuildContext context){
+    print("Hello");
     Navigator.push(context, MaterialPageRoute(builder: (context)=>GenerateChart()));
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      backgroundColor: MyMateThemes.backgroundColor,
-      body: SafeArea(
-
-          child: Center(
-            child: Column(
-              children: [
-            SizedBox( height: 10, ),
-            const Flex(
-              direction: Axis.vertical,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text( "Choose Preferred",
-                  style: TextStyle( fontSize: MyMateThemes.nomalFontSize, ),
-                ),
-                SizedBox(height: 10),
-                Text( "Astrology chart input method",
-                  style: TextStyle(
-                      fontSize: MyMateThemes.subHeadFontSize,
-                      color: MyMateThemes.textColor
-                  ),
-                ),
-                SizedBox(height: 10),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: Text("You can generate astrology chart with required "
-                      "birth details or you can enter manually"),
-                ),
-                SizedBox(height: 30),
-              ],
-            ),
-            GenerateChartGestureDetector(),
-            SizedBox(height: 50),
-            Divider(height: 5),
-            SizedBox(height: 50),
-            ManualChartGestureDetector(),
-          ],
-        ),
-      )),
-    );
-  }
-
-  Widget GenerateChartGestureDetector(){
     return GestureDetector(
-      onTap: onTab,
+      onTap: (){
+        onTab(context);
+      },
       child: Container(
         height: 125,
         width: 300,
@@ -100,7 +112,14 @@ class _ChartOptionsState extends State<ChartOptions> {
     );
   }
 
-  Widget ManualChartGestureDetector(){
+
+
+}
+
+class ManualChartOption extends StatelessWidget{
+
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
 

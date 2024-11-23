@@ -1,6 +1,3 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-
 class ClientProfile{
 
   String name;
@@ -22,4 +19,16 @@ class ClientProfile{
         required this.matchPercentage
       }
       );
+}
+
+class TestClient{
+
+late final String name;
+late final int age;
+late final String status;
+late final String occupation;
+late final String district;
+late final String imageUrl;
+late final String matchPercentage;
+
 }

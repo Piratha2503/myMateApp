@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../MyMateThemes.dart';
+import 'MyProfileBodyWidgets.dart';
 import 'MyProfileWidgets.dart';
 
 class PhotoGallery extends StatelessWidget {

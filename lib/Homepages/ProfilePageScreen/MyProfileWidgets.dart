@@ -3,64 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../MyMateThemes.dart';
 import '../BadgeWidget.dart';
 
-
-PreferredSizeWidget buildAppBar() {
-  return AppBar(
-    backgroundColor: MyMateThemes.backgroundColor,
-    title: SafeArea(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              SizedBox(width: 50),
-              Text(
-                '@user240676',
-                style: TextStyle(
-                  color: MyMateThemes.textColor,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              SizedBox(width: 40),
-              BadgeWidget(
-                  assetPath: 'assets/images/Group 2157.svg', badgeValue: 1),
-              SizedBox(width: 25),
-              BadgeWidget(
-                  assetPath: 'assets/images/Group 2153.svg', badgeValue: 10),
-            ],
-          ),
-        ],
-      ),
-    ),
-  );
-}
-
-Widget SectionTitle(String title) {
-  return Row(
-    children: [
-      SizedBox(width: 40),
-      SvgPicture.asset('assets/images/Group 2148.svg'),
-      SizedBox(width: 4),
-      Text(
-        title,
-        style: TextStyle(
-          color: MyMateThemes.primaryColor,
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    ],
-  );
-}
-
-
-
-
-
-
-
 Widget Tag(String text) {
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
@@ -77,7 +19,6 @@ Widget Tag(String text) {
     ),
   );
 }
-
 
 Widget InfoRow(String title, String value) {
   return Container(
@@ -112,13 +53,6 @@ Widget InfoRow(String title, String value) {
     ),
   );
 }
-
-Widget Containers({required List<Widget> children}) {
-  return Column(
-    children: children,
-  );
-}
-
 
 Widget IconWithText(String iconPath, String text1, String text2) {
   return Container(
@@ -156,6 +90,12 @@ Widget IconWithText(String iconPath, String text1, String text2) {
     ),
   );
 }
+
+
+
+
+
+
 
 
 
