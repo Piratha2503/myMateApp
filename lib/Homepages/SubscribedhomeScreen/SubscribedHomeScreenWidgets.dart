@@ -80,7 +80,7 @@ Widget SubscribedhomescreenStructuredPageCarouselSlider() {
           status: data['status'] ?? 'Unknown',
           occupation: data['occupation'] ?? 'Unknown',
           district: data['district'] ?? 'Unknown',
-          imageUrl: data['imageUrl'] ?? 'https://via.placeholder.com/150',
+          imageUrl:  'https://via.placeholder.com/150',
           matchPercentage: data['matchPercentage'] ?? '75%-100%',
         );
       }).toList();

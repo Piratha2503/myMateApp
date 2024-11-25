@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mymateapp/Homepages/RegisterPages/RegisterPage.dart';
+import 'package:mymateapp/Homepages/SubscribedhomeScreen/SubscribedHomeScreenStructured.dart';
 
 import 'firebase_options.dart';
 
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           primaryColor: Colors.blue[200]),
       debugShowCheckedModeBanner: false,
-      home: RegisterPage(),
+      home: SubscribedhomescreenStructuredPage(),
     );
   }
 }
