@@ -97,7 +97,7 @@ class _SettingspageState extends State<Settingspage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => NotificationPage()));
+                            builder: (context) => NotificationPage(3)));
                   },
                   child: SvgPicture.asset(
                     'assets/images/Notification.svg',
@@ -113,7 +113,7 @@ class _SettingspageState extends State<Settingspage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => NotificationPage()));
+                            builder: (context) => NotificationPage(3)));
                   },
                   child: SvgPicture.asset(
                     'assets/images/Language.svg',
@@ -129,7 +129,7 @@ class _SettingspageState extends State<Settingspage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => NotificationPage()));
+                            builder: (context) => NotificationPage(3)));
                   },
                   child: SvgPicture.asset(
                     'assets/images/Photos.svg',
@@ -145,7 +145,7 @@ class _SettingspageState extends State<Settingspage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => NotificationPage()));
+                            builder: (context) => NotificationPage(3)));
                   },
                   child: SvgPicture.asset(
                     'assets/images/DelAcc.svg',

@@ -6,7 +6,8 @@ import 'Profiles/CompleteProfile.dart';
 import '../MyMateCommonBodies/MyMateBottomBar.dart';
 
 class FrontPage extends StatefulWidget {
-  const FrontPage({super.key});
+  final int selectedBottomBarIconIndex;
+  const FrontPage(this.selectedBottomBarIconIndex, {super.key});
 
   @override
   State<FrontPage> createState() => _FrontPageState();
@@ -51,7 +52,7 @@ class _FrontPageState extends State<FrontPage>
       appBar: _buildAppBar(),
       body: _buildBody(),
       bottomNavigationBar: CustomBottomNavigationBar(
-        selectedIndex: _selectedIndex,
+        selectedIndex: widget.selectedBottomBarIconIndex,
         onItemTapped: (index) {
           setState(() {
             _selectedIndex = index;

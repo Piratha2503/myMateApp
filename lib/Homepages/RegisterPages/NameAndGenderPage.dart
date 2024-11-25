@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mymateapp/Homepages/RegisterPages/ChartOptions.dart';
 import 'package:mymateapp/MyMateThemes.dart';
+import 'package:mymateapp/dbConnection/Clients.dart';
 
 class NameAndGender extends StatefulWidget {
 
@@ -13,6 +14,9 @@ class NameAndGender extends StatefulWidget {
 
 class _NameAndGenderState extends State<NameAndGender> {
 
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+
 
   String Gender = "";
   void Changed(String gen) {
@@ -21,14 +25,11 @@ class _NameAndGenderState extends State<NameAndGender> {
     });
   }
 
-  void onPressed() {
-    Navigator.push(context,
-    MaterialPageRoute(builder: (context)=>const ChartOptions()));
-  }
-
   @override
   Widget build(BuildContext context) {
 
+    TestClient clientProfile = TestClient();
+    clientProfile.name = "Piratha";
     return Scaffold(
       backgroundColor: MyMateThemes.backgroundColor,
       appBar: AppBar(
@@ -39,33 +40,16 @@ class _NameAndGenderState extends State<NameAndGender> {
           children: [
             Form(
                 child: Column(
-              children: [
-                  InputField("First name"),
-                Container( height: 50,),
-                  InputField("Last name"),
-                Container( height: 50,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    GenderButton("Male",Icons.male_rounded),
-                    SizedBox(width: 50,),
-                    GenderButton("Fe-Male",Icons.female_outlined),
-                  ],
-                ),
-                const SizedBox(height: 65,),
-                SizedBox(
-                  height: 58,
-                  width: 166,
-                  child: ElevatedButton(onPressed: onPressed,
-                    style: CommonButtonStyle.commonButtonStyle(),
-                    child: const Text(
-                      "Next",
-                      style: TextStyle(fontSize: MyMateThemes.buttonFontSize),
-                    ),
-                  ),
-                ),
+                  InputField("First name",firstNameController),
+                    SizedBox(height: 50,),
+                  InputField("Last name",lastNameController),
+                    SizedBox( height: 50,),
+                  GenderButtons(),
+                    SizedBox(height: 65,),
+                  NextButton(clientProfile),
               ],
-            ),
+                ),
             )
           ],
         ),
@@ -75,15 +59,47 @@ class _NameAndGenderState extends State<NameAndGender> {
 
 }
 
-ElevatedButton GenderButton(String gender,IconData icon){
+Widget InputField(String inputName, TextEditingController nameController){
+  return SizedBox(
+    width: 300, // Set the width of the TextField
+    height: 50, // Set the height of the TextField
+    child: TextField(
+      controller: nameController,
+      decoration: InputDecoration(
+        hintText: inputName,
+        hintStyle: TextStyle(
+          fontWeight: FontWeight.w600,
+          fontSize: 25,
+        ),
+      ),
+      style: TextStyle(
+        fontWeight: FontWeight.w600,
+            fontSize: 20,
+      ),
+    ),
+  );
+}
+
+Widget GenderButtons(){
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      GenderButton("Male",Icons.male_rounded),
+      SizedBox(width: 50,),
+      GenderButton("Fe-Male",Icons.female_outlined),
+    ],
+  );
+}
+
+Widget GenderButton(String gender,IconData icon){
 
   return ElevatedButton.icon(
     onPressed: (){
      _NameAndGenderState().Changed(gender);
     },
-    label: const Text(""),
+    label: Text(""),
     icon: Icon(icon),
-    style: const ButtonStyle(
+    style: ButtonStyle(
         foregroundColor: MaterialStatePropertyAll(Colors.indigo),
         alignment: Alignment.center,
         textStyle: MaterialStatePropertyAll(TextStyle(
@@ -96,20 +112,32 @@ ElevatedButton GenderButton(String gender,IconData icon){
   );
 }
 
-SizedBox InputField(String inputName){
-  return SizedBox(
-    width: 300, // Set the width of the TextField
-    height: 50, // Set the height of the TextField
-    child: TextField(
-      decoration: InputDecoration(
-          hintText: inputName,
-          hintStyle: const TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 25,
-          ),
-    ),
-  ),
-  );
-}
+class NextButton extends StatelessWidget{
+  TestClient clientProfile;
+  void onPressed(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context)=> ChartOptions(clientProfile: clientProfile)));
+  }
+    NextButton(this.clientProfile, {super.key});
 
+    @override
+    Widget build(BuildContext context){
+
+      return SizedBox(
+        height: 58,
+        width: 166,
+        child: ElevatedButton(
+          onPressed: (){
+            onPressed(context);
+          },
+          style: CommonButtonStyle.commonButtonStyle(),
+          child: Text(
+            "Next",
+            style: TextStyle(fontSize: MyMateThemes.buttonFontSize),
+          ),
+        ),
+      );
+
+    }
+}
 
