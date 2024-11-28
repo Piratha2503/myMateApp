@@ -112,12 +112,7 @@ class _GenerateChartState extends State<GenerateChart> {
           child: Center(
             child: Column(
               children: [
-              SizedBox( height: 10,),
-               Flex(
-                direction: Axis.vertical,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                SizedBox(height: 10),
+                SizedBox(height: 50,),
                 Text(
                   "Calculate your Astrology chart",
                   style: TextStyle(
@@ -125,43 +120,42 @@ class _GenerateChartState extends State<GenerateChart> {
                       fontWeight: FontWeight.w600,
                       color: MyMateThemes.textColor),
                 ),
-                SizedBox(height: 15),
-              ],
-            ),
-            SizedBox(
-              width: 300,
-              child: Column(
-                children: [
-                  SizedBox( height: 10,),
-                  GooglePlacesAPI("Place of birth (city)"),
-                  SizedBox( height: 10,),
-                  DateTimeSelect(true),
-                  SizedBox( height: 10,),
-                  DateTimeSelect(false),
-                ],
-              ),
-            ),
-            SizedBox( height: 50,),
-            SizedBox(
-              height: 58,
-              width: 166,
-              child: ElevatedButton(
-                onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(
-                      builder: (context)=>ChartCalculating()));},
-                style: CommonButtonStyle.commonButtonStyle(),
-                child: Text(
-                  "Next",
-                  style: TextStyle(fontSize: MyMateThemes.buttonFontSize),
-                ),
+                SizedBox(height: 25),
+                DataColumns(),
+                SizedBox( height: 50,),
+                SizedBox(
+                  height: 58,
+                  width: 166,
+                    child: ElevatedButton(
+                      onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(
+                          builder: (context)=>ChartCalculating()));},
+                            style: CommonButtonStyle.commonButtonStyle(),
+                              child: Text( "Next", style: TextStyle(fontSize: MyMateThemes.buttonFontSize),),
               ),
             ),
           ],
         ),
-      )),
+      ),
+      ),
     );
   }
 
+  Widget DataColumns(){
+    return SizedBox(
+      width: 300,
+      child: Column(
+        children: [
+          SizedBox( height: 15,),
+          GooglePlacesAPI("Place of birth (city)"),
+          SizedBox( height: 15,),
+          DateTimeSelect(true),
+          SizedBox( height: 15,),
+          DateTimeSelect(false),
+        ],
+      ),
+    );
+  }
   Widget DateTimeSelect(bool date){
     return GestureDetector(
       onTap: ()=> date ? _showDateModal(context) : _showTimeModal(context),

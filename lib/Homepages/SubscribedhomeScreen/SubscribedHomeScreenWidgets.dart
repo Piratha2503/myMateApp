@@ -1,9 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mymateapp/dbConnection/Clients.dart';
+import 'package:mymateapp/dbConnection/Firebase.dart';
 import '../../ManagePages/SummaryPage.dart';
 import '../../MyMateThemes.dart';
 import '../BadgeWidget.dart';
@@ -55,56 +54,40 @@ Widget SubscribedhomescreenStructuredPageTotalMatchColumn(BuildContext context){
   );
 }
 
-Widget SubscribedhomescreenStructuredPageCarouselSlider() {
-  return FutureBuilder<QuerySnapshot>(
-    future: FirebaseFirestore.instance.collection('clients').get(),
-    builder: (context, snapshot) {
-      if (snapshot.connectionState == ConnectionState.waiting) {
-        return Center(child: CircularProgressIndicator());
-      }
+Widget SubscribedhomescreenStructuredPageCarouselSlider(BuildContext,context){
 
-      if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-        return Center(
-          child: Text(
-            'No clients found.',
-            style: TextStyle(fontSize: 16, color: Colors.grey),
-          ),
-        );
-      }
+  Firebase firebase = Firebase();
+  final Future<List<ClientProfile>> profiles = firebase.getClientList();
+  return Center(
+    child: FutureBuilder<List<ClientProfile>>(
+      future: profiles,
+      builder: (context,snapshot){
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return Center(child: Text('No profiles found.'));
+        }
+        else{
+          final profileList = snapshot.data!;
+          return CarouselSlider(
+            options: CarouselOptions(
+              height: 140.0,
+              autoPlay: true,
+              enlargeCenterPage: true,
+              aspectRatio: 16 / 9,
+              viewportFraction: 0.8,
+            ),
+            items: profileList.map((profile) {
+              return SubscribedhomescreenStructuredPageCarouselSliderContainer(profile);
+            }).toList(),
+          );
+        }
+      },
 
-      final profiles = snapshot.data!.docs.map((doc) {
-        final data = doc.data() as Map<String, dynamic>;
-        return ClientProfile(
-          name: data['full_name'] ?? 'Unknown',
-          age: data['age'] ?? 0,
-          status: data['status'] ?? 'Unknown',
-          occupation: data['occupation'] ?? 'Unknown',
-          district: data['district'] ?? 'Unknown',
-          imageUrl: data['imageUrl'] ?? 'https://via.placeholder.com/150',
-          matchPercentage: data['matchPercentage'] ?? '75%-100%',
-        );
-      }).toList();
-
-      return Center(
-        child: CarouselSlider(
-          options: CarouselOptions(
-            height: 140.0,
-            autoPlay: true,
-            enlargeCenterPage: true,
-            aspectRatio: 16 / 9,
-            viewportFraction: 0.8,
-          ),
-          items: profiles.map((profile) {
-            return Builder(
-              builder: (BuildContext context) {
-                return SubscribedhomescreenStructuredPageCarouselSliderContainer(profile);
-              },
-            );
-          }).toList(),
-        ),
-      );
-    },
-  );
+    )
+    );
 }
 
 Widget SubscribedhomescreenStructuredPageCarouselSliderContainer(ClientProfile profile){
@@ -150,7 +133,7 @@ Widget SubscribedhomescreenStructuredPageCarouselSliderContainer(ClientProfile p
                     padding: EdgeInsets.only(
                         bottom: 4.0
                     ),
-                    child: CommonTextStyleForPage( profile.name, MyMateThemes.textColor, FontWeight.w700, 16,),
+                    child: CommonTextStyleForPage( profile.name, MyMateThemes.textColor, FontWeight.w700, 13,),
                   ),
                   Padding(
                     padding: EdgeInsets.only(
@@ -158,8 +141,8 @@ Widget SubscribedhomescreenStructuredPageCarouselSliderContainer(ClientProfile p
                     ), // Add bottom padding for spacing
                     child: Row(
                       children: [
-                        CommonTextStyleForPage(' ${profile.age}, ', MyMateThemes.textColor, FontWeight.w400,12, ),
-                        CommonTextStyleForPage( profile.status, MyMateThemes.textColor, FontWeight.w500, 12, ),
+                        CommonTextStyleForPage(' ${profile.age}, ', MyMateThemes.textColor, FontWeight.w400,11, ),
+                        CommonTextStyleForPage( profile.status, MyMateThemes.textColor, FontWeight.w500, 11, ),
                       ],
                     ),
                   ),
@@ -167,13 +150,13 @@ Widget SubscribedhomescreenStructuredPageCarouselSliderContainer(ClientProfile p
                     padding: EdgeInsets.only(
                         bottom:
                         4.0), // Add bottom padding for spacing
-                    child: CommonTextStyleForPage(' ${profile.occupation}',MyMateThemes.textColor,FontWeight.w500,12,),
+                    child: CommonTextStyleForPage(' ${profile.occupation}',MyMateThemes.textColor,FontWeight.w500,11,),
                   ),
                   Padding(
                     padding: EdgeInsets.only(
                         bottom:
                         4.0), // Add bottom padding for spacing
-                    child: CommonTextStyleForPage(' ${profile.district}',MyMateThemes.textColor,FontWeight.w500,12,),
+                    child: CommonTextStyleForPage(' ${profile.district}',MyMateThemes.textColor,FontWeight.w500,11,),
                   ),
                   Container(
                     width: 90,
@@ -188,7 +171,7 @@ Widget SubscribedhomescreenStructuredPageCarouselSliderContainer(ClientProfile p
                       children: [
                         SvgPicture.asset(
                             'assets/images/heart .svg'),
-                        CommonTextStyleForPage(' ${profile.matchPercentage}',MyMateThemes.primaryColor,FontWeight.w500,12),
+                        CommonTextStyleForPage(' ${profile.matchPercentage}',MyMateThemes.primaryColor,FontWeight.w500,11),
                       ],
                     ),
                   ),

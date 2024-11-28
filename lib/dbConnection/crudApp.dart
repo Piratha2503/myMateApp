@@ -73,7 +73,6 @@ class _crudAppState extends State<crudApp> {
 
   @override
   Widget build(BuildContext context) {
-    List<List<dynamic>> MyClients = firebase.clientList;
 
     return Scaffold(
       appBar: AppBar(

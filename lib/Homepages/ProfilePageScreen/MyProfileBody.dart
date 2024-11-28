@@ -90,7 +90,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
             controller: _scrollController,
             child: Column(
               children: [
-                ProfileInfo(),
+                ProfileInfo(full_name),
                 SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -101,7 +101,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                     IconWithText('assets/images/Group 2146.svg',
                         occupation, '$district - '),
                     IconWithText('assets/images/Group 2147.svg',
-                        district, 'Sri Lanka'),
+                        district, '$district'),
                   ],
                 ),
                 SizedBox(height: 30),
