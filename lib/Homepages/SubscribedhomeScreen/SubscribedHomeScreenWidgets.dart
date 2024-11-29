@@ -55,59 +55,40 @@ Widget SubscribedhomescreenStructuredPageTotalMatchColumn(BuildContext context){
   );
 }
 
-Widget SubscribedhomescreenStructuredPageCarouselSlider(){
+Widget SubscribedhomescreenStructuredPageCarouselSlider(BuildContext,context){
 
-  final List<ClientProfile> profiles = [
+  Firebase firebase = Firebase();
+  final Future<List<ClientProfile>> profiles = firebase.getClientList();
+  return Center(
+    child: FutureBuilder<List<ClientProfile>>(
+      future: profiles,
+      builder: (context,snapshot){
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return Center(child: Text('No profiles found.'));
+        }
+        else{
+          final profileList = snapshot.data!;
+          return CarouselSlider(
+            options: CarouselOptions(
+              height: 140.0,
+              autoPlay: true,
+              enlargeCenterPage: true,
+              aspectRatio: 16 / 9,
+              viewportFraction: 0.8,
+            ),
+            items: profileList.map((profile) {
+              return SubscribedhomescreenStructuredPageCarouselSliderContainer(profile);
+            }).toList(),
+          );
+        }
+      },
 
-    ClientProfile(
-      name: 'Srishayuchja Balasurian',
-      age: 26,
-      status: 'Single',
-      occupation: 'Engineer',
-      district: 'Jaffna',
-      imageUrl: 'https://via.placeholder.com/150',
-      matchPercentage: '75 - 100%',
-    ),
-    ClientProfile(
-      name: 'Ravi',
-      age: 28,
-      status: 'Married',
-      occupation: 'Doctor',
-      district: 'Kokuvil',
-      imageUrl: 'https://via.placeholder.com/150',
-      matchPercentage: '75 - 100%',
-    ),
-    ClientProfile(
-      name: 'Theenu',
-      age: 32,
-      status: 'UnMarried',
-      occupation: 'Doctor',
-      district: 'Kokuvil',
-      imageUrl: 'https://via.placeholder.com/150',
-      matchPercentage: '75 - 100%',
-    ),
-    // Add more profiles as needed
-  ];
-
-  return
-    Center(
-    child: CarouselSlider(
-      options: CarouselOptions(
-        height: 140.0,
-        autoPlay: true,
-        enlargeCenterPage: true,
-        aspectRatio: 16 / 9,
-        viewportFraction: 0.8,
-      ),
-      items: profiles.map((profile) {
-        return Builder(
-          builder: (BuildContext context) {
-            return SubscribedhomescreenStructuredPageCarouselSliderContainer(profile);
-          },
-        );
-      }).toList(),
-    ),
-  );
+    )
+    );
 }
 
 Widget SubscribedhomescreenStructuredPageCarouselSliderContainer(ClientProfile profile){
@@ -199,6 +180,74 @@ Widget SubscribedhomescreenStructuredPageCarouselSliderContainer(ClientProfile p
             ],
           ),
         ]),
+              SizedBox(width: 20),
+              Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: MyMateThemes
+                        .premiumAccent, // Set the border color
+                    width: 5.0, // Set the border width
+                  ),
+                ),
+                child: CircleAvatar(
+                  radius: 50,
+                  backgroundImage: NetworkImage(profile.imageUrl),
+                ),
+              ),
+              SizedBox(width: 20),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                        bottom: 4.0
+                    ),
+                    child: CommonTextStyleForPage( profile.name, MyMateThemes.textColor, FontWeight.w700, 13,),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        bottom: 4.0
+                    ), // Add bottom padding for spacing
+                    child: Row(
+                      children: [
+                        CommonTextStyleForPage(' ${profile.age}, ', MyMateThemes.textColor, FontWeight.w400,11, ),
+                        CommonTextStyleForPage( profile.status, MyMateThemes.textColor, FontWeight.w500, 11, ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        bottom:
+                        4.0), // Add bottom padding for spacing
+                    child: CommonTextStyleForPage(' ${profile.occupation}',MyMateThemes.textColor,FontWeight.w500,11,),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        bottom:
+                        4.0), // Add bottom padding for spacing
+                    child: CommonTextStyleForPage(' ${profile.district}',MyMateThemes.textColor,FontWeight.w500,11,),
+                  ),
+                  Container(
+                    width: 90,
+                    height: 20,
+                    decoration: BoxDecoration(
+                      color: MyMateThemes.secondaryColor,
+                      borderRadius: BorderRadius.circular(4.0),
+                    ),
+                    child: Row(
+                      mainAxisAlignment:
+                      MainAxisAlignment.spaceEvenly,
+                      children: [
+                        SvgPicture.asset(
+                            'assets/images/heart .svg'),
+                        CommonTextStyleForPage(' ${profile.matchPercentage}',MyMateThemes.primaryColor,FontWeight.w500,11),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ]),
       ],
     ),
   );

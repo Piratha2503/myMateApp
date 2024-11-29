@@ -18,14 +18,14 @@ class MyMateThemes {
 class CommonButtonStyle {
   static ButtonStyle commonButtonStyle() {
     return ButtonStyle(
-      foregroundColor: WidgetStateProperty.all(Colors.white),
-      backgroundColor: WidgetStateProperty.all(MyMateThemes.primaryColor),
-      shape: WidgetStateProperty.all(
+      foregroundColor: MaterialStateProperty.all(Colors.white),
+      backgroundColor: MaterialStateProperty.all(MyMateThemes.primaryColor),
+      shape: MaterialStateProperty.all(
           RoundedRectangleBorder(borderRadius: BorderRadius.zero)),
     );
   }
 }
 
 /*
-static const backgroundWhite = Color(0xFFedfaed);
- */
+
+* */

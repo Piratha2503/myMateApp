@@ -28,7 +28,7 @@ class SingleNotificationPage extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => NotificationPage()));
+                              builder: (context) => NotificationPage(3)));
                     },
                     child: SvgPicture.asset('assets/images/chevron-left.svg'),
                   ),

@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 
 import 'Notification.dart';
-import 'bottom_navigation_bar.dart';
+import '../MyMateCommonBodies/MyMateBottomBar.dart';
 
 class MessagePage extends StatefulWidget {
   const MessagePage({super.key});
@@ -137,7 +137,7 @@ class _MessagePageState extends State<MessagePage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => NotificationPage()));
+                              builder: (context) => NotificationPage(3)));
                     },
                     child: SvgPicture.asset('assets/images/chevron-left.svg'),
                   ),

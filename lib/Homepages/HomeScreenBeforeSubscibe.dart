@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'BadgeWidget.dart';
-import 'CompleteProfile.dart';
-import 'bottom_navigation_bar.dart';
+import 'Profiles/CompleteProfile.dart';
+import '../MyMateCommonBodies/MyMateBottomBar.dart';
 
-class FrontPage extends StatefulWidget {
-  const FrontPage({super.key});
+class HomeScreenBeforeSubscibe extends StatefulWidget {
+  final int selectedBottomBarIconIndex;
+  const HomeScreenBeforeSubscibe(this.selectedBottomBarIconIndex, {super.key});
 
   @override
-  State<FrontPage> createState() => _FrontPageState();
+  State<HomeScreenBeforeSubscibe> createState() => _HomeScreenBeforeSubscibeState();
 }
 
-class _FrontPageState extends State<FrontPage>
+class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   bool showHello = true;
@@ -51,7 +52,7 @@ class _FrontPageState extends State<FrontPage>
       appBar: _buildAppBar(),
       body: _buildBody(),
       bottomNavigationBar: CustomBottomNavigationBar(
-        selectedIndex: _selectedIndex,
+        selectedIndex: widget.selectedBottomBarIconIndex,
         onItemTapped: (index) {
           setState(() {
             _selectedIndex = index;
@@ -130,7 +131,7 @@ class _FrontPageState extends State<FrontPage>
           Stack(
             children: [
               SvgPicture.asset('assets/images/Frame.svg',
-                  width: 300, height: 220),
+                  width: 250),
               Positioned(
                   top: 69,
                   right: 98,
@@ -138,7 +139,7 @@ class _FrontPageState extends State<FrontPage>
                     '137',
                     style: TextStyle(
                         color: Colors.white,
-                        fontSize: 40,
+                        fontSize: 32,
                         fontWeight: FontWeight.w500),
                   )),
               Positioned(
@@ -148,7 +149,7 @@ class _FrontPageState extends State<FrontPage>
                     'Matches Found',
                     style: TextStyle(
                         color: Colors.white,
-                        fontSize: 20,
+                        fontSize: 14,
                         fontWeight: FontWeight.w500),
                   ))
             ],
@@ -248,14 +249,14 @@ class _FrontPageState extends State<FrontPage>
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Container(
-          width: 164,
-          height: 182,
+          width: 160,
+          height: 165,
           color: MyMateThemes.containerColor,
           alignment: Alignment.bottomLeft,
         ),
         Container(
-          width: 164,
-          height: 182,
+          width: 160,
+          height: 165,
           color: MyMateThemes.secondaryColor,
           alignment: Alignment.bottomRight,
         ),
@@ -324,9 +325,9 @@ class _FrontPageState extends State<FrontPage>
           print('Button pressed');
         },
         style: const ButtonStyle(
-          foregroundColor: WidgetStatePropertyAll(Colors.white),
-          backgroundColor: WidgetStatePropertyAll(MyMateThemes.primaryColor),
-          shape: WidgetStatePropertyAll(
+          foregroundColor: MaterialStatePropertyAll(Colors.white),
+          backgroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
+          shape: MaterialStatePropertyAll(
               RoundedRectangleBorder(borderRadius: BorderRadius.zero)),
         ),
         child: Text(

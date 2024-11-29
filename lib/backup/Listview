@@ -1,0 +1,228 @@
+
+
+/*
+
+
+  List<ClientProfile> clientProfiles = [
+    ClientProfile(
+        name: "Pirathaban",
+        age: 32, status: "Married", occupation: "Employee",
+        district: "Jaffna", imageUrl: "https://piratha.com/images/Piratha.jpg",
+        matchPercentage: "80%"),
+    ClientProfile(
+        name: "Pirathaban",
+        age: 32, status: "Married", occupation: "Employee",
+        district: "Jaffna", imageUrl: "https://piratha.com/images/Piratha.jpg",
+        matchPercentage: "80%"),
+    ClientProfile(
+        name: "Pirathaban",
+        age: 32, status: "Married", occupation: "Employee",
+        district: "Jaffna", imageUrl: "https://piratha.com/images/Piratha.jpg",
+        matchPercentage: "80%"),
+    ClientProfile(
+        name: "Pirathaban",
+        age: 32, status: "Married", occupation: "Employee",
+        district: "Jaffna", imageUrl: "https://piratha.com/images/Piratha.jpg",
+        matchPercentage: "80%"),
+    ClientProfile(
+        name: "Pirathaban",
+        age: 32, status: "Married", occupation: "Employee",
+        district: "Jaffna", imageUrl: "https://piratha.com/images/Piratha.jpg",
+        matchPercentage: "80%"),
+    ClientProfile(
+        name: "Pirathaban",
+        age: 32, status: "Married", occupation: "Employee",
+        district: "Jaffna", imageUrl: "https://piratha.com/images/Piratha.jpg",
+        matchPercentage: "80%"),
+    ClientProfile(
+        name: "Pirathaban",
+        age: 32, status: "Married", occupation: "Employee",
+        district: "Jaffna", imageUrl: "https://piratha.com/images/Piratha.jpg",
+        matchPercentage: "80%"),
+    ClientProfile(
+        name: "Pirathaban",
+        age: 32, status: "Married", occupation: "Employee",
+        district: "Jaffna", imageUrl: "https://piratha.com/images/Piratha.jpg",
+        matchPercentage: "80%"),
+    ClientProfile(
+        name: "Pirathaban",
+        age: 32, status: "Married", occupation: "Employee",
+        district: "Jaffna", imageUrl: "https://piratha.com/images/Piratha.jpg",
+        matchPercentage: "80%"),
+    ClientProfile(
+        name: "Pirathaban",
+        age: 32, status: "Married", occupation: "Employee",
+        district: "Jaffna", imageUrl: "https://piratha.com/images/Piratha.jpg",
+        matchPercentage: "80%"),
+  ];
+
+
+Widget GridViewContainer(String imageLink){
+  return Card(
+    margin: EdgeInsets.all(2),
+    shape: Border(
+
+    ),
+    child: Column(
+      children: <Widget>[
+        CircleAvatar(
+          backgroundColor: MyMateThemes.secondaryColor,
+          radius: 45,
+
+          child: CircleAvatar(
+            backgroundImage: AssetImage(imageLink),
+            radius: 38,
+          ),
+        ),
+        SizedBox(
+          height: 25,
+        ),
+        Text(
+            "Name",
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 18,
+          ),
+        ),
+        Center(
+          child: Padding(padding: EdgeInsets.only(
+            left: 30,
+            right: 10,
+          ),
+            child: Text(
+              "No-90, Karuveppulam road, Kokkuvil east, Jaffna",
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 10,
+              ),
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+
+Widget GridViewContainerColumn(ClientProfile profile){
+  return Column(
+
+      children: [
+        Container(
+          height: 80,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: MyMateThemes.backgroundColor, // Set the border color
+              width: 5.0, // Set the border width
+            ),
+          ),
+          child: CircleAvatar(
+            radius: 50,
+            backgroundImage: NetworkImage(profile.imageUrl),
+
+          ),
+        ),
+        SizedBox(width: 20),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only( bottom: 4.0 ),
+              child: CommonTextStyleForPage( profile.name, MyMateThemes.textColor, FontWeight.w500, 16,),
+            ),
+            Padding(
+              padding: EdgeInsets.only(bottom: 4.0), // Add bottom padding for spacing
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CommonTextStyleForPage(' ${profile.age}, ', MyMateThemes.textColor, FontWeight.w400,12, ),
+                  CommonTextStyleForPage(' ${profile.occupation}',MyMateThemes.textColor,FontWeight.w400,12,),
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only( bottom: 4.0), // Add bottom padding for spacing
+              child: CommonTextStyleForPage(' ${profile.district}',MyMateThemes.textColor,FontWeight.w400,12,),
+            ),
+            Container(
+              width: 75,
+              height: 25,
+              decoration: BoxDecoration(
+                color: MyMateThemes.secondaryColor,
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+
+              child: Row(
+                mainAxisAlignment:
+                MainAxisAlignment.spaceEvenly,
+                children: [
+                  SvgPicture.asset(
+                      'assets/images/heart .svg'),
+                  CommonTextStyleForPage(' ${profile.matchPercentage}',MyMateThemes.primaryColor,FontWeight.w400,14),
+                ],
+              ),
+            ),
+          ],
+        )
+      ]
+  );
+}
+GridView(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 5.0, // Spacing between columns
+          mainAxisSpacing: 20.0, // Spacing between rows
+          childAspectRatio: 0.65,
+        ),
+        children: widgetList,
+      ),
+AnimatedListView(
+              extendedSpaceBetween: 30,
+              spaceBetween:10,
+              children: widgetList
+
+          ),
+
+          Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only( bottom: 4.0 ),
+                  child: CommonTextStyleForPage( profile.name, MyMateThemes.textColor, FontWeight.w500, 16,),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 4.0), // Add bottom padding for spacing
+                  child: Row(
+                    children: [
+                      CommonTextStyleForPage(' ${profile.age}, ', MyMateThemes.textColor, FontWeight.w400,12, ),
+                      CommonTextStyleForPage(' ${profile.occupation}',MyMateThemes.textColor,FontWeight.w400,12,),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only( bottom: 4.0), // Add bottom padding for spacing
+                  child: CommonTextStyleForPage(' ${profile.district}',MyMateThemes.textColor,FontWeight.w400,12,),
+                ),
+                Container(
+                  width: 75,
+                  height: 25,
+                  decoration: BoxDecoration(
+                    color: MyMateThemes.secondaryColor,
+                    borderRadius: BorderRadius.circular(4.0),
+                  ),
+                  child: Row(
+                    mainAxisAlignment:
+                    MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SvgPicture.asset(
+                          'assets/images/heart .svg'),
+                      CommonTextStyleForPage(' ${profile.matchPercentage}',MyMateThemes.primaryColor,FontWeight.w400,14),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+
+
+*/

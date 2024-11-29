@@ -1,4 +1,4 @@
-import 'package:mymateapp/Homepages/GenerateChart.dart';
+import 'package:mymateapp/ChartPages/GenerateChart.dart';
 import 'package:otp_pin_field/otp_pin_field.dart';
 import 'package:flutter/material.dart';
 

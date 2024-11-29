@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mymateapp/Homepages/NameAndGenderPage.dart';
+import 'package:mymateapp/Homepages/RegisterPages/NameAndGenderPage.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 
 class otpPage extends StatefulWidget {
@@ -12,7 +12,9 @@ class otpPage extends StatefulWidget {
 
 class _otpPage extends State<otpPage> {
   void Check() {
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>const NameAndGender()));
+    Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context)=>const NameAndGender()));
 
   }
   @override
@@ -26,7 +28,7 @@ class _otpPage extends State<otpPage> {
         body: Column(mainAxisSize: MainAxisSize.max, children: [
           const Center(
             child: Text(
-              "Enter your phone number",
+              "Enter your Pin number",
               style: TextStyle(
                 fontSize: 20,
                 fontFamily: "Work Sans",
@@ -70,7 +72,7 @@ class _otpPage extends State<otpPage> {
             height: 50,
           ),
 
-          const Center(
+          Center(
            child:  Row(
               mainAxisAlignment: MainAxisAlignment.center,
 
@@ -108,7 +110,9 @@ class _otpPage extends State<otpPage> {
               ),
             ),
           )
-        ]));
+        ],
+        ),
+    );
   }
 
   Widget OtpSizedBox(){
@@ -119,7 +123,7 @@ class _otpPage extends State<otpPage> {
         onChanged: (value){
           FocusScope.of(context).nextFocus();
         },
-        style: const TextStyle(
+        style: TextStyle(
             fontSize: 25,
             fontWeight: FontWeight.w600
         ),

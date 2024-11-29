@@ -53,7 +53,7 @@ class _SubscribedhomescreenStructuredPageState extends State<Subscribedhomescree
             ),
           ),
           SizedBox(height: 20,),
-          SubscribedhomescreenStructuredPageCarouselSlider(),
+          SubscribedhomescreenStructuredPageCarouselSlider(context,context),
           SizedBox(height: 30),
           SubscribedhomescreenStructuredPageTokenContainers(context),
           SizedBox(height: 20),

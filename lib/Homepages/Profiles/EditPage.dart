@@ -6,7 +6,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/Homepages/ClosableContainer.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'bottom_navigation_bar.dart';
+import '../../MyMateCommonBodies/MyMateBottomBar.dart';
 
 class EditPage extends StatefulWidget {
   const EditPage({super.key});
@@ -395,9 +395,9 @@ class _EditPageState extends State<EditPage> {
                   }
                 },
                 style: ButtonStyle(
-                  backgroundColor: WidgetStateProperty.all<Color>(
+                  backgroundColor: MaterialStateProperty.all<Color>(
                       MyMateThemes.secondaryColor),
-                  foregroundColor: WidgetStateProperty.all<Color>(
+                  foregroundColor: MaterialStateProperty.all<Color>(
                       MyMateThemes.primaryColor),
                 ),
                 child: Align(

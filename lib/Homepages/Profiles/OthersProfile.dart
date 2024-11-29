@@ -1,24 +1,23 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:mymateapp/Homepages/MoreAboutMe.dart';
+import 'package:mymateapp/Homepages/Profiles/MoreAboutMe.dart';
 import 'package:mymateapp/MyMateThemes.dart';
-import 'BadgeWidget.dart';
-import '../dbConnection/Firebase.dart';
+import '../../MyMateCommonBodies/MyMateBottomBar.dart';
+import '../../dbConnection/Firebase.dart';
+import '../custom_outline_button.dart';
 import 'EditPage.dart';
-import 'bottom_navigation_bar.dart';
-import 'custom_outline_button.dart';
 
-class ProfilePage extends StatefulWidget {
+class OtherProfilePage extends StatefulWidget {
   final String docId;
 
-  const ProfilePage({required this.docId, super.key});
+  const OtherProfilePage({required this.docId, super.key});
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  State<OtherProfilePage> createState() => _OtherProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage>
+class _OtherProfilePageState extends State<OtherProfilePage>
     with TickerProviderStateMixin {
   String full_name = "";
   String gender = "";
@@ -107,23 +106,34 @@ class _ProfilePageState extends State<ProfilePage>
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(width: 50),
-                Text(
-                  '@user240676',
-                  style: TextStyle(
-                    color: MyMateThemes.textColor,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    children: [
+                      SizedBox(width: 10.0),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MoreAboutMePage()));
+                        },
+                        child:
+                            SvgPicture.asset('assets/images/chevron-left.svg'),
+                      ),
+                      SizedBox(width: 70.0),
+                      Text(
+                        " @ User240672 ",
+                        style: TextStyle(
+                            color: MyMateThemes.textColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
+                      ),
+                    ],
                   ),
                 ),
-                SizedBox(width: 40),
-                BadgeWidget(
-                    assetPath: 'assets/images/Group 2157.svg', badgeValue: 1),
-                SizedBox(width: 25),
-                BadgeWidget(
-                    assetPath: 'assets/images/Group 2153.svg', badgeValue: 10),
               ],
             ),
           ],
@@ -224,12 +234,12 @@ class _ProfilePageState extends State<ProfilePage>
           style: ElevatedButton.styleFrom(
             backgroundColor: MyMateThemes.primaryColor,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
+              borderRadius: BorderRadius.circular(5.0),
             ),
           ),
-          child: Text('Boost '),
+          child: Text('Send Request '),
         ),
-        SizedBox(width: 60),
+        SizedBox(width: 30),
         ElevatedButton(
           onPressed: () {
             Navigator.push(
@@ -240,10 +250,10 @@ class _ProfilePageState extends State<ProfilePage>
           style: ElevatedButton.styleFrom(
             backgroundColor: MyMateThemes.primaryColor,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
+              borderRadius: BorderRadius.circular(5.0),
             ),
           ),
-          child: Text('Edit Profile'),
+          child: Text('Check Match'),
         ),
       ],
     );
@@ -463,153 +473,6 @@ class _ProfilePageState extends State<ProfilePage>
     );
   }
 
-  Widget _buildAdditionalInfo() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 15),
-          _buildSectionTitle('More about me'),
-          SizedBox(height: 5),
-          Row(
-            children: [
-              SizedBox(width: 40),
-              SvgPicture.asset('assets/images/Line 11.svg'),
-            ],
-          ),
-          SizedBox(height: 10),
-          Row(
-            children: [
-              SizedBox(width: 40),
-              Text(
-                'Hobby',
-                style: TextStyle(
-                  color: MyMateThemes.textColor,
-                  fontSize: 14,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 10),
-          Wrap(
-            spacing: 8.0,
-            runSpacing: 4.0,
-            children: [
-              SizedBox(width: 28),
-              _buildTag('Reading Story Book'),
-              SizedBox(width: 3),
-              _buildTag('Gardening'),
-            ],
-          ),
-          SizedBox(height: 10),
-          Row(
-            children: [
-              SizedBox(width: 40),
-              Text(
-                'Favorites',
-                style: TextStyle(
-                  color: MyMateThemes.textColor,
-                  fontSize: 14,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 10),
-          Wrap(
-            spacing: 8.0,
-            runSpacing: 4.0,
-            children: [
-              SizedBox(width: 28),
-              _buildTag('Ice cream'),
-              SizedBox(width: 3),
-              _buildTag('Traveling'),
-            ],
-          ),
-          SizedBox(height: 15),
-          Row(
-            children: [
-              SizedBox(width: 40),
-              Text(
-                'Alcohol',
-                style: TextStyle(
-                  color: MyMateThemes.textColor,
-                  fontSize: 14,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 10),
-          _buildAlcoholSelection(),
-          SizedBox(height: 10),
-          Row(
-            children: [
-              SizedBox(width: 40),
-              Text(
-                'Sports',
-                style: TextStyle(
-                  color: MyMateThemes.textColor,
-                  fontSize: 14,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 15),
-          Wrap(
-            spacing: 8.0,
-            runSpacing: 4.0,
-            children: [
-              SizedBox(width: 28),
-              _buildTag('Badminton'),
-              SizedBox(width: 3),
-              _buildTag('Chess'),
-            ],
-          ),
-          SizedBox(height: 15),
-          Row(
-            children: [
-              SizedBox(width: 40),
-              Text(
-                'Cooking',
-                style: TextStyle(
-                  color: MyMateThemes.textColor,
-                  fontSize: 14,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 10),
-          _buildCookingSelection(),
-          SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MoreAboutMePage()),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: MyMateThemes.primaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                ),
-                child: Text(
-                  'Edit',
-                  style: TextStyle(color: Colors.white, letterSpacing: 1.5),
-                ),
-              ),
-              SizedBox(width: 10),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildTag(String text) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
@@ -624,393 +487,6 @@ class _ProfilePageState extends State<ProfilePage>
           fontSize: 14.0,
         ),
       ),
-    );
-  }
-
-  Widget _buildAlcoholSelection() {
-    return Stack(
-      children: [
-        CustomPaint(
-          size: Size(MediaQuery.of(context).size.width, 24),
-          painter: _LinePainter(),
-        ),
-        Row(
-          children: [
-            SizedBox(width: 15),
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    selectedAlcoholIndex = 0;
-                  });
-                },
-                child: Column(
-                  children: [
-                    CustomPaint(
-                      painter:
-                          _CirclePainter(isActive: selectedAlcoholIndex == 0),
-                      child: SizedBox(
-                        width: 24,
-                        height: 24,
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      'Never',
-                      style: TextStyle(
-                        color: selectedAlcoholIndex == 0
-                            ? MyMateThemes.textColor
-                            : Colors.grey[700],
-                        fontSize: 10,
-                      ),
-                    ),
-                    Text(
-                      'Had',
-                      style: TextStyle(
-                        color: selectedAlcoholIndex == 0
-                            ? MyMateThemes.textColor
-                            : Colors.grey[700],
-                        fontSize: 10,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    selectedAlcoholIndex = 1;
-                  });
-                },
-                child: Column(
-                  children: [
-                    CustomPaint(
-                      painter:
-                          _CirclePainter(isActive: selectedAlcoholIndex == 1),
-                      child: SizedBox(
-                        width: 24,
-                        height: 24,
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      'Rarely ',
-                      style: TextStyle(
-                        color: selectedAlcoholIndex == 1
-                            ? MyMateThemes.textColor
-                            : Colors.grey[700],
-                        fontSize: 10,
-                      ),
-                    ),
-                    Text(
-                      'Drinker',
-                      style: TextStyle(
-                        color: selectedAlcoholIndex == 1
-                            ? MyMateThemes.textColor
-                            : Colors.grey[700],
-                        fontSize: 10,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    selectedAlcoholIndex = 2;
-                  });
-                },
-                child: Column(
-                  children: [
-                    CustomPaint(
-                      painter:
-                          _CirclePainter(isActive: selectedAlcoholIndex == 2),
-                      child: SizedBox(
-                        width: 24,
-                        height: 24,
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      'Occasionally',
-                      style: TextStyle(
-                        color: selectedAlcoholIndex == 2
-                            ? MyMateThemes.textColor
-                            : Colors.grey[700],
-                        fontSize: 10,
-                      ),
-                    ),
-                    Text(
-                      'Drinker',
-                      style: TextStyle(
-                        color: selectedAlcoholIndex == 2
-                            ? MyMateThemes.textColor
-                            : Colors.grey[700],
-                        fontSize: 10,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    selectedAlcoholIndex = 3;
-                  });
-                },
-                child: Column(
-                  children: [
-                    CustomPaint(
-                      painter:
-                          _CirclePainter(isActive: selectedAlcoholIndex == 3),
-                      child: SizedBox(
-                        width: 24,
-                        height: 24,
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      'Regularly',
-                      style: TextStyle(
-                        color: selectedAlcoholIndex == 3
-                            ? MyMateThemes.textColor
-                            : Colors.grey[700],
-                        fontSize: 10,
-                      ),
-                    ),
-                    Text(
-                      'Drinker',
-                      style: TextStyle(
-                        color: selectedAlcoholIndex == 3
-                            ? MyMateThemes.textColor
-                            : Colors.grey[700],
-                        fontSize: 10,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    selectedAlcoholIndex = 4;
-                  });
-                },
-                child: Column(
-                  children: [
-                    CustomPaint(
-                      painter:
-                          _CirclePainter(isActive: selectedAlcoholIndex == 4),
-                      child: SizedBox(
-                        width: 24,
-                        height: 24,
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      'Swimming',
-                      style: TextStyle(
-                        color: selectedAlcoholIndex == 4
-                            ? MyMateThemes.textColor
-                            : Colors.grey[700],
-                        fontSize: 10,
-                      ),
-                    ),
-                    Text(
-                      ' in it (24/7)',
-                      style: TextStyle(
-                        color: selectedAlcoholIndex == 4
-                            ? MyMateThemes.textColor
-                            : Colors.grey[700],
-                        fontSize: 10,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildCookingSelection() {
-    return Stack(
-      children: [
-        CustomPaint(
-          size: Size(MediaQuery.of(context).size.width, 24),
-          painter: _LinePainter(),
-        ),
-        Row(
-          children: [
-            SizedBox(width: 15),
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    selectedCookingIndex = 0;
-                  });
-                },
-                child: Column(
-                  children: [
-                    CustomPaint(
-                      painter:
-                          _CirclePainter(isActive: selectedCookingIndex == 0),
-                      child: SizedBox(
-                        width: 24,
-                        height: 24,
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      'Zero',
-                      style: TextStyle(
-                        color: selectedCookingIndex == 0
-                            ? MyMateThemes.textColor
-                            : Colors.grey[700],
-                        fontSize: 10,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    selectedCookingIndex = 1;
-                  });
-                },
-                child: Column(
-                  children: [
-                    CustomPaint(
-                      painter:
-                          _CirclePainter(isActive: selectedCookingIndex == 1),
-                      child: SizedBox(
-                        width: 24,
-                        height: 24,
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      'Novice',
-                      style: TextStyle(
-                        color: selectedCookingIndex == 1
-                            ? MyMateThemes.textColor
-                            : Colors.grey[700],
-                        fontSize: 10,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    selectedCookingIndex = 2;
-                  });
-                },
-                child: Column(
-                  children: [
-                    CustomPaint(
-                      painter:
-                          _CirclePainter(isActive: selectedCookingIndex == 2),
-                      child: SizedBox(
-                        width: 24,
-                        height: 24,
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      'Basic',
-                      style: TextStyle(
-                        color: selectedCookingIndex == 2
-                            ? MyMateThemes.textColor
-                            : Colors.grey[700],
-                        fontSize: 10,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    selectedCookingIndex = 3;
-                  });
-                },
-                child: Column(
-                  children: [
-                    CustomPaint(
-                      painter:
-                          _CirclePainter(isActive: selectedCookingIndex == 3),
-                      child: SizedBox(
-                        width: 24,
-                        height: 24,
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      'Intermediate',
-                      style: TextStyle(
-                        color: selectedCookingIndex == 3
-                            ? MyMateThemes.textColor
-                            : Colors.grey[700],
-                        fontSize: 10,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    selectedCookingIndex = 4;
-                  });
-                },
-                child: Column(
-                  children: [
-                    CustomPaint(
-                      painter:
-                          _CirclePainter(isActive: selectedCookingIndex == 4),
-                      child: SizedBox(
-                        width: 24,
-                        height: 24,
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      'Advanced',
-                      style: TextStyle(
-                        color: selectedCookingIndex == 4
-                            ? MyMateThemes.textColor
-                            : Colors.grey[700],
-                        fontSize: 10,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
     );
   }
 
@@ -1860,16 +1336,16 @@ class _ProfilePageState extends State<ProfilePage>
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 40),
                   _buildSectionTitle("Astrology"),
-                  SizedBox(height: 5),
+                  SizedBox(height: 10),
                   Row(
                     children: [
                       SizedBox(width: 40),
                       SvgPicture.asset('assets/images/Line 11.svg'),
                     ],
                   ),
-                  SizedBox(height: 15),
+                  SizedBox(height: 25),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -1971,12 +1447,13 @@ class _ProfilePageState extends State<ProfilePage>
                   _buildContainers(
                     children: [
                       RasiChartDesign(),
-                      SizedBox(height: 48),
+                      SizedBox(height: 40),
                       NavamsaChartDesign(),
+                      SizedBox(height: 40),
                       _buildProfileDetails(),
-                      SizedBox(height: 48),
+                      SizedBox(height: 40),
                       _buildPhotoGallery(),
-                      _buildAdditionalInfo(),
+                      SizedBox(height: 40),
                     ],
                   ),
                 ],

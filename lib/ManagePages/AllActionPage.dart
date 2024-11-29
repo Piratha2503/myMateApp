@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mymateapp/MyMateThemes.dart';
-import '../Homepages/MyProfile.dart';
+import '../Homepages/Profiles/MyProfile.dart';
 import '../Homepages/Notification.dart';
 import 'ManagePage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -72,7 +72,7 @@ class _AllactionpageState extends State<Allactionpage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => NotificationPage()));
+                            builder: (context) => NotificationPage(3)));
                   },
                   child: SvgPicture.asset(
                     'assets/images/inv.svg',
@@ -88,7 +88,7 @@ class _AllactionpageState extends State<Allactionpage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => NotificationPage()));
+                            builder: (context) => NotificationPage(3)));
                   },
                   child: SvgPicture.asset(
                     'assets/images/up.svg',
@@ -104,7 +104,7 @@ class _AllactionpageState extends State<Allactionpage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => NotificationPage()));
+                            builder: (context) => NotificationPage(3)));
                   },
                   child: SvgPicture.asset(
                     'assets/images/filter.svg',
@@ -120,7 +120,7 @@ class _AllactionpageState extends State<Allactionpage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => NotificationPage()));
+                            builder: (context) => NotificationPage(3)));
                   },
                   child: SvgPicture.asset(
                     'assets/images/boost.svg',
@@ -136,7 +136,7 @@ class _AllactionpageState extends State<Allactionpage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => NotificationPage()));
+                            builder: (context) => NotificationPage(3)));
                   },
                   child: SvgPicture.asset(
                     'assets/images/tok.svg',
@@ -152,7 +152,7 @@ class _AllactionpageState extends State<Allactionpage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => NotificationPage()));
+                            builder: (context) => NotificationPage(3)));
                   },
                   child: SvgPicture.asset(
                     'assets/images/pay.svg',
