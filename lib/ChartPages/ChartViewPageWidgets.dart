@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mymateapp/Homepages/HomeScreenBeforeSubscibe.dart';
 import 'package:mymateapp/MyMateThemes.dart';
+
+import '../Homepages/AnimatedPages/ChartCalculating.dart';
 
 
 Widget ChartImage() {
@@ -104,12 +107,11 @@ Widget TitleContainer() {
 }
 
 class EditAndNextButton extends StatelessWidget {
-  void onPressed() {}
-
-  const EditAndNextButton({super.key});
+    const EditAndNextButton({super.key});
 
   @override
   Widget build(BuildContext context) {
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -117,7 +119,7 @@ class EditAndNextButton extends StatelessWidget {
           height: 60,
           width: 150,
           child: ElevatedButton(
-            onPressed: onPressed,
+            onPressed: (){},
             style: ButtonStyle(
               foregroundColor: MaterialStateProperty.all(Colors.white),
               backgroundColor: MaterialStateProperty.all(
@@ -138,7 +140,10 @@ class EditAndNextButton extends StatelessWidget {
           height: 60,
           width: 150,
           child: ElevatedButton(
-            onPressed: onPressed,
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(
+                  builder: (context)=>HomeScreenBeforeSubscibe(1)));
+            },
             style: CommonButtonStyle.commonButtonStyle(),
             child: Text(
               "Next",

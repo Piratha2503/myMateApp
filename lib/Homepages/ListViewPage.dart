@@ -41,6 +41,9 @@ class _ListViewPageState extends State<StatefulWidget>{
     final TextEditingController _controller =
     TextEditingController(text: 'Initial Text');
 
+    Firebase firebase = Firebase();
+    final Future<List<ClientProfile>> profiles = firebase.getClientList();
+
     return Scaffold(
       appBar: MainAppBar(),
       body: Column(
@@ -72,8 +75,8 @@ class _ListViewPageState extends State<StatefulWidget>{
           ),),
           SizedBox(height: 20,),
           Expanded(
-            child:StreamBuilder<List<ClientProfile>>(
-              stream: firebase.getClientsStream(),
+            child:FutureBuilder<List<ClientProfile>>(
+              future: profiles,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
@@ -91,7 +94,7 @@ class _ListViewPageState extends State<StatefulWidget>{
                     .toList();
 
                 return ListView(
-                  children: filteredClients.map((client) {
+                  children: clients.map((client) {
                     return ListViewCards(client);
                   }).toList(),
                 );
@@ -163,7 +166,7 @@ Widget SearchBarContainer(){
   );
 }
 
-Widget ListViewCards(ClientProfile profile){
+Widget ListViewCards(ClientProfile client){
   return Container(
     height: 125,
     margin: EdgeInsets.symmetric(horizontal: 1.0),
@@ -179,9 +182,9 @@ Widget ListViewCards(ClientProfile profile){
          Row(
            children: [
              SizedBox(height:50, width: 20),
-             ProfilePictureContainer(profile),
+             ProfilePictureContainer(client),
              SizedBox(width: 20),
-             ProfileInfoColumn(profile),
+             ProfileInfoColumn(client),
            ],
          )
 
@@ -214,7 +217,7 @@ Widget ProfileInfoColumn(ClientProfile profile){
     children: [
       Padding(
         padding: EdgeInsets.only( bottom: 4.0 ),
-        child: CommonTextStyleForPage( profile.name, MyMateThemes.textColor, FontWeight.w500, 16,),
+        child: CommonTextStyleForPage( profile.full_name, MyMateThemes.textColor, FontWeight.w500, 16,),
       ),
       Padding(
         padding: EdgeInsets.only(bottom: 4.0), // Add bottom padding for spacing

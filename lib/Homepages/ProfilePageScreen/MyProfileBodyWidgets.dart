@@ -5,7 +5,7 @@ import '../../MyMateThemes.dart';
 import '../Profiles/EditPage.dart';
 import '../Profiles/MoreAboutMe.dart';
 
-Widget ProfileInfo(String full_name) {
+Widget ProfileInfo(String full_name,String image_url) {
 
   bool _isSmall = false;
 
@@ -24,7 +24,7 @@ Widget ProfileInfo(String full_name) {
            child: Center(
              child: CircleAvatar(
                radius: 85,
-               backgroundImage: NetworkImage("https://piratha.com/images/Piratha.jpg"),
+               backgroundImage: NetworkImage(image_url),
 
              ),
            ),

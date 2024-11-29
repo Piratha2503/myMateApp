@@ -1,7 +1,9 @@
 class ClientProfile{
 
   String name;
+  String full_name;
   int age;
+  String gender;
   String status;
   String occupation;
   String district;
@@ -10,7 +12,9 @@ class ClientProfile{
 
   ClientProfile(
       {
+        required this.full_name,
         required this.name,
+        required this.gender,
         required this.age,
         required this.status,
         required this.occupation,
