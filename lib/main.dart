@@ -6,6 +6,7 @@ import 'package:mymateapp/Homepages/RegisterPages/NameAndGenderPage.dart';
 import 'package:mymateapp/Homepages/RegisterPages/OTPPage.dart';
 import 'package:mymateapp/Homepages/SubscribedhomeScreen/SubscribedHomeScreenStructured.dart';
 import 'package:mymateapp/Homepages/WelcomeScreen.dart';
+import 'package:mymateapp/Homepages/explorePage/explorePageMain.dart';
 import 'package:mymateapp/Matching/Rasi.dart';
 import 'package:mymateapp/dbConnection/Clients.dart';
 import 'package:pinput/pinput.dart';
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           primaryColor: Colors.blue[200]),
       debugShowCheckedModeBanner: false,
-      home: HomeScreenBeforeSubscibe(0),
+      home: Explorepage(),
     );
   }
 }

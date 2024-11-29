@@ -31,24 +31,20 @@ class _ExplorepageState extends State<Explorepage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-   backgroundColor: Colors.white,
+      backgroundColor: Colors.white,
       appBar: ExplorePageAppBar(),
       body: Column(
         children: [
           TabBar(
             controller: _tabController,
-            // labelColor: MyMateThemes.premiumColor,
             labelStyle: TextStyle(fontWeight: FontWeight.bold,color: MyMateThemes.textColor ),
-            // unselectedLabelColor: MyMateThemes.textColor.withOpacity(0.8),
             unselectedLabelStyle:TextStyle(fontWeight: FontWeight.w700,color: MyMateThemes.textColor.withOpacity(0.8) ) ,
             indicatorColor:  MyMateThemes.textColor,
             labelPadding: const EdgeInsets.symmetric(horizontal: 2.0),
             tabs: [
-
-              const Tab(text: 'ExploreAll'),
-              const Tab(text: 'ViewMatches'),
-              const Tab(text: 'Filter'),
-
+              Tab(text: 'ExploreAll'),
+              Tab(text: 'ViewMatches'),
+              Tab(text: 'Filter'),
             ],
           ),
           SizedBox(height: 10),

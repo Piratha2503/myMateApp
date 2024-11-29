@@ -94,7 +94,7 @@ class _ListViewPageState extends State<StatefulWidget>{
                     .toList();
 
                 return ListView(
-                  children: clients.map((client) {
+                 children: clients.map((client) {
                     return ListViewCards(client);
                   }).toList(),
                 );
@@ -167,30 +167,30 @@ Widget SearchBarContainer(){
 }
 
 Widget ListViewCards(ClientProfile client){
-  return Container(
-    height: 125,
-    margin: EdgeInsets.symmetric(horizontal: 1.0),
-    decoration: BoxDecoration(
-      color: Colors.white,
-      border: Border(bottom: BorderSide(width: 3,color: MyMateThemes.secondaryColor),
-          left: BorderSide(width: 2,color: MyMateThemes.secondaryColor))
+  return AspectRatio(aspectRatio: 21/9,
+    child: Container(
+      margin: EdgeInsets.symmetric(horizontal: 1.0),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border(bottom: BorderSide(width: 3,color: MyMateThemes.secondaryColor),
+              left: BorderSide(width: 2,color: MyMateThemes.secondaryColor))
 
-    ),
-    child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-         Row(
-           children: [
-             SizedBox(height:50, width: 20),
-             ProfilePictureContainer(client),
-             SizedBox(width: 20),
-             ProfileInfoColumn(client),
-           ],
-         )
+      ),
+      child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Row(
+              children: [
+                SizedBox(height:50, width: 20),
+                ProfilePictureContainer(client),
+                SizedBox(width: 20),
+                ProfileInfoColumn(client),
+              ],
+            )
 
-        ]
-    ),
-  );
+          ]
+      ),
+    ),);
 }
 
 Widget ProfilePictureContainer(ClientProfile profile){
