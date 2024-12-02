@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:mymateapp/Homepages/RegisterPages/OTPPage.dart';
 import 'package:mymateapp/MyMateThemes.dart';
+import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -94,7 +95,8 @@ class PhoneField extends StatefulWidget{
 
 class _PhoneFieldState extends State<PhoneField>{
 
-  late String phoneNumber = "";
+  String phoneNumber = "";
+  String mobile_country_code = "";
 
   @override
   Widget build(BuildContext context) {

@@ -1,35 +1,35 @@
 class ClientData {
-  PersonalDetails personalDetails;
-  ContactInfo contactInfo;
-  Images profileImages;
-  Career_studies career_studies;
-  Lifestyle lifestyle;
-  User_type user_type;
-  Astrology astrology;
+  PersonalDetails? personalDetails;
+  ContactInfo? contactInfo;
+  Images? profileImages;
+  Career_studies? career_studies;
+  Lifestyle? lifestyle;
+  User_type? user_type;
+  Astrology? astrology;
   Matchings? matchings;
   String? tokens;
 
   ClientData({
     this.matchings,
     this.tokens,
-    required this.personalDetails,
-    required this.contactInfo,
-    required this.profileImages,
-    required this.career_studies,
-    required this.lifestyle,
-    required this.user_type,
-    required this.astrology,
+    this.personalDetails,
+    this.contactInfo,
+    this.profileImages,
+    this.career_studies,
+    this.lifestyle,
+    this.user_type,
+    this.astrology,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'personalDetails': personalDetails.toMap(),
-      'contactInfo': contactInfo.toMap(),
-      'profileImages': profileImages.toMap(),
-      'career_studies': career_studies.toMap(),
-      'lifestyle': lifestyle.toMap(),
-      'user_type': user_type.toMap(),
-      'astrology': astrology.toMap(),
+      'personalDetails': personalDetails?.toMap(),
+      'contactInfo': contactInfo?.toMap(),
+      'profileImages': profileImages?.toMap(),
+      'career_studies': career_studies?.toMap(),
+      'lifestyle': lifestyle?.toMap(),
+      'user_type': user_type?.toMap(),
+      'astrology': astrology?.toMap(),
     };
   }
 }
