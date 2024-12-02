@@ -1,33 +1,32 @@
+import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:mymateapp/Homepages/Profiles/OthersProfile.dart';
 import 'package:mymateapp/dbConnection/Clients.dart';
-import 'package:mymateapp/dbConnection/Firebase.dart';
-
 import '../../ManagePages/SummaryPage.dart';
 import '../../MyMateThemes.dart';
 import '../BadgeWidget.dart';
 
 PreferredSizeWidget SubscribedhomescreenStructuredPageAppBar() {
-  int badgeValue1 = 2;
-  int badgeValue2 = 10;
+    int badgeValue1 = 2;
+    int badgeValue2 = 10;
 
-  return AppBar(
-    title:  CommonTextStyleForPage('Your Name', MyMateThemes.textColor, FontWeight.w700, 20,),
-    actions: <Widget>[
-      SizedBox(width: 60),
-      BadgeWidget(
-          assetPath: 'assets/images/Group 2157.svg',
-          badgeValue: badgeValue1),
-      SizedBox(width: 25),
-      BadgeWidget(
-          assetPath: 'assets/images/Group 2153.svg',
-          badgeValue: badgeValue2),
-      SizedBox( width: 25, )
-    ],
-  );
-}
+    return AppBar(
+      title:  CommonTextStyleForPage('Your Name', MyMateThemes.textColor, FontWeight.w700, 20,),
+      actions: <Widget>[
+        SizedBox(width: 60),
+        BadgeWidget(
+            assetPath: 'assets/images/Group 2157.svg',
+            badgeValue: badgeValue1),
+        SizedBox(width: 25),
+        BadgeWidget(
+            assetPath: 'assets/images/Group 2153.svg',
+            badgeValue: badgeValue2),
+        SizedBox( width: 25, )
+      ],
+    );
+  }
 
 Widget SubscribedhomescreenStructuredPageTotalMatchColumn(BuildContext context){
   return Center(
@@ -41,15 +40,15 @@ Widget SubscribedhomescreenStructuredPageTotalMatchColumn(BuildContext context){
           SvgPicture.asset('assets/images/Frame.svg',
               width: 300, height: 220),
           Positioned(
-            top: 75,
-            right: 110,
-            child: CommonTextStyleForPage('137',Colors.white,FontWeight.w500,30,),
+              top: 69,
+              right: 98,
+              child: CommonTextStyleForPage('137',Colors.white,FontWeight.w500,40,),
           ),
           Positioned(
-            top: 120,
-            right: 83,
-            child: CommonTextStyleForPage('Matches Found',Colors.white,FontWeight.w500,16,),
-          )
+              top: 118,
+              right: 69,
+              child: CommonTextStyleForPage('Matches Found',Colors.white,FontWeight.w500,20,),
+              )
         ],
       ),
     ),
@@ -60,11 +59,9 @@ Widget SubscribedhomescreenStructuredPageCarouselSlider(BuildContext,context){
 
   Firebase firebase = Firebase();
   final Future<List<ClientProfile>> profiles = firebase.getClientList();
-  final Stream<List<ClientProfile>> streamProfiles = firebase.getClientsStream();
   return Center(
-    child: StreamBuilder<List<ClientProfile>>(
-
-      stream: streamProfiles,
+    child: FutureBuilder<List<ClientProfile>>(
+      future: profiles,
       builder: (context,snapshot){
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
@@ -80,11 +77,11 @@ Widget SubscribedhomescreenStructuredPageCarouselSlider(BuildContext,context){
               height: 140.0,
               autoPlay: true,
               enlargeCenterPage: true,
-              aspectRatio: 21/10,
+              aspectRatio: 16 / 9,
               viewportFraction: 0.8,
             ),
             items: profileList.map((profile) {
-              return SubscribedhomescreenStructuredPageCarouselSliderContainer(profile: profile);
+              return SubscribedhomescreenStructuredPageCarouselSliderContainer(profile);
             }).toList(),
           );
         }
@@ -94,99 +91,165 @@ Widget SubscribedhomescreenStructuredPageCarouselSlider(BuildContext,context){
     );
 }
 
-class SubscribedhomescreenStructuredPageCarouselSliderContainer extends StatelessWidget{
-
-  ClientProfile profile;
-  SubscribedhomescreenStructuredPageCarouselSliderContainer({super.key,required this.profile});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>OtherProfilePage(docId: profile.docId)));
-      },
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 5.0),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border(
-            top: BorderSide(width: 0.5),
-            bottom:  BorderSide(width: 0.5),
-          ),
-          borderRadius: BorderRadius.circular(8.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black12,
-              blurRadius: 2.0,
-              spreadRadius: 2.0,
-              offset: Offset(0, 3),
-            ),
-          ],
+Widget SubscribedhomescreenStructuredPageCarouselSliderContainer(ClientProfile profile){
+  return Container(
+    margin: EdgeInsets.symmetric(horizontal: 5.0),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(8.0),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black12,
+          blurRadius: 2.0,
+          spreadRadius: 2.0,
+          offset: Offset(0, 3),
         ),
-        child: ProfileColumn(profile),
-      ),
-    );
-  }
+      ],
+    ),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Row(
+            children: [
+          SizedBox(width: 10),
+          Container(
+            decoration: BoxDecoration(
 
-}
-
-Widget ProfileColumn(ClientProfile profile){
-
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Row(
-          children: [
-            SizedBox(width: 20),
-            Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all( color: MyMateThemes.premiumAccent, width: 5.0,),),
-              child: CircleAvatar( radius: 50, backgroundImage: NetworkImage(profile.imageUrl),),),
-            SizedBox(width: 20),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only( bottom: 4.0),
-                  child: CommonTextStyleForPage( profile.name, MyMateThemes.textColor, FontWeight.w700, 13,),
-                ),
-                Padding(
-                  padding: EdgeInsets.only( bottom: 4.0 ),
-                  child: Row(
-                    children: [
-                      CommonTextStyleForPage(' ${profile.age}, ', MyMateThemes.textColor, FontWeight.w400,11, ),
-                      CommonTextStyleForPage( profile.status, MyMateThemes.textColor, FontWeight.w500, 11, ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only( bottom: 4.0), // Add bottom padding for spacing
-                  child: CommonTextStyleForPage(' ${profile.occupation}',MyMateThemes.textColor,FontWeight.w500,11,),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 4.0),
-                  child: CommonTextStyleForPage(' ${profile.district}',MyMateThemes.textColor,FontWeight.w500,11,),
-                ),
-                Container(
-                  width: 90,
-                  height: 20,
-                  decoration: BoxDecoration(
-                    color: MyMateThemes.secondaryColor,
-                    borderRadius: BorderRadius.circular(4.0),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      SvgPicture.asset('assets/images/heart .svg'),
-                      CommonTextStyleForPage(' ${profile.matchPercentage}',MyMateThemes.primaryColor,FontWeight.w500,11),
-                    ],
-                  ),
-                ),
-              ],
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: MyMateThemes
+                    .premiumAccent, // Set the border color
+                width:4.8, // Set the border width
+              ),
             ),
-          ]),
-    ],
+            child: CircleAvatar(
+              radius: 45,
+              backgroundImage: NetworkImage(profile.imageUrl),
+            ),
+          ),
+          SizedBox(width: 15),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                    bottom: 4.0
+                ),
+                child: CommonTextStyleForPage( profile.name, MyMateThemes.textColor, FontWeight.w700, 14,),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                    bottom: 4.0
+                ), // Add bottom padding for spacing
+                child: Row(
+                  children: [
+                    CommonTextStyleForPage(' ${profile.age}, ', MyMateThemes.textColor, FontWeight.w400,11, ),
+                    CommonTextStyleForPage( profile.status, MyMateThemes.textColor, FontWeight.w500, 11, ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                    bottom:
+                    4.0), // Add bottom padding for spacing
+                child: CommonTextStyleForPage(' ${profile.occupation}',MyMateThemes.textColor,FontWeight.w500,11,),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                    bottom:
+                    4.0), // Add bottom padding for spacing
+                child: CommonTextStyleForPage(' ${profile.district}',MyMateThemes.textColor,FontWeight.w500,11,),
+              ),
+              Container(
+                width: 90,
+                height: 20,
+                decoration: BoxDecoration(
+                  color: MyMateThemes.secondaryColor,
+                  borderRadius: BorderRadius.circular(4.0),
+                ),
+                child: Row(
+                  mainAxisAlignment:
+                  MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SvgPicture.asset(
+                        'assets/images/heart .svg'),
+                    CommonTextStyleForPage(' ${profile.matchPercentage}',MyMateThemes.primaryColor,FontWeight.w500,11),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ]),
+              SizedBox(width: 20),
+              Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: MyMateThemes
+                        .premiumAccent, // Set the border color
+                    width: 5.0, // Set the border width
+                  ),
+                ),
+                child: CircleAvatar(
+                  radius: 50,
+                  backgroundImage: NetworkImage(profile.imageUrl),
+                ),
+              ),
+              SizedBox(width: 20),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                        bottom: 4.0
+                    ),
+                    child: CommonTextStyleForPage( profile.name, MyMateThemes.textColor, FontWeight.w700, 13,),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        bottom: 4.0
+                    ), // Add bottom padding for spacing
+                    child: Row(
+                      children: [
+                        CommonTextStyleForPage(' ${profile.age}, ', MyMateThemes.textColor, FontWeight.w400,11, ),
+                        CommonTextStyleForPage( profile.status, MyMateThemes.textColor, FontWeight.w500, 11, ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        bottom:
+                        4.0), // Add bottom padding for spacing
+                    child: CommonTextStyleForPage(' ${profile.occupation}',MyMateThemes.textColor,FontWeight.w500,11,),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        bottom:
+                        4.0), // Add bottom padding for spacing
+                    child: CommonTextStyleForPage(' ${profile.district}',MyMateThemes.textColor,FontWeight.w500,11,),
+                  ),
+                  Container(
+                    width: 90,
+                    height: 20,
+                    decoration: BoxDecoration(
+                      color: MyMateThemes.secondaryColor,
+                      borderRadius: BorderRadius.circular(4.0),
+                    ),
+                    child: Row(
+                      mainAxisAlignment:
+                      MainAxisAlignment.spaceEvenly,
+                      children: [
+                        SvgPicture.asset(
+                            'assets/images/heart .svg'),
+                        CommonTextStyleForPage(' ${profile.matchPercentage}',MyMateThemes.primaryColor,FontWeight.w500,11),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ]),
+      ],
+    ),
   );
 }
 
@@ -210,9 +273,9 @@ Widget SubscribedhomescreenStructuredPageTokenContainers(BuildContext context){
               right: 140,
               child: SvgPicture.asset('assets/images/tokens.svg')),
           Positioned(
-            top: 10,
-            right: 16,
-            child: CommonTextStyleForPage('10',MyMateThemes.textColor,FontWeight.w500,18, ),
+              top: 10,
+              right: 16,
+              child: CommonTextStyleForPage('10',MyMateThemes.textColor,FontWeight.w500,18, ),
           ),
           Positioned(
             top: 18,

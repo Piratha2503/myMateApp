@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../MyMateThemes.dart';
+import '../../dbConnection/Clients.dart';
 import '../BadgeWidget.dart';
+import 'explorePageMain.dart';
+import 'package:mymateapp/dbConnection/Firebase.dart';
+
+
+Firebase firebase = Firebase();
 
 
 // Define the Profile model class
@@ -26,10 +32,12 @@ class Profile {
 }
 
 // Profile data
-final List<Profile> profiles = [
+
+final List<Profile> matchedProfiles = [
+
   Profile(
-    name: 'Srishayuchja Balasurian',
-    age: 26,
+    name: 'Kownthiga Balasurian',
+    age: 36,
     status: 'Single',
     occupation: 'Engineer',
     district: 'Jaffna',
@@ -37,7 +45,7 @@ final List<Profile> profiles = [
     matchPercentage: '75 - 100%',
   ),
   Profile(
-    name: 'Srishayuchja Balasurian',
+    name: 'Keerthiga',
     age: 26,
     status: 'Single',
     occupation: 'Engineer',
@@ -45,17 +53,9 @@ final List<Profile> profiles = [
     imageUrl: 'assets/images/explore2.jpg',
     matchPercentage: '75 - 100%',
   ),
+
   Profile(
-    name: 'Srishayuchja Balasurian',
-    age: 26,
-    status: 'Single',
-    occupation: 'Engineer',
-    district: 'Jaffna',
-    imageUrl: 'assets/images/explore3.jpg',
-    matchPercentage: '75 - 100%',
-  ),
-  Profile(
-    name: 'Ravi',
+    name: 'Sivatharany',
     age: 28,
     status: 'Married',
     occupation: 'Doctor',
@@ -64,7 +64,47 @@ final List<Profile> profiles = [
     matchPercentage: '70 - 90%',
   ),
   Profile(
-    name: 'Theenu',
+    name: 'Kiruthiga',
+    age: 32,
+    status: 'Unmarried',
+    occupation: 'Doctor',
+    district: 'Kokuvil',
+    imageUrl: 'assets/images/sareepic4.jpg',
+    matchPercentage: '80 - 95%',
+  ),
+];
+final List<Profile> filteredProfiles = [
+
+  Profile(
+    name: 'Ramya',
+    age: 26,
+    status: 'Single',
+    occupation: 'Engineer',
+    district: 'Jaffna',
+    imageUrl: 'assets/images/explore1.jpg',
+    matchPercentage: '75 - 100%',
+  ),
+  Profile(
+    name: 'Dhivya',
+    age: 26,
+    status: 'Single',
+    occupation: 'Engineer',
+    district: 'Jaffna',
+    imageUrl: 'assets/images/explore2.jpg',
+    matchPercentage: '75 - 100%',
+  ),
+
+  Profile(
+    name: 'Sureka',
+    age: 28,
+    status: 'Married',
+    occupation: 'Doctor',
+    district: 'Kokuvil',
+    imageUrl: 'assets/images/explore4.jpg',
+    matchPercentage: '70 - 90%',
+  ),
+  Profile(
+    name: 'Tharany',
     age: 32,
     status: 'Unmarried',
     occupation: 'Doctor',
@@ -104,6 +144,7 @@ PreferredSizeWidget ExplorePageAppBar() {
     );
 }
 
+// Define the reusable widget to build grid items
 Widget buildGridItem(Profile profile) {
   return Container(
     height: 272,
@@ -130,6 +171,7 @@ Widget buildGridItem(Profile profile) {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(3.0),
             image: DecorationImage(
+
               image: AssetImage(profile.imageUrl),
               fit: BoxFit.cover,
             ),
@@ -213,7 +255,7 @@ Widget buildGridItem(Profile profile) {
                     padding: const EdgeInsets.only(bottom: 6.0),
                     child: Text(
                       profile.district,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: MyMateThemes.textColor,
                         fontWeight: FontWeight.w500,
                         fontSize: 11,
@@ -223,24 +265,26 @@ Widget buildGridItem(Profile profile) {
                   ),
 
                   // Match percentage
-                    Padding(
-                          padding: const EdgeInsets.only(bottom: 5.0),
-                          child: Container(
-                                width: 108.43,
-                            height: 20.85,
-                            decoration: BoxDecoration(
-                                color: MyMateThemes.secondaryColor,
-                                borderRadius: BorderRadius.circular(4.0),
-                              ),
-                            child: Row(
+            Padding(
+              padding: const EdgeInsets.only(bottom: 5.0),
+                  child:
+                  Container(
+                    width: 108.43,
+                    height: 20.85,
+                    decoration: BoxDecoration(
+                      color: MyMateThemes.secondaryColor,
+                      borderRadius: BorderRadius.circular(4.0),
+                    ),
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                                  SvgPicture.asset('assets/images/heart .svg'),
-                                  Text(
-                                    profile.matchPercentage,
-                                    style: const TextStyle(
-                                    color: MyMateThemes.primaryColor,
-                                    fontWeight: FontWeight.w500, fontSize: 14,
+                        SvgPicture.asset('assets/images/heart .svg'),
+                        Text(
+                          profile.matchPercentage,
+                          style: const TextStyle(
+                            color: MyMateThemes.primaryColor,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14,
                           ),
                         ),
                       ],
@@ -271,17 +315,50 @@ Widget buildGridItem(Profile profile) {
   );
 }
 
+
+
 // Reusable grid widgets
 Widget ExploreAllGrid(BuildContext context) {
-  return GridView.count(
-    crossAxisCount: 2,
-    crossAxisSpacing: 12.0,
-    mainAxisSpacing: 12.0,
-    shrinkWrap: true,
-    childAspectRatio: 160 / 240,
-    children: profiles.map((profile) => buildGridItem(profile)).toList(),
+  return Expanded(
+    child: StreamBuilder<List<ClientProfile>>(
+      stream: firebase.getClientsStream(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        }
+        if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        }
+        if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return Center(child: Text('No profiles found.'));
+        }
+
+        // Map ClientProfile to Profile
+        final profiles = snapshot.data!
+            .map((client) => Profile(
+          name: client.name,
+          imageUrl: client.imageUrl, // Adjust as needed
+          age: client.age,
+          status: client.status,
+          occupation: client.occupation,
+          district: client.district,
+          matchPercentage: client.matchPercentage,
+        ))
+            .toList();
+
+        return GridView.count(
+          crossAxisCount: 2,
+          crossAxisSpacing: 12.0,
+          mainAxisSpacing: 12.0,
+          shrinkWrap: true,
+          childAspectRatio: 160 / 240,
+          children: profiles.map((profile) => buildGridItem(profile)).toList(),
+        );
+      },
+    ),
   );
 }
+
 
 Widget ViewMatchesGrid(BuildContext context) {
   return GridView.count(
@@ -290,7 +367,7 @@ Widget ViewMatchesGrid(BuildContext context) {
     mainAxisSpacing: 12.0,
     shrinkWrap: true,
     childAspectRatio: 160 / 230,
-    children: profiles.map((profile) => buildGridItem(profile)).toList(),
+    children: matchedProfiles.map((profile) => buildGridItem(profile)).toList(),
   );
 }
 
@@ -301,7 +378,7 @@ Widget FilterGrid(BuildContext context) {
     mainAxisSpacing: 12.0,
     shrinkWrap: true,
     childAspectRatio: 160 / 230,
-    children: profiles.map((profile) => buildGridItem(profile)).toList(),
+    children: filteredProfiles.map((profile) => buildGridItem(profile)).toList(),
   );
 }
 
