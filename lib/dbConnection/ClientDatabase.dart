@@ -1,4 +1,5 @@
 class ClientData {
+  String? docId;
   PersonalDetails? personalDetails;
   ContactInfo? contactInfo;
   Images? profileImages;
@@ -10,6 +11,7 @@ class ClientData {
   String? tokens;
 
   ClientData({
+    this.docId,
     this.matchings,
     this.tokens,
     this.personalDetails,
@@ -83,36 +85,36 @@ class PersonalDetails{
 }
 
 class ContactInfo{
-  String mobile;
-  String mobile_country_code;
-  String email;
-  Address address;
-
-  ContactInfo( this.mobile,this.email,this.mobile_country_code,{required this.address});
+  String? mobile;
+  String? mobile_country_code;
+  String? email;
+  Address? address;
+  ContactInfo( {this.mobile,this.email,this.mobile_country_code,required this.address});
 
   Map<String, dynamic> toMap() {
     return {
       'mobile': mobile,
       'mobile_country_code': mobile_country_code,
       'email': email,
-      'address':address.toMap(),
+      'address':address?.toMap(),
     };
   }
 }
 
 class Address{
-  String house_number;
-  String home;
-  String lane;
-  String city;
-  String country;
+  String? house_number;
+  String? home;
+  String? lane;
+  String? city;
+  String? country;
 
-  Address(
-  this.house_number,
-  this.home,
-  this.lane,
-  this.city,
-  this.country,);
+  Address({
+    this.house_number,
+    this.home,
+    this.lane,
+    this.city,
+    this.country,
+  });
 
   Map<String, dynamic> toMap() {
     return {
