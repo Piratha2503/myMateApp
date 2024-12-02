@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mymateapp/MyMateThemes.dart';
-
 import '../../MyMateCommonBodies/MyMateBottomBar.dart';
 import 'SubscribedHomeScreenWidgets.dart';
 
