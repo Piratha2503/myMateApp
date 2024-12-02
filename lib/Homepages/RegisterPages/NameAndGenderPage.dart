@@ -29,25 +29,23 @@ class _NameAndGenderState extends State<NameAndGender> {
   Widget build(BuildContext context) {
 
     TestClient clientProfile = TestClient();
-    clientProfile.name = "Piratha";
     return Scaffold(
       backgroundColor: MyMateThemes.backgroundColor,
-      appBar: AppBar(
-        backgroundColor: MyMateThemes.backgroundColor,
-      ),
+
       body: Center(
         child: Column(
           children: [
             Form(
                 child: Column(
                   children: [
+                    SizedBox(height: 85,),
                   InputField("First name",firstNameController),
-                    SizedBox(height: 50,),
+                    SizedBox(height: 10,),
                   InputField("Last name",lastNameController),
                     SizedBox( height: 50,),
                   GenderButtons(),
-                    SizedBox(height: 65,),
-                  NextButton(clientProfile),
+                    SizedBox(height: 60,),
+                  NextButton(clientProfile,firstNameController,lastNameController),
               ],
                 ),
             )
@@ -62,14 +60,14 @@ class _NameAndGenderState extends State<NameAndGender> {
 Widget InputField(String inputName, TextEditingController nameController){
   return SizedBox(
     width: 300, // Set the width of the TextField
-    height: 50, // Set the height of the TextField
+    height: 75, // Set the height of the TextField
     child: TextField(
       controller: nameController,
       decoration: InputDecoration(
-        hintText: inputName,
-        hintStyle: TextStyle(
+        label: Text(inputName,),
+        labelStyle: TextStyle(
           fontWeight: FontWeight.w600,
-          fontSize: 25,
+          fontSize: 18,
         ),
       ),
       style: TextStyle(
@@ -114,21 +112,29 @@ Widget GenderButton(String gender,IconData icon){
 
 class NextButton extends StatelessWidget{
   TestClient clientProfile;
+  TextEditingController firstNameController;
+  TextEditingController lastNameController;
+
+  NextButton(this.clientProfile,this.firstNameController,this.lastNameController, {super.key,});
+
   void onPressed(BuildContext context) {
     Navigator.push(context,
         MaterialPageRoute(builder: (context)=> ChartOptions(clientProfile: clientProfile)));
   }
-    NextButton(this.clientProfile, {super.key});
 
     @override
     Widget build(BuildContext context){
+    String firstName = firstNameController.text;
+    String lastName = lastNameController.text;
 
       return SizedBox(
         height: 58,
         width: 166,
         child: ElevatedButton(
           onPressed: (){
+            clientProfile.name = "$firstName $lastName";
             onPressed(context);
+            print(clientProfile.name);
           },
           style: CommonButtonStyle.commonButtonStyle(),
           child: Text(

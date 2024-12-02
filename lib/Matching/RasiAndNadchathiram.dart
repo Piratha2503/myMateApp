@@ -16,7 +16,7 @@ class RasiNadchathiram {
   static List<int> rasiMatchNumberList = [2, 4, 6, 8];
 
   static List<String> nadchathiraList = [
-    "Ashwini"
+        "Ashwini"
         "Bharani"
         "Kiruthigai"
         "Rohini"

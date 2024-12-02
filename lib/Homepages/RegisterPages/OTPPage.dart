@@ -28,7 +28,7 @@ class _otpPage extends State<otpPage> {
         body: Column(mainAxisSize: MainAxisSize.max, children: [
           const Center(
             child: Text(
-              "Enter your phone number",
+              "Enter your Pin number",
               style: TextStyle(
                 fontSize: 20,
                 fontFamily: "Work Sans",
@@ -72,7 +72,7 @@ class _otpPage extends State<otpPage> {
             height: 50,
           ),
 
-          const Center(
+          Center(
            child:  Row(
               mainAxisAlignment: MainAxisAlignment.center,
 
@@ -110,7 +110,9 @@ class _otpPage extends State<otpPage> {
               ),
             ),
           )
-        ]));
+        ],
+        ),
+    );
   }
 
   Widget OtpSizedBox(){

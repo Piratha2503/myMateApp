@@ -5,15 +5,15 @@ import 'BadgeWidget.dart';
 import 'Profiles/CompleteProfile.dart';
 import '../MyMateCommonBodies/MyMateBottomBar.dart';
 
-class FrontPage extends StatefulWidget {
+class HomeScreenBeforeSubscibe extends StatefulWidget {
   final int selectedBottomBarIconIndex;
-  const FrontPage(this.selectedBottomBarIconIndex, {super.key});
+  const HomeScreenBeforeSubscibe(this.selectedBottomBarIconIndex, {super.key});
 
   @override
-  State<FrontPage> createState() => _FrontPageState();
+  State<HomeScreenBeforeSubscibe> createState() => _HomeScreenBeforeSubscibeState();
 }
 
-class _FrontPageState extends State<FrontPage>
+class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   bool showHello = true;
@@ -131,7 +131,7 @@ class _FrontPageState extends State<FrontPage>
           Stack(
             children: [
               SvgPicture.asset('assets/images/Frame.svg',
-                  width: 300, height: 220),
+                  width: 250),
               Positioned(
                   top: 69,
                   right: 98,
@@ -139,7 +139,7 @@ class _FrontPageState extends State<FrontPage>
                     '137',
                     style: TextStyle(
                         color: Colors.white,
-                        fontSize: 40,
+                        fontSize: 32,
                         fontWeight: FontWeight.w500),
                   )),
               Positioned(
@@ -149,7 +149,7 @@ class _FrontPageState extends State<FrontPage>
                     'Matches Found',
                     style: TextStyle(
                         color: Colors.white,
-                        fontSize: 20,
+                        fontSize: 14,
                         fontWeight: FontWeight.w500),
                   ))
             ],
@@ -249,14 +249,14 @@ class _FrontPageState extends State<FrontPage>
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Container(
-          width: 164,
-          height: 182,
+          width: 160,
+          height: 165,
           color: MyMateThemes.containerColor,
           alignment: Alignment.bottomLeft,
         ),
         Container(
-          width: 164,
-          height: 182,
+          width: 160,
+          height: 165,
           color: MyMateThemes.secondaryColor,
           alignment: Alignment.bottomRight,
         ),

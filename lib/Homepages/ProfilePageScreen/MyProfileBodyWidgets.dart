@@ -5,24 +5,35 @@ import '../../MyMateThemes.dart';
 import '../Profiles/EditPage.dart';
 import '../Profiles/MoreAboutMe.dart';
 
-Widget ProfileInfo() {
+Widget ProfileInfo(String full_name,String image_url) {
 
   bool _isSmall = false;
 
   return Column(
     children: [
+     Container(
+       height: 220,
+       child: Center(
+         child: Container(
+           height: 185,
+           width: 185,
+           decoration: BoxDecoration(
+             borderRadius: BorderRadius.circular(100),
+             color: MyMateThemes.secondaryColor,
+           ),
+           child: Center(
+             child: CircleAvatar(
+               radius: 85,
+               backgroundImage: NetworkImage(image_url),
+
+             ),
+           ),
+         ),
+       ),
+       ),
+
+
       GestureDetector(
-        // onTap: _toggleSize,
-        child: AnimatedContainer(
-          duration: Duration(milliseconds: 500),
-          curve: Curves.easeInOut,
-          height: _isSmall ? 50 : 230,
-          alignment: _isSmall ? Alignment(-1.2, 1.0) : Alignment.center,
-          child: SvgPicture.asset('assets/images/Group 2073 (1).svg'),
-        ),
-      ),
-      GestureDetector(
-        //onTap: _toggleSize,
         child: AnimatedContainer(
           duration: Duration(milliseconds: 500),
           curve: Curves.easeInOut,
@@ -31,7 +42,7 @@ Widget ProfileInfo() {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                'full_name',
+                full_name,
                 style: TextStyle(
                   color: MyMateThemes.primaryColor,
                   fontSize: 20,
@@ -103,7 +114,7 @@ Widget ActionButtons(BuildContext context) {
             borderRadius: BorderRadius.circular(10.0),
           ),
         ),
-        child: Text('Boost '),
+        child: Text('Boost ',style: TextStyle(color: Colors.white),),
       ),
       SizedBox(width: 60),
       ElevatedButton(
@@ -116,7 +127,7 @@ Widget ActionButtons(BuildContext context) {
             borderRadius: BorderRadius.circular(10.0),
           ),
         ),
-        child: Text('Edit Profile'),
+        child: Text('Edit Profile',style: TextStyle(color: Colors.white),),
       ),
     ],
   );

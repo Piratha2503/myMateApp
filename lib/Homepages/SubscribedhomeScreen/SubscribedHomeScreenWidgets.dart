@@ -1,5 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:mymateapp/Homepages/Profiles/OthersProfile.dart';
+import 'package:mymateapp/dbConnection/Clients.dart';
+import 'package:mymateapp/dbConnection/Firebase.dart';
+import 'package:carousel_slider/carousel_options.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -40,14 +46,14 @@ Widget SubscribedhomescreenStructuredPageTotalMatchColumn(BuildContext context){
           SvgPicture.asset('assets/images/Frame.svg',
               width: 300, height: 220),
           Positioned(
-            top: 69,
-            right: 98,
-            child: CommonTextStyleForPage('137',Colors.white,FontWeight.w500,40,),
+            top: 75,
+            right: 110,
+            child: CommonTextStyleForPage('137',Colors.white,FontWeight.w500,30,),
           ),
           Positioned(
-            top: 118,
-            right: 69,
-            child: CommonTextStyleForPage('Matches Found',Colors.white,FontWeight.w500,20,),
+            top: 120,
+            right: 83,
+            child: CommonTextStyleForPage('Matches Found',Colors.white,FontWeight.w500,16,),
           )
         ],
       ),
@@ -55,148 +61,139 @@ Widget SubscribedhomescreenStructuredPageTotalMatchColumn(BuildContext context){
   );
 }
 
-Widget SubscribedhomescreenStructuredPageCarouselSlider() {
-  return FutureBuilder<QuerySnapshot>(
-    future: FirebaseFirestore.instance.collection('clients').get(),
-    builder: (context, snapshot) {
-      if (snapshot.connectionState == ConnectionState.waiting) {
-        return Center(child: CircularProgressIndicator());
-      }
+Widget SubscribedhomescreenStructuredPageCarouselSlider(BuildContext,context){
 
-      if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-        return Center(
-          child: Text(
-            'No clients found.',
-            style: TextStyle(fontSize: 16, color: Colors.grey),
-          ),
-        );
-      }
+  Firebase firebase = Firebase();
+  final Future<List<ClientProfile>> profiles = firebase.getClientList();
+  final Stream<List<ClientProfile>> streamProfiles = firebase.getClientsStream();
+  return Center(
+    child: StreamBuilder<List<ClientProfile>>(
 
-      final profiles = snapshot.data!.docs.map((doc) {
-        final data = doc.data() as Map<String, dynamic>;
-        return ClientProfile(
-          name: data['full_name'] ?? 'Unknown',
-          age: data['age'] ?? 0,
-          status: data['status'] ?? 'Unknown',
-          occupation: data['occupation'] ?? 'Unknown',
-          district: data['district'] ?? 'Unknown',
-          imageUrl:  'https://via.placeholder.com/150',
-          matchPercentage: data['matchPercentage'] ?? '75%-100%',
-        );
-      }).toList();
+      stream: streamProfiles,
+      builder: (context,snapshot){
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return Center(child: Text('No profiles found.'));
+        }
+        else{
+          final profileList = snapshot.data!;
+          return CarouselSlider(
+            options: CarouselOptions(
+              height: 140.0,
+              autoPlay: true,
+              enlargeCenterPage: true,
+              aspectRatio: 21/10,
+              viewportFraction: 0.8,
+            ),
+            items: profileList.map((profile) {
+              return SubscribedhomescreenStructuredPageCarouselSliderContainer(profile: profile);
+            }).toList(),
+          );
+        }
+      },
 
-      return Center(
-        child: CarouselSlider(
-          options: CarouselOptions(
-            height: 140.0,
-            autoPlay: true,
-            enlargeCenterPage: true,
-            aspectRatio: 16 / 9,
-            viewportFraction: 0.8,
-          ),
-          items: profiles.map((profile) {
-            return Builder(
-              builder: (BuildContext context) {
-                return SubscribedhomescreenStructuredPageCarouselSliderContainer(profile);
-              },
-            );
-          }).toList(),
-        ),
-      );
-    },
-  );
+    )
+    );
 }
 
-Widget SubscribedhomescreenStructuredPageCarouselSliderContainer(ClientProfile profile){
-  return Container(
-    margin: EdgeInsets.symmetric(horizontal: 5.0),
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(8.0),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black12,
-          blurRadius: 2.0,
-          spreadRadius: 2.0,
-          offset: Offset(0, 3),
+class SubscribedhomescreenStructuredPageCarouselSliderContainer extends StatelessWidget{
+
+  ClientProfile profile;
+  SubscribedhomescreenStructuredPageCarouselSliderContainer({super.key,required this.profile});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: (){
+
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>OtherProfilePage(docId: "AkHMFT2wvrakj69OVTLP")));
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 5.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border(
+            top: BorderSide(width: 0.5),
+            bottom:  BorderSide(width: 0.5),
+          ),
+          borderRadius: BorderRadius.circular(8.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 2.0,
+              spreadRadius: 2.0,
+              offset: Offset(0, 3),
+            ),
+          ],
         ),
-      ],
-    ),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Row(
-            children: [
-              SizedBox(width: 20),
-              Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: MyMateThemes
-                        .premiumAccent, // Set the border color
-                    width: 5.0, // Set the border width
+        child: ProfileColumn(profile),
+      ),
+    );
+  }
+
+}
+
+Widget ProfileColumn(ClientProfile profile){
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Row(
+          children: [
+            SizedBox(width: 20),
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all( color: MyMateThemes.premiumAccent, width: 5.0,),),
+              child: CircleAvatar( radius: 50, backgroundImage: NetworkImage(profile.imageUrl),),),
+            SizedBox(width: 20),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only( bottom: 4.0),
+                  child: CommonTextStyleForPage( profile.name, MyMateThemes.textColor, FontWeight.w700, 13,),
+                ),
+                Padding(
+                  padding: EdgeInsets.only( bottom: 4.0 ),
+                  child: Row(
+                    children: [
+                      CommonTextStyleForPage(' ${profile.age}, ', MyMateThemes.textColor, FontWeight.w400,11, ),
+                      CommonTextStyleForPage( profile.status, MyMateThemes.textColor, FontWeight.w500, 11, ),
+                    ],
                   ),
                 ),
-                child: CircleAvatar(
-                  radius: 50,
-                  backgroundImage: NetworkImage(profile.imageUrl),
+                Padding(
+                  padding: EdgeInsets.only( bottom: 4.0), // Add bottom padding for spacing
+                  child: CommonTextStyleForPage(' ${profile.occupation}',MyMateThemes.textColor,FontWeight.w500,11,),
                 ),
-              ),
-              SizedBox(width: 20),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                        bottom: 4.0
-                    ),
-                    child: CommonTextStyleForPage( profile.name, MyMateThemes.textColor, FontWeight.w700, 16,),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 4.0),
+                  child: CommonTextStyleForPage(' ${profile.district}',MyMateThemes.textColor,FontWeight.w500,11,),
+                ),
+                Container(
+                  width: 90,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    color: MyMateThemes.secondaryColor,
+                    borderRadius: BorderRadius.circular(4.0),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        bottom: 4.0
-                    ), // Add bottom padding for spacing
-                    child: Row(
-                      children: [
-                        CommonTextStyleForPage(' ${profile.age}, ', MyMateThemes.textColor, FontWeight.w400,12, ),
-                        CommonTextStyleForPage( profile.status, MyMateThemes.textColor, FontWeight.w500, 12, ),
-                      ],
-                    ),
+                  child: Row(
+                    mainAxisAlignment:
+                    MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SvgPicture.asset(
+                          'assets/images/heart .svg'),
+                      CommonTextStyleForPage(' ${profile.matchPercentage}',MyMateThemes.primaryColor,FontWeight.w500,11),
+                    ],
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        bottom:
-                        4.0), // Add bottom padding for spacing
-                    child: CommonTextStyleForPage(' ${profile.occupation}',MyMateThemes.textColor,FontWeight.w500,12,),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        bottom:
-                        4.0), // Add bottom padding for spacing
-                    child: CommonTextStyleForPage(' ${profile.district}',MyMateThemes.textColor,FontWeight.w500,12,),
-                  ),
-                  Container(
-                    width: 90,
-                    height: 20,
-                    decoration: BoxDecoration(
-                      color: MyMateThemes.secondaryColor,
-                      borderRadius: BorderRadius.circular(4.0),
-                    ),
-                    child: Row(
-                      mainAxisAlignment:
-                      MainAxisAlignment.spaceEvenly,
-                      children: [
-                        SvgPicture.asset(
-                            'assets/images/heart .svg'),
-                        CommonTextStyleForPage(' ${profile.matchPercentage}',MyMateThemes.primaryColor,FontWeight.w500,12),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ]),
-      ],
-    ),
+                ),
+              ],
+            ),
+          ]),
+    ],
   );
 }
 

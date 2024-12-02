@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mymateapp/Homepages/ProfilePageScreen/photoGalleryPage.dart';
+
 import '../../dbConnection/Firebase.dart';
 import '../custom_outline_button.dart';
 import 'MyProfileBodyWidgets.dart';
@@ -31,6 +32,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
   String religion = "";
   String age = "";
   String dob = "";
+  String image_url = "";
 
 
   void _scrollToContainer(int index) {
@@ -58,6 +60,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
       religion = client['religion'] ?? "N/A";
       age = client['age'].toString() ?? "N/A";
       dob = client['dob'] ?? "N/A";
+      image_url = client['image_url'] ?? "N/A";
     });
   }
 
@@ -90,18 +93,15 @@ class _MyProfileBodyState extends State<MyProfileBody> {
             controller: _scrollController,
             child: Column(
               children: [
-                ProfileInfo(),
+                ProfileInfo(full_name,image_url),
                 SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    IconWithText(
-                        'assets/images/Group 2145.svg', '$age years', dob),
-                    IconWithText('assets/images/Group 2146.svg',
-                        occupation, '$district - '),
-                    IconWithText('assets/images/Group 2147.svg',
-                        district, 'Sri Lanka'),
+                    IconWithText('assets/images/Group 2145.svg', '$age years', dob),
+                    IconWithText('assets/images/Group 2146.svg', occupation, '$district - '),
+                    IconWithText('assets/images/Group 2147.svg', district, district),
                   ],
                 ),
                 SizedBox(height: 30),
@@ -115,8 +115,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         GestureDetector(
-                          child: SvgPicture.asset(
-                              'assets/images/Group 2196.svg'),
+                          child: SvgPicture.asset( 'assets/images/Group 2196.svg'),
                           onTap: () {
                             setState(() {
                               _selectedButtonIndex = 0;
@@ -128,8 +127,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                         Column(
                           children: [
                             GestureDetector(
-                              child: SvgPicture.asset(
-                                  'assets/images/Group 2192.svg'),
+                              child: SvgPicture.asset('assets/images/Group 2192.svg'),
                               onTap: () {
                                 setState(() {
                                   _selectedButtonIndex = 1;
@@ -139,8 +137,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                             ),
                             SizedBox(height: 16),
                             GestureDetector(
-                              child: SvgPicture.asset(
-                                  'assets/images/Group 2197.svg'),
+                              child: SvgPicture.asset('assets/images/Group 2197.svg'),
                               onTap: () {
                                 setState(() {
                                   _selectedButtonIndex = 2;

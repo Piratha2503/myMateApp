@@ -1,10 +1,18 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mymateapp/ChartPages/GenerateChart.dart';
-import 'package:mymateapp/Homepages/FirstWelcomeScreen.dart';
+import 'package:mymateapp/Homepages/HomeScreenBeforeSubscibe.dart';
+import 'package:mymateapp/Homepages/RegisterPages/NameAndGenderPage.dart';
+import 'package:mymateapp/Homepages/RegisterPages/OTPPage.dart';
+import 'package:mymateapp/Homepages/SubscribedhomeScreen/SubscribedHomeScreenStructured.dart';
+import 'package:mymateapp/Homepages/WelcomeScreen.dart';
+import 'package:mymateapp/Homepages/explorePage/explorePageMain.dart';
+import 'package:mymateapp/Matching/Rasi.dart';
 import 'package:mymateapp/dbConnection/Clients.dart';
+import 'package:pinput/pinput.dart';
 
 import 'ChartPages/ManualRasiChartPage.dart';
+import 'Homepages/RegisterPages/Pinput.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -30,7 +38,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           primaryColor: Colors.blue[200]),
       debugShowCheckedModeBanner: false,
-      home: ManualRasiChartPage(),
+      home: Explorepage(),
     );
   }
 }
