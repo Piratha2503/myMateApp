@@ -4,12 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:mymateapp/Homepages/Profiles/OthersProfile.dart';
 import 'package:mymateapp/dbConnection/Clients.dart';
 import 'package:mymateapp/dbConnection/Firebase.dart';
-import 'package:carousel_slider/carousel_options.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:mymateapp/dbConnection/Clients.dart';
+
 import '../../ManagePages/SummaryPage.dart';
 import '../../MyMateThemes.dart';
 import '../BadgeWidget.dart';
@@ -108,8 +103,7 @@ class SubscribedhomescreenStructuredPageCarouselSliderContainer extends Stateles
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>OtherProfilePage(docId: "AkHMFT2wvrakj69OVTLP")));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>OtherProfilePage(docId: profile.docId)));
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 5.0),
@@ -137,6 +131,7 @@ class SubscribedhomescreenStructuredPageCarouselSliderContainer extends Stateles
 }
 
 Widget ProfileColumn(ClientProfile profile){
+
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
@@ -181,11 +176,9 @@ Widget ProfileColumn(ClientProfile profile){
                     borderRadius: BorderRadius.circular(4.0),
                   ),
                   child: Row(
-                    mainAxisAlignment:
-                    MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      SvgPicture.asset(
-                          'assets/images/heart .svg'),
+                      SvgPicture.asset('assets/images/heart .svg'),
                       CommonTextStyleForPage(' ${profile.matchPercentage}',MyMateThemes.primaryColor,FontWeight.w500,11),
                     ],
                   ),

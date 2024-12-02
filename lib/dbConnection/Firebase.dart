@@ -21,6 +21,7 @@ class Firebase{
     QuerySnapshot snapshot = await firebaseFirestore.collection('clients').where("mobile",isEqualTo: mobile).get();
     DocumentSnapshot documentSnapshot = snapshot.docs.first;
     return ClientProfile(
+        docId: snapshot.docs.first.id,
         full_name: documentSnapshot['full_name'],
         gender: documentSnapshot['gender'],
         name: documentSnapshot['last_name'],
@@ -38,6 +39,7 @@ class Firebase{
     QuerySnapshot querySnapshot = await clients.get();
     List<ClientProfile> clientList = querySnapshot.docs.map((doc){
       return ClientProfile(
+          docId: doc.id,
           full_name: doc['full_name'],
           gender: doc['gender'],
           name: doc['last_name'],
@@ -58,6 +60,7 @@ class Firebase{
     return clients.snapshots().map((snapshot) {
       return snapshot.docs.map((doc) {
         return ClientProfile(
+          docId: doc.id,
           full_name: doc['full_name'],
           gender: doc['gender'],
           name: doc['last_name'],
@@ -72,16 +75,20 @@ class Firebase{
     });
   }
 
+  //GET DOC ID LIST
+
+
+
   //POST
-  Future<void> addClient(){
+  Future<void> addClient(ClientProfile profile){
 
     return clients.add({
-      'full_name': "Aravinthan Sharan",
-      'age': 30,
+      'full_name': profile.full_name,
+      'age': profile.age,
       'dob': '28-03-1992',
-      'mobile': 0778741623,
+      'mobile': 0778741632,
       'mobile_countryCode': 'lk',
-      'gender': 'male',
+      'gender': profile.gender,
       'civil_status': 'single',
       'employment_type': 'professional',
       'occupation':'Driver',

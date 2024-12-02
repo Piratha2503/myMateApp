@@ -8,6 +8,7 @@ import 'package:mymateapp/Homepages/SubscribedhomeScreen/SubscribedHomeScreenStr
 import 'package:mymateapp/Homepages/WelcomeScreen.dart';
 import 'package:mymateapp/Homepages/explorePage/explorePageMain.dart';
 import 'package:mymateapp/Matching/Rasi.dart';
+import 'package:mymateapp/TestPages/Test.dart';
 import 'package:mymateapp/dbConnection/Clients.dart';
 import 'package:pinput/pinput.dart';
 
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           primaryColor: Colors.blue[200]),
       debugShowCheckedModeBanner: false,
-      home: Explorepage(),
+      home: TestPage(),
     );
   }
 }
