@@ -105,7 +105,7 @@ class SubscribedhomescreenStructuredPageCarouselSliderContainer extends Stateles
     return GestureDetector(
       onTap: (){
 
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>OtherProfilePage(docId: "AkHMFT2wvrakj69OVTLP")));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>OtherProfilePage(docId: profile.docId)));
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 5.0),
@@ -192,7 +192,6 @@ Widget ProfileColumn(ClientProfile profile){
     ],
   );
 }
-
 
 Widget SubscribedhomescreenStructuredPageTokenContainers(BuildContext context){
 
