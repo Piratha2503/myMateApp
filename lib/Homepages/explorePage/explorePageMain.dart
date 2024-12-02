@@ -3,6 +3,7 @@ import '../../MyMateCommonBodies/MyMateBottomBar.dart';
 import '../../MyMateThemes.dart';
 import 'explorePageWidgets.dart';
 
+
 class Explorepage extends StatefulWidget {
   const Explorepage({super.key});
 
@@ -14,6 +15,7 @@ class _ExplorepageState extends State<Explorepage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   int _selectedIndex = 0;
+
 
 
   @override
