@@ -1,3 +1,9 @@
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:mymateapp/Homepages/Profiles/OthersProfile.dart';
+import 'package:mymateapp/dbConnection/Clients.dart';
+import 'package:mymateapp/dbConnection/Firebase.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,9 +12,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:mymateapp/dbConnection/Clients.dart';
 import '../../ManagePages/SummaryPage.dart';
 import '../../MyMateThemes.dart';
-import '../../dbConnection/Firebase.dart';
 import '../BadgeWidget.dart';
-import '../Profiles/OthersProfile.dart';
 
 PreferredSizeWidget SubscribedhomescreenStructuredPageAppBar() {
   int badgeValue1 = 2;
@@ -42,14 +46,14 @@ Widget SubscribedhomescreenStructuredPageTotalMatchColumn(BuildContext context){
           SvgPicture.asset('assets/images/Frame.svg',
               width: 300, height: 220),
           Positioned(
-            top: 69,
-            right: 98,
-            child: CommonTextStyleForPage('137',Colors.white,FontWeight.w500,40,),
+            top: 75,
+            right: 110,
+            child: CommonTextStyleForPage('137',Colors.white,FontWeight.w500,30,),
           ),
           Positioned(
-            top: 118,
-            right: 69,
-            child: CommonTextStyleForPage('Matches Found',Colors.white,FontWeight.w500,20,),
+            top: 120,
+            right: 83,
+            child: CommonTextStyleForPage('Matches Found',Colors.white,FontWeight.w500,16,),
           )
         ],
       ),
@@ -192,7 +196,6 @@ Widget ProfileColumn(ClientProfile profile){
     ],
   );
 }
-
 
 Widget SubscribedhomescreenStructuredPageTokenContainers(BuildContext context){
 
