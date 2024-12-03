@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mymateapp/ChartPages/GenerateChart.dart';
 import 'package:mymateapp/Homepages/HomeScreenBeforeSubscibe.dart';
+import 'package:mymateapp/Homepages/Profiles/EditPage.dart';
 import 'package:mymateapp/Homepages/RegisterPages/NameAndGenderPage.dart';
 import 'package:mymateapp/Homepages/RegisterPages/OTPPage.dart';
 import 'package:mymateapp/Homepages/SubscribedhomeScreen/SubscribedHomeScreenStructured.dart';
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           primaryColor: Colors.blue[200]),
       debugShowCheckedModeBanner: false,
-      home: WelcomePage(),
+      home: Explorepage(),
     );
   }
 }

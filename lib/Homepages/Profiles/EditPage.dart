@@ -149,11 +149,18 @@ class _EditPageState extends State<EditPage> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(width: 15), // Add this line
-          Text(label, style: TextStyle(color: Colors.black)),
-          Spacer(),
-          SizedBox(width: 5),
-          DropdownButtonHideUnderline(
+          Stack(
+            children: [
+              Positioned(
+                left:45,
+
+                child: Text(label, style: TextStyle(color: Colors.black)),)
+            ],
+          ),
+
+          Positioned(
+            left: 150,
+            child: DropdownButtonHideUnderline(
             child: DropdownButton2<String>(
               value: value,
               onChanged: onChanged,
@@ -164,13 +171,14 @@ class _EditPageState extends State<EditPage> {
                     item,
                     style: item.startsWith('--')
                         ? TextStyle(
-                            color: MyMateThemes.textColor.withOpacity(0.5))
+                        color: MyMateThemes.textColor.withOpacity(0.5))
                         : TextStyle(color: MyMateThemes.textColor),
                   ),
                 );
               }).toList(),
             ),
-          ),
+          ),),
+
         ],
       ),
     );
@@ -187,7 +195,7 @@ class _EditPageState extends State<EditPage> {
       child: Stack(
         children: [
           Positioned(
-            left: 15,
+            left:15,
             top: 0,
             bottom: 0,
             child: Align(
@@ -197,7 +205,7 @@ class _EditPageState extends State<EditPage> {
           ),
           Positioned(
             left:
-                192, // Adjust this value to set the starting position of the hint text
+                180, // Adjust this value to set the starting position of the hint text
             right: 0,
             top: 0,
             bottom: 0,
