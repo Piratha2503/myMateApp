@@ -13,7 +13,6 @@ import 'package:mymateapp/dbConnection/Clients.dart';
 import 'package:pinput/pinput.dart';
 
 import 'ChartPages/ManualRasiChartPage.dart';
-import 'Homepages/Profiles/EditPage.dart';
 import 'Homepages/RegisterPages/Pinput.dart';
 import 'firebase_options.dart';
 
@@ -40,7 +39,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           primaryColor: Colors.blue[200]),
       debugShowCheckedModeBanner: false,
-      home: EditPage(),
+      home: WelcomePage(),
     );
   }
 }
