@@ -87,14 +87,16 @@ class PersonalDetails{
 class ContactInfo{
   String? mobile;
   String? mobile_country_code;
+  String? otpPin;
   String? email;
   Address? address;
-  ContactInfo( {this.mobile,this.email,this.mobile_country_code,required this.address});
+  ContactInfo( {this.mobile,this.email,this.mobile_country_code,this.otpPin,required this.address});
 
   Map<String, dynamic> toMap() {
     return {
       'mobile': mobile,
       'mobile_country_code': mobile_country_code,
+      'otpPin': otpPin,
       'email': email,
       'address':address?.toMap(),
     };
