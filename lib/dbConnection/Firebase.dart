@@ -4,7 +4,7 @@ import 'package:mymateapp/dbConnection/Clients.dart';
 class Firebase{
 
   final CollectionReference clients = FirebaseFirestore.instance.collection('clients');
-
+  final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   List<ClientProfile> myClients = [];
 
   //GET
@@ -16,12 +16,32 @@ class Firebase{
   Stream<DocumentSnapshot> getClientStreamById(String docId) {
     return clients.doc(docId).snapshots();
   }
+  // GET BY phone
+  Future<ClientProfile> getClientByMobile(int mobile) async{
+    QuerySnapshot snapshot = await firebaseFirestore.collection('clients').where("mobile",isEqualTo: mobile).get();
+    DocumentSnapshot documentSnapshot = snapshot.docs.first;
+    return ClientProfile(
+        docId: snapshot.docs.first.id,
+        full_name: documentSnapshot['full_name'],
+        gender: documentSnapshot['gender'],
+        name: documentSnapshot['last_name'],
+        age: documentSnapshot['age'],
+        status: "Married",
+        occupation: documentSnapshot['occupation'],
+        district: documentSnapshot['district'],
+        imageUrl: documentSnapshot['image_url'],
+        matchPercentage: "80%",
+    );
+  }
 
   // GET LIST
   Future<List<ClientProfile>> getClientList() async{
     QuerySnapshot querySnapshot = await clients.get();
     List<ClientProfile> clientList = querySnapshot.docs.map((doc){
       return ClientProfile(
+          docId: doc.id,
+          full_name: doc['full_name'],
+          gender: doc['gender'],
           name: doc['last_name'],
           age: doc['age'],
           status: "Married",
@@ -40,28 +60,35 @@ class Firebase{
     return clients.snapshots().map((snapshot) {
       return snapshot.docs.map((doc) {
         return ClientProfile(
-          name: doc['full_name'],
+          docId: doc.id,
+          full_name: doc['full_name'],
+          gender: doc['gender'],
+          name: doc['last_name'],
           age: doc['age'],
           status: "Married",
           occupation: doc['occupation'],
           district: doc['district'],
-          imageUrl: "https://piratha.com/images/Piratha.jpg",
+          imageUrl: doc['image_url'],
           matchPercentage: "80%",
         );
       }).toList();
     });
   }
 
+  //GET DOC ID LIST
+
+
+
   //POST
-  Future<void> addClient(){
+  Future<void> addClient(ClientProfile profile){
 
     return clients.add({
-      'full_name': "Aravinthan Sharan",
-      'age': 30,
+      'full_name': profile.full_name,
+      'age': profile.age,
       'dob': '28-03-1992',
-      'mobile': 0778741623,
+      'mobile': 0778741632,
       'mobile_countryCode': 'lk',
-      'gender': 'male',
+      'gender': profile.gender,
       'civil_status': 'single',
       'employment_type': 'professional',
       'occupation':'Driver',
@@ -106,3 +133,5 @@ class Firebase{
   }
 
 }
+
+// ninja API key:- plNl8wzftPNAcKp/Beu9Dw==BlJ7oDJKA5ZAXHzx

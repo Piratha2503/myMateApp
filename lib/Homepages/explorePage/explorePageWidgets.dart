@@ -33,34 +33,113 @@ class Profile {
 
 // Profile data
 
+final List<Profile> matchedProfiles = [
 
+  Profile(
+    name: 'Kownthiga Balasurian',
+    age: 36,
+    status: 'Single',
+    occupation: 'Engineer',
+    district: 'Jaffna',
+    imageUrl: 'assets/images/explore1.jpg',
+    matchPercentage: '75 - 100%',
+  ),
+  Profile(
+    name: 'Keerthiga',
+    age: 26,
+    status: 'Single',
+    occupation: 'Engineer',
+    district: 'Jaffna',
+    imageUrl: 'assets/images/explore2.jpg',
+    matchPercentage: '75 - 100%',
+  ),
+
+  Profile(
+    name: 'Sivatharany',
+    age: 28,
+    status: 'Married',
+    occupation: 'Doctor',
+    district: 'Kokuvil',
+    imageUrl: 'assets/images/explore4.jpg',
+    matchPercentage: '70 - 90%',
+  ),
+  Profile(
+    name: 'Kiruthiga',
+    age: 32,
+    status: 'Unmarried',
+    occupation: 'Doctor',
+    district: 'Kokuvil',
+    imageUrl: 'assets/images/sareepic4.jpg',
+    matchPercentage: '80 - 95%',
+  ),
+];
+final List<Profile> filteredProfiles = [
+
+  Profile(
+    name: 'Ramya',
+    age: 26,
+    status: 'Single',
+    occupation: 'Engineer',
+    district: 'Jaffna',
+    imageUrl: 'assets/images/explore1.jpg',
+    matchPercentage: '75 - 100%',
+  ),
+  Profile(
+    name: 'Dhivya',
+    age: 26,
+    status: 'Single',
+    occupation: 'Engineer',
+    district: 'Jaffna',
+    imageUrl: 'assets/images/explore2.jpg',
+    matchPercentage: '75 - 100%',
+  ),
+
+  Profile(
+    name: 'Sureka',
+    age: 28,
+    status: 'Married',
+    occupation: 'Doctor',
+    district: 'Kokuvil',
+    imageUrl: 'assets/images/explore4.jpg',
+    matchPercentage: '70 - 90%',
+  ),
+  Profile(
+    name: 'Tharany',
+    age: 32,
+    status: 'Unmarried',
+    occupation: 'Doctor',
+    district: 'Kokuvil',
+    imageUrl: 'assets/images/sareepic4.jpg',
+    matchPercentage: '80 - 95%',
+  ),
+];
 
 
 PreferredSizeWidget ExplorePageAppBar() {
-  // int badgeValue1 = 2;
-  // int badgeValue2 = 10;
+  int badgeValue1 = 2;
+  int badgeValue2 = 10;
   return
     AppBar(
       backgroundColor: Colors.white,
       actions: <Widget>[
-        // GestureDetector(
-        //   // onTap: () {
-        //   //   Navigator.push(context,
-        //   //       MaterialPageRoute(builder: (context) => const ()));
-        //   // },
-        //   child: SvgPicture.asset('assets/images/chevron-left.svg',),
-        // ),
-        // SizedBox(width: 330),
+        GestureDetector(
+          // onTap: () {
+          //   Navigator.push(context,
+          //       MaterialPageRoute(builder: (context) => const ()));
+          // },
+          child: SvgPicture.asset('assets/images/chevron-left.svg',),
+        ),
+        SizedBox(width: 210),
         SvgPicture.asset('assets/images/filter1.svg'),
-        SizedBox(width: 35),
-        // BadgeWidget(
-        //     assetPath: 'assets/images/Group 2157.svg',
-        //     badgeValue: badgeValue1),
-        // SizedBox(width: 25),
-        // BadgeWidget(
-        //     assetPath: 'assets/images/Group 2153.svg',
-        //     badgeValue: badgeValue2),
-        // SizedBox( width: 25, )
+        SizedBox(width: 25),
+        BadgeWidget(
+            assetPath: 'assets/images/Group 2157.svg',
+            badgeValue: badgeValue1),
+        SizedBox(width: 25),
+        BadgeWidget(
+            assetPath: 'assets/images/Group 2153.svg',
+            badgeValue: badgeValue2),
+        SizedBox( width: 25, )
       ],
     );
 }
@@ -236,6 +315,8 @@ Widget buildGridItem(Profile profile) {
   );
 }
 
+
+
 // Reusable grid widgets
 Widget ExploreAllGrid(BuildContext context) {
   return Expanded(
@@ -280,86 +361,24 @@ Widget ExploreAllGrid(BuildContext context) {
 
 
 Widget ViewMatchesGrid(BuildContext context) {
-
-  return Expanded(
-    child: StreamBuilder<List<ClientProfile>>(
-      stream: firebase.getClientsStream(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        }
-        if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        }
-        if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Center(child: Text('No profiles found.'));
-        }
-
-        // Map ClientProfile to Profile
-        final profiles = snapshot.data!
-            .map((client) => Profile(
-          name: client.name,
-          imageUrl: client.imageUrl, // Adjust as needed
-          age: client.age,
-          status: client.status,
-          occupation: client.occupation,
-          district: client.district,
-          matchPercentage: client.matchPercentage,
-        ))
-            .toList();
-
-        return GridView.count(
-          crossAxisCount: 2,
-          crossAxisSpacing: 12.0,
-          mainAxisSpacing: 12.0,
-          shrinkWrap: true,
-          childAspectRatio: 160 / 240,
-          children: profiles.map((profile) => buildGridItem(profile)).toList(),
-        );
-      },
-    ),
+  return GridView.count(
+    crossAxisCount: 2,
+    crossAxisSpacing: 12.0,
+    mainAxisSpacing: 12.0,
+    shrinkWrap: true,
+    childAspectRatio: 160 / 230,
+    children: matchedProfiles.map((profile) => buildGridItem(profile)).toList(),
   );
-
 }
 
 Widget FilterGrid(BuildContext context) {
-  return Expanded(
-    child: StreamBuilder<List<ClientProfile>>(
-      stream: firebase.getClientsStream(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        }
-        if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        }
-        if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Center(child: Text('No profiles found.'));
-        }
-
-        // Map ClientProfile to Profile
-        final profiles = snapshot.data!
-            .map((client) => Profile(
-          name: client.name,
-          imageUrl: client.imageUrl, // Adjust as needed
-          age: client.age,
-          status: client.status,
-          occupation: client.occupation,
-          district: client.district,
-          matchPercentage: client.matchPercentage,
-        ))
-            .toList();
-
-        return GridView.count(
-          crossAxisCount: 2,
-          crossAxisSpacing: 12.0,
-          mainAxisSpacing: 12.0,
-          shrinkWrap: true,
-          childAspectRatio: 160 / 240,
-          children: profiles.map((profile) => buildGridItem(profile)).toList(),
-        );
-      },
-    ),
+  return GridView.count(
+    crossAxisCount: 2,
+    crossAxisSpacing: 12.0,
+    mainAxisSpacing: 12.0,
+    shrinkWrap: true,
+    childAspectRatio: 160 / 230,
+    children: filteredProfiles.map((profile) => buildGridItem(profile)).toList(),
   );
 }
 

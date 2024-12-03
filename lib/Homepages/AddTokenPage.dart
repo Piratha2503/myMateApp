@@ -1,9 +1,7 @@
-import 'package:carousel_slider/carousel_options.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mymateapp/MyMateThemes.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-
 import '../ManagePages/ManagePage.dart';
 
 class AddTokenPage extends StatefulWidget {
