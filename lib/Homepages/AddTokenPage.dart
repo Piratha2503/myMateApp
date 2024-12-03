@@ -1,9 +1,7 @@
-import 'package:carousel_slider/carousel_options.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mymateapp/MyMateThemes.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-
 import '../ManagePages/ManagePage.dart';
 
 class AddTokenPage extends StatefulWidget {
@@ -138,7 +136,7 @@ class _AddTokenPageState extends State<AddTokenPage> {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor:
-                      MyMateThemes.primaryColor, // Background color
+                  MyMateThemes.primaryColor, // Background color
                   foregroundColor: Colors.white, // Text color
                   minimumSize: Size(100, 30), // Width and height
                   padding: EdgeInsets.symmetric(horizontal: 16), // Padding
@@ -425,7 +423,7 @@ class _AddTokenPageState extends State<AddTokenPage> {
                     padding: EdgeInsets.symmetric(horizontal: 0), // Padding
                     shape: RoundedRectangleBorder(
                       borderRadius:
-                          BorderRadius.circular(30), // Rounded corners
+                      BorderRadius.circular(30), // Rounded corners
                     ),
                   ),
                   child: Ink(
@@ -462,178 +460,178 @@ class _AddTokenPageState extends State<AddTokenPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
-      child:
-      Center(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                children: [
-                  SizedBox(width: 10.0),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ManagePage()));
-                    },
-                    child: SvgPicture.asset('assets/images/chevron-left.svg'),
-                  ),
-                  SizedBox(width: 50.0),
-                  Text(
-                    "Choose you package here ",
-                    style: TextStyle(
-                        color: MyMateThemes.textColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 15),
-            Text(
-              'Pricing Plan',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 26,
-                  color: MyMateThemes.primaryColor,
-                  letterSpacing: 1.2),
-            ),
-            SizedBox(height: 5),
-            Text(
-              'You Need to spend tokens to access ',
-              style: TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 14,
-                  color: MyMateThemes.textColor,
-                  letterSpacing: 0.5),
-            ),
-            Text(
-              'Following features',
-              style: TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 14,
-                  color: MyMateThemes.textColor,
-                  letterSpacing: 0.5),
-            ),
-            SizedBox(height: 25),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+          child:
+          Center(
+            child: Column(
               children: [
-                SizedBox(width: 120),
-                SvgPicture.asset('assets/images/fire.svg'),
-                SizedBox(width: 5),
-                Text(
-                  'x 1',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: MyMateThemes.primaryColor,
-                    letterSpacing: 1,
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    children: [
+                      SizedBox(width: 10.0),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ManagePage()));
+                        },
+                        child: SvgPicture.asset('assets/images/chevron-left.svg'),
+                      ),
+                      SizedBox(width: 50.0),
+                      Text(
+                        "Choose you package here ",
+                        style: TextStyle(
+                            color: MyMateThemes.textColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
+                      ),
+                    ],
                   ),
                 ),
-                SizedBox(width: 8),
+                SizedBox(height: 15),
                 Text(
-                  'Send/Accept Request',
+                  'Pricing Plan',
                   style: TextStyle(
-                      fontSize: 12,
-                      color: MyMateThemes.textColor.withOpacity(0.6)),
-                  textAlign: TextAlign.center,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 26,
+                      color: MyMateThemes.primaryColor,
+                      letterSpacing: 1.2),
                 ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(width: 120),
-                SvgPicture.asset('assets/images/fire.svg'),
-                SizedBox(width: 5),
+                SizedBox(height: 5),
                 Text(
-                  'x 2',
+                  'You Need to spend tokens to access ',
                   style: TextStyle(
-                    fontSize: 12,
-                    color: MyMateThemes.primaryColor,
-                    letterSpacing: 1,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14,
+                      color: MyMateThemes.textColor,
+                      letterSpacing: 0.5),
+                ),
+                Text(
+                  'Following features',
+                  style: TextStyle(
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14,
+                      color: MyMateThemes.textColor,
+                      letterSpacing: 0.5),
+                ),
+                SizedBox(height: 25),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(width: 120),
+                    SvgPicture.asset('assets/images/fire.svg'),
+                    SizedBox(width: 5),
+                    Text(
+                      'x 1',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: MyMateThemes.primaryColor,
+                        letterSpacing: 1,
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    Text(
+                      'Send/Accept Request',
+                      style: TextStyle(
+                          fontSize: 12,
+                          color: MyMateThemes.textColor.withOpacity(0.6)),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(width: 120),
+                    SvgPicture.asset('assets/images/fire.svg'),
+                    SizedBox(width: 5),
+                    Text(
+                      'x 2',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: MyMateThemes.primaryColor,
+                        letterSpacing: 1,
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    Text(
+                      'Check Accurate Match',
+                      style: TextStyle(
+                          fontSize: 12,
+                          color: MyMateThemes.textColor.withOpacity(0.6)),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(width: 120),
+                    SvgPicture.asset('assets/images/fire.svg'),
+                    SizedBox(width: 5),
+                    Text(
+                      'x 3',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: MyMateThemes.primaryColor,
+                        letterSpacing: 1,
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    Text(
+                      'Boost Profile',
+                      style: TextStyle(
+                          fontSize: 12,
+                          color: MyMateThemes.textColor.withOpacity(0.6)),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(width: 120),
+                    SvgPicture.asset('assets/images/fire.svg'),
+                    SizedBox(width: 5),
+                    Text(
+                      'x 5',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: MyMateThemes.primaryColor,
+                        letterSpacing: 1,
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    Text(
+                      'Super Boost Profile',
+                      style: TextStyle(
+                          fontSize: 12,
+                          color: MyMateThemes.textColor.withOpacity(0.6)),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+                SizedBox(height: 40),
+                Center(
+                  child: CarouselSlider(
+                    items: imageSliders,
+                    options: CarouselOptions(
+                      height: 430.0,
+                      enlargeCenterPage: true,
+                      aspectRatio: 16 / 9,
+                      autoPlayCurve: Curves.fastOutSlowIn,
+                      enableInfiniteScroll: false,
+                      autoPlayAnimationDuration: Duration(milliseconds: 800),
+                      viewportFraction: 0.6,
+                    ),
                   ),
                 ),
-                SizedBox(width: 8),
-                Text(
-                  'Check Accurate Match',
-                  style: TextStyle(
-                      fontSize: 12,
-                      color: MyMateThemes.textColor.withOpacity(0.6)),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(width: 120),
-                SvgPicture.asset('assets/images/fire.svg'),
-                SizedBox(width: 5),
-                Text(
-                  'x 3',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: MyMateThemes.primaryColor,
-                    letterSpacing: 1,
-                  ),
-                ),
-                SizedBox(width: 8),
-                Text(
-                  'Boost Profile',
-                  style: TextStyle(
-                      fontSize: 12,
-                      color: MyMateThemes.textColor.withOpacity(0.6)),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(width: 120),
-                SvgPicture.asset('assets/images/fire.svg'),
-                SizedBox(width: 5),
-                Text(
-                  'x 5',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: MyMateThemes.primaryColor,
-                    letterSpacing: 1,
-                  ),
-                ),
-                SizedBox(width: 8),
-                Text(
-                  'Super Boost Profile',
-                  style: TextStyle(
-                      fontSize: 12,
-                      color: MyMateThemes.textColor.withOpacity(0.6)),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-            SizedBox(height: 40),
-            Center(
-              child: CarouselSlider(
-                items: imageSliders,
-                options: CarouselOptions(
-                  height: 430.0,
-                  enlargeCenterPage: true,
-                  aspectRatio: 16 / 9,
-                  autoPlayCurve: Curves.fastOutSlowIn,
-                  enableInfiniteScroll: false,
-                  autoPlayAnimationDuration: Duration(milliseconds: 800),
-                  viewportFraction: 0.6,
-                ),
-              ),
-            ),
 
-          ],
-        ),
-      ),
-    ));
+              ],
+            ),
+          ),
+        ));
   }
 }
 

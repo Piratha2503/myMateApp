@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mymateapp/ChartPages/GenerateChart.dart';
 import 'package:mymateapp/MyMateThemes.dart';
+import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import 'package:mymateapp/dbConnection/Clients.dart';
 
 class ChartOptions extends StatefulWidget{
-  TestClient clientProfile;
-  ChartOptions({super.key, required this.clientProfile});
+  ClientData clientData;
+  ChartOptions({super.key, required this.clientData});
 
   @override
   State<ChartOptions> createState() => _ChartOptionsState();
@@ -23,7 +24,7 @@ class _ChartOptionsState extends State<ChartOptions> {
               children: [
                 SizedBox(height: 10,),
                 ChartOptionsTexts(),
-                GenerateChartOption(widget.clientProfile),
+                GenerateChartOption(widget.clientData),
                 SizedBox(height: 50),
                 Divider(height: 5),
                 SizedBox(height: 50),
@@ -63,12 +64,15 @@ Widget ChartOptionsTexts(){
 }
 
 class GenerateChartOption extends StatelessWidget {
-  TestClient clientProfile;
-  GenerateChartOption(this.clientProfile,{super.key});
+  ClientData clientData;
+  GenerateChartOption(this.clientData,{super.key});
 
   void onTab(BuildContext context){
-    print(clientProfile.name);
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>GenerateChart()));
+    print(clientData.personalDetails?.first_name);
+    print(clientData.personalDetails?.last_name);
+    print(clientData.personalDetails?.gender);
+    print(clientData.contactInfo?.mobile);
+    //Navigator.push(context, MaterialPageRoute(builder: (context)=>GenerateChart()));
   }
 
   @override
