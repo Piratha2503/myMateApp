@@ -1,22 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:mymateapp/Homepages/RegisterPages/NameAndGenderPage.dart';
+import 'package:mymateapp/dbConnection/ClientDatabase.dart';
+import 'package:mymateapp/dbConnection/Firebase_DB.dart';
 import 'package:pinput/pinput.dart';
 import 'package:smart_auth/smart_auth.dart';
+
 import '../../MyMateThemes.dart';
-import '../../dbConnection/Firebase.dart';
 import 'OTPPage.dart';
 
 class OtpPinput extends StatefulWidget {
-  final String docId;
-  const OtpPinput({Key? key, required this.docId}) : super(key: key);
+  final ClientData clientData;
+  OtpPinput({super.key, required this.clientData});
 
   @override
-  State<OtpPinput> createState() => _OtpPinputState(docId: docId);
+  State<OtpPinput> createState() => _OtpPinputState();
 }
 
 class _OtpPinputState extends State<OtpPinput> {
-  final String docId;
-  _OtpPinputState({required this.docId});
+
+  _OtpPinputState();
 
   late final SmsRetriever smsRetriever;
   late final TextEditingController pinController;
@@ -51,11 +54,10 @@ class _OtpPinputState extends State<OtpPinput> {
               children: <Widget>[
                 InstructionTexts(),
                 SizedBox( height: 90,),
-                OtpBoxes(this.docId),
+                OtpBoxes(clientData: widget.clientData,),
                 SizedBox( height: 65,),
                 OtpResend(),
                 SizedBox( height: 50, ),
-                VerifyButton(),
               ]
           ),
 
@@ -83,8 +85,8 @@ Widget InstructionTexts(){
 }
 
 class OtpBoxes extends StatefulWidget{
-  final String docId;
-  const OtpBoxes(this.docId, {super.key});
+  final ClientData clientData;
+  const OtpBoxes({required this.clientData,super.key});
 
   @override
   State<OtpBoxes> createState() => _OtpBoxesState();
@@ -93,16 +95,13 @@ class OtpBoxes extends StatefulWidget{
 
 class _OtpBoxesState extends State<OtpBoxes>{
   _OtpBoxesState();
-  Firebase firebase = Firebase();
+  FirebaseDB firebase = FirebaseDB();
   String pin = "";
-
-  Future<void> getClient() async {
-
-    DocumentSnapshot client = await firebase.clients.doc(widget.docId).get();
-
+  String docId = "";
+    Future<void> getClient() async {
+    DocumentSnapshot client = await firebase.collectionReference.doc(widget.clientData.docId).get();
     setState(() {
-      pin = client['pin'] ?? "N/A";
-
+      pin = client['contactInfo']['otpPin'] ?? "N/A";
     });
   }
   @override
@@ -141,7 +140,10 @@ class _OtpBoxesState extends State<OtpBoxes>{
         },
         hapticFeedbackType: HapticFeedbackType.lightImpact,
         onCompleted: (pin) {
-          if(pin == pin) debugPrint('onCompleted: $pin');
+          if(pin == pin) {
+            debugPrint('onCompleted: $pin');
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>NameAndGender(clientData: widget.clientData)));
+          }
         },
         onChanged: (pin) {
           debugPrint('onChanged: $pin');
@@ -187,21 +189,6 @@ Widget OtpResend(){
         Text( "01.44", style: TextStyle( fontSize: 20, fontWeight: FontWeight.bold, color: MyMateThemes.textColor),
         )
       ],
-    ),
-  );
-}
-
-Widget VerifyButton(){
-  return Center(
-    child: SizedBox(
-      height: 58,
-      width: 166,
-      child: ElevatedButton(
-        onPressed: (){},
-        style: CommonButtonStyle.commonButtonStyle(),
-        child: Text("Verify", style: TextStyle(fontSize: MyMateThemes.buttonFontSize),
-        ),
-      ),
     ),
   );
 }
