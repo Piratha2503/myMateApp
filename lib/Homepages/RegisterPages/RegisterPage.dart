@@ -1,12 +1,14 @@
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:mymateapp/Homepages/RegisterPages/NameAndGenderPage.dart';
-import 'package:mymateapp/Homepages/RegisterPages/OTPPage.dart';
 import 'package:mymateapp/Homepages/RegisterPages/Pinput.dart';
 import 'package:mymateapp/MyMateThemes.dart';
-import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import 'package:mymateapp/dbConnection/Firebase_DB.dart';
+
+import '../../dbConnection/ClientDatabase.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -99,16 +101,24 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
   String phoneNumber = "";
   String mobile_country_code = "";
   String client_country = "";
+  String otpPin = "";
   FirebaseDB firebaseDB = FirebaseDB();
   Future<void> addMobile() async{
+
+    var random = Random();
+    otpPin = random.nextInt(9999-1001).toString();
     Address address = Address(country: client_country);
     ContactInfo contactInfo = ContactInfo(
         mobile: phoneNumber,
         mobile_country_code: mobile_country_code,
-        address: address);
+        otpPin: otpPin,
+        address: address
+    );
     ClientData clientData = ClientData(contactInfo: contactInfo);
     await firebaseDB.addClient(clientData);
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>otpPage()));
+    DocumentSnapshot documentSnapshot = await firebaseDB.getClientByMobile(phoneNumber);
+    clientData.docId = documentSnapshot.id;
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>OtpPinput(clientData: clientData,)));
   }
 
   @override
