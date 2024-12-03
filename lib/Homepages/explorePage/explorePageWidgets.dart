@@ -3,37 +3,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../MyMateThemes.dart';
 import '../../dbConnection/Clients.dart';
 import '../BadgeWidget.dart';
+import '../SubscribedHomeScreen.dart';
 import 'explorePageMain.dart';
 import 'package:mymateapp/dbConnection/Firebase.dart';
 
 
 Firebase firebase = Firebase();
-
-
-// Define the Profile model class
-class Profile {
-  final String name;
-  final int age;
-  final String status;
-  final String occupation;
-  final String district;
-  final String imageUrl;
-  final String matchPercentage;
-
-  Profile({
-    required this.name,
-    required this.age,
-    required this.status,
-    required this.occupation,
-    required this.district,
-    required this.imageUrl,
-    required this.matchPercentage,
-  });
-}
-
-// Profile data
-
-
 
 
 PreferredSizeWidget ExplorePageAppBar() {
@@ -43,24 +18,10 @@ PreferredSizeWidget ExplorePageAppBar() {
     AppBar(
       backgroundColor: Colors.white,
       actions: <Widget>[
-        // GestureDetector(
-        //   // onTap: () {
-        //   //   Navigator.push(context,
-        //   //       MaterialPageRoute(builder: (context) => const ()));
-        //   // },
-        //   child: SvgPicture.asset('assets/images/chevron-left.svg',),
-        // ),
-        // SizedBox(width: 330),
+
         SvgPicture.asset('assets/images/filter1.svg'),
         SizedBox(width: 35),
-        // BadgeWidget(
-        //     assetPath: 'assets/images/Group 2157.svg',
-        //     badgeValue: badgeValue1),
-        // SizedBox(width: 25),
-        // BadgeWidget(
-        //     assetPath: 'assets/images/Group 2153.svg',
-        //     badgeValue: badgeValue2),
-        // SizedBox( width: 25, )
+
       ],
     );
 }
