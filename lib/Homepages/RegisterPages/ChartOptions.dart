@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mymateapp/ChartPages/GenerateChart.dart';
+import 'package:mymateapp/ChartPages/ManualRasiChartPage.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import 'package:mymateapp/dbConnection/Clients.dart';
@@ -28,7 +29,7 @@ class _ChartOptionsState extends State<ChartOptions> {
                 SizedBox(height: 50),
                 Divider(height: 5),
                 SizedBox(height: 50),
-                ManualChartOption(),
+                ManualChartOption(clientData: widget.clientData,),
               ],
             ),
           )),
@@ -79,7 +80,7 @@ class GenerateChartOption extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        onTab(context,);
+        onTab(context);
       },
       child: Container(
         height: 125,
@@ -124,11 +125,14 @@ class GenerateChartOption extends StatelessWidget {
 
 class ManualChartOption extends StatelessWidget{
 
+  ClientData clientData;
+  ManualChartOption({super.key, required this.clientData});
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>ManualRasiChartPage(clientData: clientData)));
       },
       child: Container(
 

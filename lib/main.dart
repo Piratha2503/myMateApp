@@ -1,6 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:mymateapp/ChartPages/ChartInputPage.dart';
+import 'package:mymateapp/ChartPages/ChartViewPage.dart';
+import 'package:mymateapp/ChartPages/ManualRasiChartPage.dart';
+import 'package:mymateapp/ChartPages/ManualRasiChartPageTest.dart';
 import 'package:mymateapp/Homepages/RegisterPages/NameAndGenderPage.dart';
+import 'package:mymateapp/Homepages/SubscribedhomeScreen/SubscribedHomeScreenStructured.dart';
 import 'package:mymateapp/Homepages/WelcomeScreen.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import 'package:mymateapp/dbConnection/Clients.dart';
