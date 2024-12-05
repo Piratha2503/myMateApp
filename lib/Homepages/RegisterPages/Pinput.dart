@@ -52,7 +52,7 @@ class _OtpPinputState extends State<OtpPinput> {
         key: formKey,
           child:Column(
               children: <Widget>[
-                InstructionTexts(),
+                InstructionTexts(widget.clientData.contactInfo?.mobile),
                 SizedBox( height: 90,),
                 OtpBoxes(clientData: widget.clientData,),
                 SizedBox( height: 65,),
@@ -66,7 +66,7 @@ class _OtpPinputState extends State<OtpPinput> {
   }
 }
 
-Widget InstructionTexts(){
+Widget InstructionTexts(String? mobile){
   return Column(
     children: <Widget>[
       Text(
@@ -79,7 +79,7 @@ Widget InstructionTexts(){
       ),
       SizedBox( height: 15,),
       Text("Enter the code from the sms we sent", style: MyTextStyle(),),
-      Text("to +94 xx xxxxxxx", style: MyTextStyle(),),
+      Text("to $mobile", style: MyTextStyle(),),
     ],
   );
 }
