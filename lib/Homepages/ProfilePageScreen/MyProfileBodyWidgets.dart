@@ -118,9 +118,9 @@ Widget ActionButtons(BuildContext context) {
       ),
       SizedBox(width: 60),
       ElevatedButton(
-        onPressed: () {
-          NavigatorFunction(context, EditPage());
-        },
+         onPressed: () {
+        //   NavigatorFunction(context, EditPage(clientId: '',));
+         },
         style: ElevatedButton.styleFrom(
           backgroundColor: MyMateThemes.primaryColor,
           shape: RoundedRectangleBorder(

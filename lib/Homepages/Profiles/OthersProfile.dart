@@ -242,10 +242,10 @@ class _OtherProfilePageState extends State<OtherProfilePage>
         SizedBox(width: 30),
         ElevatedButton(
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => EditPage()),
-            );
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => EditPage()),
+            // );
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: MyMateThemes.primaryColor,

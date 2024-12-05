@@ -244,67 +244,78 @@ class _ManualNavamsaChartPage extends State<ManualNavamsaChartPage> {
               ],
             ),
           ),
-          SizedBox(height: 20),
-          DecoratedBox(
-            decoration: ShapeDecoration(
-              shape: CircleBorder(),
-            ),
-            child: Container(
-              height: 350,
-              width: 350,
-              color: MyMateThemes.backgroundColor,
-              child: Stack(
-                children: [
-                  Positioned(
-                      top: 110,
-                      left: 80,
-                      child:
-                          buildBottomSegment('Sun', 'assets/images/Sun.svg')),
-                  Positioned(
-                      left: 207,
-                      top: 74,
-                      child: buildBottomSegment(
-                          'Mercury', 'assets/images/Mercury.svg')),
-                  Positioned(
-                      left: 152,
-                      top: 30,
-                      child:
-                          buildBottomSegment('Mars', 'assets/images/Mars.svg')),
-                  Positioned(
-                      left: 55,
-                      top: 245,
-                      child: buildBottomSegment(
-                          'Saturn', 'assets/images/Saturn.svg')),
-                  Positioned(
-                      left: 213,
-                      top: 178,
-                      child: buildBottomSegment(
-                          'Jupiter', 'assets/images/Jupiter.svg')),
-                  Positioned(
-                      left: 0,
-                      top: 185,
-                      child:
-                          buildBottomSegment('Rahu', 'assets/images/Rahu.svg')),
-                  Positioned(
-                      left: 0,
-                      top: 82,
-                      child:
-                          buildBottomSegment('Ketu', 'assets/images/Ketu.svg')),
-                  Positioned(
-                      left: 159,
-                      top: 239,
-                      child: buildBottomSegment(
-                          'Venus', 'assets/images/Venus.svg')),
-                  Positioned(
-                      left: 47,
-                      top: 30,
-                      child:
-                          buildBottomSegment('Moon', 'assets/images/Moon.svg')),
-                ],
+          SizedBox(height: 15),
+          Column(
+            children: [
+              SizedBox(width: 20),
+              Center(
+                child: DecoratedBox(
+                  decoration: ShapeDecoration(
+                      shape: CircleBorder(),
+                      color: Colors.pink
+                  ),
+                  child: Container(
+                    height: 350,
+                    width: 350,
+                    color: MyMateThemes.backgroundColor,
+                    child: Stack(
+                      children: [
+                        Positioned(
+                            top: 110,
+                            left: 80,
+                            child:
+                            buildBottomSegment('Sun', 'assets/images/Sun.svg')),
+                        Positioned(
+                            left: 207,
+                            top: 74,
+                            child: buildBottomSegment(
+                                'Mercury', 'assets/images/Mercury.svg')),
+                        Positioned(
+                            left: 152,
+                            top: 30,
+                            child:
+                            buildBottomSegment('Mars', 'assets/images/Mars.svg')),
+                        Positioned(
+                            left: 55,
+                            top: 245,
+                            child: buildBottomSegment(
+                                'Saturn', 'assets/images/Saturn.svg')),
+                        Positioned(
+                            left: 213,
+                            top: 178,
+                            child: buildBottomSegment(
+                                'Jupiter', 'assets/images/Jupiter.svg')),
+                        Positioned(
+                            left: 0,
+                            top: 185,
+                            child:
+                            buildBottomSegment('Rahu', 'assets/images/Rahu.svg')),
+                        Positioned(
+                            left: 0,
+                            top: 82,
+                            child:
+                            buildBottomSegment('Ketu', 'assets/images/Ketu.svg')),
+                        Positioned(
+                            left: 159,
+                            top: 239,
+                            child: buildBottomSegment(
+                                'Venus', 'assets/images/Venus.svg')),
+                        Positioned(
+                            left: 47,
+                            top: 30,
+                            child:
+                            buildBottomSegment('Moon', 'assets/images/Moon.svg')),
+                      ],
+                    ),
+                  ),
+                ),
               ),
-            ),
+
+            ],
+
           ),
-          SizedBox(height: 80),
+
+          SizedBox(height: 50),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [

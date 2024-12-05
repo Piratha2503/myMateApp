@@ -10,7 +10,6 @@ import 'package:mymateapp/dbConnection/Firebase.dart';
 
 Firebase firebase = Firebase();
 
-
 PreferredSizeWidget ExplorePageAppBar() {
   // int badgeValue1 = 2;
   // int badgeValue2 = 10;
@@ -200,7 +199,8 @@ Widget buildGridItem(Profile profile) {
 // Reusable grid widgets
 Widget ExploreAllGrid(BuildContext context) {
   return Expanded(
-    child: StreamBuilder<List<ClientProfile>>(
+    child:
+    StreamBuilder<List<ClientProfile>>(
       stream: firebase.getClientsStream(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
