@@ -87,14 +87,16 @@ class PersonalDetails{
 class ContactInfo{
   String? mobile;
   String? mobile_country_code;
+  String? otpPin;
   String? email;
   Address? address;
-  ContactInfo( {this.mobile,this.email,this.mobile_country_code,required this.address});
+  ContactInfo( {this.mobile,this.email,this.mobile_country_code,this.otpPin,required this.address});
 
   Map<String, dynamic> toMap() {
     return {
       'mobile': mobile,
       'mobile_country_code': mobile_country_code,
+      'otpPin': otpPin,
       'email': email,
       'address':address?.toMap(),
     };
@@ -236,20 +238,20 @@ class ChartGeneration{
   List<String>? place10;
   List<String>? place11;
   List<String>? place12;
-  ChartGeneration(
-          this.place1,
-          this.place2,
-          this.place3,
-          this.place4,
-          this.place5,
-          this.place6,
-          this.place7,
-          this.place8,
-          this.place9,
-          this.place10,
-          this.place11,
-          this.place12,
-          );
+  ChartGeneration({
+    this.place1,
+    this.place2,
+    this.place3,
+    this.place4,
+    this.place5,
+    this.place6,
+    this.place7,
+    this.place8,
+    this.place9,
+    this.place10,
+    this.place11,
+    this.place12,
+  });
   Map<String, dynamic> toMap() {
     return {
       'place1': place1,
