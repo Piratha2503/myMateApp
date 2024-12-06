@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mymateapp/ChartPages/ManualNavamsaChartPage.dart';
 import 'package:mymateapp/MyMateThemes.dart';
+import 'package:mymateapp/dbConnection/ClientDatabase.dart';
+import 'package:mymateapp/dbConnection/Firebase_DB.dart';
 
 class ManualRasiChartPage extends StatefulWidget {
-  const ManualRasiChartPage({super.key});
+  ClientData clientData;
+  ManualRasiChartPage({required this.clientData,super.key});
 
   @override
   State<ManualRasiChartPage> createState() => _ManualRasiChartPage();
 }
 
 class _ManualRasiChartPage extends State<ManualRasiChartPage> {
-  // Define the initial state for the SVGs
+
   Map<String, bool> tapped = {
     'Sun': false,
     'Mercury': false,
@@ -23,16 +27,7 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
     'Moon': false,
   };
 
-  get identifier => null;
-
-  // Function to handle the tap and change the state
-  void _onTap(String planet) {
-    setState(() {
-      tapped[planet] =
-          !(tapped[planet] ?? false); // Provide a default value if null
-    });
-    print('$planet button pressed');
-  }
+  int? selectedTopBox;
 
   Map<String, bool> selected = {
     'one': false,
@@ -49,24 +44,13 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
     'twelve': false,
   };
 
-  void _onSelect(String button) {
-    setState(() {
-      tapped[button] =
-          !(tapped[button] ?? false); // Provide a default value if null
-    });
-    print('$button button pressed');
-  }
-
-  int? selectedTopBox;
   Map<String, int> segmentToBoxMap = {};
 
-  bool isSegmentSelected(String segment) {
-    return segmentToBoxMap.containsKey(segment);
-  }
+  get identifier => null;
 
-  int? getSegmentBadge(String segment) {
-    return segmentToBoxMap[segment];
-  }
+  bool isSegmentSelected(String segment) { return segmentToBoxMap.containsKey(segment); }
+
+  int? getSegmentBadge(String segment) { return segmentToBoxMap[segment];}
 
   void _onTapTopBox(int boxNumber) {
     setState(() {
@@ -84,6 +68,9 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
           segmentToBoxMap[segment] = selectedTopBox!;
         }
       });
+
+
+
     }
     print('$segment button pressed');
   }
@@ -93,6 +80,8 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
       segmentToBoxMap.clear();
       selectedTopBox = null;
     });
+
+
   }
 
   bool _areAllSelectionsComplete() {
@@ -118,9 +107,71 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
     return true;
   }
 
-  void _storeSelections() {
-    // Implement the logic to store selections as needed
-    print('Selections stored: $segmentToBoxMap');
+  Future <void> _storeSelections() async{
+    FirebaseDB firebaseDB = FirebaseDB();
+
+    ChartGeneration chartGeneration = ChartGeneration();
+    List<String> option1List = [];
+    List<String> option2List = [];
+    List<String> option3List = [];
+    List<String> option4List = [];
+    List<String> option5List = [];
+    List<String> option6List = [];
+    List<String> option7List = [];
+    List<String> option8List = [];
+    List<String> option9List = [];
+    List<String> option10List = [];
+    List<String> option11List = [];
+    List<String> option12List = [];
+
+    for (var element in segmentToBoxMap.entries) {
+      switch(element.value) {
+        case 1: option1List.add(element.key);
+        case 2: option2List.add(element.key);
+        case 3: option3List.add(element.key);
+        case 4: option4List.add(element.key);
+        case 5: option5List.add(element.key);
+        case 6: option6List.add(element.key);
+        case 7: option7List.add(element.key);
+        case 8: option8List.add(element.key);
+        case 9: option9List.add(element.key);
+        case 10: option10List.add(element.key);
+        case 11: option11List.add(element.key);
+        case 12: option12List.add(element.key);
+      }
+    }
+
+    chartGeneration.place1 = option1List;
+    chartGeneration.place2 = option2List;
+    chartGeneration.place3 = option3List;
+    chartGeneration.place4 = option4List;
+    chartGeneration.place5 = option5List;
+    chartGeneration.place6 = option6List;
+    chartGeneration.place7 = option7List;
+    chartGeneration.place8 = option8List;
+    chartGeneration.place9 = option9List;
+    chartGeneration.place10 = option10List;
+    chartGeneration.place11 = option11List;
+    chartGeneration.place12 = option12List;
+
+    Astrology astrology = Astrology(rasi_chart: chartGeneration);
+    widget.clientData.astrology = astrology;
+    await firebaseDB.updateClient(widget.clientData);
+
+    print(chartGeneration.place1);
+    print(chartGeneration.place2);
+    print(chartGeneration.place3);
+    print(chartGeneration.place4);
+    print(chartGeneration.place5);
+    print(chartGeneration.place6);
+    print(chartGeneration.place7);
+    print(chartGeneration.place8);
+    print(chartGeneration.place9);
+    print(chartGeneration.place10);
+    print(chartGeneration.place11);
+    print(chartGeneration.place12);
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>ManualNavamsaChartPage(clientData: widget.clientData,astrology: astrology,)));
+
   }
 
   Widget buildTopBox(int boxNumber, String assetName) {
@@ -149,16 +200,27 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
               child: CircleAvatar(
                 radius: 13,
                 backgroundColor: MyMateThemes.premiumAccent,
-                child: Text(
-                  getSegmentBadge(segment).toString(),
-                  style: TextStyle(fontSize: 12, color: Colors.white),
-                ),
-              ),
+                child: Text( getSegmentBadge(segment).toString(),style: TextStyle(fontSize: 12, color: Colors.white),),),
             ),
         ],
       ),
     );
   }
+
+  final List<Map<String, dynamic>> boxes = [
+    {'boxNumber': 1, 'selectedTopBox': 1, 'assetName': 'assets/images/one.svg'},
+    {'boxNumber': 2, 'selectedTopBox': 1, 'assetName': 'assets/images/two.svg'},
+    {'boxNumber': 3, 'selectedTopBox': 1, 'assetName': 'assets/images/three.svg'},
+    {'boxNumber': 4, 'selectedTopBox': 1, 'assetName': 'assets/images/four.svg'},
+    {'boxNumber': 5, 'selectedTopBox': 1, 'assetName': 'assets/images/five.svg'},
+    {'boxNumber': 6, 'selectedTopBox': 1, 'assetName': 'assets/images/six.svg'},
+    {'boxNumber': 7, 'selectedTopBox': 1, 'assetName': 'assets/images/seven.svg'},
+    {'boxNumber': 8, 'selectedTopBox': 1, 'assetName': 'assets/images/eight.svg'},
+    {'boxNumber': 9, 'selectedTopBox': 1, 'assetName': 'assets/images/nine.svg'},
+    {'boxNumber': 10, 'selectedTopBox': 1, 'assetName': 'assets/images/ten.svg'},
+    {'boxNumber': 11, 'selectedTopBox': 1, 'assetName': 'assets/images/eleven.svg'},
+    {'boxNumber': 12, 'selectedTopBox': 1, 'assetName': 'assets/images/twelve.svg'},
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -169,8 +231,7 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
           SafeArea(
             child: Column(
               children: [
-                Text(
-                  "Enter Chart Rasi",
+                Text( "Enter Chart Rasi",
                   style: TextStyle(
                     color: MyMateThemes.textColor,
                     fontSize: 15,
@@ -189,59 +250,20 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
               ],
             ),
           ),
-          SizedBox(height: 20),
           Container(
             width: 310,
-            height: 208,
+            height: 220,
             color: Colors.white,
             child: Column(
               children: [
-                SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    SizedBox(width: 10),
-                    buildTopBox(1, 'assets/images/one.svg'),
-                    SizedBox(width: 10),
-                    buildTopBox(2, 'assets/images/two.svg'),
-                    SizedBox(width: 10),
-                    buildTopBox(3, 'assets/images/three.svg'),
-                    SizedBox(width: 10),
-                    buildTopBox(4, 'assets/images/four.svg'),
-                    SizedBox(width: 10),
-                  ],
+                Expanded(
+                  child: GridView(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4,childAspectRatio: 16/10),
+                  children: boxes.map((box) {
+                    return buildTopBox(box['boxNumber'], box['assetName']);
+                  }).toList(),
                 ),
-                SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    SizedBox(width: 10),
-                    buildTopBox(5, 'assets/images/five.svg'),
-                    SizedBox(width: 10),
-                    buildTopBox(6, 'assets/images/six.svg'),
-                    SizedBox(width: 10),
-                    buildTopBox(7, 'assets/images/seven.svg'),
-                    SizedBox(width: 10),
-                    buildTopBox(8, 'assets/images/eight.svg'),
-                    SizedBox(width: 10),
-                  ],
                 ),
-                SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    SizedBox(width: 10),
-                    buildTopBox(9, 'assets/images/nine.svg'),
-                    SizedBox(width: 10),
-                    buildTopBox(10, 'assets/images/ten.svg'),
-                    SizedBox(width: 10),
-                    buildTopBox(11, 'assets/images/eleven.svg'),
-                    SizedBox(width: 10),
-                    buildTopBox(12, 'assets/images/twelve.svg'),
-                    SizedBox(width: 10),
-                  ],
-                ),
-                SizedBox(height: 10),
               ],
             ),
           ),
@@ -257,56 +279,19 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
               child: Stack(
                 children: [
                   SizedBox(width: 20),
-                  Positioned(
-                      top: 110,
-                      left: 80,
-                      child:
-                          buildBottomSegment('Sun', 'assets/images/Sun.svg')),
-                  Positioned(
-                      left: 207,
-                      top: 74,
-                      child: buildBottomSegment(
-                          'Mercury', 'assets/images/Mercury.svg')),
-                  Positioned(
-                      left: 152,
-                      top: 30,
-                      child:
-                          buildBottomSegment('Mars', 'assets/images/Mars.svg')),
-                  Positioned(
-                      left: 55,
-                      top: 245,
-                      child: buildBottomSegment(
-                          'Saturn', 'assets/images/Saturn.svg')),
-                  Positioned(
-                      left: 213,
-                      top: 178,
-                      child: buildBottomSegment(
-                          'Jupiter', 'assets/images/Jupiter.svg')),
-                  Positioned(
-                      left: 0,
-                      top: 185,
-                      child:
-                          buildBottomSegment('Rahu', 'assets/images/Rahu.svg')),
-                  Positioned(
-                      left: 0,
-                      top: 82,
-                      child:
-                          buildBottomSegment('Ketu', 'assets/images/Ketu.svg')),
-                  Positioned(
-                      left: 159,
-                      top: 239,
-                      child: buildBottomSegment(
-                          'Venus', 'assets/images/Venus.svg')),
-                  Positioned(
-                      left: 47,
-                      top: 30,
-                      child:
-                          buildBottomSegment('Moon', 'assets/images/Moon.svg')),
+                  Positioned(top: 110,left: 80,child:buildBottomSegment('Sun', 'assets/images/Sun.svg')),
+                  Positioned(left: 207,top: 74,child:buildBottomSegment('Mercury', 'assets/images/Mercury.svg')),
+                  Positioned(left: 152,top: 30,child:buildBottomSegment('Mars', 'assets/images/Mars.svg')),
+                  Positioned(left: 55,top: 245,child:buildBottomSegment('Saturn', 'assets/images/Saturn.svg')),
+                  Positioned(left: 213,top: 178,child:buildBottomSegment('Jupiter', 'assets/images/Jupiter.svg')),
+                  Positioned(left: 0,top: 185,child:buildBottomSegment('Rahu', 'assets/images/Rahu.svg')),
+                  Positioned(left: 0,top: 82,child:buildBottomSegment('Ketu', 'assets/images/Ketu.svg')),
+                  Positioned(left: 159,top: 239,child:buildBottomSegment('Venus', 'assets/images/Venus.svg')),
+                  Positioned(left: 47,top: 30,child:buildBottomSegment('Moon', 'assets/images/Moon.svg')),
                 ],
               ),
             ),
           ),
-          SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [

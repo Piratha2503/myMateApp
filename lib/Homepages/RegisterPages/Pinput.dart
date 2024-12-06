@@ -52,7 +52,7 @@ class _OtpPinputState extends State<OtpPinput> {
         key: formKey,
           child:Column(
               children: <Widget>[
-                InstructionTexts(),
+                InstructionTexts(widget.clientData.contactInfo?.mobile),
                 SizedBox( height: 90,),
                 OtpBoxes(clientData: widget.clientData,),
                 SizedBox( height: 65,),
@@ -66,7 +66,7 @@ class _OtpPinputState extends State<OtpPinput> {
   }
 }
 
-Widget InstructionTexts(){
+Widget InstructionTexts(String? mobile){
   return Column(
     children: <Widget>[
       Text(
@@ -79,7 +79,7 @@ Widget InstructionTexts(){
       ),
       SizedBox( height: 15,),
       Text("Enter the code from the sms we sent", style: MyTextStyle(),),
-      Text("to +94 xx xxxxxxx", style: MyTextStyle(),),
+      Text("to $mobile", style: MyTextStyle(),),
     ],
   );
 }
@@ -96,12 +96,12 @@ class OtpBoxes extends StatefulWidget{
 class _OtpBoxesState extends State<OtpBoxes>{
   _OtpBoxesState();
   FirebaseDB firebase = FirebaseDB();
-  String pin = "";
+  String otpPin = "";
   String docId = "";
     Future<void> getClient() async {
     DocumentSnapshot client = await firebase.collectionReference.doc(widget.clientData.docId).get();
     setState(() {
-      pin = client['contactInfo']['otpPin'] ?? "N/A";
+      otpPin = client['contactInfo']['otpPin'] ?? "N/A";
     });
   }
   @override
@@ -136,11 +136,11 @@ class _OtpBoxesState extends State<OtpBoxes>{
         defaultPinTheme: defaultPinTheme,
         separatorBuilder: (index) => const SizedBox(width: 12),
         validator: (value) {
-          return value == pin ? null : 'Incorrect Pin';
+          return value == otpPin ? null : 'Incorrect Pin';
         },
         hapticFeedbackType: HapticFeedbackType.lightImpact,
         onCompleted: (pin) {
-          if(pin == pin) {
+          if(pin == otpPin) {
             debugPrint('onCompleted: $pin');
             Navigator.push(context, MaterialPageRoute(builder: (context)=>NameAndGender(clientData: widget.clientData)));
           }
