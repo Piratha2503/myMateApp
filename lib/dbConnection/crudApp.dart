@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mymateapp/MyMateThemes.dart';
+import 'package:mymateapp/dbConnection/Clients.dart';
 import 'package:mymateapp/dbConnection/Firebase.dart';
 
 class crudApp extends StatefulWidget {
@@ -108,7 +109,18 @@ class _crudAppState extends State<crudApp> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          firebase.addClient();
+          ClientProfile clientProfile = ClientProfile(
+              docId: "",
+              full_name: "Velrajah Pirathaban",
+              name: "Name",
+              gender: "Male",
+              age: 32,
+              status: "Married",
+              occupation: "Driver",
+              district: "Colombo",
+              imageUrl: "https://unsplash.com/photos/woman-in-red-cardigan-smiling-mpDV4xaFP8c",
+              matchPercentage: "80");
+          firebase.addClient(clientProfile);
         },
         backgroundColor: MyMateThemes.textColor,
         foregroundColor: Colors.white,

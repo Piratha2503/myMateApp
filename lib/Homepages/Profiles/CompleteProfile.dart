@@ -4,10 +4,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
-import 'package:mymateapp/Homepages/Profiles/MyProfile.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/Homepages/ClosableContainer.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+
+import '../ProfilePageScreen/MyProfileMain.dart';
 
 class CompleteProfilePage extends StatefulWidget {
   const CompleteProfilePage({super.key});
@@ -101,20 +102,12 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
   ElevatedButton _buildNextButton() {
     return ElevatedButton(
       onPressed: () {
-        if (currentPage < stepStates.length - 1) {
-          setState(() {
-            currentPage++;
-          });
-        } else {
-          Navigator.push(
-            context,
-            // MaterialPageRoute(builder: (context) => SubscribedhomescreenPage()),
-            MaterialPageRoute(
-                builder: (context) => ProfilePage(
-                      docId: "",
-                    )),
-          );
-        }
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ProfilePage(docId: "9l2knrHe8XLZL2S3erxy",
+                selectedBottomBarIconIndex: 3,)),
+        );
       },
       style: CommonButtonStyle.commonButtonStyle(),
       child: Text(currentPage < stepStates.length - 1 ? 'Next' : 'Complete'),

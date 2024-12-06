@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:mymateapp/Homepages/RegisterPages/NameAndGenderPage.dart';
 import 'package:mymateapp/Homepages/RegisterPages/OTPPage.dart';
+import 'package:mymateapp/Homepages/RegisterPages/Pinput.dart';
 import 'package:mymateapp/MyMateThemes.dart';
+import 'package:mymateapp/dbConnection/ClientDatabase.dart';
+import 'package:mymateapp/dbConnection/Firebase_DB.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -32,8 +36,7 @@ class _RegisterPageState extends State<RegisterPage> {
             EnterYourPhoneNumber(),
             SizedBox(height: 15,),
             TextInstructions(),
-            PhoneField(),
-            ContinueButton(),
+            PhoneFieldAndNextButton(),
           ],
         )
     );
@@ -83,81 +86,79 @@ Widget TextInstructions(){
   );
 }
 
-class PhoneField extends StatefulWidget{
+class PhoneFieldAndNextButton extends StatefulWidget{
 
-  const PhoneField({super.key});
+  const PhoneFieldAndNextButton({super.key});
 
   @override
-  State<PhoneField> createState() => _PhoneFieldState();
+  State<PhoneFieldAndNextButton> createState() => _PhoneFieldAndNextButtonState();
 
 }
 
-class _PhoneFieldState extends State<PhoneField>{
-
-  late String phoneNumber = "";
+class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
+  String phoneNumber = "";
+  String mobile_country_code = "";
+  String client_country = "";
+  FirebaseDB firebaseDB = FirebaseDB();
+  Future<void> addMobile() async{
+    Address address = Address(country: client_country);
+    ContactInfo contactInfo = ContactInfo(
+        mobile: phoneNumber,
+        mobile_country_code: mobile_country_code,
+        address: address);
+    ClientData clientData = ClientData(contactInfo: contactInfo);
+    await firebaseDB.addClient(clientData);
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>otpPage()));
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-          padding: EdgeInsets.all(50),
-          child: IntlPhoneField(
-              onCountryChanged: (country) {
-                print(country.code);
-              },
-              inputFormatters: [
-                LengthLimitingTextInputFormatter(10),
-                FilteringTextInputFormatter.digitsOnly,
-              ],
-              decoration: InputDecoration(
-                hintText: "Phone number",
+    return Column(
+      children: <Widget>[
+            Center(
+                child: Padding(
+                  padding: EdgeInsets.all(50),
+                  child: IntlPhoneField(
+                            onCountryChanged: (country) {
+                              setState(() {
+                              client_country = country.name;
+                              mobile_country_code = country.code;
+                              });
+                          },
+                            inputFormatters: [
+                          LengthLimitingTextInputFormatter(10),
+                          FilteringTextInputFormatter.digitsOnly,
+                              ],
+                          decoration: InputDecoration(hintText: "Phone number",),
+                          onChanged: (number) {
+                          setState(() {
+                            phoneNumber = number.completeNumber;
+                                });
+                        }
+                  ),
               ),
-              onChanged: (number) {
-                setState(() {
-                  phoneNumber = number.completeNumber;
-                }
-                );
-              }
+          ),
+        Center(
+          child: SizedBox(
+            height: 58,
+            width: 166,
+            child: ElevatedButton(
+              onPressed: addMobile,
+              style: ButtonStyle(
+                foregroundColor: MaterialStatePropertyAll(Colors.white),
+                backgroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
+                shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero)
+                ),
               ),
-      ),
-    );
-  }
-
-}
-
-class ContinueButton extends StatelessWidget{
-
-  void handlePhoneNumber(BuildContext context) {
-    print("Phone Number is:-");
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>const otpPage()));
-
-  }
-
-  const ContinueButton({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        height: 58,
-        width: 166,
-        child: ElevatedButton(
-          onPressed: (){
-            handlePhoneNumber(context);
-          },
-          style: ButtonStyle(
-            foregroundColor: MaterialStatePropertyAll(Colors.white),
-            backgroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
-            shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                borderRadius: BorderRadius.zero)
+              child: const Text(
+                "Continue",
+                style: TextStyle(fontSize: 16),
+              ),
             ),
           ),
-          child: const Text(
-            "Continue",
-            style: TextStyle(fontSize: 16),
-          ),
         ),
-      ),
+      ],
     );
   }
 }

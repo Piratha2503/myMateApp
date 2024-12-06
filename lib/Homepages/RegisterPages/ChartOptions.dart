@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mymateapp/ChartPages/GenerateChart.dart';
 import 'package:mymateapp/MyMateThemes.dart';
@@ -24,7 +23,7 @@ class _ChartOptionsState extends State<ChartOptions> {
               children: [
                 SizedBox(height: 10,),
                 ChartOptionsTexts(),
-                GenerateChartOption(),
+                GenerateChartOption(widget.clientProfile),
                 SizedBox(height: 50),
                 Divider(height: 5),
                 SizedBox(height: 50),
@@ -64,8 +63,11 @@ Widget ChartOptionsTexts(){
 }
 
 class GenerateChartOption extends StatelessWidget {
+  TestClient clientProfile;
+  GenerateChartOption(this.clientProfile,{super.key});
+
   void onTab(BuildContext context){
-    print("Hello");
+    print(clientProfile.name);
     Navigator.push(context, MaterialPageRoute(builder: (context)=>GenerateChart()));
   }
 
@@ -73,7 +75,7 @@ class GenerateChartOption extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        onTab(context);
+        onTab(context,);
       },
       child: Container(
         height: 125,

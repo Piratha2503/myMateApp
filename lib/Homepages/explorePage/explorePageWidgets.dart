@@ -10,7 +10,6 @@ import 'package:mymateapp/dbConnection/Firebase.dart';
 
 Firebase firebase = Firebase();
 
-
 PreferredSizeWidget ExplorePageAppBar() {
   // int badgeValue1 = 2;
   // int badgeValue2 = 10;
@@ -147,32 +146,32 @@ Widget buildGridItem(Profile profile) {
                   ),
 
                   // Match percentage
-            Padding(
-              padding: const EdgeInsets.only(bottom: 5.0),
-                  child:
-                  Container(
-                    width: 108.43,
-                    height: 20.85,
-                    decoration: BoxDecoration(
-                      color: MyMateThemes.secondaryColor,
-                      borderRadius: BorderRadius.circular(4.0),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        SvgPicture.asset('assets/images/heart .svg'),
-                        Text(
-                          profile.matchPercentage,
-                          style: const TextStyle(
-                            color: MyMateThemes.primaryColor,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14,
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 5.0),
+                    child:
+                    Container(
+                      width: 108.43,
+                      height: 20.85,
+                      decoration: BoxDecoration(
+                        color: MyMateThemes.secondaryColor,
+                        borderRadius: BorderRadius.circular(4.0),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          SvgPicture.asset('assets/images/heart .svg'),
+                          Text(
+                            profile.matchPercentage,
+                            style: const TextStyle(
+                              color: MyMateThemes.primaryColor,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 14,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-            ),
 
                 ],
               ),
@@ -200,7 +199,8 @@ Widget buildGridItem(Profile profile) {
 // Reusable grid widgets
 Widget ExploreAllGrid(BuildContext context) {
   return Expanded(
-    child: StreamBuilder<List<ClientProfile>>(
+    child:
+    StreamBuilder<List<ClientProfile>>(
       stream: firebase.getClientsStream(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
