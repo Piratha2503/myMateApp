@@ -119,7 +119,7 @@ Widget ActionButtons(BuildContext context) {
       SizedBox(width: 60),
       ElevatedButton(
          onPressed: () {
-        //   NavigatorFunction(context, EditPage(clientId: '',));
+           NavigatorFunction(context, EditPage());
          },
         style: ElevatedButton.styleFrom(
           backgroundColor: MyMateThemes.primaryColor,
