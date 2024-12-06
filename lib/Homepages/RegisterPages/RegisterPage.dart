@@ -106,7 +106,7 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
   Future<void> addMobile() async{
 
     var random = Random();
-    otpPin = random.nextInt(9999-1001).toString();
+    otpPin = (random.nextInt(9999-1001)+1000).toString();
     Address address = Address(country: client_country);
     ContactInfo contactInfo = ContactInfo(
         mobile: phoneNumber,

@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mymateapp/Homepages/HomeScreenBeforeSubscibe.dart';
 import 'package:mymateapp/MyMateThemes.dart';
+import 'package:mymateapp/dbConnection/ClientDatabase.dart';
+
+import '../dbConnection/Firebase_DB.dart';
 
 class ManualNavamsaChartPage extends StatefulWidget {
-  const ManualNavamsaChartPage({super.key});
+  ClientData clientData;
+  Astrology astrology;
+  ManualNavamsaChartPage({required this.clientData,required this.astrology,super.key});
 
   @override
   State<ManualNavamsaChartPage> createState() => _ManualNavamsaChartPage();
@@ -118,9 +124,72 @@ class _ManualNavamsaChartPage extends State<ManualNavamsaChartPage> {
     return true;
   }
 
-  void _storeSelections() {
-    // Implement the logic to store selections as needed
-    print('Selections stored: $segmentToBoxMap');
+  Future <void> _storeSelections() async{
+    FirebaseDB firebaseDB = FirebaseDB();
+
+    ChartGeneration chartGeneration = ChartGeneration();
+    List<String> option1List = [];
+    List<String> option2List = [];
+    List<String> option3List = [];
+    List<String> option4List = [];
+    List<String> option5List = [];
+    List<String> option6List = [];
+    List<String> option7List = [];
+    List<String> option8List = [];
+    List<String> option9List = [];
+    List<String> option10List = [];
+    List<String> option11List = [];
+    List<String> option12List = [];
+
+    for (var element in segmentToBoxMap.entries) {
+      switch(element.value) {
+        case 1: option1List.add(element.key);
+        case 2: option2List.add(element.key);
+        case 3: option3List.add(element.key);
+        case 4: option4List.add(element.key);
+        case 5: option5List.add(element.key);
+        case 6: option6List.add(element.key);
+        case 7: option7List.add(element.key);
+        case 8: option8List.add(element.key);
+        case 9: option9List.add(element.key);
+        case 10: option10List.add(element.key);
+        case 11: option11List.add(element.key);
+        case 12: option12List.add(element.key);
+      }
+    }
+
+    chartGeneration.place1 = option1List;
+    chartGeneration.place2 = option2List;
+    chartGeneration.place3 = option3List;
+    chartGeneration.place4 = option4List;
+    chartGeneration.place5 = option5List;
+    chartGeneration.place6 = option6List;
+    chartGeneration.place7 = option7List;
+    chartGeneration.place8 = option8List;
+    chartGeneration.place9 = option9List;
+    chartGeneration.place10 = option10List;
+    chartGeneration.place11 = option11List;
+    chartGeneration.place12 = option12List;
+
+    widget.astrology.navamsa_chart = chartGeneration;
+    widget.clientData.astrology = widget.astrology;
+    await firebaseDB.updateClient(widget.clientData);
+
+    print(chartGeneration.place1);
+    print(chartGeneration.place2);
+    print(chartGeneration.place3);
+    print(chartGeneration.place4);
+    print(chartGeneration.place5);
+    print(chartGeneration.place6);
+    print(chartGeneration.place7);
+    print(chartGeneration.place8);
+    print(chartGeneration.place9);
+    print(chartGeneration.place10);
+    print(chartGeneration.place11);
+    print(chartGeneration.place12);
+
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreenBeforeSubscibe(0)));
+
   }
 
   Widget buildTopBox(int boxNumber, String assetName) {
@@ -259,7 +328,7 @@ class _ManualNavamsaChartPage extends State<ManualNavamsaChartPage> {
                       top: 110,
                       left: 80,
                       child:
-                          buildBottomSegment('Sun', 'assets/images/Sun.svg')),
+                      buildBottomSegment('Sun', 'assets/images/Sun.svg')),
                   Positioned(
                       left: 207,
                       top: 74,
@@ -269,7 +338,7 @@ class _ManualNavamsaChartPage extends State<ManualNavamsaChartPage> {
                       left: 152,
                       top: 30,
                       child:
-                          buildBottomSegment('Mars', 'assets/images/Mars.svg')),
+                      buildBottomSegment('Mars', 'assets/images/Mars.svg')),
                   Positioned(
                       left: 55,
                       top: 245,
@@ -284,12 +353,12 @@ class _ManualNavamsaChartPage extends State<ManualNavamsaChartPage> {
                       left: 0,
                       top: 185,
                       child:
-                          buildBottomSegment('Rahu', 'assets/images/Rahu.svg')),
+                      buildBottomSegment('Rahu', 'assets/images/Rahu.svg')),
                   Positioned(
                       left: 0,
                       top: 82,
                       child:
-                          buildBottomSegment('Ketu', 'assets/images/Ketu.svg')),
+                      buildBottomSegment('Ketu', 'assets/images/Ketu.svg')),
                   Positioned(
                       left: 159,
                       top: 239,
@@ -299,12 +368,11 @@ class _ManualNavamsaChartPage extends State<ManualNavamsaChartPage> {
                       left: 47,
                       top: 30,
                       child:
-                          buildBottomSegment('Moon', 'assets/images/Moon.svg')),
+                      buildBottomSegment('Moon', 'assets/images/Moon.svg')),
                 ],
               ),
             ),
           ),
-          SizedBox(height: 80),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
