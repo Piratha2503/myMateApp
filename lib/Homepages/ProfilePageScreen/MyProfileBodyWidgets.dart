@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mymateapp/MyMateCommonBodies/RouterFunction.dart';
+
 import '../../MyMateThemes.dart';
 import '../Profiles/EditPage.dart';
 import '../Profiles/MoreAboutMe.dart';
@@ -118,9 +119,9 @@ Widget ActionButtons(BuildContext context) {
       ),
       SizedBox(width: 60),
       ElevatedButton(
-        onPressed: () {
-          NavigatorFunction(context, EditPage());
-        },
+         onPressed: () {
+           NavigatorFunction(context, EditPage());
+         },
         style: ElevatedButton.styleFrom(
           backgroundColor: MyMateThemes.primaryColor,
           shape: RoundedRectangleBorder(
