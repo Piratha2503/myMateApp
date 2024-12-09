@@ -11,6 +11,7 @@ import 'package:mymateapp/LoginPage.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import 'package:mymateapp/dbConnection/Clients.dart';
 
+import 'ChartPages/ManualNavamsaChartPage.dart';
 import 'firebase_options.dart';
 import 'login.dart';
 
@@ -24,6 +25,8 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +46,9 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.blue[200]),
       debugShowCheckedModeBanner: false,
 
-      home: Login(onLoginSuccess: () { print("Login Success"); },),
+      home:
+    //  Login(onLoginSuccess: () { print("Login Success"); },),
+      ManualRasiChartPage(clientData: clientData),
     );
   }
 }
