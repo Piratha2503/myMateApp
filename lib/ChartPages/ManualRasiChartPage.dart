@@ -250,6 +250,7 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
               ],
             ),
           ),
+          SizedBox(height: 5),
           Container(
             width: 310,
             height: 220,
@@ -274,14 +275,14 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
             ),
             child: Container(
               height: 350,
-              width: 350,
+              width: 300,
               color: MyMateThemes.backgroundColor,
               child: Stack(
                 children: [
                   SizedBox(width: 20),
                   Positioned(top: 110,left: 80,child:buildBottomSegment('Sun', 'assets/images/Sun.svg')),
                   Positioned(left: 207,top: 74,child:buildBottomSegment('Mercury', 'assets/images/Mercury.svg')),
-                  Positioned(left: 152,top: 30,child:buildBottomSegment('Mars', 'assets/images/Mars.svg')),
+                  Positioned(left: 152,top:  30,child:buildBottomSegment('Mars', 'assets/images/Mars.svg')),
                   Positioned(left: 55,top: 245,child:buildBottomSegment('Saturn', 'assets/images/Saturn.svg')),
                   Positioned(left: 213,top: 178,child:buildBottomSegment('Jupiter', 'assets/images/Jupiter.svg')),
                   Positioned(left: 0,top: 185,child:buildBottomSegment('Rahu', 'assets/images/Rahu.svg')),
@@ -292,6 +293,7 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
               ),
             ),
           ),
+          SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
