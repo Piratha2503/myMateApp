@@ -259,11 +259,11 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
               children: [
                 Expanded(
                   child: GridView(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4,childAspectRatio: 16/10),
-                  children: boxes.map((box) {
-                    return buildTopBox(box['boxNumber'], box['assetName']);
-                  }).toList(),
-                ),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4,childAspectRatio: 16/10),
+                    children: boxes.map((box) {
+                      return buildTopBox(box['boxNumber'], box['assetName']);
+                    }).toList(),
+                  ),
                 ),
               ],
             ),
