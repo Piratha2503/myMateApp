@@ -170,7 +170,9 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
     print(chartGeneration.place10);
     print(chartGeneration.place11);
     print(chartGeneration.place12);
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>ManualNavamsaChartPage(clientData: widget.clientData,astrology: astrology,)));
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>ManualNavamsaChartPage(clientData: widget.clientData,
+    astrology: astrology,
+    )));
 
   }
 
@@ -225,6 +227,7 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor:Colors.white,
       body: Column(
         children: [
           SizedBox(height: 10),
@@ -234,32 +237,33 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
                 Text( "Enter Chart Rasi",
                   style: TextStyle(
                     color: MyMateThemes.textColor,
-                    fontSize: 15,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
+                      letterSpacing: 1
                   ),
                 ),
                 Text(
                   "to calculate Astrology Chart",
                   style: TextStyle(
                     color: MyMateThemes.primaryColor,
-                    fontSize: 14,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
+                      letterSpacing: 1
                   ),
                 ),
                 // Add more Positioned widgets for other buttons similarly
               ],
             ),
           ),
-          SizedBox(height: 5),
           Container(
             width: 310,
-            height: 220,
+            height: 208,
             color: Colors.white,
             child: Column(
               children: [
                 Expanded(
                   child: GridView(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4,childAspectRatio: 16/10),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4,childAspectRatio: 14/10),
                     children: boxes.map((box) {
                       return buildTopBox(box['boxNumber'], box['assetName']);
                     }).toList(),
@@ -268,7 +272,6 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
               ],
             ),
           ),
-          SizedBox(height: 10),
           DecoratedBox(
             decoration: ShapeDecoration(
               shape: CircleBorder(),
@@ -293,14 +296,15 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
               ),
             ),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 45),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               GestureDetector(
                 onTap: _resetSelections,
                 child: SvgPicture.asset('assets/images/ast_edit.svg'),
               ),
+              SizedBox(width: 18),
               GestureDetector(
                 onTap: () {
                   if (_areAllSelectionsComplete()) {
