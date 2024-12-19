@@ -12,6 +12,7 @@ import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import 'package:mymateapp/dbConnection/Clients.dart';
 
 import 'ChartPages/ManualNavamsaChartPage.dart';
+import 'Homepages/ProfilePageScreen/MyProfileMain.dart';
 import 'firebase_options.dart';
 import 'login.dart';
 
@@ -48,7 +49,7 @@ class MyApp extends StatelessWidget {
 
       home:
     //  Login(onLoginSuccess: () { print("Login Success"); },),
-      ManualRasiChartPage(clientData: clientData),
+      ProfilePage(selectedBottomBarIconIndex: 0, docId: '',),
     );
   }
 }

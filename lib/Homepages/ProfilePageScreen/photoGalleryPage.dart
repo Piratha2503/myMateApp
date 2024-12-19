@@ -24,7 +24,7 @@ class PhotoGallery extends StatelessWidget {
               SvgPicture.asset('assets/images/Line 11.svg'),
             ],
           ),
-          SizedBox(height: 18),
+          SizedBox(height: 25),
 
           // Photo Gallery Content
           Container(

@@ -146,16 +146,7 @@ Widget AdditionalInfo(BuildContext context) {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 10),
-        SectionTitle('More about me'),
-        SizedBox(height: 5),
-        Row(
-          children: [
-            SizedBox(width: 40),
-            SvgPicture.asset('assets/images/Line 11.svg'),
-          ],
-        ),
-        SizedBox(height: 13),
+
         Row(
           children: [
             SizedBox(width: 40),
@@ -257,29 +248,8 @@ Widget AdditionalInfo(BuildContext context) {
         ),
         SizedBox(height: 10),
         CookingSelection(),
-        SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                NavigatorFunction(context, MoreAboutMePage());
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: MyMateThemes.primaryColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-              child: Text(
-                'Edit',
-                style: TextStyle(color: Colors.white, letterSpacing: 1.5),
-              ),
-            ),
-            SizedBox(width: 10),
-          ],
-        ),
-        SizedBox(height: 10),
+        SizedBox(height: 30),
+
       ],
     ),
   );

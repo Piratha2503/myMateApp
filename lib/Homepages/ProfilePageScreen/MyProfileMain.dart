@@ -13,6 +13,7 @@ class ProfilePage extends StatefulWidget {
   final int selectedBottomBarIconIndex;
   const ProfilePage({required this.selectedBottomBarIconIndex, required this.docId, super.key});
 
+
   @override
   State<ProfilePage> createState() => _ProfilePageState(this.selectedBottomBarIconIndex);
 }
@@ -62,6 +63,7 @@ class _ProfilePageState extends State<ProfilePage>
       });
     }
   }
+
 
 
   @override
