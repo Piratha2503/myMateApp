@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mymateapp/Homepages/CheckMatch.dart';
 import 'package:mymateapp/Homepages/Profiles/MoreAboutMe.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import '../../MyMateCommonBodies/MyMateBottomBar.dart';
@@ -236,6 +237,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5.0),
             ),
+            foregroundColor: Colors.white
           ),
           child: Text('Send Request '),
         ),
@@ -244,16 +246,16 @@ class _OtherProfilePageState extends State<OtherProfilePage>
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => EditPage()),
+              MaterialPageRoute(builder: (context) => CheckmatchPage(docId: widget.docId,)),
             );
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: MyMateThemes.primaryColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5.0),
-            ),
+            shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(5.0),),
+            foregroundColor: Colors.white
           ),
           child: Text('Check Match'),
+
         ),
       ],
     );
@@ -1278,8 +1280,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _buildIconWithText(
-                          'assets/images/Group 2145.svg', '$age years', dob),
+                      _buildIconWithText('assets/images/Group 2145.svg', '$age years', dob),
                       _buildIconWithText('assets/images/Group 2146.svg',
                           occupation, '$district - '),
                       _buildIconWithText('assets/images/Group 2147.svg',
