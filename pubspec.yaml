@@ -64,15 +64,8 @@ dependencies:
   animated_search_bar: ^2.7.2
   pinput: ^5.0.0
   smart_auth: ^2.0.0
-
-
   carousel_slider: ^5.0.0
   flutter_login: ^4.1.1
-
-
-
-
-
 
 dev_dependencies:
   flutter_test:
@@ -100,6 +93,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/brides/
+    - assets/images/screenDesign/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -5,7 +5,6 @@ class FirebaseDB{
 
   CollectionReference collectionReference = FirebaseFirestore.instance.collection("client");
 
-
   Future<void> addClient(ClientData client) async{
 
     collectionReference.add(client.toMap());

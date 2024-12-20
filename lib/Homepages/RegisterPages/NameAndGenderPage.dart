@@ -1,8 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:mymateapp/MyMateCommonBodies/MyMateApis.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import 'package:mymateapp/dbConnection/Firebase_DB.dart';
+import 'package:http/http.dart' as http;
 
 import 'ChartOptions.dart';
 
@@ -23,6 +26,25 @@ class _NameAndGenderState extends State<NameAndGender> {
   @override
   void initState() {
     super.initState();
+    print(widget.clientData.contactInfo?.mobile);
+    getClientData();
+  }
+
+  Future<void> getClientData() async{
+
+    final url = Uri.parse(MyMateAPIs.get_client_by_mobile);
+    final response = await http.get(url);
+    print(response);
+    if(response.statusCode == 200){
+      Map<String,dynamic> clientDocs = jsonDecode(response.body);
+      widget.clientData.docId = clientDocs.values.firstOrNull;
+      print(widget.clientData.docId);
+    }
+    else{
+      print(response.statusCode);
+      print(response.body);
+    }
+
   }
 
   @override
@@ -32,14 +54,20 @@ class _NameAndGenderState extends State<NameAndGender> {
 
     return Scaffold(
       backgroundColor: MyMateThemes.backgroundColor,
-
+      appBar: AppBar(),
       body: Center(
         child: Column(
           children: [
             Form(
                 child: Column(
                   children: [
+
                     SizedBox(height: 85,),
+                    ElevatedButton(onPressed: (){
+                      getClientData();
+                      print("OK");
+                    },
+                        child: Text("Click")),
                   InputField("First name",firstNameController),
                     SizedBox(height: 10,),
                   InputField("Last name",lastNameController),
