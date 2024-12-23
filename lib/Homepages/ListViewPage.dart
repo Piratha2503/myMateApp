@@ -72,7 +72,8 @@ class _ListViewPageState extends State<StatefulWidget>{
                 debugPrint('value on Field Submitted');
 
               }
-          ),),
+          ),
+          ),
           SizedBox(height: 20,),
           Expanded(
             child:FutureBuilder<List<ClientProfile>>(
@@ -131,7 +132,7 @@ PreferredSizeWidget MainAppBar(){
 Widget AppbarIconButton(IconData iconData){
   return IconButton(
       onPressed: (){
-        Firebase().addClient();
+
       },
       icon: Icon(iconData),
     color: MyMateThemes.primaryColor,
@@ -243,8 +244,7 @@ Widget ProfileInfoColumn(ClientProfile profile){
           mainAxisAlignment:
           MainAxisAlignment.spaceEvenly,
           children: [
-            SvgPicture.asset(
-                'assets/images/heart .svg'),
+            SvgPicture.asset('assets/images/heart .svg'),
             CommonTextStyleForPage(' ${profile.matchPercentage}',MyMateThemes.primaryColor,FontWeight.w400,14),
           ],
         ),

@@ -160,12 +160,8 @@ class GetStartButton extends StatelessWidget{
             style: ButtonStyle(
               foregroundColor: MaterialStatePropertyAll(Colors.white),
               backgroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
-              shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                  borderRadius: BorderRadius.zero)),
-            ),
-            child: const Text(
-              "Get Started",
-              style: TextStyle(fontSize: 18),
+              shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.zero))),
+            child: Text( "Get Started", style: TextStyle(fontSize: 18),
             ),
           ),
         )

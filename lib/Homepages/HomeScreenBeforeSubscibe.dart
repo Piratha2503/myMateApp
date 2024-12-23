@@ -103,7 +103,6 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
                     ]),
                   ),
                   SizedBox(width: 10),
-                  SizedBox(width: 70),
                   BadgeWidget(
                       assetPath: 'assets/images/Group 2157.svg',
                       badgeValue: badgeValue1),

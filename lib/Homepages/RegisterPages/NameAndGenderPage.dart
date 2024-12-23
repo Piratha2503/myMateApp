@@ -1,11 +1,17 @@
+import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:mymateapp/Homepages/RegisterPages/ChartOptions.dart';
+import 'package:mymateapp/MyMateCommonBodies/MyMateApis.dart';
 import 'package:mymateapp/MyMateThemes.dart';
-import 'package:mymateapp/dbConnection/Clients.dart';
+import 'package:mymateapp/dbConnection/ClientDatabase.dart';
+import 'package:mymateapp/dbConnection/Firebase_DB.dart';
+import 'package:http/http.dart' as http;
+
+import 'ChartOptions.dart';
 
 class NameAndGender extends StatefulWidget {
-
-  const NameAndGender({super.key});
+  final ClientData clientData;
+  const NameAndGender({super.key,required this.clientData});
 
   @override
   State<NameAndGender> createState() => _NameAndGenderState();
@@ -17,35 +23,58 @@ class _NameAndGenderState extends State<NameAndGender> {
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
 
+  @override
+  void initState() {
+    super.initState();
+    print(widget.clientData.contactInfo?.mobile);
+    getClientData();
+  }
 
-  String Gender = "";
-  void Changed(String gen) {
-    setState(() {
-      Gender = "Male";
-    });
+  Future<void> getClientData() async{
+
+    final url = Uri.parse(MyMateAPIs.get_client_by_mobile);
+    final response = await http.get(url);
+    print(response);
+    if(response.statusCode == 200){
+      Map<String,dynamic> clientDocs = jsonDecode(response.body);
+      widget.clientData.docId = clientDocs.values.firstOrNull;
+      print(widget.clientData.docId);
+    }
+    else{
+      print(response.statusCode);
+      print(response.body);
+    }
+
   }
 
   @override
   Widget build(BuildContext context) {
 
-    TestClient clientProfile = TestClient();
+    PersonalDetails? personalDetails = PersonalDetails();
+
     return Scaffold(
       backgroundColor: MyMateThemes.backgroundColor,
-
+      appBar: AppBar(),
       body: Center(
         child: Column(
           children: [
             Form(
                 child: Column(
                   children: [
+
                     SizedBox(height: 85,),
+                    ElevatedButton(onPressed: (){
+                      getClientData();
+                      print("OK");
+                    },
+                        child: Text("Click")),
                   InputField("First name",firstNameController),
                     SizedBox(height: 10,),
                   InputField("Last name",lastNameController),
                     SizedBox( height: 50,),
-                  GenderButtons(),
+                  GenderButtons(widget.clientData,personalDetails),
                     SizedBox(height: 60,),
-                  NextButton(clientProfile,firstNameController,lastNameController),
+                  NextButton(clientData: widget.clientData,personalDetails: personalDetails,firstTextController: firstNameController,lastTextController: lastNameController,),
               ],
                 ),
             )
@@ -78,63 +107,85 @@ Widget InputField(String inputName, TextEditingController nameController){
   );
 }
 
-Widget GenderButtons(){
+Widget GenderButtons(ClientData clientData, PersonalDetails? personalDetails){
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
-      GenderButton("Male",Icons.male_rounded),
+      GenderButton(clientData: clientData,personalDetails: personalDetails,gender: "Male",icon: Icons.male_outlined,),
       SizedBox(width: 50,),
-      GenderButton("Fe-Male",Icons.female_outlined),
+      GenderButton(clientData: clientData,personalDetails: personalDetails,gender: "FeMale",icon: Icons.female_outlined,),
     ],
   );
 }
 
-Widget GenderButton(String gender,IconData icon){
+class GenderButton extends StatefulWidget{
+  ClientData? clientData;
+  PersonalDetails? personalDetails;
+  String? gender;
+  IconData? icon;
+  GenderButton({this.clientData,this.personalDetails,this.gender,this.icon,super.key});
 
-  return ElevatedButton.icon(
-    onPressed: (){
-     _NameAndGenderState().Changed(gender);
-    },
-    label: Text(""),
-    icon: Icon(icon),
-    style: ButtonStyle(
-        foregroundColor: MaterialStatePropertyAll(Colors.indigo),
-        alignment: Alignment.center,
-        textStyle: MaterialStatePropertyAll(TextStyle(
-            fontWeight: FontWeight.w800
-        )),
-        iconSize: MaterialStatePropertyAll(70),
-        shape: MaterialStatePropertyAll(RoundedRectangleBorder()),
-        fixedSize: MaterialStatePropertyAll(Size(120, 120))
-    ),
-  );
+  @override
+  State<GenderButton> createState() => _GenderButtonState();
+
+}
+
+class _GenderButtonState extends State<GenderButton>{
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton.icon(
+         onPressed: (){
+           setState(() {
+            widget.personalDetails?.gender = widget.gender;
+           });
+           print(widget.personalDetails?.gender);
+      },
+      label: Text(""),
+      icon: Icon(widget.icon),
+      style: ButtonStyle(
+          foregroundColor: MaterialStatePropertyAll(Colors.indigo),
+          alignment: Alignment.center,
+          textStyle: MaterialStatePropertyAll(TextStyle(
+              fontWeight: FontWeight.w800
+          ),
+          ),
+          iconSize: MaterialStatePropertyAll(70),
+          shape: MaterialStatePropertyAll(RoundedRectangleBorder()),
+          fixedSize: MaterialStatePropertyAll(Size(120, 120))
+      ),
+    );
+  }
 }
 
 class NextButton extends StatelessWidget{
-  TestClient clientProfile;
-  TextEditingController firstNameController;
-  TextEditingController lastNameController;
+  final ClientData clientData;
+  final PersonalDetails personalDetails;
+  final TextEditingController firstTextController;
+  final TextEditingController lastTextController;
 
-  NextButton(this.clientProfile,this.firstNameController,this.lastNameController, {super.key,});
+  NextButton({required this.clientData,required this.personalDetails,required this.firstTextController,required this.lastTextController,super.key,});
 
-  void onPressed(BuildContext context) {
+  FirebaseDB firebaseDB = FirebaseDB();
+  Future<void> updateClientProfile(BuildContext context) async{
+    PersonalDetails updatedPersonalDetails = personalDetails;
+    updatedPersonalDetails.first_name = firstTextController.text;
+    updatedPersonalDetails.last_name = lastTextController.text;
+    clientData.personalDetails = updatedPersonalDetails;
+    firebaseDB.updateClient(clientData);
     Navigator.push(context,
-        MaterialPageRoute(builder: (context)=> ChartOptions(clientProfile: clientProfile)));
+     MaterialPageRoute(builder: (context)=> ChartOptions(clientData: clientData)));
   }
 
     @override
     Widget build(BuildContext context){
-    String firstName = firstNameController.text;
-    String lastName = lastNameController.text;
 
       return SizedBox(
         height: 58,
         width: 166,
         child: ElevatedButton(
           onPressed: (){
-            clientProfile.name = "$firstName $lastName";
-            onPressed(context);
-            print(clientProfile.name);
+            updateClientProfile(context);
           },
           style: CommonButtonStyle.commonButtonStyle(),
           child: Text(

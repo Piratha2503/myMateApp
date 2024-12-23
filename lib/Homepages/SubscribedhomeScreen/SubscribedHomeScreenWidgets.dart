@@ -1,9 +1,3 @@
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:mymateapp/Homepages/Profiles/OthersProfile.dart';
-import 'package:mymateapp/dbConnection/Clients.dart';
-import 'package:mymateapp/dbConnection/Firebase.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,27 +6,29 @@ import 'package:flutter_svg/svg.dart';
 import 'package:mymateapp/dbConnection/Clients.dart';
 import '../../ManagePages/SummaryPage.dart';
 import '../../MyMateThemes.dart';
+import '../../dbConnection/Firebase.dart';
 import '../BadgeWidget.dart';
+import '../Profiles/OthersProfile.dart';
 
 PreferredSizeWidget SubscribedhomescreenStructuredPageAppBar() {
-  int badgeValue1 = 2;
-  int badgeValue2 = 10;
+    int badgeValue1 = 2;
+    int badgeValue2 = 10;
 
-  return AppBar(
-    title:  CommonTextStyleForPage('Your Name', MyMateThemes.textColor, FontWeight.w700, 20,),
-    actions: <Widget>[
-      SizedBox(width: 60),
-      BadgeWidget(
-          assetPath: 'assets/images/Group 2157.svg',
-          badgeValue: badgeValue1),
-      SizedBox(width: 25),
-      BadgeWidget(
-          assetPath: 'assets/images/Group 2153.svg',
-          badgeValue: badgeValue2),
-      SizedBox( width: 25, )
-    ],
-  );
-}
+    return AppBar(
+      title:  CommonTextStyleForPage('Your Name', MyMateThemes.textColor, FontWeight.w700, 20,),
+      actions: <Widget>[
+        SizedBox(width: 60),
+        BadgeWidget(
+            assetPath: 'assets/images/Group 2157.svg',
+            badgeValue: badgeValue1),
+        SizedBox(width: 25),
+        BadgeWidget(
+            assetPath: 'assets/images/Group 2153.svg',
+            badgeValue: badgeValue2),
+        SizedBox( width: 25, )
+      ],
+    );
+  }
 
 Widget SubscribedhomescreenStructuredPageTotalMatchColumn(BuildContext context){
   return Center(
@@ -46,15 +42,15 @@ Widget SubscribedhomescreenStructuredPageTotalMatchColumn(BuildContext context){
           SvgPicture.asset('assets/images/Frame.svg',
               width: 300, height: 220),
           Positioned(
-            top: 75,
-            right: 110,
-            child: CommonTextStyleForPage('137',Colors.white,FontWeight.w500,30,),
+              top: 69,
+              right: 98,
+              child: CommonTextStyleForPage('137',Colors.white,FontWeight.w500,40,),
           ),
           Positioned(
-            top: 120,
-            right: 83,
-            child: CommonTextStyleForPage('Matches Found',Colors.white,FontWeight.w500,16,),
-          )
+              top: 118,
+              right: 69,
+              child: CommonTextStyleForPage('Matches Found',Colors.white,FontWeight.w500,20,),
+              )
         ],
       ),
     ),
@@ -67,36 +63,36 @@ Widget SubscribedhomescreenStructuredPageCarouselSlider(BuildContext,context){
   final Future<List<ClientProfile>> profiles = firebase.getClientList();
   final Stream<List<ClientProfile>> streamProfiles = firebase.getClientsStream();
   return Center(
-    child: StreamBuilder<List<ClientProfile>>(
+      child: StreamBuilder<List<ClientProfile>>(
 
-      stream: streamProfiles,
-      builder: (context,snapshot){
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Center(child: Text('No profiles found.'));
-        }
-        else{
-          final profileList = snapshot.data!;
-          return CarouselSlider(
-            options: CarouselOptions(
-              height: 140.0,
-              autoPlay: true,
-              enlargeCenterPage: true,
-              aspectRatio: 21/10,
-              viewportFraction: 0.8,
-            ),
-            items: profileList.map((profile) {
-              return SubscribedhomescreenStructuredPageCarouselSliderContainer(profile: profile);
-            }).toList(),
-          );
-        }
-      },
+        stream: streamProfiles,
+        builder: (context,snapshot){
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(child: Text('No profiles found.'));
+          }
+          else{
+            final profileList = snapshot.data!;
+            return CarouselSlider(
+              options: CarouselOptions(
+                height: 140.0,
+                autoPlay: true,
+                enlargeCenterPage: true,
+                aspectRatio: 21/10,
+                viewportFraction: 0.8,
+              ),
+              items: profileList.map((profile) {
+                return SubscribedhomescreenStructuredPageCarouselSliderContainer(profile: profile);
+              }).toList(),
+            );
+          }
+        },
 
-    )
-    );
+      )
+  );
 }
 
 class SubscribedhomescreenStructuredPageCarouselSliderContainer extends StatelessWidget{
@@ -109,7 +105,7 @@ class SubscribedhomescreenStructuredPageCarouselSliderContainer extends Stateles
     return GestureDetector(
       onTap: (){
 
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>OtherProfilePage(docId: "AkHMFT2wvrakj69OVTLP")));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>OtherProfilePage(docId: profile.docId)));
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 5.0),
@@ -217,9 +213,9 @@ Widget SubscribedhomescreenStructuredPageTokenContainers(BuildContext context){
               right: 140,
               child: SvgPicture.asset('assets/images/tokens.svg')),
           Positioned(
-            top: 10,
-            right: 16,
-            child: CommonTextStyleForPage('10',MyMateThemes.textColor,FontWeight.w500,18, ),
+              top: 10,
+              right: 16,
+              child: CommonTextStyleForPage('10',MyMateThemes.textColor,FontWeight.w500,18, ),
           ),
           Positioned(
             top: 18,
