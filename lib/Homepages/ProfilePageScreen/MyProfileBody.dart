@@ -41,7 +41,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
 
   void _scrollToContainer(int index) {
     double containerHeight =MediaQuery.of(context).size.height;
-    double targetPosition = index * containerHeight - containerHeight/5.55;
+    double targetPosition = index * containerHeight - containerHeight/6;
     _scrollController.animateTo(
       targetPosition,
       duration: Duration(milliseconds: 500),

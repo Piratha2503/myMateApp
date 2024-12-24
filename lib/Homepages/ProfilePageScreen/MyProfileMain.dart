@@ -28,7 +28,8 @@ class _ProfilePageState extends State<ProfilePage>
 
   bool isButtonSelected(int index) => _selectedButtonIndex == index;
 
-  bool _isSmall = false;
+  bool _isSmall = true;
+
   int _selectedIndex = 0;
 
   final ScrollController _scrollController = ScrollController();
