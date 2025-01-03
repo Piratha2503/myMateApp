@@ -25,6 +25,7 @@ class ClientData {
 
   Map<String, dynamic> toMap() {
     return {
+      'docId':docId,
       'personalDetails': personalDetails?.toMap(),
       'contactInfo': contactInfo?.toMap(),
       'profileImages': profileImages?.toMap(),
