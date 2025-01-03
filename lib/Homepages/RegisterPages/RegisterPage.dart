@@ -9,7 +9,6 @@ import 'package:mymateapp/Homepages/RegisterPages/Pinput.dart';
 import 'package:mymateapp/MyMateCommonBodies/MyMateApis.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/dbConnection/Firebase_DB.dart';
-
 import '../../dbConnection/ClientDatabase.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -107,6 +106,7 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
   FirebaseDB firebaseDB = FirebaseDB();
 
   Future<void> addMobile() async{
+    print("Running");
     var random = Random();
     otp = (random.nextInt(9999-1001)+1000).toString();
     Address address = Address(country: client_country);
@@ -126,7 +126,7 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
 
    if(res.statusCode == 200){
      print(res.statusCode);
-     Navigator.push(context, MaterialPageRoute(builder: (context)=>OtpPinput(clientData: clientData,)));
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>OtpPinput(clientData: clientData,)));
    }
    else {
      print(res.body);
