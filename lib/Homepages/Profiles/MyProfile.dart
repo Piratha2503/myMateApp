@@ -1,13 +1,16 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mymateapp/Homepages/Profiles/MoreAboutMe.dart';
+import 'package:mymateapp/MyMateCommonBodies/MyMateApis.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import '../../MyMateCommonBodies/MyMateBottomBar.dart';
 import '../../dbConnection/Firebase.dart';
 import '../BadgeWidget.dart';
 import '../custom_outline_button.dart';
 import 'EditPage.dart';
+import 'package:http/http.dart' as http;
 
 class ProfilePage extends StatefulWidget {
   final String docId;
@@ -33,18 +36,23 @@ class _ProfilePageState extends State<ProfilePage>
   final Firebase firebase = Firebase();
 
   Future<void> getClient() async {
-    DocumentSnapshot client = await firebase.clients.doc(widget.docId).get();
-
+    final url = Uri.parse(MyMateAPIs.get_client_byDocId_API).replace(queryParameters: {
+      'docId': widget.docId ?? '',
+    });
+    final response = await http.get(
+        url,
+        headers: {'Content-Type': 'application/json',},);
+    Map<String,dynamic> clientData = jsonDecode(response.body);
     setState(() {
-      full_name = client['full_name'] ?? "N/A";
-      gender = client['gender'] ?? "N/A";
-      education = client['education'] ?? "N/A";
-      district = client['district'] ?? "N/A";
-      occupation = client['occupation'] ?? "N/A";
-      mobile = client['mobile'].toString() ?? "N/A";
-      religion = client['religion'] ?? "N/A";
-      age = client['age'].toString() ?? "N/A";
-      dob = client['dob'] ?? "N/A";
+      full_name = clientData['personalDetails']?['full_name'] ?? "N/A";
+      gender = clientData['personalDetails']?['gender'] ?? "N/A";
+      education = clientData['careerStudies']?['education'] ?? "N/A";
+      district = clientData['contactInfo']?['address']?['city'] ?? "N/A";
+      occupation = clientData['careerStudies']?['occupation'] ?? "N/A";
+      mobile = clientData['contactInfo']?['mobile']?.toString() ?? "N/A";
+      religion = clientData['personalDetails']?['religion'] ?? "N/A";
+      age = clientData['personalDetails']?['age']?.toString() ?? "N/A";
+      dob = clientData['personalDetails']?['dob'] ?? "N/A";
     });
   }
 
