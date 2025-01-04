@@ -1,10 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:mymateapp/Homepages/RegisterPages/NewRegisterPage.dart';
+import 'package:mymateapp/Homepages/Profiles/MyProfile.dart';
 import 'package:mymateapp/Homepages/RegisterPages/RegisterPage.dart';
-import 'package:mymateapp/Homepages/WelcomeScreen.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
-import 'package:mymateapp/login.dart';
 
 import 'firebase_options.dart';
 
@@ -29,7 +27,7 @@ class MyApp extends StatelessWidget {
    personalDetails.gender = "Male";
    clientData.docId = "TBT3I8DYa3BepMZPPqv6";
    clientData.personalDetails = personalDetails;
-    return MaterialApp(
+   return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -37,7 +35,7 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.blue[200]),
       debugShowCheckedModeBanner: false,
 
-      home: RegisterPage(),
+      home: ProfilePage(docId: "E0JFHhK2x6Gq2Ac6XSyP"),
     );
   }
 }
