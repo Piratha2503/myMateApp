@@ -22,14 +22,14 @@ class _MessagePageState extends State<MessagePage> {
 
   String? get imageUrl => null;
 
-  @override
-  void initState() {
-    super.initState();
-    // Show the popup dialog when the page loads
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _showPopupDialog();
-    });
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   // Show the popup dialog when the page loads
+  //   WidgetsBinding.instance.addPostFrameCallback((_) {
+  //     _showPopupDialog();
+  //   });
+  // }
 
   Widget buildContainer(String text, String category) {
     final isSelected = (category == 'religion' && selectedReligion == text);
@@ -54,71 +54,24 @@ class _MessagePageState extends State<MessagePage> {
           text,
           style: TextStyle(
             color: isSelected ? Colors.white : MyMateThemes.primaryColor,
-            fontSize: 14.0,
+            fontSize: 17.0,
+            fontWeight: FontWeight.w500,
+            letterSpacing: 1
           ),
         ),
       ),
     );
   }
 
-  void _showPopupDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Stack(
-          children: [
-            Positioned(
-              top: MediaQuery.of(context).size.height *
-                  0.57, // Adjust the top position as needed
-              left: MediaQuery.of(context).size.width *
-                  0.002395, // Adjust the left position as needed
-              right: MediaQuery.of(context).size.width * 0.002395,
-              child: Dialog(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: Container(
-                  width: 430, // Set your desired width
-                  height: 200, //
-                  color:
-                      MyMateThemes.backgroundColor, // Set your desired height
-                  padding: EdgeInsets.all(20),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(height: 20),
-                          buildContainer('Contact', 'religion'),
-                          SizedBox(width: 5),
-                          buildContainer('Hobby', 'religion'),
-                          SizedBox(width: 5),
-                          buildContainer('Favourites', 'religion'),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          buildContainer('Alcohol', 'religion'),
-                          SizedBox(width: 5),
-                          buildContainer('Sports', 'religion'),
-                          SizedBox(width: 5),
-                          buildContainer('Cooking', 'religion'),
-                        ],
-                      ),
-                      SizedBox(height: 20),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
+  // void _showPopupDialog() {
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return
+  //
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -226,18 +179,37 @@ class _MessagePageState extends State<MessagePage> {
               ],
             ),
             Divider(),
-          ],
-        ),
-      ),
-      bottomNavigationBar: CustomBottomNavigationBar(
-        selectedIndex: _selectedIndex,
-        onItemTapped: (index) {
-          // setState(() {
-          //   _selectedIndex = index;
-          // });
-          // Handle navigation here based on the index
-        },
-      ),
+           Spacer(),
+            Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 20),
+                        buildContainer('Contact', 'religion'),
+                        SizedBox(width: 10),
+                        buildContainer('Hobby', 'religion'),
+                        SizedBox(width: 10),
+                        buildContainer('Favourites', 'religion'),
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        buildContainer('Alcohol', 'religion'),
+                        SizedBox(width: 10),
+                        buildContainer('Sports', 'religion'),
+                        SizedBox(width: 10),
+                        buildContainer('Cooking', 'religion'),
+                      ],
+                    ),
+                    SizedBox(height: 50),
+                ],
+    ),
+    ],
+    ),
+    ),
     );
   }
 }

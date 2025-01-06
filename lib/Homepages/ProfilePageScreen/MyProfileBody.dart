@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mymateapp/Homepages/ProfilePageScreen/photoGalleryPage.dart';
+import 'package:mymateapp/MyMateThemes.dart';
 
 import '../../dbConnection/Firebase.dart';
+import '../Profiles/MoreAboutMe.dart';
 import '../custom_outline_button.dart';
 import 'MyProfileBodyWidgets.dart';
 import 'MyProfileStatelessWidgets.dart';
@@ -23,6 +25,8 @@ class _MyProfileBodyState extends State<MyProfileBody> {
   final Firebase firebase = Firebase();
   late List<double> _positions;
 
+  bool isFormFilled = true;
+
   String full_name = "";
   String gender = "";
   String education = "";
@@ -37,7 +41,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
 
   void _scrollToContainer(int index) {
     double containerHeight =MediaQuery.of(context).size.height;
-    double targetPosition = index * containerHeight - containerHeight/3.75;
+    double targetPosition = index * containerHeight - containerHeight/6;
     _scrollController.animateTo(
       targetPosition,
       duration: Duration(milliseconds: 500),
@@ -82,6 +86,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
       MediaQuery.of(context).size.height * 2, // Third section start
     ];
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -158,14 +163,75 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                     AboutMe(),
                     SizedBox(height: 48),
                     PhotoGallery(),
-                    AdditionalInfo(context),
+                    SizedBox(height:30),
+                    SectionTitle('More about me'),
+                    SizedBox(height: 5),
+                    Row(
+                      children: [
+                        SizedBox(width: 40),
+                        SvgPicture.asset('assets/images/Line 11.svg'),
+                      ],
+                    ),
+                    SizedBox(height: 25),
+
+                    // First Section - Show if the form is not filled
+                    if (!isFormFilled) ...[
+                      Row(
+                        children: [
+                          SizedBox(width: 42),
+                          Text(
+                            'No more about me found',
+                            style: TextStyle(
+                              color: MyMateThemes.textColor.withOpacity(0.8),
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal,
+                              letterSpacing: 1,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      Row(
+                        children: [
+                          SizedBox(width: 40),
+                          ElevatedButton(
+                            onPressed: () async {
+                              final result = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MoreAboutMePage(),
+                                ),
+                              );
+                              if (result != null) {
+                                setState(() {
+                                  isFormFilled = true; // Set this to true when the form is completed
+                                });
+                              }
+                            },
+                            child: Text(
+                              '+ Add more about me ',
+                              style: TextStyle(fontSize: 14, letterSpacing: 0.8),
+                            ),
+                            style: CommonButtonStyle.commonButtonStyle(),
+                          ),
+
+                        ],
+                      ),
+                    ],
+
+                    // Second Section - Show if the form is filled
+                    if (isFormFilled) ...[
+                      // Your additional info section here
+                      AdditionalInfo(context),
+                    ],
                   ],
-                )
+                ),
+                SizedBox(height: 30),
               ],
             ),
           ),
         ),
-        SizedBox(height: 10),
+        SizedBox(height: 20),
         Align(
           alignment: Alignment.center,
           child: Row(

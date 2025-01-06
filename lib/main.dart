@@ -4,6 +4,9 @@ import 'package:mymateapp/Homepages/Profiles/MyProfile.dart';
 import 'package:mymateapp/Homepages/RegisterPages/RegisterPage.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 
+import 'Homepages/AnimatedPages/StartPage.dart';
+import 'Homepages/ProfilePageScreen/MyProfileMain.dart';
+import 'Homepages/explorePage/explorePageMain.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -35,6 +38,10 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.blue[200]),
       debugShowCheckedModeBanner: false,
 
+      home:
+    //  Login(onLoginSuccess: () { print("Login Success"); },),
+     ProfilePage(selectedBottomBarIconIndex: 0, docId: '',),
+     // StartPage(),
       home: ProfilePage(docId: "E0JFHhK2x6Gq2Ac6XSyP"),
     );
   }

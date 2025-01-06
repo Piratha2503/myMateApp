@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mymateapp/MyMateThemes.dart';
-import 'MyProfile.dart';
+
+import '../ProfilePageScreen/MyProfileMain.dart';
 
 class MoreAboutMePage extends StatefulWidget {
   const MoreAboutMePage({super.key});
@@ -66,48 +67,71 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
     // Optionally, navigate to another page or show a success message
     Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => ProfilePage(
-              docId: '',
+              docId: '', selectedBottomBarIconIndex: 0,
             )));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: SafeArea(
-          child: Center(
-            child: Text(
-              'More About Me',
-              style: TextStyle(
-                color: MyMateThemes.textColor,
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-        ),
-      ),
+      // appBar: AppBar(
+      //   title: SafeArea(
+      //     child:
+      //     Row(
+      //       children: [
+      //         SizedBox(width: 50),
+      //         Text(
+      //           'More About Me',
+      //           style: TextStyle(
+      //             color: MyMateThemes.textColor,
+      //             fontSize: 20,
+      //             fontWeight: FontWeight.w500,
+      //           ),
+      //         ),
+      //       ],
+      //     ),
+      //   ),
+      // ),
       body: SingleChildScrollView(
         child: Column(
           children: [
+            SizedBox(height:65),
             Row(
               children: [
-                SizedBox(height: 48),
-                SizedBox(width: 60),
+                SizedBox(width: 110),
                 Text(
-                  'Hobby',
+                  'More About Me',
                   style: TextStyle(
                     color: MyMateThemes.textColor,
-                    fontSize: 14,
-                    fontWeight: FontWeight.normal,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 20),
-            SvgPicture.asset('assets/images/Line 11.svg'),
-            SizedBox(height: 20),
-            _buildTextField(hobbyController, 'Add a hobby', _addHobbyTag),
+            SizedBox(height:30),
+            Row(
+              children: [
+                SizedBox(width: 45),
+                Text(
+                  'Hobby',
+                  style: TextStyle(
+                    color: MyMateThemes.textColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 10),
+            Row(
+              children: [
+                SizedBox(width: 35),
+                SvgPicture.asset('assets/images/Line 11.svg'),
+              ],
+            ),
+            SizedBox(height: 15),
+            _buildTextField(hobbyController, 'Hobby', _addHobbyTag),
             SizedBox(height: 20),
             Wrap(
               children: hobbyTags.map((tag) => _buildTag(tag)).toList(),
@@ -115,22 +139,27 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
             SizedBox(height: 40),
             Row(
               children: [
-                SizedBox(width: 60),
+                SizedBox(width: 45),
                 Text(
                   'Favorites',
                   style: TextStyle(
                     color: MyMateThemes.textColor,
-                    fontSize: 14,
-                    fontWeight: FontWeight.normal,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 20),
-            SvgPicture.asset('assets/images/Line 11.svg'),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
+            Row(
+              children: [
+                SizedBox(width: 35),
+                SvgPicture.asset('assets/images/Line 11.svg'),
+              ],
+            ),
+            SizedBox(height: 15),
             _buildTextField(
-                favoritesController, 'Add a favorite', _addFavoritesTag),
+                favoritesController, 'Favorites', _addFavoritesTag),
             SizedBox(height: 20),
             Wrap(
               children: favoritesTags.map((tag) => _buildTag(tag)).toList(),
@@ -138,63 +167,78 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
             SizedBox(height: 40),
             Row(
               children: [
-                SizedBox(width: 60),
+                SizedBox(width: 45),
                 Text(
                   'Alcohol',
                   style: TextStyle(
                     color: MyMateThemes.textColor,
-                    fontSize: 14,
-                    fontWeight: FontWeight.normal,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 20),
-            SvgPicture.asset('assets/images/Line 11.svg'),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
+            Row(
+              children: [
+                SizedBox(width: 35),
+                SvgPicture.asset('assets/images/Line 11.svg'),
+              ],
+            ),
+            SizedBox(height: 30),
             _buildAlcoholSelection(),
             SizedBox(height: 45),
             Row(
               children: [
-                SizedBox(width: 60),
+                SizedBox(width: 45),
                 Text(
                   'Sports',
                   style: TextStyle(
                     color: MyMateThemes.textColor,
-                    fontSize: 14,
-                    fontWeight: FontWeight.normal,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ],
             ),
+            SizedBox(height: 10),
+            Row(
+              children: [
+                SizedBox(width: 35),
+                SvgPicture.asset('assets/images/Line 11.svg'),
+              ],
+            ),
             SizedBox(height: 20),
-            SvgPicture.asset('assets/images/Line 11.svg'),
-            SizedBox(height: 20),
-            _buildTextField(sportsController, 'Add a sport', _addSportsTag),
+            _buildTextField(sportsController, 'Sports', _addSportsTag),
             SizedBox(height: 20),
             Wrap(
               alignment: WrapAlignment.center,
               children: sportsTags.map((tag) => _buildTag(tag)).toList(),
             ),
-            SizedBox(height: 45),
+            SizedBox(height: 40),
             Row(
               children: [
-                SizedBox(width: 60),
+                SizedBox(width: 45),
                 Text(
                   'Cooking',
                   style: TextStyle(
                     color: MyMateThemes.textColor,
-                    fontSize: 14,
-                    fontWeight: FontWeight.normal,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 20),
-            SvgPicture.asset('assets/images/Line 11.svg'),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
+            Row(
+              children: [
+                SizedBox(width: 35),
+                SvgPicture.asset('assets/images/Line 11.svg'),
+              ],
+            ),
+            SizedBox(height: 30),
             _buildCookingSelection(),
-            SizedBox(height: 45),
+            SizedBox(height: 80),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -254,21 +298,23 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
       children: [
         Container(
           decoration: BoxDecoration(
-            color: MyMateThemes.containerColor,
+            color: MyMateThemes.secondaryColor,
             borderRadius: BorderRadius.circular(8.0),
           ),
-          width: 336,
+          width: 330,
           height: 37, // Increased height to accommodate TextField
           child: Padding(
-            padding: const EdgeInsets.all(3.0),
+            padding: const EdgeInsets.only(left: 10.0),
             child: TextField(
               controller: controller,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 enabledBorder: InputBorder.none,
                 focusedBorder: InputBorder.none,
-                contentPadding: EdgeInsets.all(8.0), // Adjust padding as needed
+                contentPadding: EdgeInsets.all(9.0),
+                // Adjust padding as needed
                 hintText: hintText,
+
               ),
               onSubmitted: (value) {
                 if (value.isNotEmpty) {
