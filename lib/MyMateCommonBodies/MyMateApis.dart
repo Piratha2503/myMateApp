@@ -45,7 +45,7 @@ Future<Map<String, dynamic>> fetchUserById(String docId) async {
       final city = address['city'] ?? '';
       final country = address['country'] ?? '';
       final lifestyle = data['lifestyle'] ?? {};
-      final profileImages = data['proilfeImages'] ?? {};
+      final profileImages = data['profileImages'] ?? {};
 
       final imageGallery =
           profileImages['images']?['gallery_image_urls'] ?? [];
@@ -89,6 +89,9 @@ Future<Map<String, dynamic>> fetchUserById(String docId) async {
         'images': userImages,
         'religion': personalDetails['religion'] ?? 'N/A',
         'civil_status' : personalDetails['marital_status'] ?? 'N/A',
+        'profile_pic_url' : profileImages['profile_pic_url'] ?? 'N/A',
+        'gallery_image_urls' : profileImages['gallery_image_urls'] ?? 'N/A',
+
 
       };
     } else {
