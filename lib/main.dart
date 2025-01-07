@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.blue[200]),
       debugShowCheckedModeBanner: false,
 
-      home: ProfilePage(docId: "E0JFHhK2x6Gq2Ac6XSyP"),
+      home: ProfilePage(docId: "E0JFHhK2x6Gq2Ac6XSyP", selectedBottomBarIconIndex:0,),
     );
   }
 }
