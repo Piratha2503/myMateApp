@@ -25,6 +25,7 @@ class ClientData {
 
   Map<String, dynamic> toMap() {
     return {
+      'docId':docId,
       'personalDetails': personalDetails?.toMap(),
       'contactInfo': contactInfo?.toMap(),
       'profileImages': profileImages?.toMap(),
@@ -87,16 +88,16 @@ class PersonalDetails{
 class ContactInfo{
   String? mobile;
   String? mobile_country_code;
-  String? otpPin;
+  String? otp;
   String? email;
   Address? address;
-  ContactInfo( {this.mobile,this.email,this.mobile_country_code,this.otpPin,required this.address});
+  ContactInfo( {this.mobile,this.email,this.mobile_country_code,this.otp,required this.address});
 
   Map<String, dynamic> toMap() {
     return {
       'mobile': mobile,
       'mobile_country_code': mobile_country_code,
-      'otpPin': otpPin,
+      'otp': otp,
       'email': email,
       'address':address?.toMap(),
     };

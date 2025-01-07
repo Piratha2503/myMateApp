@@ -68,11 +68,6 @@ dependencies:
 
   flutter_login: ^4.1.1
 
-
-
-
-
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -99,6 +94,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/brides/
+    - assets/images/screenDesign/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

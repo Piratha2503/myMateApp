@@ -5,6 +5,7 @@ import 'Homepages/AnimatedPages/StartPage.dart';
 import 'Homepages/ProfilePageScreen/MyProfileMain.dart';
 import 'Homepages/explorePage/explorePageMain.dart';
 import 'firebase_options.dart';
+import 'login.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,8 +18,6 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-
-
   @override
   Widget build(BuildContext context) {
 
@@ -29,7 +28,7 @@ class MyApp extends StatelessWidget {
    personalDetails.gender = "Male";
    clientData.docId = "TBT3I8DYa3BepMZPPqv6";
    clientData.personalDetails = personalDetails;
-    return MaterialApp(
+   return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -37,10 +36,7 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.blue[200]),
       debugShowCheckedModeBanner: false,
 
-      home:
-    //  Login(onLoginSuccess: () { print("Login Success"); },),
-     ProfilePage(selectedBottomBarIconIndex: 0, docId: '',),
-     // StartPage(),
+      home: ProfilePage(docId: "E0JFHhK2x6Gq2Ac6XSyP"),
     );
   }
 }

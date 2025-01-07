@@ -7,7 +7,8 @@ import '../dbConnection/Firebase.dart';
 import '../MyMateCommonBodies/MyMateBottomBar.dart';
 
 class CheckmatchPage extends StatefulWidget {
-  const CheckmatchPage({super.key});
+  final String docId;
+  const CheckmatchPage({required this.docId,super.key});
 
   @override
   State<CheckmatchPage> createState() => _CheckmatchPageState();
@@ -18,16 +19,15 @@ class CheckmatchPage extends StatefulWidget {
 
     final Firebase firebase = Firebase();
 
-  int _selectedIndex = 0;
+    int _selectedIndex = 0;
     String girlNadchathiram = "Bharani";
-    String boyNadchathiram = "Pusham";
+    String boyNadchathiram = "";
     String girlRasi = "Kadagam";
-    String boyRasi = "Kanni";
+    String boyRasi = "";
     String user = "TestUser";
 
   Future<void> getGirlClient() async{
-    String docId = "EuzvIHpObxhHjOo9iutc";
-    DocumentSnapshot client = await firebase.clients.doc(docId).get();
+    DocumentSnapshot client = await firebase.clients.doc(widget.docId).get();
     setState(() {
       boyNadchathiram = client["Nadchathiram"];
       boyRasi = client["Rasi"];
@@ -41,66 +41,78 @@ class CheckmatchPage extends StatefulWidget {
     getGirlClient();
   }
 
+    static bool thinaMatch = MatchingCalculation.checkThinaMatch(_CheckmatchPageState().girlNadchathiram, _CheckmatchPageState().boyNadchathiram);
+    static bool kanaMatch = MatchingCalculation.checkKanaMatch(_CheckmatchPageState().girlNadchathiram, _CheckmatchPageState().boyNadchathiram);
+    static bool yoniMatch  = MatchingCalculation.checkYoniMatch(_CheckmatchPageState().girlNadchathiram, _CheckmatchPageState().boyNadchathiram);
+    static bool vethaiMatch = MatchingCalculation.checkVethaiMatch(_CheckmatchPageState().girlNadchathiram, _CheckmatchPageState().boyNadchathiram);
+    static bool ratchuMatch = MatchingCalculation.checkRachuMatch(_CheckmatchPageState().girlNadchathiram, _CheckmatchPageState().boyNadchathiram);
+    static bool rasiMatch = MatchingCalculation.checkRasiMatch(_CheckmatchPageState().girlRasi, _CheckmatchPageState().boyRasi);
+    static bool vasyaMatch = MatchingCalculation.checkVasyaMatch(_CheckmatchPageState().girlRasi, _CheckmatchPageState().boyRasi);
+
+    static bool streeThirgaMatch = false;
+    static bool rasiAthipathiMatch = false;
+    static bool mahendraMatch = false;
+
     static final List<Map<String, String>> poruthamList = [
       {
-        'svg': 'assets/images/whitetick.svg',
+        'svg': thinaMatch ? 'assets/images/whitetick.svg' : 'assets/images/blackcross.svg',
         'name': 'Dina porutham',
-        'status': MatchingCalculation.checkThinaMatch(_CheckmatchPageState().girlNadchathiram, _CheckmatchPageState().boyNadchathiram).toString(),
+        'status': thinaMatch.toString(),
       },
       {
-        'svg': 'assets/images/blackcross.svg',
+        'svg': kanaMatch ? 'assets/images/whitetick.svg' : 'assets/images/blackcross.svg',
         'name': 'Gana porutham',
-        'status': MatchingCalculation.checkKanaMatch(_CheckmatchPageState().girlNadchathiram, _CheckmatchPageState().boyNadchathiram).toString()
+        'status': kanaMatch.toString()
       },
       {
-        'svg': 'assets/images/blackcross.svg',
+        'svg': streeThirgaMatch ? 'assets/images/whitetick.svg' : 'assets/images/blackcross.svg',
         'name': 'Stree Deergha porutham',
-        'status': 'Not Satisfactory'
+        'status': streeThirgaMatch.toString()
       },
       {
-        'svg': 'assets/images/whitetick.svg',
+        'svg': mahendraMatch ? 'assets/images/whitetick.svg' : 'assets/images/blackcross.svg',
         'name': 'Mahendra porutham 1',
-        'status': 'Good'
+        'status': mahendraMatch.toString()
       },
       {
-        'svg': 'assets/images/whitetick.svg',
+        'svg': yoniMatch ? 'assets/images/whitetick.svg' : 'assets/images/blackcross.svg',
         'name': 'Yoni porutham',
-        'status': MatchingCalculation.checkYoniMatch(_CheckmatchPageState().girlNadchathiram, _CheckmatchPageState().boyNadchathiram).toString(),
+        'status': yoniMatch.toString()
       },
       {
-        'svg': 'assets/images/whitetick.svg',
+        'svg': vethaiMatch ? 'assets/images/whitetick.svg' :'assets/images/blackcross.svg',
         'name': 'Veda porutham',
-        'status': MatchingCalculation.checkVethaiMatch(_CheckmatchPageState().girlNadchathiram, _CheckmatchPageState().boyNadchathiram).toString(),
+        'status': vethaiMatch.toString()
       },
       {
-        'svg': 'assets/images/blackcross.svg',
+        'svg': ratchuMatch ? 'assets/images/whitetick.svg' :'assets/images/blackcross.svg',
         'name': 'Rajju porutham',
-        'status': MatchingCalculation.checkRachuMatch(_CheckmatchPageState().girlNadchathiram, _CheckmatchPageState().boyNadchathiram).toString(),
+        'status': ratchuMatch.toString()
       },
       {
-        'svg': 'assets/images/whitetick.svg',
+        'svg': rasiMatch ? 'assets/images/whitetick.svg' :'assets/images/blackcross.svg',
         'name': 'Rasi porutham',
-        'status': MatchingCalculation.checkRasiMatch(_CheckmatchPageState().girlRasi, _CheckmatchPageState().boyRasi).toString(),
+        'status': rasiMatch.toString()
       },
       {
-        'svg': 'assets/images/whitetick.svg',
+        'svg': rasiAthipathiMatch ? 'assets/images/whitetick.svg' :'assets/images/blackcross.svg',
         'name': 'Rasiathipathy porutham',
-        'status': 'Good'
+        'status': rasiAthipathiMatch.toString()
       },
       {
-        'svg': 'assets/images/blackcross.svg',
+        'svg': vasyaMatch ? 'assets/images/whitetick.svg' :'assets/images/blackcross.svg',
         'name': 'Vasya porutham',
-        'status': MatchingCalculation.checkVasyaMatch(_CheckmatchPageState().girlRasi, _CheckmatchPageState().boyRasi).toString(),
+        'status': vasyaMatch.toString()
       },
       {
-        'svg': 'assets/images/whitetick.svg',
+        'svg': thinaMatch ? 'assets/images/whitetick.svg' :'assets/images/blackcross.svg',
         'name': 'Dina porutham',
-        'status': MatchingCalculation.checkThinaMatch(_CheckmatchPageState().girlNadchathiram, _CheckmatchPageState().boyNadchathiram).toString(),
+        'status': thinaMatch.toString()
       },
       {
-        'svg': 'assets/images/whitetick.svg',
+        'svg': mahendraMatch ? 'assets/images/whitetick.svg' :'assets/images/blackcross.svg',
         'name': 'Mahendra porutham 2',
-        'status': 'Good'
+        'status': mahendraMatch.toString()
       },
     ];
 
@@ -195,6 +207,7 @@ class CheckmatchPage extends StatefulWidget {
 }
 
   Widget PoruthamColumn(Map<String, String> item) {
+
   return Column(
     children: [
       Container(
@@ -203,12 +216,8 @@ class CheckmatchPage extends StatefulWidget {
         margin: EdgeInsets.all(8),
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: item['status'] == 'true'
-              ? MyMateThemes.primaryColor
-              : MyMateThemes.secondaryColor,
-          borderRadius: BorderRadius.circular(10),
-
-        ),
+          color: item['status'] == "true" ? MyMateThemes.primaryColor : MyMateThemes.secondaryColor,
+          borderRadius: BorderRadius.circular(10),),
         child: Stack(
           children: [
             Positioned(

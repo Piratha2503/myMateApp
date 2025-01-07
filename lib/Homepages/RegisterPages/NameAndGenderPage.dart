@@ -1,8 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:mymateapp/MyMateCommonBodies/MyMateApis.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import 'package:mymateapp/dbConnection/Firebase_DB.dart';
+import 'package:http/http.dart' as http;
 
 import 'ChartOptions.dart';
 
@@ -23,6 +26,26 @@ class _NameAndGenderState extends State<NameAndGender> {
   @override
   void initState() {
     super.initState();
+    print(widget.clientData.contactInfo?.mobile);
+    getClientData();
+  }
+
+  Future<void> getClientData() async{
+
+    final url = Uri.parse(MyMateAPIs.get_client_by_mobile).replace(queryParameters: {
+    'mobile': widget.clientData.contactInfo!.mobile,});
+    final response = await http.get(url);
+    print(response);
+    if(response.statusCode == 200){
+      Map<String,dynamic> clientDocs = jsonDecode(response.body);
+      widget.clientData.docId = clientDocs.values.firstOrNull;
+      print(widget.clientData.docId);
+    }
+    else{
+      print(response.statusCode);
+      print(response.body);
+    }
+
   }
 
   @override
@@ -37,18 +60,19 @@ class _NameAndGenderState extends State<NameAndGender> {
         child: Column(
           children: [
             Form(
-                child: Column(
-                  children: [
-                    SizedBox(height: 85,),
+              child: Column(
+                children: [
+
+                  SizedBox(height: 85,),
                   InputField("First name",firstNameController),
-                    SizedBox(height: 10,),
+                  SizedBox(height: 10,),
                   InputField("Last name",lastNameController),
-                    SizedBox( height: 50,),
+                  SizedBox( height: 50,),
                   GenderButtons(widget.clientData,personalDetails),
-                    SizedBox(height: 60,),
+                  SizedBox(height: 60,),
                   NextButton(clientData: widget.clientData,personalDetails: personalDetails,firstTextController: firstNameController,lastTextController: lastNameController,),
-              ],
-                ),
+                ],
+              ),
             )
           ],
         ),
@@ -73,7 +97,7 @@ Widget InputField(String inputName, TextEditingController nameController){
       ),
       style: TextStyle(
         fontWeight: FontWeight.w600,
-            fontSize: 20,
+        fontSize: 20,
       ),
     ),
   );
@@ -107,11 +131,11 @@ class _GenderButtonState extends State<GenderButton>{
   @override
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
-         onPressed: (){
-           setState(() {
-            widget.personalDetails?.gender = widget.gender;
-           });
-           print(widget.personalDetails?.gender);
+      onPressed: (){
+        setState(() {
+          widget.personalDetails?.gender = widget.gender;
+        });
+        print(widget.personalDetails?.gender);
       },
       label: Text(""),
       icon: Icon(widget.icon),
@@ -136,37 +160,61 @@ class NextButton extends StatelessWidget{
   final TextEditingController firstTextController;
   final TextEditingController lastTextController;
 
-  NextButton({required this.clientData,required this.personalDetails,required this.firstTextController,required this.lastTextController,super.key,});
+  NextButton({
+    required this.clientData,
+    required this.personalDetails,
+    required this.firstTextController,
+    required this.lastTextController,super.key,
+  });
 
   FirebaseDB firebaseDB = FirebaseDB();
-  Future<void> updateClientProfile(BuildContext context) async{
-    PersonalDetails updatedPersonalDetails = personalDetails;
-    updatedPersonalDetails.first_name = firstTextController.text;
-    updatedPersonalDetails.last_name = lastTextController.text;
-    clientData.personalDetails = updatedPersonalDetails;
-    firebaseDB.updateClient(clientData);
-    Navigator.push(context,
-     MaterialPageRoute(builder: (context)=> ChartOptions(clientData: clientData)));
+  Future<void> updateClientProfile(BuildContext context) async {
+    // Update personal details
+    personalDetails.first_name = firstTextController.text;
+    personalDetails.last_name = lastTextController.text;
+    clientData.personalDetails = personalDetails;
+
+    // Debugging
+    print("docId before toMap: ${clientData.docId}");
+
+    // Verify toMap output
+    print("clientData.toMap before API call: ${jsonEncode(clientData.toMap())}");
+
+    final url = Uri.parse(MyMateAPIs.save_client_API);
+    final response = await http.put(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(clientData.toMap()),
+    );
+
+    if (response.statusCode == 200) {
+      print("Response Status: ${response.statusCode}");
+      print("Response Body: ${response.body}");
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>ChartOptions(clientData: clientData)));
+    } else {
+      print("Error Status: ${response.statusCode}");
+      print("Error Body: ${response.body}");
+    }
   }
 
-    @override
-    Widget build(BuildContext context){
+  @override
+  Widget build(BuildContext context){
 
-      return SizedBox(
-        height: 58,
-        width: 166,
-        child: ElevatedButton(
-          onPressed: (){
-            updateClientProfile(context);
-          },
-          style: CommonButtonStyle.commonButtonStyle(),
-          child: Text(
-            "Next",
-            style: TextStyle(fontSize: MyMateThemes.buttonFontSize),
-          ),
+    return SizedBox(
+      height: 58,
+      width: 166,
+      child: ElevatedButton(
+        onPressed: (){
+          updateClientProfile(context);
+        },
+        style: CommonButtonStyle.commonButtonStyle(),
+        child: Text(
+          "Next",
+          style: TextStyle(fontSize: MyMateThemes.buttonFontSize),
         ),
-      );
+      ),
+    );
 
-    }
+  }
 }
 

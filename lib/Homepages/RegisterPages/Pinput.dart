@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mymateapp/Homepages/RegisterPages/NameAndGenderPage.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
@@ -96,18 +95,11 @@ class OtpBoxes extends StatefulWidget{
 class _OtpBoxesState extends State<OtpBoxes>{
   _OtpBoxesState();
   FirebaseDB firebase = FirebaseDB();
-  String otpPin = "";
-  String docId = "";
-    Future<void> getClient() async {
-    DocumentSnapshot client = await firebase.collectionReference.doc(widget.clientData.docId).get();
-    setState(() {
-      otpPin = client['contactInfo']['otpPin'] ?? "N/A";
-    });
-  }
+
   @override
   void initState() {
+      print(widget.clientData);
     super.initState();
-    getClient();
   }
 
   static const focusedBorderColor = Color.fromRGBO(23, 171, 144, 1);
@@ -130,17 +122,19 @@ class _OtpBoxesState extends State<OtpBoxes>{
 
   @override
   Widget build(BuildContext context){
+    String otp = "${widget.clientData.contactInfo?.otp}";
+
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Pinput(
         defaultPinTheme: defaultPinTheme,
         separatorBuilder: (index) => const SizedBox(width: 12),
         validator: (value) {
-          return value == otpPin ? null : 'Incorrect Pin';
+          return value == otp ? null : 'Incorrect Pin';
         },
         hapticFeedbackType: HapticFeedbackType.lightImpact,
         onCompleted: (pin) {
-          if(pin == otpPin) {
+          if(pin == otp) {
             debugPrint('onCompleted: $pin');
             Navigator.push(context, MaterialPageRoute(builder: (context)=>NameAndGender(clientData: widget.clientData)));
           }

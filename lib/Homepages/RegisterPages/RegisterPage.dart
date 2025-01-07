@@ -1,13 +1,14 @@
+import 'dart:convert';
 import 'dart:math';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:mymateapp/Homepages/RegisterPages/Pinput.dart';
+import 'package:mymateapp/MyMateCommonBodies/MyMateApis.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/dbConnection/Firebase_DB.dart';
-
 import '../../dbConnection/ClientDatabase.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -101,24 +102,35 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
   String phoneNumber = "";
   String mobile_country_code = "";
   String client_country = "";
-  String otpPin = "";
+  String otp = "";
   FirebaseDB firebaseDB = FirebaseDB();
-  Future<void> addMobile() async{
 
+  Future<void> addMobile() async{
+    print("Running");
     var random = Random();
-    otpPin = (random.nextInt(9999-1001)+1000).toString();
+    otp = (random.nextInt(9999-1001)+1000).toString();
     Address address = Address(country: client_country);
     ContactInfo contactInfo = ContactInfo(
         mobile: phoneNumber,
         mobile_country_code: mobile_country_code,
-        otpPin: otpPin,
+        otp: otp,
         address: address
     );
     ClientData clientData = ClientData(contactInfo: contactInfo);
-    await firebaseDB.addClient(clientData);
-    DocumentSnapshot documentSnapshot = await firebaseDB.getClientByMobile(phoneNumber);
-    clientData.docId = documentSnapshot.id;
+    final url = Uri.parse(MyMateAPIs.mobile_number_registration_API);
+    final res = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json',},
+      body: jsonEncode(clientData.toMap())
+    );
+
+   if(res.statusCode == 200){
+     print(res.statusCode);
     Navigator.push(context, MaterialPageRoute(builder: (context)=>OtpPinput(clientData: clientData,)));
+   }
+   else {
+     print(res.body);
+   }
   }
 
   @override
@@ -168,6 +180,7 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
             ),
           ),
         ),
+
       ],
     );
   }
