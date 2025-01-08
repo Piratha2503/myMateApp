@@ -13,6 +13,7 @@ class ProfilePage extends StatefulWidget {
   final int selectedBottomBarIconIndex;
   const ProfilePage({required this.selectedBottomBarIconIndex, required this.docId, super.key});
 
+
   @override
   State<ProfilePage> createState() => _ProfilePageState(this.selectedBottomBarIconIndex);
 }
@@ -27,7 +28,8 @@ class _ProfilePageState extends State<ProfilePage>
 
   bool isButtonSelected(int index) => _selectedButtonIndex == index;
 
-  bool _isSmall = false;
+  bool _isSmall = true;
+
   int _selectedIndex = 0;
 
   final ScrollController _scrollController = ScrollController();
@@ -62,6 +64,7 @@ class _ProfilePageState extends State<ProfilePage>
       });
     }
   }
+
 
 
   @override

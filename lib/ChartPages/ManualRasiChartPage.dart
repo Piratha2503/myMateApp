@@ -170,7 +170,9 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
     print(chartGeneration.place10);
     print(chartGeneration.place11);
     print(chartGeneration.place12);
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>ManualNavamsaChartPage(clientData: widget.clientData,astrology: astrology,)));
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>ManualNavamsaChartPage(clientData: widget.clientData,
+    astrology: astrology,
+    )));
 
   }
 
@@ -225,6 +227,7 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor:Colors.white,
       body: Column(
         children: [
           SizedBox(height: 10),
@@ -234,16 +237,18 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
                 Text( "Enter Chart Rasi",
                   style: TextStyle(
                     color: MyMateThemes.textColor,
-                    fontSize: 15,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
+                      letterSpacing: 1
                   ),
                 ),
                 Text(
                   "to calculate Astrology Chart",
                   style: TextStyle(
                     color: MyMateThemes.primaryColor,
-                    fontSize: 14,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
+                      letterSpacing: 1
                   ),
                 ),
                 // Add more Positioned widgets for other buttons similarly
@@ -252,36 +257,35 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
           ),
           Container(
             width: 310,
-            height: 220,
+            height: 208,
             color: Colors.white,
             child: Column(
               children: [
                 Expanded(
                   child: GridView(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4,childAspectRatio: 16/10),
-                  children: boxes.map((box) {
-                    return buildTopBox(box['boxNumber'], box['assetName']);
-                  }).toList(),
-                ),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4,childAspectRatio: 14/10),
+                    children: boxes.map((box) {
+                      return buildTopBox(box['boxNumber'], box['assetName']);
+                    }).toList(),
+                  ),
                 ),
               ],
             ),
           ),
-          SizedBox(height: 10),
           DecoratedBox(
             decoration: ShapeDecoration(
               shape: CircleBorder(),
             ),
             child: Container(
               height: 350,
-              width: 350,
+              width: 300,
               color: MyMateThemes.backgroundColor,
               child: Stack(
                 children: [
                   SizedBox(width: 20),
                   Positioned(top: 110,left: 80,child:buildBottomSegment('Sun', 'assets/images/Sun.svg')),
                   Positioned(left: 207,top: 74,child:buildBottomSegment('Mercury', 'assets/images/Mercury.svg')),
-                  Positioned(left: 152,top: 30,child:buildBottomSegment('Mars', 'assets/images/Mars.svg')),
+                  Positioned(left: 152,top:  30,child:buildBottomSegment('Mars', 'assets/images/Mars.svg')),
                   Positioned(left: 55,top: 245,child:buildBottomSegment('Saturn', 'assets/images/Saturn.svg')),
                   Positioned(left: 213,top: 178,child:buildBottomSegment('Jupiter', 'assets/images/Jupiter.svg')),
                   Positioned(left: 0,top: 185,child:buildBottomSegment('Rahu', 'assets/images/Rahu.svg')),
@@ -292,13 +296,15 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
               ),
             ),
           ),
+          SizedBox(height: 45),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               GestureDetector(
                 onTap: _resetSelections,
                 child: SvgPicture.asset('assets/images/ast_edit.svg'),
               ),
+              SizedBox(width: 18),
               GestureDetector(
                 onTap: () {
                   if (_areAllSelectionsComplete()) {

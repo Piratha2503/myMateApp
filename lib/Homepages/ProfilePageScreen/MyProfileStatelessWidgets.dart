@@ -43,7 +43,7 @@ class AboutMe extends StatelessWidget {
             InfoRow('Father\'s Name', 'Bsc Computer Science'),
             InfoRow('Mother\'s Name', 'Bsc Computer Science'),
             InfoRow('Siblings', '6'),
-            SizedBox(height: 20),
+            SizedBox(height: 35),
 
             // Expectations Section
             Row(
@@ -60,7 +60,7 @@ class AboutMe extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 15),
 
             // Expectations Widget
             Expectations(),

@@ -1,10 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:mymateapp/Homepages/Profiles/MyProfile.dart';
-import 'package:mymateapp/Homepages/RegisterPages/RegisterPage.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
-
+import 'Homepages/AnimatedPages/StartPage.dart';
+import 'Homepages/ProfilePageScreen/MyProfileMain.dart';
+import 'Homepages/Profiles/OthersProfile.dart';
+import 'Homepages/explorePage/explorePageMain.dart';
 import 'firebase_options.dart';
+import 'login.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,7 +37,9 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.blue[200]),
       debugShowCheckedModeBanner: false,
 
-      home: ProfilePage(docId: "E0JFHhK2x6Gq2Ac6XSyP"),
+      home:
+     // ProfilePage(docId: "E0JFHhK2x6Gq2Ac6XSyP", selectedBottomBarIconIndex:0,),
+      OtherProfilePage(),
     );
   }
 }

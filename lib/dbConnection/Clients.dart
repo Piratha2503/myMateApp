@@ -23,6 +23,7 @@ class ClientProfile{
         required this.imageUrl,
         required this.matchPercentage
       });
+
 }
 
 class TestClient{
