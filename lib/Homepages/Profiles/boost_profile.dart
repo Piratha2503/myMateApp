@@ -108,7 +108,7 @@ Widget buildBoostContainer(
                       width: 16.0,
                       color: textColor,
                     ),
-                    const SizedBox(width: 4.0), // Space between image and text
+                    const SizedBox(width: 4.0),
                     Text(
                       tokensPerDay,
                       style: TextStyle(
@@ -167,7 +167,6 @@ Widget _builtBoostCount() {
     child: Expanded(
       child: Column(
         children: [
-          // Custom TabBar styled as buttons without gaps
           Container(
             alignment: Alignment.center,
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -196,7 +195,6 @@ Widget _builtBoostCount() {
           ),
           const SizedBox(height: 16),
 
-          // Tab View wrapped in Expanded
           Expanded(
             child: TabBarView(
               children: [
@@ -208,7 +206,6 @@ Widget _builtBoostCount() {
                     _noOfDays = value;
                   },
                 ),
-                // Super Boost Tab
                 _buildBoostContent(
                   noOfDays: _noOfDays,
                   noOfTokens: _noOfTokens * 2,
@@ -245,7 +242,6 @@ Widget _builtBoostCount() {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    // Handle complete action
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: MyMateThemes.primaryColor,
@@ -270,7 +266,6 @@ Widget _builtBoostCount() {
   );
 }
 
-// Helper method to build a tab button
 Tab _buildTabButton(String title) {
   return Tab(
     child: Container(
@@ -292,7 +287,6 @@ Widget _buildBoostContent({
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // No of Days Field
         _buildCounterRow(
           label: "No of Days",
           value: noOfDays,
@@ -301,7 +295,6 @@ Widget _buildBoostContent({
         ),
         const SizedBox(height: 16),
 
-        // No of Tokens Field
         _buildCounterRow(
           label: "No of Tokens",
           value: noOfTokens,
@@ -334,7 +327,6 @@ Widget _buildCounterRow({
       ),
       Row(
         children: [
-          // Decrement Button (Shown only if controls are enabled)
           if (showControls)
             IconButton(
               icon: const Icon(Icons.remove_circle_outline),
@@ -343,7 +335,6 @@ Widget _buildCounterRow({
               splashRadius: 20.0,
             ),
 
-          // Number Box
           Container(
             width: 56,
             height: 36,
@@ -371,7 +362,6 @@ Widget _buildCounterRow({
             ),
           ),
 
-          // Increment Button (Shown only if controls are enabled)
           if (showControls)
             IconButton(
               icon: const Icon(Icons.add_circle_outline),
