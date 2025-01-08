@@ -100,8 +100,8 @@ Future<Map<String, dynamic>> fetchUserById(String docId) async {
         'images': userImages,
         'civil_status' : personalDetails['marital_status'] ?? 'N/A',
         'expectations' :lifestyle['expectations'] ?? 'N/A',
-        'profile_pic_url' : profileImages['profile_pic_url'] ?? 'N/A',
-        'gallery_image_urls' : profileImages['gallery_image_urls'] ?? 'N/A',
+        'profile_pic_url' : data['profileImages']?['profile_pic_url'] ?? 'N/A',
+        'gallery_image_urls' : data['profileImages']?['gallery_image_urls'] ?? 'N/A',
         'country' : address['country'] ?? 'N/A',
         'rasi': astrology['rasi'] ?? 'N/A',
         'natchathiram': astrology['natchathiram'] ?? 'N/A',
@@ -153,4 +153,3 @@ Future<List<Map<String, dynamic>>> fetchAllUsers() async {
     return [];
   }
 }
-
