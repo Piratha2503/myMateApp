@@ -1,11 +1,13 @@
+import 'dart:convert';
 import 'dart:io';
-
+import 'package:http/http.dart' as http;
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mymateapp/MyMateCommonBodies/MyMateApis.dart';
 
 import '../../MyMateCommonBodies/MyMateBottomBar.dart';
 import '../../MyMateThemes.dart';
@@ -34,6 +36,7 @@ class _EditPageState extends State<EditPage> {
   TextEditingController contactController = TextEditingController();
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  String clientId = "E0JFHhK2x6Gq2Ac6XSyP";
 
   @override
   void initState() {
@@ -43,30 +46,40 @@ class _EditPageState extends State<EditPage> {
 
   Future<void> _fetchClientData() async {
     try {
-      // Hardcoded client ID
-      String clientId = "9l2knrHe8XLZL2S3erxy";
+      Map<String, dynamic> clientData = await fetchUserById(clientId);
 
-      // Fetch the specific client document by clientId
-      DocumentSnapshot clientSnapshot =
-      await firestore.collection('clients').doc(clientId).get();
-
-      if (clientSnapshot.exists) {
+      if (clientData.isNotEmpty) {
         setState(() {
-          // Populate state variables with the client's data
-          _selectedCivilStatus = clientSnapshot['civil_status'] ?? 'Select Status';
-          _selectedEmploymentType =
-              clientSnapshot['employment_type'] ?? 'Select Type';
-          _selectedDistrict = clientSnapshot['district'] ?? 'Select District';
-          _selectedReligion = clientSnapshot['religion'] ?? 'Select Religion';
-          occupationController.text = clientSnapshot['occupation'] ?? '';
-          educationController.text = clientSnapshot['education'] ?? '';
-          contactController.text = clientSnapshot['mobile']?.toString() ?? '';
+          _selectedCivilStatus = clientData['civil_status'] ?? 'Select Status';
+          _selectedEmploymentType = clientData['occupation_type'] ?? 'Select Type';
+          _selectedDistrict = clientData['city'] ?? 'Select District';
+          _selectedReligion = clientData['religion'] ?? 'Select Religion';
+          occupationController.text = clientData['occupation'] ?? '';
+          educationController.text = clientData['education'] ?? '';
+          contactController.text = clientData['contact'] ?? '';
+          _bioController.text = clientData['bio'] ?? '';
           isLoading = false;
+
+          var expectations = clientData['expectations'] ?? [];
+
+          if (expectations is List<String>) {
+            controllers = expectations
+                .map((expectation) => TextEditingController(text: expectation))
+                .toList();
+          } else if (expectations is List) {
+            controllers = expectations
+                .whereType<String>()
+                .map((expectation) => TextEditingController(text: expectation))
+                .toList();
+          } else {
+            controllers = [];
+          }
         });
       } else {
         setState(() {
           isLoading = false;
         });
+
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Client data not found!')),
         );
@@ -79,6 +92,7 @@ class _EditPageState extends State<EditPage> {
         SnackBar(content: Text('Error: $e')),
       );
     }
+
   }
 
   Widget _buildTextFieldRow({
@@ -105,7 +119,7 @@ class _EditPageState extends State<EditPage> {
             ),
           ),
           Positioned(
-            left: 189, // Adjust this value to set the starting position of the hint text
+            left: 189,
             right: 0,
             top: 0,
             bottom: 0,
@@ -180,18 +194,6 @@ class _EditPageState extends State<EditPage> {
     });
   }
 
-  void addNewContainer() {
-    final controller = TextEditingController();
-    controllers.add(controller);
-    errors.add('');
-  }
-
-  void handleClose(int index) {
-    setState(() {
-      controllers.removeAt(index);
-      errors.removeAt(index);
-    });
-  }
 
 
   void _openPopupScreen() {
@@ -259,29 +261,94 @@ class _EditPageState extends State<EditPage> {
     }
   }
 
-  Future<void> _saveChanges() async {
+  void addNewContainer() {
+    final controller = TextEditingController();
+    controllers.add(controller);
+    errors.add('');
+  }
+
+  void handleClose(int index) {
+    setState(() {
+      controllers.removeAt(index);
+      errors.removeAt(index);
+    });
+  }
+
+  void _saveChanges() async {
     setState(() {
       isLoading = true;
     });
 
-    String clientId = "9l2knrHe8XLZL2S3erxy"; // Hardcoded client ID
-    await firestore.collection('clients').doc(clientId).update({
-      'civil_status': _selectedCivilStatus,
-      'employment_type': _selectedEmploymentType,
-      'district': _selectedDistrict,
-      'religion': _selectedReligion,
-      'occupation': occupationController.text,
-      'education': educationController.text,
+    List<String> updatedExpectations = controllers.map((controller) => controller.text).toList();
+
+
+    Map<String, dynamic> personalDetails = {
+
+      'marital_status': _selectedCivilStatus ?? 'Single',
+      'religion': _selectedReligion ?? 'Christian-Rc',
+    };
+
+    Map<String, dynamic> contactInfo = {
       'mobile': contactController.text,
-    });
+      'address': {
 
-    setState(() {
-      isLoading = false;
-    });
+        'city': _selectedDistrict,
+      },
+    };
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Profile updated successfully!')),
-    );
+    Map<String, dynamic> careerStudies = {
+      'occupation': occupationController.text,
+
+    };
+
+    Map<String, dynamic> lifestyle = {
+      'expectations': updatedExpectations,
+
+    };
+
+
+    Map<String, dynamic> payload = {
+      "docId": clientId,
+      "personalDetails": personalDetails,
+      "contactInfo": contactInfo,
+      "careerStudies": careerStudies,
+      "lifestyle": lifestyle,
+
+    };
+    try {
+      var response = await http.put(
+        Uri.parse("https://backend.graycorp.io:9000/mymate/api/v1/updateClient"),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: json.encode(payload),
+      );
+      print(contactController);
+
+      if (response.statusCode == 200) {
+        setState(() {
+          isLoading = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Profile updated successfully!')),
+        );
+        _fetchClientData();
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: ${response.body}')),
+        );
+      }
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
+    }
   }
 
   @override
@@ -289,6 +356,9 @@ class _EditPageState extends State<EditPage> {
     occupationController.dispose();
     educationController.dispose();
     contactController.dispose();
+    for (var controller in controllers) {
+      controller.dispose();
+    }
     super.dispose();
   }
 
@@ -360,7 +430,7 @@ class _EditPageState extends State<EditPage> {
                     value: _selectedCivilStatus,
                     items: [
                       'Select Status',
-                      'single',
+                      'Single',
                       'Married',
                       'Widowed',
                     ],
@@ -376,7 +446,8 @@ class _EditPageState extends State<EditPage> {
                     value: _selectedEmploymentType,
                     items: [
                       'Select Type',
-                      'professional'
+                      'professional',
+                      'Private'
 
                     ],
                     onChanged: (value) {
@@ -427,7 +498,7 @@ class _EditPageState extends State<EditPage> {
                     value: _selectedReligion,
                     items: [
                       'Select Religion',
-                      'Christianity',
+                      'Christian-Rc',
                       'hindu',
                       'Islam',
                     ],
@@ -454,19 +525,47 @@ class _EditPageState extends State<EditPage> {
                   Column(
                     children: List.generate(
                       controllers.length,
-                          (index) => ClosableContainer(
-                        controller: controllers[index],
-                        index: index,
-                        onClose: handleClose,
-                        parentContext:
-                        context, // Pass the context from the parent widget
+                          (index) => Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Center(
+                          child: Container(
+                            width: 340,
+                            decoration: BoxDecoration(
+                              color: MyMateThemes.secondaryColor,
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: TextField(
+                                    controller: controllers[index],
+                                    decoration: InputDecoration(
+                                      hintText: 'Enter expectation',
+                                      hintStyle: TextStyle(
+                                        color: MyMateThemes.textColor.withOpacity(0.5),
+                                      ),
+                                      border: InputBorder.none,
+                                      contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                                    ),
+                                    style: TextStyle(color: MyMateThemes.textColor),
+                                  ),
+                                ),
+                                IconButton(
+                                  icon: Icon(Icons.close, color: Colors.red),
+                                  onPressed: () => handleClose(index),
+                                  padding: EdgeInsets.zero,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 5),
+                  SizedBox(height: 15),
                   SizedBox(
-                    width: 340.0, // Set desired width (adjust as needed)
-                    height: 50.0, // Set desired height (adjust as needed)
+                    width: 340.0, // Set desired width
+                    height: 50.0, // Set desired height
                     child: ElevatedButton(
                       onPressed: () {
                         if (controllers.length < 5) {
@@ -476,11 +575,10 @@ class _EditPageState extends State<EditPage> {
                         }
                       },
                       style: ButtonStyle(
-
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            MyMateThemes.secondaryColor),
-                        foregroundColor: MaterialStateProperty.all<Color>(
-                            MyMateThemes.primaryColor),
+                        backgroundColor:
+                        MaterialStateProperty.all<Color>(MyMateThemes.secondaryColor),
+                        foregroundColor:
+                        MaterialStateProperty.all<Color>(MyMateThemes.primaryColor),
                       ),
                       child: Align(
                         alignment: Alignment.centerLeft,

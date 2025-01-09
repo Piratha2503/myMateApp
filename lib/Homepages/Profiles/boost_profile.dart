@@ -51,7 +51,7 @@ class _boostprofileState extends State<boostprofile> {
             buildBoostContainer(context,
                 title: 'Boost',
                 description:
-                'Your profile will be boosted. It helps you that your profile will be prioritized suggestions to others every searches. It takes 1 token per day.',
+                    'Your profile will be boosted. It helps you that your profile will be prioritized suggestions to others every searches. It takes 1 token per day.',
                 tokensPerDay: '× 1 Token per day',
                 backgroundColor: MyMateThemes.containerColor,
                 textColor: MyMateThemes.textGray,
@@ -60,7 +60,7 @@ class _boostprofileState extends State<boostprofile> {
             buildBoostContainer(context,
                 title: 'Super Boost',
                 description:
-                'Your profile will be boosted. It helps you that your profile will be highly prioritized suggestions to others every searches. It takes 2 tokens per day.',
+                    'Your profile will be boosted. It helps you that your profile will be highly prioritized suggestions to others every searches. It takes 2 tokens per day.',
                 tokensPerDay: '× 2 Tokens per Day',
                 backgroundColor: MyMateThemes.primaryColor,
                 textColor: Colors.white,
@@ -76,14 +76,14 @@ class _boostprofileState extends State<boostprofile> {
 }
 
 Widget buildBoostContainer(
-    BuildContext context, {
-      required String title,
-      required Color titlecolor,
-      required String description,
-      required String tokensPerDay,
-      required Color backgroundColor,
-      required Color textColor,
-    }) {
+  BuildContext context, {
+  required String title,
+  required Color titlecolor,
+  required String description,
+  required String tokensPerDay,
+  required Color backgroundColor,
+  required Color textColor,
+}) {
   return Container(
     padding: const EdgeInsets.all(16.0),
     decoration: BoxDecoration(
@@ -374,6 +374,7 @@ Widget _buildCounterRow({
     ],
   );
 }
+
 
 
 
