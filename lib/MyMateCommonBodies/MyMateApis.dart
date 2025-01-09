@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+import '../Homepages/explorePage/explorePageWidgets.dart';
+
 class MyMateAPIs{
 
   static String commonEndPoint = "/mymate/api/v1";
@@ -18,6 +20,7 @@ class MyMateAPIs{
   static String update_client_API = "$vpsApi$commonEndPoint/updateClient";
 
   static String save_client_API = "$vpsApi$commonEndPoint/saveClientData";
+
 
 }
 Future<Map<String, dynamic>> fetchUserById(String docId) async {
@@ -150,6 +153,57 @@ Future<List<Map<String, dynamic>>> fetchAllUsers() async {
     }
   } catch (e) {
     print('Error fetching all users: $e');
+    return [];
+  }
+}
+Future<List<Map<String, dynamic>>> filterAllUsers(Map<String, String> filters) async {
+  try {
+    // Construct the URL with query parameters
+    final uri = Uri.parse('https://backend.graycorp.io:9000/mymate/api/v1/clientFilter')
+        .replace(queryParameters: filters);
+
+    print('Constructed API Request URL: $uri');
+
+
+    // Make the GET request
+    final response = await http.get(
+      uri,
+      headers: {
+        'Content-Type': 'application/json', // Add additional headers if needed
+        // 'Authorization': 'Bearer <your-auth-token>',
+      },
+    );
+
+    // if (response.statusCode == 200) {
+    //   // Decode and return the response as a list of maps
+    //   return List<Map<String, dynamic>>.from(json.decode(response.body));
+    // } else {
+    //   print('Failed to fetch filtered profiles. Status: ${response.statusCode}, Body: ${response.body}');
+    //   throw Exception('Failed to fetch filtered profiles');
+    // }
+
+    if (response.statusCode == 200) {
+      final List<dynamic> responseData = jsonDecode(response.body);
+
+      return responseData.map((user) {
+        return {
+          'id': user['docId'] ?? '',
+          'city' : user['address']?['city'] ?? '',
+          'full_name': user['personalDetails']?['full_name'] ?? '',
+          //'address': user['contactInfo']?['address']?['city'] ?? '',
+          'marital_status': user['personalDetails']?['marital_status'] ?? '',
+          'age': user['personalDetails']?['age'] ?? '',
+          'occupation': user['careerStudies']?['occupation'] ?? '',
+          'images': user['profileImages']?['gallery_image_urls'] ?? [],
+          'city' : user['city'] ?? 'N/A',
+        };
+      }).toList();
+    } else {
+      print('Failed to fetch all users. Status code: ${response.statusCode}');
+      return [];
+    }
+  } catch (e) {
+    print('Error: $e');
     return [];
   }
 }

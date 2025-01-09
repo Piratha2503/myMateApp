@@ -39,7 +39,11 @@ class MyApp extends StatelessWidget {
 
       home:
      // ProfilePage(docId: "E0JFHhK2x6Gq2Ac6XSyP", selectedBottomBarIconIndex:0,),
-      OtherProfilePage(),
+     //OtherProfilePage(),
+      ExplorePage(
+        initialTabIndex: 0,
+        results: [], // Pass an empty list initially
+      ),
     );
   }
 }

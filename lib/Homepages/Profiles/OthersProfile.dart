@@ -254,7 +254,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
           SvgPicture.asset(iconPath),
           SizedBox(height: 5),
           Text(
-             age,
+            age,
             style: TextStyle(
               color: MyMateThemes.textColor,
               fontSize: 12,
@@ -281,11 +281,11 @@ class _OtherProfilePageState extends State<OtherProfilePage>
         ElevatedButton(
           onPressed: () {},
           style: ElevatedButton.styleFrom(
-            backgroundColor: MyMateThemes.primaryColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5.0),
-            ),
-            foregroundColor: Colors.white
+              backgroundColor: MyMateThemes.primaryColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              foregroundColor: Colors.white
           ),
           child: Text('Send Request '),
         ),
@@ -298,9 +298,9 @@ class _OtherProfilePageState extends State<OtherProfilePage>
             );
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: MyMateThemes.primaryColor,
-            shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(5.0),),
-            foregroundColor: Colors.white
+              backgroundColor: MyMateThemes.primaryColor,
+              shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(5.0),),
+              foregroundColor: Colors.white
           ),
           child: Text('Check Match'),
 
@@ -489,25 +489,25 @@ class _OtherProfilePageState extends State<OtherProfilePage>
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child:
-                      Text(
-                        controllers[index].text,
-                        style: TextStyle(
-                          color: MyMateThemes.textColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                        ),
-                        softWrap: false,
-                        overflow: TextOverflow.visible,
-                      ),
-
+                  Text(
+                    controllers[index].text,
+                    style: TextStyle(
+                      color: MyMateThemes.textColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
+                    softWrap: false,
+                    overflow: TextOverflow.visible,
                   ),
 
                 ),
-              ),
 
+              ),
             ),
+
           ),
-    ),
+        ),
+      ),
 
     );
   }
@@ -647,7 +647,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
                               top: 10,
                               left: 10,
                               child:
-                                  SvgPicture.asset('assets/images/Group.svg'),
+                              SvgPicture.asset('assets/images/Group.svg'),
                             ),
                             Positioned(
                               bottom: 10,
@@ -655,7 +655,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
                               child: Column(
                                 children: [
                                   Text(
-                                   dob,
+                                    dob,
                                     style: TextStyle(
                                         fontSize: 12,
                                         color: MyMateThemes.primaryColor,
