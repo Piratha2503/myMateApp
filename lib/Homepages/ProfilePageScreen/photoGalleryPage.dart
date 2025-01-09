@@ -40,7 +40,7 @@ class _PhotoGalleryState extends State<PhotoGallery> {
       });
     } catch (e) {
       setState(() {
-        errorMessage = 'Failed to load images: $e';
+        errorMessage = 'Failed to load the images: $e';
         isLoading = false;
       });
     }

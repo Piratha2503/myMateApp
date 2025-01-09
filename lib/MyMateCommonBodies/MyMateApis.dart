@@ -39,7 +39,6 @@ Future<Map<String, dynamic>> fetchUserById(String docId) async {
       final careerStudies = data['careerStudies'] ?? {};
       final contactInfo = data['contactInfo'] ?? {};
       final astrology = data['astrology'] ?? {};
-      final countryCode = contactInfo['mobile_country_code'] ?? '';
       final mobileNumber = contactInfo['mobile'] ?? '';
       final address = contactInfo['address'] ?? {};
       final houseNumber = address['house_number'] ?? '';

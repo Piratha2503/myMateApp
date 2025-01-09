@@ -458,26 +458,6 @@ class _OtherProfilePageState extends State<OtherProfilePage>
       ),
     );
   }
-  Widget _buildExpectationRow(String title) {
-    return Container(
-      height: 34,
-      width: 297,
-      margin: EdgeInsets.symmetric(vertical: 5.0),
-      padding: EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-        color: MyMateThemes.containerColor,
-        borderRadius: BorderRadius.circular(5.0),
-      ),
-      child: Text(
-        title,
-        style: TextStyle(
-          color: MyMateThemes.textColor,
-          fontWeight: FontWeight.bold,
-          fontSize: 14,
-        ),
-      ),
-    );
-  }
 
 
 
