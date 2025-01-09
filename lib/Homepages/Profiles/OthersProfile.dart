@@ -525,22 +525,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
   }
 
 
-  // Widget _buildTag(String text) {
-  //   return Container(
-  //     padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-  //     decoration: BoxDecoration(
-  //       color: MyMateThemes.primaryColor,
-  //       borderRadius: BorderRadius.circular(8.0),
-  //     ),
-  //     child: Text(
-  //       text,
-  //       style: TextStyle(
-  //         color: Colors.white,
-  //         fontSize: 14.0,
-  //       ),
-  //     ),
-  //   );
-  // }
+
   Widget _buildNavigationBar() {
     return CustomBottomNavigationBar(
       selectedIndex: _selectedIndex,
@@ -548,7 +533,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
         setState(() {
           _selectedIndex = index;
         });
-        // Handle navigation here based on the index
+
       },
     );
   }

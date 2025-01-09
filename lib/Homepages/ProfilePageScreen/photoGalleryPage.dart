@@ -19,20 +19,20 @@ class PhotoGallery extends StatefulWidget {
 }
 
 class _PhotoGalleryState extends State<PhotoGallery> {
-  int _currentIndex = 0; // Tracks the current center item index
-  List<String> imagePaths = []; // To store the image URLs from the backend
-  bool isLoading = true; // To show a loading indicator
+  int _currentIndex = 0;
+  List<String> imagePaths = [];
+  bool isLoading = true;
   String errorMessage = '';
 
   @override
   void initState() {
     super.initState();
-    _fetchImages(); // Fetch images when the widget is initialized
+    _fetchImages();
   }
 
   Future<void> _fetchImages() async {
     try {
-      final data = await fetchUserById(widget.docId);  // Call the existing function
+      final data = await fetchUserById(widget.docId);
       setState(() {
         imagePaths = List<String>.from(data['gallery_image_urls'] ?? []);
         isLoading = false;
@@ -51,18 +51,18 @@ class _PhotoGalleryState extends State<PhotoGallery> {
     final double screenHeight = MediaQuery.of(context).size.height;
 
     return isLoading
-        ? Center(child: CircularProgressIndicator()) // Show loading indicator
+        ? Center(child: CircularProgressIndicator())
         : errorMessage.isNotEmpty
-        ? Center(child: Text(errorMessage)) // Show error message if any
+        ? Center(child: Text(errorMessage))
         : SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Section Title
+
           SectionTitle('Photo Gallery'),
           SizedBox(height: 10),
 
-          // Decorative Line
+
           Row(
             children: [
               SizedBox(width: 40),
@@ -71,7 +71,7 @@ class _PhotoGalleryState extends State<PhotoGallery> {
           ),
           SizedBox(height: 25),
 
-          // Photo Gallery Content
+
           Container(
             height: screenHeight * 0.48,
             padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -95,7 +95,7 @@ class _PhotoGalleryState extends State<PhotoGallery> {
                   ),
                   child: isCentered
                       ? Image.network(
-                    imagePaths[index], // Load images from URLs
+                    imagePaths[index],
                     fit: BoxFit.fill,
                   )
                       : SizedBox.expand(),
