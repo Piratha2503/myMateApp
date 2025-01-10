@@ -1,27 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import '../../MyMateCommonBodies/MyMateBottomBar.dart';
 import '../../MyMateThemes.dart';
+import '../FilterPage.dart';
 import 'explorePageWidgets.dart';
 
+class ExplorePage extends StatefulWidget {
+  final int initialTabIndex;
+  final List<Map<String, dynamic>> results;
 
-class Explorepage extends StatefulWidget {
-  const Explorepage({super.key});
+  const ExplorePage({Key? key, this.initialTabIndex = 0, required this.results})
+      : super(key: key);
 
   @override
-  _ExplorepageState createState() => _ExplorepageState();
+  _ExplorePageState createState() => _ExplorePageState();
 }
 
-class _ExplorepageState extends State<Explorepage>
+class _ExplorePageState extends State<ExplorePage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   int _selectedIndex = 0;
-
-
+  late List<Map<String, dynamic>> filteredResults;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this); // 3 tabs
+    _tabController = TabController(
+      length: 3,
+      vsync: this,
+      initialIndex: widget.initialTabIndex,
+    );
+    filteredResults = widget.results; // Initialize with passed results
   }
 
   @override
@@ -30,35 +39,68 @@ class _ExplorepageState extends State<Explorepage>
     super.dispose();
   }
 
+  /// Opens the FilterPage and retrieves the selected filters
+  void _openFilterPage() async {
+    final filters = await Navigator.push<Map<String, String>>(
+      context,
+      MaterialPageRoute(builder: (context) => FilterPage()),
+    );
+
+    if (filters != null) {
+      setState(() {
+        appliedFilters = filters; // Update global filters
+        _tabController.animateTo(2); // Switch to the Filter tab
+        fetchFilteredProfiles(); // Fetch new filtered results
+      });
+    }
+  }
+
+  /// Fetch profiles based on applied filters
+  void fetchFilteredProfiles() async {
+    try {
+      final results = await getFilteredProfiles();
+      setState(() {
+        filteredResults = results; // Update the filtered results
+      });
+    } catch (e) {
+      print('Error fetching filtered profiles: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: ExplorePageAppBar(),
+      appBar: ExplorePageAppBar(context, _openFilterPage),
       body: Column(
         children: [
           TabBar(
             controller: _tabController,
-            labelStyle: TextStyle(fontWeight: FontWeight.bold,color: MyMateThemes.textColor ),
-            unselectedLabelStyle:TextStyle(fontWeight: FontWeight.w700,color: MyMateThemes.textColor.withOpacity(0.8) ) ,
-            indicatorColor:  MyMateThemes.textColor,
+            labelStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: MyMateThemes.textColor,
+            ),
+            unselectedLabelStyle: TextStyle(
+              fontWeight: FontWeight.w700,
+              color: MyMateThemes.textColor.withOpacity(0.8),
+            ),
+            indicatorColor: MyMateThemes.textColor,
             labelPadding: const EdgeInsets.symmetric(horizontal: 2.0),
-            tabs: [
-              Tab(text: 'ExploreAll'),
-              Tab(text: 'ViewMatches'),
+            tabs: const [
+              Tab(text: 'Explore All'),
+              Tab(text: 'View Matches'),
               Tab(text: 'Filter'),
             ],
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Padding(
-            padding: const EdgeInsets.only(right: 10.0,left: 10.0),
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Row(
-              children: <Widget>[
+              children: [
                 Flexible(
                   fit: FlexFit.tight,
-                  child: search,
+                  child: search, // Search bar widget from ExplorePageWidgets.dart
                 ),
-
               ],
             ),
           ),
@@ -68,21 +110,37 @@ class _ExplorepageState extends State<Explorepage>
               children: [
                 ExploreAllGrid(context),
                 ViewMatchesGrid(context),
-                FilterGrid(context),
+                FilterGrid(context,filteredResults), // Pass filtered results
               ],
             ),
           ),
         ],
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
-        selectedIndex: _selectedIndex,
+        selectedIndex: _tabController.index,
         onItemTapped: (index) {
           setState(() {
-            _selectedIndex = index;
+            _tabController.index = index;
           });
-          // Handle navigation here based on the index
         },
       ),
     );
   }
+}
+
+PreferredSizeWidget ExplorePageAppBar(BuildContext context, VoidCallback onFilterTap) {
+  return AppBar(
+    backgroundColor: Colors.white,
+    title: const Text(
+      'Explore',
+      style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+    ),
+    actions: [
+      IconButton(
+        icon: SvgPicture.asset('assets/images/filter1.svg'),
+        onPressed: onFilterTap,
+      ),
+      const SizedBox(width: 10),
+    ],
+  );
 }
