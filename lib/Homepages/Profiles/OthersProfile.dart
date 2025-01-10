@@ -18,7 +18,13 @@ import '../custom_outline_button.dart';
 class OtherProfilePage extends StatefulWidget {
   final String docId;
 
-  const OtherProfilePage({this.docId = 'E0JFHhK2x6Gq2Ac6XSyP', super.key});
+
+
+
+  const OtherProfilePage({this.docId = 'VIWP1RBrcLluTbEuJAZG', super.key});
+
+  String get soulDocId => docId;
+
 
   @override
   State<OtherProfilePage> createState() => _OtherProfilePageState();
@@ -304,7 +310,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => CheckmatchPage(docId: widget.docId,)),
+              MaterialPageRoute(builder: (context) => CheckmatchPage(soulDocId: widget.docId, clientDocId: 'E0JFHhK2x6Gq2Ac6XSyP',)),
             );
           },
           style: ElevatedButton.styleFrom(
