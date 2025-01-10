@@ -169,15 +169,13 @@ class NextButton extends StatelessWidget{
 
   FirebaseDB firebaseDB = FirebaseDB();
   Future<void> updateClientProfile(BuildContext context) async {
-    // Update personal details
+
     personalDetails.first_name = firstTextController.text;
     personalDetails.last_name = lastTextController.text;
     clientData.personalDetails = personalDetails;
 
-    // Debugging
     print("docId before toMap: ${clientData.docId}");
 
-    // Verify toMap output
     print("clientData.toMap before API call: ${jsonEncode(clientData.toMap())}");
 
     final url = Uri.parse(MyMateAPIs.save_client_API);
