@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.blue[200]),
       debugShowCheckedModeBanner: false,
 
-      home: ChartInputPage(),
+      home: OtherProfilePage(),
     );
   }
 }
