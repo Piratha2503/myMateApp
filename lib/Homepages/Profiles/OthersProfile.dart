@@ -83,6 +83,8 @@ class _OtherProfilePageState extends State<OtherProfilePage>
           isLoading = false;
           var expectations = data['expectations'] ?? [];
 
+          print('Profile Picture URL: $profilePictureUrl');
+
           if (expectations is List<String>) {
             controllers = expectations
                 .map((expectation) => TextEditingController(text: expectation))
@@ -201,42 +203,52 @@ class _OtherProfilePageState extends State<OtherProfilePage>
             curve: Curves.easeInOut,
             height: _isSmall ? 50 : 230,
             alignment: _isSmall ? Alignment(-1.2, 1.0) : Alignment.center,
-            child: SvgPicture.asset('assets/images/Group 2073 (1).svg'),
+            child: profilePictureUrl.isNotEmpty
+                ? ClipOval(
+              child: Image.network(
+                profilePictureUrl,
+                fit: BoxFit.cover,
+                height: _isSmall ? 50 : 230,
+                width: _isSmall ? 50 : 230,
+                errorBuilder: (context, error, stackTrace) {
+                  return Icon(Icons.error, size: _isSmall ? 50 : 230);
+                },
+                loadingBuilder: (context, child, progress) {
+                  if (progress == null) return child;
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+              ),
+            )
+                : Icon(Icons.account_circle, size: _isSmall ? 50 : 230),
           ),
         ),
         GestureDetector(
           onTap: _toggleSize,
-          child: AnimatedContainer(
-            duration: Duration(milliseconds: 500),
-            curve: Curves.easeInOut,
-            alignment: _isSmall ? Alignment(0.1, 0.0) : Alignment.center,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  full_name,
-                  style: TextStyle(
-                    color: MyMateThemes.primaryColor,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                  ),
+          child: Column(
+            children: [
+              Text(
+                full_name,
+                style: TextStyle(
+                  color: MyMateThemes.primaryColor,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
                 ),
-                Text(
-                  'Special Mention (Optional)',
-                  style: TextStyle(
-                    color: MyMateThemes.textColor,
-                    fontSize: 14,
-                    fontWeight: FontWeight.normal,
-                  ),
+              ),
+              Text(
+                'Special Mention (Optional)',
+                style: TextStyle(
+                  color: MyMateThemes.textColor,
+                  fontSize: 14,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ],
     );
   }
-
   Widget _buildIconWithText(String iconPath, String age, String dob) {
     return Container(
       width: 120,
@@ -446,26 +458,6 @@ class _OtherProfilePageState extends State<OtherProfilePage>
       ),
     );
   }
-  Widget _buildExpectationRow(String title) {
-    return Container(
-      height: 34,
-      width: 297,
-      margin: EdgeInsets.symmetric(vertical: 5.0),
-      padding: EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-        color: MyMateThemes.containerColor,
-        borderRadius: BorderRadius.circular(5.0),
-      ),
-      child: Text(
-        title,
-        style: TextStyle(
-          color: MyMateThemes.textColor,
-          fontWeight: FontWeight.bold,
-          fontSize: 14,
-        ),
-      ),
-    );
-  }
 
 
 
@@ -513,22 +505,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
   }
 
 
-  // Widget _buildTag(String text) {
-  //   return Container(
-  //     padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-  //     decoration: BoxDecoration(
-  //       color: MyMateThemes.primaryColor,
-  //       borderRadius: BorderRadius.circular(8.0),
-  //     ),
-  //     child: Text(
-  //       text,
-  //       style: TextStyle(
-  //         color: Colors.white,
-  //         fontSize: 14.0,
-  //       ),
-  //     ),
-  //   );
-  // }
+
   Widget _buildNavigationBar() {
     return CustomBottomNavigationBar(
       selectedIndex: _selectedIndex,
@@ -536,7 +513,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
         setState(() {
           _selectedIndex = index;
         });
-        // Handle navigation here based on the index
+
       },
     );
   }
@@ -735,7 +712,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
                       SizedBox(height: 40),
                       _buildProfileDetails(),
                       SizedBox(height: 40),
-                      PhotoGallery(),
+                      PhotoGallery(docId: widget.docId),
                       SizedBox(height: 40),
                     ],
                   ),
