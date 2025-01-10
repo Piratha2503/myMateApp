@@ -162,7 +162,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                   children:[
                     AboutMe(),
                     SizedBox(height: 48),
-                    PhotoGallery(),
+                    PhotoGallery(docId: widget.docId),
                     SizedBox(height:30),
                     SectionTitle('More about me'),
                     SizedBox(height: 5),
