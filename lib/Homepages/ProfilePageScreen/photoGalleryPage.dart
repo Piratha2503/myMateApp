@@ -1,37 +1,68 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+import '../../MyMateCommonBodies/MyMateApis.dart';
 import '../../MyMateThemes.dart';
 import 'MyProfileBodyWidgets.dart';
 import 'MyProfileWidgets.dart';
 
 class PhotoGallery extends StatefulWidget {
+  final String docId;
+
+  PhotoGallery({required this.docId});
+
   @override
   _PhotoGalleryState createState() => _PhotoGalleryState();
 }
 
 class _PhotoGalleryState extends State<PhotoGallery> {
-  int _currentIndex = 0; // Tracks the current center item index
+  int _currentIndex = 0;
+  List<String> imagePaths = [];
+  bool isLoading = true;
+  String errorMessage = '';
 
-  final List<String> imagePaths = [
-    'assets/images/explore2.jpg',
-    'assets/images/explore1.jpg',
-    'assets/images/explore3.jpg',
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _fetchImages();
+  }
+
+  Future<void> _fetchImages() async {
+    try {
+      final data = await fetchUserById(widget.docId);
+      setState(() {
+        imagePaths = List<String>.from(data['gallery_image_urls'] ?? []);
+        isLoading = false;
+        print(imagePaths);
+      });
+    } catch (e) {
+      setState(() {
+        errorMessage = 'Failed to load the images: $e';
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final double screenHeight = MediaQuery.of(context).size.height; // Screen height from MediaQuery
+    final double screenHeight = MediaQuery.of(context).size.height;
 
-    return SingleChildScrollView(
+    return isLoading
+        ? Center(child: CircularProgressIndicator())
+        : errorMessage.isNotEmpty
+        ? Center(child: Text(errorMessage))
+        : SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Section Title
+
           SectionTitle('Photo Gallery'),
           SizedBox(height: 10),
 
-          // Decorative Line
+
           Row(
             children: [
               SizedBox(width: 40),
@@ -40,16 +71,17 @@ class _PhotoGalleryState extends State<PhotoGallery> {
           ),
           SizedBox(height: 25),
 
-          // Photo Gallery Content
+
           Container(
-            height: screenHeight * 0.48, // Adjust container height relative to screen height
+            height: screenHeight * 0.48,
             padding: EdgeInsets.symmetric(horizontal: 16.0),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),),
+              borderRadius: BorderRadius.circular(20),
+            ),
             child: CarouselSlider.builder(
               itemCount: imagePaths.length,
               itemBuilder: (context, index, realIndex) {
-                bool isCentered = index == _currentIndex; // Check if the item is currently centered
+                bool isCentered = index == _currentIndex;
 
                 return AnimatedContainer(
                   duration: Duration(milliseconds: 100),
@@ -57,31 +89,16 @@ class _PhotoGalleryState extends State<PhotoGallery> {
                   height: 379,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
-                    color: isCentered ? Colors.transparent : MyMateThemes.secondaryColor,
-                    // boxShadow: isCentered
-                    //     ? [
-                    // //   BoxShadow(
-                    // //     color: Colors.transparent,
-                    // //     blurRadius: 8,
-                    // //     offset: Offset(0, 4),
-                    // //   )
-                    // // ]
-                    // //     :  [
-                    // //   BoxShadow(
-                    // //     color: MyMateThemes.primaryColor.withOpacity(0.5),
-                    // //     blurRadius: 2,
-                    // //     offset: Offset(0, 4),
-                    // //   )
-                    // ],
+                    color: isCentered
+                        ? Colors.transparent
+                        : MyMateThemes.secondaryColor,
                   ),
                   child: isCentered
-                      ? Image.asset(
+                      ? Image.network(
                     imagePaths[index],
-
                     fit: BoxFit.fill,
-
                   )
-                      : SizedBox.expand(), // Empty container with white background for non-centered
+                      : SizedBox.expand(),
                 );
               },
               options: CarouselOptions(
@@ -94,7 +111,7 @@ class _PhotoGalleryState extends State<PhotoGallery> {
                 viewportFraction: 0.75,
                 onPageChanged: (index, reason) {
                   setState(() {
-                    _currentIndex = index; // Update the current index on scroll
+                    _currentIndex = index;
                   });
                 },
               ),
