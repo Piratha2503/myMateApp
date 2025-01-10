@@ -2,10 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import 'Homepages/AnimatedPages/StartPage.dart';
-import 'Homepages/CompleteProfileScreen/CompleteProfileMain.dart';
+import 'Homepages/CheckMatch.dart';
 import 'Homepages/ProfilePageScreen/MyProfileMain.dart';
 import 'Homepages/Profiles/OthersProfile.dart';
-import 'Homepages/RegisterPages/RegisterPage.dart';
 import 'Homepages/explorePage/explorePageMain.dart';
 import 'firebase_options.dart';
 import 'login.dart';
@@ -41,7 +40,12 @@ class MyApp extends StatelessWidget {
 
       home:
      // ProfilePage(docId: "E0JFHhK2x6Gq2Ac6XSyP", selectedBottomBarIconIndex:0,),
-      RegisterPage(),
+    // CheckmatchPage( clientDocId: '', soulDocId: '',),
+     //  ExplorePage(
+     //    initialTabIndex: 0,
+     //    results: [], // Pass an empty list initially
+     //  ),
+      OtherProfilePage(),
     );
   }
 }
