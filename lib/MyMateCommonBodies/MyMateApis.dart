@@ -135,15 +135,16 @@ Future<List<Map<String, dynamic>>> fetchAllUsers() async {
 
       return responseData.map((user) {
         return {
+
           'id': user['docId'] ?? '',
-          'city' : user['address']?['city'] ?? '',
-          'full_name': user['personalDetails']?['full_name'] ?? '',
+          'full_name': user['personalDetails']?['full_name'] ?? 'N/A',
           //'address': user['contactInfo']?['address']?['city'] ?? '',
-          'marital_status': user['personalDetails']?['marital_status'] ?? '',
-          'age': user['personalDetails']?['age'] ?? '',
-          'occupation': user['careerStudies']?['occupation'] ?? '',
-          'images': user['profileImages']?['profile_pic_url'] ?? [],
+          'marital_status': user['personalDetails']?['marital_status'] ?? 'N/A',
+          'age': user['personalDetails']?['age'] ?? 'N/A',
+          'occupation': user['careerStudies']?['occupation'] ?? 'N/A',
+          'images': user['profileImages']?['profile_pic_url'] ?? '',
           'city' : user['city'] ?? 'N/A',
+
         };
       }).toList();
     } else {
@@ -187,13 +188,15 @@ Future<List<Map<String, dynamic>>> filterAllUsers(Map<String, String> filters) a
       return responseData.map((user) {
         return {
           'id': user['docId'] ?? '',
-          'city' : user['address']?['city'] ?? '',
-          'full_name': user['personalDetails']?['full_name'] ?? '',
+          //'city' : user['address']?['city'] ?? '',
+          'full_name': user['personalDetails']?['full_name'] ?? 'N/A',
           //'address': user['contactInfo']?['address']?['city'] ?? '',
-          'marital_status': user['personalDetails']?['marital_status'] ?? '',
+          'marital_status': user['personalDetails']?['marital_status'] ?? 'N/A',
           'age': user['personalDetails']?['age'] ?? '',
-          'occupation': user['careerStudies']?['occupation'] ?? '',
-          'images': user['profileImages']?['gallery_image_urls'] ?? [],
+          'occupation': user['careerStudies']?['occupation'] ?? 'N/A',
+         // 'images': user['profileImages']?['gallery_image_urls'] ?? [],
+          'images': user['profileImages']?['profile_pic_url'] ?? '',
+
           'city' : user['city'] ?? 'N/A',
         };
       }).toList();

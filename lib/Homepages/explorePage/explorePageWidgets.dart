@@ -6,8 +6,12 @@ import '../../MyMateCommonBodies/MyMateApis.dart';
 import '../../MyMateThemes.dart';
 import 'package:http/http.dart' as http;
 
+import '../Profiles/OthersProfile.dart';
+
+
 
 Map<String, String>? appliedFilters;
+
 
 Future<List<Map<String, dynamic>>> getProfiles() async {
   try {
@@ -18,7 +22,6 @@ Future<List<Map<String, dynamic>>> getProfiles() async {
     return [];
   }
 }
-
 Future<List<Map<String, dynamic>>> getFilteredProfiles() async {
   try {
     if (appliedFilters != null && appliedFilters!.isNotEmpty) {
@@ -58,6 +61,7 @@ Future<List<Map<String, dynamic>>> getFilteredProfiles() async {
     return [];
   }
 }
+
 Widget ExploreAllGrid(BuildContext context) {
   return FutureBuilder<List<Map<String, dynamic>>>(
     future: getProfiles(),
@@ -133,96 +137,212 @@ Widget FilterGrid(BuildContext context,filteredResults) {
 }
 
 Widget buildGridItem(Map<String, dynamic> profile) {
-  return Container(
-    height: 265,
-    width: 152,
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(3.0),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black12,
-          blurRadius: 4.0,
-          spreadRadius: 2.0,
-          offset: Offset(0, 2),
-        ),
-      ],
-    ),
-    margin: const EdgeInsets.all(12.0),
-    child: Stack(
-      children: [
+  return
+    Builder(
+      builder: (context) {
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context, // Valid context provided by Builder
+              MaterialPageRoute(
+                builder: (context) => OtherProfilePage(docId: profile['id']),
+              ),
+            );
+          },
+          child:
         Container(
-          height: 145,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(3.0),
-            image: (profile['images'] != null && profile['images'].isNotEmpty)
-                ? DecorationImage(
-              image: NetworkImage(profile['images'][0]),
-              fit: BoxFit.cover,
-            )
-                : null,
-          ),
-          child: (profile['images'] == null || profile['images'].isEmpty)
-              ? Icon(Icons.person, size: 80, color: Colors.grey[400])
-              : null,
-        ),
-        Positioned(
-          top: 120.0,
-          left: 0.0,
-          right: 0.0,
-          child: Container(
-            height: 126,
-            padding: const EdgeInsets.all(8.0),
+            height: 265,
+            width: 152,
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(3.0),
-                bottomRight: Radius.circular(3.0),
-              ),
+              borderRadius: BorderRadius.circular(3.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 4.0,
+                  spreadRadius: 2.0,
+                  offset: Offset(0, 2),
+                ),
+              ],
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+            margin: const EdgeInsets.all(12.0),
+            child: Stack(
               children: [
-                Text(profile['full_name'] ?? 'N/A',
-                    style: TextStyle(
-                        color: MyMateThemes.textColor,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 13)),
-                Text('${profile['age'] ?? 'N/A'}, ${profile['marital_status'] ?? 'N/A'}',
-                    style: TextStyle(
-                        color: MyMateThemes.textColor, fontSize: 11)),
-                Text(profile['occupation'] ?? 'N/A',
-                    style: TextStyle(
-                        color: MyMateThemes.textColor, fontSize: 11)),
-                Text(profile['city'] ?? 'N/A',
-                    style: TextStyle(
-                        color: MyMateThemes.textColor, fontSize: 11)),
-                const SizedBox(height: 5),
                 Container(
-                  width: 108.43,
-                  height: 20.85,
+                  height: 145,
                   decoration: BoxDecoration(
-                    color: MyMateThemes.secondaryColor,
-                    borderRadius: BorderRadius.circular(4.0),
+                    borderRadius: BorderRadius.circular(3.0),
+                    image: ((profile['images']?? 'N/A') != null && (profile['images']?? 'N/A').isNotEmpty)
+                        ? DecorationImage(
+                      image: NetworkImage(profile['images']?? 'N/A'),
+                      fit: BoxFit.cover,
+                    )
+                        : null,
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset('assets/images/heart .svg'),
-                      Text('80%',
-                          style: TextStyle(
-                              color: MyMateThemes.primaryColor,
-                              fontSize: 14)),
-                    ],
+                  child: ((profile['images']?? 'N/A') == null || (profile['images']?? 'N/A').isEmpty)
+                      ? Icon(Icons.person, size: 80, color: Colors.grey[400])
+                      : null,
+                ),
+                Positioned(
+                  top: 120.0,
+                  left: 0.0,
+                  right: 0.0,
+                  child: Container(
+                    height: 126,
+                    padding: const EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: const BorderRadius.only(
+                        bottomLeft: Radius.circular(3.0),
+                        bottomRight: Radius.circular(3.0),
+                      ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(profile['full_name'] ?? 'N/A',
+                            style: TextStyle(
+                                color: MyMateThemes.textColor,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 13)),
+                        Text('${profile['age'] ?? 'N/A'}, ${profile['marital_status'] ?? 'N/A'}',
+                            style: TextStyle(
+                                color: MyMateThemes.textColor, fontSize: 11)),
+                        Text(profile['occupation'] ?? 'N/A',
+                            style: TextStyle(
+                                color: MyMateThemes.textColor, fontSize: 11)),
+                        Text(profile['city'] ?? 'N/A',
+                            style: TextStyle(
+                                color: MyMateThemes.textColor, fontSize: 11)),
+                        const SizedBox(height: 5),
+                        Container(
+                          width: 108.43,
+                          height: 20.85,
+                          decoration: BoxDecoration(
+                            color: MyMateThemes.secondaryColor,
+                            borderRadius: BorderRadius.circular(4.0),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset('assets/images/heart .svg'),
+                              Text('80%',
+                                  style: TextStyle(
+                                      color: MyMateThemes.primaryColor,
+                                      fontSize: 14)),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
             ),
-          ),
         ),
-      ],
-    ),
-  );
+        );
+      },
+    );
+
+
+  // GestureDetector(
+  //   onTap:(){
+  //
+  //   } ,
+  //   child:
+  //   Container(
+  //     height: 265,
+  //     width: 152,
+  //     decoration: BoxDecoration(
+  //       color: Colors.white,
+  //       borderRadius: BorderRadius.circular(3.0),
+  //       boxShadow: [
+  //         BoxShadow(
+  //           color: Colors.black12,
+  //           blurRadius: 4.0,
+  //           spreadRadius: 2.0,
+  //           offset: Offset(0, 2),
+  //         ),
+  //       ],
+  //     ),
+  //     margin: const EdgeInsets.all(12.0),
+  //     child: Stack(
+  //       children: [
+  //         Container(
+  //           height: 145,
+  //           decoration: BoxDecoration(
+  //             borderRadius: BorderRadius.circular(3.0),
+  //             image: (profile['images'] != null && profile['images'].isNotEmpty)
+  //                 ? DecorationImage(
+  //               image: NetworkImage(profile['images'][0]),
+  //               fit: BoxFit.cover,
+  //             )
+  //                 : null,
+  //           ),
+  //           child: (profile['images'] == null || profile['images'].isEmpty)
+  //               ? Icon(Icons.person, size: 80, color: Colors.grey[400])
+  //               : null,
+  //         ),
+  //         Positioned(
+  //           top: 120.0,
+  //           left: 0.0,
+  //           right: 0.0,
+  //           child: Container(
+  //             height: 126,
+  //             padding: const EdgeInsets.all(8.0),
+  //             decoration: BoxDecoration(
+  //               color: Colors.white,
+  //               borderRadius: const BorderRadius.only(
+  //                 bottomLeft: Radius.circular(3.0),
+  //                 bottomRight: Radius.circular(3.0),
+  //               ),
+  //             ),
+  //             child: Column(
+  //               crossAxisAlignment: CrossAxisAlignment.center,
+  //               children: [
+  //                 Text(profile['full_name'] ?? 'N/A',
+  //                     style: TextStyle(
+  //                         color: MyMateThemes.textColor,
+  //                         fontWeight: FontWeight.w700,
+  //                         fontSize: 13)),
+  //                 Text('${profile['age'] ?? 'N/A'}, ${profile['marital_status'] ?? 'N/A'}',
+  //                     style: TextStyle(
+  //                         color: MyMateThemes.textColor, fontSize: 11)),
+  //                 Text(profile['occupation'] ?? 'N/A',
+  //                     style: TextStyle(
+  //                         color: MyMateThemes.textColor, fontSize: 11)),
+  //                 Text(profile['city'] ?? 'N/A',
+  //                     style: TextStyle(
+  //                         color: MyMateThemes.textColor, fontSize: 11)),
+  //                 const SizedBox(height: 5),
+  //                 Container(
+  //                   width: 108.43,
+  //                   height: 20.85,
+  //                   decoration: BoxDecoration(
+  //                     color: MyMateThemes.secondaryColor,
+  //                     borderRadius: BorderRadius.circular(4.0),
+  //                   ),
+  //                   child: Row(
+  //                     mainAxisAlignment: MainAxisAlignment.center,
+  //                     children: [
+  //                       SvgPicture.asset('assets/images/heart .svg'),
+  //                       Text('80%',
+  //                           style: TextStyle(
+  //                               color: MyMateThemes.primaryColor,
+  //                               fontSize: 14)),
+  //                     ],
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   ),
+  //
+  // );
+
 }
 
 final search = TextField(
