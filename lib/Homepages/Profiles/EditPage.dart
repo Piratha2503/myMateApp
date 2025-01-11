@@ -445,10 +445,10 @@ class _EditPageState extends State<EditPage> {
                     label: 'Employment Type',
                     value: _selectedEmploymentType,
                     items: [
-                      'Select Type',
+
+                      '$_selectedEmploymentType',
                       'professional',
                       'Private'
-
                     ],
                     onChanged: (value) {
                       setState(() {
