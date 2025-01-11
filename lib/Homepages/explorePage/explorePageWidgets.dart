@@ -150,7 +150,7 @@ Widget buildGridItem(Map<String, dynamic> profile) {
             );
           },
           child:
-        Container(
+          Container(
             height: 265,
             width: 152,
             decoration: BoxDecoration(
@@ -239,7 +239,7 @@ Widget buildGridItem(Map<String, dynamic> profile) {
                 ),
               ],
             ),
-        ),
+          ),
         );
       },
     );
