@@ -1,18 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:mymateapp/ChartPages/ChartInputPage.dart';
-import 'package:mymateapp/ChartPages/ChartViewPage.dart';
-import 'package:mymateapp/ChartPages/ManualRasiChartPage.dart';
-import 'package:mymateapp/ChartPages/ManualRasiChartPageTest.dart';
-import 'package:mymateapp/Homepages/RegisterPages/NameAndGenderPage.dart';
-import 'package:mymateapp/Homepages/SubscribedhomeScreen/SubscribedHomeScreenStructured.dart';
-import 'package:mymateapp/Homepages/WelcomeScreen.dart';
-import 'package:mymateapp/LoginPage.dart';
+import 'package:mymateapp/Homepages/ProfilePageScreen/MyProfileMain.dart';
+import 'package:mymateapp/Homepages/RegisterPages/RegisterPage.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
-import 'package:mymateapp/dbConnection/Clients.dart';
 
 import 'firebase_options.dart';
-import 'login.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,13 +20,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-   ClientData clientData = ClientData();
-   PersonalDetails personalDetails = PersonalDetails();
-   personalDetails.first_name = "Hello";
-   personalDetails.last_name = "Piratha";
-   personalDetails.gender = "Male";
-   clientData.docId = "TBT3I8DYa3BepMZPPqv6";
-   clientData.personalDetails = personalDetails;
+    ClientData clientData = ClientData();
+    PersonalDetails personalDetails = PersonalDetails();
+    personalDetails.first_name = "Hello";
+    personalDetails.last_name = "Piratha";
+    personalDetails.gender = "Male";
+    clientData.docId = "TBT3I8DYa3BepMZPPqv6";
+    clientData.personalDetails = personalDetails;
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -43,7 +35,7 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.blue[200]),
       debugShowCheckedModeBanner: false,
 
-      home: Login(onLoginSuccess: () { print("Login Success"); },),
+      home: RegisterPage(),
     );
   }
 }

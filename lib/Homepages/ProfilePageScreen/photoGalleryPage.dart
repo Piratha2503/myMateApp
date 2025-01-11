@@ -1,87 +1,120 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+import '../../MyMateCommonBodies/MyMateApis.dart';
 import '../../MyMateThemes.dart';
 import 'MyProfileBodyWidgets.dart';
 import 'MyProfileWidgets.dart';
 
-class PhotoGallery extends StatelessWidget {
+class PhotoGallery extends StatefulWidget {
+  final String docId;
+
+  PhotoGallery({required this.docId});
+
+  @override
+  _PhotoGalleryState createState() => _PhotoGalleryState();
+}
+
+class _PhotoGalleryState extends State<PhotoGallery> {
+  int _currentIndex = 0;
+  List<String> imagePaths = [];
+  bool isLoading = true;
+  String errorMessage = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchImages();
+  }
+
+  Future<void> _fetchImages() async {
+    try {
+      final data = await fetchUserById(widget.docId);
+      setState(() {
+        imagePaths = List<String>.from(data['gallery_image_urls'] ?? []);
+        isLoading = false;
+        print(imagePaths);
+      });
+    } catch (e) {
+      setState(() {
+        errorMessage = 'Failed to load the images: $e';
+        isLoading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final double screenHeight = MediaQuery.of(context).size.height; // Screen height from MediaQuery
+    final double screenHeight = MediaQuery.of(context).size.height;
 
-    return SingleChildScrollView(
+    return isLoading
+        ? Center(child: CircularProgressIndicator())
+        : errorMessage.isNotEmpty
+        ? Center(child: Text(errorMessage))
+        : SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Section Title
+
           SectionTitle('Photo Gallery'),
           SizedBox(height: 10),
 
-          // Decorative Line
+
           Row(
             children: [
               SizedBox(width: 40),
               SvgPicture.asset('assets/images/Line 11.svg'),
             ],
           ),
-          SizedBox(height: 18),
+          SizedBox(height: 25),
 
-          // Photo Gallery Content
+
           Container(
-            height: screenHeight * 0.22, // Adjust container height relative to screen height
+            height: screenHeight * 0.48,
             padding: EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                // Left Column
-                Column(
-                  children: [
-                    Container(
-                      width: 139.5,
-                      height: 169,
-                      decoration: BoxDecoration(
-                        color: MyMateThemes.secondaryColor,
-                        borderRadius: BorderRadius.circular(20.0),
-                        image: DecorationImage(
-                          image: NetworkImage('https://via.placeholder.com/100'),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: CarouselSlider.builder(
+              itemCount: imagePaths.length,
+              itemBuilder: (context, index, realIndex) {
+                bool isCentered = index == _currentIndex;
 
-                // Right Column
-                Column(
-                  children: [
-                    Container(
-                      width: 139.5,
-                      height: 78,
-                      decoration: BoxDecoration(
-                        color: MyMateThemes.secondaryColor,
-                        borderRadius: BorderRadius.circular(20.0),
-                        image: DecorationImage(
-                          image: NetworkImage('https://via.placeholder.com/100'),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Container(
-                      width: 139.5,
-                      height: 78,
-                      decoration: BoxDecoration(
-                        color: MyMateThemes.secondaryColor,
-                        borderRadius: BorderRadius.circular(20.0),
-                        image: DecorationImage(
-                          image: NetworkImage('https://via.placeholder.com/100'),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+                return AnimatedContainer(
+                  duration: Duration(milliseconds: 100),
+                  width: 297,
+                  height: 379,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: isCentered
+                        ? Colors.transparent
+                        : MyMateThemes.secondaryColor,
+                  ),
+                  child: isCentered
+                      ? Image.network(
+                    imagePaths[index],
+                    fit: BoxFit.fill,
+                  )
+                      : SizedBox.expand(),
+                );
+              },
+              options: CarouselOptions(
+                height: 379.0,
+                enlargeCenterPage: true,
+                aspectRatio: 16 / 9,
+                autoPlay: false,
+                enableInfiniteScroll: false,
+                scrollPhysics: BouncingScrollPhysics(),
+                viewportFraction: 0.75,
+                onPageChanged: (index, reason) {
+                  setState(() {
+                    _currentIndex = index;
+                  });
+                },
+              ),
             ),
           ),
         ],

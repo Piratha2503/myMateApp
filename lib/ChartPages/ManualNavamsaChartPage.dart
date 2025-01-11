@@ -9,7 +9,9 @@ import '../dbConnection/Firebase_DB.dart';
 class ManualNavamsaChartPage extends StatefulWidget {
   ClientData clientData;
   Astrology astrology;
-  ManualNavamsaChartPage({required this.clientData,required this.astrology,super.key});
+  ManualNavamsaChartPage({required this.clientData,
+    required this.astrology,
+    super.key});
 
   @override
   State<ManualNavamsaChartPage> createState() => _ManualNavamsaChartPage();
@@ -171,8 +173,8 @@ class _ManualNavamsaChartPage extends State<ManualNavamsaChartPage> {
     chartGeneration.place11 = option11List;
     chartGeneration.place12 = option12List;
 
-    widget.astrology.navamsa_chart = chartGeneration;
-    widget.clientData.astrology = widget.astrology;
+   widget.astrology.navamsa_chart = chartGeneration;
+  widget.clientData.astrology = widget.astrology;
     await firebaseDB.updateClient(widget.clientData);
 
     print(chartGeneration.place1);
@@ -232,6 +234,7 @@ class _ManualNavamsaChartPage extends State<ManualNavamsaChartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor:Colors.white,
       body: Column(
         children: [
           SizedBox(height: 10),
@@ -242,22 +245,24 @@ class _ManualNavamsaChartPage extends State<ManualNavamsaChartPage> {
                   "Enter Chart Navamsa",
                   style: TextStyle(
                     color: MyMateThemes.textColor,
-                    fontSize: 15,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
+                      letterSpacing: 0.8
                   ),
                 ),
                 Text(
                   "to calculate Astrology Chart",
                   style: TextStyle(
                     color: MyMateThemes.primaryColor,
-                    fontSize: 14,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
+                    letterSpacing: 1
                   ),
                 ),
               ],
             ),
           ),
-          SizedBox(height: 20),
+          SizedBox(height:15),
           Container(
             width: 310,
             height: 208,
@@ -313,14 +318,13 @@ class _ManualNavamsaChartPage extends State<ManualNavamsaChartPage> {
               ],
             ),
           ),
-          SizedBox(height: 20),
           DecoratedBox(
             decoration: ShapeDecoration(
               shape: CircleBorder(),
             ),
             child: Container(
               height: 350,
-              width: 350,
+              width: 300,
               color: MyMateThemes.backgroundColor,
               child: Stack(
                 children: [
@@ -373,13 +377,15 @@ class _ManualNavamsaChartPage extends State<ManualNavamsaChartPage> {
               ),
             ),
           ),
+          SizedBox(height: 45),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               GestureDetector(
                 onTap: _resetSelections,
                 child: SvgPicture.asset('assets/images/ast_edit.svg'),
               ),
+              SizedBox(width: 18),
               GestureDetector(
                 onTap: () {
                   if (_areAllSelectionsComplete()) {

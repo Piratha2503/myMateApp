@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import '../../MyMateThemes.dart';
 import 'CompleteProfileWidgets.dart';
 
 class PageTwo extends StatefulWidget {
   final VoidCallback onSave;
-  final Map<String, dynamic> formData; // Add formData parameter
 
-  PageTwo({required this.onSave, required this.formData});
+  PageTwo({required this.onSave});
 
   @override
   _PageTwoState createState() => _PageTwoState();
@@ -23,40 +24,72 @@ class _PageTwoState extends State<PageTwo> {
   final TextEditingController _educationController = TextEditingController();
   final TextEditingController _contactNumberController = TextEditingController();
 
+  final String docId = 'kQkNnxHFw3MF1riqIiEQ';
+
   @override
   void initState() {
     super.initState();
-    _selectedCivilStatus = widget.formData['civilStatus'] ?? '-- Select Option --';
-    _selectedEmploymentType = widget.formData['employmentType'] ?? '-- Select Option --';
-    _selectedDistrict = widget.formData['district'] ?? '-- Select Option --';
-    _occupationController.text = widget.formData['occupation'] ?? '';
-    _heightController.text = widget.formData['height'] ?? '';
-    _educationController.text = widget.formData['education'] ?? '';
-    _contactNumberController.text = widget.formData['contactNumber'] ?? '';
-    isChecked = widget.formData['isCodeVerified'] ?? false;
+    _selectedCivilStatus = '-- Select Option --';
+    _selectedEmploymentType = '-- Select Option --';
+    _selectedDistrict = '-- Select Option --';
+    _occupationController.text = '';
+    _heightController.text = '';
+    _educationController.text = '';
+    _contactNumberController.text = '';
+    isChecked = false;
+  }
+
+  Future<void> _saveDataToBackend() async {
+    final String url = 'https://backend.graycorp.io:9000/mymate/api/v1/saveClientData';
+
+    final Map<String, dynamic> data = {
+      'docId': docId,
+      'personalDetails': {
+
+
+        'marital_status': _selectedCivilStatus,
+        'height': int.parse(_heightController.text),
+
+      },
+      'contactInfo': {
+        'mobile': _contactNumberController.text,
+
+
+
+        'address': {
+
+          'city': _selectedDistrict,
+
+        }
+      },
+
+      'careerStudies': {
+        'occupation': _occupationController.text,
+        'occupation_type': _selectedEmploymentType,
+        'higher_studies': _educationController.text,
+      },
+
+    };
+
+    try {
+      final response = await http.put(
+        Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode(data),
+      );
+
+      if (response.statusCode == 200) {
+        print('Data saved successfully');
+      } else {
+        print('Failed to save data: ${response.body}');
+      }
+    } catch (e) {
+      print('Error saving data: $e');
+    }
   }
 
   void _onSave() {
-    // Save the form data into formData map
-    widget.formData['civilStatus'] = _selectedCivilStatus;
-    widget.formData['employmentType'] = _selectedEmploymentType;
-    widget.formData['district'] = _selectedDistrict;
-    widget.formData['occupation'] = _occupationController.text;
-    widget.formData['height'] = _heightController.text;
-    widget.formData['education'] = _educationController.text;
-    widget.formData['contactNumber'] = _contactNumberController.text;
-    widget.formData['isCodeVerified'] = isChecked;
-
-    // Print the saved values
-    print('Civil Status: ${widget.formData['civilStatus']}');
-    print('Employment Type: ${widget.formData['employmentType']}');
-    print('District: ${widget.formData['district']}');
-    print('Occupation: ${widget.formData['occupation']}');
-    print('Height: ${widget.formData['height']}');
-    print('Education: ${widget.formData['education']}');
-    print('Contact Number: ${widget.formData['contactNumber']}');
-    print('Code Verified: ${widget.formData['isCodeVerified']}');
-
+    _saveDataToBackend();
     widget.onSave();
   }
 
@@ -136,7 +169,7 @@ class _PageTwoState extends State<PageTwo> {
           ),
           SizedBox(height: 20),
           ElevatedButton(
-            onPressed: _onSave, // Save and print form data
+            onPressed: _onSave,
             style: CommonButtonStyle.commonButtonStyle(),
             child: Text('Next'),
           ),
