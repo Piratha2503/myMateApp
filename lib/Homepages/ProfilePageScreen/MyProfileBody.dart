@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mymateapp/Homepages/ProfilePageScreen/photoGalleryPage.dart';
 import 'package:mymateapp/MyMateThemes.dart';
-
+import '../../MyMateCommonBodies/MyMateApis.dart';
 import '../../dbConnection/Firebase.dart';
 import '../Profiles/MoreAboutMe.dart';
 import '../custom_outline_button.dart';
@@ -21,7 +21,7 @@ class MyProfileBody extends StatefulWidget {
 class _MyProfileBodyState extends State<MyProfileBody> {
 
   final ScrollController _scrollController = ScrollController();
-  int _selectedButtonIndex = 0;
+
   final Firebase firebase = Firebase();
   late List<double> _positions;
 
@@ -30,13 +30,26 @@ class _MyProfileBodyState extends State<MyProfileBody> {
   String full_name = "";
   String gender = "";
   String education = "";
-  String district = "";
+  String city = "";
   String occupation = "";
   String mobile = "";
   String religion = "";
+  String mother_name = "";
+  String num_of_siblings = "";
   String age = "";
   String dob = "";
-  String image_url = "";
+  String dot = "";
+  String address = "";
+  String profilePictureUrl = "";
+  String country = "";
+  String rasi = "";
+  String natchathiram = "";
+  List<String> expectations = [];
+  bool _isSmall = false;
+  int _selectedIndex = 0;
+  int _selectedButtonIndex = 0;
+  List<TextEditingController> controllers = [];
+  bool isLoading = true;
 
 
   void _scrollToContainer(int index) {
@@ -52,20 +65,29 @@ class _MyProfileBodyState extends State<MyProfileBody> {
   bool isButtonSelected(int index) => _selectedButtonIndex == index;
 
   Future<void> getClient() async {
-    DocumentSnapshot client = await firebase.clients.doc(widget.docId).get();
-
-    setState(() {
-      full_name = client['full_name'] ?? "N/A";
-      gender = client['gender'] ?? "N/A";
-      education = client['education'] ?? "N/A";
-      district = client['district'] ?? "N/A";
-      occupation = client['occupation'] ?? "N/A";
-      mobile = client['mobile'].toString() ?? "N/A";
-      religion = client['religion'] ?? "N/A";
-      age = client['age'].toString() ?? "N/A";
-      dob = client['dob'] ?? "N/A";
-      image_url = client['image_url'] ?? "N/A";
-    });
+    //DocumentSnapshot client = await firebase.clients.doc(widget.docId).get();
+    final data = await fetchUserById(widget.docId);
+    if(data.isNotEmpty){
+      setState(() {
+        full_name = data['full_name'] ?? "N/A";
+        gender = data['gender'] ?? "N/A";
+        education = data['education'] ?? "N/A";
+        city = data['city'] ?? "N/A";
+        occupation = data['occupation'] ?? "N/A";
+        mobile = data['mobile'].toString() ?? "N/A";
+        religion = data['religion'] ?? "N/A";
+        age = data['age'].toString() ?? "N/A";
+        dob = data['dob'] ?? "N/A";
+        dot = data['dot'] ?? "N/A";
+        country = data['country'] ?? "N/A";
+        rasi = data['rasi'] ?? "N/A";
+        natchathiram = data['natchathiram'] ?? "N/A";
+        profilePictureUrl =data['profile_pic_url'] ?? "N/A";
+        address = data['address'] ?? "N/A";
+        isLoading = false;
+        var expectations = data['expectations'] ?? [];
+      });
+    }
   }
 
   @override
@@ -98,15 +120,15 @@ class _MyProfileBodyState extends State<MyProfileBody> {
             controller: _scrollController,
             child: Column(
               children: [
-                ProfileInfo(full_name,image_url),
+                ProfileInfo(full_name,profilePictureUrl),
                 SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     IconWithText('assets/images/Group 2145.svg', '$age years', dob),
-                    IconWithText('assets/images/Group 2146.svg', occupation, '$district - '),
-                    IconWithText('assets/images/Group 2147.svg', district, district),
+                    IconWithText('assets/images/Group 2146.svg', occupation, '$city - '),
+                    IconWithText('assets/images/Group 2147.svg', city, city),
                   ],
                 ),
                 SizedBox(height: 30),
