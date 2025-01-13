@@ -102,13 +102,13 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
   String phoneNumber = "";
   String mobile_country_code = "";
   String client_country = "";
-  String otp = "";
+  int otp = 0;
   FirebaseDB firebaseDB = FirebaseDB();
 
   Future<void> addMobile() async{
     print("Running");
     var random = Random();
-    otp = (random.nextInt(9999-1001)+1000).toString();
+    otp = (random.nextInt(9999-1001)+1000);
     Address address = Address(country: client_country);
     ContactInfo contactInfo = ContactInfo(
         mobile: phoneNumber,

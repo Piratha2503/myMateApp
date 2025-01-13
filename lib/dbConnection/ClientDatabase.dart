@@ -88,7 +88,7 @@ class PersonalDetails{
 class ContactInfo{
   String? mobile;
   String? mobile_country_code;
-  String? otp;
+  int? otp;
   String? email;
   Address? address;
   ContactInfo( {this.mobile,this.email,this.mobile_country_code,this.otp,required this.address});
