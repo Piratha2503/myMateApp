@@ -25,6 +25,7 @@ class _EditPageState extends State<EditPage> {
   String? _selectedEmploymentType;
   String? _selectedDistrict;
   String? _selectedReligion;
+  String? profilePicUrl;
 
   List<TextEditingController> controllers = [];
   List<String> errors = [];
@@ -59,9 +60,10 @@ class _EditPageState extends State<EditPage> {
           contactController.text = clientData['contact'] ?? '';
           _bioController.text = clientData['bio'] ?? '';
           isLoading = false;
-
+          // _imageFile = clientData['profile_pic_url'] ?? '' ;
+          profilePicUrl = clientData['profile_pic_url'] ?? '' ;
           var expectations = clientData['expectations'] ?? [];
-
+          print(profilePicUrl);
           if (expectations is List<String>) {
             controllers = expectations
                 .map((expectation) => TextEditingController(text: expectation))
@@ -255,7 +257,7 @@ class _EditPageState extends State<EditPage> {
 
       if (croppedFile != null) {
         setState(() {
-          _imageFile = croppedFile;
+          _imageFile = File(croppedFile.path);
         });
       }
     }
@@ -403,19 +405,20 @@ class _EditPageState extends State<EditPage> {
                 children: [
                  // SizedBox(height: 10),
                   Stack(
+                    alignment: Alignment.center,
                     children: [
                       GestureDetector(
                         onTap: _openPopupScreen,
-                        child: _imageFile != null
+                        child: profilePicUrl != null
                             ? CircleAvatar(
                           radius: 50,
-                          backgroundImage: FileImage(_imageFile!),
+                          backgroundImage: NetworkImage(profilePicUrl!),
                         )
                             : SvgPicture.asset('assets/images/circle.svg'),
                       ),
                       Positioned(
-                        bottom: -1,
-                        left: 95,
+                        bottom : 0,
+                          right: -5,
                         child: GestureDetector(
                           onTap: _openPopupScreen,
                           child: SvgPicture.asset('assets/images/edit.svg'),
@@ -424,7 +427,7 @@ class _EditPageState extends State<EditPage> {
                     ],
                   ),
 
-                  SizedBox(height: 25),
+                  SizedBox(height: 30),
                   _buildDropdownRow(
                     label: 'Civil Status',
                     value: _selectedCivilStatus,
@@ -445,9 +448,10 @@ class _EditPageState extends State<EditPage> {
                     label: 'Employment Type',
                     value: _selectedEmploymentType,
                     items: [
-                      'Select Type',
+                      '$_selectedEmploymentType',
                       'professional',
                       'Private'
+
 
                     ],
                     onChanged: (value) {
