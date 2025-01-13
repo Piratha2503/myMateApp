@@ -52,7 +52,7 @@ class _ProfilePageState extends State<ProfilePage>
       mobile = clientData['contactInfo']?['mobile']?.toString() ?? "N/A";
       religion = clientData['personalDetails']?['religion'] ?? "N/A";
       age = clientData['personalDetails']?['age']?.toString() ?? "N/A";
-      dob = clientData['personalDetails']?['dob'] ?? "N/A";
+      dob = clientData["astrology"]['dob'] ?? "N/A";
     });
   }
 
@@ -403,7 +403,23 @@ class _ProfilePageState extends State<ProfilePage>
             curve: Curves.easeInOut,
             height: _isSmall ? 50 : 230,
             alignment: _isSmall ? Alignment(-1.2, 1.0) : Alignment.center,
-            child: SvgPicture.asset('assets/images/Group 2073 (1).svg'),
+            child: ClipOval(
+              child: Image.network(
+                "https://backend.graycorp.io/images/man-2.jpg",
+                fit: BoxFit.cover,
+                height: _isSmall ? 50 : 230,
+                width: _isSmall ? 50 : 230,
+                errorBuilder: (context, error, stackTrace) {
+                  return Icon(Icons.error, size: _isSmall ? 50 : 230);
+                },
+                loadingBuilder: (context, child, progress) {
+                  if (progress == null) return child;
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+              ),
+            ),
           ),
         ),
         GestureDetector(

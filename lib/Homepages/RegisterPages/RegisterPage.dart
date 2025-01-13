@@ -127,7 +127,7 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
 
    if(res.statusCode == 200){
      print(res.statusCode);
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>OtpPinput(clientData: clientData,)));
+     Navigator.push(context, MaterialPageRoute(builder: (context)=>OtpPinput(clientData: clientData,)));
    }
    else {
      print(res.body);

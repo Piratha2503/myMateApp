@@ -1,8 +1,8 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mymateapp/Homepages/Profiles/MoreAboutMe.dart';
 import 'package:mymateapp/MyMateThemes.dart';
+
 import '../../MyMateCommonBodies/MyMateApis.dart';
 import '../../MyMateCommonBodies/MyMateBottomBar.dart';
 import '../../dbConnection/Firebase.dart';
@@ -11,6 +11,7 @@ import '../ProfilePageScreen/navamsaChartDesign.dart';
 import '../ProfilePageScreen/photoGalleryPage.dart';
 import '../ProfilePageScreen/rasiChartDesign.dart';
 import '../custom_outline_button.dart';
+import '../explorePage/explorePageMain.dart';
 import 'EditPage.dart';
 import 'package:http/http.dart' as http;
 
@@ -174,13 +175,15 @@ class _OtherProfilePageState extends State<OtherProfilePage>
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
       backgroundColor: MyMateThemes.backgroundColor,
+      automaticallyImplyLeading: false, // Prevents the default back arrow
+
       title: SafeArea(
         child: Row(
           children: [
             GestureDetector(
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => MoreAboutMePage()));
+                    MaterialPageRoute(builder: (context) => ExplorePage(results: [], initialTabIndex: 0,)));
               },
               child: SvgPicture.asset('assets/images/chevron-left.svg'),
             ),

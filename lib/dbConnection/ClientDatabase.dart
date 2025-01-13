@@ -169,15 +169,15 @@ class Lifestyle{
   List<String>? hobbies;
   List<String>? personal_interest;
   List<String>? expectations;
-  List<String>? habbits;
-  Lifestyle(this.hobbies,this.personal_interest,this.expectations,this.habbits);
+  List<String>? habits;
+  Lifestyle(this.hobbies,this.personal_interest,this.expectations,this.habits);
 
   Map<String, dynamic> toMap() {
     return {
       'hobbies': hobbies,
       'personal_interest': personal_interest,
       'expectations': expectations,
-      'habbits':habbits,
+      'habits':habits,
     };
   }
 

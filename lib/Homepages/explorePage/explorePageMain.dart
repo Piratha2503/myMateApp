@@ -131,6 +131,8 @@ class _ExplorePageState extends State<ExplorePage>
 PreferredSizeWidget ExplorePageAppBar(BuildContext context, VoidCallback onFilterTap) {
   return AppBar(
     backgroundColor: Colors.white,
+    automaticallyImplyLeading: false, // Prevents the default back arrow
+
     title: const Text(
       'Explore',
       style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),

@@ -32,7 +32,7 @@ class _CheckmatchPageState extends State<CheckmatchPage> {
 
   // Store API results
   Map<String, bool> matchResults = {
-   // "Overall Matching" :false,
+    // "Overall Matching" :false,
     "Vethai Matching": false,
     "Viruksha Match": false,
     "Kana Matching": false,
@@ -51,14 +51,14 @@ class _CheckmatchPageState extends State<CheckmatchPage> {
   /// Fetch data from API using fetchUserById
   Future<void> getSoulName() async {
 
-      final data = await fetchUserById(widget.soulDocId);
+    final data = await fetchUserById(widget.soulDocId);
 
-      if (data.isNotEmpty) {
-        setState(() {
-          full_name = data['full_name'] ?? "N/A";
-        });
-      }
+    if (data.isNotEmpty) {
+      setState(() {
+        full_name = data['full_name'] ?? "N/A";
+      });
     }
+  }
 
   Future<void> fetchMatchingResults() async {
     try {
