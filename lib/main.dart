@@ -4,7 +4,10 @@ import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import 'Homepages/AnimatedPages/StartPage.dart';
 import 'Homepages/CheckMatch.dart';
 import 'Homepages/ProfilePageScreen/MyProfileMain.dart';
+import 'Homepages/Profiles/EditPage.dart';
 import 'Homepages/Profiles/OthersProfile.dart';
+import 'Homepages/Profiles/boost_profile.dart';
+import 'Homepages/RegisterPages/RegisterPage.dart';
 import 'Homepages/explorePage/explorePageMain.dart';
 import 'firebase_options.dart';
 import 'login.dart';
@@ -45,7 +48,7 @@ class MyApp extends StatelessWidget {
      //    initialTabIndex: 0,
      //    results: [], // Pass an empty list initially
      //  ),
-      OtherProfilePage(),
+      Login(onLoginSuccess: () {  },),
     );
   }
 }

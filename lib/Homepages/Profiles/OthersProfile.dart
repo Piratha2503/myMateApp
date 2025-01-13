@@ -23,7 +23,7 @@ class OtherProfilePage extends StatefulWidget {
 
 
 
-  const OtherProfilePage({this.docId = 'VIWP1RBrcLluTbEuJAZG', super.key});
+  const OtherProfilePage({this.docId = 'E0JFHhK2x6Gq2Ac6XSyP', super.key});
 
   String get soulDocId => docId;
 
