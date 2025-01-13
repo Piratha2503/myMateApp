@@ -14,6 +14,8 @@ import '../../MyMateThemes.dart';
 import '../ClosableContainer.dart';
 
 class EditPage extends StatefulWidget {
+  late final VoidCallback onSave;
+
   @override
   State<EditPage> createState() => _EditPageState();
 }
@@ -26,7 +28,7 @@ class _EditPageState extends State<EditPage> {
   String? _selectedDistrict;
   String? _selectedReligion;
   String? profilePicUrl;
-
+  String? _savedImageUrl;
   List<TextEditingController> controllers = [];
   List<String> errors = [];
   final TextEditingController _bioController = TextEditingController();
@@ -61,7 +63,7 @@ class _EditPageState extends State<EditPage> {
           _bioController.text = clientData['bio'] ?? '';
           isLoading = false;
           // _imageFile = clientData['profile_pic_url'] ?? '' ;
-          profilePicUrl = clientData['profile_pic_url'] ?? '' ;
+          profilePicUrl = clientData['profile_pic_url'] ?? '';
           var expectations = clientData['expectations'] ?? [];
           print(profilePicUrl);
           if (expectations is List<String>) {
@@ -79,7 +81,7 @@ class _EditPageState extends State<EditPage> {
         });
       } else {
         setState(() {
-          isLoading = false;
+          isLoading = true;
         });
 
         ScaffoldMessenger.of(context).showSnackBar(
@@ -88,7 +90,7 @@ class _EditPageState extends State<EditPage> {
       }
     } catch (e) {
       setState(() {
-        isLoading = false;
+        isLoading = true;
       });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error: $e')),
@@ -96,6 +98,70 @@ class _EditPageState extends State<EditPage> {
     }
 
   }
+
+  Future<void> _uploadImageToBackend(File imageFile) async {
+    final url = Uri.parse(
+        "https://backend.graycorp.io:9000/mymate/api/v1/uploadProfileImages");
+
+    try {
+      var request = http.MultipartRequest('PUT', url)
+        ..fields['docId'] = clientId
+        ..files.add(await http.MultipartFile.fromPath(
+          'profile_Image',
+          imageFile.path,
+        ));
+
+      final response = await request.send();
+
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        final uploadedUrl = responseBody;
+
+        setState(() {
+          profilePicUrl = uploadedUrl;
+
+        });
+
+        print("Image uploaded successfully: $uploadedUrl");
+      } else {
+        print("Failed to upload image. Status code: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("Error uploading image: $e");
+    }
+  }
+
+  void _onSave() async {
+
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+
+      await _uploadImageToBackend(_imageFile!);
+
+
+      await _fetchClientData();
+
+      setState(() {
+
+        profilePicUrl = profilePicUrl;
+      });
+
+      print("Profile updated successfully!");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Profile updated successfully!')),
+      );
+    } catch (e) {
+      print("Error saving profile: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to update profile. Please try again.')),
+      );
+    }
+
+  }
+
 
   Widget _buildTextFieldRow({
     required String label,
@@ -229,7 +295,8 @@ class _EditPageState extends State<EditPage> {
                 SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pop();
+                    _onSave;
+                    _fetchClientData();
                   },
                   child: SvgPicture.asset('assets/images/Active.svg'),
                 ),
@@ -246,19 +313,25 @@ class _EditPageState extends State<EditPage> {
     final pickedImage = await picker.pickImage(source: source);
 
     if (pickedImage != null) {
-      File? croppedFile = (await ImageCropper().cropImage(
+      CroppedFile? croppedFile = await ImageCropper().cropImage(
         sourcePath: pickedImage.path,
         aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
         compressQuality: 100,
         maxHeight: 1000,
         maxWidth: 1000,
         compressFormat: ImageCompressFormat.jpg,
-      )) as File?;
+      ) ;
 
       if (croppedFile != null) {
         setState(() {
           _imageFile = File(croppedFile.path);
         });
+        await _uploadImageToBackend(_imageFile!);
+
+        setState(() {
+          profilePicUrl = profilePicUrl;
+        });
+        Navigator.pop(context);
       }
     }
   }
@@ -307,7 +380,10 @@ class _EditPageState extends State<EditPage> {
       'expectations': updatedExpectations,
 
     };
+    Map<String, dynamic> profileImages = {
+      'profilePicUrl': profilePicUrl,
 
+    };
 
     Map<String, dynamic> payload = {
       "docId": clientId,
@@ -315,6 +391,7 @@ class _EditPageState extends State<EditPage> {
       "contactInfo": contactInfo,
       "careerStudies": careerStudies,
       "lifestyle": lifestyle,
+"profileImages":profileImages,
 
     };
     try {
@@ -360,6 +437,7 @@ class _EditPageState extends State<EditPage> {
     contactController.dispose();
     for (var controller in controllers) {
       controller.dispose();
+
     }
     super.dispose();
   }
