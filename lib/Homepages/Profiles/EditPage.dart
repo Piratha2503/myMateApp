@@ -28,7 +28,6 @@ class _EditPageState extends State<EditPage> {
   String? _selectedDistrict;
   String? _selectedReligion;
   String? profilePicUrl;
-  String? _savedImageUrl;
   List<TextEditingController> controllers = [];
   List<String> errors = [];
   final TextEditingController _bioController = TextEditingController();
