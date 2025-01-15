@@ -171,7 +171,7 @@ class _FilterPageState extends State<FilterPage> {
         MaterialPageRoute(
           builder: (context) => ExplorePage(
             initialTabIndex: 2,
-            results: results, // Pass the filtered results here
+            results: results, search: [], // Pass the filtered results here
           ),
         ),
       );

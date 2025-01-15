@@ -183,7 +183,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
             GestureDetector(
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ExplorePage(results: [], initialTabIndex: 0,)));
+                    MaterialPageRoute(builder: (context) => ExplorePage(results: [], initialTabIndex: 0, search: [],)));
               },
               child: SvgPicture.asset('assets/images/chevron-left.svg'),
             ),

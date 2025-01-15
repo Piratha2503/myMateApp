@@ -36,7 +36,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   void onTab(int index){
     switch(index){
       case 0: NavigatorFunction(context, SubscribedhomescreenStructuredPage());
-      case 1: NavigatorFunction(context, ExplorePage(results: []));
+      case 1: NavigatorFunction(context, ExplorePage(results: [], search: [],));
       case 2: NavigatorFunction(context, NotificationPage(index));
       case 3: NavigatorFunction(context, ProfilePage(docId: "E0JFHhK2x6Gq2Ac6XSyP",
               selectedBottomBarIconIndex: 3,));
