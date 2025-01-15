@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mymateapp/Homepages/ProfilePageScreen/photoGalleryPage.dart';
 import 'package:mymateapp/MyMateThemes.dart';
+import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import '../../MyMateCommonBodies/MyMateApis.dart';
 import '../../dbConnection/Firebase.dart';
 import '../Profiles/MoreAboutMe.dart';
@@ -50,7 +51,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
   int _selectedButtonIndex = 0;
   List<TextEditingController> controllers = [];
   bool isLoading = true;
-
+  PersonalDetails personalDetails = PersonalDetails();
 
   void _scrollToContainer(int index) {
     double containerHeight =MediaQuery.of(context).size.height;
@@ -69,13 +70,13 @@ class _MyProfileBodyState extends State<MyProfileBody> {
     final data = await fetchUserById(widget.docId);
     if(data.isNotEmpty){
       setState(() {
-        full_name = data['full_name'] ?? "N/A";
-        gender = data['gender'] ?? "N/A";
+        personalDetails.full_name = data['full_name'] ?? "N/A";
+        personalDetails.gender = data['gender'] ?? "N/A";
         education = data['education'] ?? "N/A";
         city = data['city'] ?? "N/A";
         occupation = data['occupation'] ?? "N/A";
         mobile = data['mobile'].toString() ?? "N/A";
-        religion = data['religion'] ?? "N/A";
+        personalDetails.religion = data['religion'] ?? "N/A";
         age = data['age'].toString() ?? "N/A";
         dob = data['dob'] ?? "N/A";
         dot = data['dot'] ?? "N/A";
@@ -86,8 +87,16 @@ class _MyProfileBodyState extends State<MyProfileBody> {
         address = data['address'] ?? "N/A";
         isLoading = false;
         var expectations = data['expectations'] ?? [];
+        personalDetails.first_name = data['first_name']?? "N/A";
+        personalDetails.mother_name = data['mother_name'] ?? "N/A";
+        personalDetails.caste = data['caste'] ?? "N/A";
+        personalDetails.religion = data['religion'] ?? "N/A";
+        personalDetails.num_of_siblings = data['num_of_siblings'] ?? "N/A";
+        personalDetails.height = data['height'] ?? "N/A";
+
       });
     }
+
   }
 
   @override
@@ -182,7 +191,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                 AstrologySection(),
                 Containers(
                   children:[
-                    AboutMe(),
+                    AboutMe(education: education, personalDetails: personalDetails),
                     SizedBox(height: 48),
                     PhotoGallery(docId: widget.docId),
                     SizedBox(height:30),
