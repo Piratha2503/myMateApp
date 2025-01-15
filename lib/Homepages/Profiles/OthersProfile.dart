@@ -24,7 +24,7 @@ class OtherProfilePage extends StatefulWidget {
 
 
 
-  const OtherProfilePage({this.docId = 'VIWP1RBrcLluTbEuJAZG', super.key});
+  const OtherProfilePage({required this.docId, super.key});
 
   String get soulDocId => docId;
 
@@ -523,7 +523,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
           _selectedIndex = index;
         });
 
-      },
+      }, docId: widget.docId,
     );
   }
 

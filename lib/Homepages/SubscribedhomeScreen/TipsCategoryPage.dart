@@ -121,15 +121,15 @@ class _TipsCategoryPageState extends State<TipsCategoryPage> {
         ],
       ),
 
-      bottomNavigationBar: CustomBottomNavigationBar(
-        selectedIndex: _selectedIndex,
-        onItemTapped: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-          // Handle navigation here based on the index
-        },
-      ),
+      // bottomNavigationBar: CustomBottomNavigationBar(
+      //   selectedIndex: _selectedIndex,
+      //   onItemTapped: (index) {
+      //     setState(() {
+      //       _selectedIndex = index;
+      //     });
+      //     // Handle navigation here based on the index
+      //   },
+      // ),
     );
   }
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mymateapp/MyMateThemes.dart';
-import '../Homepages/Profiles/MyProfile.dart';
+
 import '../Homepages/Notification.dart';
+import '../Homepages/ProfilePageScreen/MyProfileMain.dart';
 import 'ManagePage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -80,7 +81,7 @@ class _SettingspageState extends State<Settingspage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => ProfilePage(
-                                  docId: '',
+                                  docId: '', selectedBottomBarIconIndex: 3,
                                 )));
                   },
                   child: SvgPicture.asset(

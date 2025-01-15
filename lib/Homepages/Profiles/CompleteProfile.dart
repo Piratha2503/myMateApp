@@ -10,8 +10,13 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 
 import '../ProfilePageScreen/MyProfileMain.dart';
 
+
+
+
+
 class CompleteProfilePage extends StatefulWidget {
-  const CompleteProfilePage({super.key});
+  final String docId;
+  const CompleteProfilePage({required this.docId, super.key});
 
   @override
   State<CompleteProfilePage> createState() => _CompleteProfilePageState();
@@ -105,7 +110,7 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => ProfilePage(docId: "9l2knrHe8XLZL2S3erxy",
+              builder: (context) => ProfilePage(docId: widget.docId,
                 selectedBottomBarIconIndex: 3,)),
         );
       },
