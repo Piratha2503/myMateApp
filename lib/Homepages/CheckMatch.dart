@@ -195,7 +195,7 @@ class _CheckmatchPageState extends State<CheckmatchPage> {
           setState(() {
             _selectedIndex = index;
           });
-        },
+        }, docId: widget.clientDocId,
       ),
     );
   }

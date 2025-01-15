@@ -59,7 +59,7 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
           setState(() {
             _selectedIndex = index;
           });
-        },
+        }, docId: widget.docId,
       ),
     );
   }

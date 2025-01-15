@@ -14,7 +14,9 @@ import '../../MyMateThemes.dart';
 import '../ClosableContainer.dart';
 
 class EditPage extends StatefulWidget {
-  late final VoidCallback onSave;
+  final VoidCallback onSave;
+  final String docId;
+  const EditPage({required this.docId, super.key, required this.onSave});
 
   @override
   State<EditPage> createState() => _EditPageState();
@@ -38,7 +40,7 @@ class _EditPageState extends State<EditPage> {
   TextEditingController contactController = TextEditingController();
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  String clientId = "E0JFHhK2x6Gq2Ac6XSyP";
+
 
   @override
   void initState() {
@@ -48,7 +50,7 @@ class _EditPageState extends State<EditPage> {
 
   Future<void> _fetchClientData() async {
     try {
-      Map<String, dynamic> clientData = await fetchUserById(clientId);
+      Map<String, dynamic> clientData = await fetchUserById(widget.docId);
 
       if (clientData.isNotEmpty) {
         setState(() {
@@ -104,7 +106,7 @@ class _EditPageState extends State<EditPage> {
 
     try {
       var request = http.MultipartRequest('PUT', url)
-        ..fields['docId'] = clientId
+        ..fields['docId'] = widget.docId
         ..files.add(await http.MultipartFile.fromPath(
           'profile_Image',
           imageFile.path,
@@ -385,7 +387,7 @@ class _EditPageState extends State<EditPage> {
     };
 
     Map<String, dynamic> payload = {
-      "docId": clientId,
+      "docId": widget.docId,
       "personalDetails": personalDetails,
       "contactInfo": contactInfo,
       "careerStudies": careerStudies,
@@ -509,7 +511,7 @@ class _EditPageState extends State<EditPage> {
                     label: 'Civil Status',
                     value: _selectedCivilStatus,
                     items: [
-                      'Select Status',
+                      '$_selectedCivilStatus',
                       'Single',
                       'Married',
                       'Widowed',
@@ -555,7 +557,7 @@ class _EditPageState extends State<EditPage> {
                     label: 'District',
                     value: _selectedDistrict,
                     items: [
-                      'Select District',
+                      '$_selectedDistrict',
                       'Colombo',
                       'Kandy',
                       'Jaffna',
@@ -578,7 +580,7 @@ class _EditPageState extends State<EditPage> {
                     label: 'Religion',
                     value: _selectedReligion,
                     items: [
-                      'Select Religion',
+                      '$_selectedReligion',
                       'Christian-Rc',
                       'hindu',
                       'Islam',

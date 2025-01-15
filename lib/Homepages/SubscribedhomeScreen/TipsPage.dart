@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mymateapp/MyMateThemes.dart';
-
 import '../../MyMateCommonBodies/MyMateBottomBar.dart';
 import 'TipsPage.dart';
 
@@ -121,15 +120,15 @@ class _TipsPageState extends State<TipsPage> {
         ],
       ),
 
-      bottomNavigationBar: CustomBottomNavigationBar(
-        selectedIndex: _selectedIndex,
-        onItemTapped: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-          // Handle navigation here based on the index
-        },
-      ),
+      // bottomNavigationBar: CustomBottomNavigationBar(
+      //   selectedIndex: _selectedIndex,
+      //   onItemTapped: (index) {
+      //     setState(() {
+      //       _selectedIndex = index;
+      //     });
+      //     // Handle navigation here based on the index
+      //   },
+      // ),
     );
   }
 }

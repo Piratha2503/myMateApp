@@ -54,13 +54,7 @@ class _PageThreeState extends State<PageThree> {
     if (_validateForm()) {
       final Map<String, dynamic> data = {
         'docId': widget.docId,
-        'personalDetails': {
-          'religion': _selectedReligion,
-          'language': _selectedLanguage,
-          'caste': _casteController.text,
-          'num_of_siblings': _siblingsController.text,
-          'bio': _bioController.text,
-        },
+
         'lifestyle': {
           'expectations': controllers.map((c) => c.text).toList(),
         },
@@ -68,7 +62,7 @@ class _PageThreeState extends State<PageThree> {
 
       final url = 'https://backend.graycorp.io:9000/mymate/api/v1/saveClientData';
       try {
-        print('Sending data: ${json.encode(data)}'); // Debugging
+        print('Sending data: ${json.encode(data)}');
         final response = await http.put(
           Uri.parse(url),
           headers: {
@@ -77,11 +71,11 @@ class _PageThreeState extends State<PageThree> {
           body: json.encode(data),
         );
 
-        print('Response status: ${response.statusCode}'); // Debugging
-        print('Response body: ${response.body}'); // Debugging
+        print('Response status: ${response.statusCode}');
+        print('Response body: ${response.body}');
 
         if (response.statusCode == 200) {
-          widget.onSave(); // Save successful
+          widget.onSave();
         } else {
           setState(() {
             error = 'Failed to save data: ${response.body}';
@@ -93,6 +87,54 @@ class _PageThreeState extends State<PageThree> {
         });
       }
     }
+  }
+
+  Future<void> _updateForm() async {
+    if (_validateForm()) {
+      final Map<String, dynamic> data = {
+        'docId': widget.docId,
+        'personalDetails': {
+          'religion': _selectedReligion,
+          'language': _selectedLanguage,
+          'caste': _casteController.text,
+          'num_of_siblings': _siblingsController.text,
+          'bio': _bioController.text,
+        },
+
+      };
+
+      final url = 'https://backend.graycorp.io:9000/mymate/api/v1/updateClient';
+      try {
+        print('Sending data: ${json.encode(data)}');
+        final response = await http.put(
+          Uri.parse(url),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: json.encode(data),
+        );
+
+        print('Response status: ${response.statusCode}');
+        print('Response body: ${response.body}');
+
+        if (response.statusCode == 200) {
+          widget.onSave();
+        } else {
+          setState(() {
+            error = 'Failed to save data: ${response.body}';
+          });
+        }
+      } catch (e) {
+        setState(() {
+          error = 'Error while saving data: $e';
+        });
+      }
+    }
+  }
+
+  Future<void> _saveAndUpdateForms() async {
+    await _saveForm();
+    await _updateForm();
   }
 
   @override
@@ -236,7 +278,7 @@ class _PageThreeState extends State<PageThree> {
           ),
           SizedBox(height: 40),
           ElevatedButton(
-            onPressed: _saveForm, // Save form data when pressed
+            onPressed: _saveAndUpdateForms, // Save form data when pressed
             style: CommonButtonStyle.commonButtonStyle(),
             child: Text('Complete'),
           ),
