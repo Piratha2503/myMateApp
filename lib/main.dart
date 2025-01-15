@@ -5,6 +5,7 @@ import 'package:mymateapp/Homepages/Profiles/EditPage.dart';
 import 'package:mymateapp/Homepages/RegisterPages/RegisterPage.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 
+import 'Homepages/explorePage/explorePageMain.dart';
 import 'firebase_options.dart';
 
 
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
       // CheckmatchPage( clientDocId: '', soulDocId: '',),
       ExplorePage(
         initialTabIndex: 0,
-        results: [], search: [], // Pass an empty list initially
+        results: [], search: [], docId: '', // Pass an empty list initially
       ),
       //  RegisterPage(),
     );

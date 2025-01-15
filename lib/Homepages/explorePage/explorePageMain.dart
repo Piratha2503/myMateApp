@@ -11,7 +11,7 @@ class ExplorePage extends StatefulWidget {
   final List<Map<String, dynamic>> results;
 
 
-  const ExplorePage({Key? key, this.initialTabIndex = 0, required this.results, required List search}) : super(key: key);
+  const ExplorePage({Key? key, this.initialTabIndex = 0, required this.results, required List search, required String docId}) : super(key: key);
 
   @override
   _ExplorePageState createState() => _ExplorePageState();
@@ -163,7 +163,7 @@ class _ExplorePageState extends State<ExplorePage> with SingleTickerProviderStat
           setState(() {
             _tabController.index = index;
           });
-        },
+        }, docId: '',
       ),
     );
   }

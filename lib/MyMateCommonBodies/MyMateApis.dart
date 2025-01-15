@@ -143,6 +143,7 @@ Future<List<Map<String, dynamic>>> fetchAllUsers() async {
           'age': user['personalDetails']?['age'] ?? 'N/A',
           'occupation': user['careerStudies']?['occupation'] ?? 'N/A',
           'images': user['profileImages']?['profile_pic_url'] ?? '',
+
           'city' : user['city'] ?? 'N/A',
 
         };
