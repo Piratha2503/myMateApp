@@ -6,7 +6,9 @@ import 'package:mymateapp/Homepages/Profiles/EditPage.dart';
 import 'package:mymateapp/Homepages/RegisterPages/RegisterPage.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 
+import 'Homepages/explorePage/explorePageMain.dart';
 import 'firebase_options.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,7 +39,14 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.blue[200]),
       debugShowCheckedModeBanner: false,
 
-      home: ProfilePage(selectedBottomBarIconIndex: 3, docId: "E0JFHhK2x6Gq2Ac6XSyP"),
+      home:
+      // ProfilePage(docId: "E0JFHhK2x6Gq2Ac6XSyP", selectedBottomBarIconIndex:0,),
+      // CheckmatchPage( clientDocId: '', soulDocId: '',),
+      ExplorePage(
+        initialTabIndex: 0,
+        results: [], search: [], docId: '', // Pass an empty list initially
+      ),
+      //  RegisterPage(),
     );
   }
 }

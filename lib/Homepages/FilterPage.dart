@@ -8,8 +8,7 @@ import '../MyMateThemes.dart';
 import 'explorePage/explorePageMain.dart';
 
 class FilterPage extends StatefulWidget {
-  final String docId;
-  const FilterPage({Key? key,required this.docId}) : super(key: key);
+  const FilterPage({Key? key}) : super(key: key);
 
   @override
   State<FilterPage> createState() => _FilterPageState();
@@ -172,7 +171,7 @@ class _FilterPageState extends State<FilterPage> {
         MaterialPageRoute(
           builder: (context) => ExplorePage(
             initialTabIndex: 2,
-            results: results, docId: widget.docId, // Pass the filtered results here
+            results: results, search: [], docId: '', // Pass the filtered results here
           ),
         ),
       );
