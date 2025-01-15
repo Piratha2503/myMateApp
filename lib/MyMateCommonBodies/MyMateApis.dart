@@ -55,7 +55,7 @@ Future<Map<String, dynamic>> fetchUserById(String docId) async {
       final profileImages = data['proilfeImages'] ?? {};
 
       final imageGallery =
-          profileImages['images']?['gallery_image_urls'] ?? [];
+          profileImages?['gallery_image_urls'] ?? [];
       final userImages = (imageGallery as List).take(3).toList();
 
 
