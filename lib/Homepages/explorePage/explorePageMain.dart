@@ -8,8 +8,8 @@ import 'explorePageWidgets.dart';
 class ExplorePage extends StatefulWidget {
   final int initialTabIndex;
   final List<Map<String, dynamic>> results;
-
-  const ExplorePage({Key? key, this.initialTabIndex = 0, required this.results})
+  final String docId;
+  const ExplorePage({Key? key,required this.docId, this.initialTabIndex = 0, required this.results})
       : super(key: key);
 
   @override
@@ -43,7 +43,7 @@ class _ExplorePageState extends State<ExplorePage>
   void _openFilterPage() async {
     final filters = await Navigator.push<Map<String, String>>(
       context,
-      MaterialPageRoute(builder: (context) => FilterPage()),
+      MaterialPageRoute(builder: (context) => FilterPage(docId: widget.docId,)),
     );
 
     if (filters != null) {
@@ -122,7 +122,7 @@ class _ExplorePageState extends State<ExplorePage>
           setState(() {
             _tabController.index = index;
           });
-        },
+        }, docId: widget.docId,
       ),
     );
   }

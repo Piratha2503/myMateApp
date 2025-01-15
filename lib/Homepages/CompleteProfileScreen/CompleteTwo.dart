@@ -6,8 +6,8 @@ import 'CompleteProfileWidgets.dart';
 
 class PageTwo extends StatefulWidget {
   final VoidCallback onSave;
-
-  PageTwo({required this.onSave});
+  final String docId;
+  PageTwo({required this.onSave,required this.docId});
 
   @override
   _PageTwoState createState() => _PageTwoState();
@@ -24,7 +24,7 @@ class _PageTwoState extends State<PageTwo> {
   final TextEditingController _educationController = TextEditingController();
   final TextEditingController _contactNumberController = TextEditingController();
 
-  final String docId = 'kQkNnxHFw3MF1riqIiEQ';
+
 
   @override
   void initState() {
@@ -43,7 +43,7 @@ class _PageTwoState extends State<PageTwo> {
     final String url = 'https://backend.graycorp.io:9000/mymate/api/v1/saveClientData';
 
     final Map<String, dynamic> data = {
-      'docId': docId,
+      'docId': widget.docId,
       'personalDetails': {
 
 

@@ -60,15 +60,15 @@ class _SubscribedhomescreenStructuredPageState extends State<Subscribedhomescree
 
         ],
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(
-        selectedIndex: _selectedIndex,
-        onItemTapped: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-          // Handle navigation here based on the index
-        },
-      ),
+      // bottomNavigationBar: CustomBottomNavigationBar(
+      //   selectedIndex: _selectedIndex,
+      //   onItemTapped: (index) {
+      //     setState(() {
+      //       _selectedIndex = index;
+      //     });
+      //     // Handle navigation here based on the index
+      //   },
+      // ),
     );
   }
 }

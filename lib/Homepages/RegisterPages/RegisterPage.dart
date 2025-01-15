@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -11,7 +12,7 @@ import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/dbConnection/Firebase_DB.dart';
 import '../../dbConnection/ClientDatabase.dart';
 
-class RegisterPage extends StatefulWidget {
+  class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
   @override
@@ -102,13 +103,41 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
   String phoneNumber = "";
   String mobile_country_code = "";
   String client_country = "";
-  int otp = 0;
+  int? otp = 0;
   FirebaseDB firebaseDB = FirebaseDB();
+
+  Future<String?> fetchDocIdByMobile(String mobile) async {
+    try {
+      final url = Uri.parse("https://backend.graycorp.io:9000/mymate/api/v1/getClientDataByMobile")
+          .replace(queryParameters: {'mobile': mobile});
+
+      final response = await http.get(
+        url,
+        headers: {'Content-Type': 'application/json'},
+      );
+
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        final docId = data['docId'];
+        print("Fetched docId: $docId");
+        return data['docId'];
+
+      }
+
+      else {
+        print("Failed to fetch docId: ${response.statusCode}, ${response.body}");
+      }
+    } catch (e) {
+      print("Error fetching docId: $e");
+    }
+    return null;
+  }
 
   Future<void> addMobile() async{
     print("Running");
     var random = Random();
-    otp = (random.nextInt(9999-1001)+1000);
+    otp = (random.nextInt(9999-1001)+1000).toString();
     Address address = Address(country: client_country);
     ContactInfo contactInfo = ContactInfo(
         mobile: phoneNumber,
@@ -126,10 +155,27 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
 
    if(res.statusCode == 200){
      print(res.statusCode);
-     Navigator.push(context, MaterialPageRoute(builder: (context)=>OtpPinput(clientData: clientData,)));
-   }
-   else {
-     print(res.body);
+     final docId = await fetchDocIdByMobile(phoneNumber);
+     if (docId != null) {
+       Navigator.push(
+         context,
+         MaterialPageRoute(
+           builder: (context) => OtpPinput(
+             clientData: clientData,
+             docId: docId,
+           ),
+         ),
+       );
+     } else {
+       ScaffoldMessenger.of(context).showSnackBar(
+         const SnackBar(content: Text("Failed to fetch docId. Please try again.")),
+       );
+     }
+   } else {
+     print("Failed to register mobile. Response: ${res.body}");
+     ScaffoldMessenger.of(context).showSnackBar(
+       SnackBar(content: Text("Error: ${res.body}")),
+     );
    }
   }
 

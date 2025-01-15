@@ -7,7 +7,8 @@ import 'BadgeWidget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class SubscribedhomescreenPage extends StatefulWidget {
-  const SubscribedhomescreenPage({super.key});
+  final String docId;
+  const SubscribedhomescreenPage({super.key,required this.docId});
 
   @override
   State<SubscribedhomescreenPage> createState() =>
@@ -449,7 +450,7 @@ class _SubscribedhomescreenPageState extends State<SubscribedhomescreenPage> {
             _selectedIndex = index;
           });
           // Handle navigation here based on the index
-        },
+        }, docId: widget.docId,
       ),
     );
   }

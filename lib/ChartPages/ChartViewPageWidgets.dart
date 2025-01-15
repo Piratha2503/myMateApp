@@ -142,7 +142,7 @@ class EditAndNextButton extends StatelessWidget {
           child: ElevatedButton(
             onPressed: (){
               Navigator.push(context, MaterialPageRoute(
-                  builder: (context)=>HomeScreenBeforeSubscibe(1)));
+                  builder: (context)=>HomeScreenBeforeSubscibe(1,docId: 'J6SNjRd4P3WvV78EFddP',)));
             },
             style: CommonButtonStyle.commonButtonStyle(),
             child: Text(
