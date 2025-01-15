@@ -82,10 +82,11 @@ class _MyProfileBodyState extends State<MyProfileBody> {
         country = data['country'] ?? "N/A";
         rasi = data['rasi'] ?? "N/A";
         natchathiram = data['natchathiram'] ?? "N/A";
-        profilePictureUrl =data['profile_pic_url'] ?? "N/A";
+        profilePictureUrl =data['profileImages']?['profile_pic_url'] ?? "N/A";
         address = data['address'] ?? "N/A";
         isLoading = false;
         var expectations = data['expectations'] ?? [];
+        print(widget.docId);
       });
     }
   }
