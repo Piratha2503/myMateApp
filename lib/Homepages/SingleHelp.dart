@@ -5,7 +5,8 @@ import 'package:mymateapp/MyMateThemes.dart';
 import '../ManagePages/HelpPage.dart';
 
 class SingleHelpPage extends StatefulWidget {
-  const SingleHelpPage({super.key});
+  final String docId;
+  const SingleHelpPage({super.key,required this.docId});
 
   @override
   _SingleHelpPageState createState() => _SingleHelpPageState();
@@ -48,7 +49,7 @@ class _SingleHelpPageState extends State<SingleHelpPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => Helppage()),
+                                      builder: (context) => Helppage(docId: widget.docId,)),
                                 );
                               },
                               child: SvgPicture.asset(

@@ -30,12 +30,12 @@ PreferredSizeWidget SubscribedhomescreenStructuredPageAppBar() {
     );
   }
 
-Widget SubscribedhomescreenStructuredPageTotalMatchColumn(BuildContext context){
+Widget SubscribedhomescreenStructuredPageTotalMatchColumn(BuildContext context,String docId){
   return Center(
     child: GestureDetector(
       onTap: () {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => Summarypage()));
+            MaterialPageRoute(builder: (context) => Summarypage(docId: docId,)));
       },
       child: Stack(
         children: [
@@ -193,7 +193,7 @@ Widget ProfileColumn(ClientProfile profile){
   );
 }
 
-Widget SubscribedhomescreenStructuredPageTokenContainers(BuildContext context){
+Widget SubscribedhomescreenStructuredPageTokenContainers(BuildContext context,String docId){
 
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -225,7 +225,7 @@ Widget SubscribedhomescreenStructuredPageTokenContainers(BuildContext context){
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => Summarypage()));
+                        builder: (context) => Summarypage(docId: docId,)));
               },
               child: CommonTextStyleForPage('+Add Tokens',MyMateThemes.primaryColor,FontWeight.w500,11,),
             ),
@@ -235,7 +235,7 @@ Widget SubscribedhomescreenStructuredPageTokenContainers(BuildContext context){
       GestureDetector(
         onTap: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => Summarypage()));
+              MaterialPageRoute(builder: (context) => Summarypage(docId: docId,)));
         },
         child: SvgPicture.asset('assets/images/mymates.svg'),
       )
