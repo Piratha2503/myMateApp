@@ -120,7 +120,7 @@ class _ProfilePageState extends State<ProfilePage>
           _selectedIndex = index;
         });
         // Handle navigation here based on the index
-      },
+      }, docId: widget.docId,
     );
   }
 }

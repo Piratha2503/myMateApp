@@ -51,7 +51,7 @@ class _boostprofileState extends State<boostprofile> {
             buildBoostContainer(context,
                 title: 'Boost',
                 description:
-                    'Your profile will be boosted. It helps you that your profile will be prioritized suggestions to others every searches. It takes 1 token per day.',
+                'Your profile will be boosted. It helps you that your profile will be prioritized suggestions to others every searches. It takes 1 token per day.',
                 tokensPerDay: '× 1 Token per day',
                 backgroundColor: MyMateThemes.containerColor,
                 textColor: MyMateThemes.textGray,
@@ -60,14 +60,13 @@ class _boostprofileState extends State<boostprofile> {
             buildBoostContainer(context,
                 title: 'Super Boost',
                 description:
-                    'Your profile will be boosted. It helps you that your profile will be highly prioritized suggestions to others every searches. It takes 2 tokens per day.',
+                'Your profile will be boosted. It helps you that your profile will be highly prioritized suggestions to others every searches. It takes 2 tokens per day.',
                 tokensPerDay: '× 2 Tokens per Day',
                 backgroundColor: MyMateThemes.primaryColor,
                 textColor: Colors.white,
                 titlecolor: MyMateThemes.premiumAccent),
             const SizedBox(height: 16),
             _builtBoostCount()
-
           ],
         ),
       ),
@@ -76,14 +75,14 @@ class _boostprofileState extends State<boostprofile> {
 }
 
 Widget buildBoostContainer(
-  BuildContext context, {
-  required String title,
-  required Color titlecolor,
-  required String description,
-  required String tokensPerDay,
-  required Color backgroundColor,
-  required Color textColor,
-}) {
+    BuildContext context, {
+      required String title,
+      required Color titlecolor,
+      required String description,
+      required String tokensPerDay,
+      required Color backgroundColor,
+      required Color textColor,
+    }) {
   return Container(
     padding: const EdgeInsets.all(16.0),
     decoration: BoxDecoration(
@@ -123,7 +122,7 @@ Widget buildBoostContainer(
                 Text(
                   title,
                   style: TextStyle(
-                    color: textColor,
+                    color: titlecolor,
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
                   ),
@@ -131,7 +130,6 @@ Widget buildBoostContainer(
               ],
             ),
             const SizedBox(width: 8.0),
-
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -139,7 +137,7 @@ Widget buildBoostContainer(
                   'assets/images/lightning-bolt.svg',
                   height: 24.0,
                   width: 24.0,
-                  color: textColor,
+                  color: title == 'Super Boost' ? MyMateThemes.premiumAccent : textColor,
                 ),
               ],
             ),
@@ -194,7 +192,6 @@ Widget _builtBoostCount() {
             ),
           ),
           const SizedBox(height: 16),
-
           Expanded(
             child: TabBarView(
               children: [
@@ -217,7 +214,7 @@ Widget _builtBoostCount() {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric( vertical: 16.0),
+            padding: const EdgeInsets.symmetric(vertical: 16.0,horizontal: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -228,33 +225,20 @@ Widget _builtBoostCount() {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.grey[300],
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        bottomLeft: Radius.circular(10),
-                        topRight: Radius.circular(10),
-                        bottomRight: Radius.circular(10),
-                      ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-
                   child: const Text('Clear', style: TextStyle(color: Colors.black)),
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                  },
+                  onPressed: () {},
                   style: ElevatedButton.styleFrom(
                     backgroundColor: MyMateThemes.primaryColor,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        bottomLeft: Radius.circular(10),
-                        topRight: Radius.circular(10),
-                        bottomRight: Radius.circular(10),
-                      ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-
                   child: const Text('Complete'),
                 ),
               ],
@@ -276,7 +260,6 @@ Tab _buildTabButton(String title) {
   );
 }
 
-
 Widget _buildBoostContent({
   required int noOfDays,
   required int noOfTokens,
@@ -291,18 +274,17 @@ Widget _buildBoostContent({
           label: "No of Days",
           value: noOfDays,
           onIncrement: () => onDaysChanged(noOfDays + 1),
-          onDecrement: () => onDaysChanged(noOfDays > 1 ? noOfDays - 1 : 1), showLightningBolt: false, showControls: true,
+          onDecrement: () => onDaysChanged(noOfDays > 1 ? noOfDays - 1 : 1),
+          showLightningBolt: false,
+          showControls: true,
         ),
         const SizedBox(height: 16),
-
         _buildCounterRow(
           label: "No of Tokens",
           value: noOfTokens,
-          showControls: false,
           showLightningBolt: true,
+          showControls: false,
         ),
-
-
       ],
     ),
   );
@@ -320,7 +302,6 @@ Widget _buildCounterRow({
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
-      // Label
       Text(
         label,
         style: const TextStyle(fontSize: 16.0),
@@ -328,13 +309,15 @@ Widget _buildCounterRow({
       Row(
         children: [
           if (showControls)
-            IconButton(
-              icon: const Icon(Icons.remove_circle_outline),
-              onPressed: onDecrement,
-              color: Colors.grey,
-              splashRadius: 20.0,
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: IconButton(
+                icon: const Icon(Icons.remove_circle_outline),
+                onPressed: onDecrement,
+                color: Colors.grey,
+                splashRadius: 20.0,
+              ),
             ),
-
           Container(
             width: 56,
             height: 36,
@@ -361,20 +344,18 @@ Widget _buildCounterRow({
               ],
             ),
           ),
-
           if (showControls)
-            IconButton(
-              icon: const Icon(Icons.add_circle_outline),
-              onPressed: onIncrement,
-              color: MyMateThemes.primaryColor,
-              splashRadius: 20.0,
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: IconButton(
+                icon: const Icon(Icons.add_circle_outline),
+                onPressed: onIncrement,
+                color: MyMateThemes.primaryColor,
+                splashRadius: 20.0,
+              ),
             ),
         ],
       ),
     ],
   );
 }
-
-
-
-

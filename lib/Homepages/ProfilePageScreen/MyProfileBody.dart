@@ -132,7 +132,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                   ],
                 ),
                 SizedBox(height: 30),
-                ActionButtons(context),
+                ActionButtons(context,widget.docId),
                 SizedBox(height: 30),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -307,4 +307,3 @@ class _MyProfileBodyState extends State<MyProfileBody> {
     );
   }
 }
-

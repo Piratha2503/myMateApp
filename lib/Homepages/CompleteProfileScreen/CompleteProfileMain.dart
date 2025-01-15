@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_stepindicator/flutter_stepindicator.dart';
 import 'package:mymateapp/MyMateThemes.dart';
-import '../Profiles/MyProfile.dart';
+import '../ProfilePageScreen/MyProfileMain.dart';
 import 'CompleteOne.dart';
 import 'CompleteThree.dart';
 import 'CompleteTwo.dart';
@@ -76,11 +76,11 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
   Widget _buildCurrentPage(int currentPage) {
     switch (currentPage) {
       case 0:
-        return PageOne(onSave: _onPageSaved,docId: 'X22DGT4UDrDpnZVdWV3x');
+        return PageOne(onSave: _onPageSaved,docId: widget.docId);
       case 1:
-        return PageTwo(onSave: _onPageSaved );
+        return PageTwo(onSave: _onPageSaved,docId: widget.docId );
       case 2:
-        return PageThree(onSave: _onPageSaved);
+        return PageThree(onSave: _onPageSaved,docId:widget.docId);
       default:
         return SizedBox();
     }
@@ -98,7 +98,7 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
         context,
         MaterialPageRoute(
           builder: (context) => ProfilePage(
-            docId: "",
+            docId: widget.docId, selectedBottomBarIconIndex: 3,
           ),
         ),
       );
