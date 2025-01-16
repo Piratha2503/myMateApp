@@ -103,7 +103,7 @@ Widget IconWithText(String iconPath, String text1, String text2) {
   );
 }
 
-Widget ActionButtons(BuildContext context) {
+Widget ActionButtons(BuildContext context, String docId) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
@@ -120,7 +120,7 @@ Widget ActionButtons(BuildContext context) {
       SizedBox(width: 60),
       ElevatedButton(
          onPressed: () {
-           NavigatorFunction(context, EditPage());
+           NavigatorFunction(context, EditPage(docId: docId, onSave: () {  },));
          },
         style: ElevatedButton.styleFrom(
           backgroundColor: MyMateThemes.primaryColor,
@@ -144,7 +144,7 @@ Widget AdditionalInfo(BuildContext context) {
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 16.0),
     child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment:CrossAxisAlignment.start,
       children: [
 
         Row(

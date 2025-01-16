@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mymateapp/Homepages/ProfilePageScreen/rasiChartDesign.dart';
+import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import '../../MyMateThemes.dart';
 import 'MyProfileBodyWidgets.dart';
 import 'MyProfileWidgets.dart';
@@ -8,7 +9,17 @@ import 'expectationPage.dart';
 import 'MyProfileMain.dart';
 import 'navamsaChartDesign.dart';
 
-class AboutMe extends StatelessWidget {
+class AboutMe extends StatefulWidget {
+  final String education;
+  final PersonalDetails personalDetails;
+
+  const AboutMe({super.key, required this.education,required this.personalDetails});
+
+  @override
+  State<AboutMe> createState() => _AboutMeState();
+}
+
+class _AboutMeState extends State<AboutMe>{
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height; // Screen height from MediaQuery
@@ -35,14 +46,14 @@ class AboutMe extends StatelessWidget {
             SizedBox(height: 10),
 
             // Info Rows
-            InfoRow('Education', 'Bsc Computer Science'),
-            InfoRow('Height', '165 CM'),
-            InfoRow('Religion', 'Hinduism'),
-            InfoRow('Language', 'Tamil, English'),
-            InfoRow('Caste', 'Optional'),
-            InfoRow('Father\'s Name', 'Bsc Computer Science'),
-            InfoRow('Mother\'s Name', 'Bsc Computer Science'),
-            InfoRow('Siblings', '6'),
+            InfoRow('Education', widget.education),
+            InfoRow('Height', widget.personalDetails.height.toString()),
+            InfoRow('Religion', widget.personalDetails.religion.toString()),
+            InfoRow('Language', widget.personalDetails.language.toString()),
+            InfoRow('Caste', widget.personalDetails.caste.toString()),
+            InfoRow('Father\'s Name', widget.personalDetails.first_name.toString()),
+            InfoRow('Mother\'s Name', widget.personalDetails.mother_name.toString()),
+            InfoRow('Siblings', widget.personalDetails.num_of_siblings.toString()),
             SizedBox(height: 35),
 
             // Expectations Section
@@ -69,7 +80,10 @@ class AboutMe extends StatelessWidget {
       ),
     );
   }
+
 }
+
+
 
 class AstrologySection extends StatelessWidget {
   @override

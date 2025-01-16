@@ -60,7 +60,7 @@ class _ManualNavamsaChartPage extends State<ManualNavamsaChartPage> {
   void _onSelect(String button) {
     setState(() {
       tapped[button] =
-          !(tapped[button] ?? false); // Provide a default value if null
+          !(tapped[button] ?? false);
     });
     print('$button button pressed');
   }
@@ -190,7 +190,7 @@ class _ManualNavamsaChartPage extends State<ManualNavamsaChartPage> {
     print(chartGeneration.place11);
     print(chartGeneration.place12);
 
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreenBeforeSubscibe(0)));
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreenBeforeSubscibe(0,docId: widget.clientData.docId!,)));
 
   }
 

@@ -11,7 +11,8 @@ import 'ChartOptions.dart';
 
 class NameAndGender extends StatefulWidget {
   final ClientData clientData;
-  const NameAndGender({super.key,required this.clientData});
+  final String docId;
+  const NameAndGender({super.key,required this.clientData,required this.docId});
 
   @override
   State<NameAndGender> createState() => _NameAndGenderState();

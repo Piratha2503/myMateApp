@@ -9,7 +9,7 @@ import '../../MyMateThemes.dart';
 
 class PageOne extends StatefulWidget {
   final VoidCallback onSave;
-  final String docId; // Use docId to send in the API request
+  final String docId;
 
   PageOne({required this.onSave, required this.docId});
 

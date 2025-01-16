@@ -24,7 +24,7 @@ class OtherProfilePage extends StatefulWidget {
 
 
 
-  const OtherProfilePage({this.docId = 'E0JFHhK2x6Gq2Ac6XSyP', super.key});
+  const OtherProfilePage({required this.docId, super.key});
 
   String get soulDocId => docId;
 
@@ -183,7 +183,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
             GestureDetector(
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ExplorePage(results: [], initialTabIndex: 0,)));
+                    MaterialPageRoute(builder: (context) => ExplorePage(results: [], initialTabIndex: 0, search: [], docId: '',)));
               },
               child: SvgPicture.asset('assets/images/chevron-left.svg'),
             ),
@@ -523,7 +523,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
           _selectedIndex = index;
         });
 
-      },
+      }, docId: widget.docId,
     );
   }
 
