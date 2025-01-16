@@ -55,7 +55,7 @@ Future<Map<String, dynamic>> fetchUserById(String docId) async {
       final profileImages = data['proilfeImages'] ?? {};
 
       final imageGallery =
-          profileImages['images']?['gallery_image_urls'] ?? [];
+          profileImages?['gallery_image_urls'] ?? [];
       final userImages = (imageGallery as List).take(3).toList();
 
 
@@ -143,6 +143,7 @@ Future<List<Map<String, dynamic>>> fetchAllUsers() async {
           'age': user['personalDetails']?['age'] ?? 'N/A',
           'occupation': user['careerStudies']?['occupation'] ?? 'N/A',
           'images': user['profileImages']?['profile_pic_url'] ?? '',
+
           'city' : user['city'] ?? 'N/A',
 
         };
@@ -225,6 +226,49 @@ Future<Map<String, dynamic>> showMatchingResults(String clientDocId, String soul
   } catch (e) {
     print("Error in fetchMatchData: $e");
     throw e;
+  }
+}
+Future<List<Map<String, dynamic>>> searchAllUsers(Map<String, String> searchParams) async {
+  try {
+    // Construct the URL with query parameters for search
+    final uri = Uri.parse('https://backend.graycorp.io:9000/mymate/api/v1/clientFilter')
+        .replace(queryParameters: searchParams);
+
+    print('Constructed API Request URL for search: $uri');
+
+    // Make the GET request
+    final response = await http.get(
+      uri,
+      headers: {
+        'Content-Type': 'application/json',
+        // Add additional headers if needed, e.g., authentication
+        // 'Authorization': 'Bearer <your-auth-token>',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // Decode the JSON response
+      final List<dynamic> responseData = jsonDecode(response.body);
+
+      // Map the response data to a list of maps with desired fields
+      return responseData.map((user) {
+        return {
+          'id': user['docId'] ?? '',
+          'full_name': user['personalDetails']?['full_name'] ?? 'N/A',
+          'marital_status': user['personalDetails']?['marital_status'] ?? 'N/A',
+          'age': user['personalDetails']?['age'] ?? '',
+          'occupation': user['careerStudies']?['occupation'] ?? 'N/A',
+          'images': user['profileImages']?['profile_pic_url'] ?? '',
+          'city': user['city'] ?? 'N/A',
+        };
+      }).toList();
+    } else {
+      print('Search failed. Status code: ${response.statusCode}, Response: ${response.body}');
+      return [];
+    }
+  } catch (e) {
+    print('Error during search: $e');
+    return [];
   }
 }
 
