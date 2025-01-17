@@ -7,7 +7,8 @@ import 'ManagePage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class Settingspage extends StatefulWidget {
-  const Settingspage({super.key});
+  final String docId;
+  const Settingspage({super.key,required this.docId});
 
   @override
   State<Settingspage> createState() => _SettingspageState();
@@ -31,7 +32,7 @@ class _SettingspageState extends State<Settingspage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ManagePage()));
+                              builder: (context) => ManagePage(docId: widget.docId,)));
                     },
                     child: SvgPicture.asset('assets/images/chevron-left.svg'),
                   ),
@@ -81,7 +82,7 @@ class _SettingspageState extends State<Settingspage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => ProfilePage(
-                                  docId: '', selectedBottomBarIconIndex: 3,
+                                  docId: widget.docId, selectedBottomBarIconIndex: 3,
                                 )));
                   },
                   child: SvgPicture.asset(
@@ -98,7 +99,7 @@ class _SettingspageState extends State<Settingspage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => NotificationPage(3)));
+                            builder: (context) => NotificationPage(3, docId: widget.docId,)));
                   },
                   child: SvgPicture.asset(
                     'assets/images/Notification.svg',
@@ -114,7 +115,7 @@ class _SettingspageState extends State<Settingspage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => NotificationPage(3)));
+                            builder: (context) => NotificationPage(3,docId:widget.docId)));
                   },
                   child: SvgPicture.asset(
                     'assets/images/Language.svg',
@@ -130,7 +131,7 @@ class _SettingspageState extends State<Settingspage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => NotificationPage(3)));
+                            builder: (context) => NotificationPage(3,docId:widget.docId)));
                   },
                   child: SvgPicture.asset(
                     'assets/images/Photos.svg',
@@ -146,7 +147,7 @@ class _SettingspageState extends State<Settingspage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => NotificationPage(3)));
+                            builder: (context) => NotificationPage(3,docId:widget.docId)));
                   },
                   child: SvgPicture.asset(
                     'assets/images/DelAcc.svg',
