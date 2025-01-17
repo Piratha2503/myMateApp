@@ -179,22 +179,53 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
   Widget buildTopBox(int boxNumber, String assetName) {
     return GestureDetector(
       onTap: () => _onTapTopBox(boxNumber),
-      child: Opacity(
-        opacity: (selectedTopBox == boxNumber) ? 1.0 : 0.6,
-        child: SvgPicture.asset(assetName),
+      child: Container(
+        width: 57,
+        height: 48,
+        decoration: BoxDecoration(
+          color: (selectedTopBox == boxNumber) ? MyMateThemes.primaryColor : MyMateThemes.secondaryColor ,
+          borderRadius: BorderRadius.circular(6), // Optional rounded corners
+        ),
+        padding: const EdgeInsets.all(16), // Padding inside the box
+        child: Center(
+          child: Text(
+            assetName,
+            style: TextStyle(
+              color: (selectedTopBox == boxNumber) ? MyMateThemes.backgroundColor  : MyMateThemes.textColor ,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+          ),
+
+
+        ),
       ),
     );
   }
 
-  Widget buildBottomSegment(String segment, String assetName) {
+
+  Widget buildBottomSegment(String segment, String assetName,String selectedAssetName) {
     return GestureDetector(
       onTap: () => _onTapBottomSegment(segment),
       child: Stack(
         children: [
+          // Opacity(
+          //   opacity: isSegmentSelected(segment) ? 0.8 : 1.0, // Keeping opacity same
+          //   child: SvgPicture.asset(
+          //     assetName,
+          //     color: isSegmentSelected(segment) ? MyMateThemes.secondaryColor : MyMateThemes.primaryColor, // Change color based on selection
+          //   ),
+          // ),
           Opacity(
-            opacity: isSegmentSelected(segment) ? 0.7 : 1.0,
-            child: SvgPicture.asset(assetName),
+            opacity: 1.0, // Keep opacity constant
+            child: SvgPicture.asset(
+              isSegmentSelected(segment) ? selectedAssetName : assetName, // Dynamically change asset
+            ),
           ),
+          // Opacity(
+          //   opacity: isSegmentSelected(segment) ? 0.7 : 1.0,
+          //   child: SvgPicture.asset(assetName),
+          // ),
           if (getSegmentBadge(segment) != null)
             Positioned(
               top: 10,
@@ -202,7 +233,11 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
               child: CircleAvatar(
                 radius: 13,
                 backgroundColor: MyMateThemes.premiumAccent,
-                child: Text( getSegmentBadge(segment).toString(),style: TextStyle(fontSize: 12, color: Colors.white),),),
+                child: Text(
+                  getSegmentBadge(segment).toString(),
+                  style: TextStyle(fontSize: 12, color: Colors.white),
+                ),
+              ),
             ),
         ],
       ),
@@ -210,18 +245,18 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
   }
 
   final List<Map<String, dynamic>> boxes = [
-    {'boxNumber': 1, 'selectedTopBox': 1, 'assetName': 'assets/images/one.svg'},
-    {'boxNumber': 2, 'selectedTopBox': 1, 'assetName': 'assets/images/two.svg'},
-    {'boxNumber': 3, 'selectedTopBox': 1, 'assetName': 'assets/images/three.svg'},
-    {'boxNumber': 4, 'selectedTopBox': 1, 'assetName': 'assets/images/four.svg'},
-    {'boxNumber': 5, 'selectedTopBox': 1, 'assetName': 'assets/images/five.svg'},
-    {'boxNumber': 6, 'selectedTopBox': 1, 'assetName': 'assets/images/six.svg'},
-    {'boxNumber': 7, 'selectedTopBox': 1, 'assetName': 'assets/images/seven.svg'},
-    {'boxNumber': 8, 'selectedTopBox': 1, 'assetName': 'assets/images/eight.svg'},
-    {'boxNumber': 9, 'selectedTopBox': 1, 'assetName': 'assets/images/nine.svg'},
-    {'boxNumber': 10, 'selectedTopBox': 1, 'assetName': 'assets/images/ten.svg'},
-    {'boxNumber': 11, 'selectedTopBox': 1, 'assetName': 'assets/images/eleven.svg'},
-    {'boxNumber': 12, 'selectedTopBox': 1, 'assetName': 'assets/images/twelve.svg'},
+    {'boxNumber': 1, 'selectedTopBox': 1, 'assetName': '1'},
+    {'boxNumber': 2, 'selectedTopBox': 1, 'assetName': '2'},
+    {'boxNumber': 3, 'selectedTopBox': 1, 'assetName': '3'},
+    {'boxNumber': 4, 'selectedTopBox': 1, 'assetName': '4'},
+    {'boxNumber': 5, 'selectedTopBox': 1, 'assetName': '5'},
+    {'boxNumber': 6, 'selectedTopBox': 1, 'assetName': '6'},
+    {'boxNumber': 7, 'selectedTopBox': 1, 'assetName': '7'},
+    {'boxNumber': 8, 'selectedTopBox': 1, 'assetName': '8'},
+    {'boxNumber': 9, 'selectedTopBox': 1, 'assetName': '9'},
+    {'boxNumber': 10, 'selectedTopBox': 1, 'assetName': '10'},
+    {'boxNumber': 11, 'selectedTopBox': 1, 'assetName': '11'},
+    {'boxNumber': 12, 'selectedTopBox': 1, 'assetName': '12'},
   ];
 
   @override
@@ -255,15 +290,29 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
               ],
             ),
           ),
-          Container(
-            width: 310,
-            height: 208,
-            color: Colors.white,
+        Card(
+          elevation: 4.0, // Adjust elevation as needed
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0), // Rounded corners
+          ),
+          child: Container(
+            width: 300,
+            height: 188,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8.0), // Match the border radius of the Card
+            ),
             child: Column(
               children: [
                 Expanded(
                   child: GridView(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4,childAspectRatio: 14/10),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4,
+                      childAspectRatio: 14 / 11,
+                      mainAxisSpacing: 8.0,
+                      crossAxisSpacing: 8.0,
+                    ),
+                    padding: const EdgeInsets.all(8.0),
                     children: boxes.map((box) {
                       return buildTopBox(box['boxNumber'], box['assetName']);
                     }).toList(),
@@ -272,31 +321,68 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
               ],
             ),
           ),
+        ),
+
+
           DecoratedBox(
             decoration: ShapeDecoration(
               shape: CircleBorder(),
             ),
             child: Container(
-              height: 350,
+              height: 330,
               width: 300,
               color: MyMateThemes.backgroundColor,
               child: Stack(
                 children: [
-                  SizedBox(width: 20),
-                  Positioned(top: 110,left: 80,child:buildBottomSegment('Sun', 'assets/images/Sun.svg')),
-                  Positioned(left: 207,top: 74,child:buildBottomSegment('Mercury', 'assets/images/Mercury.svg')),
-                  Positioned(left: 152,top:  30,child:buildBottomSegment('Mars', 'assets/images/Mars.svg')),
-                  Positioned(left: 55,top: 245,child:buildBottomSegment('Saturn', 'assets/images/Saturn.svg')),
-                  Positioned(left: 213,top: 178,child:buildBottomSegment('Jupiter', 'assets/images/Jupiter.svg')),
-                  Positioned(left: 0,top: 185,child:buildBottomSegment('Rahu', 'assets/images/Rahu.svg')),
-                  Positioned(left: 0,top: 82,child:buildBottomSegment('Ketu', 'assets/images/Ketu.svg')),
-                  Positioned(left: 159,top: 239,child:buildBottomSegment('Venus', 'assets/images/Venus.svg')),
-                  Positioned(left: 47,top: 30,child:buildBottomSegment('Moon', 'assets/images/Moon.svg')),
+                  Positioned(
+                      top: 110,
+                      left: 80,
+                      child:
+                      buildBottomSegment('Sun', 'assets/images/Sun.svg','assets/images/Mercury.svg')),
+                  Positioned(
+                      left: 207,
+                      top: 74,
+                      child: buildBottomSegment(
+                          'Mercury', 'assets/images/Mercury.svg','assets/images/Mercury.svg')),
+                  Positioned(
+                      left: 152,
+                      top: 30,
+                      child:
+                      buildBottomSegment('Mars', 'assets/images/Mars.svg','assets/images/Mercury.svg')),
+                  Positioned(
+                      left: 55,
+                      top: 245,
+                      child: buildBottomSegment(
+                          'Saturn', 'assets/images/Saturn.svg','assets/images/Mercury.svg')),
+                  Positioned(
+                      left: 213,
+                      top: 178,
+                      child: buildBottomSegment(
+                          'Jupiter', 'assets/images/Jupiter.svg','assets/images/Mercury.svg')),
+                  Positioned(
+                      left: 0,
+                      top: 185,
+                      child:
+                      buildBottomSegment('Rahu', 'assets/images/Rahu.svg','assets/images/Mercury.svg')),
+                  Positioned(
+                      left: 0,
+                      top: 82,
+                      child:
+                      buildBottomSegment('Ketu', 'assets/images/Ketu.svg','assets/images/Mercury.svg')),
+                  Positioned(
+                      left: 159,
+                      top: 239,
+                      child: buildBottomSegment(
+                          'Venus', 'assets/images/Venus.svg','assets/images/Mercury.svg')),
+                  Positioned(
+                      left: 47,
+                      top: 30,
+                      child:
+                      buildBottomSegment('Moon', 'assets/images/Moon.svg','assets/images/Mercury.svg')),
                 ],
               ),
             ),
           ),
-          SizedBox(height: 45),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

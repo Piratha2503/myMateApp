@@ -6,6 +6,11 @@ import 'package:mymateapp/Homepages/Profiles/EditPage.dart';
 import 'package:mymateapp/Homepages/RegisterPages/RegisterPage.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 
+import 'ChartPages/ManualNavamsaChartPage.dart';
+import 'ChartPages/ManualRasiChartPage.dart';
+import 'Homepages/Profiles/OthersProfile.dart';
+import 'Homepages/RegisterPages/ChartOptions.dart';
+import 'Homepages/RegisterPages/NameAndGenderPage.dart';
 import 'Homepages/explorePage/explorePageMain.dart';
 import 'firebase_options.dart';
 
@@ -23,6 +28,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Astrology astrology = Astrology();
 
     ClientData clientData = ClientData();
     PersonalDetails personalDetails = PersonalDetails();
@@ -40,13 +46,13 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
 
       home:
-      // ProfilePage(docId: "E0JFHhK2x6Gq2Ac6XSyP", selectedBottomBarIconIndex:0,),
-      // CheckmatchPage( clientDocId: '', soulDocId: '',),
-      ExplorePage(
-        initialTabIndex: 0,
-        results: [], search: [], docId: '', // Pass an empty list initially
-      ),
-      //  RegisterPage(),
+      // OtherProfilePage(docId: 'J6SNjRd4P3WvV78EFddP',),
+      RegisterPage(),
+      // ManualNavamsaChartPage(clientData: clientData, astrology: astrology, ),
+      // ExplorePage(
+      //   initialTabIndex: 0,
+      //   results: [], search: [], docId: '', // Pass an empty list initially
+      // ),
     );
   }
 }
