@@ -10,6 +10,7 @@ import 'package:mymateapp/Homepages/RegisterPages/Pinput.dart';
 import 'package:mymateapp/MyMateCommonBodies/MyMateApis.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/dbConnection/Firebase_DB.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../dbConnection/ClientDatabase.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -157,6 +158,9 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
       print(res.statusCode);
       final docId = await fetchDocIdByMobile(phoneNumber);
       if (docId != null) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('docId', docId);
+
         Navigator.push(
           context,
           MaterialPageRoute(

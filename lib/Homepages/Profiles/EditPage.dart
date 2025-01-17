@@ -392,7 +392,7 @@ class _EditPageState extends State<EditPage> {
       "contactInfo": contactInfo,
       "careerStudies": careerStudies,
       "lifestyle": lifestyle,
-"profileImages":profileImages,
+       "profileImages":profileImages,
 
     };
     try {

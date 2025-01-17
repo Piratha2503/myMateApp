@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mymateapp/Homepages/Profiles/boost_profile.dart';
 import 'package:mymateapp/MyMateCommonBodies/RouterFunction.dart';
 
 import '../../MyMateThemes.dart';
@@ -108,7 +109,7 @@ Widget ActionButtons(BuildContext context, String docId) {
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       ElevatedButton(
-        onPressed: () {},
+        onPressed: () {NavigatorFunction(context, boostprofile(docId: docId,));},
         style: ElevatedButton.styleFrom(
           backgroundColor: MyMateThemes.primaryColor,
           shape: RoundedRectangleBorder(
