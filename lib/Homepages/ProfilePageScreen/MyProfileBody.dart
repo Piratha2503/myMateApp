@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,6 +12,7 @@ import '../Profiles/MoreAboutMe.dart';
 import '../custom_outline_button.dart';
 import 'MyProfileBodyWidgets.dart';
 import 'MyProfileStatelessWidgets.dart';
+import 'package:http/http.dart' as http;
 
 class MyProfileBody extends StatefulWidget {
   final String docId;
@@ -99,6 +102,33 @@ class _MyProfileBodyState extends State<MyProfileBody> {
 
   }
 
+
+  String profileImg = "";
+  String errorMessage = "";
+
+  Future<void> _fetchImages() async {
+    try {
+      String apiUrl = MyMateAPIs.get_client_byDocId_API;
+      Uri url = Uri.parse('$apiUrl?docId=E0JFHhK2x6Gq2Ac6XSyP');
+      final response = await http.get(url);
+      final data = jsonDecode(response.body);
+      setState(() {
+        profileImg = data['proilfeImages.profile_pic_url'] ?? "https://backend.graycorp.io/images/man-2.jpg";
+      });
+      // final data = await fetchUserById(widget.docId);
+      // setState(() {
+      //   imagePaths = List<String>.from(data['gallery_image_urls'] ?? []);
+      //   isLoading = false;
+      //   print(imagePaths);
+      // });
+    } catch (e) {
+      setState(() {
+        errorMessage = 'Failed to load the images: $e';
+        isLoading = false;
+      });
+    }
+  }
+
   @override
   void initState() {
 
@@ -129,7 +159,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
             controller: _scrollController,
             child: Column(
               children: [
-                ProfileInfo(full_name,profilePictureUrl),
+                ProfileInfo(personalDetails.full_name.toString(),profilePictureUrl),
                 SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -315,4 +345,83 @@ class _MyProfileBodyState extends State<MyProfileBody> {
       ],
     );
   }
+
+  Widget ProfileInfo(String full_name,String image_url) {
+
+    bool _isSmall = false;
+
+    return Column(
+      children: [
+        Container(
+          height: 220,
+          child: Center(
+            child: Container(
+              height: 185,
+              width: 185,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                color: MyMateThemes.secondaryColor,
+              ),
+              child: Center(
+                child: CircleAvatar(
+                  radius: 85,
+                  backgroundImage: NetworkImage(image_url),
+
+                ),
+              ),
+            ),
+          ),
+        ),
+
+
+        GestureDetector(
+          child: AnimatedContainer(
+            duration: Duration(milliseconds: 500),
+            curve: Curves.easeInOut,
+            alignment: _isSmall ? Alignment(0.1, 0.0) : Alignment.center,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  full_name,
+                  style: TextStyle(
+                    color: MyMateThemes.primaryColor,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                Text(
+                  'Special Mention (Optional)',
+                  style: TextStyle(
+                    color: MyMateThemes.textColor,
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+
+}
+Widget SectionTitle(String title) {
+  return Row(
+    children: [
+      SizedBox(width: 40),
+      SvgPicture.asset('assets/images/Group 2148.svg'),
+      SizedBox(width: 4),
+      Text(
+        title,
+        style: TextStyle(
+          color: MyMateThemes.primaryColor,
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ],
+  );
 }

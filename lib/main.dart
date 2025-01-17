@@ -42,11 +42,7 @@ class MyApp extends StatelessWidget {
       home:
       // ProfilePage(docId: "E0JFHhK2x6Gq2Ac6XSyP", selectedBottomBarIconIndex:0,),
       // CheckmatchPage( clientDocId: '', soulDocId: '',),
-      ExplorePage(
-        initialTabIndex: 0,
-        results: [], search: [], docId: '', // Pass an empty list initially
-      ),
-      //  RegisterPage(),
+      ProfilePage(selectedBottomBarIconIndex: 3, docId: "E0JFHhK2x6Gq2Ac6XSyP"),
     );
   }
 }
