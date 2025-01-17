@@ -4,7 +4,8 @@ import 'package:mymateapp/MyMateThemes.dart';
 import 'ManagePage.dart';
 
 class Summarypage extends StatefulWidget {
-  const Summarypage({super.key});
+  final docId;
+  const Summarypage({super.key,required this.docId});
 
   @override
   State<Summarypage> createState() => _SummarypageState();
@@ -29,7 +30,7 @@ class _SummarypageState extends State<Summarypage> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ManagePage()),
+                        MaterialPageRoute(builder: (context) => ManagePage(docId: widget.docId,)),
                       );
                     },
                     child: SvgPicture.asset(

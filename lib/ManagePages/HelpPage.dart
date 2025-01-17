@@ -6,7 +6,8 @@ import '../MyMateThemes.dart';
 import 'ManagePage.dart';
 
 class Helppage extends StatefulWidget {
-  const Helppage({super.key});
+  final String docId;
+  const Helppage({super.key,required this.docId});
 
   @override
   State<Helppage> createState() => _HelppageState();
@@ -29,7 +30,7 @@ class _HelppageState extends State<Helppage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ManagePage()));
+                              builder: (context) => ManagePage(docId: widget.docId,)));
                     },
                     child: SvgPicture.asset('assets/images/chevron-left.svg'),
                   ),
@@ -206,7 +207,7 @@ class _HelppageState extends State<Helppage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => SingleHelpPage()));
+                                    builder: (context) => SingleHelpPage(docId: widget.docId,)));
                           },
                           child: Container(
                             height: 30,
@@ -268,7 +269,7 @@ class _HelppageState extends State<Helppage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => SingleHelpPage()));
+                                    builder: (context) => SingleHelpPage(docId: widget.docId,)));
                           },
                           child: Container(
                             height: 30,
@@ -330,7 +331,7 @@ class _HelppageState extends State<Helppage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => SingleHelpPage()));
+                                    builder: (context) => SingleHelpPage(docId: widget.docId,)));
                           },
                           child: Container(
                             height: 30,
@@ -392,7 +393,7 @@ class _HelppageState extends State<Helppage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => SingleHelpPage()));
+                                    builder: (context) => SingleHelpPage(docId: widget.docId,)));
                           },
                           child: Container(
                             height: 30,
@@ -454,7 +455,7 @@ class _HelppageState extends State<Helppage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => SingleHelpPage()));
+                                    builder: (context) => SingleHelpPage(docId: widget.docId,)));
                           },
                           child: Container(
                             height: 30,

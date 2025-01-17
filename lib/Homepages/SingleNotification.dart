@@ -7,8 +7,8 @@ import 'Notification.dart';
 class SingleNotificationPage extends StatelessWidget {
   final int _selectedIndex = 0;
   final int badgeValue = 6;
-
-  const SingleNotificationPage({super.key});
+  final String docId;
+  const SingleNotificationPage({super.key,required this.docId});
 
   String? get imageUrl => null;
 
@@ -28,7 +28,7 @@ class SingleNotificationPage extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => NotificationPage(3)));
+                              builder: (context) => NotificationPage(3,docId: docId,)));
                     },
                     child: SvgPicture.asset('assets/images/chevron-left.svg'),
                   ),
