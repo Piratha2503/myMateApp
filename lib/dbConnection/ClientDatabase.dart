@@ -46,7 +46,7 @@ class PersonalDetails{
   String? last_name;
   String? gender;
   String? marital_status;
-  int? height;
+  double? height;
   int? num_of_siblings;
   String? religion;
   String? caste;

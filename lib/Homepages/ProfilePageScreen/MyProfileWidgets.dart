@@ -90,12 +90,3 @@ Widget IconWithText(String iconPath, String text1, String text2) {
     ),
   );
 }
-
-
-
-
-
-
-
-
-

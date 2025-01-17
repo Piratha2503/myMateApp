@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
       home:
       // ProfilePage(docId: "E0JFHhK2x6Gq2Ac6XSyP", selectedBottomBarIconIndex:0,),
       // CheckmatchPage( clientDocId: '', soulDocId: '',),
-      AuthcheckState(),
+     RegisterPage()
     );
   }
 }

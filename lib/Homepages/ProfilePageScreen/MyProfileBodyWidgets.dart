@@ -7,65 +7,6 @@ import '../../MyMateThemes.dart';
 import '../Profiles/EditPage.dart';
 import '../Profiles/MoreAboutMe.dart';
 
-Widget ProfileInfo(String full_name,String image_url) {
-
-  bool _isSmall = false;
-
-  return Column(
-    children: [
-     Container(
-       height: 220,
-       child: Center(
-         child: Container(
-           height: 185,
-           width: 185,
-           decoration: BoxDecoration(
-             borderRadius: BorderRadius.circular(100),
-             color: MyMateThemes.secondaryColor,
-           ),
-           child: Center(
-             child: CircleAvatar(
-               radius: 85,
-               backgroundImage: NetworkImage(image_url),
-
-             ),
-           ),
-         ),
-       ),
-       ),
-
-
-      GestureDetector(
-        child: AnimatedContainer(
-          duration: Duration(milliseconds: 500),
-          curve: Curves.easeInOut,
-          alignment: _isSmall ? Alignment(0.1, 0.0) : Alignment.center,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                full_name,
-                style: TextStyle(
-                  color: MyMateThemes.primaryColor,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              Text(
-                'Special Mention (Optional)',
-                style: TextStyle(
-                  color: MyMateThemes.textColor,
-                  fontSize: 14,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    ],
-  );
-}
 
 Widget IconWithText(String iconPath, String text1, String text2) {
   return Container(
@@ -120,9 +61,9 @@ Widget ActionButtons(BuildContext context, String docId) {
       ),
       SizedBox(width: 60),
       ElevatedButton(
-         onPressed: () {
-           NavigatorFunction(context, EditPage(docId: docId, onSave: () {  },));
-         },
+        onPressed: () {
+          NavigatorFunction(context, EditPage(docId: docId, onSave: () {  },));
+        },
         style: ElevatedButton.styleFrom(
           backgroundColor: MyMateThemes.primaryColor,
           shape: RoundedRectangleBorder(
