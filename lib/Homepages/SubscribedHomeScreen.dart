@@ -191,7 +191,7 @@ class _SubscribedhomescreenPageState extends State<SubscribedhomescreenPage> {
             child: GestureDetector(
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Summarypage()));
+                    MaterialPageRoute(builder: (context) => Summarypage(docId: widget.docId,)));
               },
               child: Stack(
                 children: [
@@ -417,7 +417,7 @@ class _SubscribedhomescreenPageState extends State<SubscribedhomescreenPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Summarypage()));
+                                builder: (context) => Summarypage(docId: widget.docId,)));
                       },
                       child: Text(
                         '+Add Tokens',
@@ -433,7 +433,7 @@ class _SubscribedhomescreenPageState extends State<SubscribedhomescreenPage> {
               GestureDetector(
                 onTap: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Summarypage()));
+                      MaterialPageRoute(builder: (context) => Summarypage(docId: widget.docId,)));
                 },
                 child: SvgPicture.asset('assets/images/mymates.svg'),
               )

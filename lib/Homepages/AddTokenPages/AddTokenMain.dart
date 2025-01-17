@@ -8,7 +8,8 @@ import 'AddTokenWidgets.dart';
 
 
 class AddTokenMainPage extends StatefulWidget {
-  const AddTokenMainPage({super.key});
+  final String docId;
+  const AddTokenMainPage({super.key,required this.docId});
 
   @override
   State<AddTokenMainPage> createState() => _AddTokenMainPageState();
@@ -35,7 +36,7 @@ class _AddTokenMainPageState extends State<AddTokenMainPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ManagePage()));
+                                  builder: (context) => ManagePage(docId: widget.docId,)));
                         },
                         child: SvgPicture.asset('assets/images/chevron-left.svg'),
                       ),

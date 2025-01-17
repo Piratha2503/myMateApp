@@ -7,8 +7,8 @@ import 'package:mymateapp/dbConnection/Firebase_DB.dart';
 
 class Login extends StatefulWidget {
   final VoidCallback onLoginSuccess;
-
-  Login({required this.onLoginSuccess});
+  final String docId;
+  Login({required this.onLoginSuccess,required this.docId});
 
   @override
   _LoginState createState() => _LoginState();
@@ -33,7 +33,7 @@ class _LoginState extends State<Login> {
       if (_phoneController.text == documentSnapshot['contactInfo']['mobile'] &&
           _passwordController.text == documentSnapshot['contactInfo']['password']) {
         //print(_phoneController.text);
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>SubscribedhomescreenStructuredPage()));
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>SubscribedhomescreenStructuredPage(docId: widget.docId,)));
       } else {
         print("Wrong Password");
         print(_passwordController.text);

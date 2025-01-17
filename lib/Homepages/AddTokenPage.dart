@@ -5,7 +5,8 @@ import 'package:mymateapp/MyMateThemes.dart';
 import '../ManagePages/ManagePage.dart';
 
 class AddTokenPage extends StatefulWidget {
-  const AddTokenPage({super.key});
+  final String docId;
+  const AddTokenPage({super.key,required this.docId});
 
   @override
   State<AddTokenPage> createState() => _AddTokenPageState();
@@ -474,7 +475,7 @@ class _AddTokenPageState extends State<AddTokenPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ManagePage()));
+                                  builder: (context) => ManagePage(docId: widget.docId,)));
                         },
                         child: SvgPicture.asset('assets/images/chevron-left.svg'),
                       ),

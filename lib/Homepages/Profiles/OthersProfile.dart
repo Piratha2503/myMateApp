@@ -1,39 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mymateapp/Homepages/Profiles/MoreAboutMe.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 
 import '../../MyMateCommonBodies/MyMateApis.dart';
 import '../../MyMateCommonBodies/MyMateBottomBar.dart';
-import '../../dbConnection/Firebase.dart';
 import '../CheckMatch.dart';
 import '../ProfilePageScreen/navamsaChartDesign.dart';
 import '../ProfilePageScreen/photoGalleryPage.dart';
 import '../ProfilePageScreen/rasiChartDesign.dart';
 import '../custom_outline_button.dart';
 import '../explorePage/explorePageMain.dart';
-import 'EditPage.dart';
-import 'package:http/http.dart' as http;
-
-
-
 
 class OtherProfilePage extends StatefulWidget {
   final String docId;
-
-
-
 
   const OtherProfilePage({required this.docId, super.key});
 
   String get soulDocId => docId;
 
-
   @override
   State<OtherProfilePage> createState() => _OtherProfilePageState();
 }
-
-
 
 class _OtherProfilePageState extends State<OtherProfilePage>
     with TickerProviderStateMixin {
@@ -61,9 +48,6 @@ class _OtherProfilePageState extends State<OtherProfilePage>
   final ScrollController _scrollController = ScrollController();
   List<TextEditingController> controllers = [];
   bool isLoading = true;
-
-
-  final Firebase firebase = Firebase();
 
   /// Fetch data from API using fetchUserById
   Future<void> getClient() async {
@@ -125,8 +109,6 @@ class _OtherProfilePageState extends State<OtherProfilePage>
     }
 
   }
-
-
 
   @override
   void initState() {
@@ -258,6 +240,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
       ],
     );
   }
+
   Widget _buildIconWithText(String iconPath, String age, String dob) {
     return Container(
       width: 120,
@@ -329,6 +312,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
       ],
     );
   }
+
   Widget _buildSectionTitle(String title) {
     return Row(
       children: [
@@ -346,11 +330,13 @@ class _OtherProfilePageState extends State<OtherProfilePage>
       ],
     );
   }
+
   Widget _buildContainers({required List<Widget> children}) {
     return Column(
       children: children,
     );
   }
+
   Widget _buildProfileDetails() {
     return FutureBuilder<Map<String, dynamic>>(
         future: fetchUserById(widget.docId), // Call API with docId
@@ -420,6 +406,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
     );
 
   }
+
   Widget _buildInfoRow(String title, String value) {
     return Container(
       height: 34,
@@ -468,8 +455,6 @@ class _OtherProfilePageState extends State<OtherProfilePage>
     );
   }
 
-
-
   Widget _buildExpectations() {
     return Column(
       children: List.generate(
@@ -512,8 +497,6 @@ class _OtherProfilePageState extends State<OtherProfilePage>
 
     );
   }
-
-
 
   Widget _buildNavigationBar() {
     return CustomBottomNavigationBar(
