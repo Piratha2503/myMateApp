@@ -1,14 +1,20 @@
+import 'dart:convert';
+
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mymateapp/MyMateCommonBodies/MyMateApis.dart';
+import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import 'package:mymateapp/dbConnection/Clients.dart';
+import 'package:mymateapp/dbConnection/TempClass.dart';
 import '../../ManagePages/SummaryPage.dart';
 import '../../MyMateThemes.dart';
 import '../../dbConnection/Firebase.dart';
 import '../BadgeWidget.dart';
 import '../Profiles/OthersProfile.dart';
+import 'package:http/http.dart' as http;
 
 PreferredSizeWidget SubscribedhomescreenStructuredPageAppBar() {
     int badgeValue1 = 2;
@@ -54,142 +60,6 @@ Widget SubscribedhomescreenStructuredPageTotalMatchColumn(BuildContext context,S
         ],
       ),
     ),
-  );
-}
-
-Widget SubscribedhomescreenStructuredPageCarouselSlider(BuildContext,context){
-
-  Firebase firebase = Firebase();
-  final Future<List<ClientProfile>> profiles = firebase.getClientList();
-  final Stream<List<ClientProfile>> streamProfiles = firebase.getClientsStream();
-  return Center(
-      child: StreamBuilder<List<ClientProfile>>(
-
-        stream: streamProfiles,
-        builder: (context,snapshot){
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No profiles found.'));
-          }
-          else{
-            final profileList = snapshot.data!;
-            return CarouselSlider(
-              options: CarouselOptions(
-                height: 140.0,
-                autoPlay: true,
-                enlargeCenterPage: true,
-                aspectRatio: 21/10,
-                viewportFraction: 0.8,
-              ),
-              items: profileList.map((profile) {
-                return SubscribedhomescreenStructuredPageCarouselSliderContainer(profile: profile);
-              }).toList(),
-            );
-          }
-        },
-
-      )
-  );
-}
-
-class SubscribedhomescreenStructuredPageCarouselSliderContainer extends StatelessWidget{
-
-  ClientProfile profile;
-  SubscribedhomescreenStructuredPageCarouselSliderContainer({super.key,required this.profile});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: (){
-
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>OtherProfilePage(docId: profile.docId)));
-      },
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 5.0),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border(
-            top: BorderSide(width: 0.5),
-            bottom:  BorderSide(width: 0.5),
-          ),
-          borderRadius: BorderRadius.circular(8.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black12,
-              blurRadius: 2.0,
-              spreadRadius: 2.0,
-              offset: Offset(0, 3),
-            ),
-          ],
-        ),
-        child: ProfileColumn(profile),
-      ),
-    );
-  }
-
-}
-
-Widget ProfileColumn(ClientProfile profile){
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Row(
-          children: [
-            SizedBox(width: 20),
-            Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all( color: MyMateThemes.premiumAccent, width: 5.0,),),
-              child: CircleAvatar( radius: 50, backgroundImage: NetworkImage(profile.imageUrl),),),
-            SizedBox(width: 20),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only( bottom: 4.0),
-                  child: CommonTextStyleForPage( profile.name, MyMateThemes.textColor, FontWeight.w700, 13,),
-                ),
-                Padding(
-                  padding: EdgeInsets.only( bottom: 4.0 ),
-                  child: Row(
-                    children: [
-                      CommonTextStyleForPage(' ${profile.age}, ', MyMateThemes.textColor, FontWeight.w400,11, ),
-                      CommonTextStyleForPage( profile.status, MyMateThemes.textColor, FontWeight.w500, 11, ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only( bottom: 4.0), // Add bottom padding for spacing
-                  child: CommonTextStyleForPage(' ${profile.occupation}',MyMateThemes.textColor,FontWeight.w500,11,),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 4.0),
-                  child: CommonTextStyleForPage(' ${profile.district}',MyMateThemes.textColor,FontWeight.w500,11,),
-                ),
-                Container(
-                  width: 90,
-                  height: 20,
-                  decoration: BoxDecoration(
-                    color: MyMateThemes.secondaryColor,
-                    borderRadius: BorderRadius.circular(4.0),
-                  ),
-                  child: Row(
-                    mainAxisAlignment:
-                    MainAxisAlignment.spaceEvenly,
-                    children: [
-                      SvgPicture.asset(
-                          'assets/images/heart .svg'),
-                      CommonTextStyleForPage(' ${profile.matchPercentage}',MyMateThemes.primaryColor,FontWeight.w500,11),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ]),
-    ],
   );
 }
 
@@ -315,22 +185,303 @@ Widget PopupDialogTextStyle(String text, Color color){
   );
 }
 
-class Profile {
-  final String name;
-  final int age;
-  final String status;
-  final String occupation;
-  final String district;
-  final String imageUrl;
-  final String matchPercentage;
+class SubscribeHomeScreenStructuredPageCarouselSliders extends StatefulWidget {
+  String docId;
+  SubscribeHomeScreenStructuredPageCarouselSliders({super.key,required this.docId});
 
-  Profile({
-    required this.name,
-    required this.age,
-    required this.status,
-    required this.occupation,
-    required this.district,
-    required this.imageUrl,
-    required this.matchPercentage,
-  });
+  @override
+  State<SubscribeHomeScreenStructuredPageCarouselSliders> createState() => _SubscribeHomeScreenStructuredPageCarouselSlidersState();
+}
+
+class _SubscribeHomeScreenStructuredPageCarouselSlidersState extends State<SubscribeHomeScreenStructuredPageCarouselSliders> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getClients();
+  }
+
+  List<dynamic> soulList =[];
+  Map<int, dynamic> clientList = {};
+  List<dynamic> clientDataList = [];
+  Future<void> getClients() async {
+    Uri url = Uri.parse('https://backend.graycorp.io:9000/mymate/api/v1/matchListForDocId').replace(queryParameters: {"docId":""},);
+
+    try {
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        setState(() {
+          soulList = jsonDecode(response.body);
+          clientList = Map<int, dynamic>.from(soulList.asMap());
+          clientDataList = clientList.values.toList();
+          print(clientDataList);
+        });
+      } else {
+        print('Failed to load clients: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching client data: $e');
+    }
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: clientDataList.isEmpty
+          ? CircularProgressIndicator() // Show a loader while fetching data
+          : CarouselSlider(
+        options: CarouselOptions(
+          height: 140.0,
+          autoPlay: true,
+          enlargeCenterPage: true,
+          aspectRatio: 21 / 10,
+          viewportFraction: 0.8,
+        ),
+        items: clientDataList.map((clientData) {
+          Client client = Client();
+          client.lastName = clientData['last_name'];
+          client.fullName = clientData['full_name'];
+          client.profileImg = clientData['profile_img_url'];
+          client.age = clientData['age'];
+          client.occupationType = clientData['occupation_type'];
+          client.maritalStatus = clientData['marital_status'];
+          client.city = clientData['city'];
+          return SubscribedhomescreenStructuredPageCarouselSliderContainers(client);
+        }).toList(),
+      ),
+    );
+  }
+  Widget SubscribedhomescreenStructuredPageCarouselSliderContainers(Client clientData){
+    return GestureDetector(
+      onTap: (){
+
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>OtherProfilePage(docId: "jsbdasd,nabsdmnbasmdn")));
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 5.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border(
+            top: BorderSide(width: 0.5),
+            bottom:  BorderSide(width: 0.5),
+          ),
+          borderRadius: BorderRadius.circular(8.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 2.0,
+              spreadRadius: 2.0,
+              offset: Offset(0, 3),
+            ),
+          ],
+        ),
+        child: ProfileColumns(clientData),
+      ),
+    );
+  }
+
+  Widget ProfileColumns(Client clientData){
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Row(
+            children: [
+              SizedBox(width: 20),
+              Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all( color: MyMateThemes.premiumAccent, width: 5.0,),),
+                child: CircleAvatar(
+                        radius: 50,
+                    backgroundImage: NetworkImage("https://piratha.com/images/profile.png"),
+                    )),
+              SizedBox(width: 20),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only( bottom: 4.0),
+                    child: CommonTextStyleForPage( clientData.lastName.toString(), MyMateThemes.textColor, FontWeight.w700, 13,),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only( bottom: 4.0 ),
+                    child: Row(
+                      children: [
+                        CommonTextStyleForPage(clientData.age.toString(), MyMateThemes.textColor, FontWeight.w400,11, ),
+                        CommonTextStyleForPage( "Status" ,MyMateThemes.textColor, FontWeight.w500, 11, ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only( bottom: 4.0), // Add bottom padding for spacing
+                    child: CommonTextStyleForPage(clientData.occupationType.toString(),MyMateThemes.textColor,FontWeight.w500,11,),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 4.0),
+                    child: CommonTextStyleForPage(clientData.city.toString(),MyMateThemes.textColor,FontWeight.w500,11,),
+                  ),
+                  Container(
+                    width: 90,
+                    height: 20,
+                    decoration: BoxDecoration(
+                      color: MyMateThemes.secondaryColor,
+                      borderRadius: BorderRadius.circular(4.0),
+                    ),
+                    child: Row(
+                      mainAxisAlignment:
+                      MainAxisAlignment.spaceEvenly,
+                      children: [
+                        SvgPicture.asset(
+                            'assets/images/heart .svg'),
+                        CommonTextStyleForPage('66%',MyMateThemes.primaryColor,FontWeight.w500,11),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ]),
+      ],
+    );
+  }
+
+}
+
+
+Widget SubscribedhomescreenStructuredPageCarouselSlider(BuildContext,context){
+
+  Firebase firebase = Firebase();
+  final Future<List<ClientProfile>> profiles = firebase.getClientList();
+  final Stream<List<ClientProfile>> streamProfiles = firebase.getClientsStream();
+  return Center(
+      child: StreamBuilder<List<ClientProfile>>(
+
+        stream: streamProfiles,
+        builder: (context,snapshot){
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(child: Text('No profiles found.'));
+          }
+          else{
+            final profileList = snapshot.data!;
+            return CarouselSlider(
+              options: CarouselOptions(
+                height: 140.0,
+                autoPlay: true,
+                enlargeCenterPage: true,
+                aspectRatio: 21/10,
+                viewportFraction: 0.8,
+              ),
+              items: profileList.map((profile) {
+                return SubscribedhomescreenStructuredPageCarouselSliderContainer(profile: profile);
+              }).toList(),
+            );
+          }
+        },
+
+      )
+  );
+
+}
+
+class SubscribedhomescreenStructuredPageCarouselSliderContainer extends StatelessWidget{
+
+  ClientProfile profile;
+  SubscribedhomescreenStructuredPageCarouselSliderContainer({super.key,required this.profile});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: (){
+
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>OtherProfilePage(docId: profile.docId)));
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 5.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border(
+            top: BorderSide(width: 0.5),
+            bottom:  BorderSide(width: 0.5),
+          ),
+          borderRadius: BorderRadius.circular(8.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 2.0,
+              spreadRadius: 2.0,
+              offset: Offset(0, 3),
+            ),
+          ],
+        ),
+        child: ProfileColumn(profile),
+      ),
+    );
+  }
+
+}
+
+Widget ProfileColumn(ClientProfile profile){
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Row(
+          children: [
+            SizedBox(width: 20),
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all( color: MyMateThemes.premiumAccent, width: 5.0,),),
+              child: CircleAvatar( radius: 50, backgroundImage: NetworkImage(profile.imageUrl),),),
+            SizedBox(width: 20),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only( bottom: 4.0),
+                  child: CommonTextStyleForPage( profile.name, MyMateThemes.textColor, FontWeight.w700, 13,),
+                ),
+                Padding(
+                  padding: EdgeInsets.only( bottom: 4.0 ),
+                  child: Row(
+                    children: [
+                      CommonTextStyleForPage(' ${profile.age}, ', MyMateThemes.textColor, FontWeight.w400,11, ),
+                      CommonTextStyleForPage( profile.status, MyMateThemes.textColor, FontWeight.w500, 11, ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only( bottom: 4.0), // Add bottom padding for spacing
+                  child: CommonTextStyleForPage(' ${profile.occupation}',MyMateThemes.textColor,FontWeight.w500,11,),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 4.0),
+                  child: CommonTextStyleForPage(' ${profile.district}',MyMateThemes.textColor,FontWeight.w500,11,),
+                ),
+                Container(
+                  width: 90,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    color: MyMateThemes.secondaryColor,
+                    borderRadius: BorderRadius.circular(4.0),
+                  ),
+                  child: Row(
+                    mainAxisAlignment:
+                    MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SvgPicture.asset(
+                          'assets/images/heart .svg'),
+                      CommonTextStyleForPage(' ${profile.matchPercentage}',MyMateThemes.primaryColor,FontWeight.w500,11),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ]),
+    ],
+  );
 }

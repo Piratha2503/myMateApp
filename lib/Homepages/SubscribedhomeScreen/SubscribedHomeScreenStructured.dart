@@ -19,9 +19,9 @@ class _SubscribedhomescreenStructuredPageState extends State<Subscribedhomescree
   @override
   void initState() {
     super.initState();
-    // Show the popup dialog when the page loads
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _showPopupDialog();
+      print("Subscribe HomeScreen docId:- ${widget.docId}");
     });
   }
 
@@ -54,22 +54,22 @@ class _SubscribedhomescreenStructuredPageState extends State<Subscribedhomescree
             ),
           ),
           SizedBox(height: 20,),
-          SubscribedhomescreenStructuredPageCarouselSlider(context,context),
+          SubscribeHomeScreenStructuredPageCarouselSliders(docId: 'E0JFHhK2x6Gq2Ac6XSyP',),
           SizedBox(height: 30),
           SubscribedhomescreenStructuredPageTokenContainers(context,widget.docId),
           SizedBox(height: 20),
 
         ],
       ),
-      // bottomNavigationBar: CustomBottomNavigationBar(
-      //   selectedIndex: _selectedIndex,
-      //   onItemTapped: (index) {
-      //     setState(() {
-      //       _selectedIndex = index;
-      //     });
-      //     // Handle navigation here based on the index
-      //   },
-      // ),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+          // Handle navigation here based on the index
+        }, docId: widget.docId,
+      ),
     );
   }
 }
