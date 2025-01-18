@@ -311,9 +311,7 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
         Center(
           child: Padding(
             padding: EdgeInsets.all(50),
-
-            child:
-            IntlPhoneField(
+            child: IntlPhoneField(
                 onCountryChanged: (country) {
                   setState(() {
                     client_country = country.name;
