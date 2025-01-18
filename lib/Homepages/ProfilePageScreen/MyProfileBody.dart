@@ -86,7 +86,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
         country = data['country'] ?? "N/A";
         rasi = data['rasi'] ?? "N/A";
         natchathiram = data['natchathiram'] ?? "N/A";
-        profilePictureUrl =data['profile_pic_url'] ?? "N/A";
+        profilePictureUrl =data['profile_pic_url'] ?? "https://piratha.com/images/profile.png";
         address = data['address'] ?? "N/A";
         isLoading = false;
         var expectations = data['expectations'] ?? [];
@@ -102,37 +102,11 @@ class _MyProfileBodyState extends State<MyProfileBody> {
 
   }
 
-
-  String profileImg = "";
-  String errorMessage = "";
-
-  Future<void> _fetchImages() async {
-    try {
-      String apiUrl = MyMateAPIs.get_client_byDocId_API;
-      Uri url = Uri.parse('$apiUrl?docId=E0JFHhK2x6Gq2Ac6XSyP');
-      final response = await http.get(url);
-      final data = jsonDecode(response.body);
-      setState(() {
-        profileImg = data['proilfeImages.profile_pic_url'] ?? "https://backend.graycorp.io/images/man-2.jpg";
-      });
-      // final data = await fetchUserById(widget.docId);
-      // setState(() {
-      //   imagePaths = List<String>.from(data['gallery_image_urls'] ?? []);
-      //   isLoading = false;
-      //   print(imagePaths);
-      // });
-    } catch (e) {
-      setState(() {
-        errorMessage = 'Failed to load the images: $e';
-        isLoading = false;
-      });
-    }
-  }
-
   @override
   void initState() {
 
     super.initState();
+
     getClient().then((_) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _calculatePositions();
@@ -365,8 +339,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
               child: Center(
                 child: CircleAvatar(
                   radius: 85,
-                  backgroundImage: NetworkImage(image_url),
-
+                  backgroundImage: NetworkImage("https://piratha.com/images/profile.png"),
                 ),
               ),
             ),

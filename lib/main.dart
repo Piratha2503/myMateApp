@@ -10,6 +10,7 @@ import 'package:mymateapp/Homepages/RegisterPages/RegisterPage.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Homepages/Profiles/boost_profile.dart';
+import 'Homepages/SubscribedhomeScreen/SubscribedHomeScreenStructured.dart';
 import 'Homepages/explorePage/explorePageMain.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -47,7 +48,7 @@ class MyApp extends StatelessWidget {
       home:
       // ProfilePage(docId: "E0JFHhK2x6Gq2Ac6XSyP", selectedBottomBarIconIndex:0,),
       // CheckmatchPage( clientDocId: '', soulDocId: '',),
-     RegisterPage()
+     SubscribedhomescreenStructuredPage(docId: 'TBT3I8DYa3BepMZPPqv6',),
     );
   }
 }
@@ -76,7 +77,7 @@ class _AuthcheckState extends State<AuthcheckState> {
           if (docId != null) {
             return ProfilePage(docId: docId, selectedBottomBarIconIndex: 3,);
           } else {
-            return const RegisterPage();
+            return SubscribedhomescreenStructuredPage(docId: 'yVBYhDY52IN0IwMkmcGu');
           }
         }
       },
