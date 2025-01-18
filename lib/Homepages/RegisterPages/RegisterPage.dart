@@ -42,7 +42,6 @@ class _RegisterPageState extends State<RegisterPage> {
             SizedBox(height: 15,),
             TextInstructions(),
             PhoneFieldAndNextButton(),
-            PhoneFieldAndNextButton(),
           ],
         )
     );
@@ -73,12 +72,12 @@ Widget TextInstructions(){
       Center(
         child: Text("Make sure this number can receive SMS.",
           style: TextStyle(
-            fontSize: 14,
+              fontSize: 14,
               color: MyMateThemes.textColor,
-            fontFamily: "Work Sans",
-            fontWeight: FontWeight.normal,
-            letterSpacing: 0.6,
-            wordSpacing: 0.5
+              fontFamily: "Work Sans",
+              fontWeight: FontWeight.normal,
+              letterSpacing: 0.6,
+              wordSpacing: 0.5
 
 
           ),
@@ -88,10 +87,10 @@ Widget TextInstructions(){
         child: Text(
           "You will receive your activation code",
           style: TextStyle(
-            fontSize: 14,
+              fontSize: 14,
               color: MyMateThemes.textColor,
-            fontFamily: "Work Sans",
-            fontWeight: FontWeight.normal,
+              fontFamily: "Work Sans",
+              fontWeight: FontWeight.normal,
               letterSpacing: 0.6,
               wordSpacing: 0.5
 
@@ -104,10 +103,10 @@ Widget TextInstructions(){
         child: Text(
           "through it",
           style: TextStyle(
-            fontSize: 14,
+              fontSize: 14,
               color: MyMateThemes.textColor,
-            fontFamily: "Work Sans",
-            fontWeight: FontWeight.normal,
+              fontFamily: "Work Sans",
+              fontWeight: FontWeight.normal,
               letterSpacing: 0.6,
               wordSpacing: 0.5
 
@@ -133,6 +132,7 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
   String phoneNumber = "";
   String mobile_country_code = "";
   String client_country = "";
+  String mobile_code = "94";
   int? otp = 0;
   FirebaseDB firebaseDB = FirebaseDB();
 
@@ -190,6 +190,29 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('docId', docId);
 
+        Navigator.push( context,
+          MaterialPageRoute(
+            builder: (context) => OtpPinput(
+              clientData: clientData,
+              docId: docId,
+            ),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Failed to fetch docId. Please try again.")),
+        );
+      }
+    } else {
+      print("Failed to register mobile. Response: ${res.body}");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error: ${res.body}")),
+      );
+    }
+    if(res.statusCode == 200){
+      print(res.statusCode);
+      final docId = await fetchDocIdByMobile(phoneNumber);
+      if (docId != null) {
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -209,32 +232,8 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Error: ${res.body}")),
       );
-    }
-   if(res.statusCode == 200){
-     print(res.statusCode);
-     final docId = await fetchDocIdByMobile(phoneNumber);
-     if (docId != null) {
-       Navigator.push(
-         context,
-         MaterialPageRoute(
-           builder: (context) => OtpPinput(
-             clientData: clientData,
-             docId: docId,
-           ),
-         ),
-       );
-     } else {
-       ScaffoldMessenger.of(context).showSnackBar(
-         const SnackBar(content: Text("Failed to fetch docId. Please try again.")),
-       );
-     }
-   } else {
-     print("Failed to register mobile. Response: ${res.body}");
-     ScaffoldMessenger.of(context).showSnackBar(
-       SnackBar(content: Text("Error: ${res.body}")),
-     );
 
-   }
+    }
   }
 
   void _openPopupScreen(BuildContext context) {
@@ -308,21 +307,32 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
+        SizedBox(
+          height: 50,
+        ),
         Center(
           child: Padding(
-            padding: EdgeInsets.all(50),
+            padding: EdgeInsets.symmetric(horizontal: 50,vertical: 5),
             child: IntlPhoneField(
+                readOnly: true,
+                showCursor: false,
                 onCountryChanged: (country) {
                   setState(() {
                     client_country = country.name;
                     mobile_country_code = country.code;
+                    mobile_code = country.dialCode;
                   });
                 },
                 inputFormatters: [
                   LengthLimitingTextInputFormatter(10),
                   FilteringTextInputFormatter.digitsOnly,
                 ],
-                decoration: InputDecoration(hintText: "Phone number",),
+                decoration: InputDecoration(hintText: client_country,
+                    hintStyle: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 18,
+                      color: Colors.grey
+                    )),
                 onChanged: (number) {
                   setState(() {
                     phoneNumber = number.completeNumber;
@@ -331,30 +341,43 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
             ),
           ),
         ),
-            Center(
-                child: Padding(
-                  padding: EdgeInsets.all(50),
-                  child:
-                       IntlPhoneField(
-                            onCountryChanged: (country) {
-                              setState(() {
-                              client_country = country.name;
-                              mobile_country_code = country.code;
-                              });
-                          },
-                            inputFormatters: [
-                          LengthLimitingTextInputFormatter(10),
-                          FilteringTextInputFormatter.digitsOnly,
-                              ],
-                          decoration: InputDecoration(hintText: "Phone number",),
-                          onChanged: (number) {
-                          setState(() {
-                            phoneNumber = number.completeNumber;
-                                });
-                        }
-                  ),
+        Center(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 50,),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  width: 45,
+                  decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 1,color: Colors.grey))),
+                  child: TextField(
+                    readOnly: true,
+                    decoration: InputDecoration(
+                      hintText: "+$mobile_code",
+                      hintStyle: TextStyle(color: Colors.grey)
+                    ),
+                    style: TextStyle(fontSize: 18,color: Colors.grey),),
                 ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Container(
+                    width: 235,
+                    child: TextField(
+                      style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),
+                      controller: TextEditingController(),
+                      decoration: InputDecoration(
+                          border: UnderlineInputBorder(borderSide: BorderSide(width: 1,color: Colors.grey))
+                      ),
+                    ),
+                  )
+              ],
+            )
           ),
+        ),
+        SizedBox(
+          height: 50,
+        ),
         Center(
           child: SizedBox(
             height: 58,
