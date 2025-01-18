@@ -73,12 +73,12 @@ Widget TextInstructions(){
       Center(
         child: Text("Make sure this number can receive SMS.",
           style: TextStyle(
-            fontSize: 14,
+              fontSize: 14,
               color: MyMateThemes.textColor,
-            fontFamily: "Work Sans",
-            fontWeight: FontWeight.normal,
-            letterSpacing: 0.6,
-            wordSpacing: 0.5
+              fontFamily: "Work Sans",
+              fontWeight: FontWeight.normal,
+              letterSpacing: 0.6,
+              wordSpacing: 0.5
 
 
           ),
@@ -88,10 +88,10 @@ Widget TextInstructions(){
         child: Text(
           "You will receive your activation code",
           style: TextStyle(
-            fontSize: 14,
+              fontSize: 14,
               color: MyMateThemes.textColor,
-            fontFamily: "Work Sans",
-            fontWeight: FontWeight.normal,
+              fontFamily: "Work Sans",
+              fontWeight: FontWeight.normal,
               letterSpacing: 0.6,
               wordSpacing: 0.5
 
@@ -104,10 +104,10 @@ Widget TextInstructions(){
         child: Text(
           "through it",
           style: TextStyle(
-            fontSize: 14,
+              fontSize: 14,
               color: MyMateThemes.textColor,
-            fontFamily: "Work Sans",
-            fontWeight: FontWeight.normal,
+              fontFamily: "Work Sans",
+              fontWeight: FontWeight.normal,
               letterSpacing: 0.6,
               wordSpacing: 0.5
 
@@ -210,31 +210,31 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
         SnackBar(content: Text("Error: ${res.body}")),
       );
     }
-   if(res.statusCode == 200){
-     print(res.statusCode);
-     final docId = await fetchDocIdByMobile(phoneNumber);
-     if (docId != null) {
-       Navigator.push(
-         context,
-         MaterialPageRoute(
-           builder: (context) => OtpPinput(
-             clientData: clientData,
-             docId: docId,
-           ),
-         ),
-       );
-     } else {
-       ScaffoldMessenger.of(context).showSnackBar(
-         const SnackBar(content: Text("Failed to fetch docId. Please try again.")),
-       );
-     }
-   } else {
-     print("Failed to register mobile. Response: ${res.body}");
-     ScaffoldMessenger.of(context).showSnackBar(
-       SnackBar(content: Text("Error: ${res.body}")),
-     );
+    if(res.statusCode == 200){
+      print(res.statusCode);
+      final docId = await fetchDocIdByMobile(phoneNumber);
+      if (docId != null) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => OtpPinput(
+              clientData: clientData,
+              docId: docId,
+            ),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Failed to fetch docId. Please try again.")),
+        );
+      }
+    } else {
+      print("Failed to register mobile. Response: ${res.body}");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error: ${res.body}")),
+      );
 
-   }
+    }
   }
 
   void _openPopupScreen(BuildContext context) {
@@ -331,30 +331,30 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
             ),
           ),
         ),
-            Center(
-                child: Padding(
-                  padding: EdgeInsets.all(50),
-                  child:
-                       IntlPhoneField(
-                            onCountryChanged: (country) {
-                              setState(() {
-                              client_country = country.name;
-                              mobile_country_code = country.code;
-                              });
-                          },
-                            inputFormatters: [
-                          LengthLimitingTextInputFormatter(10),
-                          FilteringTextInputFormatter.digitsOnly,
-                              ],
-                          decoration: InputDecoration(hintText: "Phone number",),
-                          onChanged: (number) {
-                          setState(() {
-                            phoneNumber = number.completeNumber;
-                                });
-                        }
-                  ),
-                ),
+        Center(
+          child: Padding(
+            padding: EdgeInsets.all(50),
+            child:
+            IntlPhoneField(
+                onCountryChanged: (country) {
+                  setState(() {
+                    client_country = country.name;
+                    mobile_country_code = country.code;
+                  });
+                },
+                inputFormatters: [
+                  LengthLimitingTextInputFormatter(10),
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+                decoration: InputDecoration(hintText: "Phone number",),
+                onChanged: (number) {
+                  setState(() {
+                    phoneNumber = number.completeNumber;
+                  });
+                }
+            ),
           ),
+        ),
         Center(
           child: SizedBox(
             height: 58,
