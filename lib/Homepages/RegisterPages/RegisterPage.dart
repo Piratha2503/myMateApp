@@ -333,6 +333,30 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
           ),
         ),
         Center(
+          child: Padding(
+            padding: EdgeInsets.all(50),
+            child:
+            IntlPhoneField(
+                onCountryChanged: (country) {
+                  setState(() {
+                    client_country = country.name;
+                    mobile_country_code = country.code;
+                  });
+                },
+                inputFormatters: [
+                  LengthLimitingTextInputFormatter(10),
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+                decoration: InputDecoration(hintText: "Phone number",),
+                onChanged: (number) {
+                  setState(() {
+                    phoneNumber = number.completeNumber;
+                  });
+                }
+            ),
+          ),
+        ),
+        Center(
           child: SizedBox(
             height: 58,
             width: 166,
