@@ -10,9 +10,10 @@ import 'package:mymateapp/Homepages/RegisterPages/Pinput.dart';
 import 'package:mymateapp/MyMateCommonBodies/MyMateApis.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/dbConnection/Firebase_DB.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../dbConnection/ClientDatabase.dart';
 
-  class RegisterPage extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
   @override
@@ -165,7 +166,7 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
   Future<void> addMobile() async{
     print("Running");
     var random = Random();
-    otp = (random.nextInt(9999-1001)+1000).toString() as int?;
+    otp = (random.nextInt(9999-1001)+1000);
     Address address = Address(country: client_country);
     ContactInfo contactInfo = ContactInfo(
         mobile: phoneNumber,
@@ -176,11 +177,38 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
     ClientData clientData = ClientData(contactInfo: contactInfo);
     final url = Uri.parse(MyMateAPIs.mobile_number_registration_API);
     final res = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json',},
-      body: jsonEncode(clientData.toMap())
+        url,
+        headers: {'Content-Type': 'application/json',},
+        body: jsonEncode(clientData.toMap())
     );
 
+    if(res.statusCode == 200){
+      print(res.statusCode);
+      final docId = await fetchDocIdByMobile(phoneNumber);
+      if (docId != null) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('docId', docId);
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => OtpPinput(
+              clientData: clientData,
+              docId: docId,
+            ),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Failed to fetch docId. Please try again.")),
+        );
+      }
+    } else {
+      print("Failed to register mobile. Response: ${res.body}");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error: ${res.body}")),
+      );
+    }
    if(res.statusCode == 200){
      print(res.statusCode);
      final docId = await fetchDocIdByMobile(phoneNumber);
@@ -279,6 +307,29 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
+        Center(
+          child: Padding(
+            padding: EdgeInsets.all(50),
+            child: IntlPhoneField(
+                onCountryChanged: (country) {
+                  setState(() {
+                    client_country = country.name;
+                    mobile_country_code = country.code;
+                  });
+                },
+                inputFormatters: [
+                  LengthLimitingTextInputFormatter(10),
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+                decoration: InputDecoration(hintText: "Phone number",),
+                onChanged: (number) {
+                  setState(() {
+                    phoneNumber = number.completeNumber;
+                  });
+                }
+            ),
+          ),
+        ),
             Center(
                 child: Padding(
                   padding: EdgeInsets.all(50),

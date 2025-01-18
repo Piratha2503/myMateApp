@@ -7,7 +7,8 @@ import '../Homepages/ProfilePageScreen/MyProfileMain.dart';
 import 'ManagePage.dart';
 
 class Allactionpage extends StatefulWidget {
-  const Allactionpage({super.key});
+  final String docId;
+  const Allactionpage({super.key,required this.docId});
 
   @override
   State<Allactionpage> createState() => _AllactionpageState();
@@ -31,7 +32,7 @@ class _AllactionpageState extends State<Allactionpage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ManagePage()));
+                              builder: (context) => ManagePage(docId: widget.docId)));
                     },
                     child: SvgPicture.asset('assets/images/chevron-left.svg'),
                   ),
@@ -73,7 +74,7 @@ class _AllactionpageState extends State<Allactionpage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => NotificationPage(3)));
+                            builder: (context) => NotificationPage(3,docId: widget.docId,)));
                   },
                   child: SvgPicture.asset(
                     'assets/images/inv.svg',
@@ -89,7 +90,7 @@ class _AllactionpageState extends State<Allactionpage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => NotificationPage(3)));
+                            builder: (context) => NotificationPage(3,docId: widget.docId,)));
                   },
                   child: SvgPicture.asset(
                     'assets/images/up.svg',
@@ -105,7 +106,7 @@ class _AllactionpageState extends State<Allactionpage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => NotificationPage(3)));
+                            builder: (context) => NotificationPage(3,docId: widget.docId,)));
                   },
                   child: SvgPicture.asset(
                     'assets/images/filter.svg',
@@ -121,7 +122,7 @@ class _AllactionpageState extends State<Allactionpage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => NotificationPage(3)));
+                            builder: (context) => NotificationPage(3,docId: widget.docId,)));
                   },
                   child: SvgPicture.asset(
                     'assets/images/boost.svg',
@@ -137,7 +138,7 @@ class _AllactionpageState extends State<Allactionpage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => NotificationPage(3)));
+                            builder: (context) => NotificationPage(3,docId: widget.docId,)));
                   },
                   child: SvgPicture.asset(
                     'assets/images/tok.svg',
@@ -153,7 +154,7 @@ class _AllactionpageState extends State<Allactionpage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => NotificationPage(3)));
+                            builder: (context) => NotificationPage(3,docId: widget.docId,)));
                   },
                   child: SvgPicture.asset(
                     'assets/images/pay.svg',
