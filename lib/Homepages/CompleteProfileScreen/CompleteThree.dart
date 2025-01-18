@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http; // For making the HTTP request
+import 'dart:convert'; // For encoding the data
 import '../../MyMateThemes.dart';
 import '../ClosableContainer.dart';
 import 'CompleteProfileWidgets.dart';
 
 class PageThree extends StatefulWidget {
   final VoidCallback onSave;
-  final Map<String, dynamic> formData; // Add formData parameter
+  final String docId;
 
-  PageThree({required this.onSave, required this.formData});
+  PageThree({required this.onSave,required this.docId});
 
   @override
   _PageThreeState createState() => _PageThreeState();
@@ -23,20 +25,15 @@ class _PageThreeState extends State<PageThree> {
   int characterCount = 0;
   String error = '';
 
+
   @override
   void initState() {
     super.initState();
-    _selectedReligion = widget.formData['religion'] ?? '-- Select Option --';
-    _selectedLanguage = widget.formData['language'] ?? '-- Select Option --';
-    _casteController.text = widget.formData['caste'] ?? '';
-    _siblingsController.text = widget.formData['siblings'] ?? '';
-    _bioController.text = widget.formData['bio'] ?? '';
-    List<String> expectations = List<String>.from(widget.formData['expectations'] ?? []);
-    expectations.forEach((expectation) {
-      final controller = TextEditingController(text: expectation);
-      controllers.add(controller);
-    });
-    characterCount = _bioController.text.length;
+    _selectedReligion = '-- Select Option --';
+    _selectedLanguage = '-- Select Option --';
+    _casteController.text = '';
+    _siblingsController.text = '';
+    _bioController.text = '';
   }
 
   bool _validateForm() {
@@ -53,26 +50,91 @@ class _PageThreeState extends State<PageThree> {
     return true;
   }
 
-  void _saveForm() {
+  Future<void> _saveForm() async {
     if (_validateForm()) {
-      // Save the form data into the formData map
-      widget.formData['religion'] = _selectedReligion;
-      widget.formData['language'] = _selectedLanguage;
-      widget.formData['caste'] = _casteController.text;
-      widget.formData['siblings'] = _siblingsController.text;
-      widget.formData['bio'] = _bioController.text;
-      widget.formData['expectations'] = controllers.map((c) => c.text).toList();
+      final Map<String, dynamic> data = {
+        'docId': widget.docId,
 
-      // Print the saved values
-      print('Religion: ${widget.formData['religion']}');
-      print('Language: ${widget.formData['language']}');
-      print('Caste: ${widget.formData['caste']}');
-      print('Siblings: ${widget.formData['siblings']}');
-      print('Bio: ${widget.formData['bio']}');
-      print('Expectations: ${widget.formData['expectations']}');
+        'lifestyle': {
+          'expectations': controllers.map((c) => c.text).toList(),
+        },
+      };
 
-      widget.onSave(); // Trigger the save action
+      final url = 'https://backend.graycorp.io:9000/mymate/api/v1/saveClientData';
+      try {
+        print('Sending data: ${json.encode(data)}');
+        final response = await http.put(
+          Uri.parse(url),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: json.encode(data),
+        );
+
+        print('Response status: ${response.statusCode}');
+        print('Response body: ${response.body}');
+
+        if (response.statusCode == 200) {
+          widget.onSave();
+        } else {
+          setState(() {
+            error = 'Failed to save data: ${response.body}';
+          });
+        }
+      } catch (e) {
+        setState(() {
+          error = 'Error while saving data: $e';
+        });
+      }
     }
+  }
+
+  Future<void> _updateForm() async {
+    if (_validateForm()) {
+      final Map<String, dynamic> data = {
+        'docId': widget.docId,
+        'personalDetails': {
+          'religion': _selectedReligion,
+          'language': _selectedLanguage,
+          'caste': _casteController.text,
+          'num_of_siblings': _siblingsController.text,
+          'bio': _bioController.text,
+        },
+
+      };
+
+      final url = 'https://backend.graycorp.io:9000/mymate/api/v1/updateClient';
+      try {
+        print('Sending data: ${json.encode(data)}');
+        final response = await http.put(
+          Uri.parse(url),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: json.encode(data),
+        );
+
+        print('Response status: ${response.statusCode}');
+        print('Response body: ${response.body}');
+
+        if (response.statusCode == 200) {
+          widget.onSave();
+        } else {
+          setState(() {
+            error = 'Failed to save data: ${response.body}';
+          });
+        }
+      } catch (e) {
+        setState(() {
+          error = 'Error while saving data: $e';
+        });
+      }
+    }
+  }
+
+  Future<void> _saveAndUpdateForms() async {
+    await _saveForm();
+    await _updateForm();
   }
 
   @override
@@ -205,10 +267,8 @@ class _PageThreeState extends State<PageThree> {
                 }
               },
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
-                    MyMateThemes.secondaryColor),
-                foregroundColor:
-                MaterialStateProperty.all<Color>(MyMateThemes.primaryColor),
+                backgroundColor: MaterialStateProperty.all<Color>(MyMateThemes.secondaryColor),
+                foregroundColor: MaterialStateProperty.all<Color>(MyMateThemes.primaryColor),
               ),
               child: Align(
                 alignment: Alignment.centerLeft,
@@ -218,7 +278,7 @@ class _PageThreeState extends State<PageThree> {
           ),
           SizedBox(height: 40),
           ElevatedButton(
-            onPressed: _saveForm, // Save form data when pressed
+            onPressed: _saveAndUpdateForms, // Save form data when pressed
             style: CommonButtonStyle.commonButtonStyle(),
             child: Text('Complete'),
           ),

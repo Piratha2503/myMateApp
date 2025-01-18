@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mymateapp/Homepages/RegisterPages/NameAndGenderPage.dart';
 import 'package:mymateapp/MyMateThemes.dart';
+import 'package:mymateapp/dbConnection/ClientDatabase.dart';
+import 'package:pinput/pinput.dart';
 
 class otpPage extends StatefulWidget {
   const otpPage({super.key});
@@ -12,9 +14,10 @@ class otpPage extends StatefulWidget {
 
 class _otpPage extends State<otpPage> {
   void Check() {
+    ClientData clientData = ClientData();
     Navigator.push(
         context,
-        MaterialPageRoute(builder: (context)=>const NameAndGender()));
+        MaterialPageRoute(builder: (context)=>Pinput()));
 
   }
   @override

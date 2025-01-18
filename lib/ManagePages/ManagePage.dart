@@ -11,7 +11,8 @@ import 'package:mymateapp/ManagePages/SummaryPage.dart';
 import '../Homepages/AddTokenPage.dart';
 
 class ManagePage extends StatefulWidget {
-  const ManagePage({super.key});
+  final String docId;
+  const ManagePage({super.key,required this.docId});
 
   @override
   State<ManagePage> createState() => _ManagePageState();
@@ -234,7 +235,7 @@ class _ManagePageState extends State<ManagePage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Summarypage()));
+                                builder: (context) => Summarypage(docId: widget.docId,)));
                       },
                       child: SvgPicture.asset(
                         'assets/images/Summary.svg',
@@ -249,7 +250,7 @@ class _ManagePageState extends State<ManagePage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Settingspage()));
+                                builder: (context) => Settingspage(docId: widget.docId,)));
                       },
                       child: SvgPicture.asset(
                         'assets/images/Settings.svg',
@@ -264,7 +265,7 @@ class _ManagePageState extends State<ManagePage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Allactionpage()));
+                                builder: (context) => Allactionpage(docId: widget.docId,)));
                       },
                       child: SvgPicture.asset(
                         'assets/images/Actions.svg',
@@ -279,7 +280,7 @@ class _ManagePageState extends State<ManagePage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => AddTokenPage()));
+                                builder: (context) => AddTokenPage(docId: widget.docId,)));
                       },
                       child: SvgPicture.asset(
                         'assets/images/Token.svg',
@@ -309,7 +310,7 @@ class _ManagePageState extends State<ManagePage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Helppage()));
+                                builder: (context) => Helppage(docId: widget.docId,)));
                       },
                       child: SvgPicture.asset(
                         'assets/images/Help.svg',

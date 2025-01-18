@@ -1,17 +1,22 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mymateapp/Homepages/Profiles/MoreAboutMe.dart';
 import 'package:mymateapp/MyMateThemes.dart';
+
+import '../../MyMateCommonBodies/MyMateApis.dart';
 import '../../MyMateCommonBodies/MyMateBottomBar.dart';
-import '../../dbConnection/Firebase.dart';
+import '../CheckMatch.dart';
+import '../ProfilePageScreen/navamsaChartDesign.dart';
+import '../ProfilePageScreen/photoGalleryPage.dart';
+import '../ProfilePageScreen/rasiChartDesign.dart';
 import '../custom_outline_button.dart';
-import 'EditPage.dart';
+import '../explorePage/explorePageMain.dart';
 
 class OtherProfilePage extends StatefulWidget {
   final String docId;
 
   const OtherProfilePage({required this.docId, super.key});
+
+  String get soulDocId => docId;
 
   @override
   State<OtherProfilePage> createState() => _OtherProfilePageState();
@@ -22,37 +27,88 @@ class _OtherProfilePageState extends State<OtherProfilePage>
   String full_name = "";
   String gender = "";
   String education = "";
-  String district = "";
+  String city = "";
   String occupation = "";
   String mobile = "";
   String religion = "";
+  String mother_name = "";
+  String num_of_siblings = "";
   String age = "";
   String dob = "";
-
-  final Firebase firebase = Firebase();
-
-  Future<void> getClient() async {
-    DocumentSnapshot client = await firebase.clients.doc(widget.docId).get();
-
-    setState(() {
-      full_name = client['full_name'] ?? "N/A";
-      gender = client['gender'] ?? "N/A";
-      education = client['education'] ?? "N/A";
-      district = client['district'] ?? "N/A";
-      occupation = client['occupation'] ?? "N/A";
-      mobile = client['mobile'].toString() ?? "N/A";
-      religion = client['religion'] ?? "N/A";
-      age = client['age'].toString() ?? "N/A";
-      dob = client['dob'] ?? "N/A";
-    });
-  }
-
+  String dot = "";
+  String address = "";
+  String profilePictureUrl = "";
+  String country = "";
+  String rasi = "";
+  String natchathiram = "";
+  List<String> expectations = [];
   bool _isSmall = false;
   int _selectedIndex = 0;
   int _selectedButtonIndex = 0;
   final ScrollController _scrollController = ScrollController();
-  int selectedAlcoholIndex = 0;
-  int selectedCookingIndex = 0;
+  List<TextEditingController> controllers = [];
+  bool isLoading = true;
+
+  /// Fetch data from API using fetchUserById
+  Future<void> getClient() async {
+    try {
+      final data = await fetchUserById(widget.docId);
+
+      if (data.isNotEmpty) {
+        setState(() {
+          full_name = data['full_name'] ?? "N/A";
+          gender = data['gender'] ?? "N/A";
+          education = data['education'] ?? "N/A";
+          city = data['city'] ?? "N/A";
+          occupation = data['occupation'] ?? "N/A";
+          mobile = data['mobile'].toString() ?? "N/A";
+          religion = data['religion'] ?? "N/A";
+          age = data['age'].toString() ?? "N/A";
+          dob = data['dob'] ?? "N/A";
+          dot = data['dot'] ?? "N/A";
+          country = data['country'] ?? "N/A";
+          rasi = data['rasi'] ?? "N/A";
+          natchathiram = data['natchathiram'] ?? "N/A";
+          profilePictureUrl =data['profile_pic_url'] ?? "N/A";
+          address = data['address'] ?? "N/A";
+          isLoading = false;
+          var expectations = data['expectations'] ?? [];
+
+          print('Profile Picture URL: $profilePictureUrl');
+
+          if (expectations is List<String>) {
+            controllers = expectations
+                .map((expectation) => TextEditingController(text: expectation))
+                .toList();
+          } else if (expectations is List) {
+            controllers = expectations
+                .whereType<String>()
+                .map((expectation) => TextEditingController(text: expectation))
+                .toList();
+          } else {
+            controllers = [];
+          }
+        });
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+        print('Profile Picture URL: $profilePictureUrl');
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Client data not found!')),
+        );
+      }
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
+    }
+
+  }
 
   @override
   void initState() {
@@ -101,40 +157,26 @@ class _OtherProfilePageState extends State<OtherProfilePage>
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
       backgroundColor: MyMateThemes.backgroundColor,
+      automaticallyImplyLeading: false, // Prevents the default back arrow
+
       title: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Row(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    children: [
-                      SizedBox(width: 10.0),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MoreAboutMePage()));
-                        },
-                        child:
-                            SvgPicture.asset('assets/images/chevron-left.svg'),
-                      ),
-                      SizedBox(width: 70.0),
-                      Text(
-                        " @ User240672 ",
-                        style: TextStyle(
-                            color: MyMateThemes.textColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+            GestureDetector(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ExplorePage(results: [], initialTabIndex: 0, search: [], docId: '',)));
+              },
+              child: SvgPicture.asset('assets/images/chevron-left.svg'),
+            ),
+            SizedBox(width: 70.0),
+            Text(
+              "@ $full_name",
+              style: TextStyle(
+                color: MyMateThemes.textColor,
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
             ),
           ],
         ),
@@ -152,43 +194,54 @@ class _OtherProfilePageState extends State<OtherProfilePage>
             curve: Curves.easeInOut,
             height: _isSmall ? 50 : 230,
             alignment: _isSmall ? Alignment(-1.2, 1.0) : Alignment.center,
-            child: SvgPicture.asset('assets/images/Group 2073 (1).svg'),
+            child: profilePictureUrl.isNotEmpty
+                ? ClipOval(
+              child: Image.network(
+                profilePictureUrl,
+                fit: BoxFit.cover,
+                height: _isSmall ? 50 : 230,
+                width: _isSmall ? 50 : 230,
+                errorBuilder: (context, error, stackTrace) {
+                  return Icon(Icons.error, size: _isSmall ? 50 : 230);
+                },
+                loadingBuilder: (context, child, progress) {
+                  if (progress == null) return child;
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+              ),
+            )
+                : Icon(Icons.account_circle, size: _isSmall ? 50 : 230),
           ),
         ),
         GestureDetector(
           onTap: _toggleSize,
-          child: AnimatedContainer(
-            duration: Duration(milliseconds: 500),
-            curve: Curves.easeInOut,
-            alignment: _isSmall ? Alignment(0.1, 0.0) : Alignment.center,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  full_name,
-                  style: TextStyle(
-                    color: MyMateThemes.primaryColor,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                  ),
+          child: Column(
+            children: [
+              Text(
+                full_name,
+                style: TextStyle(
+                  color: MyMateThemes.primaryColor,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
                 ),
-                Text(
-                  'Special Mention (Optional)',
-                  style: TextStyle(
-                    color: MyMateThemes.textColor,
-                    fontSize: 14,
-                    fontWeight: FontWeight.normal,
-                  ),
+              ),
+              Text(
+                'Special Mention (Optional)',
+                style: TextStyle(
+                  color: MyMateThemes.textColor,
+                  fontSize: 14,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ],
     );
   }
 
-  Widget _buildIconWithText(String iconPath, String text1, String text2) {
+  Widget _buildIconWithText(String iconPath, String age, String dob) {
     return Container(
       width: 120,
       height: 72,
@@ -205,7 +258,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
           SvgPicture.asset(iconPath),
           SizedBox(height: 5),
           Text(
-            text1,
+            age,
             style: TextStyle(
               color: MyMateThemes.textColor,
               fontSize: 12,
@@ -213,7 +266,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
             ),
           ),
           Text(
-            text2,
+            dob,
             style: TextStyle(
               color: MyMateThemes.primaryColor,
               fontSize: 10,
@@ -232,10 +285,11 @@ class _OtherProfilePageState extends State<OtherProfilePage>
         ElevatedButton(
           onPressed: () {},
           style: ElevatedButton.styleFrom(
-            backgroundColor: MyMateThemes.primaryColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5.0),
-            ),
+              backgroundColor: MyMateThemes.primaryColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              foregroundColor: Colors.white
           ),
           child: Text('Send Request '),
         ),
@@ -244,16 +298,16 @@ class _OtherProfilePageState extends State<OtherProfilePage>
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => EditPage()),
+              MaterialPageRoute(builder: (context) => CheckmatchPage(soulDocId: widget.docId, clientDocId: 'E0JFHhK2x6Gq2Ac6XSyP',)),
             );
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: MyMateThemes.primaryColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5.0),
-            ),
+              backgroundColor: MyMateThemes.primaryColor,
+              shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(5.0),),
+              foregroundColor: Colors.white
           ),
           child: Text('Check Match'),
+
         ),
       ],
     );
@@ -284,49 +338,73 @@ class _OtherProfilePageState extends State<OtherProfilePage>
   }
 
   Widget _buildProfileDetails() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(height: 20),
-          _buildSectionTitle('About me'),
-          SizedBox(height: 5),
-          Row(
-            children: [
-              SizedBox(width: 40),
-              SvgPicture.asset('assets/images/Line 11.svg'),
-            ],
-          ),
-          SizedBox(height: 10),
-          _buildInfoRow('Education', 'Bsc Computer Science'),
-          _buildInfoRow('Height', '165 CM'),
-          _buildInfoRow('Religion', 'Hinduism'),
-          _buildInfoRow('Language', 'Tamil, English'),
-          _buildInfoRow('Caste', 'Optional'),
-          _buildInfoRow('Father\'s Name', 'Bsc Computer Science'),
-          _buildInfoRow('Mother\'s Name', 'Bsc Computer Science'),
-          _buildInfoRow('Siblings', '6'),
-          SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(width: 40),
-              Text(
-                'Expectations',
-                style: TextStyle(
-                  color: MyMateThemes.textColor,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+    return FutureBuilder<Map<String, dynamic>>(
+        future: fetchUserById(widget.docId), // Call API with docId
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(child: Text('No data available'));
+          }
+
+          final data = snapshot.data!;
+
+          return Container(
+            padding: EdgeInsets.symmetric(horizontal: 16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: 20),
+                _buildSectionTitle('About me'),
+                SizedBox(height: 5),
+                Row(
+                  children: [
+                    SizedBox(width: 40),
+                    SvgPicture.asset('assets/images/Line 11.svg'),
+                  ],
                 ),
-              ),
-            ],
-          ),
-          SizedBox(height: 10),
-          _buildExpectations(),
-        ],
-      ),
+                SizedBox(height: 10),
+                _buildInfoRow('Full Name', data['full_name'] ?? 'N/A'),
+                _buildInfoRow('Education', data['education'] ?? 'N/A'),
+                _buildInfoRow('Height', '${data['height'] ?? 'N/A'} CM'),
+                _buildInfoRow('Religion', data['religion'] ?? 'N/A'),
+                _buildInfoRow('Language', data['language'] ?? 'Tamil, English'),
+                _buildInfoRow('Caste', data['caste'] ?? 'Optional'),
+                _buildInfoRow('Father\'s Name', data['first_name'] ?? 'N/A'),
+                _buildInfoRow('Mother\'s Name', data['mother_name'] ?? 'N/A'),
+                _buildInfoRow(
+                    'Siblings', data['num_of_siblings']?.toString() ?? 'N/A'),
+                _buildInfoRow('Age', data['age']?.toString() ?? 'N/A'),
+                _buildInfoRow(
+                    'Date of Birth', data['dob']?.toString() ?? 'N/A'),
+                _buildInfoRow('Mobile', data['contact'] ?? 'N/A'),
+                _buildInfoRow('Address', data['address'] ?? 'N/A'),
+
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(width: 40),
+                    Text(
+                      'Expectations',
+                      style: TextStyle(
+                        color: MyMateThemes.textColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                _buildExpectations(),
+              ],
+            ),
+          );
+        }
     );
+
   }
 
   Widget _buildInfoRow(String title, String value) {
@@ -334,28 +412,42 @@ class _OtherProfilePageState extends State<OtherProfilePage>
       height: 34,
       width: 297,
       margin: EdgeInsets.symmetric(vertical: 5.0),
-      padding: EdgeInsets.all(8.0),
+      padding: EdgeInsets.symmetric(horizontal: 8.0),
       decoration: BoxDecoration(
         color: MyMateThemes.containerColor,
         borderRadius: BorderRadius.circular(5.0),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            title,
-            style: TextStyle(
-              color: MyMateThemes.textColor,
-              fontWeight: FontWeight.bold,
-              fontSize: 14,
+          // Fixed width for title
+          Container(
+            width: 120, // Adjust the width based on your design
+            child: Text(
+              title,
+              style: TextStyle(
+                color: MyMateThemes.textColor,
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
+              overflow: TextOverflow.ellipsis,
             ),
           ),
-          Text(
-            value,
-            style: TextStyle(
-              color: MyMateThemes.textColor,
-              fontSize: 14,
-              fontWeight: FontWeight.normal,
+          SizedBox(width: 50), // Space between title and value
+
+          // Scrollable text for value
+          Expanded(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Text(
+                value,
+                style: TextStyle(
+                  color: MyMateThemes.textColor,
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                ),
+                softWrap: false,
+                overflow: TextOverflow.visible,
+              ),
             ),
           ),
         ],
@@ -363,130 +455,46 @@ class _OtherProfilePageState extends State<OtherProfilePage>
     );
   }
 
-  Widget _buildExpectationRow(String title) {
-    return Container(
-      height: 34,
-      width: 297,
-      margin: EdgeInsets.symmetric(vertical: 5.0),
-      padding: EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-        color: MyMateThemes.containerColor,
-        borderRadius: BorderRadius.circular(5.0),
-      ),
-      child: Text(
-        title,
-        style: TextStyle(
-          color: MyMateThemes.textColor,
-          fontWeight: FontWeight.bold,
-          fontSize: 14,
-        ),
-      ),
-    );
-  }
-
   Widget _buildExpectations() {
     return Column(
-      children: [
-        _buildExpectationRow('Expectation 1'),
-        _buildExpectationRow('Expectation 2'),
-        _buildExpectationRow('Expectation 3'),
-        _buildExpectationRow('Expectation 4'),
-        _buildExpectationRow('Expectation 5'),
-        SizedBox(height: 20),
-      ],
-    );
-  }
-
-  Widget _buildPhotoGallery() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildSectionTitle('Photo Gallery'),
-        SizedBox(height: 5),
-        Row(
-          children: [
-            SizedBox(width: 40),
-            SvgPicture.asset('assets/images/Line 11.svg'),
-          ],
-        ),
-        SizedBox(height: 10),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Column(
-                children: [
-                  Container(
-                    width: 139.5,
-                    height: 169,
-                    decoration: BoxDecoration(
-                      color: MyMateThemes.secondaryColor,
-                      borderRadius: BorderRadius.circular(
-                          20.0), // Set the border radius to make it circular
-                      image: DecorationImage(
-                        image: NetworkImage('https://via.placeholder.com/100'),
-                        fit: BoxFit
-                            .cover, // Ensure the image covers the entire container
-                      ),
-                    ),
-                  )
-                ],
+      children: List.generate(
+        controllers.length,
+            (index) => Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Center(
+            child:Container(
+              height: 34,
+              width: 297,
+              margin: EdgeInsets.symmetric(vertical: 5.0),
+              padding: EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                color: MyMateThemes.containerColor,
+                borderRadius: BorderRadius.circular(5.0),
               ),
-              Column(
-                children: [
-                  Container(
-                    width: 139.5,
-                    height: 78,
-                    decoration: BoxDecoration(
-                      color: MyMateThemes.secondaryColor,
-                      borderRadius: BorderRadius.circular(
-                          20.0), // Set the border radius to make it circular
-                      image: DecorationImage(
-                        image: NetworkImage('https://via.placeholder.com/100'),
-                        fit: BoxFit
-                            .cover, // Ensure the image covers the entire container
-                      ),
+              child: Expanded(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child:
+                  Text(
+                    controllers[index].text,
+                    style: TextStyle(
+                      color: MyMateThemes.textColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
                     ),
+                    softWrap: false,
+                    overflow: TextOverflow.visible,
                   ),
-                  SizedBox(height: 10),
-                  Container(
-                    width: 139.5,
-                    height: 78,
-                    decoration: BoxDecoration(
-                      color: MyMateThemes.secondaryColor,
-                      borderRadius: BorderRadius.circular(
-                          20.0), // Set the border radius to make it circular
-                      image: DecorationImage(
-                        image: NetworkImage('https://via.placeholder.com/100'),
-                        fit: BoxFit
-                            .cover, // Ensure the image covers the entire container
-                      ),
-                    ),
-                  )
-                ],
+
+                ),
+
               ),
-            ],
+            ),
+
           ),
         ),
-      ],
-    );
-  }
+      ),
 
-  Widget _buildTag(String text) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-      decoration: BoxDecoration(
-        color: MyMateThemes.primaryColor,
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: Text(
-        text,
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 14.0,
-        ),
-      ),
     );
   }
 
@@ -497,765 +505,8 @@ class _OtherProfilePageState extends State<OtherProfilePage>
         setState(() {
           _selectedIndex = index;
         });
-        // Handle navigation here based on the index
-      },
-    );
-  }
 
-  Widget RasiChartDesign() {
-    return Container(
-      height: 258,
-      width: 258,
-      color: MyMateThemes.containerColor,
-      child: Stack(
-        children: [
-          Positioned(
-            top: 10,
-            left: 10,
-            child: Container(
-              height: 52,
-              width: 52,
-              decoration: BoxDecoration(
-                color: MyMateThemes.primaryColor,
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 0,
-                    right: 5,
-                    child: Text(
-                      '01',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 10),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: 10,
-            left: 72,
-            child: Container(
-              height: 52,
-              width: 52,
-              decoration: BoxDecoration(
-                color: MyMateThemes.primaryColor,
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 0,
-                    right: 5,
-                    child: Text(
-                      '01',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 10),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: 10,
-            left: 134,
-            child: Container(
-              height: 52,
-              width: 52,
-              decoration: BoxDecoration(
-                color: MyMateThemes.primaryColor,
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 0,
-                    right: 5,
-                    child: Text(
-                      '01',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 10),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: 10,
-            left: 196,
-            child: Container(
-              height: 52,
-              width: 52,
-              decoration: BoxDecoration(
-                color: MyMateThemes.primaryColor,
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 0,
-                    right: 5,
-                    child: Text(
-                      '01',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 10),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: 72,
-            left: 10,
-            child: Container(
-              height: 52,
-              width: 52,
-              decoration: BoxDecoration(
-                color: MyMateThemes.primaryColor,
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 0,
-                    right: 5,
-                    child: Text(
-                      '01',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 10),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: 134,
-            left: 10,
-            child: Container(
-              height: 52,
-              width: 52,
-              decoration: BoxDecoration(
-                color: MyMateThemes.primaryColor,
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 0,
-                    right: 5,
-                    child: Text(
-                      '01',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 10),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: 196,
-            left: 10,
-            child: Container(
-              height: 52,
-              width: 52,
-              decoration: BoxDecoration(
-                color: MyMateThemes.primaryColor,
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 0,
-                    right: 5,
-                    child: Text(
-                      '01',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 10),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: 72,
-            left: 196,
-            child: Container(
-              height: 52,
-              width: 52,
-              decoration: BoxDecoration(
-                color: MyMateThemes.primaryColor,
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 0,
-                    right: 5,
-                    child: Text(
-                      '01',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 10),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: 134,
-            left: 196,
-            child: Container(
-              height: 52,
-              width: 52,
-              decoration: BoxDecoration(
-                color: MyMateThemes.primaryColor,
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 0,
-                    right: 5,
-                    child: Text(
-                      '01',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 10),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: 196,
-            left: 196,
-            child: Container(
-              height: 52,
-              width: 52,
-              decoration: BoxDecoration(
-                color: MyMateThemes.primaryColor,
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 0,
-                    right: 5,
-                    child: Text(
-                      '01',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 10),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: 196,
-            left: 134,
-            child: Container(
-              height: 52,
-              width: 52,
-              decoration: BoxDecoration(
-                color: MyMateThemes.primaryColor,
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 0,
-                    right: 5,
-                    child: Text(
-                      '01',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 10),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: 196,
-            left: 72,
-            child: Container(
-              height: 52,
-              width: 52,
-              decoration: BoxDecoration(
-                color: MyMateThemes.primaryColor,
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 0,
-                    right: 5,
-                    child: Text(
-                      '01',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 10),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: 72,
-            left: 72,
-            child: Container(
-              height: 114,
-              width: 114,
-              decoration: BoxDecoration(
-                color: MyMateThemes.primaryColor,
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              child: Stack(
-                children: [
-                  // Positioned(
-                  //   top: 10,
-                  //   left: 10,
-                  //   child:
-                  //   SvgPicture.asset(
-                  //
-                  //       'assets/images/heart.svg'),
-                  //
-                  // ),
-                  Positioned(
-                    bottom: 5,
-                    left: 3,
-                    child: Column(
-                      children: [
-                        Text(
-                          'Hastam',
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.white,
-                              fontWeight: FontWeight.normal),
-                        ),
-                        Text(
-                          'Virgo (kanni)',
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.white,
-                              fontWeight: FontWeight.normal),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget NavamsaChartDesign() {
-    return Container(
-      height: 258,
-      width: 258,
-      color: MyMateThemes.containerColor,
-      child: Stack(
-        children: [
-          Positioned(
-            top: 10,
-            left: 10,
-            child: Container(
-              height: 52,
-              width: 52,
-              decoration: BoxDecoration(
-                color: MyMateThemes.primaryColor,
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 0,
-                    right: 5,
-                    child: Text(
-                      '01',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 10),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: 10,
-            left: 72,
-            child: Container(
-              height: 52,
-              width: 52,
-              decoration: BoxDecoration(
-                color: MyMateThemes.primaryColor,
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 0,
-                    right: 5,
-                    child: Text(
-                      '02',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 10),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: 10,
-            left: 134,
-            child: Container(
-              height: 52,
-              width: 52,
-              decoration: BoxDecoration(
-                color: MyMateThemes.primaryColor,
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 0,
-                    right: 5,
-                    child: Text(
-                      '03',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 10),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: 10,
-            left: 196,
-            child: Container(
-              height: 52,
-              width: 52,
-              decoration: BoxDecoration(
-                color: MyMateThemes.primaryColor,
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 0,
-                    right: 5,
-                    child: Text(
-                      '04',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 10),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: 72,
-            left: 10,
-            child: Container(
-              height: 52,
-              width: 52,
-              decoration: BoxDecoration(
-                color: MyMateThemes.primaryColor,
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 0,
-                    right: 5,
-                    child: Text(
-                      '05',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 10),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: 134,
-            left: 10,
-            child: Container(
-              height: 52,
-              width: 52,
-              decoration: BoxDecoration(
-                color: MyMateThemes.primaryColor,
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 0,
-                    right: 5,
-                    child: Text(
-                      '06',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 10),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: 196,
-            left: 10,
-            child: Container(
-              height: 52,
-              width: 52,
-              decoration: BoxDecoration(
-                color: MyMateThemes.primaryColor,
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 0,
-                    right: 5,
-                    child: Text(
-                      '07',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 10),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: 72,
-            left: 196,
-            child: Container(
-              height: 52,
-              width: 52,
-              decoration: BoxDecoration(
-                color: MyMateThemes.primaryColor,
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 0,
-                    right: 5,
-                    child: Text(
-                      '08',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 10),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: 134,
-            left: 196,
-            child: Container(
-              height: 52,
-              width: 52,
-              decoration: BoxDecoration(
-                color: MyMateThemes.primaryColor,
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 0,
-                    right: 5,
-                    child: Text(
-                      '09',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 10),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: 196,
-            left: 196,
-            child: Container(
-              height: 52,
-              width: 52,
-              decoration: BoxDecoration(
-                color: MyMateThemes.primaryColor,
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 0,
-                    right: 5,
-                    child: Text(
-                      '10',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 10),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: 196,
-            left: 134,
-            child: Container(
-              height: 52,
-              width: 52,
-              decoration: BoxDecoration(
-                color: MyMateThemes.primaryColor,
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 0,
-                    right: 5,
-                    child: Text(
-                      '11',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 10),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: 196,
-            left: 72,
-            child: Container(
-              height: 52,
-              width: 52,
-              decoration: BoxDecoration(
-                color: MyMateThemes.primaryColor,
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 0,
-                    right: 5,
-                    child: Text(
-                      '12',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 10),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: 72,
-            left: 72,
-            child: Container(
-              height: 114,
-              width: 114,
-              decoration: BoxDecoration(
-                color: MyMateThemes.primaryColor,
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    bottom: 5,
-                    left: 2,
-                    child: Column(
-                      children: [
-                        Text(
-                          'Hastam',
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.white,
-                              fontWeight: FontWeight.normal),
-                        ),
-                        Text(
-                          'Virgo (kanni)',
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.white,
-                              fontWeight: FontWeight.normal),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
+      }, docId: widget.docId,
     );
   }
 
@@ -1281,11 +532,12 @@ class _OtherProfilePageState extends State<OtherProfilePage>
                       _buildIconWithText(
                           'assets/images/Group 2145.svg', '$age years', dob),
                       _buildIconWithText('assets/images/Group 2146.svg',
-                          occupation, '$district - '),
+                          occupation, '$city  '),
                       _buildIconWithText('assets/images/Group 2147.svg',
-                          district, 'Sri Lanka'),
+                          city, '$country'),
                     ],
                   ),
+
                   SizedBox(height: 30),
                   _buildActionButtons(),
                   SizedBox(height: 30),
@@ -1364,7 +616,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
                               top: 10,
                               left: 10,
                               child:
-                                  SvgPicture.asset('assets/images/Group.svg'),
+                              SvgPicture.asset('assets/images/Group.svg'),
                             ),
                             Positioned(
                               bottom: 10,
@@ -1372,21 +624,21 @@ class _OtherProfilePageState extends State<OtherProfilePage>
                               child: Column(
                                 children: [
                                   Text(
-                                    '19 OCT 1998',
+                                    dob,
                                     style: TextStyle(
                                         fontSize: 12,
                                         color: MyMateThemes.primaryColor,
                                         fontWeight: FontWeight.normal),
                                   ),
                                   Text(
-                                    '10.30 AM',
+                                    dot,
                                     style: TextStyle(
                                         fontSize: 10,
                                         color: MyMateThemes.textColor,
                                         fontWeight: FontWeight.normal),
                                   ),
                                   Text(
-                                    'Jaffna, Sri Lanka',
+                                    '$city ,$country  ',
                                     style: TextStyle(
                                         fontSize: 12,
                                         color: MyMateThemes.primaryColor,
@@ -1422,14 +674,14 @@ class _OtherProfilePageState extends State<OtherProfilePage>
                               child: Column(
                                 children: [
                                   Text(
-                                    'Hastam',
+                                    natchathiram,
                                     style: TextStyle(
                                         fontSize: 12,
                                         color: Colors.white,
                                         fontWeight: FontWeight.normal),
                                   ),
                                   Text(
-                                    'Virgo (kanni)',
+                                    rasi,
                                     style: TextStyle(
                                         fontSize: 12,
                                         color: Colors.white,
@@ -1452,7 +704,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
                       SizedBox(height: 40),
                       _buildProfileDetails(),
                       SizedBox(height: 40),
-                      _buildPhotoGallery(),
+                      PhotoGallery(docId: widget.docId),
                       SizedBox(height: 40),
                     ],
                   ),
@@ -1507,6 +759,8 @@ class _OtherProfilePageState extends State<OtherProfilePage>
               ],
             ),
           ),
+          SizedBox(height: 10),
+
         ],
       ),
       bottomNavigationBar: _buildNavigationBar(),

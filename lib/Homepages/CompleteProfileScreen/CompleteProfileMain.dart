@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_stepindicator/flutter_stepindicator.dart';
 import 'package:mymateapp/MyMateThemes.dart';
-import '../Profiles/MyProfile.dart';
+import '../ProfilePageScreen/MyProfileMain.dart';
 import 'CompleteOne.dart';
 import 'CompleteThree.dart';
 import 'CompleteTwo.dart';
 
 class CompleteProfilePage extends StatefulWidget {
-  const CompleteProfilePage({super.key});
+  final String docId;
+  const CompleteProfilePage({Key? key, required this.docId}) : super(key: key);
 
   @override
   State<CompleteProfilePage> createState() => _CompleteProfilePageState();
@@ -15,9 +16,9 @@ class CompleteProfilePage extends StatefulWidget {
 
 class _CompleteProfilePageState extends State<CompleteProfilePage> {
   int currentPage = 0;
-  List<int> stepStates = [0, 0, 0]; // This indicates progress (completed or not)
+  List<int> stepStates = [0, 0, 0];
 
-  // Create a map to store all the form data
+
   Map<String, dynamic> formData = {};
 
 
@@ -75,11 +76,11 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
   Widget _buildCurrentPage(int currentPage) {
     switch (currentPage) {
       case 0:
-        return PageOne(onSave: _onPageSaved,formData: formData);
+        return PageOne(onSave: _onPageSaved,docId: widget.docId);
       case 1:
-        return PageTwo(onSave: _onPageSaved, formData: formData);
+        return PageTwo(onSave: _onPageSaved,docId: widget.docId );
       case 2:
-        return PageThree(onSave: _onPageSaved, formData: formData);
+        return PageThree(onSave: _onPageSaved,docId:widget.docId);
       default:
         return SizedBox();
     }
@@ -88,16 +89,16 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
   void _onPageSaved() {
     if (currentPage < stepStates.length - 1) {
       setState(() {
-        stepStates[currentPage] = 1; // Mark step as completed
+        stepStates[currentPage] = 1;
         currentPage++;
       });
     } else {
-      // Navigate to the next screen after final page
+
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => ProfilePage(
-            docId: "",
+            docId: widget.docId, selectedBottomBarIconIndex: 3,
           ),
         ),
       );

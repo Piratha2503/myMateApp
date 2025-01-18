@@ -5,7 +5,8 @@ import '../../MyMateCommonBodies/MyMateBottomBar.dart';
 import 'SubscribedHomeScreenWidgets.dart';
 
 class SubscribedhomescreenStructuredPage extends StatefulWidget {
-  const SubscribedhomescreenStructuredPage({super.key});
+  final String docId;
+  const SubscribedhomescreenStructuredPage({super.key,required this.docId});
 
   @override
   State<SubscribedhomescreenStructuredPage> createState() =>
@@ -41,7 +42,7 @@ class _SubscribedhomescreenStructuredPageState extends State<Subscribedhomescree
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-         SubscribedhomescreenStructuredPageTotalMatchColumn(context),
+         SubscribedhomescreenStructuredPageTotalMatchColumn(context,widget.docId),
           Center(
             child: Text(
               'View Matches',
@@ -55,20 +56,20 @@ class _SubscribedhomescreenStructuredPageState extends State<Subscribedhomescree
           SizedBox(height: 20,),
           SubscribedhomescreenStructuredPageCarouselSlider(context,context),
           SizedBox(height: 30),
-          SubscribedhomescreenStructuredPageTokenContainers(context),
+          SubscribedhomescreenStructuredPageTokenContainers(context,widget.docId),
           SizedBox(height: 20),
 
         ],
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(
-        selectedIndex: _selectedIndex,
-        onItemTapped: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-          // Handle navigation here based on the index
-        },
-      ),
+      // bottomNavigationBar: CustomBottomNavigationBar(
+      //   selectedIndex: _selectedIndex,
+      //   onItemTapped: (index) {
+      //     setState(() {
+      //       _selectedIndex = index;
+      //     });
+      //     // Handle navigation here based on the index
+      //   },
+      // ),
     );
   }
 }

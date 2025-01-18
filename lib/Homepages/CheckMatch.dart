@@ -1,111 +1,102 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mymateapp/Matching/Rasi.dart';
-import 'package:mymateapp/MyMateThemes.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import '../MyMateCommonBodies/MyMateApis.dart';
 import '../dbConnection/Firebase.dart';
 import '../MyMateCommonBodies/MyMateBottomBar.dart';
+import 'package:mymateapp/MyMateThemes.dart';
 
 class CheckmatchPage extends StatefulWidget {
-  const CheckmatchPage({super.key});
+  final String clientDocId;
+  final String soulDocId;
+
+
+  const CheckmatchPage({
+    super.key,
+    required this.clientDocId,
+    required this.soulDocId,
+  });
 
   @override
   State<CheckmatchPage> createState() => _CheckmatchPageState();
-
 }
 
-  class _CheckmatchPageState extends State<CheckmatchPage> {
+class _CheckmatchPageState extends State<CheckmatchPage> {
+  final Firebase firebase = Firebase();
+  String full_name = "";
 
-    final Firebase firebase = Firebase();
 
   int _selectedIndex = 0;
-    String girlNadchathiram = "Bharani";
-    String boyNadchathiram = "Pusham";
-    String girlRasi = "Kadagam";
-    String boyRasi = "Kanni";
-    String user = "TestUser";
 
-  Future<void> getGirlClient() async{
-    String docId = "EuzvIHpObxhHjOo9iutc";
-    DocumentSnapshot client = await firebase.clients.doc(docId).get();
-    setState(() {
-      boyNadchathiram = client["Nadchathiram"];
-      boyRasi = client["Rasi"];
-      user = client["full_name"];
-    });
+  // Store API results
+  Map<String, bool> matchResults = {
+    // "Overall Matching" :false,
+    "Vethai Matching": false,
+    "Viruksha Match": false,
+    "Kana Matching": false,
+    "Thina Matching": false,
+    "Rasi Matching": false,
+    "Vashya Matching": false,
+    "Rachu Matching": false,
+    "Yoni Matching": false,
+    "streeThirga Matching": false,
+    "mahendra Matching": false,
+    "rasiAthipathi Matching": false,
+    "Naadi Matching": false,
+
+  };
+
+  /// Fetch data from API using fetchUserById
+  Future<void> getSoulName() async {
+
+    final data = await fetchUserById(widget.soulDocId);
+
+    if (data.isNotEmpty) {
+      setState(() {
+        full_name = data['full_name'] ?? "N/A";
+      });
+    }
+  }
+
+  Future<void> fetchMatchingResults() async {
+    try {
+      final data = await showMatchingResults(widget.clientDocId, widget.soulDocId);
+
+      setState(() {
+        matchResults = {
+          // "Overall Matching": data["Overall Matching"] ?? false,
+
+          "Vethai Matching": data["Vethai Matching"] ?? false,
+          "Viruksha Match": data["Viruksha Match"] ?? false,
+          "Kana Matching": data["Kana Matching"] ?? false,
+          "Thina Matching": data["Thina Matching"] ?? false,
+          "Rasi Matching": data["Rasi Matching"] ?? false,
+          "Vashya Matching": data["Vashya Matching"] ?? false,
+          "Rachu Matching": data["Rachu Matching"] ?? false,
+          "Yoni Matching": data["Yoni Matching"] ?? false,
+
+          "streeThirga Matching": data["Thina Matching"] ?? false,
+          "mahendra Matching": data["Thina Matching"] ?? false,
+          "rasiAthipathi Matching": data["Thina Matching"] ?? false,
+          "Naadi Matching": data["Thina Matching"] ?? false,
+
+        };
+      });
+    } catch (e) {
+      print("Error fetching matching results: $e");
+    }
   }
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
-    getGirlClient();
+    getSoulName();
+    fetchMatchingResults();
   }
 
-    static final List<Map<String, String>> poruthamList = [
-      {
-        'svg': 'assets/images/whitetick.svg',
-        'name': 'Dina porutham',
-        'status': MatchingCalculation.checkThinaMatch(_CheckmatchPageState().girlNadchathiram, _CheckmatchPageState().boyNadchathiram).toString(),
-      },
-      {
-        'svg': 'assets/images/blackcross.svg',
-        'name': 'Gana porutham',
-        'status': MatchingCalculation.checkKanaMatch(_CheckmatchPageState().girlNadchathiram, _CheckmatchPageState().boyNadchathiram).toString()
-      },
-      {
-        'svg': 'assets/images/blackcross.svg',
-        'name': 'Stree Deergha porutham',
-        'status': 'Not Satisfactory'
-      },
-      {
-        'svg': 'assets/images/whitetick.svg',
-        'name': 'Mahendra porutham 1',
-        'status': 'Good'
-      },
-      {
-        'svg': 'assets/images/whitetick.svg',
-        'name': 'Yoni porutham',
-        'status': MatchingCalculation.checkYoniMatch(_CheckmatchPageState().girlNadchathiram, _CheckmatchPageState().boyNadchathiram).toString(),
-      },
-      {
-        'svg': 'assets/images/whitetick.svg',
-        'name': 'Veda porutham',
-        'status': MatchingCalculation.checkVethaiMatch(_CheckmatchPageState().girlNadchathiram, _CheckmatchPageState().boyNadchathiram).toString(),
-      },
-      {
-        'svg': 'assets/images/blackcross.svg',
-        'name': 'Rajju porutham',
-        'status': MatchingCalculation.checkRachuMatch(_CheckmatchPageState().girlNadchathiram, _CheckmatchPageState().boyNadchathiram).toString(),
-      },
-      {
-        'svg': 'assets/images/whitetick.svg',
-        'name': 'Rasi porutham',
-        'status': MatchingCalculation.checkRasiMatch(_CheckmatchPageState().girlRasi, _CheckmatchPageState().boyRasi).toString(),
-      },
-      {
-        'svg': 'assets/images/whitetick.svg',
-        'name': 'Rasiathipathy porutham',
-        'status': 'Good'
-      },
-      {
-        'svg': 'assets/images/blackcross.svg',
-        'name': 'Vasya porutham',
-        'status': MatchingCalculation.checkVasyaMatch(_CheckmatchPageState().girlRasi, _CheckmatchPageState().boyRasi).toString(),
-      },
-      {
-        'svg': 'assets/images/whitetick.svg',
-        'name': 'Dina porutham',
-        'status': MatchingCalculation.checkThinaMatch(_CheckmatchPageState().girlNadchathiram, _CheckmatchPageState().boyNadchathiram).toString(),
-      },
-      {
-        'svg': 'assets/images/whitetick.svg',
-        'name': 'Mahendra porutham 2',
-        'status': 'Good'
-      },
-    ];
-
-
-    @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyMateThemes.backgroundColor,
@@ -124,7 +115,7 @@ class CheckmatchPage extends StatefulWidget {
                 ),
                 SizedBox(width: 100),
                 Text(
-                  user,
+                  full_name,
                   style: TextStyle(
                     color: MyMateThemes.textColor,
                     fontSize: 20,
@@ -145,8 +136,8 @@ class CheckmatchPage extends StatefulWidget {
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 40,
-                          fontWeight: FontWeight.w500),)
-                ),
+                          fontWeight: FontWeight.w500),
+                    )),
                 Positioned(
                     top: 90,
                     right: 68,
@@ -161,19 +152,35 @@ class CheckmatchPage extends StatefulWidget {
             ),
             Expanded(
               child: ListView.builder(
-                itemCount: (poruthamList.length + 1) ~/
+                itemCount: (matchResults.keys.length + 1) ~/
                     2, // Calculate the number of rows needed
                 itemBuilder: (context, index) {
                   int firstIndex = index * 2;
                   int secondIndex = firstIndex + 1;
+                  List<String> keys = matchResults.keys.toList();
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      PoruthamColumn(poruthamList[firstIndex]),
+                      PoruthamColumn(
+                        {
+                          'svg': matchResults[keys[firstIndex]]!
+                              ? 'assets/images/whitetick.svg'
+                              : 'assets/images/blackcross.svg',
+                          'name': keys[firstIndex],
+                          'status': matchResults[keys[firstIndex]]!.toString(),
+                        },
+                      ),
                       SizedBox(width: 10),
-                      if (secondIndex <
-                          poruthamList.length) // Only add second if it exists
-                        PoruthamColumn(poruthamList[secondIndex]),
+                      if (secondIndex < matchResults.keys.length)
+                        PoruthamColumn(
+                          {
+                            'svg': matchResults[keys[secondIndex]]!
+                                ? 'assets/images/whitetick.svg'
+                                : 'assets/images/blackcross.svg',
+                            'name': keys[secondIndex],
+                            'status': matchResults[keys[secondIndex]]!.toString(),
+                          },
+                        ),
                     ],
                   );
                 },
@@ -188,55 +195,52 @@ class CheckmatchPage extends StatefulWidget {
           setState(() {
             _selectedIndex = index;
           });
-        },
+        }, docId: widget.clientDocId,
       ),
     );
   }
-}
 
   Widget PoruthamColumn(Map<String, String> item) {
-  return Column(
-    children: [
-      Container(
-        width: 150,
-        height: 60,
-        margin: EdgeInsets.all(8),
-        padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: item['status'] == 'true'
-              ? MyMateThemes.primaryColor
-              : MyMateThemes.secondaryColor,
-          borderRadius: BorderRadius.circular(10),
-
+    return Column(
+      children: [
+        Container(
+          width: 150,
+          height: 60,
+          margin: EdgeInsets.all(8),
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: item['status'] == "true"
+                ? MyMateThemes.primaryColor
+                : MyMateThemes.secondaryColor,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Stack(
+            children: [
+              Positioned(
+                top: 15,
+                child: Text(
+                  item['name']!,
+                  style: TextStyle(color: Colors.white, fontSize: 14),
+                ),
+              ),
+              Positioned(
+                top: 0,
+                left: 20,
+                child: Text(
+                  item['status']!,
+                  style: TextStyle(color: Colors.white, fontSize: 10),
+                ),
+              ),
+              Positioned(
+                top: 0,
+                child: SvgPicture.asset(
+                  item['svg']!,
+                ),
+              ),
+            ],
+          ),
         ),
-        child: Stack(
-          children: [
-            Positioned(
-              top: 15,
-              child: Text(
-                item['name']!,
-                style: TextStyle(color: Colors.white, fontSize: 14),
-              ),
-            ),
-            Positioned(
-              top: 0,
-              left: 20,
-              child: Text(
-                item['status']!,
-                style: TextStyle(color: Colors.white, fontSize: 10),
-              ),
-            ),
-            Positioned(
-              top: 0,
-              child: SvgPicture.asset(
-                item['svg']!,
-                // style: TextStyle(color: Colors.white, fontSize: 10),
-              ),
-            ),
-          ],
-        ),
-
-      ),
-    ],
-  );
+      ],
+    );
+  }
 }

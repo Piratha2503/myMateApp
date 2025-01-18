@@ -1,35 +1,40 @@
+import 'dart:ffi';
+
 class ClientData {
-  PersonalDetails personalDetails;
-  ContactInfo contactInfo;
-  Images profileImages;
-  Career_studies career_studies;
-  Lifestyle lifestyle;
-  User_type user_type;
-  Astrology astrology;
+  String? docId;
+  PersonalDetails? personalDetails;
+  ContactInfo? contactInfo;
+  Images? profileImages;
+  Career_studies? career_studies;
+  Lifestyle? lifestyle;
+  User_type? user_type;
+  Astrology? astrology;
   Matchings? matchings;
   String? tokens;
 
   ClientData({
+    this.docId,
     this.matchings,
     this.tokens,
-    required this.personalDetails,
-    required this.contactInfo,
-    required this.profileImages,
-    required this.career_studies,
-    required this.lifestyle,
-    required this.user_type,
-    required this.astrology,
+    this.personalDetails,
+    this.contactInfo,
+    this.profileImages,
+    this.career_studies,
+    this.lifestyle,
+    this.user_type,
+    this.astrology,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'personalDetails': personalDetails.toMap(),
-      'contactInfo': contactInfo.toMap(),
-      'profileImages': profileImages.toMap(),
-      'career_studies': career_studies.toMap(),
-      'lifestyle': lifestyle.toMap(),
-      'user_type': user_type.toMap(),
-      'astrology': astrology.toMap(),
+      'docId':docId,
+      'personalDetails': personalDetails?.toMap(),
+      'contactInfo': contactInfo?.toMap(),
+      'profileImages': profileImages?.toMap(),
+      'career_studies': career_studies?.toMap(),
+      'lifestyle': lifestyle?.toMap(),
+      'user_type': user_type?.toMap(),
+      'astrology': astrology?.toMap(),
     };
   }
 }
@@ -41,7 +46,7 @@ class PersonalDetails{
   String? last_name;
   String? gender;
   String? marital_status;
-  int? height;
+  double? height;
   int? num_of_siblings;
   String? religion;
   String? caste;
@@ -83,36 +88,38 @@ class PersonalDetails{
 }
 
 class ContactInfo{
-  String mobile;
-  String mobile_country_code;
-  String email;
-  Address address;
-
-  ContactInfo( this.mobile,this.email,this.mobile_country_code,{required this.address});
+  String? mobile;
+  String? mobile_country_code;
+  int ? otp;
+  String? email;
+  Address? address;
+  ContactInfo( {this.mobile,this.email,this.mobile_country_code,this.otp,required this.address});
 
   Map<String, dynamic> toMap() {
     return {
       'mobile': mobile,
       'mobile_country_code': mobile_country_code,
+      'otp': otp,
       'email': email,
-      'address':address.toMap(),
+      'address':address?.toMap(),
     };
   }
 }
 
 class Address{
-  String house_number;
-  String home;
-  String lane;
-  String city;
-  String country;
+  String? house_number;
+  String? home;
+  String? lane;
+  String? city;
+  String? country;
 
-  Address(
-  this.house_number,
-  this.home,
-  this.lane,
-  this.city,
-  this.country,);
+  Address({
+    this.house_number,
+    this.home,
+    this.lane,
+    this.city,
+    this.country,
+  });
 
   Map<String, dynamic> toMap() {
     return {
@@ -162,15 +169,15 @@ class Lifestyle{
   List<String>? hobbies;
   List<String>? personal_interest;
   List<String>? expectations;
-  List<String>? habbits;
-  Lifestyle(this.hobbies,this.personal_interest,this.expectations,this.habbits);
+  List<String>? habits;
+  Lifestyle(this.hobbies,this.personal_interest,this.expectations,this.habits);
 
   Map<String, dynamic> toMap() {
     return {
       'hobbies': hobbies,
       'personal_interest': personal_interest,
       'expectations': expectations,
-      'habbits':habbits,
+      'habits':habits,
     };
   }
 
@@ -234,20 +241,20 @@ class ChartGeneration{
   List<String>? place10;
   List<String>? place11;
   List<String>? place12;
-  ChartGeneration(
-          this.place1,
-          this.place2,
-          this.place3,
-          this.place4,
-          this.place5,
-          this.place6,
-          this.place7,
-          this.place8,
-          this.place9,
-          this.place10,
-          this.place11,
-          this.place12,
-          );
+  ChartGeneration({
+    this.place1,
+    this.place2,
+    this.place3,
+    this.place4,
+    this.place5,
+    this.place6,
+    this.place7,
+    this.place8,
+    this.place9,
+    this.place10,
+    this.place11,
+    this.place12,
+  });
   Map<String, dynamic> toMap() {
     return {
       'place1': place1,

@@ -21,7 +21,7 @@ class Firebase{
     QuerySnapshot snapshot = await firebaseFirestore.collection('clients').where("mobile",isEqualTo: mobile).get();
     DocumentSnapshot documentSnapshot = snapshot.docs.first;
     return ClientProfile(
-        docId: snapshot.docs.first.id,
+        docId: documentSnapshot.id,
         full_name: documentSnapshot['full_name'],
         gender: documentSnapshot['gender'],
         name: documentSnapshot['last_name'],
@@ -74,10 +74,6 @@ class Firebase{
       }).toList();
     });
   }
-
-  //GET DOC ID LIST
-
-
 
   //POST
   Future<void> addClient(ClientProfile profile){

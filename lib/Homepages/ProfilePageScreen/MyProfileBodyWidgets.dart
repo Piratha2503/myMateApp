@@ -1,69 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mymateapp/Homepages/Profiles/boost_profile.dart';
 import 'package:mymateapp/MyMateCommonBodies/RouterFunction.dart';
+
 import '../../MyMateThemes.dart';
 import '../Profiles/EditPage.dart';
 import '../Profiles/MoreAboutMe.dart';
 
-Widget ProfileInfo(String full_name,String image_url) {
-
-  bool _isSmall = false;
-
-  return Column(
-    children: [
-     Container(
-       height: 220,
-       child: Center(
-         child: Container(
-           height: 185,
-           width: 185,
-           decoration: BoxDecoration(
-             borderRadius: BorderRadius.circular(100),
-             color: MyMateThemes.secondaryColor,
-           ),
-           child: Center(
-             child: CircleAvatar(
-               radius: 85,
-               backgroundImage: NetworkImage(image_url),
-
-             ),
-           ),
-         ),
-       ),
-       ),
-
-
-      GestureDetector(
-        child: AnimatedContainer(
-          duration: Duration(milliseconds: 500),
-          curve: Curves.easeInOut,
-          alignment: _isSmall ? Alignment(0.1, 0.0) : Alignment.center,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                full_name,
-                style: TextStyle(
-                  color: MyMateThemes.primaryColor,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              Text(
-                'Special Mention (Optional)',
-                style: TextStyle(
-                  color: MyMateThemes.textColor,
-                  fontSize: 14,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    ],
-  );
-}
 
 Widget IconWithText(String iconPath, String text1, String text2) {
   return Container(
@@ -102,12 +45,12 @@ Widget IconWithText(String iconPath, String text1, String text2) {
   );
 }
 
-Widget ActionButtons(BuildContext context) {
+Widget ActionButtons(BuildContext context, String docId) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       ElevatedButton(
-        onPressed: () {},
+        onPressed: () {NavigatorFunction(context, boostprofile(docId: docId,));},
         style: ElevatedButton.styleFrom(
           backgroundColor: MyMateThemes.primaryColor,
           shape: RoundedRectangleBorder(
@@ -119,7 +62,7 @@ Widget ActionButtons(BuildContext context) {
       SizedBox(width: 60),
       ElevatedButton(
         onPressed: () {
-          NavigatorFunction(context, EditPage());
+          NavigatorFunction(context, EditPage(docId: docId, onSave: () {  },));
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: MyMateThemes.primaryColor,
@@ -143,18 +86,9 @@ Widget AdditionalInfo(BuildContext context) {
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 16.0),
     child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment:CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 10),
-        SectionTitle('More about me'),
-        SizedBox(height: 5),
-        Row(
-          children: [
-            SizedBox(width: 40),
-            SvgPicture.asset('assets/images/Line 11.svg'),
-          ],
-        ),
-        SizedBox(height: 13),
+
         Row(
           children: [
             SizedBox(width: 40),
@@ -256,29 +190,8 @@ Widget AdditionalInfo(BuildContext context) {
         ),
         SizedBox(height: 10),
         CookingSelection(),
-        SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                NavigatorFunction(context, MoreAboutMePage());
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: MyMateThemes.primaryColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-              child: Text(
-                'Edit',
-                style: TextStyle(color: Colors.white, letterSpacing: 1.5),
-              ),
-            ),
-            SizedBox(width: 10),
-          ],
-        ),
-        SizedBox(height: 10),
+        SizedBox(height: 30),
+
       ],
     ),
   );

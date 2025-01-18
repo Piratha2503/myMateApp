@@ -1,165 +1,147 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:mymateapp/ChartPages/GenerateChart.dart';
+import 'package:mymateapp/ChartPages/ManualRasiChartPage.dart';
 import 'package:mymateapp/MyMateThemes.dart';
+import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import 'package:mymateapp/dbConnection/Clients.dart';
 
 class ChartOptions extends StatefulWidget{
-  TestClient clientProfile;
-  ChartOptions({super.key, required this.clientProfile});
+  ClientData clientData;
+  ChartOptions({super.key, required this.clientData});
 
   @override
   State<ChartOptions> createState() => _ChartOptionsState();
 }
 
 class _ChartOptionsState extends State<ChartOptions> {
+  // Add a variable to track the selected option
+  int? _selectedOptionIndex;
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyMateThemes.backgroundColor,
       body: SafeArea(
-          child: Center(
-            child: Column(
-              children: [
-                SizedBox(height: 10,),
-                ChartOptionsTexts(),
-                GenerateChartOption(widget.clientProfile),
-                SizedBox(height: 50),
-                Divider(height: 5),
-                SizedBox(height: 50),
-                ManualChartOption(),
-              ],
-            ),
-          )),
-    );
-  }
+        child: Center(
+          child: Column(
+            children: [
+              SizedBox(height: 50),
+              ChartOptionsTexts(),
+              SizedBox(height: 10),
 
-}
-
-Widget ChartOptionsTexts(){
-  return  Flex(
-    direction: Axis.vertical,
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-      Text( "Choose Preferred",
-        style: TextStyle( fontSize: MyMateThemes.nomalFontSize, ),
-      ),
-      SizedBox(height: 10),
-      Text( "Astrology chart input method",
-        style: TextStyle(
-            fontSize: MyMateThemes.subHeadFontSize,
-            color: MyMateThemes.textColor
-        ),
-      ),
-      SizedBox(height: 10),
-      Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        child: Text("You can generate astrology chart with required "
-            "birth details or you can enter manually"),
-      ),
-      SizedBox(height: 30),
-    ],
-  );
-}
-
-class GenerateChartOption extends StatelessWidget {
-  TestClient clientProfile;
-  GenerateChartOption(this.clientProfile,{super.key});
-
-  void onTab(BuildContext context){
-    print(clientProfile.name);
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>GenerateChart()));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: (){
-        onTab(context,);
-      },
-      child: Container(
-        height: 125,
-        width: 300,
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: MyMateThemes.secondaryColor,
-              spreadRadius: 5,
-              offset: Offset(0, 3), // changes position of shadow
-            ),
-          ],
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: const Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.table_chart,
-              size: 50,
-              color: MyMateThemes.textColor,
-
-            ),
-            SizedBox(height: 10,),
-            Text(
-              "Generate the chart",
-
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  color: MyMateThemes.textGray),
-            )
-          ],
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _selectedOptionIndex = 1; // Select the first option
+                  });
+                  print(widget.clientData.personalDetails?.first_name);
+                  print(widget.clientData.personalDetails?.last_name);
+                  print(widget.clientData.personalDetails?.gender);
+                  print(widget.clientData.contactInfo?.mobile);
+                  // Navigate or perform desired action
+                  // Navigator.push(context, MaterialPageRoute(builder: (context) => GenerateChart()));
+                },
+                child: buildOptionContainer(
+                  "Generate the chart",
+                  Icons.table_chart,
+                  _selectedOptionIndex == 1, // Highlight when selected
+                ),
+              ),
+              SizedBox(height: 30),
+              SvgPicture.asset('assets/images/or.svg'),
+              SizedBox(height: 30),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _selectedOptionIndex = 2; // Select the second option
+                  });
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ManualRasiChartPage(clientData: widget.clientData),
+                    ),
+                  );
+                },
+                child: buildOptionContainer(
+                  "Enter chart manually",
+                  Icons.ads_click,
+                  _selectedOptionIndex == 2, // Highlight when selected
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
 
-
-}
-
-class ManualChartOption extends StatelessWidget{
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: (){
-
-      },
-      child: Container(
-
-        height: 125,
-        width: 300,
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: MyMateThemes.secondaryColor,
-              spreadRadius: 5,
-              offset: Offset(0, 3), // changes position of shadow
-            ),
-          ],
-          borderRadius: BorderRadius.circular(10),
+  Widget ChartOptionsTexts(){
+    return  Flex(
+      direction: Axis.vertical,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text( "Choose Preferred",
+          style: TextStyle( fontSize: MyMateThemes.subHeadFontSize,fontWeight: FontWeight.w700 ,color: MyMateThemes.textColor,letterSpacing: 0.8),
         ),
-        child: const Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.ads_click,
-              size: 50,
-              color: MyMateThemes.textColor,
-            ),
-            SizedBox( height: 10, ),
-            Text(
-              "Enter chart manually",
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  color: MyMateThemes.textGray),
-            )
-          ],
+       // SizedBox(height:5),
+        Text( "Astrology chart input method",
+          style: TextStyle( fontSize: MyMateThemes.subHeadFontSize,fontWeight: FontWeight.w700 ,color: MyMateThemes.primaryColor,letterSpacing: 0.8),
+
         ),
-      ),
+        SizedBox(height: 20),
+        Text('You can generate astrology chart with ',style: TextStyle(color: MyMateThemes.textColor,fontSize: 14,fontWeight: FontWeight.normal,letterSpacing: 0.5),),
+        Text('required birth details ',style: TextStyle(color: MyMateThemes.textColor,fontSize: 14,fontWeight: FontWeight.normal,letterSpacing: 0.5),),
+        Text('or you can enter manually',style: TextStyle(color: MyMateThemes.textColor,fontSize: 14,fontWeight: FontWeight.normal,letterSpacing: 0.5),),
+
+        SizedBox(height: 30),
+      ],
     );
   }
 
+
+  // Method to build the option container with dynamic styling
+  Widget buildOptionContainer(String title, IconData icon, bool isSelected) {
+    return Container(
+      height: 125,
+      width: 300,
+      decoration: BoxDecoration(
+        color: MyMateThemes.backgroundColor,
+        boxShadow: [
+          BoxShadow(
+            color: MyMateThemes.secondaryColor,
+            spreadRadius: 2,
+            offset: Offset(0, 0), // changes position of shadow
+          ),
+        ],
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          color: isSelected ? MyMateThemes.primaryColor : MyMateThemes.backgroundColor, // Change color when selected
+          width: 2,
+        ),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            size: 50,
+            color: MyMateThemes.primaryColor,
+          ),
+          SizedBox(height: 10),
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+              color: MyMateThemes.textGray,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

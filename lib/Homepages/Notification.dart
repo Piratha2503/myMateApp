@@ -7,7 +7,9 @@ import '../MyMateCommonBodies/MyMateBottomBar.dart';
 
 class NotificationPage extends StatelessWidget {
     final int selectedBottomBarIconIndex;
-    const NotificationPage(this.selectedBottomBarIconIndex,{super.key});
+
+    final String docId;
+    const NotificationPage(this.selectedBottomBarIconIndex,{super.key,required this.docId});
 
   String? get imageUrl => null;
 
@@ -30,7 +32,7 @@ class NotificationPage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16.0, vertical: 10.0),
                     child: GestureDetector(
-                      onTap: () => NavigatorFunction(context, SingleNotificationPage()),
+                      onTap: () => NavigatorFunction(context, SingleNotificationPage(docId: docId,)),
                       child: NotificationContainer(name,detail),
                     ),
                   );
@@ -40,15 +42,15 @@ class NotificationPage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(
-        selectedIndex: this.selectedBottomBarIconIndex,
-        onItemTapped: (index) {
-          // setState(() {
-          //   _selectedIndex = index;
-          // });
-          // Handle navigation here based on the index
-        },
-      ),
+      // bottomNavigationBar: CustomBottomNavigationBar(
+      //   selectedIndex: this.selectedBottomBarIconIndex,
+      //   onItemTapped: (index) {
+      //     // setState(() {
+      //     //   _selectedIndex = index;
+      //     // });
+      //     // Handle navigation here based on the index
+      //   },
+      // ),
     );
   }
 }

@@ -1,22 +1,24 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:mymateapp/Homepages/RegisterPages/NameAndGenderPage.dart';
+import 'package:mymateapp/dbConnection/ClientDatabase.dart';
+import 'package:mymateapp/dbConnection/Firebase_DB.dart';
 import 'package:pinput/pinput.dart';
 import 'package:smart_auth/smart_auth.dart';
+
 import '../../MyMateThemes.dart';
-import '../../dbConnection/Firebase.dart';
 import 'OTPPage.dart';
 
 class OtpPinput extends StatefulWidget {
-  final String docId;
-  const OtpPinput({Key? key, required this.docId}) : super(key: key);
+  final ClientData clientData;
+  OtpPinput({super.key, required this.clientData, required String docId});
 
   @override
-  State<OtpPinput> createState() => _OtpPinputState(docId: docId);
+  State<OtpPinput> createState() => _OtpPinputState();
 }
 
 class _OtpPinputState extends State<OtpPinput> {
-  final String docId;
-  _OtpPinputState({required this.docId});
+
+  _OtpPinputState();
 
   late final SmsRetriever smsRetriever;
   late final TextEditingController pinController;
@@ -47,24 +49,23 @@ class _OtpPinputState extends State<OtpPinput> {
       appBar: AppBar(),
       body: Form(
         key: formKey,
-          child:Column(
-              children: <Widget>[
-                InstructionTexts(),
-                SizedBox( height: 90,),
-                OtpBoxes(this.docId),
-                SizedBox( height: 65,),
-                OtpResend(),
-                SizedBox( height: 50, ),
-                VerifyButton(),
-              ]
-          ),
+        child:Column(
+            children: <Widget>[
+              InstructionTexts(widget.clientData.contactInfo?.mobile),
+              SizedBox( height: 90,),
+              OtpBoxes(clientData: widget.clientData,),
+              SizedBox( height: 65,),
+              OtpResend(),
+              SizedBox( height: 50, ),
+            ]
+        ),
 
       ),
     );
   }
 }
 
-Widget InstructionTexts(){
+Widget InstructionTexts(String? mobile){
   return Column(
     children: <Widget>[
       Text(
@@ -77,14 +78,14 @@ Widget InstructionTexts(){
       ),
       SizedBox( height: 15,),
       Text("Enter the code from the sms we sent", style: MyTextStyle(),),
-      Text("to +94 xx xxxxxxx", style: MyTextStyle(),),
+      Text("to $mobile", style: MyTextStyle(),),
     ],
   );
 }
 
 class OtpBoxes extends StatefulWidget{
-  final String docId;
-  const OtpBoxes(this.docId, {super.key});
+  final ClientData clientData;
+  const OtpBoxes({required this.clientData,super.key});
 
   @override
   State<OtpBoxes> createState() => _OtpBoxesState();
@@ -93,22 +94,12 @@ class OtpBoxes extends StatefulWidget{
 
 class _OtpBoxesState extends State<OtpBoxes>{
   _OtpBoxesState();
-  Firebase firebase = Firebase();
-  String pin = "";
+  FirebaseDB firebase = FirebaseDB();
 
-  Future<void> getClient() async {
-
-    DocumentSnapshot client = await firebase.clients.doc(widget.docId).get();
-
-    setState(() {
-      pin = client['pin'] ?? "N/A";
-
-    });
-  }
   @override
   void initState() {
+    print(widget.clientData);
     super.initState();
-    getClient();
   }
 
   static const focusedBorderColor = Color.fromRGBO(23, 171, 144, 1);
@@ -131,17 +122,22 @@ class _OtpBoxesState extends State<OtpBoxes>{
 
   @override
   Widget build(BuildContext context){
+    String otp = "${widget.clientData.contactInfo?.otp}";
+
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Pinput(
         defaultPinTheme: defaultPinTheme,
         separatorBuilder: (index) => const SizedBox(width: 12),
         validator: (value) {
-          return value == pin ? null : 'Incorrect Pin';
+          return value == otp ? null : 'Incorrect Pin';
         },
         hapticFeedbackType: HapticFeedbackType.lightImpact,
         onCompleted: (pin) {
-          if(pin == pin) debugPrint('onCompleted: $pin');
+          if(pin == otp) {
+            debugPrint('onCompleted: $pin');
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>NameAndGender(clientData: widget.clientData, docId:  widget.clientData.docId ?? "Unknown",)));
+          }
         },
         onChanged: (pin) {
           debugPrint('onChanged: $pin');
@@ -191,21 +187,6 @@ Widget OtpResend(){
   );
 }
 
-Widget VerifyButton(){
-  return Center(
-    child: SizedBox(
-      height: 58,
-      width: 166,
-      child: ElevatedButton(
-        onPressed: (){},
-        style: CommonButtonStyle.commonButtonStyle(),
-        child: Text("Verify", style: TextStyle(fontSize: MyMateThemes.buttonFontSize),
-        ),
-      ),
-    ),
-  );
-}
-
 class SmsRetrieverImpl implements SmsRetriever {
   const SmsRetrieverImpl(this.smartAuth);
 
@@ -232,7 +213,6 @@ class SmsRetrieverImpl implements SmsRetriever {
   @override
   bool get listenForMultipleSms => false;
 }
-
 
 
 
