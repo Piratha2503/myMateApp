@@ -244,7 +244,15 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
                       Navigator.pop(context); // Close the dialog
                       // Add your "Edit" button functionality here
                     },
-                    style: CommonButtonStyle.commonButtonStyle(),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                      MyMateThemes.secondaryColor, // Background color
+                      foregroundColor:MyMateThemes.primaryColor, // Text color
+                      padding: EdgeInsets.symmetric(horizontal: 16), // Padding
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(2), // Rounded corners
+                      ),
+                    ),
 
                     child: Text("Edit"),
                   ),
@@ -274,7 +282,8 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
             Center(
                 child: Padding(
                   padding: EdgeInsets.all(50),
-                  child: IntlPhoneField(
+                  child:
+                       IntlPhoneField(
                             onCountryChanged: (country) {
                               setState(() {
                               client_country = country.name;
@@ -292,7 +301,7 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
                                 });
                         }
                   ),
-              ),
+                ),
           ),
         Center(
           child: SizedBox(
