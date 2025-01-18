@@ -21,9 +21,11 @@ class MyMateAPIs{
 
   static String save_client_API = "$vpsApi$commonEndPoint/saveClientData";
 
+  static String filter_Clients_API = "$vpsApi+$commonEndPoint/clientFilter";
+
 
 }
-Future<Map<String, dynamic>> fetchUserById(String docId) async {
+Future<Map<String, dynamic>> fetchUserById(String docId,) async {
   final String apiUrl = MyMateAPIs.get_client_byDocId_API;
 
   try {
@@ -103,7 +105,7 @@ Future<Map<String, dynamic>> fetchUserById(String docId) async {
         'images': userImages,
         'civil_status' : personalDetails['marital_status'] ?? 'N/A',
         'expectations' :lifestyle['expectations'] ?? 'N/A',
-        'profile_pic_url': data['profileImages']?['profile_pic_url'] ?? 'N/A',
+        'profile_pic_url': data['profileImages']?['profile_pic_url'] ?? 'https://piratha.com/images/profile.png',
         'gallery_image_urls': data['profileImages']?['gallery_image_urls'] ?? 'N/A',
         'country' : address['country'] ?? 'N/A',
         'rasi': astrology['rasi'] ?? 'N/A',

@@ -39,6 +39,7 @@ class _ProfilePageState extends State<ProfilePage>
   @override
   void initState() {
     super.initState();
+    print("DocId of ProfilePage : ${widget.docId}");
   }
 
   @override

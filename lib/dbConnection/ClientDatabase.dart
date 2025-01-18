@@ -10,7 +10,7 @@ class ClientData {
   User_type? user_type;
   Astrology? astrology;
   Matchings? matchings;
-  String? tokens;
+  int? tokens;
 
   ClientData({
     this.docId,
@@ -47,6 +47,7 @@ class PersonalDetails{
   String? gender;
   String? marital_status;
   double? height;
+  int? age;
   int? num_of_siblings;
   String? religion;
   String? caste;
@@ -55,6 +56,7 @@ class PersonalDetails{
 
   PersonalDetails({
     this.first_name,
+    this.age,
     this.last_name,
     this.full_name,
     this.mother_name,
