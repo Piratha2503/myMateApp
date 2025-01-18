@@ -133,9 +133,10 @@ class _EditPageState extends State<EditPage> {
   }
 
   void _onSave() async {
-
+    print(widget.docId);
     setState(() {
       isLoading = true;
+
     });
 
     try {
@@ -360,8 +361,8 @@ class _EditPageState extends State<EditPage> {
 
     Map<String, dynamic> personalDetails = {
 
-      'marital_status': _selectedCivilStatus ?? 'Single',
-      'religion': _selectedReligion ?? 'Christian-Rc',
+      'marital_status': _selectedCivilStatus ?? '',
+      'religion': _selectedReligion ?? '',
     };
 
     Map<String, dynamic> contactInfo = {
@@ -448,6 +449,7 @@ class _EditPageState extends State<EditPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: SafeArea(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -512,7 +514,7 @@ class _EditPageState extends State<EditPage> {
                     value: _selectedCivilStatus,
                     items: [
                       '$_selectedCivilStatus',
-                      'Single',
+                      'Unmarried',
                       'Married',
                       'Widowed',
                     ],

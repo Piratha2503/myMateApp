@@ -80,6 +80,8 @@ class _PageOneState extends State<PageOne> {
   void _onSave() {
     // Log the image URL to confirm upload
     print('Saved Image URL: $_savedImageUrl');
+    print(widget.docId);
+
     widget.onSave();
   }
 

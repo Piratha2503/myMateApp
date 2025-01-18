@@ -47,7 +47,8 @@ class MyApp extends StatelessWidget {
       home:
       // ProfilePage(docId: "E0JFHhK2x6Gq2Ac6XSyP", selectedBottomBarIconIndex:0,),
       // CheckmatchPage( clientDocId: '', soulDocId: '',),
-     RegisterPage()
+      // EditPage(docId: "H0Ro9SM4OhWNzajOoxMj", onSave: () {  },)
+      RegisterPage()
     );
   }
 }
