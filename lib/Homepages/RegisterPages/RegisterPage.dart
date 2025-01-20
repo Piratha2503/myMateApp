@@ -244,7 +244,7 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
     }
   }
 
-  void _openPopupScreen(BuildContext context) {
+  void _openPopupScreen(BuildContext context, String mobileNumber) {
     showDialog(
       context: context, // Ensure `context` is available
       builder: (BuildContext context) {
@@ -260,7 +260,7 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
               SizedBox(height: 10),
 
               TextField(
-                controller: TextEditingController(text: "+94 76 169 2028"),
+                controller: TextEditingController(text: mobileNumber),
                 textAlign: TextAlign.center, // Aligns the text to the center
                 style: TextStyle(
                   fontSize: 20,
@@ -294,8 +294,8 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      addMobile;
-                      // Add your "Yes" button functionality here
+                      addMobile();
+                      print("Number added");
                     },
                     style: CommonButtonStyle.commonButtonStyle(),
 
@@ -326,6 +326,7 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
             child: IntlPhoneField(
                 readOnly: true,
                 showCursor: false,
+                dropdownIconPosition: IconPosition.leading,
                 onCountryChanged: (country) {
                   setState(() {
                     client_country = country.name;
@@ -396,7 +397,7 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
             child: ElevatedButton(
               onPressed: ()
               {
-                _openPopupScreen(context);
+                _openPopupScreen(context,"+$mobile_code $phoneNumber");
 
               },
 

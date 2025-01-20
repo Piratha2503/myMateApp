@@ -1,40 +1,19 @@
 import 'dart:convert';
 
-import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:http/http.dart' as http;
 import 'package:mymateapp/MyMateCommonBodies/MyMateApis.dart';
-import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import 'package:mymateapp/dbConnection/Clients.dart';
 import 'package:mymateapp/dbConnection/TempClass.dart';
+
 import '../../ManagePages/SummaryPage.dart';
 import '../../MyMateThemes.dart';
 import '../../dbConnection/Firebase.dart';
 import '../BadgeWidget.dart';
 import '../Profiles/OthersProfile.dart';
-import 'package:http/http.dart' as http;
-
-PreferredSizeWidget SubscribedhomescreenStructuredPageAppBar() {
-    int badgeValue1 = 2;
-    int badgeValue2 = 10;
-
-    return AppBar(
-      title:  CommonTextStyleForPage('Your Name', MyMateThemes.textColor, FontWeight.w700, 20,),
-      actions: <Widget>[
-        SizedBox(width: 60),
-        BadgeWidget(
-            assetPath: 'assets/images/Group 2157.svg',
-            badgeValue: badgeValue1),
-        SizedBox(width: 25),
-        BadgeWidget(
-            assetPath: 'assets/images/Group 2153.svg',
-            badgeValue: badgeValue2),
-        SizedBox( width: 25, )
-      ],
-    );
-  }
+  
 
 Widget SubscribedhomescreenStructuredPageTotalMatchColumn(BuildContext context,String docId){
   return Center(
@@ -206,7 +185,7 @@ class _SubscribeHomeScreenStructuredPageCarouselSlidersState extends State<Subsc
   Map<int, dynamic> clientList = {};
   List<dynamic> clientDataList = [];
   Future<void> getClients() async {
-    Uri url = Uri.parse('https://backend.graycorp.io:9000/mymate/api/v1/matchListForDocId').replace(queryParameters: {"docId":""},);
+    Uri url = Uri.parse('https://backend.graycorp.io:9000/mymate/api/v1/matchListForDocId').replace(queryParameters: {"docId":widget.docId},);
 
     try {
       final response = await http.get(url);
@@ -257,7 +236,7 @@ class _SubscribeHomeScreenStructuredPageCarouselSlidersState extends State<Subsc
     return GestureDetector(
       onTap: (){
 
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>OtherProfilePage(docId: "jsbdasd,nabsdmnbasmdn")));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>OtherProfilePage(docId: widget.docId)));
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 5.0),
@@ -295,7 +274,7 @@ class _SubscribeHomeScreenStructuredPageCarouselSlidersState extends State<Subsc
                   border: Border.all( color: MyMateThemes.premiumAccent, width: 5.0,),),
                 child: CircleAvatar(
                         radius: 50,
-                    backgroundImage: NetworkImage("https://piratha.com/images/profile.png"),
+                    backgroundImage: NetworkImage(clientData.profileImg.toString()),
                     )),
               SizedBox(width: 20),
               Column(
@@ -347,7 +326,6 @@ class _SubscribeHomeScreenStructuredPageCarouselSlidersState extends State<Subsc
   }
 
 }
-
 
 Widget SubscribedhomescreenStructuredPageCarouselSlider(BuildContext,context){
 
