@@ -3,9 +3,12 @@ import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:mymateapp/Homepages/RegisterPages/RegisterPage.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'Homepages/CompleteProfileScreen/CompleteProfileMain.dart';
 import 'Homepages/ProfilePageScreen/MyProfileMain.dart';
+import 'Homepages/Profiles/EditPage.dart';
 import 'Homepages/Profiles/boost_profile.dart';
 import 'Homepages/SubscribedhomeScreen/SubscribedHomeScreenStructured.dart';
 import 'Homepages/explorePage/explorePageMain.dart';
@@ -44,9 +47,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
 
       home:
-      // ProfilePage(docId: "E0JFHhK2x6Gq2Ac6XSyP", selectedBottomBarIconIndex:0,),
+       // ProfilePage(docId: "E0JFHhK2x6Gq2Ac6XSyP", selectedBottomBarIconIndex: 3, )
       // CheckmatchPage( clientDocId: '', soulDocId: '',),
-     SubscribedhomescreenStructuredPage(docId: 'TBT3I8DYa3BepMZPPqv6',),
+      // RegisterPage(),
+       CompleteProfilePage(docId: 'nhNtvfIJPaqKztfRalY1'),
     );
   }
 }
@@ -73,9 +77,9 @@ class _AuthcheckState extends State<AuthcheckState> {
         } else {
           final docId = snapshot.data;
           if (docId != null) {
-            return ProfilePage(docId: docId, selectedBottomBarIconIndex: 3,);
+            return SubscribedhomescreenStructuredPage(docId: docId);
           } else {
-            return SubscribedhomescreenStructuredPage(docId: 'yVBYhDY52IN0IwMkmcGu');
+            return RegisterPage();
           }
         }
       },
