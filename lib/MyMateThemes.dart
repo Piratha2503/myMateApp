@@ -21,7 +21,9 @@ class CommonButtonStyle {
       foregroundColor: MaterialStateProperty.all(Colors.white),
       backgroundColor: MaterialStateProperty.all(MyMateThemes.primaryColor),
       shape: MaterialStateProperty.all(
-          RoundedRectangleBorder(borderRadius: BorderRadius.zero)),
+          RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5.0)
+          )),
     );
   }
 }
