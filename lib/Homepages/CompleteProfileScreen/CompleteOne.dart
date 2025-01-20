@@ -4,7 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-
+import 'package:image/image.dart' as img;
 import '../../MyMateThemes.dart';
 
 class PageOne extends StatefulWidget {
@@ -19,7 +19,7 @@ class PageOne extends StatefulWidget {
 
 class _PageOneState extends State<PageOne> {
   File? _imageFile;
-  String? _savedImageUrl; // To store the uploaded image URL
+  String? _savedImageUrl;
 
   void _chooseImage(ImageSource source) async {
     final picker = ImagePicker();
@@ -36,17 +36,47 @@ class _PageOneState extends State<PageOne> {
       );
 
       if (croppedFile != null) {
+
+        File thumbnailFile = await _createThumbnail(File(croppedFile.path));
+
         setState(() {
-          _imageFile = File(croppedFile.path); // Convert CroppedFile to File
+          _imageFile = thumbnailFile;
         });
 
-        // Upload the image to the backend
-        await _uploadImageToBackend(File(croppedFile.path));
+
+        await _uploadImageToBackend(thumbnailFile);
       }
     }
   }
 
+  Future<File> _createThumbnail(File imageFile) async {
+
+    final originalImage = img.decodeImage(await imageFile.readAsBytes());
+
+
+    final resizedImage = img.copyResize(originalImage!, width: 150, height: 150);
+
+
+    final tempDir = Directory.systemTemp;
+    final thumbnailFile = File('${tempDir.path}/thumbnail.jpg')
+      ..writeAsBytesSync(img.encodeJpg(resizedImage));
+
+    return thumbnailFile;
+  }
+
+
   Future<void> _uploadImageToBackend(File imageFile) async {
+    final fileSize = await imageFile.length();
+    print("Image File Size: ${fileSize / 1024} KB");
+
+
+    final imageBytes = await imageFile.readAsBytes();
+    final decodedImage = img.decodeImage(imageBytes);
+    if (decodedImage != null) {
+      print("Image Resolution: ${decodedImage.width}x${decodedImage.height}");
+    } else {
+      print("Unable to decode image resolution.");
+    }
     final url = Uri.parse(
         "https://backend.graycorp.io:9000/mymate/api/v1/uploadProfileImages");
 
@@ -78,7 +108,7 @@ class _PageOneState extends State<PageOne> {
   }
 
   void _onSave() {
-    // Log the image URL to confirm upload
+
     print('Saved Image URL: $_savedImageUrl');
     print(widget.docId);
 
@@ -138,17 +168,17 @@ class _PageOneState extends State<PageOne> {
         children: <Widget>[
           SizedBox(height: 50),
           Text("Update Your Profile"),
-          SizedBox(height: 20),
+          SizedBox(height: 40),
           Stack(
             children: [
               GestureDetector(
                 onTap: _openPopupScreen,
-                child: _savedImageUrl != null
-                    ? CircleAvatar(
-                  radius: 50,
-                  backgroundImage: NetworkImage(_savedImageUrl!),
-                )
-                    : _imageFile != null
+                // child: _savedImageUrl != null
+                //     ? CircleAvatar(
+                //   radius: 50,
+                //   backgroundImage: NetworkImage(_savedImageUrl!),
+                // )
+                  child  : _imageFile != null
                     ? CircleAvatar(
                   radius: 50,
                   backgroundImage: FileImage(_imageFile!),
@@ -156,8 +186,8 @@ class _PageOneState extends State<PageOne> {
                     : SvgPicture.asset('assets/images/circle.svg'),
               ),
               Positioned(
-                bottom: -1,
-                left: 95,
+                bottom: -6,
+                left: 76,
                 child: GestureDetector(
                   onTap: _openPopupScreen,
                   child: SvgPicture.asset('assets/images/edit.svg'),
@@ -185,7 +215,7 @@ class _PageOneState extends State<PageOne> {
           ),
           SizedBox(height: 40),
           ElevatedButton(
-            onPressed: _onSave, // Save and navigate to the next page
+            onPressed: _onSave,
             style: CommonButtonStyle.commonButtonStyle(),
             child: Text('Next'),
           ),
