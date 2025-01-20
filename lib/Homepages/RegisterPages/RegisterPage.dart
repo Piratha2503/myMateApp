@@ -366,7 +366,6 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
 
               },
 
-
               style: ButtonStyle(
                 foregroundColor: MaterialStatePropertyAll(Colors.white),
                 backgroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
