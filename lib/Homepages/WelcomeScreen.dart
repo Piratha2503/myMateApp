@@ -1,7 +1,8 @@
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mymateapp/Homepages/RegisterPages/RegisterPage.dart';
 import 'package:mymateapp/MyMateThemes.dart';
-import 'package:mymateapp/Homepages/RegisterPages/CustomButton.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
@@ -11,54 +12,36 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State<WelcomePage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyMateThemes.backgroundColor,
-      appBar: AppBar(
         backgroundColor: MyMateThemes.backgroundColor,
-      ),
-      body: const WelcomeScreenBody(),
-    );
-  }
-}
-
-class WelcomeScreenBody extends StatelessWidget {
-  const WelcomeScreenBody({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        ImageCarouselWidget(),
-        const SizedBox(height: 25),
-        FindYourSoulmate(),
-        const SizedBox(height: 25),
-        ReadOurPrivacyPolicy(),
-        const PolicyRead(),
-        TermsAndPolicies(),
-        const SizedBox(height: 20),
-        SizedBox(
-          height: 58,
-          width: 166,
-          child: CustomButton(
-            text: "Get Started",
-            primaryColor: MyMateThemes.primaryColor,
-            hoverColor: Colors.deepPurple.shade300,
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const RegisterPage()),
-              );
-            },
-          ),
+        appBar: AppBar(
+          backgroundColor: MyMateThemes.backgroundColor,
         ),
-      ],
+        body: WelcomeScreenBody()
     );
   }
 }
 
-Widget ImageCarouselWidget() {
+Widget WelcomeScreenBody(){
+  return Column(
+    children: <Widget>[
+      ImageCarouselWidget(),
+      Container(height: 25,),
+      FindYourSoulmate(),
+      Container( height: 25,),
+      ReadOurPrivacyPolicy(),
+      PolicyRead(),
+      TermsAndPolicies(),
+      Container( height: 20, ),
+      GetStartButton(),
+    ],
+  );
+}
+
+Widget ImageCarouselWidget(){
   return Center(
     child: Container(
       height: 400,
@@ -68,71 +51,67 @@ Widget ImageCarouselWidget() {
   );
 }
 
-Widget FindYourSoulmate() {
+Widget FindYourSoulmate(){
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: <Widget>[
-      const Text(
+      Text(
         "Find your soulmate with",
-        style: TextStyle(fontSize: 20),
+        style: TextStyle( fontSize: 20,),
       ),
       Text(
         " MyMate",
         style: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-          color: MyMateThemes.textColor,
-        ),
-      ),
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: MyMateThemes.textColor),
+      )
     ],
   );
 }
 
-Widget ReadOurPrivacyPolicy() {
+Widget ReadOurPrivacyPolicy(){
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: <Widget>[
-      const Text(
+      Text(
         "Read our",
-        style: TextStyle(fontSize: 14),
+        style: TextStyle( fontSize: 14,),
       ),
       Text(
         " Privacy Policy",
         style: TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-          color: MyMateThemes.textColor,
-        ),
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: MyMateThemes.textColor),
       ),
     ],
   );
 }
 
-Widget TermsAndPolicies() {
+Widget TermsAndPolicies(){
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       Text(
         'Terms & Policies',
         style: TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-          color: MyMateThemes.textColor,
-        ),
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: MyMateThemes.textColor),
       ),
     ],
   );
 }
 
-class PolicyRead extends StatelessWidget {
-  const PolicyRead({super.key});
+class PolicyRead extends StatelessWidget{
 
   void Clicked(BuildContext context) {
     Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const RegisterPage()),
-    );
+        context, MaterialPageRoute(builder: (context) => const RegisterPage()));
   }
+
+  const PolicyRead({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -140,23 +119,57 @@ class PolicyRead extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         GestureDetector(
-          onTap: () => Clicked(context),
+
+          onTap: (){Clicked(context);},
           child: Row(
             children: <Widget>[
-              const Text("By tapping"),
+              Text("By tapping"),
               Text(
-                " Get Started",
+                "Get Started",
                 style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: MyMateThemes.textColor,
-                ),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: MyMateThemes.textColor),
               ),
-              const Text(' you agree to our'),
+              Text(' you agree to our'),
             ],
           ),
         )
       ],
     );
   }
+}
+
+class GetStartButton extends StatelessWidget{
+  void Clicked(BuildContext context) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const RegisterPage()));
+  }
+  const GetStartButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(
+          height: 58,
+          width: 166,
+          child: ElevatedButton(
+            onPressed: (){
+              Clicked(context);
+            },
+            style: ButtonStyle(
+                foregroundColor: MaterialStatePropertyAll(Colors.white),
+                backgroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
+                shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.zero))),
+            child: Text( "Get Started", style: TextStyle(fontSize: 18),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+
 }

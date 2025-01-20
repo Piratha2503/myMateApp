@@ -1,3 +1,4 @@
+
 import 'dart:convert';
 import 'dart:ffi';
 import 'dart:math';
@@ -12,7 +13,6 @@ import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/dbConnection/Firebase_DB.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../dbConnection/ClientDatabase.dart';
-import 'package:mymateapp/Homepages/RegisterPages/CustomButton.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -74,12 +74,12 @@ Widget TextInstructions(){
       Center(
         child: Text("Make sure this number can receive SMS.",
           style: TextStyle(
-            fontSize: 14,
+              fontSize: 14,
               color: MyMateThemes.textColor,
-            fontFamily: "Work Sans",
-            fontWeight: FontWeight.normal,
-            letterSpacing: 0.6,
-            wordSpacing: 0.5
+              fontFamily: "Work Sans",
+              fontWeight: FontWeight.normal,
+              letterSpacing: 0.6,
+              wordSpacing: 0.5
 
 
           ),
@@ -89,10 +89,10 @@ Widget TextInstructions(){
         child: Text(
           "You will receive your activation code",
           style: TextStyle(
-            fontSize: 14,
+              fontSize: 14,
               color: MyMateThemes.textColor,
-            fontFamily: "Work Sans",
-            fontWeight: FontWeight.normal,
+              fontFamily: "Work Sans",
+              fontWeight: FontWeight.normal,
               letterSpacing: 0.6,
               wordSpacing: 0.5
 
@@ -105,10 +105,10 @@ Widget TextInstructions(){
         child: Text(
           "through it",
           style: TextStyle(
-            fontSize: 14,
+              fontSize: 14,
               color: MyMateThemes.textColor,
-            fontFamily: "Work Sans",
-            fontWeight: FontWeight.normal,
+              fontFamily: "Work Sans",
+              fontWeight: FontWeight.normal,
               letterSpacing: 0.6,
               wordSpacing: 0.5
 
@@ -211,31 +211,31 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
         SnackBar(content: Text("Error: ${res.body}")),
       );
     }
-   if(res.statusCode == 200){
-     print(res.statusCode);
-     final docId = await fetchDocIdByMobile(phoneNumber);
-     if (docId != null) {
-       Navigator.push(
-         context,
-         MaterialPageRoute(
-           builder: (context) => OtpPinput(
-             clientData: clientData,
-             docId: docId,
-           ),
-         ),
-       );
-     } else {
-       ScaffoldMessenger.of(context).showSnackBar(
-         const SnackBar(content: Text("Failed to fetch docId. Please try again.")),
-       );
-     }
-   } else {
-     print("Failed to register mobile. Response: ${res.body}");
-     ScaffoldMessenger.of(context).showSnackBar(
-       SnackBar(content: Text("Error: ${res.body}")),
-     );
+    if(res.statusCode == 200){
+      print(res.statusCode);
+      final docId = await fetchDocIdByMobile(phoneNumber);
+      if (docId != null) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => OtpPinput(
+              clientData: clientData,
+              docId: docId,
+            ),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Failed to fetch docId. Please try again.")),
+        );
+      }
+    } else {
+      print("Failed to register mobile. Response: ${res.body}");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error: ${res.body}")),
+      );
 
-   }
+    }
   }
 
   void _openPopupScreen(BuildContext context) {
@@ -286,11 +286,14 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
 
                     child: Text("Edit"),
                   ),
-                  CustomButton(
-                    text: "Yes",
-                    primaryColor: MyMateThemes.primaryColor,
-                    hoverColor: Colors.deepPurple.shade300,
-                    onPressed: addMobile,
+                  ElevatedButton(
+                    onPressed: () {
+                      addMobile;
+                      // Add your "Yes" button functionality here
+                    },
+                    style: CommonButtonStyle.commonButtonStyle(),
+
+                    child: Text("Yes"),
                   ),
                 ],
               ),
@@ -329,41 +332,53 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
             ),
           ),
         ),
-            Center(
-                child: Padding(
-                  padding: EdgeInsets.all(50),
-                  child:
-                       IntlPhoneField(
-                            onCountryChanged: (country) {
-                              setState(() {
-                              client_country = country.name;
-                              mobile_country_code = country.code;
-                              });
-                          },
-                            inputFormatters: [
-                          LengthLimitingTextInputFormatter(10),
-                          FilteringTextInputFormatter.digitsOnly,
-                              ],
-                          decoration: InputDecoration(hintText: "Phone number",),
-                          onChanged: (number) {
-                          setState(() {
-                            phoneNumber = number.completeNumber;
-                                });
-                        }
-                  ),
-                ),
+        Center(
+          child: Padding(
+            padding: EdgeInsets.all(50),
+            child:
+            IntlPhoneField(
+                onCountryChanged: (country) {
+                  setState(() {
+                    client_country = country.name;
+                    mobile_country_code = country.code;
+                  });
+                },
+                inputFormatters: [
+                  LengthLimitingTextInputFormatter(10),
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+                decoration: InputDecoration(hintText: "Phone number",),
+                onChanged: (number) {
+                  setState(() {
+                    phoneNumber = number.completeNumber;
+                  });
+                }
+            ),
           ),
+        ),
         Center(
           child: SizedBox(
             height: 58,
             width: 166,
-            child: CustomButton(
-              text: "Get Started",
-              primaryColor: MyMateThemes.primaryColor,
-              hoverColor: Colors.deepPurple.shade300,
-              onPressed: () {
+            child: ElevatedButton(
+              onPressed: ()
+              {
                 _openPopupScreen(context);
+
               },
+
+
+              style: ButtonStyle(
+                foregroundColor: MaterialStatePropertyAll(Colors.white),
+                backgroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
+                shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero)
+                ),
+              ),
+              child: const Text(
+                "Get Started",
+                style: TextStyle(fontSize: 16),
+              ),
             ),
           ),
         ),
