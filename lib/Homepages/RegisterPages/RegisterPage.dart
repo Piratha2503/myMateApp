@@ -42,6 +42,7 @@ class _RegisterPageState extends State<RegisterPage> {
             SizedBox(height: 15,),
             TextInstructions(),
             PhoneFieldAndNextButton(),
+            PhoneFieldAndNextButton(),
           ],
         )
     );
