@@ -129,6 +129,7 @@ class PhoneFieldAndNextButton extends StatefulWidget{
 }
 
 class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
+  final TextEditingController _controller = TextEditingController();
   String phoneNumber = "";
   String mobile_country_code = "";
   String client_country = "";
@@ -137,6 +138,13 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
   FirebaseDB firebaseDB = FirebaseDB();
 
   Future<String?> fetchDocIdByMobile(String mobile) async {
+
+    @override
+    void dispose(){
+      _controller.dispose();
+      super.dispose();
+    }
+
     try {
       final url = Uri.parse("https://backend.graycorp.io:9000/mymate/api/v1/getClientDataByMobile")
           .replace(queryParameters: {'mobile': mobile});
@@ -305,6 +313,8 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
 
   @override
   Widget build(BuildContext context) {
+
+
     return Column(
       children: <Widget>[
         SizedBox(
@@ -333,11 +343,6 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
                       fontSize: 18,
                       color: Colors.grey
                     )),
-                onChanged: (number) {
-                  setState(() {
-                    phoneNumber = number.completeNumber;
-                  });
-                }
             ),
           ),
         ),
@@ -365,10 +370,16 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
                     width: 235,
                     child: TextField(
                       style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),
-                      controller: TextEditingController(),
+                      controller: _controller,
                       decoration: InputDecoration(
                           border: UnderlineInputBorder(borderSide: BorderSide(width: 1,color: Colors.grey))
                       ),
+                      onChanged: (number){
+                        setState(() {
+                          phoneNumber = number;
+                        });
+                        print(phoneNumber);
+                      },
                     ),
                   )
               ],
