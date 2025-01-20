@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mymateapp/Homepages/RegisterPages/RegisterPage.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 
@@ -137,7 +138,6 @@ class PolicyRead extends StatelessWidget{
     );
   }
 }
-
 class GetStartButton extends StatelessWidget{
   void Clicked(BuildContext context) {
     Navigator.push(
@@ -158,9 +158,9 @@ class GetStartButton extends StatelessWidget{
               Clicked(context);
             },
             style: ButtonStyle(
-              foregroundColor: MaterialStatePropertyAll(Colors.white),
-              backgroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
-              shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.zero))),
+                foregroundColor: MaterialStatePropertyAll(Colors.white),
+                backgroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
+                shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.zero))),
             child: Text( "Get Started", style: TextStyle(fontSize: 18),
             ),
           ),

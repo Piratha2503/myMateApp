@@ -3,11 +3,15 @@ import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:mymateapp/Homepages/HomeScreenBeforeSubscibe.dart';
+import 'package:mymateapp/Homepages/ProfilePageScreen/MyProfileMain.dart';
+import 'package:mymateapp/Homepages/Profiles/EditPage.dart';
+import 'package:mymateapp/Homepages/RegisterPages/RegisterPage.dart';
+import 'package:mymateapp/Homepages/WelcomeScreen.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Homepages/Profiles/boost_profile.dart';
 import 'Homepages/explorePage/explorePageMain.dart';
-import 'Homepages/AddTokenPage.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -44,7 +48,7 @@ class MyApp extends StatelessWidget {
       home:
       // ProfilePage(docId: "E0JFHhK2x6Gq2Ac6XSyP", selectedBottomBarIconIndex:0,),
       // CheckmatchPage( clientDocId: '', soulDocId: '',),
-     RegisterPage()
+     WelcomePage()
     );
   }
 }
