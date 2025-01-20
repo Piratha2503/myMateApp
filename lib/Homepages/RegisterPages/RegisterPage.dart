@@ -129,6 +129,7 @@ class PhoneFieldAndNextButton extends StatefulWidget{
 }
 
 class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
+  final TextEditingController _controller = TextEditingController();
   String phoneNumber = "";
   String mobile_country_code = "";
   String client_country = "";
@@ -137,6 +138,13 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
   FirebaseDB firebaseDB = FirebaseDB();
 
   Future<String?> fetchDocIdByMobile(String mobile) async {
+
+    @override
+    void dispose(){
+      _controller.dispose();
+      super.dispose();
+    }
+
     try {
       final url = Uri.parse("https://backend.graycorp.io:9000/mymate/api/v1/getClientDataByMobile")
           .replace(queryParameters: {'mobile': mobile});
@@ -236,7 +244,7 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
     }
   }
 
-  void _openPopupScreen(BuildContext context) {
+  void _openPopupScreen(BuildContext context, String mobileNumber) {
     showDialog(
       context: context, // Ensure `context` is available
       builder: (BuildContext context) {
@@ -252,7 +260,7 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
               SizedBox(height: 10),
 
               TextField(
-                controller: TextEditingController(text: "+94 76 169 2028"),
+                controller: TextEditingController(text: mobileNumber),
                 textAlign: TextAlign.center, // Aligns the text to the center
                 style: TextStyle(
                   fontSize: 20,
@@ -286,8 +294,8 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      addMobile;
-                      // Add your "Yes" button functionality here
+                      addMobile();
+                      print("Number added");
                     },
                     style: CommonButtonStyle.commonButtonStyle(),
 
@@ -305,6 +313,8 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
 
   @override
   Widget build(BuildContext context) {
+
+
     return Column(
       children: <Widget>[
         SizedBox(
@@ -316,6 +326,7 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
             child: IntlPhoneField(
                 readOnly: true,
                 showCursor: false,
+                dropdownIconPosition: IconPosition.leading,
                 onCountryChanged: (country) {
                   setState(() {
                     client_country = country.name;
@@ -333,11 +344,6 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
                       fontSize: 18,
                       color: Colors.grey
                     )),
-                onChanged: (number) {
-                  setState(() {
-                    phoneNumber = number.completeNumber;
-                  });
-                }
             ),
           ),
         ),
@@ -365,10 +371,16 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
                     width: 235,
                     child: TextField(
                       style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),
-                      controller: TextEditingController(),
+                      controller: _controller,
                       decoration: InputDecoration(
                           border: UnderlineInputBorder(borderSide: BorderSide(width: 1,color: Colors.grey))
                       ),
+                      onChanged: (number){
+                        setState(() {
+                          phoneNumber = number;
+                        });
+                        print(phoneNumber);
+                      },
                     ),
                   )
               ],
@@ -385,7 +397,7 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
             child: ElevatedButton(
               onPressed: ()
               {
-                _openPopupScreen(context);
+                _openPopupScreen(context,"+$mobile_code $phoneNumber");
 
               },
 
