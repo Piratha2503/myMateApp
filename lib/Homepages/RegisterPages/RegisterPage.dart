@@ -12,6 +12,7 @@ import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/dbConnection/Firebase_DB.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../dbConnection/ClientDatabase.dart';
+import 'package:mymateapp/Homepages/RegisterPages/CustomButton.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -285,14 +286,11 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
 
                     child: Text("Edit"),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      addMobile;
-                      // Add your "Yes" button functionality here
-                    },
-                    style: CommonButtonStyle.commonButtonStyle(),
-
-                    child: Text("Yes"),
+                  CustomButton(
+                    text: "Yes",
+                    primaryColor: MyMateThemes.primaryColor,
+                    hoverColor: Colors.deepPurple.shade300,
+                    onPressed: addMobile,
                   ),
                 ],
               ),
@@ -359,25 +357,13 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
           child: SizedBox(
             height: 58,
             width: 166,
-            child: ElevatedButton(
-              onPressed: ()
-              {
+            child: CustomButton(
+              text: "Get Started",
+              primaryColor: MyMateThemes.primaryColor,
+              hoverColor: Colors.deepPurple.shade300,
+              onPressed: () {
                 _openPopupScreen(context);
-
               },
-
-
-              style: ButtonStyle(
-                foregroundColor: MaterialStatePropertyAll(Colors.white),
-                backgroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
-                shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                    borderRadius: BorderRadius.zero)
-                ),
-              ),
-              child: const Text(
-                "Get Started",
-                style: TextStyle(fontSize: 16),
-              ),
             ),
           ),
         ),
