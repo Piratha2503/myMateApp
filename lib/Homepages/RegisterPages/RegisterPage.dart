@@ -1,6 +1,4 @@
-
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -12,6 +10,7 @@ import 'package:mymateapp/MyMateCommonBodies/MyMateApis.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/dbConnection/Firebase_DB.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../dbConnection/ClientDatabase.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -42,7 +41,6 @@ class _RegisterPageState extends State<RegisterPage> {
             EnterYourPhoneNumber(),
             SizedBox(height: 15,),
             TextInstructions(),
-            PhoneFieldAndNextButton(),
             PhoneFieldAndNextButton(),
           ],
         )
@@ -131,13 +129,22 @@ class PhoneFieldAndNextButton extends StatefulWidget{
 }
 
 class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
+  final TextEditingController _controller = TextEditingController();
   String phoneNumber = "";
   String mobile_country_code = "";
   String client_country = "";
+  String mobile_code = "94";
   int? otp = 0;
   FirebaseDB firebaseDB = FirebaseDB();
 
   Future<String?> fetchDocIdByMobile(String mobile) async {
+
+    @override
+    void dispose(){
+      _controller.dispose();
+      super.dispose();
+    }
+
     try {
       final url = Uri.parse("https://backend.graycorp.io:9000/mymate/api/v1/getClientDataByMobile")
           .replace(queryParameters: {'mobile': mobile});
@@ -191,8 +198,7 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('docId', docId);
 
-        Navigator.push(
-          context,
+        Navigator.push( context,
           MaterialPageRoute(
             builder: (context) => OtpPinput(
               clientData: clientData,
@@ -238,7 +244,7 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
     }
   }
 
-  void _openPopupScreen(BuildContext context) {
+  void _openPopupScreen(BuildContext context, String mobileNumber) {
     showDialog(
       context: context, // Ensure `context` is available
       builder: (BuildContext context) {
@@ -254,7 +260,7 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
               SizedBox(height: 10),
 
               TextField(
-                controller: TextEditingController(text: "+94 76 169 2028"),
+                controller: TextEditingController(text: mobileNumber),
                 textAlign: TextAlign.center, // Aligns the text to the center
                 style: TextStyle(
                   fontSize: 20,
@@ -288,8 +294,8 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      addMobile;
-                      // Add your "Yes" button functionality here
+                      addMobile();
+                      print("Number added");
                     },
                     style: CommonButtonStyle.commonButtonStyle(),
 
@@ -307,54 +313,82 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
 
   @override
   Widget build(BuildContext context) {
+
+
     return Column(
       children: <Widget>[
+        SizedBox(
+          height: 50,
+        ),
         Center(
           child: Padding(
-            padding: EdgeInsets.all(50),
+            padding: EdgeInsets.symmetric(horizontal: 50,vertical: 5),
             child: IntlPhoneField(
+                readOnly: true,
+                showCursor: false,
+                dropdownIconPosition: IconPosition.leading,
                 onCountryChanged: (country) {
                   setState(() {
                     client_country = country.name;
                     mobile_country_code = country.code;
+                    mobile_code = country.dialCode;
                   });
                 },
                 inputFormatters: [
                   LengthLimitingTextInputFormatter(10),
                   FilteringTextInputFormatter.digitsOnly,
                 ],
-                decoration: InputDecoration(hintText: "Phone number",),
-                onChanged: (number) {
-                  setState(() {
-                    phoneNumber = number.completeNumber;
-                  });
-                }
+                decoration: InputDecoration(hintText: client_country,
+                    hintStyle: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 18,
+                      color: Colors.grey
+                    )),
             ),
           ),
         ),
         Center(
           child: Padding(
-            padding: EdgeInsets.all(50),
-            child:
-            IntlPhoneField(
-                onCountryChanged: (country) {
-                  setState(() {
-                    client_country = country.name;
-                    mobile_country_code = country.code;
-                  });
-                },
-                inputFormatters: [
-                  LengthLimitingTextInputFormatter(10),
-                  FilteringTextInputFormatter.digitsOnly,
-                ],
-                decoration: InputDecoration(hintText: "Phone number",),
-                onChanged: (number) {
-                  setState(() {
-                    phoneNumber = number.completeNumber;
-                  });
-                }
-            ),
+            padding: EdgeInsets.symmetric(horizontal: 50,),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  width: 45,
+                  decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 1,color: Colors.grey))),
+                  child: TextField(
+                    readOnly: true,
+                    decoration: InputDecoration(
+                      hintText: "+$mobile_code",
+                      hintStyle: TextStyle(color: Colors.grey)
+                    ),
+                    style: TextStyle(fontSize: 18,color: Colors.grey),),
+                ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Container(
+                    width: 235,
+                    child: TextField(
+                      style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),
+                      controller: _controller,
+                      decoration: InputDecoration(
+                          border: UnderlineInputBorder(borderSide: BorderSide(width: 1,color: Colors.grey))
+                      ),
+                      onChanged: (number){
+                        setState(() {
+                          phoneNumber = number;
+                        });
+                        print(phoneNumber);
+                      },
+                    ),
+                  )
+              ],
+            )
           ),
+        ),
+        SizedBox(
+          height: 50,
         ),
         Center(
           child: SizedBox(
@@ -363,7 +397,7 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
             child: ElevatedButton(
               onPressed: ()
               {
-                _openPopupScreen(context);
+                _openPopupScreen(context,"+$mobile_code $phoneNumber");
 
               },
 
