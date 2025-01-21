@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -11,6 +10,7 @@ import 'package:mymateapp/MyMateCommonBodies/MyMateApis.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/dbConnection/Firebase_DB.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../dbConnection/ClientDatabase.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -324,46 +324,46 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 50,vertical: 5),
             child: IntlPhoneField(
-                readOnly: true,
-                showCursor: false,
-                dropdownIconPosition: IconPosition.leading,
-                onCountryChanged: (country) {
-                  setState(() {
-                    client_country = country.name;
-                    mobile_country_code = country.code;
-                    mobile_code = country.dialCode;
-                  });
-                },
-                inputFormatters: [
-                  LengthLimitingTextInputFormatter(10),
-                  FilteringTextInputFormatter.digitsOnly,
-                ],
-                decoration: InputDecoration(hintText: client_country,
-                    hintStyle: TextStyle(
+              readOnly: true,
+              showCursor: false,
+              dropdownIconPosition: IconPosition.leading,
+              onCountryChanged: (country) {
+                setState(() {
+                  client_country = country.name;
+                  mobile_country_code = country.code;
+                  mobile_code = country.dialCode;
+                });
+              },
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(10),
+                FilteringTextInputFormatter.digitsOnly,
+              ],
+              decoration: InputDecoration(hintText: client_country,
+                  hintStyle: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 18,
                       color: Colors.grey
-                    )),
+                  )),
             ),
           ),
         ),
         Center(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 50,),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  width: 45,
-                  decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 1,color: Colors.grey))),
-                  child: TextField(
-                    readOnly: true,
-                    decoration: InputDecoration(
-                      hintText: "+$mobile_code",
-                      hintStyle: TextStyle(color: Colors.grey)
-                    ),
-                    style: TextStyle(fontSize: 18,color: Colors.grey),),
-                ),
+              padding: EdgeInsets.symmetric(horizontal: 50,),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    width: 45,
+                    decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 1,color: Colors.grey))),
+                    child: TextField(
+                      readOnly: true,
+                      decoration: InputDecoration(
+                          hintText: "+$mobile_code",
+                          hintStyle: TextStyle(color: Colors.grey)
+                      ),
+                      style: TextStyle(fontSize: 18,color: Colors.grey),),
+                  ),
                   SizedBox(
                     width: 10,
                   ),
@@ -383,8 +383,8 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
                       },
                     ),
                   )
-              ],
-            )
+                ],
+              )
           ),
         ),
         SizedBox(
