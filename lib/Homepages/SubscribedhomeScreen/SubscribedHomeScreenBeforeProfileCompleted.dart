@@ -7,16 +7,16 @@ import '../BadgeWidget.dart';
 import '../CompleteProfileScreen/CompleteProfileMain.dart';
 import 'SubscribedHomeScreenWidgets.dart';
 
-class SubscribedhomescreenStructuredPage extends StatefulWidget {
+class SubscribedHomeScreenBeforeProfileCompletedPage extends StatefulWidget {
   final String docId;
-  const SubscribedhomescreenStructuredPage({super.key,required this.docId});
+  const SubscribedHomeScreenBeforeProfileCompletedPage({super.key,required this.docId});
 
   @override
-  State<SubscribedhomescreenStructuredPage> createState() =>
-      _SubscribedhomescreenStructuredPageState();
+  State<SubscribedHomeScreenBeforeProfileCompletedPage> createState() =>
+      _SubscribedHomeScreenBeforeProfileState();
 }
 
-class _SubscribedhomescreenStructuredPageState extends State<SubscribedhomescreenStructuredPage> {
+class _SubscribedHomeScreenBeforeProfileState extends State<SubscribedHomeScreenBeforeProfileCompletedPage> {
   int _selectedIndex = 0;
 
   @override
