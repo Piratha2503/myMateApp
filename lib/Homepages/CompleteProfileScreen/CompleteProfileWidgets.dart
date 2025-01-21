@@ -36,7 +36,9 @@ class CompleteProfileWidgets {
   static Widget buildTextFieldRow({
     required String label,
     required String hintText,
-    required TextEditingController controller, // Keep this as it is
+    required TextEditingController controller,
+    String? errorText,
+
   }) {
     return Container(
       decoration: BoxDecoration(
@@ -67,6 +69,7 @@ class CompleteProfileWidgets {
                 controller: controller, // Attach the controller here
                 decoration: InputDecoration(
                   hintText: hintText,
+                  errorText: errorText,
                   hintStyle: TextStyle(
                     color: MyMateThemes.textColor.withOpacity(0.5),
                   ),
@@ -74,6 +77,7 @@ class CompleteProfileWidgets {
                 ),
                 style: TextStyle(color: MyMateThemes.textColor),
               ),
+
             ),
           ),
         ],

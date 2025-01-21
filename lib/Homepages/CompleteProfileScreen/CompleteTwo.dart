@@ -22,8 +22,15 @@ class _PageTwoState extends State<PageTwo> {
   final TextEditingController _occupationController = TextEditingController();
   final TextEditingController _heightController = TextEditingController();
   final TextEditingController _educationController = TextEditingController();
-  final TextEditingController _contactNumberController =
-      TextEditingController();
+  final TextEditingController _contactNumberController = TextEditingController();
+
+
+  String? civilStatusError;
+  String? employmentTypeError;
+  String? districtError;
+  String? occupationError;
+  String? heightError;
+  String? educationError;
 
   @override
   void initState() {
@@ -36,6 +43,38 @@ class _PageTwoState extends State<PageTwo> {
     _educationController.text = '';
     _contactNumberController.text = '';
     isChecked = false;
+
+  }
+
+
+
+  bool _validateFields() {
+    setState(() {
+      civilStatusError = _selectedCivilStatus == '-- Select Option --'
+          ? 'Please select a civil status'
+          : null;
+      employmentTypeError = _selectedEmploymentType == '-- Select Option --'
+          ? 'Please select an employment type'
+          : null;
+      districtError = _selectedDistrict == '-- Select Option --'
+          ? 'Please select a district'
+          : null;
+      occupationError =
+      _occupationController.text.isEmpty ? 'This field is mandatory' : null;
+      heightError =
+      _heightController.text.isEmpty ? 'This field is mandatory' : null;
+      educationError =
+      _educationController.text.isEmpty ? 'This field is mandatory' : null;
+
+    });
+
+    return civilStatusError == null &&
+        employmentTypeError == null &&
+        districtError == null &&
+        occupationError == null &&
+        heightError == null &&
+        educationError == null ;
+
   }
 
   Future<void> _saveDataToBackend() async {
@@ -53,11 +92,7 @@ class _PageTwoState extends State<PageTwo> {
       //   // 'height': height,
       //
       // },
-      'contactInfo': {
-        'address': {
-          'city': _selectedDistrict,
-        }
-      },
+
 
       'careerStudies': {
         'occupation': _occupationController.text,
@@ -124,9 +159,11 @@ class _PageTwoState extends State<PageTwo> {
   }
 
   void _onSave() {
-    _saveDataToBackend();
-    _updateForm();
-    widget.onSave();
+    if (_validateFields()) {
+      _saveDataToBackend();
+      _updateForm();
+      widget.onSave();
+    }
   }
 
   @override
@@ -145,6 +182,7 @@ class _PageTwoState extends State<PageTwo> {
               _selectedCivilStatus = value;
             }),
           ),
+
           SizedBox(height: 10),
           CompleteProfileWidgets.buildDropdownRow(
             label: "Employment Type",
@@ -165,6 +203,8 @@ class _PageTwoState extends State<PageTwo> {
             label: "Occupation",
             hintText: "Enter Occupation",
             controller: _occupationController,
+            errorText: occupationError,
+
           ),
           SizedBox(height: 10),
           CompleteProfileWidgets.buildTextFieldRow(

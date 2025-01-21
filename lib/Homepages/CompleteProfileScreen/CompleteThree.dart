@@ -75,7 +75,7 @@ class _PageThreeState extends State<PageThree> {
         print('Response body: ${response.body}');
 
         if (response.statusCode == 200) {
-          widget.onSave();
+
         } else {
           setState(() {
             error = 'Failed to save data: ${response.body}';
@@ -118,7 +118,7 @@ class _PageThreeState extends State<PageThree> {
         print('Response body: ${response.body}');
 
         if (response.statusCode == 200) {
-          widget.onSave();
+
         } else {
           setState(() {
             error = 'Failed to save data: ${response.body}';
@@ -133,8 +133,9 @@ class _PageThreeState extends State<PageThree> {
   }
 
   void _saveAndUpdateForms() async {
-   await _saveForm();
-  await  _updateForm();
+  await _saveForm();
+   await _updateForm();
+  widget.onSave();
   }
 
   @override
