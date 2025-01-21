@@ -272,10 +272,24 @@ class _SubscribeHomeScreenStructuredPageCarouselSlidersState extends State<Subsc
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all( color: MyMateThemes.premiumAccent, width: 5.0,),),
-                child: CircleAvatar(
-                        radius: 50,
-                    backgroundImage: NetworkImage(clientData.profileImg.toString()),
-                    )),
+                child: ClipOval(
+                  child: Image.network(
+                    clientData.profileImg.toString(),
+                    fit: BoxFit.cover,
+                    height: 50,
+                    width: 50,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Icon(Icons.error, size: 50);
+                    },
+                    loadingBuilder: (context, child, progress) {
+                      if (progress == null) return child;
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
+                  ),
+                )
+              ),
               SizedBox(width: 20),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

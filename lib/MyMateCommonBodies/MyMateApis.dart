@@ -90,7 +90,8 @@ Future<Map<String, dynamic>> fetchUserById(String docId,) async {
 
         'city' : address['city'] ?? 'N/A',
         'education': careerStudies['higher_studies'] ?? 'N/A',
-        'height': personalDetails['height'] ?? 'N/A',
+        'height': personalDetails['height'] ?? 0.0,
+        'language': personalDetails['language'] ?? 'N/A',
         'religion': personalDetails['religion'] ?? 'N/A',
         'caste': personalDetails['caste'] ?? 'N/A',
         'mother_name': personalDetails['mother_name'] ?? 'N/A',
