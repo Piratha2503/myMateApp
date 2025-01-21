@@ -185,14 +185,14 @@ class _PageOneState extends State<PageOne> {
                 )
                     : SvgPicture.asset('assets/images/circle.svg'),
               ),
-              Positioned(
-                bottom: -6,
-                left: 76,
-                child: GestureDetector(
-                  onTap: _openPopupScreen,
-                  child: SvgPicture.asset('assets/images/edit.svg'),
-                ),
-              ),
+              // Positioned(
+              //   bottom: -6,
+              //   left: 76,
+              //   child: GestureDetector(
+              //     onTap: _openPopupScreen,
+              //     child: SvgPicture.asset('assets/images/edit.svg'),
+              //   ),
+              // ),
             ],
           ),
           SizedBox(height: 60),
