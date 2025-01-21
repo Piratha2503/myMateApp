@@ -67,6 +67,8 @@ dependencies:
   smart_auth: ^2.0.0
   carousel_slider: ^5.0.0
   shared_preferences: ^2.2.0
+  image: ^4.5.2
+
 
   flutter_login: ^4.1.1
   reactive_date_time_picker: ^4.0.0
