@@ -132,9 +132,9 @@ class _PageThreeState extends State<PageThree> {
     }
   }
 
-  Future<void> _saveAndUpdateForms() async {
-    await _saveForm();
-    await _updateForm();
+  void _saveAndUpdateForms() async {
+   await _saveForm();
+  await  _updateForm();
   }
 
   @override
