@@ -7,7 +7,7 @@ import 'CompleteProfileWidgets.dart';
 class PageTwo extends StatefulWidget {
   final VoidCallback onSave;
   final String docId;
-  PageTwo({required this.onSave,required this.docId});
+  PageTwo({required this.onSave, required this.docId});
 
   @override
   _PageTwoState createState() => _PageTwoState();
@@ -22,9 +22,8 @@ class _PageTwoState extends State<PageTwo> {
   final TextEditingController _occupationController = TextEditingController();
   final TextEditingController _heightController = TextEditingController();
   final TextEditingController _educationController = TextEditingController();
-  final TextEditingController _contactNumberController = TextEditingController();
-
-
+  final TextEditingController _contactNumberController =
+      TextEditingController();
 
   @override
   void initState() {
@@ -40,26 +39,23 @@ class _PageTwoState extends State<PageTwo> {
   }
 
   Future<void> _saveDataToBackend() async {
-    final String url = 'https://backend.graycorp.io:9000/mymate/api/v1/saveClientData';
+    final String url =
+        'https://backend.graycorp.io:9000/mymate/api/v1/saveClientData';
 
-    final Map<String, dynamic> data = {
+    // final double height = double.parse(_heightController.text);
+
+    final data = {
       'docId': widget.docId,
-      'personalDetails': {
-
-
-        'marital_status': _selectedCivilStatus,
-        'height': int.parse(_heightController.text),
-
-      },
+      // 'personalDetails': {
+      //
+      //
+      //   'marital_status': _selectedCivilStatus,
+      //   // 'height': height,
+      //
+      // },
       'contactInfo': {
-        'mobile': _contactNumberController.text,
-
-
-
         'address': {
-
           'city': _selectedDistrict,
-
         }
       },
 
@@ -68,7 +64,6 @@ class _PageTwoState extends State<PageTwo> {
         'occupation_type': _selectedEmploymentType,
         'higher_studies': _educationController.text,
       },
-
     };
 
     try {
@@ -79,7 +74,7 @@ class _PageTwoState extends State<PageTwo> {
       );
 
       if (response.statusCode == 200) {
-        print('Data saved successfully');
+        print('Data saved successfully: ${response.body}');
       } else {
         print('Failed to save data: ${response.body}');
       }
@@ -88,8 +83,49 @@ class _PageTwoState extends State<PageTwo> {
     }
   }
 
+  Future<void> _updateForm() async {
+    final data = {
+      'docId': widget.docId,
+      'contactInfo': {
+        'address': {
+          'city': _selectedDistrict,
+        }
+      },
+      'personalDetails': {
+        'marital_status': _selectedCivilStatus,
+        'height': double.parse(_heightController.text),
+      }
+    };
+
+    final url = 'https://backend.graycorp.io:9000/mymate/api/v1/updateClient';
+    try {
+      print('Sending data: ${json.encode(data)}');
+      final response = await http.put(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: json.encode(data),
+      );
+
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        widget.onSave();
+      } else {
+        setState(() {
+          print('Failed to update: ${response.body}');
+        });
+      }
+    } catch (e) {
+      setState(() {});
+    }
+  }
+
   void _onSave() {
     _saveDataToBackend();
+    _updateForm();
     widget.onSave();
   }
 
@@ -155,7 +191,7 @@ class _PageTwoState extends State<PageTwo> {
           CompleteProfileWidgets.buildCodeVerificationRow(
             context,
             isChecked,
-                (newValue) {
+            (newValue) {
               setState(() {
                 isChecked = newValue!;
               });

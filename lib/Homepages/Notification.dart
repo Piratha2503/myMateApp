@@ -45,11 +45,11 @@ class NotificationPage extends StatelessWidget {
       // bottomNavigationBar: CustomBottomNavigationBar(
       //   selectedIndex: this.selectedBottomBarIconIndex,
       //   onItemTapped: (index) {
-      //     // setState(() {
-      //     //   _selectedIndex = index;
-      //     // });
+      //     setState(() {
+      //       _selectedIndex = index;
+      //     });
       //     // Handle navigation here based on the index
-      //   },
+      //   }, docId: docId,
       // ),
     );
   }
