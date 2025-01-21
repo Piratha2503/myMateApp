@@ -84,7 +84,7 @@ Future<Map<String, dynamic>> fetchUserById(String docId,) async {
         'dob': astrology['dob'] ?? 'N/A',
         'dot': astrology['dot'] ?? 'N/A',
         'occupation': careerStudies['occupation'] ?? 'N/A',
-        'occupation_type' : careerStudies['occupation_type'] ?? 'N/A',
+        'occupation_type' : data['careerStudies']?['occupation_type'] ?? 'N/A',
         'address': formattedAddress,
         //'address' : contactInfo['address'] ?? 'N/A',
 
