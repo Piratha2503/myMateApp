@@ -236,7 +236,7 @@ class _SubscribeHomeScreenStructuredPageCarouselSlidersState extends State<Subsc
     return GestureDetector(
       onTap: (){
 
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>OtherProfilePage(docId: widget.docId)));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>OtherProfilePage(SoulId: widget.docId)));
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 5.0),
@@ -390,7 +390,7 @@ class SubscribedhomescreenStructuredPageCarouselSliderContainer extends Stateles
     return GestureDetector(
       onTap: (){
 
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>OtherProfilePage(docId: profile.docId)));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>OtherProfilePage(SoulId: profile.docId)));
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 5.0),

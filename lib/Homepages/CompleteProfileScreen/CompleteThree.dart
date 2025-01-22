@@ -135,7 +135,7 @@ class _PageThreeState extends State<PageThree> {
   void _saveAndUpdateForms() async {
   await _saveForm();
    await _updateForm();
-
+  widget.onSave();
   }
 
   @override

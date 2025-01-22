@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mymateapp/MyMateThemes.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 import '../../MyMateCommonBodies/MyMateApis.dart';
 import '../../MyMateCommonBodies/MyMateBottomBar.dart';
 import '../CheckMatch.dart';
@@ -12,11 +13,11 @@ import '../custom_outline_button.dart';
 import '../explorePage/explorePageMain.dart';
 
 class OtherProfilePage extends StatefulWidget {
-  final String docId;
+  final String SoulId;
 
-  const OtherProfilePage({required this.docId, super.key});
+  const OtherProfilePage({required this.SoulId, super.key});
 
-  String get soulDocId => docId;
+  String get soulDocId => SoulId;
 
   @override
   State<OtherProfilePage> createState() => _OtherProfilePageState();
@@ -49,10 +50,44 @@ class _OtherProfilePageState extends State<OtherProfilePage>
   List<TextEditingController> controllers = [];
   bool isLoading = true;
 
+  Future<String?> getSavedDocId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('docId');
+  }
+
+  Future<void> _sendRequestToBackend() async {
+    final docId = await getSavedDocId();
+     final SouldocId =widget.SoulId;
+    final url = Uri.parse(
+      "https://backend.graycorp.io:9000/mymate/api/v1/RequestSent"
+          "?sender_docId=$docId&receiver_docId=$SouldocId",
+    );
+
+    try {
+
+      final response = await http.put(
+        url,
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      if (response.statusCode == 200) {
+        print("Request sent successfully.");
+
+      } else {
+        print("Failed to send request. Status code: ${response.statusCode}");
+        print("Response body: ${response.body}");
+
+      }
+    } catch (e) {
+      print("Error sending request: $e");
+
+    }
+  }
+
   /// Fetch data from API using fetchUserById
   Future<void> getClient() async {
     try {
-      final data = await fetchUserById(widget.docId);
+      final data = await fetchUserById(widget.SoulId);
 
       if (data.isNotEmpty) {
         setState(() {
@@ -75,6 +110,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
           var expectations = data['expectations'] ?? [];
 
           print('Profile Picture URL: $profilePictureUrl');
+
 
           if (expectations is List<String>) {
             controllers = expectations
@@ -115,6 +151,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
     super.initState();
     getClient();
     _scrollController.addListener(_scrollListener);
+
   }
 
   @override
@@ -283,7 +320,9 @@ class _OtherProfilePageState extends State<OtherProfilePage>
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            _sendRequestToBackend();
+          },
           style: ElevatedButton.styleFrom(
               backgroundColor: MyMateThemes.primaryColor,
               shape: RoundedRectangleBorder(
@@ -298,7 +337,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => CheckmatchPage(soulDocId: widget.docId, clientDocId: 'E0JFHhK2x6Gq2Ac6XSyP',)),
+              MaterialPageRoute(builder: (context) => CheckmatchPage(soulDocId: widget.SoulId, clientDocId: 'E0JFHhK2x6Gq2Ac6XSyP',)),
             );
           },
           style: ElevatedButton.styleFrom(
@@ -339,7 +378,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
 
   Widget _buildProfileDetails() {
     return FutureBuilder<Map<String, dynamic>>(
-        future: fetchUserById(widget.docId), // Call API with docId
+        future: fetchUserById(widget.SoulId), // Call API with docId
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -506,7 +545,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
           _selectedIndex = index;
         });
 
-      }, docId: widget.docId,
+      }, docId: widget.SoulId,
     );
   }
 
@@ -704,7 +743,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
                       SizedBox(height: 40),
                       _buildProfileDetails(),
                       SizedBox(height: 40),
-                      PhotoGallery(docId: widget.docId),
+                      PhotoGallery(docId: widget.SoulId),
                       SizedBox(height: 40),
                     ],
                   ),

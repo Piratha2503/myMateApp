@@ -173,7 +173,7 @@ Widget buildGridItem(Map<String, dynamic> profile) {
             Navigator.push(
               context, // Valid context provided by Builder
               MaterialPageRoute(
-                builder: (context) => OtherProfilePage(docId: profile['id']),
+                builder: (context) => OtherProfilePage(SoulId: profile['id']),
               ),
             );
           },
