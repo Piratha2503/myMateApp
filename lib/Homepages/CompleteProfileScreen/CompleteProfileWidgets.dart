@@ -68,7 +68,7 @@ class CompleteProfileWidgets {
               child: TextField(
                 controller: controller, // Attach the controller here
                 decoration: InputDecoration(
-                  hintText: hintText,
+                  hintText: errorText == null ? hintText : null,
                   errorText: errorText,
                   hintStyle: TextStyle(
                     color: MyMateThemes.textColor.withOpacity(0.5),

@@ -173,7 +173,7 @@ class _PageTwoState extends State<PageTwo> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 10),
+          SizedBox(height: 12),
           CompleteProfileWidgets.buildDropdownRow(
             label: "Civil Status",
             value: _selectedCivilStatus,
@@ -183,7 +183,7 @@ class _PageTwoState extends State<PageTwo> {
             }),
           ),
 
-          SizedBox(height: 10),
+          SizedBox(height: 12),
           CompleteProfileWidgets.buildDropdownRow(
             label: "Employment Type",
             value: _selectedEmploymentType,
@@ -198,21 +198,24 @@ class _PageTwoState extends State<PageTwo> {
               _selectedEmploymentType = value;
             }),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 12),
           CompleteProfileWidgets.buildTextFieldRow(
             label: "Occupation",
-            hintText: "Enter Occupation",
+            hintText:  "Enter Occupation",
             controller: _occupationController,
             errorText: occupationError,
 
           ),
-          SizedBox(height: 10),
+
+          SizedBox(height: 12),
           CompleteProfileWidgets.buildTextFieldRow(
             label: "Height (in cm)",
             hintText: "Enter height",
             controller: _heightController,
+            errorText: occupationError,
+
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 12),
           CompleteProfileWidgets.buildDropdownRow(
             label: "District",
             value: _selectedDistrict,
@@ -221,13 +224,15 @@ class _PageTwoState extends State<PageTwo> {
               _selectedDistrict = value;
             }),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 12),
           CompleteProfileWidgets.buildTextFieldRow(
             label: "Education",
             hintText: "Enter Education",
             controller: _educationController,
+            errorText: occupationError,
+
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 12),
           CompleteProfileWidgets.buildCodeVerificationRow(
             context,
             isChecked,
@@ -237,7 +242,7 @@ class _PageTwoState extends State<PageTwo> {
               });
             },
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 12),
           CompleteProfileWidgets.buildTextFieldRow(
             label: "Contact Number",
             hintText: "Enter Contact Number",

@@ -265,6 +265,26 @@ class _BuildImageGallery extends StatelessWidget {
     required this.onDelete,
   });
 
+  Future<void> _deleteImageFromBackend(String docId, String url) async {
+    final apiurl = Uri.parse(
+        "https://backend.graycorp.io:9000/mymate/api/v1/deleteGalleryImageByDocId?docId=$docId&url=$url");
+
+    try {
+      final response = await http.put(
+        apiurl,
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      if (response.statusCode == 200) {
+        print("Image deleted successfully from backend.");
+      } else {
+        print("Failed to delete image. Status code: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("Error deleting image: $e");
+    }
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -300,7 +320,15 @@ class _BuildImageGallery extends StatelessWidget {
                 ),
                 SizedBox(height: 8),
                 IconButton(
-                  onPressed: () => onDelete(index),
+                  onPressed: () async {
+
+                    await _deleteImageFromBackend(
+                        (context.findAncestorStateOfType<_CompletegallerypageState>() as _CompletegallerypageState).widget.docId,
+                        displayImageUrl);
+
+
+                    onDelete(index);
+                  },
                   icon: Icon(Icons.delete, color: Colors.blue),
                 ),
               ],
