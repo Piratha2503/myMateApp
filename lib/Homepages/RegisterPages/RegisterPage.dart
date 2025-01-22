@@ -402,13 +402,7 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
               },
 
 
-              style: ButtonStyle(
-                foregroundColor: MaterialStatePropertyAll(Colors.white),
-                backgroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
-                shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                    borderRadius: BorderRadius.zero)
-                ),
-              ),
+              style: CommonButtonStyle.commonButtonStyle(),
               child: const Text(
                 "Get Started",
                 style: TextStyle(fontSize: 16),
