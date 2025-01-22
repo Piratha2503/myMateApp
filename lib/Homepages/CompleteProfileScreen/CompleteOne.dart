@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
@@ -66,6 +68,8 @@ class _PageOneState extends State<PageOne> {
 
 
   Future<void> _uploadImageToBackend(File imageFile) async {
+    String randomFileName = _generateRandomFileName() + '.jpg';
+
     final fileSize = await imageFile.length();
     print("Image File Size: ${fileSize / 1024} KB");
 
@@ -86,6 +90,7 @@ class _PageOneState extends State<PageOne> {
         ..files.add(await http.MultipartFile.fromPath(
           'profile_Image',
           imageFile.path,
+          filename: randomFileName,
         ));
 
       final response = await request.send();
@@ -105,6 +110,12 @@ class _PageOneState extends State<PageOne> {
     } catch (e) {
       print("Error uploading image: $e");
     }
+  }
+
+  String _generateRandomFileName() {
+    final random = Random();
+    const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    return List.generate(10, (index) => characters[random.nextInt(characters.length)]).join();
   }
 
   void _onSave() {
@@ -185,14 +196,14 @@ class _PageOneState extends State<PageOne> {
                 )
                     : SvgPicture.asset('assets/images/circle.svg'),
               ),
-              Positioned(
-                bottom: -6,
-                left: 76,
-                child: GestureDetector(
-                  onTap: _openPopupScreen,
-                  child: SvgPicture.asset('assets/images/edit.svg'),
-                ),
-              ),
+              // Positioned(
+              //   bottom: -6,
+              //   left: 76,
+              //   child: GestureDetector(
+              //     onTap: _openPopupScreen,
+              //     child: SvgPicture.asset('assets/images/edit.svg'),
+              //   ),
+              // ),
             ],
           ),
           SizedBox(height: 60),
