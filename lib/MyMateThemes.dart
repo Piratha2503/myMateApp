@@ -15,19 +15,34 @@ class MyMateThemes {
   static const double subHeadFontSize = 20;
 }
 
+
 class CommonButtonStyle {
   static ButtonStyle commonButtonStyle() {
     return ButtonStyle(
+      // Regular button color
       foregroundColor: MaterialStateProperty.all(Colors.white),
       backgroundColor: MaterialStateProperty.all(MyMateThemes.primaryColor),
+
+      // Pressed effect
+      overlayColor: MaterialStateProperty.all(Colors.black12), // Subtle overlay effect
+
+      // Shape of the button with rounded corners
       shape: MaterialStateProperty.all(
-          RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5.0)
-          )),
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5.0),
+        ),
+      ),
+
+      // Elevation change when button is pressed
+      elevation: MaterialStateProperty.resolveWith((states) {
+        if (states.contains(MaterialState.pressed)) {
+          return 4.0; // Raised effect when pressed
+        }
+        return 2.0; // Default elevation
+      }),
+
+      // Add a scale effect on press
+      padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0)),
     );
   }
 }
-
-/*
-
-* */
