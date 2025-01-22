@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mymateapp/MyMateThemes.dart';
-
 import '../ProfilePageScreen/MyProfileMain.dart';
 
 class boostprofile extends StatefulWidget {
