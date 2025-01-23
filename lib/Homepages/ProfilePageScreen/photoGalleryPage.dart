@@ -32,19 +32,19 @@ class _PhotoGalleryState extends State<PhotoGallery> {
 
   Future<void> _fetchImages() async {
     try {
-      String apiUrl = MyMateAPIs.get_client_byDocId_API;
-      Uri url = Uri.parse('$apiUrl?docId=E0JFHhK2x6Gq2Ac6XSyP');
-      final response = await http.get(url);
-      final data = jsonDecode(response.body);
-      setState(() {
-        imagePaths = ["https://piratha.com/images/Piratha.jpg"];
-      });
-      // final data = await fetchUserById(widget.docId);
+      // String apiUrl = MyMateAPIs.get_client_byDocId_API;
+      // Uri url = Uri.parse('$apiUrl?$widget.docId');
+      // final response = await http.get(url);
+      // final data = jsonDecode(response.body);
       // setState(() {
-      //   imagePaths = List<String>.from(data['gallery_image_urls'] ?? []);
-      //   isLoading = false;
-      //   print(imagePaths);
+      //   imagePaths = ["https://piratha.com/images/Piratha.jpg"];
       // });
+      final data = await fetchUserById(widget.docId);
+      setState(() {
+        imagePaths = List<String>.from(data['gallery_image_urls'] ?? []);
+        isLoading = false;
+        print(imagePaths);
+      });
     } catch (e) {
       setState(() {
         errorMessage = 'Failed to load the images: $e';
