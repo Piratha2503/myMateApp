@@ -171,7 +171,7 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
     print(chartGeneration.place11);
     print(chartGeneration.place12);
     Navigator.push(context, MaterialPageRoute(builder: (context)=>ManualNavamsaChartPage(clientData: widget.clientData,
-    astrology: astrology,
+      astrology: astrology,
     )));
 
   }
@@ -271,18 +271,18 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
               children: [
                 Text( "Enter Chart Rasi",
                   style: TextStyle(
-                    color: MyMateThemes.textColor,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                      color: MyMateThemes.textColor,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
                       letterSpacing: 1
                   ),
                 ),
                 Text(
                   "to calculate Astrology Chart",
                   style: TextStyle(
-                    color: MyMateThemes.primaryColor,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                      color: MyMateThemes.primaryColor,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
                       letterSpacing: 1
                   ),
                 ),
@@ -290,38 +290,38 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
               ],
             ),
           ),
-        Card(
-          elevation: 4.0, // Adjust elevation as needed
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0), // Rounded corners
-          ),
-          child: Container(
-            width: 300,
-            height: 188,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8.0), // Match the border radius of the Card
+          Card(
+            elevation: 4.0, // Adjust elevation as needed
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0), // Rounded corners
             ),
-            child: Column(
-              children: [
-                Expanded(
-                  child: GridView(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 4,
-                      childAspectRatio: 14 / 11,
-                      mainAxisSpacing: 8.0,
-                      crossAxisSpacing: 8.0,
+            child: Container(
+              width: 300,
+              height: 188,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8.0), // Match the border radius of the Card
+              ),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: GridView(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 4,
+                        childAspectRatio: 14 / 11,
+                        mainAxisSpacing: 8.0,
+                        crossAxisSpacing: 8.0,
+                      ),
+                      padding: const EdgeInsets.all(8.0),
+                      children: boxes.map((box) {
+                        return buildTopBox(box['boxNumber'], box['assetName']);
+                      }).toList(),
                     ),
-                    padding: const EdgeInsets.all(8.0),
-                    children: boxes.map((box) {
-                      return buildTopBox(box['boxNumber'], box['assetName']);
-                    }).toList(),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
 
 
           DecoratedBox(
