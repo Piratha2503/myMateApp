@@ -78,7 +78,7 @@ class _PhotoGalleryState extends State<PhotoGallery> {
 
 
           Container(
-            height: screenHeight * 0.48,
+            height: screenHeight * 0.30,
             padding: EdgeInsets.symmetric(horizontal: 16.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),

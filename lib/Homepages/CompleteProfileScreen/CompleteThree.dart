@@ -91,34 +91,24 @@ class _PageThreeState extends State<PageThree> {
 
   Future<void> _updateForm() async {
     if (_validateForm()) {
-      final Map<String, dynamic> data = {
-        'docId': widget.docId,
-        'personalDetails': {
-          'religion': _selectedReligion,
-          'language': _selectedLanguage,
-          'caste': _casteController.text,
-          'num_of_siblings': _siblingsController.text,
-          'bio': _bioController.text,
-        },
-
-      };
-
-      final url = 'https://backend.graycorp.io:9000/mymate/api/v1/updateClient';
       try {
-        print('Sending data: ${json.encode(data)}');
         final response = await http.put(
-          Uri.parse(url),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: json.encode(data),
+          Uri.parse('https://backend.graycorp.io:9000/mymate/api/v1/updateClient'),
+          headers: {'Content-Type': 'application/json'},
+          body: json.encode({
+            'docId': widget.docId,
+            'personalDetails': {
+              'religion': _selectedReligion,
+              'language': _selectedLanguage,
+              'caste': _casteController.text,
+              'num_of_siblings': _siblingsController.text,
+              'bio': _bioController.text,
+            },
+          }),
         );
 
-        print('Response status: ${response.statusCode}');
-        print('Response body: ${response.body}');
-
         if (response.statusCode == 200) {
-
+          print('Data updated successfully');
         } else {
           setState(() {
             error = 'Failed to save data: ${response.body}';
@@ -126,16 +116,18 @@ class _PageThreeState extends State<PageThree> {
         }
       } catch (e) {
         setState(() {
-          error = 'Error while saving data: $e';
+          error = 'Error while updating data: $e';
         });
       }
     }
   }
 
-  void _saveAndUpdateForms() async {
-  await _saveForm();
+  Future <void> _saveAndUpdateForms() async {
+    print("Triggered _saveAndUpdateForms");
+
+    await _saveForm();
    await _updateForm();
-  widget.onSave();
+
   }
 
   @override
@@ -279,7 +271,9 @@ class _PageThreeState extends State<PageThree> {
           ),
           SizedBox(height: 40),
           ElevatedButton(
-            onPressed: _saveAndUpdateForms,
+            onPressed: () async {
+              await _saveAndUpdateForms();
+            },
             style: CommonButtonStyle.commonButtonStyle(),
             child: Text('Complete'),
           ),

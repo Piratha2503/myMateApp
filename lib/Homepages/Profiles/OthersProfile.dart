@@ -49,7 +49,7 @@
     final ScrollController _scrollController = ScrollController();
     List<TextEditingController> controllers = [];
     bool isLoading = true;
-    bool _isRequestSent = false; // To track the request status
+    bool _isRequestSent = false;
   
     Future<String?> getSavedDocId() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();

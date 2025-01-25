@@ -19,6 +19,7 @@ class _PageTwoState extends State<PageTwo> {
   String? _selectedEmploymentType;
   String? _selectedDistrict;
 
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _occupationController = TextEditingController();
   final TextEditingController _heightController = TextEditingController();
   final TextEditingController _educationController = TextEditingController();
@@ -168,7 +169,8 @@ class _PageTwoState extends State<PageTwo> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Form(
+      key: _formKey,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -206,6 +208,7 @@ class _PageTwoState extends State<PageTwo> {
             errorText: occupationError,
 
           ),
+          
 
           SizedBox(height: 12),
           CompleteProfileWidgets.buildTextFieldRow(
@@ -233,21 +236,21 @@ class _PageTwoState extends State<PageTwo> {
 
           ),
           SizedBox(height: 12),
-          CompleteProfileWidgets.buildCodeVerificationRow(
-            context,
-            isChecked,
-            (newValue) {
-              setState(() {
-                isChecked = newValue!;
-              });
-            },
-          ),
-          SizedBox(height: 12),
-          CompleteProfileWidgets.buildTextFieldRow(
-            label: "Contact Number",
-            hintText: "Enter Contact Number",
-            controller: _contactNumberController,
-          ),
+          // CompleteProfileWidgets.buildCodeVerificationRow(
+          //   context,
+          //   isChecked,
+          //   (newValue) {
+          //     setState(() {
+          //       isChecked = newValue!;
+          //     });
+          //   },
+          // ),
+          // SizedBox(height: 12),
+          // CompleteProfileWidgets.buildTextFieldRow(
+          //   label: "Contact Number",
+          //   hintText: "Enter Contact Number",
+          //   controller: _contactNumberController,
+          // ),
           SizedBox(height: 20),
           ElevatedButton(
             onPressed: _onSave,
