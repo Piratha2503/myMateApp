@@ -208,15 +208,24 @@ class _PageThreeState extends State<PageThree> {
                           : '',
                     ),
                   ),
-                  if (error.isNotEmpty)
-                    Text(
-                      error,
-                      style: TextStyle(color: Colors.red),
-                    ),
+
                 ],
               ),
+
             ),
           ),
+          SizedBox(height: 10),
+          if (error.isNotEmpty)
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: Text(
+                  error,
+                  style: TextStyle(color: Colors.red[800]),
+                ),
+              ),
+            ),
           SizedBox(height: 25),
           Row(
             children: [
