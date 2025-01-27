@@ -118,6 +118,7 @@ class _SubscribedhomescreenStructuredPageState extends State<Subscribedhomescree
 
         ],
       ),
+
       bottomNavigationBar: CustomBottomNavigationBar(
         selectedIndex: _selectedIndex,
         onItemTapped: (index) {
