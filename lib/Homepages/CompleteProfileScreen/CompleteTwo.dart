@@ -18,12 +18,13 @@ class _PageTwoState extends State<PageTwo> {
   String? _selectedCivilStatus;
   String? _selectedEmploymentType;
   String? _selectedDistrict;
-
+  bool showGeneralError = false;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _occupationController = TextEditingController();
   final TextEditingController _heightController = TextEditingController();
+  final TextEditingController _DistrictController = TextEditingController();
   final TextEditingController _educationController = TextEditingController();
   final TextEditingController _contactNumberController = TextEditingController();
-
 
   String? civilStatusError;
   String? employmentTypeError;
@@ -31,22 +32,70 @@ class _PageTwoState extends State<PageTwo> {
   String? occupationError;
   String? heightError;
   String? educationError;
+  String? CivilStatusError;
+  String? EmploymentTypeError;
+  String? DistrictError;
+  String? OccupationError;
+  String? HeightError;
+  String? EducationError;
+
 
   @override
   void initState() {
     super.initState();
     _selectedCivilStatus = '-- Select Option --';
     _selectedEmploymentType = '-- Select Option --';
-    _selectedDistrict = '-- Select Option --';
+    _DistrictController.text = '';
     _occupationController.text = '';
     _heightController.text = '';
     _educationController.text = '';
     _contactNumberController.text = '';
     isChecked = false;
 
+    _heightController.addListener(() {
+      final text = _heightController.text;
+      setState(() {
+        HeightError = text.isNotEmpty && !_validateHeight(text)
+            ? 'Height should be a valid number'
+            : null;
+      });
+    });
+
+    _DistrictController.addListener(() {
+      final text = _DistrictController.text;
+      setState(() {
+        DistrictError = text.isNotEmpty && !_validateLettersOnly(text)
+            ? 'District should contain only letters'
+            : null;
+      });
+    });
+
+    _educationController.addListener(() {
+      final text = _educationController.text;
+      setState(() {
+        EducationError = text.isNotEmpty && !_validateLettersOnly(text)
+            ? 'Education should contain only letters'
+            : null;
+      });
+    });
+
+    _occupationController.addListener(() {
+      final text = _occupationController.text;
+      setState(() {
+        OccupationError = text.isNotEmpty && !_validateLettersOnly(text)
+            ? 'Occupation should contain only letters'
+            : null;
+      });
+    });
   }
 
+  bool _validateHeight(String input) {
+    return RegExp(r'^\d+(\.\d+)?$').hasMatch(input); // Number validation for height
+  }
 
+  bool _validateLettersOnly(String input) {
+    return RegExp(r'^[a-zA-Z\s]+$').hasMatch(input); // Letters-only validation
+  }
 
   bool _validateFields() {
     setState(() {
@@ -56,66 +105,34 @@ class _PageTwoState extends State<PageTwo> {
       employmentTypeError = _selectedEmploymentType == '-- Select Option --'
           ? 'Please select an employment type'
           : null;
-      districtError = _selectedDistrict == '-- Select Option --'
-          ? 'Please select a district'
-          : null;
-      occupationError =
-      _occupationController.text.isEmpty ? 'This field is mandatory' : null;
-      heightError =
-      _heightController.text.isEmpty ? 'This field is mandatory' : null;
-      educationError =
-      _educationController.text.isEmpty ? 'This field is mandatory' : null;
+      // districtError = _selectedDistrict == '-- Select Option --'
+      //     ? 'Please select a district'
+      //     : null;
 
+      districtError = (_DistrictController.text.isEmpty || !_validateLettersOnly(_DistrictController.text))
+          ? 'District must contain only letters and cannot be empty'
+          : null;
+
+      occupationError = (_occupationController.text.isEmpty || !_validateLettersOnly(_occupationController.text))
+          ? 'Occupation must contain only letters and cannot be empty'
+          : null;
+      heightError = (_heightController.text.isEmpty || !_validateHeight(_heightController.text))
+          ? 'Height must be a valid number and cannot be empty'
+          : null;
+      educationError = (_educationController.text.isEmpty || !_validateLettersOnly(_educationController.text))
+          ? 'Education must contain only letters and cannot be empty'
+          : null;
+
+
+      showGeneralError = civilStatusError != null ||
+          employmentTypeError != null ||
+          districtError != null ||
+          occupationError != null ||
+          heightError != null ||
+          educationError != null;
     });
 
-    return civilStatusError == null &&
-        employmentTypeError == null &&
-        districtError == null &&
-        occupationError == null &&
-        heightError == null &&
-        educationError == null ;
-
-  }
-
-  Future<void> _saveDataToBackend() async {
-    final String url =
-        'https://backend.graycorp.io:9000/mymate/api/v1/saveClientData';
-
-    // final double height = double.parse(_heightController.text);
-
-    final data = {
-      'docId': widget.docId,
-      // 'personalDetails': {
-      //
-      //
-      //   'marital_status': _selectedCivilStatus,
-      //   // 'height': height,
-      //
-      // },
-
-
-      'careerStudies': {
-        'occupation': _occupationController.text,
-        'occupation_type': _selectedEmploymentType,
-        'higher_studies': _educationController.text,
-      },
-    };
-
-    try {
-      final response = await http.put(
-        Uri.parse(url),
-        headers: {'Content-Type': 'application/json'},
-        body: json.encode(data),
-      );
-
-      if (response.statusCode == 200) {
-        print('Data saved successfully: ${response.body}');
-      } else {
-        print('Failed to save data: ${response.body}');
-      }
-    } catch (e) {
-      print('Error saving data: $e');
-    }
+    return !showGeneralError;
   }
 
   Future<void> _updateForm() async {
@@ -147,7 +164,6 @@ class _PageTwoState extends State<PageTwo> {
       print('Response body: ${response.body}');
 
       if (response.statusCode == 200) {
-        widget.onSave();
       } else {
         setState(() {
           print('Failed to update: ${response.body}');
@@ -155,6 +171,36 @@ class _PageTwoState extends State<PageTwo> {
       }
     } catch (e) {
       setState(() {});
+    }
+  }
+
+  Future<void> _saveDataToBackend() async {
+    final String url =
+        'https://backend.graycorp.io:9000/mymate/api/v1/saveClientData';
+
+    final data = {
+      'docId': widget.docId,
+      'careerStudies': {
+        'occupation': _occupationController.text,
+        'occupation_type': _selectedEmploymentType,
+        'higher_studies': _educationController.text,
+      },
+    };
+
+    try {
+      final response = await http.put(
+        Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode(data),
+      );
+
+      if (response.statusCode == 200) {
+        print('Data saved successfully: ${response.body}');
+      } else {
+        print('Failed to save data: ${response.body}');
+      }
+    } catch (e) {
+      print('Error saving data: $e');
     }
   }
 
@@ -168,7 +214,8 @@ class _PageTwoState extends State<PageTwo> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Form(
+      key: _formKey,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -182,7 +229,6 @@ class _PageTwoState extends State<PageTwo> {
               _selectedCivilStatus = value;
             }),
           ),
-
           SizedBox(height: 12),
           CompleteProfileWidgets.buildDropdownRow(
             label: "Employment Type",
@@ -201,53 +247,54 @@ class _PageTwoState extends State<PageTwo> {
           SizedBox(height: 12),
           CompleteProfileWidgets.buildTextFieldRow(
             label: "Occupation",
-            hintText:  "Enter Occupation",
+            hintText: "Enter Occupation",
             controller: _occupationController,
-            errorText: occupationError,
-
           ),
-
+          if (OccupationError != null)
+            Text(OccupationError!,
+                style: TextStyle(color: Colors.red[800], fontSize: 10)),
           SizedBox(height: 12),
           CompleteProfileWidgets.buildTextFieldRow(
             label: "Height (in cm)",
             hintText: "Enter height",
             controller: _heightController,
-            errorText: occupationError,
-
           ),
+          if (HeightError != null)
+            Text(HeightError!,
+                style: TextStyle(color: Colors.red[800], fontSize: 12)),
           SizedBox(height: 12),
-          CompleteProfileWidgets.buildDropdownRow(
+          CompleteProfileWidgets.buildTextFieldRow(
             label: "District",
-            value: _selectedDistrict,
-            items: ['-- Select Option --', 'Jaffna', 'Colombo'],
-            onChanged: (value) => setState(() {
-              _selectedDistrict = value;
-            }),
+            hintText: "Enter the district",
+            controller: _DistrictController,
           ),
+          if (DistrictError != null)
+            Text(DistrictError!,
+                style: TextStyle(color: Colors.red[800], fontSize: 10)),
           SizedBox(height: 12),
           CompleteProfileWidgets.buildTextFieldRow(
             label: "Education",
             hintText: "Enter Education",
             controller: _educationController,
-            errorText: occupationError,
+          ),
+          if (EducationError != null)
+            Text(EducationError!,
+                style: TextStyle(color: Colors.red[800], fontSize: 10)),
+          SizedBox(height: 20),
 
-          ),
-          SizedBox(height: 12),
-          CompleteProfileWidgets.buildCodeVerificationRow(
-            context,
-            isChecked,
-            (newValue) {
-              setState(() {
-                isChecked = newValue!;
-              });
-            },
-          ),
-          SizedBox(height: 12),
-          CompleteProfileWidgets.buildTextFieldRow(
-            label: "Contact Number",
-            hintText: "Enter Contact Number",
-            controller: _contactNumberController,
-          ),
+
+          if (showGeneralError)
+            Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 24),
+                child: Text(
+                  "These fields are mandatory.",
+                  style: TextStyle(color: Colors.red[800]),
+                ),
+              ),
+            ),
+
           SizedBox(height: 20),
           ElevatedButton(
             onPressed: _onSave,

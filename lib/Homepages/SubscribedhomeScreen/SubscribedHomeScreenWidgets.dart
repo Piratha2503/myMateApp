@@ -226,6 +226,7 @@ class _SubscribeHomeScreenStructuredPageCarouselSlidersState extends State<Subsc
           client.age = clientData['age'];
           client.occupationType = clientData['occupation_type'];
           client.maritalStatus = clientData['marital_status'];
+          client.docId = clientData['docId'];
           client.city = clientData['city'];
           return SubscribedhomescreenStructuredPageCarouselSliderContainers(client);
         }).toList(),
@@ -236,7 +237,7 @@ class _SubscribeHomeScreenStructuredPageCarouselSlidersState extends State<Subsc
     return GestureDetector(
       onTap: (){
 
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>OtherProfilePage(SoulId: widget.docId)));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>OtherProfilePage(SoulId: clientData.docId.toString())));
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 5.0),
