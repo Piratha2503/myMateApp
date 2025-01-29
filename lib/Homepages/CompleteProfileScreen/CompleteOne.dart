@@ -46,22 +46,9 @@ class _PageOneState extends State<PageOne> {
         });
 
 
-        // await _uploadImageToBackend(thumbnailFile);
+        await _uploadImageToBackend(thumbnailFile);
       }
     }
-  }
-
-  void _onSave() async {
-    if (_imageFile != null) {
-      await _uploadImageToBackend(_imageFile!);
-    } else {
-      print("No image selected to save.");
-    }
-
-    print('Saved Image URL: $_savedImageUrl');
-    print(widget.docId);
-
-    widget.onSave();
   }
 
   Future<File> _createThumbnail(File imageFile) async {
@@ -131,7 +118,13 @@ class _PageOneState extends State<PageOne> {
     return List.generate(10, (index) => characters[random.nextInt(characters.length)]).join();
   }
 
+  void _onSave() {
 
+    print('Saved Image URL: $_savedImageUrl');
+    print(widget.docId);
+
+    widget.onSave();
+  }
 
   void _openPopupScreen() {
     showDialog(
@@ -190,7 +183,7 @@ class _PageOneState extends State<PageOne> {
           Stack(
             children: [
               GestureDetector(
-                // onTap: _openPopupScreen,
+                onTap: _openPopupScreen,
                 // child: _savedImageUrl != null
                 //     ? CircleAvatar(
                 //   radius: 50,

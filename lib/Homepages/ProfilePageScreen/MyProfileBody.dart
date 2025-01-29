@@ -103,9 +103,6 @@ class _MyProfileBodyState extends State<MyProfileBody> {
 
   }
 
-
-
-
   @override
   void initState() {
 
@@ -199,7 +196,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                 AstrologySection(),
                 Containers(
                   children:[
-                    AboutMe(education: education, personalDetails: personalDetails, docId: widget.docId,),
+                    AboutMe(education: education, personalDetails: personalDetails),
                     SizedBox(height: 48),
                     PhotoGallery(docId: widget.docId),
                     SizedBox(height:30),

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -7,6 +8,7 @@ import 'package:mymateapp/Homepages/RegisterPages/RegisterPage.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Homepages/ProfilePageScreen/MyProfileMain.dart';
+import 'Homepages/Profiles/MoreAboutMe.dart';
 import 'Homepages/Profiles/boost_profile.dart';
 import 'Homepages/SubscribedhomeScreen/SubscribedHomeScreenStructured.dart';
 import 'Homepages/explorePage/explorePageMain.dart';
@@ -27,8 +29,8 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
 
+  Widget build(BuildContext context) {
     ClientData clientData = ClientData();
     PersonalDetails personalDetails = PersonalDetails();
     personalDetails.first_name = "Hello";
@@ -36,18 +38,23 @@ class MyApp extends StatelessWidget {
     personalDetails.gender = "Male";
     clientData.docId = "TBT3I8DYa3BepMZPPqv6";
     clientData.personalDetails = personalDetails;
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-          primaryColor: Colors.blue[200]),
-      debugShowCheckedModeBanner: false,
 
-      home:
-      // ProfilePage(docId: "E0JFHhK2x6Gq2Ac6XSyP", selectedBottomBarIconIndex:0,),
-      // CheckmatchPage( clientDocId: '', soulDocId: '',),
-     RegisterPage()
+    return ScreenUtilInit(
+      designSize: const Size(390,844),  // Set base design size
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        return MaterialApp(
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            useMaterial3: true,
+            primaryColor: Colors.blue[200],
+          ),
+          debugShowCheckedModeBanner: false,
+          home: ExplorePage(results: [], search: [], docId: ''),
+        );
+      },
     );
   }
 }

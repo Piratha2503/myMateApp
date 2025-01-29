@@ -9,8 +9,7 @@ import 'CompleteTwo.dart';
 
 class CompleteProfilePage extends StatefulWidget {
   final String docId;
-  final int initialPageIndex;
-  const CompleteProfilePage({Key? key, required this.docId,this.initialPageIndex = 0}) : super(key: key);
+  const CompleteProfilePage({Key? key, required this.docId}) : super(key: key);
 
   @override
   State<CompleteProfilePage> createState() => _CompleteProfilePageState();
@@ -23,15 +22,6 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
 
   Map<String, dynamic> formData = {};
 
-
-  @override
-  void initState() {
-    super.initState();
-    currentPage = widget.initialPageIndex; // Set initial page based on navigation
-    for (int i = 0; i < currentPage; i++) {
-      stepStates[i] = 1; // Mark previous steps as completed
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
