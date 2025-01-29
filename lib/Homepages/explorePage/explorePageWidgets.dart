@@ -7,12 +7,36 @@ import '../../MyMateThemes.dart';
 import 'package:http/http.dart' as http;
 
 import '../Profiles/OthersProfile.dart';
-
+import 'explorePageMain.dart';
 
 
 Map<String, String>? appliedFilters;
+Map<String, String>? appliedSearch;
 
 
+// Fetch data from API
+// Future<void> fetchSearchResults(String query) async {
+//   final url = Uri.parse('https://example.com/search?query=$query'); // Replace with your API endpoint
+//   {
+//     _isLoading = true;
+//   }
+//
+//   try {
+//     final response = await http.get(url);
+//
+//     if (response.statusCode == 200) {
+//       {
+//         _searchResults = json.decode(response.body); // Parse response
+//         _isLoading = false;
+//       }
+//     } else {
+//       throw Exception("Failed to load results");
+//     }
+//   } catch (error) {
+//
+//       _isLoading = false;
+//     }
+//   }
 Future<List<Map<String, dynamic>>> getProfiles() async {
   try {
     final data = await fetchAllUsers();
@@ -23,6 +47,7 @@ Future<List<Map<String, dynamic>>> getProfiles() async {
   }
 }
 Future<List<Map<String, dynamic>>> getFilteredProfiles() async {
+
   try {
     if (appliedFilters != null && appliedFilters!.isNotEmpty) {
       print('Applying Filters: $appliedFilters');
@@ -62,9 +87,9 @@ Future<List<Map<String, dynamic>>> getFilteredProfiles() async {
   }
 }
 
-Widget ExploreAllGrid(BuildContext context) {
+Widget ExploreAllGrid(BuildContext context, Future<List<Map<String, dynamic>>> profilesFuture) {
   return FutureBuilder<List<Map<String, dynamic>>>(
-    future: getProfiles(),
+    future: profilesFuture, // Dynamically pass the future
     builder: (context, snapshot) {
       if (snapshot.connectionState == ConnectionState.waiting) {
         return const Center(child: CircularProgressIndicator());
@@ -78,15 +103,14 @@ Widget ExploreAllGrid(BuildContext context) {
       return GridView.count(
         crossAxisCount: 2,
         crossAxisSpacing: 12.0,
-        mainAxisSpacing: 1.0,
+        mainAxisSpacing: 12.0,
         childAspectRatio: 152 / 200,
         children: data.map((profile) => buildGridItem(profile)).toList(),
       );
     },
   );
 }
-
-Widget ViewMatchesGrid(BuildContext context) {
+Widget ViewMatchesGrid(BuildContext context, Future<List<Map<String, dynamic>>> future) {
   return FutureBuilder<List<Map<String, dynamic>>>(
     future: getFilteredProfiles(),
     builder: (context, snapshot) {
@@ -109,7 +133,6 @@ Widget ViewMatchesGrid(BuildContext context) {
     },
   );
 }
-
 Widget FilterGrid(BuildContext context,filteredResults) {
   return FutureBuilder<List<Map<String, dynamic>>>(
     future: getFilteredProfiles(),
@@ -125,7 +148,11 @@ Widget FilterGrid(BuildContext context,filteredResults) {
       final data = List<Map<String, dynamic>>.from(filteredResults);
       print('Filtered Profiles in UI: $data'); // Log filtered profiles in UI
 
-      return GridView.count(
+      return
+
+
+
+        GridView.count(
         crossAxisCount: 2,
         crossAxisSpacing: 10.0,
         mainAxisSpacing: 12.0,
@@ -136,6 +163,7 @@ Widget FilterGrid(BuildContext context,filteredResults) {
   );
 }
 
+
 Widget buildGridItem(Map<String, dynamic> profile) {
   return
     Builder(
@@ -145,7 +173,7 @@ Widget buildGridItem(Map<String, dynamic> profile) {
             Navigator.push(
               context, // Valid context provided by Builder
               MaterialPageRoute(
-                builder: (context) => OtherProfilePage(docId: profile['id']),
+                builder: (context) => OtherProfilePage(SoulId: profile['id']),
               ),
             );
           },
@@ -245,116 +273,5 @@ Widget buildGridItem(Map<String, dynamic> profile) {
     );
 
 
-  // GestureDetector(
-  //   onTap:(){
-  //
-  //   } ,
-  //   child:
-  //   Container(
-  //     height: 265,
-  //     width: 152,
-  //     decoration: BoxDecoration(
-  //       color: Colors.white,
-  //       borderRadius: BorderRadius.circular(3.0),
-  //       boxShadow: [
-  //         BoxShadow(
-  //           color: Colors.black12,
-  //           blurRadius: 4.0,
-  //           spreadRadius: 2.0,
-  //           offset: Offset(0, 2),
-  //         ),
-  //       ],
-  //     ),
-  //     margin: const EdgeInsets.all(12.0),
-  //     child: Stack(
-  //       children: [
-  //         Container(
-  //           height: 145,
-  //           decoration: BoxDecoration(
-  //             borderRadius: BorderRadius.circular(3.0),
-  //             image: (profile['images'] != null && profile['images'].isNotEmpty)
-  //                 ? DecorationImage(
-  //               image: NetworkImage(profile['images'][0]),
-  //               fit: BoxFit.cover,
-  //             )
-  //                 : null,
-  //           ),
-  //           child: (profile['images'] == null || profile['images'].isEmpty)
-  //               ? Icon(Icons.person, size: 80, color: Colors.grey[400])
-  //               : null,
-  //         ),
-  //         Positioned(
-  //           top: 120.0,
-  //           left: 0.0,
-  //           right: 0.0,
-  //           child: Container(
-  //             height: 126,
-  //             padding: const EdgeInsets.all(8.0),
-  //             decoration: BoxDecoration(
-  //               color: Colors.white,
-  //               borderRadius: const BorderRadius.only(
-  //                 bottomLeft: Radius.circular(3.0),
-  //                 bottomRight: Radius.circular(3.0),
-  //               ),
-  //             ),
-  //             child: Column(
-  //               crossAxisAlignment: CrossAxisAlignment.center,
-  //               children: [
-  //                 Text(profile['full_name'] ?? 'N/A',
-  //                     style: TextStyle(
-  //                         color: MyMateThemes.textColor,
-  //                         fontWeight: FontWeight.w700,
-  //                         fontSize: 13)),
-  //                 Text('${profile['age'] ?? 'N/A'}, ${profile['marital_status'] ?? 'N/A'}',
-  //                     style: TextStyle(
-  //                         color: MyMateThemes.textColor, fontSize: 11)),
-  //                 Text(profile['occupation'] ?? 'N/A',
-  //                     style: TextStyle(
-  //                         color: MyMateThemes.textColor, fontSize: 11)),
-  //                 Text(profile['city'] ?? 'N/A',
-  //                     style: TextStyle(
-  //                         color: MyMateThemes.textColor, fontSize: 11)),
-  //                 const SizedBox(height: 5),
-  //                 Container(
-  //                   width: 108.43,
-  //                   height: 20.85,
-  //                   decoration: BoxDecoration(
-  //                     color: MyMateThemes.secondaryColor,
-  //                     borderRadius: BorderRadius.circular(4.0),
-  //                   ),
-  //                   child: Row(
-  //                     mainAxisAlignment: MainAxisAlignment.center,
-  //                     children: [
-  //                       SvgPicture.asset('assets/images/heart .svg'),
-  //                       Text('80%',
-  //                           style: TextStyle(
-  //                               color: MyMateThemes.primaryColor,
-  //                               fontSize: 14)),
-  //                     ],
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   ),
-  //
-  // );
-
 }
 
-final search = TextField(
-  style: const TextStyle(fontSize: 14.0, color: MyMateThemes.textColor),
-  decoration: InputDecoration(
-    filled: true,
-    prefixIcon: const Icon(Icons.search),
-    fillColor: MyMateThemes.containerColor,
-    hintText: 'Search',
-    border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(59),
-      borderSide: BorderSide.none,
-    ),
-  ),
-);

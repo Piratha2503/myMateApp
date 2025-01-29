@@ -14,6 +14,10 @@ import '../../MyMateThemes.dart';
 import '../ClosableContainer.dart';
 
 class EditPage extends StatefulWidget {
+  final VoidCallback onSave;
+  final String docId;
+  const EditPage({required this.docId, super.key, required this.onSave});
+
   @override
   State<EditPage> createState() => _EditPageState();
 }
@@ -25,7 +29,7 @@ class _EditPageState extends State<EditPage> {
   String? _selectedEmploymentType;
   String? _selectedDistrict;
   String? _selectedReligion;
-
+  String? profilePicUrl;
   List<TextEditingController> controllers = [];
   List<String> errors = [];
   final TextEditingController _bioController = TextEditingController();
@@ -36,17 +40,19 @@ class _EditPageState extends State<EditPage> {
   TextEditingController contactController = TextEditingController();
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  String clientId = "E0JFHhK2x6Gq2Ac6XSyP";
+
 
   @override
   void initState() {
     super.initState();
+    print(widget.docId);
     _fetchClientData();
+
   }
 
   Future<void> _fetchClientData() async {
     try {
-      Map<String, dynamic> clientData = await fetchUserById(clientId);
+      Map<String, dynamic> clientData = await fetchUserById(widget.docId);
 
       if (clientData.isNotEmpty) {
         setState(() {
@@ -59,9 +65,10 @@ class _EditPageState extends State<EditPage> {
           contactController.text = clientData['contact'] ?? '';
           _bioController.text = clientData['bio'] ?? '';
           isLoading = false;
-
+          // _imageFile = clientData['profile_pic_url'] ?? '' ;
+          profilePicUrl = clientData['profile_pic_url'] ?? '';
           var expectations = clientData['expectations'] ?? [];
-
+          print(profilePicUrl);
           if (expectations is List<String>) {
             controllers = expectations
                 .map((expectation) => TextEditingController(text: expectation))
@@ -76,8 +83,9 @@ class _EditPageState extends State<EditPage> {
           }
         });
       } else {
+
         setState(() {
-          isLoading = false;
+          isLoading = true;
         });
 
         ScaffoldMessenger.of(context).showSnackBar(
@@ -86,7 +94,7 @@ class _EditPageState extends State<EditPage> {
       }
     } catch (e) {
       setState(() {
-        isLoading = false;
+        isLoading = true;
       });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error: $e')),
@@ -94,6 +102,71 @@ class _EditPageState extends State<EditPage> {
     }
 
   }
+
+  Future<void> _uploadImageToBackend(File imageFile) async {
+    final url = Uri.parse(
+        "https://backend.graycorp.io:9000/mymate/api/v1/uploadProfileImages");
+
+    try {
+      var request = http.MultipartRequest('PUT', url)
+        ..fields['docId'] = widget.docId
+        ..files.add(await http.MultipartFile.fromPath(
+          'profile_Image',
+          imageFile.path,
+        ));
+
+      final response = await request.send();
+
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        final uploadedUrl = responseBody;
+
+        setState(() {
+          profilePicUrl = uploadedUrl;
+
+        });
+
+        print("Image uploaded successfully: $uploadedUrl");
+      } else {
+        print("Failed to upload image. Status code: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("Error uploading image: $e");
+    }
+  }
+
+  void _onSave() async {
+    print(widget.docId);
+    setState(() {
+      isLoading = true;
+
+    });
+
+    try {
+
+      await _uploadImageToBackend(_imageFile!);
+
+
+      await _fetchClientData();
+
+      setState(() {
+
+        profilePicUrl = profilePicUrl;
+      });
+
+      print("Profile updated successfully!");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Profile updated successfully!')),
+      );
+    } catch (e) {
+      print("Error saving profile: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to update profile. Please try again.')),
+      );
+    }
+
+  }
+
 
   Widget _buildTextFieldRow({
     required String label,
@@ -179,6 +252,7 @@ class _EditPageState extends State<EditPage> {
                     ),
                   );
                 }).toList(),
+
               ),
             ),
           ),
@@ -227,7 +301,8 @@ class _EditPageState extends State<EditPage> {
                 SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pop();
+                    _onSave;
+                    _fetchClientData();
                   },
                   child: SvgPicture.asset('assets/images/Active.svg'),
                 ),
@@ -244,19 +319,25 @@ class _EditPageState extends State<EditPage> {
     final pickedImage = await picker.pickImage(source: source);
 
     if (pickedImage != null) {
-      File? croppedFile = (await ImageCropper().cropImage(
+      CroppedFile? croppedFile = await ImageCropper().cropImage(
         sourcePath: pickedImage.path,
         aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
         compressQuality: 100,
         maxHeight: 1000,
         maxWidth: 1000,
         compressFormat: ImageCompressFormat.jpg,
-      )) as File?;
+      ) ;
 
       if (croppedFile != null) {
         setState(() {
-          _imageFile = croppedFile;
+          _imageFile = File(croppedFile.path);
         });
+        await _uploadImageToBackend(_imageFile!);
+
+        setState(() {
+          profilePicUrl = profilePicUrl;
+        });
+        Navigator.pop(context);
       }
     }
   }
@@ -284,8 +365,8 @@ class _EditPageState extends State<EditPage> {
 
     Map<String, dynamic> personalDetails = {
 
-      'marital_status': _selectedCivilStatus ?? 'Single',
-      'religion': _selectedReligion ?? 'Christian-Rc',
+      'marital_status': _selectedCivilStatus ?? '',
+      'religion': _selectedReligion ?? '',
     };
 
     Map<String, dynamic> contactInfo = {
@@ -298,6 +379,7 @@ class _EditPageState extends State<EditPage> {
 
     Map<String, dynamic> careerStudies = {
       'occupation': occupationController.text,
+      'occupation_type' : _selectedEmploymentType ?? '',
 
     };
 
@@ -305,14 +387,18 @@ class _EditPageState extends State<EditPage> {
       'expectations': updatedExpectations,
 
     };
+    Map<String, dynamic> profileImages = {
+      'profilePicUrl': profilePicUrl,
 
+    };
 
     Map<String, dynamic> payload = {
-      "docId": clientId,
+      "docId": widget.docId,
       "personalDetails": personalDetails,
       "contactInfo": contactInfo,
       "careerStudies": careerStudies,
       "lifestyle": lifestyle,
+       "profileImages":profileImages,
 
     };
     try {
@@ -358,6 +444,7 @@ class _EditPageState extends State<EditPage> {
     contactController.dispose();
     for (var controller in controllers) {
       controller.dispose();
+
     }
     super.dispose();
   }
@@ -367,6 +454,7 @@ class _EditPageState extends State<EditPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: SafeArea(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -403,19 +491,20 @@ class _EditPageState extends State<EditPage> {
                 children: [
                  // SizedBox(height: 10),
                   Stack(
+                    alignment: Alignment.center,
                     children: [
                       GestureDetector(
                         onTap: _openPopupScreen,
-                        child: _imageFile != null
+                        child: profilePicUrl != null
                             ? CircleAvatar(
                           radius: 50,
-                          backgroundImage: FileImage(_imageFile!),
+                          backgroundImage: NetworkImage(profilePicUrl!),
                         )
                             : SvgPicture.asset('assets/images/circle.svg'),
                       ),
                       Positioned(
-                        bottom: -1,
-                        left: 95,
+                        bottom : 0,
+                          right: -5,
                         child: GestureDetector(
                           onTap: _openPopupScreen,
                           child: SvgPicture.asset('assets/images/edit.svg'),
@@ -424,15 +513,16 @@ class _EditPageState extends State<EditPage> {
                     ],
                   ),
 
-                  SizedBox(height: 25),
+                  SizedBox(height: 30),
                   _buildDropdownRow(
                     label: 'Civil Status',
                     value: _selectedCivilStatus,
                     items: [
-                      'Select Status',
+                      'Select Option',
                       'Single',
-                      'Married',
-                      'Widowed',
+                      'Unmarried',
+                      'Divorced',
+                      'Widowed'
                     ],
                     onChanged: (value) {
                       setState(() {
@@ -445,9 +535,12 @@ class _EditPageState extends State<EditPage> {
                     label: 'Employment Type',
                     value: _selectedEmploymentType,
                     items: [
-                      'Select Type',
-                      'professional',
-                      'Private'
+                      'Select Option ',
+                      'Government',
+                      'Private',
+                      'Self Employed',
+                      'Unemployed',
+                      'Professional'
 
                     ],
                     onChanged: (value) {
@@ -474,10 +567,11 @@ class _EditPageState extends State<EditPage> {
                     label: 'District',
                     value: _selectedDistrict,
                     items: [
-                      'Select District',
+                      'Select Option',
                       'Colombo',
                       'Kandy',
                       'Jaffna',
+                      'melbourn'
                     ],
                     onChanged: (value) {
                       setState(() {
@@ -497,10 +591,11 @@ class _EditPageState extends State<EditPage> {
                     label: 'Religion',
                     value: _selectedReligion,
                     items: [
-                      'Select Religion',
-                      'Christian-Rc',
-                      'hindu',
-                      'Islam',
+                      'Select Option',
+                      'Hindu',
+                      'Christian',
+                      'Muslim',
+                      'Buddhist'
                     ],
                     onChanged: (value) {
                       setState(() {

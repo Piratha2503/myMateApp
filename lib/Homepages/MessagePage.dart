@@ -6,7 +6,8 @@ import 'Notification.dart';
 import '../MyMateCommonBodies/MyMateBottomBar.dart';
 
 class MessagePage extends StatefulWidget {
-  const MessagePage({super.key});
+  final String docId;
+  const MessagePage({super.key,required this.docId});
 
   @override
   State<MessagePage> createState() => _MessagePageState();
@@ -90,7 +91,7 @@ class _MessagePageState extends State<MessagePage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => NotificationPage(3)));
+                              builder: (context) => NotificationPage(3,docId: widget.docId,)));
                     },
                     child: SvgPicture.asset('assets/images/chevron-left.svg'),
                   ),

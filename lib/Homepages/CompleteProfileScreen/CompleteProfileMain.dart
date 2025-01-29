@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_stepindicator/flutter_stepindicator.dart';
+import 'package:mymateapp/Homepages/CompleteProfileScreen/Completegallerypage.dart';
 import 'package:mymateapp/MyMateThemes.dart';
-import '../Profiles/MyProfile.dart';
+import '../ProfilePageScreen/MyProfileMain.dart';
 import 'CompleteOne.dart';
 import 'CompleteThree.dart';
 import 'CompleteTwo.dart';
 
 class CompleteProfilePage extends StatefulWidget {
   final String docId;
-  const CompleteProfilePage({Key? key, required this.docId}) : super(key: key);
+  final int initialPageIndex;
+  const CompleteProfilePage({Key? key, required this.docId,this.initialPageIndex = 0}) : super(key: key);
 
   @override
   State<CompleteProfilePage> createState() => _CompleteProfilePageState();
@@ -16,11 +18,20 @@ class CompleteProfilePage extends StatefulWidget {
 
 class _CompleteProfilePageState extends State<CompleteProfilePage> {
   int currentPage = 0;
-  List<int> stepStates = [0, 0, 0];
+  List<int> stepStates = [0, 0, 0,0];
 
 
   Map<String, dynamic> formData = {};
 
+
+  @override
+  void initState() {
+    super.initState();
+    currentPage = widget.initialPageIndex; // Set initial page based on navigation
+    for (int i = 0; i < currentPage; i++) {
+      stepStates[i] = 1; // Mark previous steps as completed
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,11 +87,14 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
   Widget _buildCurrentPage(int currentPage) {
     switch (currentPage) {
       case 0:
-        return PageOne(onSave: _onPageSaved,docId: 'X22DGT4UDrDpnZVdWV3x');
+        return PageOne(onSave: _onPageSaved,docId: widget.docId);
       case 1:
-        return PageTwo(onSave: _onPageSaved );
+        return Completegallerypage(onSave: _onPageSaved,docId: widget.docId);
+
       case 2:
-        return PageThree(onSave: _onPageSaved);
+        return PageTwo(onSave: _onPageSaved,docId: widget.docId );
+      case 3:
+        return PageThree(onSave: _onPageSaved,docId:widget.docId);
       default:
         return SizedBox();
     }
@@ -98,7 +112,7 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
         context,
         MaterialPageRoute(
           builder: (context) => ProfilePage(
-            docId: "",
+            docId: widget.docId, selectedBottomBarIconIndex: 3,
           ),
         ),
       );

@@ -10,7 +10,7 @@ import 'OTPPage.dart';
 
 class OtpPinput extends StatefulWidget {
   final ClientData clientData;
-  OtpPinput({super.key, required this.clientData});
+  OtpPinput({super.key, required this.clientData, required String docId});
 
   @override
   State<OtpPinput> createState() => _OtpPinputState();
@@ -49,16 +49,16 @@ class _OtpPinputState extends State<OtpPinput> {
       appBar: AppBar(),
       body: Form(
         key: formKey,
-          child:Column(
-              children: <Widget>[
-                InstructionTexts(widget.clientData.contactInfo?.mobile),
-                SizedBox( height: 90,),
-                OtpBoxes(clientData: widget.clientData,),
-                SizedBox( height: 65,),
-                OtpResend(),
-                SizedBox( height: 50, ),
-              ]
-          ),
+        child:Column(
+            children: <Widget>[
+              InstructionTexts(widget.clientData.contactInfo?.mobile),
+              SizedBox( height: 90,),
+              OtpBoxes(clientData: widget.clientData,),
+              SizedBox( height: 65,),
+              OtpResend(),
+              SizedBox( height: 50, ),
+            ]
+        ),
 
       ),
     );
@@ -98,7 +98,7 @@ class _OtpBoxesState extends State<OtpBoxes>{
 
   @override
   void initState() {
-      print(widget.clientData);
+    print(widget.clientData);
     super.initState();
   }
 
@@ -136,7 +136,7 @@ class _OtpBoxesState extends State<OtpBoxes>{
         onCompleted: (pin) {
           if(pin == otp) {
             debugPrint('onCompleted: $pin');
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>NameAndGender(clientData: widget.clientData)));
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>NameAndGender(clientData: widget.clientData, docId:  widget.clientData.docId ?? "Unknown",)));
           }
         },
         onChanged: (pin) {
@@ -213,7 +213,6 @@ class SmsRetrieverImpl implements SmsRetriever {
   @override
   bool get listenForMultipleSms => false;
 }
-
 
 
 

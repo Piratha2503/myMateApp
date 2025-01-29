@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'BadgeWidget.dart';
-import 'Profiles/CompleteProfile.dart';
 import '../MyMateCommonBodies/MyMateBottomBar.dart';
+import 'CompleteProfileScreen/CompleteProfileMain.dart';
 
 class HomeScreenBeforeSubscibe extends StatefulWidget {
   final int selectedBottomBarIconIndex;
-  const HomeScreenBeforeSubscibe(this.selectedBottomBarIconIndex, {super.key});
+  final String docId;
+
+  const HomeScreenBeforeSubscibe(this.selectedBottomBarIconIndex, {required this.docId,super.key});
 
   @override
   State<HomeScreenBeforeSubscibe> createState() => _HomeScreenBeforeSubscibeState();
@@ -30,6 +32,7 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
       duration: Duration(milliseconds: 500),
     );
     _controller.forward();
+    print(widget.docId);
     _controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         setState(() {
@@ -57,7 +60,7 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
           setState(() {
             _selectedIndex = index;
           });
-        },
+        }, docId: widget.docId,
       ),
     );
   }
@@ -275,7 +278,7 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => CompleteProfilePage()),
+                MaterialPageRoute(builder: (context) => CompleteProfilePage(docId: widget.docId)),
               );
             },
             style: ElevatedButton.styleFrom(
@@ -299,7 +302,7 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => CompleteProfilePage()),
+                MaterialPageRoute(builder: (context) => CompleteProfilePage(docId: widget.docId,)),
               );
             },
             style: ElevatedButton.styleFrom(

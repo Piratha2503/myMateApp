@@ -7,9 +7,9 @@ import 'CompleteProfileWidgets.dart';
 
 class PageThree extends StatefulWidget {
   final VoidCallback onSave;
+  final String docId;
 
-
-  PageThree({required this.onSave});
+  PageThree({required this.onSave,required this.docId});
 
   @override
   _PageThreeState createState() => _PageThreeState();
@@ -24,7 +24,7 @@ class _PageThreeState extends State<PageThree> {
   final TextEditingController _siblingsController = TextEditingController();
   int characterCount = 0;
   String error = '';
-  final String docId = 'kQkNnxHFw3MF1riqIiEQ';
+
 
   @override
   void initState() {
@@ -53,14 +53,8 @@ class _PageThreeState extends State<PageThree> {
   Future<void> _saveForm() async {
     if (_validateForm()) {
       final Map<String, dynamic> data = {
-        'docId': "kQkNnxHFw3MF1riqIiEQ", 
-        'personalDetails': {
-          'religion': _selectedReligion,
-          'language': _selectedLanguage,
-          'caste': _casteController.text,
-          'num_of_siblings': _siblingsController.text,
-          'bio': _bioController.text,
-        },
+        'docId': widget.docId,
+
         'lifestyle': {
           'expectations': controllers.map((c) => c.text).toList(),
         },
@@ -68,7 +62,7 @@ class _PageThreeState extends State<PageThree> {
 
       final url = 'https://backend.graycorp.io:9000/mymate/api/v1/saveClientData';
       try {
-        print('Sending data: ${json.encode(data)}'); // Debugging
+        print('Sending data: ${json.encode(data)}');
         final response = await http.put(
           Uri.parse(url),
           headers: {
@@ -77,11 +71,11 @@ class _PageThreeState extends State<PageThree> {
           body: json.encode(data),
         );
 
-        print('Response status: ${response.statusCode}'); // Debugging
-        print('Response body: ${response.body}'); // Debugging
+        print('Response status: ${response.statusCode}');
+        print('Response body: ${response.body}');
 
         if (response.statusCode == 200) {
-          widget.onSave(); // Save successful
+
         } else {
           setState(() {
             error = 'Failed to save data: ${response.body}';
@@ -93,6 +87,47 @@ class _PageThreeState extends State<PageThree> {
         });
       }
     }
+  }
+
+  Future<void> _updateForm() async {
+    if (_validateForm()) {
+      try {
+        final response = await http.put(
+          Uri.parse('https://backend.graycorp.io:9000/mymate/api/v1/updateClient'),
+          headers: {'Content-Type': 'application/json'},
+          body: json.encode({
+            'docId': widget.docId,
+            'personalDetails': {
+              'religion': _selectedReligion,
+              'language': _selectedLanguage,
+              'caste': _casteController.text,
+              'num_of_siblings': _siblingsController.text,
+              'bio': _bioController.text,
+            },
+          }),
+        );
+
+        if (response.statusCode == 200) {
+          print('Data updated successfully');
+        } else {
+          setState(() {
+            error = 'Failed to save data: ${response.body}';
+          });
+        }
+      } catch (e) {
+        setState(() {
+          error = 'Error while updating data: $e';
+        });
+      }
+    }
+  }
+
+  Future <void> _saveAndUpdateForms() async {
+    print("Triggered _saveAndUpdateForms");
+
+    await _saveForm();
+   await _updateForm();
+
   }
 
   @override
@@ -173,15 +208,24 @@ class _PageThreeState extends State<PageThree> {
                           : '',
                     ),
                   ),
-                  if (error.isNotEmpty)
-                    Text(
-                      error,
-                      style: TextStyle(color: Colors.red),
-                    ),
+
                 ],
               ),
+
             ),
           ),
+          SizedBox(height: 10),
+          if (error.isNotEmpty)
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: Text(
+                  error,
+                  style: TextStyle(color: Colors.red[800]),
+                ),
+              ),
+            ),
           SizedBox(height: 25),
           Row(
             children: [
@@ -236,7 +280,9 @@ class _PageThreeState extends State<PageThree> {
           ),
           SizedBox(height: 40),
           ElevatedButton(
-            onPressed: _saveForm, // Save form data when pressed
+            onPressed: () async {
+              await _saveAndUpdateForms();
+            },
             style: CommonButtonStyle.commonButtonStyle(),
             child: Text('Complete'),
           ),

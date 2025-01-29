@@ -32,6 +32,13 @@ class _PhotoGalleryState extends State<PhotoGallery> {
 
   Future<void> _fetchImages() async {
     try {
+      // String apiUrl = MyMateAPIs.get_client_byDocId_API;
+      // Uri url = Uri.parse('$apiUrl?$widget.docId');
+      // final response = await http.get(url);
+      // final data = jsonDecode(response.body);
+      // setState(() {
+      //   imagePaths = ["https://piratha.com/images/Piratha.jpg"];
+      // });
       final data = await fetchUserById(widget.docId);
       setState(() {
         imagePaths = List<String>.from(data['gallery_image_urls'] ?? []);
@@ -55,13 +62,11 @@ class _PhotoGalleryState extends State<PhotoGallery> {
         : errorMessage.isNotEmpty
         ? Center(child: Text(errorMessage))
         : SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-
-          SectionTitle('Photo Gallery'),
-          SizedBox(height: 10),
-
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+              SectionTitle('Photo Gallery'),
+              SizedBox(height: 10),
 
           Row(
             children: [
@@ -73,7 +78,7 @@ class _PhotoGalleryState extends State<PhotoGallery> {
 
 
           Container(
-            height: screenHeight * 0.48,
+            height: screenHeight * 0.30,
             padding: EdgeInsets.symmetric(horizontal: 16.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
@@ -121,4 +126,21 @@ class _PhotoGalleryState extends State<PhotoGallery> {
       ),
     );
   }
+}
+Widget SectionTitle(String title) {
+  return Row(
+    children: [
+      SizedBox(width: 40),
+      SvgPicture.asset('assets/images/Group 2148.svg'),
+      SizedBox(width: 4),
+      Text(
+        title,
+        style: TextStyle(
+          color: MyMateThemes.primaryColor,
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ],
+  );
 }

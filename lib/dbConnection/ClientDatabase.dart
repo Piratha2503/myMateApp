@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 class ClientData {
   String? docId;
   PersonalDetails? personalDetails;
@@ -8,7 +10,7 @@ class ClientData {
   User_type? user_type;
   Astrology? astrology;
   Matchings? matchings;
-  String? tokens;
+  int? tokens;
 
   ClientData({
     this.docId,
@@ -44,7 +46,8 @@ class PersonalDetails{
   String? last_name;
   String? gender;
   String? marital_status;
-  int? height;
+  double? height;
+  int? age;
   int? num_of_siblings;
   String? religion;
   String? caste;
@@ -53,6 +56,7 @@ class PersonalDetails{
 
   PersonalDetails({
     this.first_name,
+    this.age,
     this.last_name,
     this.full_name,
     this.mother_name,
@@ -88,7 +92,7 @@ class PersonalDetails{
 class ContactInfo{
   String? mobile;
   String? mobile_country_code;
-  String? otp;
+  int ? otp;
   String? email;
   Address? address;
   ContactInfo( {this.mobile,this.email,this.mobile_country_code,this.otp,required this.address});
@@ -167,15 +171,15 @@ class Lifestyle{
   List<String>? hobbies;
   List<String>? personal_interest;
   List<String>? expectations;
-  List<String>? habbits;
-  Lifestyle(this.hobbies,this.personal_interest,this.expectations,this.habbits);
+  List<String>? habits;
+  Lifestyle(this.hobbies,this.personal_interest,this.expectations,this.habits);
 
   Map<String, dynamic> toMap() {
     return {
       'hobbies': hobbies,
       'personal_interest': personal_interest,
       'expectations': expectations,
-      'habbits':habbits,
+      'habits':habits,
     };
   }
 

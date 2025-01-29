@@ -2,18 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mymateapp/Homepages/ProfilePageScreen/MyProfileMain.dart';
 import 'package:mymateapp/Homepages/SubscribedhomeScreen/SubscribedHomeScreenStructured.dart';
+import 'package:mymateapp/Homepages/explorePage/explorePageMain.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import '../Homepages/HomeScreenBeforeSubscibe.dart';
-import '../Homepages/ListViewPage.dart';
+
 import '../Homepages/Notification.dart';
 import 'RouterFunction.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
   final int selectedIndex;
   final Function(int) onItemTapped;
+  final String docId;
 
   const CustomBottomNavigationBar({
     super.key,
+    required this.docId,
     required this.selectedIndex,
     required this.onItemTapped,
   });
@@ -26,6 +29,7 @@ class CustomBottomNavigationBar extends StatefulWidget {
 class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   late int _selectedIndex;
 
+
   @override
   void initState() {
     super.initState();
@@ -34,11 +38,11 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
   void onTab(int index){
     switch(index){
-      case 0: NavigatorFunction(context, SubscribedhomescreenStructuredPage());
-      case 1: NavigatorFunction(context, ListViewPage(index));
-      case 2: NavigatorFunction(context, NotificationPage(index));
-      case 3: NavigatorFunction(context, ProfilePage(docId: "9l2knrHe8XLZL2S3erxy",
-              selectedBottomBarIconIndex: 3,));
+      case 0: NavigatorFunction(context, SubscribedhomescreenStructuredPage(docId: widget.docId,));
+      case 1: NavigatorFunction(context, ExplorePage(results: [], docId: widget.docId,search: [],));
+      case 2: NavigatorFunction(context, NotificationPage(index, docId: widget.docId,));
+      case 3: Navigator.push(context, MaterialPageRoute(builder: (context)=> ProfilePage(docId: widget.docId,
+        selectedBottomBarIconIndex: 3,)));
     }
   }
 
