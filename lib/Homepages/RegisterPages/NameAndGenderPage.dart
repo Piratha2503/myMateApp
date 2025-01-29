@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:mymateapp/ChartPages/PlaceDateTimeInput.dart';
 import 'package:mymateapp/MyMateCommonBodies/MyMateApis.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
@@ -248,7 +249,7 @@ class NextButton extends StatelessWidget {
       print("Response Body: ${response.body}");
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => ChartOptions(clientData: clientData)),
+        MaterialPageRoute(builder: (context) => PlaceDateTimeInput(clientData: clientData)),
       );
     } else {
       print("Error Status: ${response.statusCode}");
