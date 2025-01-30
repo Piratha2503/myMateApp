@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mymateapp/Homepages/ProfilePageScreen/MyProfileMain.dart';
+
 import 'package:mymateapp/Homepages/SubscribedhomeScreen/SubscribedHomeScreenStructured.dart';
 import 'package:mymateapp/Homepages/explorePage/explorePageMain.dart';
 import 'package:mymateapp/MyMateThemes.dart';
