@@ -1,9 +1,5 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../MyMateCommonBodies/MyMateApis.dart';
 import '../../MyMateCommonBodies/MyMateBottomBar.dart';
 import '../../MyMateThemes.dart';
@@ -15,135 +11,30 @@ class ExplorePage extends StatefulWidget {
   final List<Map<String, dynamic>> results;
 
 
-  const ExplorePage({
-    Key? key,
-    this.initialTabIndex = 0,
-    required this.results,
-    required List search,
-    required String docId,
-    filters,
-  }) : super(key: key);
+  const ExplorePage({Key? key, this.initialTabIndex = 0, required this.results, required List search, required String docId}) : super(key: key);
 
   @override
   _ExplorePageState createState() => _ExplorePageState();
 }
 
 class _ExplorePageState extends State<ExplorePage> with SingleTickerProviderStateMixin {
-  // late Timer _debounce;
-  int _selectedIndex = 1;
-
-
   late TabController _tabController;
   Future<List<Map<String, dynamic>>>? exploreAllFuture;
   Future<List<Map<String, dynamic>>>? viewMatchesFuture;
   final TextEditingController searchController = TextEditingController();
   late List<Map<String, dynamic>> filteredResults;
-  late List<Map<String, dynamic>> allResults;
-  Timer? _debounce;
-
-  ScrollController _scrollController = ScrollController();
-  bool _showHeader = true;  // Variable to track header visibility
-  bool isFilterApplied = false; // State variable to track filter status
-
-
-
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this, initialIndex: widget.initialTabIndex);
-    // Add listener to trigger re-build when tab changes
-    _tabController.addListener(() {
-      setState(() {}); // Triggers rebuild when tab changes
-    });
 
-    // Initialize with all available profiles
-    allResults = widget.results;
-    filteredResults = List.from(widget.results);
+    // Initialize all grids to fetch all profiles initially
+    filteredResults = widget.results; // Initialize with passed results
     exploreAllFuture = getProfiles();
-    viewMatchesFuture = getProfiles();
-
-    // Add listener to perform real-time search
-    searchController.addListener(_performSearch);
-
+    viewMatchesFuture = getProfiles(); // You can replace this with a method to fetch matches
+    //filterFuture = getFilteredProfiles(); // You can replace this with a method to fetch filtered results
   }
-
-
-
-  Future<String?> getSavedDocId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('docId');
-  }
-
-  void _performSearch() {
-
-    if (_debounce?.isActive ?? false) _debounce!.cancel();
-
-    _debounce = Timer(const Duration(milliseconds: 500), () {
-      String query = searchController.text.toLowerCase().trim();
-
-
-      final searchCriteria = {
-        'full_name': searchController.text.trim(),
-      };
-      setState(() {
-
-        if (searchCriteria['full_name']!.isEmpty) {
-          exploreAllFuture = getProfiles();
-        } else {
-          exploreAllFuture = searchAllUsers(searchCriteria);
-          viewMatchesFuture = searchAllUsers(searchCriteria);
-        }
-
-        // if (query.isEmpty) {
-        //   filteredResults = List.from(allResults);
-        // } else {
-        //   filteredResults = allResults
-        //       .where((profile) => profile['full_name'].toLowerCase().contains(query))
-        //       .toList();
-        // }
-      }
-
-
-
-      );
-    }
-    );
-  }
-
-  // void _performSearch() {
-  //   if (_debounce?.isActive ?? false) _debounce.cancel();
-  //
-  //   _debounce = Timer(const Duration(milliseconds: 500), () {
-  //     String query = searchController.text.toLowerCase().trim();
-  //
-  //
-  //     final searchCriteria = {
-  //       'full_name': searchController.text.trim(),
-  //     };
-  //     setState(() {
-  //
-  //       if (searchCriteria['full_name']!.isEmpty) {
-  //         exploreAllFuture = getProfiles();
-  //       } else {
-  //         exploreAllFuture = searchAllUsers(searchCriteria);
-  //         viewMatchesFuture = searchAllUsers(searchCriteria);
-  //       }
-  //
-  //       if (query.isEmpty) {
-  //         filteredResults = List.from(allResults);
-  //       } else {
-  //         filteredResults = allResults
-  //             .where((profile) => profile['full_name'].toLowerCase().contains(query))
-  //             .toList();
-  //       }
-  //     }
-  //
-  //
-  //
-  //     );
-  //   });
-  // }
 
   Future<void> _applySearch() async {
     final searchCriteria = {
@@ -152,10 +43,17 @@ class _ExplorePageState extends State<ExplorePage> with SingleTickerProviderStat
 
     setState(() {
       if (searchCriteria['full_name']!.isEmpty) {
+        // Reset to show all profiles
         exploreAllFuture = getProfiles();
-      } else {
+       // viewMatchesFuture = getProfiles();
+      }
+
+
+      else {
+        // Fetch searched profiles
         exploreAllFuture = searchAllUsers(searchCriteria);
         viewMatchesFuture = searchAllUsers(searchCriteria);
+     //   filterFuture = searchAllUsers(searchCriteria);
       }
     });
   }
@@ -164,45 +62,31 @@ class _ExplorePageState extends State<ExplorePage> with SingleTickerProviderStat
   void dispose() {
     _tabController.dispose();
     searchController.dispose();
-    _debounce?.cancel();
     super.dispose();
   }
 
+  /// Opens the FilterPage and retrieves the selected filters
   void _openFilterPage() async {
-    final Map<String, dynamic>? data = await Navigator.push(
+    final filters = await Navigator.push<Map<String, String>>(
       context,
       MaterialPageRoute(builder: (context) => FilterPage()),
     );
 
-    if (data != null && data['filters'] != null && data['results'] != null) {
+    if (filters != null) {
       setState(() {
-        appliedFilters = Map<String, String>.from(data['filters']); // ✅ Store filters
-        filteredResults = List<Map<String, dynamic>>.from(data['results']); // ✅ Store results
-        isFilterApplied = true; // ✅ Update button state
-
-        // ✅ Preserve additional data
-        _tabController.animateTo(data['initialTabIndex'] ?? 2);
-       // searchParameter = data['search'] ?? [];
-      //docId = data['docId'] ?? '';
+        appliedFilters = filters; // Update global filters
+        _tabController.animateTo(2); // Switch to the Filter tab
+        fetchFilteredProfiles(); // Fetch new filtered results
       });
     }
   }
 
-
-  void _clearFilter() {
-    setState(() {
-      appliedFilters?.clear();
-      isFilterApplied = false;
-      filteredResults.clear();
-    });
-  }
-
-
+  /// Fetch profiles based on applied filters
   void fetchFilteredProfiles() async {
     try {
       final results = await getFilteredProfiles();
       setState(() {
-        filteredResults = results;
+        filteredResults = results; // Update the filtered results
       });
     } catch (e) {
       print('Error fetching filtered profiles: $e');
@@ -211,200 +95,95 @@ class _ExplorePageState extends State<ExplorePage> with SingleTickerProviderStat
 
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
+    return Scaffold(
+      appBar: ExplorePageAppBar(context, _openFilterPage),
 
-      //designSize: const Size(390,844),
-      // minTextAdapt: true,
-      // splitScreenMode: true,
-      builder: (context, child) {
-        return FutureBuilder<String?>(
-          future: getSavedDocId(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Scaffold(
-                body: Center(child: CircularProgressIndicator()),
-              );
-            } else if (snapshot.hasError) {
-              return Scaffold(
-                body: Center(child: Text('Error loading docId')),
-              );
-            } else {
-              final docId = snapshot.data ?? '';
+      body: Column(
+        children: [
+          TabBar(
+            controller: _tabController,
+            labelStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: MyMateThemes.textColor,
+            ),
+            unselectedLabelStyle: TextStyle(
+              fontWeight: FontWeight.w700,
+              color: MyMateThemes.textColor.withOpacity(0.8),
+            ),
+            indicatorColor: MyMateThemes.textColor,
+            labelPadding: const EdgeInsets.symmetric(horizontal: 2.0),
+            tabs: const [
+              Tab(text: 'Explore All'),
+              Tab(text: 'View Matches'),
+              Tab(text: 'Filter'),
+            ],
+          ),
+          const SizedBox(height: 10),
 
-              return Scaffold(
-                backgroundColor: Colors.white,
-                body: NestedScrollView(
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child:
+            TextField(
+              controller: searchController,
+              style: const TextStyle(fontSize: 14.0, color: MyMateThemes.textColor),
+            decoration: InputDecoration(
+          filled: true,
+          prefixIcon: const Icon(Icons.search),
+         fillColor: MyMateThemes.containerColor,
+         hintText: 'Search',
+         border: OutlineInputBorder(
+         borderRadius: BorderRadius.circular(59),
+           borderSide: BorderSide.none,
+            ),
+           ),
+              onSubmitted: (value) => _applySearch(),
 
-                  controller: _scrollController, // Use ScrollController for advanced control
-                  headerSliverBuilder: (context, innerBoxIsScrolled) {
+            ),
 
-                    return [
-                      SliverAppBar(
-                        backgroundColor: Colors.white,
-                        floating: true, // Ensures the header reappears when scrolling up
-                        snap: true, // Snaps the header into view when scrolling up
-                        pinned: false, // Allows the entire header to scroll out of view
-                        automaticallyImplyLeading: false,
-                        //    title: ExplorePageAppBar(context, _openFilterPage),
-                        bottom: PreferredSize(
-                          preferredSize: Size.fromHeight(50.h), // Adjust height to accommodate additional widgets
-                          child: Column(
-                            children: [
-                              TabBar(
-                                controller: _tabController,
-                                labelStyle: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 12.sp,
-                                  color: MyMateThemes.textColor,
-                                ),
-                                unselectedLabelStyle: TextStyle(
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 12.sp,
-                                  color: MyMateThemes.textColor.withOpacity(0.8),
-                                ),
-                                dividerColor: Colors.transparent,
-                                indicatorPadding: EdgeInsets.only(bottom: 6), // Adjust this for spacing
-                                indicator: UnderlineTabIndicator(
-                                  borderSide: BorderSide(
-                                    width: 2, // Thickness of the line
-                                    color: MyMateThemes.textColor, // Line color
-                                  ),
-                                 // insets: EdgeInsets.symmetric(horizontal: 20), // Adjust indicator width
-                                  borderRadius: BorderRadius.circular(4), // Rounded corners for the line
-                                ),
-                                labelPadding: EdgeInsets.symmetric(horizontal: 2.w),
-                                tabs: [
-                                  Tab(text: 'Explore All'),
-                                  Tab(text: 'View Matches'),
-                                  Tab(text: 'Filter'),
-                                ],
-                              ),
-                              SizedBox(height: 8.h), // Add spacing below the TabBar
-                              if (_tabController.index == 2)
+          ),
 
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 20.w),
-                                  child: ElevatedButton(
-
-                                    style: CommonButtonStyle.commonButtonStyle(),
-                                    onPressed: () {
-                                      if (isFilterApplied) {
-                                        _clearFilter(); // ✅ Clear filters when active
-                                      } else {
-                                        _openFilterPage(); // ✅ Open filter page when no filters applied
-                                      }
-                                    },
-                                    child: Text(isFilterApplied ? 'Clear Filter' : 'Apply Filter'),
-                                  ),
-                                ),
-                              if (_tabController.index != 2)
-                                Container(
-                                  height: 28.h,
-                                  width: 325.w,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: MyMateThemes.textColor.withOpacity(0.1),
-                                      width: 1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: TextField(
-                                    controller: searchController,
-                                    cursorColor: MyMateThemes.textColor,
-                                    style: TextStyle(fontSize: 18.sp, color: MyMateThemes.textColor),
-                                    decoration: InputDecoration(
-                                     // prefixIcon: Icon(Icons.search, size: 21.sp, color: MyMateThemes.textColor.withOpacity(0.9)),
-                                      prefixIcon: Padding(
-                                        padding: EdgeInsets.all(7.r), // Adjust padding if needed
-                                        child: SvgPicture.asset(
-                                          'assets/images/search.svg', // Update with your SVG path
-                                          // width: 20.sp,
-                                          // height: 20.sp,
-
-                                          // colorFilter: ColorFilter.mode(
-                                          //   MyMateThemes.textColor.withOpacity(0.6),
-                                          //   BlendMode.srcIn,
-                                          // ),
-                                        ),
-                                      ),
-                                      contentPadding: EdgeInsets.symmetric(vertical: 3.h), // This centers the text vertically
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(60.r),
-                                        borderSide: BorderSide.none,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                            ],
-                          ),
-                        ),
-                      ),
-
-                    ];
-                  },
-                  body: TabBarView(
-                    controller: _tabController,
-                    children: [
-                      ExploreAllGrid(context, exploreAllFuture!),
-                      ViewMatchesGrid(context, Future.value(filteredResults)),
-                      FilterGrid(context, filteredResults),
-                    ],
-                  ),
-                ),
-                bottomNavigationBar: CustomBottomNavigationBar(
-                  selectedIndex: _selectedIndex,
-                  onItemTapped: (index) {
-                    setState(() {
-                      _selectedIndex = index;
-                    });
-                    // Handle navigation here based on the index
-                  },
-                  docId: docId,
-                ),
-              );
-            }
-          },
-        );
-      },
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                // Explore All Grid
+                ExploreAllGrid(context, exploreAllFuture!),
+                // View Matches Grid
+                ViewMatchesGrid(context, viewMatchesFuture!),
+                // Filter Grid
+                FilterGrid(context,filteredResults),
+              ],
+            ),
+          ),
+        ],
+      ),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        selectedIndex: _tabController.index,
+        onItemTapped: (index) {
+          setState(() {
+            _tabController.index = index;
+          });
+        }, docId: '',
+      ),
     );
   }
-
 }
 
 PreferredSizeWidget ExplorePageAppBar(BuildContext context, VoidCallback onFilterTap) {
   return AppBar(
     backgroundColor: Colors.white,
-    automaticallyImplyLeading: false,
+    automaticallyImplyLeading: false, // Prevents the default back arrow
+
+    title: const Text(
+      'Explore',
+      style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+    ),
     actions: [
       IconButton(
-        icon: SvgPicture.asset('assets/images/filter1.svg', width: 24.w, height: 24.h),
+        icon: SvgPicture.asset('assets/images/filter1.svg'),
         onPressed: onFilterTap,
       ),
-      SizedBox(width: 10.w),
+      const SizedBox(width: 10),
     ],
   );
-}
-
-class _SliverTabBarDelegate extends SliverPersistentHeaderDelegate {
-  final TabBar _tabBar;
-
-  _SliverTabBarDelegate(this._tabBar);
-
-  @override
-  double get minExtent => _tabBar.preferredSize.height;
-  @override
-  double get maxExtent => _tabBar.preferredSize.height;
-
-  @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(
-      color: Colors.white,
-      child: _tabBar,
-    );
-  }
-
-  @override
-  bool shouldRebuild(covariant _SliverTabBarDelegate oldDelegate) {
-    return false;
-  }
 }

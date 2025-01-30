@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_stepindicator/flutter_stepindicator.dart';
-import 'package:mymateapp/Homepages/CompleteProfileScreen/Completegallerypage.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import '../ProfilePageScreen/MyProfileMain.dart';
 import 'CompleteOne.dart';
@@ -17,7 +16,7 @@ class CompleteProfilePage extends StatefulWidget {
 
 class _CompleteProfilePageState extends State<CompleteProfilePage> {
   int currentPage = 0;
-  List<int> stepStates = [0, 0, 0,0];
+  List<int> stepStates = [0, 0, 0];
 
 
   Map<String, dynamic> formData = {};
@@ -79,11 +78,8 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
       case 0:
         return PageOne(onSave: _onPageSaved,docId: widget.docId);
       case 1:
-        return Completegallerypage(onSave: _onPageSaved,docId: widget.docId);
-
-      case 2:
         return PageTwo(onSave: _onPageSaved,docId: widget.docId );
-      case 3:
+      case 2:
         return PageThree(onSave: _onPageSaved,docId:widget.docId);
       default:
         return SizedBox();

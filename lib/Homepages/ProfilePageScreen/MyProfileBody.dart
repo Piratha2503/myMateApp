@@ -84,7 +84,6 @@ class _MyProfileBodyState extends State<MyProfileBody> {
         dob = data['dob'] ?? "N/A";
         dot = data['dot'] ?? "N/A";
         country = data['country'] ?? "N/A";
-        personalDetails.language = data['language'] ?? 'N/A';
         rasi = data['rasi'] ?? "N/A";
         natchathiram = data['natchathiram'] ?? "N/A";
         profilePictureUrl =data['profile_pic_url'] ?? "https://piratha.com/images/profile.png";
@@ -338,30 +337,9 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                 color: MyMateThemes.secondaryColor,
               ),
               child: Center(
-                child: AnimatedContainer(
-                  duration: Duration(milliseconds: 500),
-                  curve: Curves.easeInOut,
-                  height: _isSmall ? 50 : 230,
-                  alignment: _isSmall ? Alignment(-1.2, 1.0) : Alignment.center,
-                  child: profilePictureUrl.isNotEmpty
-                      ? ClipOval(
-                    child: Image.network(
-                      profilePictureUrl,
-                      fit: BoxFit.cover,
-                      height: _isSmall ? 50 : 230,
-                      width: _isSmall ? 50 : 230,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Icon(Icons.error, size: _isSmall ? 50 : 230);
-                      },
-                      loadingBuilder: (context, child, progress) {
-                        if (progress == null) return child;
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      },
-                    ),
-                  )
-                      : Icon(Icons.account_circle, size: _isSmall ? 50 : 230),
+                child: CircleAvatar(
+                  radius: 85,
+                  backgroundImage: NetworkImage("https://piratha.com/images/profile.png"),
                 ),
               ),
             ),

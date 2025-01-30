@@ -1,14 +1,14 @@
 import 'dart:convert';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:mymateapp/ChartPages/ManualRasiChartPage.dart';
 import 'package:mymateapp/Homepages/RegisterPages/RegisterPage.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'ChartPages/ManualNavamsaChartPage.dart';
 import 'Homepages/ProfilePageScreen/MyProfileMain.dart';
-import 'Homepages/Profiles/MoreAboutMe.dart';
 import 'Homepages/Profiles/boost_profile.dart';
 import 'Homepages/SubscribedhomeScreen/SubscribedHomeScreenStructured.dart';
 import 'Homepages/explorePage/explorePageMain.dart';
@@ -29,8 +29,9 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-
   Widget build(BuildContext context) {
+    Astrology astrology = Astrology();
+
     ClientData clientData = ClientData();
     PersonalDetails personalDetails = PersonalDetails();
     personalDetails.first_name = "Hello";
@@ -38,23 +39,18 @@ class MyApp extends StatelessWidget {
     personalDetails.gender = "Male";
     clientData.docId = "TBT3I8DYa3BepMZPPqv6";
     clientData.personalDetails = personalDetails;
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+          primaryColor: Colors.blue[200]),
+      debugShowCheckedModeBanner: false,
 
-    return ScreenUtilInit(
-      designSize: const Size(390,844),  // Set base design size
-      minTextAdapt: true,
-      splitScreenMode: true,
-      builder: (context, child) {
-        return MaterialApp(
-          title: 'Flutter Demo',
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-            useMaterial3: true,
-            primaryColor: Colors.blue[200],
-          ),
-          debugShowCheckedModeBanner: false,
-          home: ExplorePage(results: [], search: [], docId: ''),
-        );
-      },
+      home:
+      // CheckmatchPage( clientDocId: '', soulDocId: '',),
+      ManualRasiChartPage(clientData: clientData),
+    //  ManualNavamsaChartPage(clientData: clientData, astrology:astrology)
     );
   }
 }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mymateapp/Homepages/HomeScreenBeforeSubscibe.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 
-import '../Homepages/SubscribedhomeScreen/SubscribedHomeScreenBeforeProfileCompleted.dart';
 import '../dbConnection/Firebase_DB.dart';
 
 class ManualNavamsaChartPage extends StatefulWidget {
@@ -206,7 +206,7 @@ class _ManualNavamsaChartPage extends State<ManualNavamsaChartPage> {
     print(chartGeneration.place11);
     print(chartGeneration.place12);
 
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>SubscribedhomescreenBeforeProfileCompleted(docId: widget.clientData.docId!,)));
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreenBeforeSubscibe(0,docId: widget.clientData.docId!,)));
 
   }
 
@@ -342,6 +342,7 @@ class _ManualNavamsaChartPage extends State<ManualNavamsaChartPage> {
               ),
             ),
           ),
+          SizedBox(height:20),
 
           // Container(
           //   width: 310,
@@ -398,66 +399,69 @@ class _ManualNavamsaChartPage extends State<ManualNavamsaChartPage> {
           //     ],
           //   ),
           // ),
-          DecoratedBox(
-            decoration: ShapeDecoration(
-              shape: CircleBorder(),
+          Card(
+            // elevation: 4.0, // Adjust elevation as needed
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(1000.0), // Rounded corners
             ),
             child: Container(
-              height: 330,
-              width: 300,
-              color: MyMateThemes.backgroundColor,
+              height: 331,
+              width: 320,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(200.0), // Match the border radius of the Card
+              ),
               child: Stack(
                 children: [
                   Positioned(
-                      top: 110,
-                      left: 80,
+                      top: 88,
+                      left: 88,
                       child:
-                      buildBottomSegment('Sun', 'assets/images/Sun.svg','assets/images/Mercury.svg')),
+                      buildBottomSegment('Sun', 'assets/images/p_sun.svg','assets/images/s_sun.svg')),
                   Positioned(
-                      left: 207,
-                      top: 74,
+                      left: 217,
+                      top: 60,
                       child: buildBottomSegment(
-                          'Mercury', 'assets/images/Mercury.svg','assets/images/Mercury.svg')),
+                          'Mercury', 'assets/images/p_mercury.svg','assets/images/s_mercury.svg')),
                   Positioned(
-                      left: 152,
-                      top: 30,
+                      left: 156,
+                      top: 15,
                       child:
-                      buildBottomSegment('Mars', 'assets/images/Mars.svg','assets/images/Mercury.svg')),
+                      buildBottomSegment('Mars', 'assets/images/p_mars.svg','assets/images/s_mars.svg')),
                   Positioned(
-                      left: 55,
-                      top: 245,
+                      left: 57,
+                      top: 229,
                       child: buildBottomSegment(
-                          'Saturn', 'assets/images/Saturn.svg','assets/images/Mercury.svg')),
+                          'Saturn', 'assets/images/p_saturn.svg','assets/images/s_saturn.svg')),
                   Positioned(
-                      left: 213,
-                      top: 178,
+                      left: 217,
+                      top: 168,
                       child: buildBottomSegment(
-                          'Jupiter', 'assets/images/Jupiter.svg','assets/images/Mercury.svg')),
+                          'Jupiter', 'assets/images/p_jupitor.svg','assets/images/s_jupiter.svg')),
                   Positioned(
-                      left: 0,
-                      top: 185,
+                      left:8,
+                      top: 172,
                       child:
-                      buildBottomSegment('Rahu', 'assets/images/Rahu.svg','assets/images/Mercury.svg')),
+                      buildBottomSegment('Rahu', 'assets/images/p_rahu.svg','assets/images/s_rahu.svg')),
                   Positioned(
-                      left: 0,
-                      top: 82,
+                      left:6,
+                      top: 68,
                       child:
-                      buildBottomSegment('Ketu', 'assets/images/Ketu.svg','assets/images/Mercury.svg')),
+                      buildBottomSegment('Ketu', 'assets/images/p_ketu.svg','assets/images/s_ketu.svg')),
                   Positioned(
-                      left: 159,
-                      top: 239,
+                      left: 163,
+                      top: 227,
                       child: buildBottomSegment(
-                          'Venus', 'assets/images/Venus.svg','assets/images/Mercury.svg')),
+                          'Venus', 'assets/images/p_venus.svg','assets/images/s_venus.svg')),
                   Positioned(
-                      left: 47,
-                      top: 30,
+                      left: 49,
+                      top: 16,
                       child:
-                      buildBottomSegment('Moon', 'assets/images/Moon.svg','assets/images/Mercury.svg')),
+                      buildBottomSegment('Moon', 'assets/images/p_moon.svg','assets/images/s_moon.svg')),
                 ],
               ),
             ),
-          ),
-          //SizedBox(height: 45),
+          ),          SizedBox(height: 45),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

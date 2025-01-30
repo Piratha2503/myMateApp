@@ -7,7 +7,7 @@ import 'CompleteProfileWidgets.dart';
 class PageTwo extends StatefulWidget {
   final VoidCallback onSave;
   final String docId;
-  PageTwo({required this.onSave, required this.docId});
+  PageTwo({required this.onSave,required this.docId});
 
   @override
   _PageTwoState createState() => _PageTwoState();
@@ -25,12 +25,6 @@ class _PageTwoState extends State<PageTwo> {
   final TextEditingController _contactNumberController = TextEditingController();
 
 
-  String? civilStatusError;
-  String? employmentTypeError;
-  String? districtError;
-  String? occupationError;
-  String? heightError;
-  String? educationError;
 
   @override
   void initState() {
@@ -43,62 +37,38 @@ class _PageTwoState extends State<PageTwo> {
     _educationController.text = '';
     _contactNumberController.text = '';
     isChecked = false;
-
-  }
-
-
-
-  bool _validateFields() {
-    setState(() {
-      civilStatusError = _selectedCivilStatus == '-- Select Option --'
-          ? 'Please select a civil status'
-          : null;
-      employmentTypeError = _selectedEmploymentType == '-- Select Option --'
-          ? 'Please select an employment type'
-          : null;
-      districtError = _selectedDistrict == '-- Select Option --'
-          ? 'Please select a district'
-          : null;
-      occupationError =
-      _occupationController.text.isEmpty ? 'This field is mandatory' : null;
-      heightError =
-      _heightController.text.isEmpty ? 'This field is mandatory' : null;
-      educationError =
-      _educationController.text.isEmpty ? 'This field is mandatory' : null;
-
-    });
-
-    return civilStatusError == null &&
-        employmentTypeError == null &&
-        districtError == null &&
-        occupationError == null &&
-        heightError == null &&
-        educationError == null ;
-
   }
 
   Future<void> _saveDataToBackend() async {
-    final String url =
-        'https://backend.graycorp.io:9000/mymate/api/v1/saveClientData';
+    final String url = 'https://backend.graycorp.io:9000/mymate/api/v1/saveClientData';
 
-    // final double height = double.parse(_heightController.text);
-
-    final data = {
+    final Map<String, dynamic> data = {
       'docId': widget.docId,
-      // 'personalDetails': {
-      //
-      //
-      //   'marital_status': _selectedCivilStatus,
-      //   // 'height': height,
-      //
-      // },
+      'personalDetails': {
 
+
+        'marital_status': _selectedCivilStatus,
+        'height': int.parse(_heightController.text),
+
+      },
+      'contactInfo': {
+        'mobile': _contactNumberController.text,
+
+
+
+        'address': {
+
+          'city': _selectedDistrict,
+
+        }
+      },
 
       'careerStudies': {
         'occupation': _occupationController.text,
         'occupation_type': _selectedEmploymentType,
         'higher_studies': _educationController.text,
       },
+
     };
 
     try {
@@ -109,7 +79,7 @@ class _PageTwoState extends State<PageTwo> {
       );
 
       if (response.statusCode == 200) {
-        print('Data saved successfully: ${response.body}');
+        print('Data saved successfully');
       } else {
         print('Failed to save data: ${response.body}');
       }
@@ -118,52 +88,9 @@ class _PageTwoState extends State<PageTwo> {
     }
   }
 
-  Future<void> _updateForm() async {
-    final data = {
-      'docId': widget.docId,
-      'contactInfo': {
-        'address': {
-          'city': _selectedDistrict,
-        }
-      },
-      'personalDetails': {
-        'marital_status': _selectedCivilStatus,
-        'height': double.parse(_heightController.text),
-      }
-    };
-
-    final url = 'https://backend.graycorp.io:9000/mymate/api/v1/updateClient';
-    try {
-      print('Sending data: ${json.encode(data)}');
-      final response = await http.put(
-        Uri.parse(url),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: json.encode(data),
-      );
-
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${response.body}');
-
-      if (response.statusCode == 200) {
-        widget.onSave();
-      } else {
-        setState(() {
-          print('Failed to update: ${response.body}');
-        });
-      }
-    } catch (e) {
-      setState(() {});
-    }
-  }
-
   void _onSave() {
-    if (_validateFields()) {
-      _saveDataToBackend();
-      _updateForm();
-      widget.onSave();
-    }
+    _saveDataToBackend();
+    widget.onSave();
   }
 
   @override
@@ -173,7 +100,7 @@ class _PageTwoState extends State<PageTwo> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 12),
+          SizedBox(height: 10),
           CompleteProfileWidgets.buildDropdownRow(
             label: "Civil Status",
             value: _selectedCivilStatus,
@@ -182,8 +109,7 @@ class _PageTwoState extends State<PageTwo> {
               _selectedCivilStatus = value;
             }),
           ),
-
-          SizedBox(height: 12),
+          SizedBox(height: 10),
           CompleteProfileWidgets.buildDropdownRow(
             label: "Employment Type",
             value: _selectedEmploymentType,
@@ -198,24 +124,19 @@ class _PageTwoState extends State<PageTwo> {
               _selectedEmploymentType = value;
             }),
           ),
-          SizedBox(height: 12),
+          SizedBox(height: 10),
           CompleteProfileWidgets.buildTextFieldRow(
             label: "Occupation",
-            hintText:  "Enter Occupation",
+            hintText: "Enter Occupation",
             controller: _occupationController,
-            errorText: occupationError,
-
           ),
-
-          SizedBox(height: 12),
+          SizedBox(height: 10),
           CompleteProfileWidgets.buildTextFieldRow(
             label: "Height (in cm)",
             hintText: "Enter height",
             controller: _heightController,
-            errorText: occupationError,
-
           ),
-          SizedBox(height: 12),
+          SizedBox(height: 10),
           CompleteProfileWidgets.buildDropdownRow(
             label: "District",
             value: _selectedDistrict,
@@ -224,25 +145,23 @@ class _PageTwoState extends State<PageTwo> {
               _selectedDistrict = value;
             }),
           ),
-          SizedBox(height: 12),
+          SizedBox(height: 10),
           CompleteProfileWidgets.buildTextFieldRow(
             label: "Education",
             hintText: "Enter Education",
             controller: _educationController,
-            errorText: occupationError,
-
           ),
-          SizedBox(height: 12),
+          SizedBox(height: 10),
           CompleteProfileWidgets.buildCodeVerificationRow(
             context,
             isChecked,
-            (newValue) {
+                (newValue) {
               setState(() {
                 isChecked = newValue!;
               });
             },
           ),
-          SizedBox(height: 12),
+          SizedBox(height: 10),
           CompleteProfileWidgets.buildTextFieldRow(
             label: "Contact Number",
             hintText: "Enter Contact Number",
