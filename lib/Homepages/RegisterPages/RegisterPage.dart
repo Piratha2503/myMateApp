@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -400,7 +399,6 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
                 _openPopupScreen(context,"+$mobile_code $phoneNumber");
 
               },
-
 
               style: ButtonStyle(
                 foregroundColor: MaterialStatePropertyAll(Colors.white),
