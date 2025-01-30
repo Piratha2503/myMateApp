@@ -7,72 +7,34 @@ import 'package:mymateapp/dbConnection/Firebase_DB.dart';
 
 class ManualRasiChartPage extends StatefulWidget {
   ClientData clientData;
-  ManualRasiChartPage({required this.clientData,super.key});
+  ManualRasiChartPage({required this.clientData, super.key});
 
   @override
   State<ManualRasiChartPage> createState() => _ManualRasiChartPage();
 }
 
 class _ManualRasiChartPage extends State<ManualRasiChartPage> {
-
-  Map<String, bool> tapped = {
-    'Sun': false,
-    'Mercury': false,
-    'Mars': false,
-    'Saturn': false,
-    'Jupiter': false,
-    'Rahu': false,
-    'Ketu': false,
-    'Venus': false,
-    'Moon': false,
-  };
-
+  Map<String, int> segmentToBoxMap = {};
   int? selectedTopBox;
 
-  Map<String, bool> selected = {
-    'one': false,
-    'two': false,
-    'three': false,
-    'four': false,
-    'five': false,
-    'six': false,
-    'seven': false,
-    'eight': false,
-    'nine': false,
-    'ten': false,
-    'eleven': false,
-    'twelve': false,
-  };
+  bool isSegmentSelected(String segment) => segmentToBoxMap.containsKey(segment);
 
-  Map<String, int> segmentToBoxMap = {};
-
-  get identifier => null;
-
-  bool isSegmentSelected(String segment) { return segmentToBoxMap.containsKey(segment); }
-
-  int? getSegmentBadge(String segment) { return segmentToBoxMap[segment];}
+  int? getSegmentBadge(String segment) => segmentToBoxMap[segment];
 
   void _onTapTopBox(int boxNumber) {
-    setState(() {
-      selectedTopBox = boxNumber;
-    });
+    setState(() => selectedTopBox = boxNumber);
   }
 
   void _onTapBottomSegment(String segment) {
     if (selectedTopBox != null) {
       setState(() {
-        if (segmentToBoxMap.containsKey(segment) &&
-            segmentToBoxMap[segment] == selectedTopBox) {
+        if (segmentToBoxMap.containsKey(segment) && segmentToBoxMap[segment] == selectedTopBox) {
           segmentToBoxMap.remove(segment);
         } else {
           segmentToBoxMap[segment] = selectedTopBox!;
         }
       });
-
-
-
     }
-    print('$segment button pressed');
   }
 
   void _resetSelections() {
@@ -80,287 +42,390 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
       segmentToBoxMap.clear();
       selectedTopBox = null;
     });
-
-
   }
 
   bool _areAllSelectionsComplete() {
-    // Define the list of all required segments
-    List<String> requiredSegments = [
-      'Sun',
-      'Mercury',
-      'Mars',
-      'Saturn',
-      'Jupiter',
-      'Rahu',
-      'Ketu',
-      'Venus',
-      'Moon'
-    ];
-
-    // Check if each required segment has a selection
-    for (String segment in requiredSegments) {
-      if (!segmentToBoxMap.containsKey(segment)) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  Future <void> _storeSelections() async{
-    FirebaseDB firebaseDB = FirebaseDB();
-
-    ChartGeneration chartGeneration = ChartGeneration();
-    List<String> option1List = [];
-    List<String> option2List = [];
-    List<String> option3List = [];
-    List<String> option4List = [];
-    List<String> option5List = [];
-    List<String> option6List = [];
-    List<String> option7List = [];
-    List<String> option8List = [];
-    List<String> option9List = [];
-    List<String> option10List = [];
-    List<String> option11List = [];
-    List<String> option12List = [];
-
-    for (var element in segmentToBoxMap.entries) {
-      switch(element.value) {
-        case 1: option1List.add(element.key);
-        case 2: option2List.add(element.key);
-        case 3: option3List.add(element.key);
-        case 4: option4List.add(element.key);
-        case 5: option5List.add(element.key);
-        case 6: option6List.add(element.key);
-        case 7: option7List.add(element.key);
-        case 8: option8List.add(element.key);
-        case 9: option9List.add(element.key);
-        case 10: option10List.add(element.key);
-        case 11: option11List.add(element.key);
-        case 12: option12List.add(element.key);
-      }
-    }
-
-    chartGeneration.place1 = option1List;
-    chartGeneration.place2 = option2List;
-    chartGeneration.place3 = option3List;
-    chartGeneration.place4 = option4List;
-    chartGeneration.place5 = option5List;
-    chartGeneration.place6 = option6List;
-    chartGeneration.place7 = option7List;
-    chartGeneration.place8 = option8List;
-    chartGeneration.place9 = option9List;
-    chartGeneration.place10 = option10List;
-    chartGeneration.place11 = option11List;
-    chartGeneration.place12 = option12List;
-
-    Astrology astrology = Astrology(rasi_chart: chartGeneration);
-    widget.clientData.astrology = astrology;
-    await firebaseDB.updateClient(widget.clientData);
-
-    print(chartGeneration.place1);
-    print(chartGeneration.place2);
-    print(chartGeneration.place3);
-    print(chartGeneration.place4);
-    print(chartGeneration.place5);
-    print(chartGeneration.place6);
-    print(chartGeneration.place7);
-    print(chartGeneration.place8);
-    print(chartGeneration.place9);
-    print(chartGeneration.place10);
-    print(chartGeneration.place11);
-    print(chartGeneration.place12);
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>ManualNavamsaChartPage(clientData: widget.clientData,
-      astrology: astrology,
-    )));
-
+    List<String> requiredSegments = ['Sun', 'Mercury', 'Mars', 'Saturn', 'Jupiter', 'Rahu', 'Ketu', 'Venus', 'Moon'];
+    return requiredSegments.every((segment) => segmentToBoxMap.containsKey(segment));
   }
 
   Widget buildTopBox(int boxNumber, String assetName) {
     return GestureDetector(
       onTap: () => _onTapTopBox(boxNumber),
       child: Container(
-        width: 57,
-        height: 48,
         decoration: BoxDecoration(
-          color: (selectedTopBox == boxNumber) ? MyMateThemes.primaryColor : MyMateThemes.secondaryColor ,
-          borderRadius: BorderRadius.circular(6), // Optional rounded corners
+          color: (selectedTopBox == boxNumber) ? MyMateThemes.primaryColor : MyMateThemes.secondaryColor,
+          borderRadius: BorderRadius.circular(6),
         ),
-        padding: const EdgeInsets.all(16), // Padding inside the box
+        padding: const EdgeInsets.all(10),
         child: Center(
           child: Text(
             assetName,
             style: TextStyle(
-              color: (selectedTopBox == boxNumber) ? MyMateThemes.backgroundColor  : MyMateThemes.textColor ,
+              color: (selectedTopBox == boxNumber) ? MyMateThemes.backgroundColor : MyMateThemes.textColor,
               fontWeight: FontWeight.bold,
               fontSize: 16,
             ),
           ),
-
-
         ),
       ),
     );
   }
 
-
-  Widget buildBottomSegment(String segment, String assetName) {
+  Widget buildBottomSegment(
+      String segment,
+      String assetName,
+      String selectedAssetName, {
+        double? top,
+        double? right,
+        double? left,
+        double? bottom,
+        required double width,
+        required double height,
+        required BoxFit fit
+      }) {
     return GestureDetector(
       onTap: () => _onTapBottomSegment(segment),
       child: Stack(
         children: [
           Opacity(
-            opacity: isSegmentSelected(segment) ? 0.7 : 1.0,
-            child: SvgPicture.asset(assetName),
+            opacity: 1.0,
+            child: SvgPicture.asset(
+              isSegmentSelected(segment) ? selectedAssetName : assetName,
+            ),
           ),
           if (getSegmentBadge(segment) != null)
             Positioned(
-              top: 10,
-              right: 15,
+              top: top ?? 0,
+              right: right ?? 0,
+              left: left,
+              bottom: bottom,
               child: CircleAvatar(
                 radius: 13,
                 backgroundColor: MyMateThemes.premiumAccent,
-                child: Text( getSegmentBadge(segment).toString(),style: TextStyle(fontSize: 12, color: Colors.white),),),
+                child: Text(
+                  getSegmentBadge(segment).toString(),
+                  style: TextStyle(fontSize: 12, color: Colors.white),
+                ),
+              ),
             ),
         ],
       ),
     );
   }
 
-  final List<Map<String, dynamic>> boxes = [
-    {'boxNumber': 1, 'selectedTopBox': 1, 'assetName': '1'},
-    {'boxNumber': 2, 'selectedTopBox': 1, 'assetName': '2'},
-    {'boxNumber': 3, 'selectedTopBox': 1, 'assetName': '3'},
-    {'boxNumber': 4, 'selectedTopBox': 1, 'assetName': '4'},
-    {'boxNumber': 5, 'selectedTopBox': 1, 'assetName': '5'},
-    {'boxNumber': 6, 'selectedTopBox': 1, 'assetName': '6'},
-    {'boxNumber': 7, 'selectedTopBox': 1, 'assetName': '7'},
-    {'boxNumber': 8, 'selectedTopBox': 1, 'assetName': '8'},
-    {'boxNumber': 9, 'selectedTopBox': 1, 'assetName': '9'},
-    {'boxNumber': 10, 'selectedTopBox': 1, 'assetName': '10'},
-    {'boxNumber': 11, 'selectedTopBox': 1, 'assetName': '11'},
-    {'boxNumber': 12, 'selectedTopBox': 1, 'assetName': '12'},
-  ];
-
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      backgroundColor:Colors.white,
-      body: Column(
-        children: [
-          SizedBox(height: 10),
-          SafeArea(
-            child: Column(
-              children: [
-                Text( "Enter Chart Rasi",
-                  style: TextStyle(
-                      color: MyMateThemes.textColor,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1
-                  ),
-                ),
-                Text(
-                  "to calculate Astrology Chart",
-                  style: TextStyle(
-                      color: MyMateThemes.primaryColor,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1
-                  ),
-                ),
-                // Add more Positioned widgets for other buttons similarly
-              ],
-            ),
-          ),
-          Card(
-            elevation: 4.0, // Adjust elevation as needed
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0), // Rounded corners
-            ),
-            child: Container(
-              width: 300,
-              height: 188,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8.0), // Match the border radius of the Card
-              ),
+
+      backgroundColor: Colors.white,
+
+      body: LayoutBuilder(
+
+        builder: (context, constraints) {
+
+          double containerWidth = constraints.maxWidth * 0.87;
+          double containerHeight = constraints.maxHeight * 0.4;
+          double svgWidth = containerWidth * 0.5;
+          double svgHeight = containerHeight * 0.5;
+
+          return
+            Center(
               child: Column(
                 children: [
-                  Expanded(
-                    child: GridView(
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 4,
-                        childAspectRatio: 14 / 11,
-                        mainAxisSpacing: 8.0,
-                        crossAxisSpacing: 8.0,
+                  SafeArea(
+                    child:
+                    Column(
+                      children: [
+                        Text(
+                          "Enter Chart Rasi",
+                          style: TextStyle(
+                            color: MyMateThemes.textColor,
+                            fontSize: containerHeight*0.075,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1,
+
+                          ),
+
+                        ),
+
+                        Text(
+                          "to calculate Astrology Chart",
+                          style: TextStyle(
+                            color: MyMateThemes.primaryColor,
+                            fontSize: containerHeight*0.075,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1,
+
+                          ),
+
+                        ),
+
+                      ],
+
+                    ),
+
+                  ),
+                  SizedBox(height: containerHeight*0.01),
+                  Container(
+
+                    width: containerWidth*0.7,
+
+                    height: containerHeight*0.6,
+
+                    decoration: BoxDecoration(
+
+                      color: Colors.white,
+
+                      borderRadius: BorderRadius.circular(containerWidth*0.02),
+
+                    ),
+
+                    child: GridView.count(
+
+                      crossAxisCount: constraints.maxWidth > 600 ? 6 : 4,
+
+                      childAspectRatio: containerWidth / (containerHeight * 1), crossAxisSpacing: containerWidth * 0.02,
+
+                      mainAxisSpacing: containerHeight * 0.03,
+
+                      padding: EdgeInsets.all(containerWidth*0.001),
+
+                      children: List.generate(12, (index) => buildTopBox(index + 1, '${index + 1}')),
+
+                    ),
+
+                  ),
+                  Center(child:
+
+                  DecoratedBox(
+                    decoration: ShapeDecoration(
+                      shape: CircleBorder(),
+                    ),
+
+                    child:
+                    Container(
+                      height: 330,
+                      width: 305,
+                      color: MyMateThemes.backgroundColor,
+                      child: Stack(
+
+                        alignment: Alignment.center,
+
+                        children: [
+
+                          Positioned(
+
+                            top: 75,
+
+                            left: 88,
+
+                            child: buildBottomSegment('Sun', 'assets/images/p_sun.svg', 'assets/images/s_sun.svg',
+
+
+
+                                width: svgWidth,
+
+                                height: svgHeight,
+
+                                fit: BoxFit.contain),
+
+                          ),
+
+                          Positioned(
+
+                            left: 212,
+
+                            top: 46,
+
+                            child: buildBottomSegment('Mercury', 'assets/images/p_mercury.svg', 'assets/images/s_mercury.svg',
+
+
+
+                                width: svgWidth,
+
+                                height: svgHeight,
+
+                                fit: BoxFit.contain),
+
+                          ),
+
+                          Positioned(
+
+                            left: 153,
+
+                            top: 5,
+
+                            child: buildBottomSegment('Mars', 'assets/images/p_mars.svg', 'assets/images/s_mars.svg', top: 0, right: 35,width: svgWidth,
+
+                                height: svgHeight,
+
+                                fit: BoxFit.contain),
+
+                          ),
+
+                          Positioned(
+
+                            left: 60,
+
+                            top: 212,
+
+                            child: buildBottomSegment('Saturn', 'assets/images/p_saturn.svg', 'assets/images/s_saturn.svg', top: 65, right: 38,width: svgWidth,
+
+                                height: svgHeight,
+
+                                fit: BoxFit.contain),
+
+                          ),
+
+                          Positioned(
+
+                            left: 215,
+
+                            top: 150,
+
+                            child: buildBottomSegment('Jupiter', 'assets/images/p_jupitor.svg', 'assets/images/s_jupiter.svg', top: 39, right: 2,width: svgWidth,
+
+                                height: svgHeight,
+
+                                fit: BoxFit.contain),
+
+                          ),
+
+                          Positioned(
+
+                            left: 8,
+
+                            top: 162,
+
+                            child: buildBottomSegment('Rahu', 'assets/images/p_rahu.svg', 'assets/images/s_rahu.svg', top: 48, right: 66,width: svgWidth,
+
+                                height: svgHeight,
+
+                                fit: BoxFit.contain),
+
+                          ),
+
+                          Positioned(
+
+                            left:4,
+
+                            top: 58,
+
+                            child: buildBottomSegment('Ketu', 'assets/images/p_ketu.svg', 'assets/images/s_ketu.svg', top: 34, right: 65,width: svgWidth,
+
+                                height: svgHeight,
+
+                                fit: BoxFit.contain),
+
+                          ),
+
+                          Positioned(
+
+                            left: 163,
+
+                            top: 207,
+
+                            child: buildBottomSegment('Venus', 'assets/images/p_venus.svg', 'assets/images/s_venus.svg', top: 66, right: 35,width: svgWidth,
+
+                                height: svgHeight,
+
+                                fit: BoxFit.contain),
+
+                          ),
+
+                          Positioned(
+
+                            left: 47,
+
+                            top: 7,
+
+                            child: buildBottomSegment('Moon', 'assets/images/p_moon.svg', 'assets/images/s_moon.svg', top: 7,
+
+                                width: svgWidth,
+
+                                height: svgHeight,
+
+                                fit: BoxFit.contain
+
+                                , right: 43),
+
+                          ),
+
+                        ],
+
                       ),
-                      padding: const EdgeInsets.all(8.0),
-                      children: boxes.map((box) {
-                        return buildTopBox(box['boxNumber'], box['assetName']);
-                      }).toList(),
+
                     ),
                   ),
-                ],
-              ),
-            ),
-          ),
+                  ),
+                  SizedBox(height: containerHeight*0.1),
+                  Row(
 
+                    mainAxisAlignment: MainAxisAlignment.center,
 
-          DecoratedBox(
-            decoration: ShapeDecoration(
-              shape: CircleBorder(),
-            ),
+                    children: [
 
-            child:
-            Container(
-              height: 330,
-              width: 300,
-              color: MyMateThemes.backgroundColor,
-              child: Stack(
-                children: [
-                  SizedBox(width: 20),
-                  Positioned(top: 110,left: 80,child:buildBottomSegment('Sun', 'assets/images/Sun.svg')),
-                  Positioned(left: 207,top: 74,child:buildBottomSegment('Mercury', 'assets/images/Mercury.svg')),
-                  Positioned(left: 152,top:  30,child:buildBottomSegment('Mars', 'assets/images/Mars.svg')),
-                  Positioned(left: 55,top: 245,child:buildBottomSegment('Saturn', 'assets/images/Saturn.svg')),
-                  Positioned(left: 213,top: 178,child:buildBottomSegment('Jupiter', 'assets/images/Jupiter.svg')),
-                  Positioned(left: 0,top: 185,child:buildBottomSegment('Rahu', 'assets/images/Rahu.svg')),
-                  Positioned(left: 0,top: 82,child:buildBottomSegment('Ketu', 'assets/images/Ketu.svg')),
-                  Positioned(left: 159,top: 239,child:buildBottomSegment('Venus', 'assets/images/Venus.svg')),
-                  Positioned(left: 47,top: 30,child:buildBottomSegment('Moon', 'assets/images/Moon.svg')),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(height: 20,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              GestureDetector(
-                onTap: _resetSelections,
-                child: SvgPicture.asset('assets/images/ast_edit.svg'),
-              ),
-              SizedBox(width: 18),
-              GestureDetector(
-                onTap: () {
-                  if (_areAllSelectionsComplete()) {
-                    _storeSelections();
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                            'Please complete all selections before proceeding.'),
+                      GestureDetector(
+
+                        onTap: _resetSelections,
+
+                        child: SvgPicture.asset('assets/images/Clear.svg',
+
+                          width: containerHeight*0.5,
+
+                          height: containerHeight*0.2,),
+
                       ),
-                    );
-                  }
-                },
-                child: SvgPicture.asset('assets/images/can.svg'),
+
+                      SizedBox( width: MediaQuery.of(context).size.width*0.05,
+
+                      ),
+
+                      GestureDetector(
+
+                        onTap: () {
+
+                          if (_areAllSelectionsComplete()) {
+
+// Navigate to next page
+
+                          } else {
+
+                            ScaffoldMessenger.of(context).showSnackBar(
+
+                              SnackBar(content: Text('Please complete all selections before proceeding.')),
+
+                            );
+
+                          }
+
+                        },
+
+                        child: SvgPicture.asset('assets/images/can.svg', width: containerHeight*0.5,
+
+                          height: containerHeight*0.2,),
+
+                      ),
+
+                    ],
+
+                  ),
+                  SizedBox(height: containerHeight*0.01),
+                ],
+
               ),
-            ],
-          ),
-        ],
+
+            );
+
+
+
+        },
+
       ),
+
     );
+
   }
 }

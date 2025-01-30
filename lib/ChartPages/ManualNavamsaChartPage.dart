@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mymateapp/Homepages/HomeScreenBeforeSubscibe.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 
-import '../Homepages/SubscribedhomeScreen/SubscribedHomeScreenBeforeProfileCompleted.dart';
 import '../dbConnection/Firebase_DB.dart';
 
 class ManualNavamsaChartPage extends StatefulWidget {
@@ -37,7 +37,7 @@ class _ManualNavamsaChartPage extends State<ManualNavamsaChartPage> {
   void _onTap(String planet) {
     setState(() {
       tapped[planet] =
-          !(tapped[planet] ?? false); // Provide a default value if null
+      !(tapped[planet] ?? false); // Provide a default value if null
     });
     print('$planet button pressed');
   }
@@ -76,7 +76,7 @@ class _ManualNavamsaChartPage extends State<ManualNavamsaChartPage> {
   void _onSelect(String button) {
     setState(() {
       tapped[button] =
-          !(tapped[button] ?? false);
+      !(tapped[button] ?? false);
     });
     print('$button button pressed');
   }
@@ -189,8 +189,8 @@ class _ManualNavamsaChartPage extends State<ManualNavamsaChartPage> {
     chartGeneration.place11 = option11List;
     chartGeneration.place12 = option12List;
 
-   widget.astrology.navamsa_chart = chartGeneration;
-  widget.clientData.astrology = widget.astrology;
+    widget.astrology.navamsa_chart = chartGeneration;
+    widget.clientData.astrology = widget.astrology;
     await firebaseDB.updateClient(widget.clientData);
 
     print(chartGeneration.place1);
@@ -206,7 +206,7 @@ class _ManualNavamsaChartPage extends State<ManualNavamsaChartPage> {
     print(chartGeneration.place11);
     print(chartGeneration.place12);
 
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>SubscribedhomescreenBeforeProfileCompleted(docId: widget.clientData.docId!,)));
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreenBeforeSubscibe(0,docId: widget.clientData.docId!,)));
 
   }
 
@@ -291,19 +291,19 @@ class _ManualNavamsaChartPage extends State<ManualNavamsaChartPage> {
                 Text(
                   "Enter Chart Navamsa",
                   style: TextStyle(
-                    color: MyMateThemes.textColor,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                      color: MyMateThemes.textColor,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
                       letterSpacing: 0.8
                   ),
                 ),
                 Text(
                   "to calculate Astrology Chart",
                   style: TextStyle(
-                    color: MyMateThemes.primaryColor,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1
+                      color: MyMateThemes.primaryColor,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1
                   ),
                 ),
               ],
@@ -399,18 +399,18 @@ class _ManualNavamsaChartPage extends State<ManualNavamsaChartPage> {
           //     ],
           //   ),
           // ),
-          Card(
-            // elevation: 4.0, // Adjust elevation as needed
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(1000.0), // Rounded corners
+          Center(child:
+
+          DecoratedBox(
+            decoration: ShapeDecoration(
+              shape: CircleBorder(),
             ),
-            child: Container(
-              height: 331,
-              width: 320,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(200.0), // Match the border radius of the Card
-              ),
+
+            child:
+            Container(
+              height: 330,
+              width: 305,
+              color: MyMateThemes.backgroundColor,
               child: Stack(
                 children: [
                   Positioned(
@@ -461,7 +461,9 @@ class _ManualNavamsaChartPage extends State<ManualNavamsaChartPage> {
                 ],
               ),
             ),
-          ),          SizedBox(height: 45),
+          ),
+    ),
+      SizedBox(height: 45),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
