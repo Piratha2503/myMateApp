@@ -23,6 +23,8 @@ class MyMateAPIs{
 
   static String filter_Clients_API = "$vpsApi+$commonEndPoint/clientFilter";
 
+  static String send_request_API = "https://backend.graycorp.io:9000/mymate/api/v1/RequestSent";
+
 
 }
 Future<Map<String, dynamic>> fetchUserById(String docId,) async {
@@ -64,6 +66,9 @@ Future<Map<String, dynamic>> fetchUserById(String docId,) async {
       // if (mobileNumber.isNotEmpty && !mobileNumber.startsWith(countryCode)) {
       //   mobileNumber = '$countryCode$mobileNumber';
       // }
+      final isProfileComplete = data['isProfileComplete'] ?? false;
+      final completeProfilePending = data['completeProfilePending'] ?? {};
+
 
       final formattedAddress =
       (houseNumber.isNotEmpty ||
@@ -77,20 +82,22 @@ Future<Map<String, dynamic>> fetchUserById(String docId,) async {
 
       return {
         'id': docId,
-
+        'isProfileComplete': isProfileComplete,
+        'completeProfilePending':completeProfilePending,
         'full_name': personalDetails['full_name'] ?? 'N/A',
         'first_name': personalDetails['first_name'] ?? 'N/A',
         'age': personalDetails['age'] ?? 'N/A',
         'dob': astrology['dob'] ?? 'N/A',
         'dot': astrology['dot'] ?? 'N/A',
         'occupation': careerStudies['occupation'] ?? 'N/A',
-        'occupation_type' : careerStudies['occupation_type'] ?? 'N/A',
+        'occupation_type' : data['careerStudies']?['occupation_type'] ?? 'N/A',
         'address': formattedAddress,
         //'address' : contactInfo['address'] ?? 'N/A',
 
         'city' : address['city'] ?? 'N/A',
         'education': careerStudies['higher_studies'] ?? 'N/A',
-        'height': personalDetails['height'] ?? 'N/A',
+        'height': personalDetails['height'] ?? 0.0,
+        'language': personalDetails['language'] ?? 'N/A',
         'religion': personalDetails['religion'] ?? 'N/A',
         'caste': personalDetails['caste'] ?? 'N/A',
         'mother_name': personalDetails['mother_name'] ?? 'N/A',

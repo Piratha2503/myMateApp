@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:mymateapp/ChartPages/PlaceDateTimeInput.dart';
 import 'package:mymateapp/MyMateCommonBodies/MyMateApis.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
@@ -83,6 +84,7 @@ class _NameAndGenderState extends State<NameAndGender> {
                 personalDetails: personalDetails,
                 firstTextController: firstNameController,
                 lastTextController: lastNameController,
+                selectedGender: selectedGender,
               ),
               SizedBox(width: 25),
             ],
@@ -215,18 +217,21 @@ class NextButton extends StatelessWidget {
   final PersonalDetails personalDetails;
   final TextEditingController firstTextController;
   final TextEditingController lastTextController;
+  final String selectedGender;
 
   NextButton({
     required this.clientData,
     required this.personalDetails,
     required this.firstTextController,
     required this.lastTextController,
+    required this.selectedGender,
     super.key,
   });
 
   Future<void> updateClientProfile(BuildContext context) async {
     personalDetails.first_name = firstTextController.text;
     personalDetails.last_name = lastTextController.text;
+    personalDetails.gender = selectedGender;
     clientData.personalDetails = personalDetails;
 
 
@@ -248,7 +253,7 @@ class NextButton extends StatelessWidget {
       print("Response Body: ${response.body}");
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => ChartOptions(clientData: clientData)),
+        MaterialPageRoute(builder: (context) => PlaceDateTimeInput(clientData: clientData)),
       );
     } else {
       print("Error Status: ${response.statusCode}");

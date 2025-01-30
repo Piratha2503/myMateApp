@@ -37,7 +37,7 @@ class _ManualNavamsaChartPage extends State<ManualNavamsaChartPage> {
   void _onTap(String planet) {
     setState(() {
       tapped[planet] =
-          !(tapped[planet] ?? false); // Provide a default value if null
+      !(tapped[planet] ?? false); // Provide a default value if null
     });
     print('$planet button pressed');
   }
@@ -76,7 +76,7 @@ class _ManualNavamsaChartPage extends State<ManualNavamsaChartPage> {
   void _onSelect(String button) {
     setState(() {
       tapped[button] =
-          !(tapped[button] ?? false);
+      !(tapped[button] ?? false);
     });
     print('$button button pressed');
   }
@@ -189,8 +189,8 @@ class _ManualNavamsaChartPage extends State<ManualNavamsaChartPage> {
     chartGeneration.place11 = option11List;
     chartGeneration.place12 = option12List;
 
-   widget.astrology.navamsa_chart = chartGeneration;
-  widget.clientData.astrology = widget.astrology;
+    widget.astrology.navamsa_chart = chartGeneration;
+    widget.clientData.astrology = widget.astrology;
     await firebaseDB.updateClient(widget.clientData);
 
     print(chartGeneration.place1);
@@ -291,19 +291,19 @@ class _ManualNavamsaChartPage extends State<ManualNavamsaChartPage> {
                 Text(
                   "Enter Chart Navamsa",
                   style: TextStyle(
-                    color: MyMateThemes.textColor,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                      color: MyMateThemes.textColor,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
                       letterSpacing: 0.8
                   ),
                 ),
                 Text(
                   "to calculate Astrology Chart",
                   style: TextStyle(
-                    color: MyMateThemes.primaryColor,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1
+                      color: MyMateThemes.primaryColor,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1
                   ),
                 ),
               ],
@@ -342,6 +342,7 @@ class _ManualNavamsaChartPage extends State<ManualNavamsaChartPage> {
               ),
             ),
           ),
+          SizedBox(height:20),
 
           // Container(
           //   width: 310,
@@ -398,66 +399,71 @@ class _ManualNavamsaChartPage extends State<ManualNavamsaChartPage> {
           //     ],
           //   ),
           // ),
+          Center(child:
+
           DecoratedBox(
             decoration: ShapeDecoration(
               shape: CircleBorder(),
             ),
-            child: Container(
+
+            child:
+            Container(
               height: 330,
-              width: 300,
+              width: 305,
               color: MyMateThemes.backgroundColor,
               child: Stack(
                 children: [
                   Positioned(
-                      top: 110,
-                      left: 80,
+                      top: 88,
+                      left: 88,
                       child:
-                      buildBottomSegment('Sun', 'assets/images/Sun.svg','assets/images/Mercury.svg')),
+                      buildBottomSegment('Sun', 'assets/images/p_sun.svg','assets/images/s_sun.svg')),
                   Positioned(
-                      left: 207,
-                      top: 74,
+                      left: 217,
+                      top: 60,
                       child: buildBottomSegment(
-                          'Mercury', 'assets/images/Mercury.svg','assets/images/Mercury.svg')),
+                          'Mercury', 'assets/images/p_mercury.svg','assets/images/s_mercury.svg')),
                   Positioned(
-                      left: 152,
-                      top: 30,
+                      left: 156,
+                      top: 15,
                       child:
-                      buildBottomSegment('Mars', 'assets/images/Mars.svg','assets/images/Mercury.svg')),
+                      buildBottomSegment('Mars', 'assets/images/p_mars.svg','assets/images/s_mars.svg')),
                   Positioned(
-                      left: 55,
-                      top: 245,
+                      left: 57,
+                      top: 229,
                       child: buildBottomSegment(
-                          'Saturn', 'assets/images/Saturn.svg','assets/images/Mercury.svg')),
+                          'Saturn', 'assets/images/p_saturn.svg','assets/images/s_saturn.svg')),
                   Positioned(
-                      left: 213,
-                      top: 178,
+                      left: 217,
+                      top: 168,
                       child: buildBottomSegment(
-                          'Jupiter', 'assets/images/Jupiter.svg','assets/images/Mercury.svg')),
+                          'Jupiter', 'assets/images/p_jupitor.svg','assets/images/s_jupiter.svg')),
                   Positioned(
-                      left: 0,
-                      top: 185,
+                      left:8,
+                      top: 172,
                       child:
-                      buildBottomSegment('Rahu', 'assets/images/Rahu.svg','assets/images/Mercury.svg')),
+                      buildBottomSegment('Rahu', 'assets/images/p_rahu.svg','assets/images/s_rahu.svg')),
                   Positioned(
-                      left: 0,
-                      top: 82,
+                      left:6,
+                      top: 68,
                       child:
-                      buildBottomSegment('Ketu', 'assets/images/Ketu.svg','assets/images/Mercury.svg')),
+                      buildBottomSegment('Ketu', 'assets/images/p_ketu.svg','assets/images/s_ketu.svg')),
                   Positioned(
-                      left: 159,
-                      top: 239,
+                      left: 163,
+                      top: 227,
                       child: buildBottomSegment(
-                          'Venus', 'assets/images/Venus.svg','assets/images/Mercury.svg')),
+                          'Venus', 'assets/images/p_venus.svg','assets/images/s_venus.svg')),
                   Positioned(
-                      left: 47,
-                      top: 30,
+                      left: 49,
+                      top: 16,
                       child:
-                      buildBottomSegment('Moon', 'assets/images/Moon.svg','assets/images/Mercury.svg')),
+                      buildBottomSegment('Moon', 'assets/images/p_moon.svg','assets/images/s_moon.svg')),
                 ],
               ),
             ),
           ),
-          //SizedBox(height: 45),
+    ),
+      SizedBox(height: 45),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

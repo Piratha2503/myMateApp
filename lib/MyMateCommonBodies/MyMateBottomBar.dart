@@ -48,12 +48,15 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 100,
+    return
+      SizedBox(
+      height: 79,
+
       child: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        backgroundColor: MyMateThemes.backgroundColor,
+        backgroundColor: Colors.white,
         items: [
+
           _buildBottomNavigationBarItem(
               'assets/images/Group 2141.svg', 'Home', 0),
           _buildBottomNavigationBarItem(
@@ -80,15 +83,19 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
       String assetName,
       String label,
       int index) {
-    return BottomNavigationBarItem(
+    return
+      BottomNavigationBarItem(
+        icon:SvgPicture.asset(
+            assetName,
+            // height: 24, // Ensure a fixed height for proper alignment
+            // width: 24,
+            color: _selectedIndex == index
+                ? MyMateThemes.primaryColor
+                : MyMateThemes.secondaryColor,
+          ),
 
-      icon: SvgPicture.asset(
-        assetName,
-        color: _selectedIndex == index
-            ? MyMateThemes.primaryColor
-            : MyMateThemes.secondaryColor,
-      ),
-      label: label,
-    );
+        label: '',
+      )
+    ;
   }
 }

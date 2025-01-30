@@ -47,6 +47,8 @@ class _SubscribedhomescreenPageState extends State<SubscribedhomescreenPage> {
   @override
   void initState() {
     super.initState();
+    print(widget.docId);
+
     // Show the popup dialog when the page loads
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _showPopupDialog();
