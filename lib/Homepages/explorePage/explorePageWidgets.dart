@@ -235,7 +235,7 @@ Widget buildGridItem(Map<String, dynamic> profile) {
                         profile['full_name'] ?? 'N/A',
                         style: TextStyle(
                           color: MyMateThemes.textColor,
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w600,
                           fontSize:  12.sp, // Scaled font size
                         ),
                       ),

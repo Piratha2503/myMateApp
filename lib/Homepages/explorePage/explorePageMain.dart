@@ -253,19 +253,28 @@ class _ExplorePageState extends State<ExplorePage> with SingleTickerProviderStat
                               TabBar(
                                 controller: _tabController,
                                 labelStyle: TextStyle(
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w600,
                                   fontSize: 12.sp,
                                   color: MyMateThemes.textColor,
                                 ),
                                 unselectedLabelStyle: TextStyle(
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight: FontWeight.normal,
                                   fontSize: 12.sp,
                                   color: MyMateThemes.textColor.withOpacity(0.8),
                                 ),
-                                indicatorColor: MyMateThemes.textColor,
+                                dividerColor: Colors.transparent,
+                                indicatorPadding: EdgeInsets.only(bottom: 6), // Adjust this for spacing
+                                indicator: UnderlineTabIndicator(
+                                  borderSide: BorderSide(
+                                    width: 2, // Thickness of the line
+                                    color: MyMateThemes.textColor, // Line color
+                                  ),
+                                 // insets: EdgeInsets.symmetric(horizontal: 20), // Adjust indicator width
+                                  borderRadius: BorderRadius.circular(4), // Rounded corners for the line
+                                ),
                                 labelPadding: EdgeInsets.symmetric(horizontal: 2.w),
                                 tabs: [
-                                  Tab(text: 'Explore All',),
+                                  Tab(text: 'Explore All'),
                                   Tab(text: 'View Matches'),
                                   Tab(text: 'Filter'),
                                 ],
@@ -290,21 +299,34 @@ class _ExplorePageState extends State<ExplorePage> with SingleTickerProviderStat
                                 ),
                               if (_tabController.index != 2)
                                 Container(
-                                  height: 40.h,
+                                  height: 28.h,
                                   width: 325.w,
                                   decoration: BoxDecoration(
                                     border: Border.all(
-                                      color: MyMateThemes.textColor.withOpacity(0.3),
+                                      color: MyMateThemes.textColor.withOpacity(0.1),
                                       width: 1,
                                     ),
-                                    borderRadius: BorderRadius.circular(60),
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: TextField(
                                     controller: searchController,
                                     cursorColor: MyMateThemes.textColor,
                                     style: TextStyle(fontSize: 18.sp, color: MyMateThemes.textColor),
                                     decoration: InputDecoration(
-                                      prefixIcon: Icon(Icons.search, size: 23.sp, color: MyMateThemes.textColor.withOpacity(0.9)),
+                                     // prefixIcon: Icon(Icons.search, size: 21.sp, color: MyMateThemes.textColor.withOpacity(0.9)),
+                                      prefixIcon: Padding(
+                                        padding: EdgeInsets.all(7.r), // Adjust padding if needed
+                                        child: SvgPicture.asset(
+                                          'assets/images/search.svg', // Update with your SVG path
+                                          // width: 20.sp,
+                                          // height: 20.sp,
+
+                                          // colorFilter: ColorFilter.mode(
+                                          //   MyMateThemes.textColor.withOpacity(0.6),
+                                          //   BlendMode.srcIn,
+                                          // ),
+                                        ),
+                                      ),
                                       contentPadding: EdgeInsets.symmetric(vertical: 3.h), // This centers the text vertically
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(60.r),
