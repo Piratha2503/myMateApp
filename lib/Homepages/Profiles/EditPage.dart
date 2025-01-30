@@ -227,7 +227,49 @@ class _EditPageState extends State<EditPage> {
     });
   }
 
-
+  void _openPopupScreen() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: SizedBox(
+            height: 300,
+            width: 400,
+            child: Column(
+              children: [
+                SizedBox(height: 25),
+                GestureDetector(
+                  onTap: () {
+                    _chooseImage(ImageSource.gallery);
+                  },
+                  child: SvgPicture.asset('assets/images/choose.svg'),
+                ),
+                SizedBox(height: 15),
+                GestureDetector(
+                  child: SvgPicture.asset('assets/images/or.svg'),
+                ),
+                SizedBox(height: 15),
+                GestureDetector(
+                  onTap: () {
+                    _chooseImage(ImageSource.camera);
+                  },
+                  child: SvgPicture.asset('assets/images/take.svg'),
+                ),
+                SizedBox(height: 20),
+                GestureDetector(
+                  onTap: () {
+                    _onSave;
+                    _fetchClientData();
+                  },
+                  child: SvgPicture.asset('assets/images/Active.svg'),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
   Widget _buildTextFieldRow({
     required String label,
     required String hintText,
@@ -446,7 +488,12 @@ class _EditPageState extends State<EditPage> {
           const SnackBar(content: Text('Profile updated successfully!')),
 
         );
+
         _fetchClientData();
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => ProfilePage(docId: widget.docId, selectedBottomBarIconIndex: 3,)), 
+        );
       } else {
         setState(() {
           isLoading = false;
@@ -577,7 +624,7 @@ class _EditPageState extends State<EditPage> {
                     alignment: Alignment.center,
                     children: [
                       GestureDetector(
-
+                        onTap: _openPopupScreen,
                         child: profilePicUrl != null
                             ? CircleAvatar(
                           radius: 50,
@@ -589,7 +636,7 @@ class _EditPageState extends State<EditPage> {
                         bottom : 0,
                         right: -5,
                         child: GestureDetector(
-
+                          onTap: _openPopupScreen,
                           child: SvgPicture.asset('assets/images/edit.svg'),
                         ),
                       ),
