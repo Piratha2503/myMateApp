@@ -17,7 +17,8 @@ class MyMateThemes {
 
 class CommonButtonStyle {
   static ButtonStyle commonButtonStyle() {
-    return ButtonStyle(
+    return
+      ButtonStyle(
       foregroundColor: MaterialStateProperty.all(Colors.white),
       backgroundColor: MaterialStateProperty.all(MyMateThemes.primaryColor),
       shape: MaterialStateProperty.all(

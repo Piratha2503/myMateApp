@@ -3,9 +3,11 @@ import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:mymateapp/ChartPages/ManualRasiChartPage.dart';
 import 'package:mymateapp/Homepages/RegisterPages/RegisterPage.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'ChartPages/ManualNavamsaChartPage.dart';
 import 'Homepages/ProfilePageScreen/MyProfileMain.dart';
 import 'Homepages/Profiles/boost_profile.dart';
 import 'Homepages/SubscribedhomeScreen/SubscribedHomeScreenStructured.dart';
@@ -28,6 +30,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Astrology astrology = Astrology();
 
     ClientData clientData = ClientData();
     PersonalDetails personalDetails = PersonalDetails();
@@ -45,9 +48,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
 
       home:
-      // ProfilePage(docId: "E0JFHhK2x6Gq2Ac6XSyP", selectedBottomBarIconIndex:0,),
       // CheckmatchPage( clientDocId: '', soulDocId: '',),
-     RegisterPage()
+      ManualRasiChartPage(clientData: clientData),
+    //  ManualNavamsaChartPage(clientData: clientData, astrology:astrology)
     );
   }
 }
