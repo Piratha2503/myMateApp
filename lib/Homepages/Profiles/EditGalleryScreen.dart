@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
@@ -8,27 +7,27 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:image/image.dart' as img;
+
 import '../../MyMateThemes.dart';
 
-class Completegallerypage extends StatefulWidget {
+class EditGalleryScreen extends StatefulWidget {
   final VoidCallback onSave;
   final String docId;
 
-  Completegallerypage({required this.onSave, required this.docId});
+  EditGalleryScreen({required this.onSave, required this.docId});
 
   @override
-  _CompletegallerypageState createState() => _CompletegallerypageState();
+  _EditGalleryScreenState createState() => _EditGalleryScreenState();
 }
 
-class _CompletegallerypageState extends State<Completegallerypage> {
+class _EditGalleryScreenState extends State<EditGalleryScreen> {
   List<String?> _imageUrls = [null, null, null];
 
   @override
   void initState() {
     super.initState();
-
+    _fetchGalleryImages();
   }
-
 
   void _showMaxImageLimitDialog() {
     showDialog(
@@ -50,13 +49,11 @@ class _CompletegallerypageState extends State<Completegallerypage> {
     );
   }
 
-  void _chooseImage(ImageSource source) async {
+  Future<void> _chooseImage(ImageSource source) async {
     if (_imageUrls.where((url) => url != null).length >= 3) {
-      // Show a pop-up message if 3 images are already uploaded
       _showMaxImageLimitDialog();
-      return; // Prevent adding another image
+      return;
     }
-
 
     final picker = ImagePicker();
     final pickedImage = await picker.pickImage(source: source);
@@ -73,10 +70,7 @@ class _CompletegallerypageState extends State<Completegallerypage> {
 
       if (croppedFile != null) {
         File thumbnailFile = await _createThumbnail(File(croppedFile.path));
-
         await _uploadImageToBackend(thumbnailFile);
-
-        // Fetch updated gallery images after upload
         await _fetchGalleryImages();
       }
     }
@@ -84,11 +78,11 @@ class _CompletegallerypageState extends State<Completegallerypage> {
 
   Future<File> _createThumbnail(File imageFile) async {
     final originalImage = img.decodeImage(await imageFile.readAsBytes());
-    final resizedImage = img.copyResize(originalImage!, width: 150, height: 150);
+    final resizedImage =
+        img.copyResize(originalImage!, width: 150, height: 150);
     final tempDir = Directory.systemTemp;
     final thumbnailFile = File('${tempDir.path}/thumbnail.jpg')
       ..writeAsBytesSync(img.encodeJpg(resizedImage));
-
     return thumbnailFile;
   }
 
@@ -108,7 +102,6 @@ class _CompletegallerypageState extends State<Completegallerypage> {
 
       final response = await request.send();
 
-
       if (response.statusCode == 200) {
         print("Image uploaded successfully.");
       } else {
@@ -122,7 +115,8 @@ class _CompletegallerypageState extends State<Completegallerypage> {
   String _generateRandomFileName() {
     final random = Random();
     const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
-    return List.generate(10, (index) => characters[random.nextInt(characters.length)]).join();
+    return List.generate(
+        10, (index) => characters[random.nextInt(characters.length)]).join();
   }
 
   Future<void> _fetchGalleryImages() async {
@@ -137,77 +131,26 @@ class _CompletegallerypageState extends State<Completegallerypage> {
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        final List<String>? galleryImages = List<String>.from(data['profileImages']?['gallery_image_urls'] ?? {});
+        final List<String>? galleryImages = List<String>.from(
+            data['profileImages']?['gallery_image_urls'] ?? []);
 
         setState(() {
-          // Update the _imageUrls list with fetched data
           for (int i = 0; i < galleryImages!.length; i++) {
             if (i < 3) {
               _imageUrls[i] = galleryImages[i];
             }
           }
         });
-
+        print(galleryImages);
         print("Gallery images fetched successfully.");
       } else {
-        print("Failed to fetch gallery images. Status code: ${response.statusCode}");
+        print(
+            "Failed to fetch gallery images. Status code: ${response.statusCode}");
       }
     } catch (e) {
       print("Error fetching gallery images: $e");
     }
   }
-
-  void _onSave() {
-    widget.onSave();
-  }
-
-  Widget _buildFooterRow() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        SizedBox(width: 22),
-        SizedBox(
-          height: 50,
-          width: 165,
-          child: ElevatedButton(
-            onPressed: () {
-              _onSave();
-
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: MyMateThemes.primaryColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(3.0),
-              ),
-              // padding: EdgeInsets.all(10)
-            ),
-            child: Text(
-              'Skip ',
-              style: TextStyle(color:Colors.white),
-            ),
-          ),
-        ),
-        SizedBox(width: 20),
-        SizedBox(
-          height: 50,
-          width: 164,
-          child: ElevatedButton(
-            onPressed: () {
-              _onSave();
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: MyMateThemes.primaryColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(3.0),
-              ),
-            ),
-            child: Text('Confirm', style: TextStyle(color: Colors.white)),
-          ),
-        ),
-      ],
-    );
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -215,54 +158,34 @@ class _CompletegallerypageState extends State<Completegallerypage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          SizedBox(height: 30),
-          Text("Upload to My Mate gallery"),
-          SizedBox(height: 20),
-          GestureDetector(
-            onTap: () {
-              _chooseImage(ImageSource.gallery);
-            },
-            child: SvgPicture.asset('assets/images/cloud.svg'),
-          ),
-          SizedBox(height: 20),
-          GestureDetector(
-            child: SvgPicture.asset('assets/images/orr.svg'),
-          ),
-          SizedBox(height: 20),
-          GestureDetector(
-            onTap: () {
-              _chooseImage(ImageSource.camera);
-            },
-            child: SvgPicture.asset('assets/images/took.svg'),
-          ),
           SizedBox(height: 40),
-          if (_imageUrls.any((url) => url != null))
-            _BuildImageGallery(
-              imageUrls: _imageUrls,
-              onDelete: (index) {
-                setState(() {
-                  _imageUrls[index] = null;
-                });
-              },
-            ),
-          SizedBox(height: 40),
-          _buildFooterRow()
-
+          _BuildImageGallery(
+            imageUrls: _imageUrls,
+            onDelete: (index) {
+              setState(() {
+                _imageUrls[index] = null;
+              });
+            },
+            onAdd: (index) async {
+              await _chooseImage(ImageSource.gallery);
+              await _fetchGalleryImages();
+            },
+          ),
         ],
       ),
     );
   }
 }
 
-
-
 class _BuildImageGallery extends StatelessWidget {
   final List<String?> imageUrls;
   final Function(int index) onDelete;
+  final Function(int index) onAdd;
 
   _BuildImageGallery({
     required this.imageUrls,
     required this.onDelete,
+    required this.onAdd,
   });
 
   Future<void> _deleteImageFromBackend(String docId, String url) async {
@@ -284,7 +207,7 @@ class _BuildImageGallery extends StatelessWidget {
       print("Error deleting image: $e");
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -292,54 +215,86 @@ class _BuildImageGallery extends StatelessWidget {
       children: List.generate(3, (index) {
         String? displayImageUrl = imageUrls[index];
 
-        if (displayImageUrl == null) {
-          return SizedBox(width: 0); // Skip the slot
-        }
-
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4),
-          child: Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            elevation: 4,
-            child: Column(
-              children: [
-                ClipRRect(
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              elevation: displayImageUrl != null
+                  ? 0
+                  : 0,
+              child: Container(
+                width: 120,
+                height: 180,
+                decoration: BoxDecoration(
+                  color: displayImageUrl != null
+                      ? Colors.white
+                      : Colors.grey[200], // Background color change
                   borderRadius: BorderRadius.circular(12),
-                  child: Container(
-                    width: 120,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: NetworkImage(displayImageUrl),
-                        fit: BoxFit.cover,
+                  border:  Border.all(
+                          color: Colors.grey.shade200,
+                          width: 1)
+
+                ),
+                child: displayImageUrl != null
+                    ? Column(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: Container(
+                              width: 120,
+                              height: 120,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: NetworkImage(displayImageUrl),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          GestureDetector(
+                            onTap: () async {
+                              await _deleteImageFromBackend(
+                                  (context.findAncestorStateOfType<
+                                              _EditGalleryScreenState>()
+                                          as _EditGalleryScreenState)
+                                      .widget
+                                      .docId,
+                                  displayImageUrl);
+
+                              onDelete(index);
+                            },
+                            child: Image.asset(
+                              'assets/images/trash.png',
+                              width: 24,
+                              height: 30,
+                                fit: BoxFit.contain
+                            ),
+                          ),
+                        ],
+                )
+                    : GestureDetector(
+                        onTap: () async {
+                          await onAdd(index);
+                        },
+                        child: Container(
+                          width: 120,
+                          height: 190,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: MyMateThemes.backgroundColor,
+                          ),
+                          child: Image.asset(
+                            'assets/images/Group 2236.png',
+                            width: 150,
+                            height: 100,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8),
-                GestureDetector(
-                  onTap: () async {
-
-                    await _deleteImageFromBackend(
-                        (context.findAncestorStateOfType<_CompletegallerypageState>() as _CompletegallerypageState).widget.docId,
-                        displayImageUrl);
-
-
-                    onDelete(index);
-                  },
-                  child: Image.asset(
-                      'assets/images/trash.png',
-                      width: 24,
-                      height: 30,
-                      fit: BoxFit.contain
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
+              ),
+            ));
       }),
     );
   }

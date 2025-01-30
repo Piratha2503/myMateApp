@@ -3,10 +3,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:mymateapp/Homepages/Profiles/boost_profile.dart';
 import 'package:mymateapp/MyMateCommonBodies/RouterFunction.dart';
 
+import '../../MyMateCommonBodies/MyMateApis.dart';
 import '../../MyMateThemes.dart';
 import '../Profiles/EditPage.dart';
 import '../Profiles/MoreAboutMe.dart';
-
 
 Widget IconWithText(String iconPath, String text1, String text2) {
   return Container(
@@ -50,19 +50,12 @@ Widget ActionButtons(BuildContext context, String docId) {
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       ElevatedButton(
-        onPressed: () {NavigatorFunction(context, boostprofile(docId: docId,));},
-        style: ElevatedButton.styleFrom(
-          backgroundColor: MyMateThemes.primaryColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-        ),
-        child: Text('Boost ',style: TextStyle(color: Colors.white),),
-      ),
-      SizedBox(width: 60),
-      ElevatedButton(
         onPressed: () {
-          NavigatorFunction(context, EditPage(docId: docId, onSave: () {  },));
+          NavigatorFunction(
+              context,
+              boostprofile(
+                docId: docId,
+              ));
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: MyMateThemes.primaryColor,
@@ -70,7 +63,31 @@ Widget ActionButtons(BuildContext context, String docId) {
             borderRadius: BorderRadius.circular(10.0),
           ),
         ),
-        child: Text('Edit Profile',style: TextStyle(color: Colors.white),),
+        child: Text(
+          'Boost ',
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+      SizedBox(width: 60),
+      ElevatedButton(
+        onPressed: () {
+          NavigatorFunction(
+              context,
+              EditPage(
+                docId: docId,
+                onSave: () {},
+              ));
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: MyMateThemes.primaryColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+        ),
+        child: Text(
+          'Edit Profile',
+          style: TextStyle(color: Colors.white),
+        ),
       ),
     ],
   );
@@ -82,119 +99,242 @@ Widget Containers({required List<Widget> children}) {
   );
 }
 
-Widget AdditionalInfo(BuildContext context) {
-  return Container(
-    padding: EdgeInsets.symmetric(horizontal: 16.0),
-    child: Column(
-      crossAxisAlignment:CrossAxisAlignment.start,
-      children: [
+final List<String> _alcoholOptions = [
+  'Never Had',
+  'Rarely Drinker',
+  'Occasionally Drinker',
+  'Regularly Drinker',
+  'Swimming in it (24/7)',
+];
+final List<String> _smokingOptions = [
+  'Never Had',
+  'Rarely Smoker',
+  'Occasionally Smoker',
+  'Regularly Smoker',
+  'Chain Smoker',
+];
 
-        Row(
-          children: [
-            SizedBox(width: 40),
-            Text(
-              'Hobby',
-              style: TextStyle(
-                color: MyMateThemes.textColor,
-                fontSize: 14,
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: 10),
-        Wrap(
-          spacing: 8.0,
-          runSpacing: 4.0,
-          children: [
-            SizedBox(width: 28),
-            Tag('Reading Story Book'),
-            SizedBox(width: 3),
-            Tag('Gardening'),
-          ],
-        ),
-        SizedBox(height: 25),
-        Row(
-          children: [
-            SizedBox(width: 40),
-            Text(
-              'Favorites',
-              style: TextStyle(
-                color: MyMateThemes.textColor,
-                fontSize: 14,
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: 10),
-        Wrap(
-          spacing: 8.0,
-          runSpacing: 4.0,
-          children: [
-            SizedBox(width: 28),
-            Tag('Ice cream'),
-            SizedBox(width: 3),
-            Tag('Traveling'),
-          ],
-        ),
-        SizedBox(height: 15),
-        Row(
-          children: [
-            SizedBox(width: 40),
-            Text(
-              'Alcohol',
-              style: TextStyle(
-                color: MyMateThemes.textColor,
-                fontSize: 14,
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: 25),
-        AlcoholSelection(context),
-        SizedBox(height: 25),
-        Row(
-          children: [
-            SizedBox(width: 40),
-            Text(
-              'Sports',
-              style: TextStyle(
-                color: MyMateThemes.textColor,
-                fontSize: 14,
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: 15),
-        Wrap(
-          spacing: 8.0,
-          runSpacing: 4.0,
-          children: [
-            SizedBox(width: 28),
-            Tag('Badminton'),
-            SizedBox(width: 3),
-            Tag('Chess'),
-          ],
-        ),
-        SizedBox(height: 20),
-        Row(
-          children: [
-            SizedBox(width: 40),
-            Text(
-              'Cooking',
-              style: TextStyle(
-                color: MyMateThemes.textColor,
-                fontSize: 14,
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: 10),
-        CookingSelection(),
-        SizedBox(height: 30),
+final List<String> _cookingOptions = [
+  'Zero',
+  'Novice',
+  'Basic',
+  'Intermediate',
+  'Advanced',
+];
 
-      ],
-    ),
-  );
+class AdditionalInfo extends StatefulWidget {
+  final String docId;
+  const AdditionalInfo({Key? key,required this.docId}) : super(key: key);
+
+  @override
+  _AdditionalInfoState createState() => _AdditionalInfoState();
+}
+
+class _AdditionalInfoState extends State<AdditionalInfo> {
+  int selectedAlcoholIndex = -1;
+  int selectedSmokingIndex = -1;
+  int selectedCookingIndex = -1;
+
+  final TextEditingController hobbyController = TextEditingController();
+  final TextEditingController favoritesController = TextEditingController();
+  final TextEditingController sportsController = TextEditingController();
+
+  List<String> hobbyTags = [];
+  List<String> favoritesTags = [];
+  List<String> sportsTags = [];
+
+  String _selectedValue = '';
+
+  int _getIndexFromString(String value, List<String> options) {
+    return options.indexOf(value);
+  }
+
+  Future<void> _fetchClientDetails() async {
+    try {
+      final data = await fetchUserById(widget.docId);
+
+      if (data.isNotEmpty) {
+        setState(() {
+          _selectedValue = data['eating_habit'] ?? '';
+          selectedAlcoholIndex =
+              _getIndexFromString(data['alcoholIntake'], _alcoholOptions);
+          selectedSmokingIndex =
+              _getIndexFromString(data['smoking'], _smokingOptions);
+          selectedCookingIndex =
+              _getIndexFromString(data['cooking'], _cookingOptions);
+          hobbyTags = List<String>.from(data['favorites'] ?? []);
+        });
+      }
+      print(selectedSmokingIndex);
+      print(selectedAlcoholIndex);
+      print(selectedCookingIndex);
+
+    } catch (e) {
+      print('Error occurred while fetching client details: $e');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchClientDetails();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              SizedBox(width: 40),
+              Text(
+                'Personal Interest',
+                style: TextStyle(
+                  color: MyMateThemes.textColor,
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 10),
+          Row(
+            children: [
+              SizedBox(width: 35),
+              SvgPicture.asset('assets/images/Line 11.svg'),
+            ],
+          ),
+          SizedBox(height: 15),
+          _buildTextField(hobbyController, 'Personal Interest'),
+          SizedBox(height: 20),
+          Wrap(
+            children: hobbyTags.map((tag) => _buildTag(tag)).toList(),
+          ),
+          SizedBox(height: 40),
+          Row(
+            children: [
+              SizedBox(width: 45),
+              Text(
+                'Habits',
+                style: TextStyle(
+                  color: MyMateThemes.textColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 10),
+          Row(
+            children: [
+              SizedBox(width: 35),
+              SvgPicture.asset('assets/images/Line 11.svg'),
+            ],
+          ),
+          SizedBox(height: 15),
+          Row(
+            children: [
+              SizedBox(width: 45),
+              Text(
+                'Eating Habits',
+                style: TextStyle(
+                  color: MyMateThemes.textColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Row(
+                children: [
+                  Radio<String>(
+                    value: 'Vegetarian',
+                    groupValue: _selectedValue,
+                    onChanged: null, // Disable interaction
+                    activeColor: MyMateThemes.primaryColor,
+                  ),
+                  Text('Vegetarian'),
+                ],
+              ),
+              SizedBox(width: 50),
+              Row(
+                children: [
+                  Radio<String>(
+                    value: 'Non- Vegetarian',
+                    groupValue: _selectedValue,
+                    onChanged: null, // Disable interaction
+                    activeColor: MyMateThemes.primaryColor,
+                  ),
+                  Text('Non- Vegetarian'),
+                ],
+              ),
+            ],
+          ),
+          SizedBox(height: 30),
+          Row(
+            children: [
+              SizedBox(width: 45),
+              Text(
+                'Alcohol',
+                style: TextStyle(
+                  color: MyMateThemes.textColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 30),
+          _buildAlcoholSelection(selectedAlcoholIndex,context),
+          SizedBox(height: 45),
+          Row(
+            children: [
+              SizedBox(width: 45),
+              Text(
+                'Smoking',
+                style: TextStyle(
+                  color: MyMateThemes.textColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 30),
+          _buildSmokingSelection(selectedSmokingIndex,context),
+          SizedBox(height: 45),
+          Row(
+            children: [
+              SizedBox(width: 45),
+              Text(
+                'Cooking',
+                style: TextStyle(
+                  color: MyMateThemes.textColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 10),
+          Row(
+            children: [
+              SizedBox(width: 35),
+              SvgPicture.asset('assets/images/Line 11.svg'),
+            ],
+          ),
+          SizedBox(height: 30),
+          _buildCookingSelection(selectedCookingIndex,context),
+        ],
+      ),
+    );
+  }
 }
 
 Widget Tag(String text) {
@@ -232,415 +372,172 @@ Widget SectionTitle(String title) {
   );
 }
 
-class AlcoholSelection extends StatefulWidget {
-  AlcoholSelection(BuildContext context);
-
-  @override
-  State<AlcoholSelection> createState() => _AlcoholSelectionState();
+Widget _buildTextField(TextEditingController controller, String hintText) {
+  return Container(
+    decoration: BoxDecoration(
+      color: MyMateThemes.containerColor,
+      borderRadius: BorderRadius.circular(8.0),
+    ),
+    width: 330,
+    height: 37,
+    child: Padding(
+      padding: const EdgeInsets.only(left: 10.0),
+      child: TextField(
+        controller: controller,
+        enabled: false, // Disable editing
+        decoration: InputDecoration(
+          hintStyle: TextStyle(color: MyMateThemes.textColor.withOpacity(0.5)),
+          border: InputBorder.none,
+          enabledBorder: InputBorder.none,
+          focusedBorder: InputBorder.none,
+          contentPadding: EdgeInsets.all(9.0),
+          hintText: hintText,
+        ),
+      ),
+    ),
+  );
 }
 
-class _AlcoholSelectionState extends State<AlcoholSelection>{
-  int selectedAlcoholIndex = 0;
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return Stack(
-      children: [
-        CustomPaint(
-          size: Size(MediaQuery.of(context).size.width, 24),
-          painter: _LinePainter(selectedAlcoholIndex: selectedAlcoholIndex),
-        ),
-
-        Row(
-          children: [
-            SizedBox(width: 15),
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    selectedAlcoholIndex = 0;
-                  });
-                },
-                child: Column(
-                  children: [
-                    CustomPaint(
-                      painter:
-                      _CirclePainter(isActive: selectedAlcoholIndex >= 0),
-                      child: SizedBox(
-                        width: 24,
-                        height: 24,
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      'Never',
-                      style: TextStyle(
-                        color: selectedAlcoholIndex >= 0
-                            ? MyMateThemes.textColor
-                            : Colors.grey[700],
-                        fontSize: 10,
-                      ),
-                    ),
-                    Text(
-                      'Had',
-                      style: TextStyle(
-                        color: selectedAlcoholIndex >= 0
-                            ? MyMateThemes.textColor
-                            : Colors.grey[700],
-                        fontSize: 10,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    selectedAlcoholIndex = 1;
-                  });
-                },
-                child: Column(
-                  children: [
-                    CustomPaint(
-                      painter:
-                      _CirclePainter(isActive: selectedAlcoholIndex >= 1),
-                      child: SizedBox(
-                        width: 24,
-                        height: 24,
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      'Rarely ',
-                      style: TextStyle(
-                        color: selectedAlcoholIndex >= 1
-                            ? MyMateThemes.textColor
-                            : Colors.grey[700],
-                        fontSize: 10,
-                      ),
-                    ),
-                    Text(
-                      'Drinker',
-                      style: TextStyle(
-                        color: selectedAlcoholIndex >= 1
-                            ? MyMateThemes.textColor
-                            : Colors.grey[700],
-                        fontSize: 10,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    selectedAlcoholIndex = 2;
-                  });
-                },
-                child: Column(
-                  children: [
-                    CustomPaint(
-                      painter:
-                      _CirclePainter(isActive: selectedAlcoholIndex >= 2),
-                      child: SizedBox(
-                        width: 24,
-                        height: 24,
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      'Occasionally',
-                      style: TextStyle(
-                        color: selectedAlcoholIndex >= 2
-                            ? MyMateThemes.textColor
-                            : Colors.grey[700],
-                        fontSize: 10,
-                      ),
-                    ),
-                    Text(
-                      'Drinker',
-                      style: TextStyle(
-                        color: selectedAlcoholIndex >= 2
-                            ? MyMateThemes.textColor
-                            : Colors.grey[700],
-                        fontSize: 10,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    selectedAlcoholIndex = 3;
-                  });
-                },
-                child: Column(
-                  children: [
-                    CustomPaint(
-                      painter:
-                      _CirclePainter(isActive: selectedAlcoholIndex >= 3),
-                      child: SizedBox(
-                        width: 24,
-                        height: 24,
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      'Regularly',
-                      style: TextStyle(
-                        color: selectedAlcoholIndex >= 3
-                            ? MyMateThemes.textColor
-                            : Colors.grey[700],
-                        fontSize: 10,
-                      ),
-                    ),
-                    Text(
-                      'Drinker',
-                      style: TextStyle(
-                        color: selectedAlcoholIndex >= 3
-                            ? MyMateThemes.textColor
-                            : Colors.grey[700],
-                        fontSize: 10,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    selectedAlcoholIndex = 4;
-                  });
-                },
-                child: Column(
-                  children: [
-                    CustomPaint(
-                      painter:
-                      _CirclePainter(isActive: selectedAlcoholIndex >= 4),
-                      child: SizedBox(
-                        width: 24,
-                        height: 24,
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      'Swimming',
-                      style: TextStyle(
-                        color: selectedAlcoholIndex >= 4
-                            ? MyMateThemes.textColor
-                            : Colors.grey[700],
-                        fontSize: 10,
-                      ),
-                    ),
-                    Text(
-                      ' in it (24/7)',
-                      style: TextStyle(
-                        color: selectedAlcoholIndex >= 4
-                            ? MyMateThemes.textColor
-                            : Colors.grey[700],
-                        fontSize: 10,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
+Widget _buildTag(String text) {
+  return Container(
+    margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+    padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+    decoration: BoxDecoration(
+      color: MyMateThemes.primaryColor,
+      borderRadius: BorderRadius.circular(8.0),
+    ),
+    child: Text(
+      text,
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 14.0,
+      ),
+    ),
+  );
 }
 
-class CookingSelection extends StatefulWidget {
-  const CookingSelection({super.key});
-
-  @override
-  State<CookingSelection> createState() => _CookingSelectionState();
+Widget _buildAlcoholSelection(
+    final int selectedAlcoholIndex,
+    BuildContext context,
+    ) {
+  return Stack(
+    children: [
+      CustomPaint(
+        size: Size(MediaQuery.of(context).size.width, 24),
+        painter: _LinePainter(selectedAlcoholIndex: selectedAlcoholIndex),
+      ),
+      Row(
+        children: [
+          for (int i = 0; i < 5; i++)
+            Expanded(
+              child: Column(
+                children: [
+                  CustomPaint(
+                    painter:
+                    _CirclePainter(isActive: selectedAlcoholIndex >= i),
+                    child: SizedBox(
+                      width: 24,
+                      height: 24,
+                    ),
+                  ),
+                  SizedBox(height: 13),
+                  Text(
+                    _alcoholOptions[i].split(' ')[0],
+                    style: TextStyle(
+                      color: Colors.grey[700],
+                      fontSize: 10,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+        ],
+      ),
+    ],
+  );
 }
 
-class _CookingSelectionState extends State<CookingSelection> {
-  int selectedCookingIndex = 0;
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        CustomPaint(
-          size: Size(MediaQuery.of(context).size.width, 24),
-          painter: _LinearPainter(selectedCookingIndex: selectedCookingIndex),
-        ),
-        Row(
-          children: [
-            SizedBox(width: 15),
+Widget _buildSmokingSelection(
+    final int selectedSmokingIndex,
+    BuildContext context,
+    ) {
+  return Stack(
+    children: [
+      CustomPaint(
+        size: Size(MediaQuery.of(context).size.width, 24),
+        painter: _SmokingLinePainter(selectedSmokingIndex: selectedSmokingIndex),
+      ),
+      Row(
+        children: [
+          for (int i = 0; i < 5; i++)
             Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    selectedCookingIndex = 0;
-                  });
-                },
-                child: Column(
-                  children: [
-                    CustomPaint(
-                      painter:
-                      _CirclePainter(isActive: selectedCookingIndex >= 0),
-                      child: SizedBox(
-                        width: 24,
-                        height: 24,
-                      ),
+              child: Column(
+                children: [
+                  CustomPaint(
+                    painter:
+                    _CirclePainter(isActive: selectedSmokingIndex >= i),
+                    child: SizedBox(
+                      width: 24,
+                      height: 24,
                     ),
-                    SizedBox(height: 5),
-                    Text(
-                      'Zero',
-                      style: TextStyle(
-                        color: selectedCookingIndex >= 0
-                            ? MyMateThemes.textColor
-                            : Colors.grey[700],
-                        fontSize: 10,
-                      ),
+                  ),
+                  SizedBox(height: 13),
+                  Text(
+                    _smokingOptions[i].split(' ')[0],
+                    style: TextStyle(
+                      color: Colors.grey[700],
+                      fontSize: 10,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
+        ],
+      ),
+    ],
+  );
+}
+
+Widget _buildCookingSelection(
+    final int selectedCookingIndex,
+    BuildContext context,
+    ) {
+
+  return Stack(
+    children: [
+      CustomPaint(
+        size: Size(MediaQuery.of(context).size.width, 24),
+        painter: _LinearPainter(selectedCookingIndex: selectedCookingIndex),
+      ),
+      Row(
+        children: [
+          for (int i = 0; i < 5; i++)
             Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    selectedCookingIndex = 1;
-                  });
-                },
-                child: Column(
-                  children: [
-                    CustomPaint(
-                      painter:
-                      _CirclePainter(isActive: selectedCookingIndex >= 1),
-                      child: SizedBox(
-                        width: 24,
-                        height: 24,
-                      ),
+              child: Column(
+                children: [
+                  CustomPaint(
+                    painter:
+                    _CirclePainter(isActive: selectedCookingIndex >= i),
+                    child: SizedBox(
+                      width: 24,
+                      height: 24,
                     ),
-                    SizedBox(height: 5),
-                    Text(
-                      'Novice',
-                      style: TextStyle(
-                        color: selectedCookingIndex >= 1
-                            ? MyMateThemes.textColor
-                            : Colors.grey[700],
-                        fontSize: 10,
-                      ),
+                  ),
+                  SizedBox(height: 13),
+                  Text(
+                    _cookingOptions[i],
+                    style: TextStyle(
+                      color: Colors.grey[700],
+                      fontSize: 10,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    selectedCookingIndex = 2;
-                  });
-                },
-                child: Column(
-                  children: [
-                    CustomPaint(
-                      painter:
-                      _CirclePainter(isActive: selectedCookingIndex >= 2),
-                      child: SizedBox(
-                        width: 24,
-                        height: 24,
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      'Basic',
-                      style: TextStyle(
-                        color: selectedCookingIndex >= 2
-                            ? MyMateThemes.textColor
-                            : Colors.grey[700],
-                        fontSize: 10,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    selectedCookingIndex = 3;
-                  });
-                },
-                child: Column(
-                  children: [
-                    CustomPaint(
-                      painter:
-                      _CirclePainter(isActive: selectedCookingIndex >= 3),
-                      child: SizedBox(
-                        width: 24,
-                        height: 24,
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      'Intermediate',
-                      style: TextStyle(
-                        color: selectedCookingIndex >= 3
-                            ? MyMateThemes.textColor
-                            : Colors.grey[700],
-                        fontSize: 10,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    selectedCookingIndex = 4;
-                  });
-                },
-                child: Column(
-                  children: [
-                    CustomPaint(
-                      painter:
-                      _CirclePainter(isActive: selectedCookingIndex >= 4),
-                      child: SizedBox(
-                        width: 24,
-                        height: 24,
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      'Advanced',
-                      style: TextStyle(
-                        color: selectedCookingIndex >= 4
-                            ? MyMateThemes.textColor
-                            : Colors.grey[700],
-                        fontSize: 10,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
+        ],
+      ),
+    ],
+  );
 }
 
 class _CirclePainter extends CustomPainter {
@@ -651,14 +548,16 @@ class _CirclePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = isActive ? MyMateThemes.primaryColor : Colors.grey[300]!
+      ..color =
+      isActive ? MyMateThemes.primaryColor : Colors.grey.withOpacity(0.3)
       ..style = PaintingStyle.fill;
 
-    canvas.drawCircle(Offset(size.width / 2, size.height / 2), 12, paint);
+    canvas.drawCircle(
+        Offset(size.width / 2, size.height / 2), size.width / 2, paint);
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+  bool shouldRepaint(CustomPainter oldDelegate) {
     return true;
   }
 }
@@ -676,13 +575,42 @@ class _LinePainter extends CustomPainter {
 
     final double segmentWidth = size.width / 5;
 
-    // Draw lines between circles
     for (int i = 0; i < 4; i++) {
-      if (i < selectedAlcoholIndex) {
-        paint.color = MyMateThemes.primaryColor;
-      } else {
-        paint.color = Colors.grey.withOpacity(0.1);
-      }
+      paint.color = i < selectedAlcoholIndex
+          ? MyMateThemes.primaryColor
+          : Colors.grey.withOpacity(0.1);
+      canvas.drawLine(
+        Offset((i + 0.5) * segmentWidth, size.height / 2),
+        Offset((i + 1.5) * segmentWidth, size.height / 2),
+        paint,
+      );
+    }
+  }
+
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return true;
+  }
+}
+
+class _SmokingLinePainter extends CustomPainter {
+  final int selectedSmokingIndex;
+
+  _SmokingLinePainter({required this.selectedSmokingIndex});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = MyMateThemes.primaryColor
+      ..strokeWidth = 4;
+
+    final double segmentWidth = size.width / 5;
+
+    for (int i = 0; i < 4; i++) {
+      paint.color = i < selectedSmokingIndex
+          ? MyMateThemes.primaryColor
+          : Colors.grey.withOpacity(0.1);
       canvas.drawLine(
         Offset((i + 0.5) * segmentWidth, size.height / 2),
         Offset((i + 1.5) * segmentWidth, size.height / 2),
@@ -710,13 +638,10 @@ class _LinearPainter extends CustomPainter {
 
     final double segmentWidth = size.width / 5;
 
-    // Draw lines between circles
     for (int i = 0; i < 4; i++) {
-      if (i < selectedCookingIndex) {
-        paint.color = MyMateThemes.primaryColor;
-      } else {
-        paint.color = Colors.grey.withOpacity(0.1);
-      }
+      paint.color = i < selectedCookingIndex
+          ? MyMateThemes.primaryColor
+          : Colors.grey.withOpacity(0.1);
       canvas.drawLine(
         Offset((i + 0.5) * segmentWidth, size.height / 2),
         Offset((i + 1.5) * segmentWidth, size.height / 2),
