@@ -49,11 +49,53 @@ class _EditGalleryScreenState extends State<EditGalleryScreen> {
     );
   }
 
+  void _openPopupScreen() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: SizedBox(
+            height: 300,
+            width: 400,
+            child: Column(
+              children: [
+                SizedBox(height: 25),
+                GestureDetector(
+                  onTap: () {
+                    _chooseImage(ImageSource.gallery);
+                    Navigator.of(context).pop();
+                  },
+                  child: SvgPicture.asset('assets/images/choose.svg'),
+                ),
+                SizedBox(height: 15),
+                GestureDetector(
+                  child: SvgPicture.asset('assets/images/or.svg'),
+                ),
+                SizedBox(height: 15),
+                GestureDetector(
+                  onTap: () {
+                    _chooseImage(ImageSource.camera);
+                    Navigator.of(context).pop();
+                  },
+                  child: SvgPicture.asset('assets/images/take.svg'),
+                ),
+                SizedBox(height: 20),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: SvgPicture.asset('assets/images/Active.svg'),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   Future<void> _chooseImage(ImageSource source) async {
-    if (_imageUrls.where((url) => url != null).length >= 3) {
-      _showMaxImageLimitDialog();
-      return;
-    }
+
 
     final picker = ImagePicker();
     final pickedImage = await picker.pickImage(source: source);
@@ -169,7 +211,9 @@ class _EditGalleryScreenState extends State<EditGalleryScreen> {
             onAdd: (index) async {
               await _chooseImage(ImageSource.gallery);
               await _fetchGalleryImages();
-            },
+
+            }, openPopupScreen: _openPopupScreen
+
           ),
         ],
       ),
@@ -181,12 +225,15 @@ class _BuildImageGallery extends StatelessWidget {
   final List<String?> imageUrls;
   final Function(int index) onDelete;
   final Function(int index) onAdd;
-
+  final VoidCallback openPopupScreen;
   _BuildImageGallery({
     required this.imageUrls,
     required this.onDelete,
     required this.onAdd,
+    required this.openPopupScreen,
   });
+
+
 
   Future<void> _deleteImageFromBackend(String docId, String url) async {
     final apiurl = Uri.parse(
@@ -230,7 +277,7 @@ class _BuildImageGallery extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: displayImageUrl != null
                       ? Colors.white
-                      : Colors.grey[200], // Background color change
+                      : Colors.grey[200],
                   borderRadius: BorderRadius.circular(12),
                   border:  Border.all(
                           color: Colors.grey.shade200,
@@ -277,7 +324,8 @@ class _BuildImageGallery extends StatelessWidget {
                 )
                     : GestureDetector(
                         onTap: () async {
-                          await onAdd(index);
+                          openPopupScreen();
+
                         },
                         child: Container(
                           width: 120,
