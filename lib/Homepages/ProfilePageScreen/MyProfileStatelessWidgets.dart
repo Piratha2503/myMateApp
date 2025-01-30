@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mymateapp/Homepages/ProfilePageScreen/rasiChartDesign.dart';
+import 'package:mymateapp/MyMateCommonBodies/MyMateApis.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import '../../MyMateThemes.dart';
 import 'MyProfileBodyWidgets.dart';
@@ -12,12 +13,15 @@ import 'navamsaChartDesign.dart';
 class AboutMe extends StatefulWidget {
   final String education;
   final PersonalDetails personalDetails;
+  final docId;
 
-  const AboutMe({super.key, required this.education,required this.personalDetails});
+  const AboutMe({super.key, required this.education,required this.personalDetails,required this.docId});
 
   @override
   State<AboutMe> createState() => _AboutMeState();
 }
+
+
 
 class _AboutMeState extends State<AboutMe>{
   @override
@@ -74,7 +78,7 @@ class _AboutMeState extends State<AboutMe>{
             SizedBox(height: 15),
 
             // Expectations Widget
-            Expectations(),
+            ExpectationsWidget(docId:widget.docId),
           ],
         ),
       ),
@@ -82,6 +86,8 @@ class _AboutMeState extends State<AboutMe>{
   }
 
 }
+
+
 
 
 
@@ -230,3 +236,4 @@ class AstrologySection extends StatelessWidget {
     );
   }
 }
+

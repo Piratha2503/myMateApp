@@ -29,7 +29,6 @@ class _GooglePlacesAPIState extends State<GooglePlacesAPI>{
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-
       width: 300,
       child: GooglePlaceAutoCompleteTextField(
         countries: ["LK"],

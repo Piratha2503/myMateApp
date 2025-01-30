@@ -45,7 +45,9 @@ class _EditPageState extends State<EditPage> {
   @override
   void initState() {
     super.initState();
+    print(widget.docId);
     _fetchClientData();
+
   }
 
   Future<void> _fetchClientData() async {
@@ -81,6 +83,7 @@ class _EditPageState extends State<EditPage> {
           }
         });
       } else {
+
         setState(() {
           isLoading = true;
         });
@@ -133,9 +136,10 @@ class _EditPageState extends State<EditPage> {
   }
 
   void _onSave() async {
-
+    print(widget.docId);
     setState(() {
       isLoading = true;
+
     });
 
     try {
@@ -248,6 +252,7 @@ class _EditPageState extends State<EditPage> {
                     ),
                   );
                 }).toList(),
+
               ),
             ),
           ),
@@ -360,8 +365,8 @@ class _EditPageState extends State<EditPage> {
 
     Map<String, dynamic> personalDetails = {
 
-      'marital_status': _selectedCivilStatus ?? 'Single',
-      'religion': _selectedReligion ?? 'Christian-Rc',
+      'marital_status': _selectedCivilStatus ?? '',
+      'religion': _selectedReligion ?? '',
     };
 
     Map<String, dynamic> contactInfo = {
@@ -374,6 +379,7 @@ class _EditPageState extends State<EditPage> {
 
     Map<String, dynamic> careerStudies = {
       'occupation': occupationController.text,
+      'occupation_type' : _selectedEmploymentType ?? '',
 
     };
 
@@ -448,6 +454,7 @@ class _EditPageState extends State<EditPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: SafeArea(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -511,10 +518,11 @@ class _EditPageState extends State<EditPage> {
                     label: 'Civil Status',
                     value: _selectedCivilStatus,
                     items: [
-                      '$_selectedCivilStatus',
+                      'Select Option',
                       'Single',
-                      'Married',
-                      'Widowed',
+                      'Unmarried',
+                      'Divorced',
+                      'Widowed'
                     ],
                     onChanged: (value) {
                       setState(() {
@@ -527,10 +535,12 @@ class _EditPageState extends State<EditPage> {
                     label: 'Employment Type',
                     value: _selectedEmploymentType,
                     items: [
-                      '$_selectedEmploymentType',
-                      'professional',
-                      'Private'
-
+                      'Select Option ',
+                      'Government',
+                      'Private',
+                      'Self Employed',
+                      'Unemployed',
+                      'Professional'
 
                     ],
                     onChanged: (value) {
@@ -557,10 +567,11 @@ class _EditPageState extends State<EditPage> {
                     label: 'District',
                     value: _selectedDistrict,
                     items: [
-                      '$_selectedDistrict',
+                      'Select Option',
                       'Colombo',
                       'Kandy',
                       'Jaffna',
+                      'melbourn'
                     ],
                     onChanged: (value) {
                       setState(() {
@@ -580,10 +591,11 @@ class _EditPageState extends State<EditPage> {
                     label: 'Religion',
                     value: _selectedReligion,
                     items: [
-                      '$_selectedReligion',
-                      'Christian-Rc',
-                      'hindu',
-                      'Islam',
+                      'Select Option',
+                      'Hindu',
+                      'Christian',
+                      'Muslim',
+                      'Buddhist'
                     ],
                     onChanged: (value) {
                       setState(() {
