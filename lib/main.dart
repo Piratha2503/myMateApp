@@ -3,14 +3,23 @@ import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:mymateapp/ChartPages/ManualRasiChartPage.dart';
+import 'package:mymateapp/Homepages/CompleteProfileScreen/CompleteProfileMain.dart';
+import 'package:mymateapp/Homepages/Profiles/EditPage.dart';
 import 'package:mymateapp/Homepages/RegisterPages/RegisterPage.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Homepages/ProfilePageScreen/MyProfileMain.dart';
-import 'Homepages/Profiles/EditPage.dart';
+import 'Homepages/ProfilePageScreen/viewmoreaboutme.dart';
+import 'Homepages/Profiles/MoreAboutMe.dart';
+import 'Homepages/Profiles/boost_profile.dart';
+import 'Homepages/SubscribedHomeScreen.dart';
+import 'Homepages/SubscribedhomeScreen/SubscribedHomeScreenBeforeProfileCompleted.dart';
 import 'Homepages/SubscribedhomeScreen/SubscribedHomeScreenStructured.dart';
+import 'Homepages/explorePage/explorePageMain.dart';
+import 'Homepages/AddTokenPage.dart';
 import 'firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +34,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Astrology astrology = Astrology();
 
     ClientData clientData = ClientData();
     PersonalDetails personalDetails = PersonalDetails();
@@ -43,9 +51,15 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
 
       home:
+          // ProfilePage(selectedBottomBarIconIndex: 3, docId: 'SYfMHh6YUL6yobmIZXwO',)
+      //AuthcheckState()
+      //ProfilePage(docId: "SYfMHh6YUL6yobmIZXwO", selectedBottomBarIconIndex:0,),
       // CheckmatchPage( clientDocId: '', soulDocId: '',),
+      // RegisterPage()
+      // SubscribedhomescreenStructuredPage(docId: 'E0JFHhK2x6Gq2Ac6XSyP',)
+        //CompleteProfilePage(docId: 'vVm5FU8qEIjO5sO8b8l4')
       EditPage(docId: 'SYfMHh6YUL6yobmIZXwO', onSave: () {  },)
-    //  ManualNavamsaChartPage(clientData: clientData, astrology:astrology)
+
     );
   }
 }
@@ -72,9 +86,9 @@ class _AuthcheckState extends State<AuthcheckState> {
         } else {
           final docId = snapshot.data;
           if (docId != null) {
-            return ProfilePage(docId: docId, selectedBottomBarIconIndex: 3,);
+            return SubscribedhomescreenStructuredPage(docId: docId,);
           } else {
-            return SubscribedhomescreenStructuredPage(docId: 'yVBYhDY52IN0IwMkmcGu');
+            return RegisterPage();
           }
         }
       },

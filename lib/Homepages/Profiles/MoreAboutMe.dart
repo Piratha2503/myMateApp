@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mymateapp/MyMateThemes.dart';
@@ -5,7 +7,8 @@ import 'package:mymateapp/MyMateThemes.dart';
 import '../ProfilePageScreen/MyProfileMain.dart';
 
 class MoreAboutMePage extends StatefulWidget {
-  const MoreAboutMePage({super.key});
+  final String docId;
+  const MoreAboutMePage({super.key,required this.docId});
 
   @override
   State<MoreAboutMePage> createState() => _MoreAboutMePageState();
@@ -24,7 +27,7 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
   List<String> favoritesTags = [];
   List<String> sportsTags = [];
 
-  String _selectedValue = 'Option 1';
+  String _selectedValue = '';
 
 
   void _addHobbyTag() {
@@ -48,33 +51,102 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
     });
   }
 
-  void _storeSelectedValues() {
-    // Example logic to store the selected values
-    // Replace this with your actual storage logic
-    final selectedValues = {
-      'hobbies': hobbyTags,
-      'favorites': favoritesTags,
-      'sports': sportsTags,
-      'selectedAlcoholIndex': selectedAlcoholIndex,
-      'selectedSmokingIndex': selectedSmokingIndex,
-      'selectedCookingIndex': selectedCookingIndex,
+
+  void _StoreSelectedValues() async {
+
+    final Map<String, dynamic> requestData = {
+      'docId':widget.docId,
+      'lifestyle' : {
+        'eating_habit': _selectedValue,
+
+        'alcoholIntake': _getAlcoholString(selectedAlcoholIndex),
+
+        'smoking': _getSmokingString(selectedSmokingIndex),
+
+        'cooking': _getCookingString(selectedCookingIndex),
+
+         'personal_interest': hobbyTags,
+      }
     };
 
-    print('Selected Values: $selectedValues');
+    try {
+      final response = await http.put(
+        Uri.parse('https://backend.graycorp.io:9000/mymate/api/v1/updateClient'),
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+        body: jsonEncode(requestData),
+      );
 
-    // Example: If you are using Firebase Firestore to store the data
-    // FirebaseFirestore.instance.collection('userPreferences').add(selectedValues).then((_) {
-    //   print('Values stored successfully');
-    // }).catchError((error) {
-    //   print('Failed to store values: $error');
-    // });
-
-    // Optionally, navigate to another page or show a success message
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => ProfilePage(
-              docId: '', selectedBottomBarIconIndex: 0,
-            )));
+      if (response.statusCode == 200) {
+        print('Data successfully sent: ${response.body}');
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => ProfilePage(
+            docId: widget.docId,
+            selectedBottomBarIconIndex: 0,
+          ),
+        ));
+      } else {
+        print('Failed to send data. Status code: ${response.statusCode}');
+        print('Response: ${response.body}');
+      }
+    } catch (e) {
+      print('Error occurred: $e');
+    }
   }
+
+  String _getAlcoholString(int index) {
+    switch (index) {
+      case 0:
+        return 'Never Had';
+      case 1:
+        return 'Rarely Drinker';
+      case 2:
+        return 'Occasionally Drinker';
+      case 3:
+        return 'Regularly Drinker';
+      case 4:
+        return 'Swimming in it (24/7)';
+      default:
+        return 'Unknown';
+    }
+  }
+
+  String _getSmokingString(int index) {
+    switch (index) {
+      case 0:
+        return 'Never Had';
+      case 1:
+        return 'Rarely Smoker';
+      case 2:
+        return 'Occasionally Smoker';
+      case 3:
+        return 'Regularly Smoker';
+      case 4:
+        return 'chain smoker';
+      default:
+        return 'Unknown';
+    }
+  }
+
+  String _getCookingString(int index) {
+    switch (index) {
+      case 0:
+        return 'Zero';
+      case 1:
+        return 'Novice';
+      case 2:
+        return 'Basic';
+      case 3:
+        return 'Intermediate';
+      case 4:
+        return 'Advanced';
+      default:
+        return 'Unknown';
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -304,7 +376,7 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                 ElevatedButton(
                   onPressed: () {
                     // Store the selected values
-                    _storeSelectedValues();
+                    _StoreSelectedValues();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: MyMateThemes.primaryColor,
@@ -433,7 +505,7 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                   children: [
                     CustomPaint(
                       painter:
-                          _CirclePainter(isActive: selectedAlcoholIndex >= 0),
+                      _CirclePainter(isActive: selectedAlcoholIndex >= 0),
                       child: SizedBox(
                         width: 24,
                         height: 24,
@@ -473,7 +545,7 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                   children: [
                     CustomPaint(
                       painter:
-                          _CirclePainter(isActive: selectedAlcoholIndex >= 1),
+                      _CirclePainter(isActive: selectedAlcoholIndex >= 1),
                       child: SizedBox(
                         width: 24,
                         height: 24,
@@ -513,7 +585,7 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                   children: [
                     CustomPaint(
                       painter:
-                          _CirclePainter(isActive: selectedAlcoholIndex >= 2),
+                      _CirclePainter(isActive: selectedAlcoholIndex >= 2),
                       child: SizedBox(
                         width: 24,
                         height: 24,
@@ -553,7 +625,7 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                   children: [
                     CustomPaint(
                       painter:
-                          _CirclePainter(isActive: selectedAlcoholIndex >= 3),
+                      _CirclePainter(isActive: selectedAlcoholIndex >= 3),
                       child: SizedBox(
                         width: 24,
                         height: 24,
@@ -593,7 +665,7 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                   children: [
                     CustomPaint(
                       painter:
-                          _CirclePainter(isActive: selectedAlcoholIndex >= 4),
+                      _CirclePainter(isActive: selectedAlcoholIndex >= 4),
                       child: SizedBox(
                         width: 24,
                         height: 24,
@@ -865,7 +937,7 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                   children: [
                     CustomPaint(
                       painter:
-                          _CirclePainter(isActive: selectedCookingIndex >= 0),
+                      _CirclePainter(isActive: selectedCookingIndex >= 0),
                       child: SizedBox(
                         width: 24,
                         height: 24,
@@ -896,7 +968,7 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                   children: [
                     CustomPaint(
                       painter:
-                          _CirclePainter(isActive: selectedCookingIndex >= 1),
+                      _CirclePainter(isActive: selectedCookingIndex >= 1),
                       child: SizedBox(
                         width: 24,
                         height: 24,
@@ -927,7 +999,7 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                   children: [
                     CustomPaint(
                       painter:
-                          _CirclePainter(isActive: selectedCookingIndex >= 2),
+                      _CirclePainter(isActive: selectedCookingIndex >= 2),
                       child: SizedBox(
                         width: 24,
                         height: 24,
@@ -958,7 +1030,7 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                   children: [
                     CustomPaint(
                       painter:
-                          _CirclePainter(isActive: selectedCookingIndex >= 3),
+                      _CirclePainter(isActive: selectedCookingIndex >= 3),
                       child: SizedBox(
                         width: 24,
                         height: 24,
@@ -989,7 +1061,7 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                   children: [
                     CustomPaint(
                       painter:
-                          _CirclePainter(isActive: selectedCookingIndex >= 4),
+                      _CirclePainter(isActive: selectedCookingIndex >= 4),
                       child: SizedBox(
                         width: 24,
                         height: 24,
@@ -1025,7 +1097,7 @@ class _CirclePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
       ..color =
-          isActive ? MyMateThemes.primaryColor : Colors.grey.withOpacity(0.3)
+      isActive ? MyMateThemes.primaryColor : Colors.grey.withOpacity(0.3)
       ..style = PaintingStyle.fill;
 
     canvas.drawCircle(
