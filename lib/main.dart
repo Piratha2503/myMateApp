@@ -7,15 +7,10 @@ import 'package:mymateapp/ChartPages/ManualRasiChartPage.dart';
 import 'package:mymateapp/Homepages/RegisterPages/RegisterPage.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'ChartPages/ManualNavamsaChartPage.dart';
 import 'Homepages/ProfilePageScreen/MyProfileMain.dart';
-import 'Homepages/Profiles/boost_profile.dart';
+import 'Homepages/Profiles/EditPage.dart';
 import 'Homepages/SubscribedhomeScreen/SubscribedHomeScreenStructured.dart';
-import 'Homepages/explorePage/explorePageMain.dart';
-import 'Homepages/AddTokenPage.dart';
 import 'firebase_options.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,7 +44,7 @@ class MyApp extends StatelessWidget {
 
       home:
       // CheckmatchPage( clientDocId: '', soulDocId: '',),
-      ManualRasiChartPage(clientData: clientData),
+      EditPage(docId: 'SYfMHh6YUL6yobmIZXwO', onSave: () {  },)
     //  ManualNavamsaChartPage(clientData: clientData, astrology:astrology)
     );
   }
