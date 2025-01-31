@@ -30,13 +30,14 @@ class MyMateAPIs{
 Future<Map<String, dynamic>> fetchUserById(String docId,) async {
   final String apiUrl = MyMateAPIs.get_client_byDocId_API;
 
+
   try {
     if (docId.isEmpty) {
       print('Error: userId is empty');
       return {};
     }
     final Uri url = Uri.parse('$apiUrl?docId=$docId');
-
+    print('Fetching details from: $url');
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -107,7 +108,7 @@ Future<Map<String, dynamic>> fetchUserById(String docId,) async {
         'favorites': lifestyle['personal_interest'] ?? 'N/A',
         'alcohol': lifestyle['habits'] ?? 'N/A',
         'sports': data['sports'] ?? 'N/A',
-        'cooking': data['cooking'] ?? 'N/A',
+        // 'cooking': data['cooking'] ?? 'N/A',
         'bio': personalDetails['bio'] ?? 'N/A',
         'images': userImages,
         'civil_status' : personalDetails['marital_status'] ?? 'N/A',
@@ -117,6 +118,11 @@ Future<Map<String, dynamic>> fetchUserById(String docId,) async {
         'country' : address['country'] ?? 'N/A',
         'rasi': astrology['rasi'] ?? 'N/A',
         'natchathiram': astrology['natchathiram'] ?? 'N/A',
+        'alcoholIntake' :lifestyle['alcoholIntake'] ?? 'N/A',
+        'cooking' :lifestyle['cooking'] ?? 'N/A',
+        'eating_habit' :lifestyle['eating_habit'] ?? 'N/A',
+        'smoking' :lifestyle['smoking'] ?? 'N/A',
+        'personal_intrest': lifestyle['personal_intrest'] ?? 'N/A',
 
 
       };

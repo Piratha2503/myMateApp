@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mymateapp/Homepages/ProfilePageScreen/photoGalleryPage.dart';
+import 'package:mymateapp/Homepages/ProfilePageScreen/viewmoreaboutme.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import '../../MyMateCommonBodies/MyMateApis.dart';
@@ -71,6 +72,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
   Future<void> getClient() async {
     //DocumentSnapshot client = await firebase.clients.doc(widget.docId).get();
     final data = await fetchUserById(widget.docId);
+
     if(data.isNotEmpty){
       setState(() {
         personalDetails.full_name = data['full_name'] ?? "N/A";
@@ -238,7 +240,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                               final result = await Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => MoreAboutMePage(),
+                                  builder: (context) => MoreAboutMePage(docId: widget.docId,),
                                 ),
                               );
                               if (result != null) {
@@ -261,7 +263,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                     // Second Section - Show if the form is filled
                     if (isFormFilled) ...[
                       // Your additional info section here
-                      AdditionalInfo(context),
+                      AdditionalInfo(docId: widget.docId,)
                     ],
                   ],
                 ),

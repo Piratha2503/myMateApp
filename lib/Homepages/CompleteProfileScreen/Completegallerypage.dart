@@ -319,8 +319,8 @@ class _BuildImageGallery extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 8),
-                IconButton(
-                  onPressed: () async {
+                GestureDetector(
+                  onTap: () async {
 
                     await _deleteImageFromBackend(
                         (context.findAncestorStateOfType<_CompletegallerypageState>() as _CompletegallerypageState).widget.docId,
@@ -329,7 +329,12 @@ class _BuildImageGallery extends StatelessWidget {
 
                     onDelete(index);
                   },
-                  icon: Icon(Icons.delete, color: Colors.blue),
+                  child: Image.asset(
+                      'assets/images/trash.png',
+                      width: 24,
+                      height: 30,
+                      fit: BoxFit.contain
+                  ),
                 ),
               ],
             ),
