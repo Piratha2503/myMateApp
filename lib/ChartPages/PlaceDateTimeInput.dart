@@ -244,7 +244,7 @@ class _PlaceDateTimeInputState extends State<PlaceDateTimeInput> {
     widget.clientData.astrology = astrology;
     print(jsonEncode(widget.clientData.toMap()));
 
-    final url = Uri.parse("http://192.168.1.6:9000/mymate/api/v1/updateClient");
+    final url = Uri.parse("https://backend.graycorp.io:9000/mymate/api/v1/updateClient");
     final response = await http.put(
       url,
       headers: {'Content-Type': 'application/json'},
