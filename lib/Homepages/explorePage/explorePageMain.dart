@@ -94,13 +94,6 @@ class _ExplorePageState extends State<ExplorePage> with SingleTickerProviderStat
           viewMatchesFuture = searchAllUsers(searchCriteria);
         }
 
-        // if (query.isEmpty) {
-        //   filteredResults = List.from(allResults);
-        // } else {
-        //   filteredResults = allResults
-        //       .where((profile) => profile['full_name'].toLowerCase().contains(query))
-        //       .toList();
-        // }
       }
 
 
@@ -110,39 +103,6 @@ class _ExplorePageState extends State<ExplorePage> with SingleTickerProviderStat
     );
   }
 
-  // void _performSearch() {
-  //   if (_debounce?.isActive ?? false) _debounce.cancel();
-  //
-  //   _debounce = Timer(const Duration(milliseconds: 500), () {
-  //     String query = searchController.text.toLowerCase().trim();
-  //
-  //
-  //     final searchCriteria = {
-  //       'full_name': searchController.text.trim(),
-  //     };
-  //     setState(() {
-  //
-  //       if (searchCriteria['full_name']!.isEmpty) {
-  //         exploreAllFuture = getProfiles();
-  //       } else {
-  //         exploreAllFuture = searchAllUsers(searchCriteria);
-  //         viewMatchesFuture = searchAllUsers(searchCriteria);
-  //       }
-  //
-  //       if (query.isEmpty) {
-  //         filteredResults = List.from(allResults);
-  //       } else {
-  //         filteredResults = allResults
-  //             .where((profile) => profile['full_name'].toLowerCase().contains(query))
-  //             .toList();
-  //       }
-  //     }
-  //
-  //
-  //
-  //     );
-  //   });
-  // }
 
   Future<void> _applySearch() async {
     final searchCriteria = {
@@ -296,37 +256,43 @@ class _ExplorePageState extends State<ExplorePage> with SingleTickerProviderStat
                               if (_tabController.index != 2)
                                 Container(
                                   height: 35.h,
-                                  width: 325.w,
+                                  width: 353.w,
                                   decoration: BoxDecoration(
                                     border: Border.all(
                                       color: MyMateThemes.textColor.withOpacity(0.1),
                                       width: 1,
                                     ),
-                                    borderRadius: BorderRadius.circular(60),
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
                                   child:
-                                  TextField(
-                                    controller: searchController,
-                                    cursorColor: MyMateThemes.textColor,
-                                    style: TextStyle(fontSize: 14.sp, color: MyMateThemes.textColor),
-                                    decoration: InputDecoration(
-                                      prefixIcon: Padding(
-                                        padding: EdgeInsets.all(12.r), // Adjust padding if needed
-                                        child: SvgPicture.asset(
-                                          'assets/images/search.svg', // Update with your SVG path
-                                          colorFilter: ColorFilter.mode(
-                                            MyMateThemes.textColor.withOpacity(0.9),
-                                            BlendMode.srcIn,
-                                          ),
-                                        ),
-                                      ),
-                                      contentPadding: EdgeInsets.symmetric(vertical: 3.h), // Centers text vertically
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10.r),
-                                        borderSide: BorderSide.none,
-                                      ),
-                                    ),
-                                  ),
+                                      Padding(
+                                  padding:EdgeInsets.symmetric(horizontal: 1.w),
+                                   child:TextField(
+
+                                     controller: searchController,
+                                     cursorColor: MyMateThemes.textColor,
+                                     style: TextStyle(fontSize: 14.sp, color: MyMateThemes.textColor),
+                                     decoration: InputDecoration(
+                                       prefixIcon: Padding(
+                                         //  padding:EdgeInsets.symmetric(horizontal: 25.w), // Adjust padding if needed
+                                         padding: EdgeInsets.all(8.r), // Adjust padding if needed
+                                         child: SvgPicture.asset(
+                                           'assets/images/search.svg', // Update with your SVG path
+                                           colorFilter: ColorFilter.mode(
+                                             MyMateThemes.textColor.withOpacity(0.6),
+                                             BlendMode.srcIn,
+                                           ),
+                                         ),
+                                       ),
+                                       contentPadding: EdgeInsets.symmetric(vertical: 3.h), // Centers text vertically
+                                       border: OutlineInputBorder(
+                                         borderRadius: BorderRadius.circular(10.r),
+                                         borderSide: BorderSide.none,
+                                       ),
+                                     ),
+                                   ),
+
+                                      )
                                 ),
                             ],
                           ),

@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
 import '../Homepages/explorePage/explorePageWidgets.dart';
+import '../dbConnection/ClientDatabase.dart';
 
 class MyMateAPIs{
 
@@ -24,6 +24,8 @@ class MyMateAPIs{
   static String filter_Clients_API = "$vpsApi+$commonEndPoint/clientFilter";
 
   static String send_request_API = "https://backend.graycorp.io:9000/mymate/api/v1/RequestSent";
+
+
 
 
 }
@@ -289,3 +291,34 @@ Future<List<Map<String, dynamic>>> searchAllUsers(Map<String, String> searchPara
 
 
 
+Future<void> updateClientData(ClientData clientData) async {
+  final url = Uri.parse('https://backend.graycorp.io:9000/mymate/api/v1/updateClient');
+
+  try {
+    final Map<String, dynamic> clientDataMap = clientData.toMap();
+    print("📤 Sending JSON Data: ${jsonEncode(clientDataMap)}"); // Debugging
+
+    final response = await http.put(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: jsonEncode(clientDataMap),
+    );
+
+    print("🔹 Response Code: ${response.statusCode}");
+    print("🔹 Response Body: ${response.body}");
+
+    if (response.statusCode == 200) {
+      // final clientData = jsonDecode(response.body);
+      // final astrology = clientData['astrology'] ?? {};
+      //
+
+      print("✅ Client data updated successfully.");
+    } else {
+      print("❌ Error updating client data: ${response.statusCode} - ${response.body}");
+    }
+  } catch (e) {
+    print("❌ API error: $e");
+  }
+}

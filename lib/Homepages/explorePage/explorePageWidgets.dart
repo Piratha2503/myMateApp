@@ -189,10 +189,10 @@ Widget buildGridItem(Map<String, dynamic> profile) {
           width: 152.w,   // Responsive width
           decoration: BoxDecoration(
             color: Colors.white,
-            border: Border.all(
-              color: MyMateThemes.textColor.withOpacity(0.1),
-              width: 1,
-            ),
+            // border: Border.all(
+            //   color: MyMateThemes.textColor.withOpacity(0.1),
+            //   width: 1,
+            // ),
             borderRadius: BorderRadius.circular(8),
           ),
           margin: EdgeInsets.all(8.w),  // Responsive margin
@@ -200,8 +200,13 @@ Widget buildGridItem(Map<String, dynamic> profile) {
             children: [
               // Profile Image
               Container(
-                height: 200.h,
+                height: 150.h,
+
                 decoration: BoxDecoration(
+                  border: Border.all(
+                    color: MyMateThemes.textColor.withOpacity(0.1),
+                    width: 1,
+                  ),
                   borderRadius: BorderRadius.circular(8),
                   image: (profile['images'] != null && profile['images'].isNotEmpty)
                       ? DecorationImage(
