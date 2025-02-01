@@ -132,7 +132,7 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
   String phoneNumber = "";
   String mobile_country_code = "";
   String client_country = "";
-  String mobile_code = "94";
+  String mobile_code = "+94";
   int? otp = 0;
   FirebaseDB firebaseDB = FirebaseDB();
 
@@ -176,8 +176,9 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
     var random = Random();
     otp = (random.nextInt(9999-1001)+1000);
     Address address = Address(country: client_country);
+    String formattedPhoneNumber = "$mobile_code$phoneNumber";
     ContactInfo contactInfo = ContactInfo(
-        mobile: phoneNumber,
+        mobile: "+$mobile_code$phoneNumber",
         mobile_country_code: mobile_country_code,
         otp: otp,
         address: address
@@ -192,7 +193,7 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
 
     if(res.statusCode == 200){
       print(res.statusCode);
-      final docId = await fetchDocIdByMobile(phoneNumber);
+      final docId = await fetchDocIdByMobile(formattedPhoneNumber);
       if (docId != null) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('docId', docId);
@@ -396,7 +397,7 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
             child: ElevatedButton(
               onPressed: ()
               {
-                _openPopupScreen(context,"+$mobile_code $phoneNumber");
+                _openPopupScreen(context,"+$mobile_code$phoneNumber");
 
               },
 

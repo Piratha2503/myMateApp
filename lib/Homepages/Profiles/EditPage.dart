@@ -9,7 +9,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mymateapp/Homepages/ProfilePageScreen/MyProfileMain.dart';
-import 'package:mymateapp/Homepages/Profiles/editmoreaboutme.dart';
 import 'package:mymateapp/MyMateCommonBodies/MyMateApis.dart';
 
 import '../../MyMateCommonBodies/MyMateBottomBar.dart';
@@ -286,7 +285,7 @@ class _EditPageState extends State<EditPage> {
             fontSize: 15,
           ),
         ),
-        SizedBox(height: 5), // Add space between the label and the text field
+        SizedBox(height: 5),
 
         // Text Field
         Container(
@@ -328,9 +327,9 @@ class _EditPageState extends State<EditPage> {
             fontSize: 15,
           ),
         ),
-        SizedBox(height: 5), // Add space between the label and the dropdown
+        SizedBox(height: 5),
 
-        // Dropdown Field
+
         Container(
           decoration: BoxDecoration(
             color: MyMateThemes.containerColor,
@@ -359,12 +358,7 @@ class _EditPageState extends State<EditPage> {
       ],
     );
   }
-  void _updateCharacterCount() {
-    setState(() {
-      characterCount = _bioController.text.length;
-      error = characterCount > 192 ? 'Character limit exceeded' : '';
-    });
-  }
+
 
 
 
@@ -407,7 +401,7 @@ class _EditPageState extends State<EditPage> {
   void handleClose(int index) {
     if (controllers.isNotEmpty && index >= 0 && index < controllers.length) {
       setState(() {
-        controllers.removeAt(index); // Remove the controller at the specified index
+        controllers.removeAt(index);
       });
     } else {
       print("Invalid index: $index");
@@ -542,7 +536,7 @@ class _EditPageState extends State<EditPage> {
       case 3:
         return 'Regularly Smoker';
       case 4:
-        return 'chain smoker';
+        return 'Chain Smoker';
       default:
         return 'Unknown';
     }
