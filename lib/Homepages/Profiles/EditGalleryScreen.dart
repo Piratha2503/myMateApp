@@ -257,14 +257,19 @@ class _BuildImageGallery extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return
+      Padding(
+        padding: new EdgeInsets.all(12.0),
+      child:
+      Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(3, (index) {
         String? displayImageUrl = imageUrls[index];
 
-        return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4),
+        return Expanded(
+
             child: Card(
+
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -316,7 +321,7 @@ class _BuildImageGallery extends StatelessWidget {
                             child: Image.asset(
                               'assets/images/trash.png',
                               width: 24,
-                              height: 30,
+                              height: 16,
                                 fit: BoxFit.contain
                             ),
                           ),
@@ -328,22 +333,30 @@ class _BuildImageGallery extends StatelessWidget {
 
                         },
                         child: Container(
-                          width: 120,
-                          height: 190,
+                          width: 115,
+                          height: 170,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
-                            color: MyMateThemes.backgroundColor,
+                            color: Colors.white,
                           ),
-                          child: Image.asset(
-                            'assets/images/Group 2236.png',
-                            width: 150,
-                            height: 100,
-                          ),
+                          child:
+                              Column(
+                                children: [
+                                  SizedBox(height: 10),
+                                  Image.asset(
+                                    'assets/images/Group 2236.png',
+                                    // width: 150,
+                                    // height: 100,
+                                  ),
+
+                                ],
+                              ),
                         ),
                       ),
               ),
             ));
       }),
-    );
+    ),
+      );
   }
 }
