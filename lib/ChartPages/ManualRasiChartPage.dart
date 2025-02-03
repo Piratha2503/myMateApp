@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mymateapp/ChartPages/ManualNavamsaChartPage.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import 'package:mymateapp/dbConnection/Firebase_DB.dart';
+
+import '../MyMateCommonBodies/MyMateApis.dart';
 
 class ManualRasiChartPage extends StatefulWidget {
   ClientData clientData;
@@ -37,6 +41,83 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
     }
   }
 
+  Future<void> _storeSelections() async {
+    ChartGeneration chartGeneration = ChartGeneration();
+
+    List<String> option1List = [];
+    List<String> option2List = [];
+    List<String> option3List = [];
+    List<String> option4List = [];
+    List<String> option5List = [];
+    List<String> option6List = [];
+    List<String> option7List = [];
+    List<String> option8List = [];
+    List<String> option9List = [];
+    List<String> option10List = [];
+    List<String> option11List = [];
+    List<String> option12List = [];
+
+    for (var element in segmentToBoxMap.entries) {
+      switch (element.value) {
+        case 1: option1List.add(element.key); break;
+        case 2: option2List.add(element.key); break;
+        case 3: option3List.add(element.key); break;
+        case 4: option4List.add(element.key); break;
+        case 5: option5List.add(element.key); break;
+        case 6: option6List.add(element.key); break;
+        case 7: option7List.add(element.key); break;
+        case 8: option8List.add(element.key); break;
+        case 9: option9List.add(element.key); break;
+        case 10: option10List.add(element.key); break;
+        case 11: option11List.add(element.key); break;
+        case 12: option12List.add(element.key); break;
+      }
+    }
+
+    chartGeneration.place1 = option1List;
+    chartGeneration.place2 = option2List;
+    chartGeneration.place3 = option3List;
+    chartGeneration.place4 = option4List;
+    chartGeneration.place5 = option5List;
+    chartGeneration.place6 = option6List;
+    chartGeneration.place7 = option7List;
+    chartGeneration.place8 = option8List;
+    chartGeneration.place9 = option9List;
+    chartGeneration.place10 = option10List;
+    chartGeneration.place11 = option11List;
+    chartGeneration.place12 = option12List;
+
+    Astrology astrology = Astrology(rasi_chart: chartGeneration);
+    widget.clientData.astrology = astrology;
+
+    print("📤 JSON Data: ${jsonEncode(widget.clientData.toMap())}");
+
+    // 🔹 Call the API instead of Firebase
+    await updateClientData(widget.clientData);
+
+    print(chartGeneration.place1);
+    print(chartGeneration.place2);
+    print(chartGeneration.place3);
+    print(chartGeneration.place4);
+    print(chartGeneration.place5);
+    print(chartGeneration.place6);
+    print(chartGeneration.place7);
+    print(chartGeneration.place8);
+    print(chartGeneration.place9);
+    print(chartGeneration.place10);
+    print(chartGeneration.place11);
+    print(chartGeneration.place12);
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ManualNavamsaChartPage(
+          clientData: widget.clientData,
+          astrology: astrology,
+        ),
+      ),
+    );
+  }
   void _resetSelections() {
     setState(() {
       segmentToBoxMap.clear();
@@ -96,8 +177,8 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
           ),
           if (getSegmentBadge(segment) != null)
             Positioned(
-              top: top ?? 0,
-              right: right ?? 0,
+              top: top ?? 20,
+              right: right ?? 10,
               left: left,
               bottom: bottom,
               child: CircleAvatar(
@@ -390,7 +471,7 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
                           if (_areAllSelectionsComplete()) {
 
 // Navigate to next page
-
+                            _storeSelections();
                           } else {
 
                             ScaffoldMessenger.of(context).showSnackBar(

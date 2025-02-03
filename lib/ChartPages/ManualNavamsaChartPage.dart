@@ -4,6 +4,7 @@ import 'package:mymateapp/Homepages/HomeScreenBeforeSubscibe.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 
+import '../MyMateCommonBodies/MyMateApis.dart';
 import '../dbConnection/Firebase_DB.dart';
 
 class ManualNavamsaChartPage extends StatefulWidget {
@@ -191,7 +192,9 @@ class _ManualNavamsaChartPage extends State<ManualNavamsaChartPage> {
 
     widget.astrology.navamsa_chart = chartGeneration;
     widget.clientData.astrology = widget.astrology;
-    await firebaseDB.updateClient(widget.clientData);
+
+    // 🔹 Call the API instead of Firebase
+    await updateClientData(widget.clientData);
 
     print(chartGeneration.place1);
     print(chartGeneration.place2);

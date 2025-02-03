@@ -9,8 +9,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mymateapp/Homepages/ProfilePageScreen/MyProfileMain.dart';
-import 'package:mymateapp/Homepages/Profiles/editmoreaboutme.dart';
 import 'package:mymateapp/MyMateCommonBodies/MyMateApis.dart';
+import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 
 import '../../MyMateCommonBodies/MyMateBottomBar.dart';
 import '../../MyMateThemes.dart';
@@ -111,6 +111,7 @@ class _EditPageState extends State<EditPage> {
 
         setState(() {
           isLoading = true;
+          print(ClientData);
         });
 
         ScaffoldMessenger.of(context).showSnackBar(
@@ -276,23 +277,33 @@ class _EditPageState extends State<EditPage> {
     required TextEditingController controller,
   }) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         // Label
-        Text(
-          label,
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 15,
-          ),
+        Row(
+          children: [
+            SizedBox(width: 40),
+            Text(
+              label,
+              style: TextStyle(
+                color: MyMateThemes.textColor,
+                fontWeight: FontWeight.w400,
+                fontSize: 16,
+              ),
+            ),
+          ],
         ),
+
         SizedBox(height: 5), // Add space between the label and the text field
 
         // Text Field
         Container(
           decoration: BoxDecoration(
-            color: MyMateThemes.containerColor,
-            borderRadius: BorderRadius.circular(8.0),
+            border: Border.all(
+              color: MyMateThemes.textColor.withOpacity(0.2),
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(10.0),
           ),
           width: 346,
           height: 44,
@@ -304,7 +315,7 @@ class _EditPageState extends State<EditPage> {
               border: InputBorder.none,
               contentPadding: EdgeInsets.symmetric(horizontal: 15),
             ),
-            style: TextStyle(color: MyMateThemes.textColor),
+            style: TextStyle(color: MyMateThemes.textColor.withOpacity(0.7),fontSize: 15,fontWeight: FontWeight.w400),
           ),
         ),
       ],
@@ -318,26 +329,35 @@ class _EditPageState extends State<EditPage> {
     required ValueChanged<String?> onChanged,
   }) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+
       children: [
         // Label
-        Text(
-          label,
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 15,
-          ),
+        Row(
+          children: [
+            SizedBox(width: 40),
+            Text(
+              label,
+              style: TextStyle(
+                color: MyMateThemes.textColor,
+                fontWeight: FontWeight.w400,
+                fontSize: 16,
+              ),
+            ),
+          ],
         ),
         SizedBox(height: 5), // Add space between the label and the dropdown
-
         // Dropdown Field
         Container(
           decoration: BoxDecoration(
-            color: MyMateThemes.containerColor,
-            borderRadius: BorderRadius.circular(8.0),
+            border: Border.all(
+              color: MyMateThemes.textColor.withOpacity(0.2),
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(10.0),
           ),
           width: 346,
-          height: 42,
+          height: 44,
           child: DropdownButtonHideUnderline(
             child: DropdownButton2<String>(
               value: value,
@@ -345,11 +365,12 @@ class _EditPageState extends State<EditPage> {
               items: items.map<DropdownMenuItem<String>>((String item) {
                 return DropdownMenuItem<String>(
                   value: item,
+
                   child: Text(
                     item,
                     style: item.startsWith('Select')
-                        ? TextStyle(color: MyMateThemes.textColor.withOpacity(0.5))
-                        : TextStyle(color: MyMateThemes.textColor),
+                        ? TextStyle(color: MyMateThemes.textColor.withOpacity(0.5),fontSize: 15,fontWeight:FontWeight.w400)
+                        : TextStyle(color: MyMateThemes.textColor.withOpacity(0.7),fontSize: 15,fontWeight: FontWeight.w400)
                   ),
                 );
               }).toList(),
@@ -492,7 +513,7 @@ class _EditPageState extends State<EditPage> {
         _fetchClientData();
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => ProfilePage(docId: widget.docId, selectedBottomBarIconIndex: 3,)), 
+          MaterialPageRoute(builder: (context) => ProfilePage(docId: widget.docId, selectedBottomBarIconIndex: 3,)),
         );
       } else {
         setState(() {
@@ -581,31 +602,39 @@ class _EditPageState extends State<EditPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:MyMateThemes.backgroundColor,
+      backgroundColor:Colors.white,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        backgroundColor:Colors.white,
         automaticallyImplyLeading: false,
         title: SafeArea(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: SvgPicture.asset('assets/images/chevron-left.svg'),
-              ),
-              SizedBox(width: 110),
-              Text(
-                'Edit Profile',
-                style: TextStyle(
-                  color: MyMateThemes.textColor,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
+
+          child:Padding(
+            padding: new EdgeInsets.all(10.0),
+            child:
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: SvgPicture.asset('assets/images/chevron-left.svg',height: 14,width: 14),
                 ),
-              ),
-            ],
+                SizedBox(width: 118),
+                Text(
+                  'Edit Profile',
+                  style: TextStyle(
+                    color: MyMateThemes.textColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+
           ),
+
         ),
       ),
       body: isLoading
@@ -616,35 +645,59 @@ class _EditPageState extends State<EditPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            SizedBox(height: 20),
             Center(
               child: Column(
                 children: [
                   // SizedBox(height: 10),
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap: _openPopupScreen,
-                        child: profilePicUrl != null
-                            ? CircleAvatar(
-                          radius: 50,
-                          backgroundImage: NetworkImage(profilePicUrl!),
-                        )
-                            : SvgPicture.asset('assets/images/circle.svg'),
-                      ),
-                      Positioned(
-                        bottom : 0,
-                        right: -5,
-                        child: GestureDetector(
-                          onTap: _openPopupScreen,
-                          child: SvgPicture.asset('assets/images/edit.svg'),
+                  // Stack(
+                  //   alignment: Alignment.center,
+                  //   children: [
+                  GestureDetector(
+                    onTap: _openPopupScreen,
+                    child: profilePicUrl != null
+                        ? Container(
+                      width: 110, // Double the radius for width and height
+                      height: 110,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: MyMateThemes.textColor.withOpacity(0.4),
+                            spreadRadius: 4,
+                            blurRadius: 4,
+                          )
+                        ],
+                        border: Border.all(
+                          color: MyMateThemes.secondaryColor, // Set the border color
+                          width: 4.0, // Set the border width
                         ),
                       ),
-                    ],
+                      child: CircleAvatar(
+                        radius: 60,
+                        backgroundImage: NetworkImage(profilePicUrl!),
+                        backgroundColor: Colors.transparent, // To ensure no background color
+                      ),
+                    )
+                        : SvgPicture.asset('assets/images/circle.svg'),
                   ),
-                  SizedBox(height: 20,),
+                      SizedBox(height: 5),
+                      TextButton(
+                          onPressed: _openPopupScreen,
+                          child: Text('Edit',style: TextStyle(color: MyMateThemes.primaryColor,fontWeight: FontWeight.normal,fontSize: 14),))
+                      // Positioned(
+                      //   bottom : 0,
+                      //   right: -5,
+                      //   child: GestureDetector(
+                      //     onTap: _openPopupScreen,
+                      //     child: SvgPicture.asset('assets/images/edit.svg',color: MyMateThemes.textColor),
+                      //   ),
+                      // ),
+                  ],
+                  ),
+                  ),
+                  //SizedBox(height: 10),
                   EditGalleryScreen(docId: widget.docId, onSave: () { },),
-
                   SizedBox(height: 30),
                   _buildDropdownRow(
                     label: 'Civil Status',
@@ -696,7 +749,7 @@ class _EditPageState extends State<EditPage> {
 
                   SizedBox(height: 13),
                   _buildTextFieldRow(
-                    label: 'Ditrict',
+                    label: 'District',
                     hintText: 'Enter your District',
                     controller: DistrictController,
                   ),
@@ -726,10 +779,10 @@ class _EditPageState extends State<EditPage> {
                       });
                     },
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 50),
                   Row(
                     children: [
-                      SizedBox(width: 40),
+                      SizedBox(width: 30),
                       Text(
                         'Expectations',
                         style: TextStyle(
@@ -744,13 +797,16 @@ class _EditPageState extends State<EditPage> {
                     children: List.generate(
                       controllers.length,
                           (index) => Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                         padding:  EdgeInsets.all(10.0),
                         child: Center(
                           child: Container(
-                            width: 340,
-                            decoration: BoxDecoration(
-                              color: MyMateThemes.containerColor,
-                              borderRadius: BorderRadius.circular(8.0),
+
+                            width: 346,
+                            height: 44,                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: MyMateThemes.textColor.withOpacity(0.2),
+                                width: 1,
+                              ),                              borderRadius: BorderRadius.circular(8.0),
                             ),
                             child: Row(
                               children: [
@@ -765,11 +821,11 @@ class _EditPageState extends State<EditPage> {
                                       border: InputBorder.none,
                                       contentPadding: EdgeInsets.symmetric(horizontal: 10),
                                     ),
-                                    style: TextStyle(color: MyMateThemes.textColor),
+                                    style: TextStyle(color: MyMateThemes.textColor.withOpacity(0.8)),
                                   ),
                                 ),
                                 IconButton(
-                                  icon: Icon(Icons.close, color: Colors.red),
+                                  icon: Icon(Icons.close, color:MyMateThemes.textColor,size:18),
                                   onPressed: () => handleClose(index),
                                   padding: EdgeInsets.zero,
                                 ),
@@ -792,37 +848,29 @@ class _EditPageState extends State<EditPage> {
                           });
                         }
                       },
-                      style: ButtonStyle(
-                        backgroundColor:
-                        MaterialStateProperty.all<Color>(MyMateThemes.containerColor),
-                        foregroundColor:
-                        MaterialStateProperty.all<Color>(MyMateThemes.primaryColor),
+                      style:
+                      ButtonStyle(
+                        foregroundColor: MaterialStateProperty.all(MyMateThemes.primaryColor),
+                        backgroundColor: MaterialStateProperty.all(MyMateThemes.secondaryColor),
+                        shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5.0)
+                            )),
                       ),
+
                       child: Align(
                         alignment: Alignment.centerLeft,
-                        child: Text('+Add more'),
+                        child: Text('+Add more',style: TextStyle(fontSize: 14),),
                       ),
                     ),
                   ),
-                  SizedBox(height:10),
-                  moreaboutme(
-
-                  ),
-                  // SizedBox(height: 30),
-                  // ElevatedButton(
-                  //   onPressed: _onSave,
-                  //   child: Text('Save'),
-                  //   style: CommonButtonStyle.commonButtonStyle(),
-                  // ),
+                  moreaboutme(),
 
                 ],
               ),
             )
 
-          ],
 
-        ),
-      ),
 
     );
   }
@@ -837,14 +885,14 @@ class _EditPageState extends State<EditPage> {
           SizedBox(height:65),
           Row(
             children: [
-              SizedBox(width: 110),
+              SizedBox(width: 20),
+
               Text(
                 'More About Me',
                 style: TextStyle(
-                  color: MyMateThemes.textColor,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w800,
-                ),
+                    color: MyMateThemes.textColor,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 20),
               ),
             ],
           ),
@@ -870,7 +918,7 @@ class _EditPageState extends State<EditPage> {
             ],
           ),
           SizedBox(height: 15),
-          _buildTextField(hobbyController, 'Personal Interest', _addHobbyTag),
+          _buildTextField(hobbyController, '-- Type here --', _addHobbyTag),
           SizedBox(height: 20),
           Wrap(
             children: hobbyTags.map((tag) {
@@ -894,20 +942,21 @@ class _EditPageState extends State<EditPage> {
           SizedBox(height: 10),
           Row(
             children: [
-              SizedBox(width: 35),
+              SizedBox(width: 30),
               SvgPicture.asset('assets/images/Line 11.svg'),
             ],
           ),
           SizedBox(height: 15),
           Row(
             children: [
-              SizedBox(width: 45),
+              SizedBox(width: 30),
               Text(
                 'Eating Habits',
                 style: TextStyle(
-                  color: MyMateThemes.textColor,
-                  fontSize: 16,
+                  color: MyMateThemes.textColor.withOpacity(0.7),
+                  fontSize: 15,
                   fontWeight: FontWeight.normal,
+
                 ),
               ),
             ],
@@ -929,7 +978,12 @@ class _EditPageState extends State<EditPage> {
                     activeColor: MyMateThemes.primaryColor,
                     // Change color if needed
                   ),
-                  Text('Vegetarian'),
+                  Text('Vegetarian',
+                    style: TextStyle(
+                    color: MyMateThemes.textColor,
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                  ),),
                 ],
               ),
               SizedBox(width: 50),
@@ -943,9 +997,15 @@ class _EditPageState extends State<EditPage> {
                         _selectedValue = value!;
                       });
                     },
+
                     activeColor: MyMateThemes.primaryColor,
                   ),
-                  Text('Non- Vegetarian'),
+                  Text('Non- Vegetarian',
+                    style: TextStyle(
+                      color: MyMateThemes.textColor,
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                    ),),
                 ],
               ),
             ],
@@ -953,13 +1013,14 @@ class _EditPageState extends State<EditPage> {
           SizedBox(height: 30),
           Row(
             children: [
-              SizedBox(width: 45),
+              SizedBox(width: 35),
               Text(
                 'Alcohol',
                 style: TextStyle(
-                  color: MyMateThemes.textColor,
-                  fontSize: 16,
+                  color: MyMateThemes.textColor.withOpacity(0.7),
+                  fontSize: 15,
                   fontWeight: FontWeight.normal,
+
                 ),
               ),
             ],
@@ -970,13 +1031,14 @@ class _EditPageState extends State<EditPage> {
           SizedBox(height: 45),
           Row(
             children: [
-              SizedBox(width: 45),
+              SizedBox(width: 35),
               Text(
                 'Smoking',
                 style: TextStyle(
-                  color: MyMateThemes.textColor,
-                  fontSize: 16,
+                  color: MyMateThemes.textColor.withOpacity(0.7),
+                  fontSize: 15,
                   fontWeight: FontWeight.normal,
+
                 ),
               ),
             ],
@@ -1000,7 +1062,7 @@ class _EditPageState extends State<EditPage> {
           SizedBox(height: 10),
           Row(
             children: [
-              SizedBox(width: 35),
+              SizedBox(width: 30),
               SvgPicture.asset('assets/images/Line 11.svg'),
             ],
           ),
@@ -1011,21 +1073,16 @@ class _EditPageState extends State<EditPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
 
-              SizedBox(width: 26),
+              SizedBox(width: 25),
               ElevatedButton(
-                onPressed: () async {
+              onPressed: () async {
                   // Store the selected values
                   await _saveChanges();
                   // await  StoreSelectedValues();
 
 
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: MyMateThemes.primaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                ),
+                style: CommonButtonStyle.commonButtonStyle(),
                 child: Text(
                   'Save',
                   style: TextStyle(color: Colors.white, letterSpacing: 1.5),
@@ -1045,21 +1102,23 @@ class _EditPageState extends State<EditPage> {
       children: [
         Container(
           decoration: BoxDecoration(
-            color: MyMateThemes.containerColor,
-            borderRadius: BorderRadius.circular(8.0),
+            border: Border.all(
+              color: MyMateThemes.textColor.withOpacity(0.2),
+              width: 1,
+            ),            borderRadius: BorderRadius.circular(10.0),
           ),
-          width: 330,
-          height: 37,
+          width: 346,
+          height: 44,
           child: Padding(
             padding: const EdgeInsets.only(left: 10.0),
             child: TextField(
               controller: controller,
               decoration: InputDecoration(
-                hintStyle:TextStyle(color: MyMateThemes.textColor.withOpacity(0.5)),
+                hintStyle:TextStyle(color: MyMateThemes.textColor.withOpacity(0.5),fontSize: 13,fontWeight: FontWeight.normal),
                 border: InputBorder.none,
                 enabledBorder: InputBorder.none,
                 focusedBorder: InputBorder.none,
-                contentPadding: EdgeInsets.all(9.0),
+                contentPadding: EdgeInsets.all(13.0),
                 // Adjust padding as needed
                 hintText: hintText,
 
@@ -1113,7 +1172,7 @@ class _EditPageState extends State<EditPage> {
       margin: EdgeInsets.symmetric(horizontal: 4.0, vertical: 4.0),
       decoration: BoxDecoration(
         color: MyMateThemes.primaryColor,
-        borderRadius: BorderRadius.circular(20.0),
+        borderRadius: BorderRadius.circular(5.0),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -1176,8 +1235,8 @@ class _EditPageState extends State<EditPage> {
                       'Never',
                       style: TextStyle(
                         color: selectedAlcoholIndex >= 0
-                            ? Colors.black
-                            : Colors.grey[700],
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
                         fontSize: 10,
                       ),
                     ),
@@ -1185,8 +1244,8 @@ class _EditPageState extends State<EditPage> {
                       'Had',
                       style: TextStyle(
                         color: selectedAlcoholIndex >= 0
-                            ? Colors.black
-                            : Colors.grey[700],
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
                         fontSize: 10,
                       ),
                     ),
@@ -1216,8 +1275,8 @@ class _EditPageState extends State<EditPage> {
                       'Rarely',
                       style: TextStyle(
                         color: selectedAlcoholIndex >= 1
-                            ? Colors.black
-                            : Colors.grey[700],
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
                         fontSize: 10,
                       ),
                     ),
@@ -1225,8 +1284,8 @@ class _EditPageState extends State<EditPage> {
                       'Drinker',
                       style: TextStyle(
                         color: selectedAlcoholIndex >= 1
-                            ? Colors.black
-                            : Colors.grey[700],
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
                         fontSize: 10,
                       ),
                     ),
@@ -1256,8 +1315,8 @@ class _EditPageState extends State<EditPage> {
                       'Occasionally',
                       style: TextStyle(
                         color: selectedAlcoholIndex >= 2
-                            ? Colors.black
-                            : Colors.grey[700],
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
                         fontSize: 10,
                       ),
                     ),
@@ -1265,8 +1324,8 @@ class _EditPageState extends State<EditPage> {
                       'Drinker',
                       style: TextStyle(
                         color: selectedAlcoholIndex >= 2
-                            ? Colors.black
-                            : Colors.grey[700],
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
                         fontSize: 10,
                       ),
                     ),
@@ -1296,8 +1355,8 @@ class _EditPageState extends State<EditPage> {
                       'Regularly',
                       style: TextStyle(
                         color: selectedAlcoholIndex >= 3
-                            ? Colors.black
-                            : Colors.grey[700],
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
                         fontSize: 10,
                       ),
                     ),
@@ -1305,8 +1364,8 @@ class _EditPageState extends State<EditPage> {
                       'Drinker',
                       style: TextStyle(
                         color: selectedAlcoholIndex >= 3
-                            ? Colors.black
-                            : Colors.grey[700],
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
                         fontSize: 10,
                       ),
                     ),
@@ -1336,8 +1395,8 @@ class _EditPageState extends State<EditPage> {
                       'Swimming',
                       style: TextStyle(
                         color: selectedAlcoholIndex >= 4
-                            ? Colors.black
-                            : Colors.grey[700],
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
                         fontSize: 10,
                       ),
                     ),
@@ -1345,8 +1404,8 @@ class _EditPageState extends State<EditPage> {
                       'in it (24/7)',
                       style: TextStyle(
                         color: selectedAlcoholIndex >= 4
-                            ? Colors.black
-                            : Colors.grey[700],
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
                         fontSize: 10,
                       ),
                     ),
@@ -1392,8 +1451,8 @@ class _EditPageState extends State<EditPage> {
                       'Never',
                       style: TextStyle(
                         color: selectedSmokingIndex >= 0
-                            ? Colors.black
-                            : Colors.grey[700],
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
                         fontSize: 10,
                       ),
                     ),
@@ -1401,8 +1460,8 @@ class _EditPageState extends State<EditPage> {
                       'Had',
                       style: TextStyle(
                         color: selectedSmokingIndex >= 0
-                            ? Colors.black
-                            : Colors.grey[700],
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
                         fontSize: 10,
                       ),
                     ),
@@ -1432,8 +1491,8 @@ class _EditPageState extends State<EditPage> {
                       'Rarely',
                       style: TextStyle(
                         color: selectedSmokingIndex >= 1
-                            ? Colors.black
-                            : Colors.grey[700],
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
                         fontSize: 10,
                       ),
                     ),
@@ -1441,8 +1500,8 @@ class _EditPageState extends State<EditPage> {
                       'Smoker',
                       style: TextStyle(
                         color: selectedSmokingIndex >= 1
-                            ? Colors.black
-                            : Colors.grey[700],
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
                         fontSize: 10,
                       ),
                     ),
@@ -1472,8 +1531,8 @@ class _EditPageState extends State<EditPage> {
                       'Occasionally',
                       style: TextStyle(
                         color: selectedSmokingIndex >= 2
-                            ? Colors.black
-                            : Colors.grey[700],
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
                         fontSize: 10,
                       ),
                     ),
@@ -1481,8 +1540,8 @@ class _EditPageState extends State<EditPage> {
                       'Smoker',
                       style: TextStyle(
                         color: selectedSmokingIndex >= 2
-                            ? Colors.black
-                            : Colors.grey[700],
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
                         fontSize: 10,
                       ),
                     ),
@@ -1512,8 +1571,8 @@ class _EditPageState extends State<EditPage> {
                       'Regularly',
                       style: TextStyle(
                         color: selectedSmokingIndex >= 3
-                            ? Colors.black
-                            : Colors.grey[700],
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
                         fontSize: 10,
                       ),
                     ),
@@ -1521,8 +1580,8 @@ class _EditPageState extends State<EditPage> {
                       'Smoker',
                       style: TextStyle(
                         color: selectedSmokingIndex >= 3
-                            ? Colors.black
-                            : Colors.grey[700],
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
                         fontSize: 10,
                       ),
                     ),
@@ -1552,8 +1611,8 @@ class _EditPageState extends State<EditPage> {
                       'Chain',
                       style: TextStyle(
                         color: selectedSmokingIndex >= 4
-                            ? Colors.black
-                            : Colors.grey[700],
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
                         fontSize: 10,
                       ),
                     ),
@@ -1561,8 +1620,8 @@ class _EditPageState extends State<EditPage> {
                       'Smoker',
                       style: TextStyle(
                         color: selectedSmokingIndex >= 4
-                            ? Colors.black
-                            : Colors.grey[700],
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
                         fontSize: 10,
                       ),
                     ),
@@ -1607,9 +1666,9 @@ class _EditPageState extends State<EditPage> {
                     Text(
                       'Zero',
                       style: TextStyle(
-                        color: selectedCookingIndex == 0
+                        color: selectedCookingIndex >= 0
                             ? MyMateThemes.textColor
-                            : Colors.grey[700],
+                            : MyMateThemes.textColor.withOpacity(0.6),
                         fontSize: 10,
                       ),
                     ),
@@ -1638,9 +1697,9 @@ class _EditPageState extends State<EditPage> {
                     Text(
                       'Novice',
                       style: TextStyle(
-                        color: selectedCookingIndex == 1
+                        color: selectedCookingIndex >= 1
                             ? MyMateThemes.textColor
-                            : Colors.grey[700],
+                            : MyMateThemes.textColor.withOpacity(0.6),
                         fontSize: 10,
                       ),
                     ),
@@ -1669,9 +1728,9 @@ class _EditPageState extends State<EditPage> {
                     Text(
                       'Basic',
                       style: TextStyle(
-                        color: selectedCookingIndex == 2
+                        color: selectedCookingIndex >= 2
                             ? MyMateThemes.textColor
-                            : Colors.grey[700],
+                            : MyMateThemes.textColor.withOpacity(0.6),
                         fontSize: 10,
                       ),
                     ),
@@ -1700,9 +1759,9 @@ class _EditPageState extends State<EditPage> {
                     Text(
                       'Intermediate',
                       style: TextStyle(
-                        color: selectedCookingIndex == 3
+                        color: selectedCookingIndex >= 3
                             ? MyMateThemes.textColor
-                            : Colors.grey[700],
+                            : MyMateThemes.textColor.withOpacity(0.6),
                         fontSize: 10,
                       ),
                     ),
@@ -1731,9 +1790,9 @@ class _EditPageState extends State<EditPage> {
                     Text(
                       'Advanced',
                       style: TextStyle(
-                        color: selectedCookingIndex == 4
+                        color: selectedCookingIndex >= 4
                             ? MyMateThemes.textColor
-                            : Colors.grey[700],
+                            : MyMateThemes.textColor.withOpacity(0.6),
                         fontSize: 10,
                       ),
                     ),
@@ -1875,4 +1934,3 @@ class _LinearPainter extends CustomPainter {
     return true;
   }
 }
-

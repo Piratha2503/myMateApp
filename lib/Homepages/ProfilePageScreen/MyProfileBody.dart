@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mymateapp/Homepages/ProfilePageScreen/photoGalleryPage.dart';
-import 'package:mymateapp/Homepages/ProfilePageScreen/viewmoreaboutme.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import '../../MyMateCommonBodies/MyMateApis.dart';

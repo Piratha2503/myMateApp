@@ -9,7 +9,6 @@ import 'package:mymateapp/Homepages/RegisterPages/RegisterPage.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Homepages/ProfilePageScreen/MyProfileMain.dart';
-import 'Homepages/ProfilePageScreen/viewmoreaboutme.dart';
 import 'Homepages/Profiles/MoreAboutMe.dart';
 import 'Homepages/Profiles/boost_profile.dart';
 import 'Homepages/SubscribedHomeScreen.dart';
