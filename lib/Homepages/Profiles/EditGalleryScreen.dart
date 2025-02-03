@@ -200,7 +200,7 @@ class _EditGalleryScreenState extends State<EditGalleryScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          SizedBox(height: 40),
+          SizedBox(height: 20),
           _BuildImageGallery(
             imageUrls: _imageUrls,
             onDelete: (index) {
@@ -269,7 +269,6 @@ class _BuildImageGallery extends StatelessWidget {
         return Expanded(
 
             child: Card(
-
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -305,7 +304,7 @@ class _BuildImageGallery extends StatelessWidget {
                               ),
                             ),
                           ),
-                          SizedBox(height: 8),
+                          SizedBox(height: 18),
                           GestureDetector(
                             onTap: () async {
                               await _deleteImageFromBackend(

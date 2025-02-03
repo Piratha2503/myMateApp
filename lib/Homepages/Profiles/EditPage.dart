@@ -619,7 +619,7 @@ class _EditPageState extends State<EditPage> {
                   onTap: () {
                     Navigator.pop(context);
                   },
-                  child: SvgPicture.asset('assets/images/chevron-left.svg'),
+                  child: SvgPicture.asset('assets/images/chevron-left.svg',height: 14,width: 14),
                 ),
                 SizedBox(width: 118),
                 Text(
@@ -650,31 +650,54 @@ class _EditPageState extends State<EditPage> {
               child: Column(
                 children: [
                   // SizedBox(height: 10),
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap: _openPopupScreen,
-                        child: profilePicUrl != null
-                            ? CircleAvatar(
-                          radius: 50,
-                          backgroundImage: NetworkImage(profilePicUrl!),
-                        )
-                            : SvgPicture.asset('assets/images/circle.svg'),
-                      ),
-                      Positioned(
-                        bottom : 0,
-                        right: -5,
-                        child: GestureDetector(
-                          onTap: _openPopupScreen,
-                          child: SvgPicture.asset('assets/images/edit.svg'),
+                  // Stack(
+                  //   alignment: Alignment.center,
+                  //   children: [
+                  GestureDetector(
+                    onTap: _openPopupScreen,
+                    child: profilePicUrl != null
+                        ? Container(
+                      width: 110, // Double the radius for width and height
+                      height: 110,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: MyMateThemes.textColor.withOpacity(0.4),
+                            spreadRadius: 4,
+                            blurRadius: 4,
+                          )
+                        ],
+                        border: Border.all(
+                          color: MyMateThemes.secondaryColor, // Set the border color
+                          width: 4.0, // Set the border width
                         ),
                       ),
-                    ],
+                      child: CircleAvatar(
+                        radius: 60,
+                        backgroundImage: NetworkImage(profilePicUrl!),
+                        backgroundColor: Colors.transparent, // To ensure no background color
+                      ),
+                    )
+                        : SvgPicture.asset('assets/images/circle.svg'),
                   ),
-                  SizedBox(height: 20,),
+                      SizedBox(height: 5),
+                      TextButton(
+                          onPressed: _openPopupScreen,
+                          child: Text('Edit',style: TextStyle(color: MyMateThemes.primaryColor,fontWeight: FontWeight.normal,fontSize: 14),))
+                      // Positioned(
+                      //   bottom : 0,
+                      //   right: -5,
+                      //   child: GestureDetector(
+                      //     onTap: _openPopupScreen,
+                      //     child: SvgPicture.asset('assets/images/edit.svg',color: MyMateThemes.textColor),
+                      //   ),
+                      // ),
+                  ],
+                  ),
+                  ),
+                  //SizedBox(height: 10),
                   EditGalleryScreen(docId: widget.docId, onSave: () { },),
-
                   SizedBox(height: 30),
                   _buildDropdownRow(
                     label: 'Civil Status',
@@ -847,10 +870,7 @@ class _EditPageState extends State<EditPage> {
               ),
             )
 
-          ],
 
-        ),
-      ),
 
     );
   }
