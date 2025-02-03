@@ -170,7 +170,8 @@ class _ExplorePageState extends State<ExplorePage> with SingleTickerProviderStat
 
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
+    return
+      ScreenUtilInit(
       designSize: const Size(390,844),
       minTextAdapt: true,
       splitScreenMode: true,

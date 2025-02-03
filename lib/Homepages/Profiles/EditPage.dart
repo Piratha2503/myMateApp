@@ -330,6 +330,7 @@ class _EditPageState extends State<EditPage> {
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
+
       children: [
         // Label
         Row(
@@ -364,6 +365,7 @@ class _EditPageState extends State<EditPage> {
               items: items.map<DropdownMenuItem<String>>((String item) {
                 return DropdownMenuItem<String>(
                   value: item,
+
                   child: Text(
                     item,
                     style: item.startsWith('Select')
