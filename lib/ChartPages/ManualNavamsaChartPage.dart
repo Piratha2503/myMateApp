@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mymateapp/Homepages/HomeScreenBeforeSubscibe.dart';
+import 'package:mymateapp/Homepages/SubscribedhomeScreen/SubscribedHomeScreenBeforeProfileCompleted.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 
@@ -206,7 +207,7 @@ class _ManualNavamsaChartPage extends State<ManualNavamsaChartPage> {
     print(chartGeneration.place11);
     print(chartGeneration.place12);
 
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreenBeforeSubscibe(0,docId: widget.clientData.docId!,)));
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>SubscribedhomescreenBeforeProfileCompleted(docId: widget.clientData.docId!,)));
 
   }
 

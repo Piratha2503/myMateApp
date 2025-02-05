@@ -7,7 +7,7 @@ class MyMateAPIs{
 
   static String commonEndPoint = "/mymate/api/v1";
   static String vpsApi = "https://backend.graycorp.io:9000";
-  static String localApi = "http://192.168.1.55:9000";
+  static String localApi = "http://192.168.1.10:9000";
 
   static String mobile_number_registration_API = "$vpsApi$commonEndPoint/saveClientMobile";
 
