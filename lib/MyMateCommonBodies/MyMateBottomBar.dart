@@ -55,7 +55,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
       child: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent, // Transparent to blend with page
+        elevation: 0, // Removes shadow/border
         items: [
 
           _buildBottomNavigationBarItem(

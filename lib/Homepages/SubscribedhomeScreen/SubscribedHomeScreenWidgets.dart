@@ -242,20 +242,11 @@ class _SubscribeHomeScreenStructuredPageCarouselSlidersState extends State<Subsc
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 5.0),
         decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border(
-            top: BorderSide(width: 0.5),
-            bottom:  BorderSide(width: 0.5),
+          border: Border.all(
+            color: MyMateThemes.textColor.withOpacity(0.1),
+            width: 1,
           ),
-          borderRadius: BorderRadius.circular(8.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black12,
-              blurRadius: 2.0,
-              spreadRadius: 2.0,
-              offset: Offset(0, 3),
-            ),
-          ],
+          borderRadius: BorderRadius.circular(6),
         ),
         child: ProfileColumns(clientData),
       ),

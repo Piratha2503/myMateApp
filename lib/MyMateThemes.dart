@@ -25,6 +25,9 @@ class CommonButtonStyle {
           RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5.0)
           )),
+        padding: MaterialStateProperty.all(
+          EdgeInsets.symmetric(vertical: 16.0, horizontal: 40.0), // Adjust values as needed
+        ),
     );
   }
 }
