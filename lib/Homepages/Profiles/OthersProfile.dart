@@ -114,9 +114,7 @@
         });
       }
     }
-  
-  
-  
+
     Future<void> getClient() async {
   
       try {
@@ -240,7 +238,7 @@
                 },
                 child: SvgPicture.asset('assets/images/chevron-left.svg'),
               ),
-              SizedBox(width: 70.0),
+              SizedBox(width: 90.0),
               Text(
                 "@ $full_name",
                 style: TextStyle(
@@ -416,7 +414,9 @@
           future: fetchUserById(widget.SoulId), // Call API with docId
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return Center(
+                 child: CircularProgressIndicator()
+              );
             } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
