@@ -9,7 +9,6 @@ import 'package:mymateapp/Homepages/RegisterPages/RegisterPage.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Homepages/ProfilePageScreen/MyProfileMain.dart';
-import 'Homepages/ProfilePageScreen/viewmoreaboutme.dart';
 import 'Homepages/Profiles/MoreAboutMe.dart';
 import 'Homepages/Profiles/boost_profile.dart';
 import 'Homepages/SubscribedHomeScreen.dart';
@@ -52,13 +51,13 @@ class MyApp extends StatelessWidget {
 
       home:
           // ProfilePage(selectedBottomBarIconIndex: 3, docId: 'SYfMHh6YUL6yobmIZXwO',)
-      //AuthcheckState()
+     // AuthcheckState()
       //ProfilePage(docId: "SYfMHh6YUL6yobmIZXwO", selectedBottomBarIconIndex:0,),
       // CheckmatchPage( clientDocId: '', soulDocId: '',),
-      // RegisterPage()
+      RegisterPage()
       // SubscribedhomescreenStructuredPage(docId: 'E0JFHhK2x6Gq2Ac6XSyP',)
-        //CompleteProfilePage(docId: 'vVm5FU8qEIjO5sO8b8l4')
-      EditPage(docId: 'SYfMHh6YUL6yobmIZXwO', onSave: () {  },)
+       // CompleteProfilePage(docId: 'vVm5FU8qEIjO5sO8b8l4')
+      //EditPage(docId: 'SYfMHh6YUL6yobmIZXwO', onSave: () {  },)
 
     );
   }
