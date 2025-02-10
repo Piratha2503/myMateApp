@@ -249,65 +249,98 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
   // }
 
   void _openPopupScreen(BuildContext context, String mobileNumber) {
+    // Declare the state variable outside the inner builder so it persists.
+    bool isYesButtonDisabled = false;
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(height:10),
-              Text(
-                "Is this your Phone number",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500,color: MyMateThemes.textColor,letterSpacing: 0.8),
-              ),
-              SizedBox(height: 10),
-
-              TextField(
-                controller: TextEditingController(text: mobileNumber),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 20,
-                  color: MyMateThemes.textColor,
-                  fontWeight: FontWeight.bold,
-                ),
-
-              ),
-
-
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return AlertDialog(
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context); // Close the dialog
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                      MyMateThemes.secondaryColor, // Background color
-                      foregroundColor:MyMateThemes.primaryColor, // Text color
-                      padding: EdgeInsets.symmetric(horizontal: 16), // Padding
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(2), // Rounded corners
-                      ),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "Is this your Phone number",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 0.8,
+
                     ),
-
-                    child: Text("Edit"),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      addMobile();
-                      print("Number added");
-                    },
-                    style: CommonButtonStyle.commonButtonStyle(),
-
-                    child: Text("Yes"),
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: TextEditingController(text: mobileNumber),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      // color: MyMateThemes.textColor,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: MyMateThemes.secondaryColor,
+                          foregroundColor: MyMateThemes.primaryColor,
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
+                        child: const Text("Edit"),
+                      ),
+                      ElevatedButton(
+                        onPressed: isYesButtonDisabled
+                            ? null
+                            : () {
+                          // Disable the button after it's pressed.
+                          setState(() {
+                            isYesButtonDisabled = true;
+                          });
+                          // Call your addMobile function.
+                          addMobile();
+                          print("Number added");
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                                (Set<MaterialState> states) {
+                              if (states.contains(MaterialState.disabled)) {
+                                return Colors.grey; // Disabled background color.
+                              }
+                              return MyMateThemes.primaryColor; // Enabled background color.
+                            },
+                          ),
+                          foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                                (Set<MaterialState> states) {
+                              if (states.contains(MaterialState.disabled)) {
+                                return Colors.black; // Disabled text color.
+                              }
+                              return Colors.white; // Enabled text color.
+                            },
+                          ),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(2),
+                            ),
+                          ),
+                        ),
+                        child: const Text("Yes"),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
-          ),
+            );
+          },
         );
       },
     );
