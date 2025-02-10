@@ -244,7 +244,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                               );
                               if (result == true) {
                                 setState(() {
-                                  isFormFilled = true; // Set this to true when the form is completed
+                                  isFormFilled = true;
                                 });
                               }
                             },

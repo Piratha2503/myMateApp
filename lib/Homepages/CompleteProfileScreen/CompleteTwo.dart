@@ -140,7 +140,7 @@ class _PageTwoState extends State<PageTwo> {
       'docId': widget.docId,
       'contactInfo': {
         'address': {
-          'city': _DistrictController,
+          'city': _DistrictController.text,
         }
       },
       'personalDetails': {
