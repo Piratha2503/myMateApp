@@ -110,7 +110,6 @@ class _CompletegallerypageState extends State<Completegallerypage> {
     final originalImage = img.decodeImage(await imageFile.readAsBytes());
     final resizedImage = img.copyResize(originalImage!, width: 150, height: 150);
 
-    // Generate unique filename
     final timestamp = DateTime.now().millisecondsSinceEpoch;
     final tempDir = Directory.systemTemp;
     final resizedFile = File('${tempDir.path}/resized_image_$timestamp.jpg')
@@ -121,7 +120,7 @@ class _CompletegallerypageState extends State<Completegallerypage> {
 
   Future<void> _uploadImagesToBackend() async {
     setState(() {
-      _isLoading = true; // Start loading
+      _isLoading = true;
     });
 
     try {
@@ -234,7 +233,7 @@ class _CompletegallerypageState extends State<Completegallerypage> {
             child: SvgPicture.asset('assets/images/took.svg'),
           ),
           SizedBox(height: 40),
-          if (_selectedImages.isNotEmpty)
+          // if (_selectedImages.isNotEmpty)
             _BuildImageGallery(
               selectedImages: _selectedImages,
               onDelete: (index) {
@@ -243,7 +242,7 @@ class _CompletegallerypageState extends State<Completegallerypage> {
                 });
               },
             ),
-          SizedBox(height: 40),
+          SizedBox(height: 30),
           _buildFooterRow(),
         ],
       ),
@@ -261,40 +260,65 @@ class _BuildImageGallery extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(selectedImages.length, (index) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4),
+      children: List.generate(3, (index) {
+        if (index >= selectedImages.length) {
+          return Expanded(
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              elevation: 0,
+              child: Container(
+                width: 120,
+                height: 200,
+                decoration: BoxDecoration(
+                  color: Colors.grey[200], // Placeholder color
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.grey.shade200, width: 1),
+                ),
+                child: Center(child: Icon(Icons.image, color: Colors.grey)),
+              ),
+            ),
+          );
+        }
+
+        return Expanded(
           child: Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
-            elevation: 4,
-            child: Column(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Container(
-                    width: 120,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: FileImage(selectedImages[index]),
-                        fit: BoxFit.cover,
-                      ),
+            elevation: 0,
+            child: Container(
+              width: 120,
+              height: 200,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.grey.shade200, width: 1),
+              ),
+              child: Column(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: Image.file(
+                      selectedImages[index],
+                      width: 120,
+                      height: 150,
+                      fit: BoxFit.cover,
                     ),
                   ),
-                ),
-                SizedBox(height: 8),
-                GestureDetector(
-                  onTap: () => onDelete(index),
-                  child: Image.asset(
-                    'assets/images/trash.png',
-                    width: 24,
-                    height: 30,
-                    fit: BoxFit.contain,
+                  const SizedBox(height: 8),
+                  GestureDetector(
+                    onTap: () => onDelete(index),
+                    child: Image.asset(
+                      'assets/images/trash.png',
+                      width: 24,
+                      height: 30,
+                      fit: BoxFit.contain,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );
