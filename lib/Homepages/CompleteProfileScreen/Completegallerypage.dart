@@ -21,6 +21,7 @@ class Completegallerypage extends StatefulWidget {
 
 class _CompletegallerypageState extends State<Completegallerypage> {
   List<File> _selectedImages = [];
+ bool _isLoading = false;
 
   void _showMaxImageLimitDialog() {
     showDialog(
@@ -75,45 +76,60 @@ class _CompletegallerypageState extends State<Completegallerypage> {
     final picker = ImagePicker();
     List<XFile>? pickedImages;
 
-    if (source == ImageSource.gallery) {
-      pickedImages = await picker.pickMultiImage();
-    } else {
-      XFile? pickedImage = await picker.pickImage(source: source);
-      if (pickedImage != null) pickedImages = [pickedImage];
-    }
-
-    if (pickedImages != null && pickedImages.isNotEmpty) {
-      if (pickedImages.length + _selectedImages.length > 3) {
-        _showMaxImageLimitDialog();
-        return;
+    try {
+      if (source == ImageSource.gallery) {
+        pickedImages = await picker.pickMultiImage();
+      } else {
+        final pickedImage = await picker.pickImage(source: source);
+        if (pickedImage != null) pickedImages = [pickedImage];
       }
 
-      for (XFile image in pickedImages) {
-        File resizedFile = await _resizeImage(File(image.path));
-        setState(() {
-          _selectedImages.add(resizedFile);
-        });
+      if (pickedImages != null && pickedImages.isNotEmpty) {
+        if (pickedImages.length + _selectedImages.length > 3) {
+          _showMaxImageLimitDialog();
+          return;
+        }
+
+        // Process images sequentially
+        for (final image in pickedImages) {
+          final croppedFile = await _cropImage(File(image.path));
+          if (croppedFile != null) {
+            final resizedFile = await _resizeImage(croppedFile);
+            setState(() {
+              _selectedImages.add(resizedFile);
+            });
+          }
+        }
       }
+    } catch (e) {
+      print("Error picking images: $e");
     }
   }
 
   Future<File> _resizeImage(File imageFile) async {
     final originalImage = img.decodeImage(await imageFile.readAsBytes());
     final resizedImage = img.copyResize(originalImage!, width: 150, height: 150);
+
+    // Generate unique filename
+    final timestamp = DateTime.now().millisecondsSinceEpoch;
     final tempDir = Directory.systemTemp;
-    final resizedFile = File('${tempDir.path}/resized_image.jpg')
+    final resizedFile = File('${tempDir.path}/resized_image_$timestamp.jpg')
       ..writeAsBytesSync(img.encodeJpg(resizedImage));
 
     return resizedFile;
   }
 
   Future<void> _uploadImagesToBackend() async {
-    for (File imageFile in _selectedImages) {
-      String randomFileName = _generateRandomFileName() + '.jpg';
-      final url = Uri.parse(
-          "https://backend.graycorp.io:9000/mymate/api/v1/uploadProfileImages");
+    setState(() {
+      _isLoading = true; // Start loading
+    });
 
-      try {
+    try {
+      for (File imageFile in _selectedImages) {
+        String randomFileName = _generateRandomFileName() + '.jpg';
+        final url = Uri.parse(
+            "https://backend.graycorp.io:9000/mymate/api/v1/uploadProfileImages");
+
         var request = http.MultipartRequest('PUT', url)
           ..fields['docId'] = widget.docId
           ..files.add(await http.MultipartFile.fromPath(
@@ -123,19 +139,24 @@ class _CompletegallerypageState extends State<Completegallerypage> {
           ));
 
         final response = await request.send();
-        if (response.statusCode == 200) {
-          print("Image uploaded successfully.");
-        } else {
-          print("Failed to upload image. Status code: ${response.statusCode}");
+        if (response.statusCode != 200) {
+          throw Exception('Failed to upload image: ${response.statusCode}');
         }
-      } catch (e) {
-        print("Error uploading image: $e");
       }
+    } catch (e) {
+      print("Error uploading images: $e");
+      // Show error to user
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error uploading images: $e')),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false; // End loading
+        _selectedImages.clear();
+      });
     }
-    setState(() {
-      _selectedImages.clear();
-    });
   }
+
 
   String _generateRandomFileName() {
     final random = Random();
@@ -179,7 +200,11 @@ class _CompletegallerypageState extends State<Completegallerypage> {
                 borderRadius: BorderRadius.circular(3.0),
               ),
             ),
-            child: Text('Confirm', style: TextStyle(color: Colors.white)),
+            child: _isLoading
+                ? const CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+            )
+                : const Text('Confirm', style: TextStyle(color: Colors.white)),
           ),
         ),
       ],

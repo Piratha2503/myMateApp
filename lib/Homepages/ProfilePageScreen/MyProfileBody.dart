@@ -29,7 +29,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
   final Firebase firebase = Firebase();
   late List<double> _positions;
 
-  bool isFormFilled = true;
+  bool isFormFilled = false;
 
   String full_name = "";
   String gender = "";
@@ -242,7 +242,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                                   builder: (context) => MoreAboutMePage(docId: widget.docId,),
                                 ),
                               );
-                              if (result != null) {
+                              if (result == true) {
                                 setState(() {
                                   isFormFilled = true; // Set this to true when the form is completed
                                 });
@@ -260,7 +260,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                     ],
 
                     // Second Section - Show if the form is filled
-                    if (isFormFilled) ...[
+                    if (isFormFilled == true) ...[
                       // Your additional info section here
                       AdditionalInfo(docId: widget.docId,)
                     ],

@@ -132,17 +132,12 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
   String phoneNumber = "";
   String mobile_country_code = "";
   String client_country = "";
-  String mobile_code = "+94";
+  String mobile_code = "94";
   int? otp = 0;
   FirebaseDB firebaseDB = FirebaseDB();
 
   Future<String?> fetchDocIdByMobile(String mobile) async {
 
-    @override
-    void dispose(){
-      _controller.dispose();
-      super.dispose();
-    }
 
     try {
       final url = Uri.parse("https://backend.graycorp.io:9000/mymate/api/v1/getClientDataByMobile")
@@ -176,7 +171,7 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
     var random = Random();
     otp = (random.nextInt(9999-1001)+1000);
     Address address = Address(country: client_country);
-    String formattedPhoneNumber = "$mobile_code$phoneNumber";
+    String mobile = "+$mobile_code$phoneNumber";
     ContactInfo contactInfo = ContactInfo(
         mobile: "+$mobile_code$phoneNumber",
         mobile_country_code: mobile_country_code,
@@ -191,9 +186,12 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
         body: jsonEncode(clientData.toMap())
     );
 
+
+
     if(res.statusCode == 200){
       print(res.statusCode);
-      final docId = await fetchDocIdByMobile(formattedPhoneNumber);
+      final docId = await fetchDocIdByMobile(mobile);
+      print(mobile);
       if (docId != null) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('docId', docId);
@@ -208,45 +206,51 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Failed to fetch docId. Please try again.")),
-        );
-      }
-    } else {
-      print("Failed to register mobile. Response: ${res.body}");
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error: ${res.body}")),
-      );
-    }
-    if(res.statusCode == 200){
-      print(res.statusCode);
-      final docId = await fetchDocIdByMobile(phoneNumber);
-      if (docId != null) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => OtpPinput(
-              clientData: clientData,
-              docId: docId,
-            ),
-          ),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Failed to fetch docId. Please try again.")),
-        );
-      }
-    } else {
-      print("Failed to register mobile. Response: ${res.body}");
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error: ${res.body}")),
-      );
 
+          const SnackBar(content: Text("Failed to fetch docId. Please try again.")
+
+          ),
+
+        );
+      }
+    } else {
+      print("Failed to register mobile. Response: ${res.body}");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error: ${res.body}")),
+      );
     }
-  }
+  //   if(res.statusCode == 200){
+  //     print(res.statusCode);
+  //     String formattedPhoneNumber = "$mobile_code$phoneNumber";
+  //
+  //     final docId = await fetchDocIdByMobile("+94768835990");
+  //     if (docId != null) {
+  //       Navigator.push(
+  //         context,
+  //         MaterialPageRoute(
+  //           builder: (context) => OtpPinput(
+  //             clientData: clientData,
+  //             docId: docId,
+  //           ),
+  //         ),
+  //       );
+  //     } else {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         const SnackBar(content: Text("Failed to fetch docId. Please try again.")),
+  //       );
+  //     }
+  //   } else {
+  //     print("Failed to register mobile. Response: ${res.body}");
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text("Error: ${res.body}")),
+  //     );
+  //
+     }
+  // }
 
   void _openPopupScreen(BuildContext context, String mobileNumber) {
     showDialog(
-      context: context, // Ensure `context` is available
+      context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           content: Column(
@@ -261,7 +265,7 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
 
               TextField(
                 controller: TextEditingController(text: mobileNumber),
-                textAlign: TextAlign.center, // Aligns the text to the center
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 20,
                   color: MyMateThemes.textColor,
@@ -278,7 +282,6 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
                   ElevatedButton(
                     onPressed: () {
                       Navigator.pop(context); // Close the dialog
-                      // Add your "Edit" button functionality here
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor:
