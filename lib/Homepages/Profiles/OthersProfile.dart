@@ -5,7 +5,7 @@
   import 'package:http/http.dart' as http;
   import '../../MyMateCommonBodies/MyMateApis.dart';
   import '../../MyMateCommonBodies/MyMateBottomBar.dart';
-  import '../CheckMatch.dart';
+  import '../checkMatchPages/CheckMatch.dart';
   import '../ProfilePageScreen/navamsaChartDesign.dart';
   import '../ProfilePageScreen/photoGalleryPage.dart';
   import '../ProfilePageScreen/rasiChartDesign.dart';

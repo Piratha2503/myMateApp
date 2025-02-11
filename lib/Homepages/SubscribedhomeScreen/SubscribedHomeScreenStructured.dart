@@ -5,6 +5,7 @@ import '../../MyMateCommonBodies/MyMateApis.dart';
 import '../../MyMateCommonBodies/MyMateBottomBar.dart';
 import '../BadgeWidget.dart';
 import '../CompleteProfileScreen/CompleteProfileMain.dart';
+import '../checkMatchPages/checkMatchOptions.dart';
 import 'SubscribedHomeScreenWidgets.dart';
 
 class SubscribedhomescreenStructuredPage extends StatefulWidget {
@@ -110,11 +111,39 @@ class _SubscribedhomescreenStructuredPageState extends State<Subscribedhomescree
               ),
             ),
           ),
-          SizedBox(height: 20,),
+          SizedBox(height: 15,),
           SubscribeHomeScreenStructuredPageCarouselSliders(docId: widget.docId,),
-          SizedBox(height: 30),
+          SizedBox(height: 25),
           SubscribedhomescreenStructuredPageTokenContainers(context,widget.docId),
-          SizedBox(height: 20),
+          SizedBox(height: 15),
+          Container(
+              height: 50,
+            width: 330,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            child:
+            ElevatedButton(
+                onPressed: (){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CheckMatchOptionsScreen( soulDocId: '', clientDocId: 'E0JFHhK2x6Gq2Ac6XSyP',)));
+                },
+                style:  ButtonStyle(
+                  foregroundColor: MaterialStateProperty.all(Colors.white),
+                  backgroundColor: MaterialStateProperty.all(MyMateThemes.primaryColor),
+                  shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0)
+                      )),
+                  padding: MaterialStateProperty.all(
+                    EdgeInsets.symmetric(vertical: 16.0, horizontal: 40.0), // Adjust values as needed
+                  ),
+                ),
+                child: Text('Check Match'))
+
+          ),
 
         ],
       ),

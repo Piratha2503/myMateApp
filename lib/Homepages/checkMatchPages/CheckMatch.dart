@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import '../MyMateCommonBodies/MyMateApis.dart';
-import '../dbConnection/Firebase.dart';
-import '../MyMateCommonBodies/MyMateBottomBar.dart';
+import '../../MyMateCommonBodies/MyMateApis.dart';
+import '../../dbConnection/Firebase.dart';
+import '../../MyMateCommonBodies/MyMateBottomBar.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 
-import 'ProfilePageScreen/navamsaChartDesign.dart';
-import 'ProfilePageScreen/rasiChartDesign.dart';
+import '../ProfilePageScreen/navamsaChartDesign.dart';
+import '../ProfilePageScreen/rasiChartDesign.dart';
 
 class CheckmatchPage extends StatefulWidget {
   final String clientDocId;
