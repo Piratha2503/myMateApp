@@ -69,8 +69,12 @@ dependencies:
   shared_preferences: ^2.2.0
 
   flutter_login: ^4.1.1
-  reactive_date_time_picker: ^4.0.0
+
+  image: ^4.5.2
   intl: ^0.19.0
+  reactive_date_time_picker: ^4.0.0
+  flutter_datetime_picker_plus: ^2.2.0
+  flutter_screenutil: ^5.9.3
 
 dev_dependencies:
   flutter_test:
