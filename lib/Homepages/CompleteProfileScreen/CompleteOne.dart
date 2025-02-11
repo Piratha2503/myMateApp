@@ -46,6 +46,7 @@ class _PageOneState extends State<PageOne> {
         });
 
 
+        // await _uploadImageToBackend(thumbnailFile);
       }
     }
   }
