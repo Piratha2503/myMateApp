@@ -17,7 +17,7 @@ class _PageTwoState extends State<PageTwo> {
   bool isChecked = false;
   String? _selectedCivilStatus;
   String? _selectedEmploymentType;
-  String? _selectedDistrict;
+  // String? _selectedDistrict;
   bool showGeneralError = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _occupationController = TextEditingController();
@@ -90,11 +90,11 @@ class _PageTwoState extends State<PageTwo> {
   }
 
   bool _validateHeight(String input) {
-    return RegExp(r'^\d+(\.\d+)?$').hasMatch(input); // Number validation for height
+    return RegExp(r'^\d+(\.\d+)?$').hasMatch(input);
   }
 
   bool _validateLettersOnly(String input) {
-    return RegExp(r'^[a-zA-Z\s]+$').hasMatch(input); // Letters-only validation
+    return RegExp(r'^[a-zA-Z\s]+$').hasMatch(input);
   }
 
   bool _validateFields() {
@@ -140,7 +140,7 @@ class _PageTwoState extends State<PageTwo> {
       'docId': widget.docId,
       'contactInfo': {
         'address': {
-          'city': _selectedDistrict,
+          'city': _DistrictController.text,
         }
       },
       'personalDetails': {
@@ -204,10 +204,10 @@ class _PageTwoState extends State<PageTwo> {
     }
   }
 
-  void _onSave() {
+  void _onSave() async {
     if (_validateFields()) {
-      _saveDataToBackend();
-      _updateForm();
+     await _saveDataToBackend();
+       await _updateForm();
       widget.onSave();
     }
   }

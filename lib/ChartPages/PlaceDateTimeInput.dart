@@ -38,102 +38,102 @@ class _PlaceDateTimeInputState extends State<PlaceDateTimeInput> {
       body: Column(
 
         children: <Widget>[
-      Flex(
-      direction: Axis.vertical,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(birthDetails,
-            style: TextStyle( fontSize: MyMateThemes.subHeadFontSize,fontWeight: FontWeight.w700 ,color: MyMateThemes.textColor,letterSpacing: 0.8),
-          ),
-          // SizedBox(height:5),
-          Text( calculate,
-            style: TextStyle( fontSize: MyMateThemes.subHeadFontSize,fontWeight: FontWeight.w700 ,color: MyMateThemes.primaryColor,letterSpacing: 0.8),
+          Flex(
+            direction: Axis.vertical,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(birthDetails,
+                style: TextStyle( fontSize: MyMateThemes.subHeadFontSize,fontWeight: FontWeight.w700 ,color: MyMateThemes.textColor,letterSpacing: 0.8),
+              ),
+              // SizedBox(height:5),
+              Text( calculate,
+                style: TextStyle( fontSize: MyMateThemes.subHeadFontSize,fontWeight: FontWeight.w700 ,color: MyMateThemes.primaryColor,letterSpacing: 0.8),
 
-          ),
-          SizedBox(height: 20),
-          Text(text1,style: TextStyle(color: MyMateThemes.textColor,fontSize: 14,fontWeight: FontWeight.normal,letterSpacing: 0.5),),
-          Text(text2,style: TextStyle(color: MyMateThemes.textColor,fontSize: 14,fontWeight: FontWeight.normal,letterSpacing: 0.5),),
-          Text(text3,style: TextStyle(color: MyMateThemes.textColor,fontSize: 14,fontWeight: FontWeight.normal,letterSpacing: 0.5),),
+              ),
+              SizedBox(height: 20),
+              Text(text1,style: TextStyle(color: MyMateThemes.textColor,fontSize: 14,fontWeight: FontWeight.normal,letterSpacing: 0.5),),
+              Text(text2,style: TextStyle(color: MyMateThemes.textColor,fontSize: 14,fontWeight: FontWeight.normal,letterSpacing: 0.5),),
+              Text(text3,style: TextStyle(color: MyMateThemes.textColor,fontSize: 14,fontWeight: FontWeight.normal,letterSpacing: 0.5),),
 
-          SizedBox(height: 30),
-        ],
-      ),
-            Center(
-              child: SizedBox(
-                width: 300,
-                child: GooglePlaceAutoCompleteTextField(
-                  countries: ["LK"],
-                  textStyle: TextStyle(
+              SizedBox(height: 30),
+            ],
+          ),
+          Center(
+            child: SizedBox(
+              width: 300,
+              child: GooglePlaceAutoCompleteTextField(
+                countries: ["LK"],
+                textStyle: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 18,
                     color: Colors.grey
-                  ),
-                  boxDecoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(width: 1.0,color: Colors.grey))
-                  ),
-                  textEditingController: textEditingController,
-                  googleAPIKey: "AIzaSyAFhnkirk4iFypOdxfiECUWKRVOtE0azMo",
-                  inputDecoration: InputDecoration(
-                    hintText: "Place of birth (city)",
-                    hintStyle: TextStyle(
-                      color: Colors.grey,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 18,
-                    ),
-                    border: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                  ),
-                  debounceTime: 400,
-                  isLatLngRequired: true,
-                  getPlaceDetailWithLatLng: (Prediction prediction) {
-                    print("placeDetails${prediction.lat}");
-                  },
-                  itemClick: (Prediction prediction) {
-                    List<String>? stringList = prediction.description?.split(",");
-                    setState(() {
-                      district = stringList![0].toString();
-
-                    });
-                    textEditingController.text = prediction.description ?? "";
-                    textEditingController.selection = TextSelection.fromPosition(
-                        TextPosition(offset: prediction.description?.length ?? 0));
-                  },
-                  seperatedBuilder: Divider(),
-                  containerHorizontalPadding: 10,
-                  itemBuilder: (context, index, Prediction prediction) {
-                    return Container(
-                      padding: EdgeInsets.all(10),
-                      child: Row(
-                        children: [
-                          Icon(Icons.location_on),
-                          SizedBox(width: 7),
-                          Expanded(
-                              child: Text(
-                                prediction.description ?? "",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 17,
-                                ),
-                              )
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                  isCrossBtnShown: true,
                 ),
+                boxDecoration: BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(width: 1.0,color: Colors.grey))
+                ),
+                textEditingController: textEditingController,
+                googleAPIKey: "AIzaSyAFhnkirk4iFypOdxfiECUWKRVOtE0azMo",
+                inputDecoration: InputDecoration(
+                  hintText: "Place of birth (city)",
+                  hintStyle: TextStyle(
+                    color: Colors.grey,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18,
+                  ),
+                  border: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                ),
+                debounceTime: 400,
+                isLatLngRequired: true,
+                getPlaceDetailWithLatLng: (Prediction prediction) {
+                  print("placeDetails${prediction.lat}");
+                },
+                itemClick: (Prediction prediction) {
+                  List<String>? stringList = prediction.description?.split(",");
+                  setState(() {
+                    district = stringList![0].toString();
+
+                  });
+                  textEditingController.text = prediction.description ?? "";
+                  textEditingController.selection = TextSelection.fromPosition(
+                      TextPosition(offset: prediction.description?.length ?? 0));
+                },
+                seperatedBuilder: Divider(),
+                containerHorizontalPadding: 10,
+                itemBuilder: (context, index, Prediction prediction) {
+                  return Container(
+                    padding: EdgeInsets.all(10),
+                    child: Row(
+                      children: [
+                        Icon(Icons.location_on),
+                        SizedBox(width: 7),
+                        Expanded(
+                            child: Text(
+                              prediction.description ?? "",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 17,
+                              ),
+                            )
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                isCrossBtnShown: true,
               ),
             ),
+          ),
           Center(
-              child: Container(
+            child: Container(
                 width: 300,
-                
+
                 decoration: BoxDecoration(
-                  border: Border(bottom: BorderSide(width: 1))
+                    border: Border(bottom: BorderSide(width: 1))
                 ),
                 child: Padding(
-                    padding: EdgeInsets.only(left: 10),
+                  padding: EdgeInsets.only(left: 10),
                   child: TextField(
                     readOnly: true,
                     decoration: InputDecoration(
@@ -163,7 +163,7 @@ class _PlaceDateTimeInputState extends State<PlaceDateTimeInput> {
                     },
                   ),
                 )
-              ),
+            ),
           ),
           Center(
             child: Container(
