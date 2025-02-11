@@ -51,13 +51,13 @@ class MyApp extends StatelessWidget {
 
       home:
           // ProfilePage(selectedBottomBarIconIndex: 3, docId: 'SYfMHh6YUL6yobmIZXwO',)
-      //AuthcheckState()
+     // AuthcheckState()
       //ProfilePage(docId: "SYfMHh6YUL6yobmIZXwO", selectedBottomBarIconIndex:0,),
       // CheckmatchPage( clientDocId: '', soulDocId: '',),
-      // RegisterPage()
+      RegisterPage()
       // SubscribedhomescreenStructuredPage(docId: 'E0JFHhK2x6Gq2Ac6XSyP',)
-        //CompleteProfilePage(docId: 'vVm5FU8qEIjO5sO8b8l4')
-      EditPage(docId: 'SYfMHh6YUL6yobmIZXwO', onSave: () {  },)
+       // CompleteProfilePage(docId: 'vVm5FU8qEIjO5sO8b8l4')
+      //EditPage(docId: 'SYfMHh6YUL6yobmIZXwO', onSave: () {  },)
 
     );
   }

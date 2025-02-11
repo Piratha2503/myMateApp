@@ -75,7 +75,6 @@ class _EditPageState extends State<EditPage> {
         setState(() {
           _selectedCivilStatus = clientData['civil_status'] ?? 'Select Status';
           _selectedEmploymentType = clientData['occupation_type'] ?? 'Select Type';
-          _selectedDistrict = clientData['city'] ?? 'Select District';
           DistrictController.text= clientData['city'] ?? '';
 
           _selectedValue = clientData['eating_habit'] ?? '';
@@ -453,7 +452,7 @@ class _EditPageState extends State<EditPage> {
       'mobile': contactController.text,
       'address': {
 
-        'city': _selectedDistrict,
+        'city': DistrictController.text,
       },
     };
 
