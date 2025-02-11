@@ -179,7 +179,7 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
 
     Astrology astrology = Astrology(rasi_chart: chartGeneration);
     widget.clientData.astrology = astrology;
-    await firebaseDB.updateClient(widget.clientData);
+    await firebaseDB.updateClient(widget.clientDat);
 
     print(chartGeneration.place1);
     print(chartGeneration.place2);
