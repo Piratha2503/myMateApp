@@ -53,18 +53,14 @@ class _EditPageState extends State<EditPage> {
   final TextEditingController sportsController = TextEditingController();
 
   List<String> hobbyTags = [];
-  List<String> favoritesTags = [];
-  List<String> sportsTags = [];
 
   String _selectedValue = '';
-
 
   @override
   void initState() {
     super.initState();
     print(widget.docId);
     _fetchClientData();
-
   }
 
   Future<void> _fetchClientData() async {
@@ -75,12 +71,15 @@ class _EditPageState extends State<EditPage> {
         setState(() {
           _selectedCivilStatus = clientData['civil_status'] ?? 'Select Status';
           _selectedEmploymentType = clientData['occupation_type'] ?? 'Select Type';
-          DistrictController.text= clientData['city'] ?? '';
+          DistrictController.text = clientData['city'] ?? '';
 
           _selectedValue = clientData['eating_habit'] ?? '';
-          selectedAlcoholIndex = _getIndexFromString(clientData['alcoholIntake'], _alcoholOptions);
-          selectedSmokingIndex = _getIndexFromString(clientData['smoking'], _smokingOptions);
-          selectedCookingIndex = _getIndexFromString(clientData['cooking'], _cookingOptions);
+          selectedAlcoholIndex =
+              _getIndexFromString(clientData['alcoholIntake'], _alcoholOptions);
+          selectedSmokingIndex =
+              _getIndexFromString(clientData['smoking'], _smokingOptions);
+          selectedCookingIndex =
+              _getIndexFromString(clientData['cooking'], _cookingOptions);
           hobbyTags = List<String>.from(clientData['favorites'] ?? []);
 
           _selectedReligion = clientData['religion'] ?? 'Select Religion';
@@ -107,7 +106,6 @@ class _EditPageState extends State<EditPage> {
           }
         });
       } else {
-
         setState(() {
           isLoading = true;
           print(ClientData);
@@ -125,7 +123,6 @@ class _EditPageState extends State<EditPage> {
         SnackBar(content: Text('Error: $e')),
       );
     }
-
   }
 
   int _getIndexFromString(String value, List<String> options) {
@@ -156,8 +153,6 @@ class _EditPageState extends State<EditPage> {
     'Advanced',
   ];
 
-
-
   Future<void> _uploadImageToBackend(File imageFile) async {
     final url = Uri.parse(
         "https://backend.graycorp.io:9000/mymate/api/v1/uploadProfileImages");
@@ -178,7 +173,6 @@ class _EditPageState extends State<EditPage> {
 
         setState(() {
           profilePicUrl = uploadedUrl;
-
         });
 
         print("Image uploaded successfully: $uploadedUrl");
@@ -194,16 +188,13 @@ class _EditPageState extends State<EditPage> {
     print(widget.docId);
     setState(() {
       isLoading = true;
-
     });
 
     try {
-
       await _uploadImageToBackend(_imageFile!);
       await _fetchClientData();
 
       setState(() {
-
         profilePicUrl = profilePicUrl;
       });
 
@@ -217,7 +208,6 @@ class _EditPageState extends State<EditPage> {
         SnackBar(content: Text('Failed to update profile. Please try again.')),
       );
     }
-
   }
 
   void _addHobbyTag() {
@@ -270,6 +260,7 @@ class _EditPageState extends State<EditPage> {
       },
     );
   }
+
   Widget _buildTextFieldRow({
     required String label,
     required String hintText,
@@ -310,11 +301,15 @@ class _EditPageState extends State<EditPage> {
             controller: controller,
             decoration: InputDecoration(
               hintText: hintText,
-              hintStyle: TextStyle(color: MyMateThemes.textColor.withOpacity(0.5)),
+              hintStyle:
+                  TextStyle(color: MyMateThemes.textColor.withOpacity(0.5)),
               border: InputBorder.none,
               contentPadding: EdgeInsets.symmetric(horizontal: 15),
             ),
-            style: TextStyle(color: MyMateThemes.textColor.withOpacity(0.7),fontSize: 15,fontWeight: FontWeight.w400),
+            style: TextStyle(
+                color: MyMateThemes.textColor.withOpacity(0.7),
+                fontSize: 15,
+                fontWeight: FontWeight.w400),
           ),
         ),
       ],
@@ -329,7 +324,6 @@ class _EditPageState extends State<EditPage> {
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
-
       children: [
         // Label
         Row(
@@ -364,13 +358,16 @@ class _EditPageState extends State<EditPage> {
               items: items.map<DropdownMenuItem<String>>((String item) {
                 return DropdownMenuItem<String>(
                   value: item,
-
-                  child: Text(
-                    item,
-                    style: item.startsWith('Select')
-                        ? TextStyle(color: MyMateThemes.textColor.withOpacity(0.5),fontSize: 15,fontWeight:FontWeight.w400)
-                        : TextStyle(color: MyMateThemes.textColor.withOpacity(0.7),fontSize: 15,fontWeight: FontWeight.w400)
-                  ),
+                  child: Text(item,
+                      style: item.startsWith('Select')
+                          ? TextStyle(
+                              color: MyMateThemes.textColor.withOpacity(0.5),
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400)
+                          : TextStyle(
+                              color: MyMateThemes.textColor.withOpacity(0.7),
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400)),
                 );
               }).toList(),
             ),
@@ -379,16 +376,13 @@ class _EditPageState extends State<EditPage> {
       ],
     );
   }
+
   void _updateCharacterCount() {
     setState(() {
       characterCount = _bioController.text.length;
       error = characterCount > 192 ? 'Character limit exceeded' : '';
     });
   }
-
-
-
-
 
   void _chooseImage(ImageSource source) async {
     final picker = ImagePicker();
@@ -402,7 +396,7 @@ class _EditPageState extends State<EditPage> {
         maxHeight: 1000,
         maxWidth: 1000,
         compressFormat: ImageCompressFormat.jpg,
-      ) ;
+      );
 
       if (croppedFile != null) {
         setState(() {
@@ -427,23 +421,23 @@ class _EditPageState extends State<EditPage> {
   void handleClose(int index) {
     if (controllers.isNotEmpty && index >= 0 && index < controllers.length) {
       setState(() {
-        controllers.removeAt(index); // Remove the controller at the specified index
+        controllers
+            .removeAt(index); // Remove the controller at the specified index
       });
     } else {
       print("Invalid index: $index");
     }
   }
 
-  Future <void> _saveChanges() async {
+  Future<void> _saveChanges() async {
     setState(() {
       isLoading = true;
     });
 
-    List<String> updatedExpectations = controllers.map((controller) => controller.text).toList();
-
+    List<String> updatedExpectations =
+        controllers.map((controller) => controller.text).toList();
 
     Map<String, dynamic> personalDetails = {
-
       'marital_status': _selectedCivilStatus ?? '',
       'religion': _selectedReligion ?? '',
     };
@@ -451,33 +445,25 @@ class _EditPageState extends State<EditPage> {
     Map<String, dynamic> contactInfo = {
       'mobile': contactController.text,
       'address': {
-
         'city': DistrictController.text,
       },
     };
 
     Map<String, dynamic> careerStudies = {
       'occupation': occupationController.text,
-      'occupation_type' : _selectedEmploymentType ?? '',
-
+      'occupation_type': _selectedEmploymentType ?? '',
     };
 
-    final  Map<String, dynamic> lifestyle = {
+    final Map<String, dynamic> lifestyle = {
       'expectations': updatedExpectations,
       'eating_habit': _selectedValue,
-
       'alcoholIntake': _getAlcoholString(selectedAlcoholIndex),
-
       'smoking': _getSmokingString(selectedSmokingIndex),
-
       'cooking': _getCookingString(selectedCookingIndex),
-
       'personal_interest': hobbyTags,
-
     };
     Map<String, dynamic> profileImages = {
       'profilePicUrl': profilePicUrl,
-
     };
 
     Map<String, dynamic> payload = {
@@ -486,12 +472,12 @@ class _EditPageState extends State<EditPage> {
       "contactInfo": contactInfo,
       "careerStudies": careerStudies,
       "lifestyle": lifestyle,
-      "profileImages":profileImages,
-
+      "profileImages": profileImages,
     };
     try {
       var response = await http.put(
-        Uri.parse("https://backend.graycorp.io:9000/mymate/api/v1/updateClient"),
+        Uri.parse(
+            "https://backend.graycorp.io:9000/mymate/api/v1/updateClient"),
         headers: {
           "Content-Type": "application/json",
         },
@@ -506,13 +492,16 @@ class _EditPageState extends State<EditPage> {
         print(payload);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Profile updated successfully!')),
-
         );
 
         _fetchClientData();
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => ProfilePage(docId: widget.docId, selectedBottomBarIconIndex: 3,)),
+          MaterialPageRoute(
+              builder: (context) => ProfilePage(
+                    docId: widget.docId,
+                    selectedBottomBarIconIndex: 3,
+                  )),
         );
       } else {
         setState(() {
@@ -531,8 +520,6 @@ class _EditPageState extends State<EditPage> {
       );
     }
   }
-
-
 
   String _getAlcoholString(int index) {
     switch (index) {
@@ -585,7 +572,6 @@ class _EditPageState extends State<EditPage> {
     }
   }
 
-
   @override
   void dispose() {
     occupationController.dispose();
@@ -593,7 +579,6 @@ class _EditPageState extends State<EditPage> {
     contactController.dispose();
     for (var controller in controllers) {
       controller.dispose();
-
     }
     super.dispose();
   }
@@ -601,291 +586,304 @@ class _EditPageState extends State<EditPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:Colors.white,
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        backgroundColor:Colors.white,
-        automaticallyImplyLeading: false,
-        title: SafeArea(
-
-          child:Padding(
-            padding: new EdgeInsets.all(10.0),
-            child:
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: SvgPicture.asset('assets/images/chevron-left.svg',height: 14,width: 14),
-                ),
-                SizedBox(width: 118),
-                Text(
-                  'Edit Profile',
-                  style: TextStyle(
-                    color: MyMateThemes.textColor,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-
-          ),
-
-        ),
-      ),
-      body: isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(height: 20),
-            Center(
-              child: Column(
+        backgroundColor: Colors.white,
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          automaticallyImplyLeading: false,
+          title: SafeArea(
+            child: Padding(
+              padding: new EdgeInsets.all(10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  // SizedBox(height: 10),
-                  // Stack(
-                  //   alignment: Alignment.center,
-                  //   children: [
                   GestureDetector(
-                    onTap: _openPopupScreen,
-                    child: profilePicUrl != null
-                        ? Container(
-                      width: 110, // Double the radius for width and height
-                      height: 110,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: MyMateThemes.textColor.withOpacity(0.4),
-                            spreadRadius: 4,
-                            blurRadius: 4,
-                          )
-                        ],
-                        border: Border.all(
-                          color: MyMateThemes.secondaryColor, // Set the border color
-                          width: 4.0, // Set the border width
-                        ),
-                      ),
-                      child: CircleAvatar(
-                        radius: 60,
-                        backgroundImage: NetworkImage(profilePicUrl!),
-                        backgroundColor: Colors.transparent, // To ensure no background color
-                      ),
-                    )
-                        : SvgPicture.asset('assets/images/circle.svg'),
-                  ),
-                      SizedBox(height: 5),
-                      TextButton(
-                          onPressed: _openPopupScreen,
-                          child: Text('Edit',style: TextStyle(color: MyMateThemes.primaryColor,fontWeight: FontWeight.normal,fontSize: 14),))
-                      // Positioned(
-                      //   bottom : 0,
-                      //   right: -5,
-                      //   child: GestureDetector(
-                      //     onTap: _openPopupScreen,
-                      //     child: SvgPicture.asset('assets/images/edit.svg',color: MyMateThemes.textColor),
-                      //   ),
-                      // ),
-                  ],
-                  ),
-                  ),
-                  //SizedBox(height: 10),
-                  EditGalleryScreen(docId: widget.docId, onSave: () { },),
-                  SizedBox(height: 30),
-                  _buildDropdownRow(
-                    label: 'Civil Status',
-                    value: _selectedCivilStatus,
-                    items: [
-                      'Select Option',
-                      'Single',
-                      'Unmarried',
-                      'Divorced',
-                      'Widowed'
-                    ],
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedCivilStatus = value;
-                      });
+                    onTap: () {
+                      Navigator.pop(context);
                     },
+                    child: SvgPicture.asset('assets/images/chevron-left.svg',
+                        height: 14, width: 14),
                   ),
-                  SizedBox(height: 13),
-                  _buildDropdownRow(
-                    label: 'Employment Type',
-                    value: _selectedEmploymentType,
-                    items: [
-                      'Select Option ',
-                      'Government',
-                      'Private',
-                      'Self Employed',
-                      'Unemployed',
-                      'Professional'
-
-                    ],
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedEmploymentType = value;
-                      });
-                    },
+                  SizedBox(width: 118),
+                  Text(
+                    'Edit Profile',
+                    style: TextStyle(
+                      color: MyMateThemes.textColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                  SizedBox(height: 13),
-                  _buildTextFieldRow(
-                    label: 'Occupation',
-                    hintText: 'Enter your occupation',
-                    controller: occupationController,
-                  ),
-                  SizedBox(height: 13),
-                  _buildTextFieldRow(
-                    label: 'Contact No',
-                    hintText: 'Enter your contact number',
-                    controller: contactController,
-                  ),
-
-                  SizedBox(height: 13),
-                  _buildTextFieldRow(
-                    label: 'District',
-                    hintText: 'Enter your District',
-                    controller: DistrictController,
-                  ),
-
-
-                  SizedBox(height:13),
-                  _buildTextFieldRow(
-                    label: 'Education',
-                    hintText: 'Enter your education',
-                    controller: educationController,
-                  ),
-
-                  SizedBox(height: 13),
-                  _buildDropdownRow(
-                    label: 'Religion',
-                    value: _selectedReligion,
-                    items: [
-                      'Select Option',
-                      'Hindu',
-                      'Christian',
-                      'Muslim',
-                      'Buddhist'
-                    ],
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedReligion = value;
-                      });
-                    },
-                  ),
-                  SizedBox(height: 50),
-                  Row(
-                    children: [
-                      SizedBox(width: 30),
-                      Text(
-                        'Expectations',
-                        style: TextStyle(
-                            color: MyMateThemes.textColor,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 20),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 5),
-                  Column(
-                    children: List.generate(
-                      controllers.length,
-                          (index) => Padding(
-                         padding:  EdgeInsets.all(10.0),
-                        child: Center(
-                          child: Container(
-
-                            width: 346,
-                            height: 44,                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: MyMateThemes.textColor.withOpacity(0.2),
-                                width: 1,
-                              ),                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: TextField(
-                                    controller: controllers[index],
-                                    decoration: InputDecoration(
-                                      hintText: 'Enter expectation',
-                                      hintStyle: TextStyle(
-                                        color: MyMateThemes.textColor.withOpacity(0.5),
+                ],
+              ),
+            ),
+          ),
+        ),
+        body: isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 20),
+                    Center(
+                      child: Column(
+                        children: [
+                          // SizedBox(height: 10),
+                          // Stack(
+                          //   alignment: Alignment.center,
+                          //   children: [
+                          GestureDetector(
+                            onTap: _openPopupScreen,
+                            child: profilePicUrl != null
+                                ? Container(
+                                    width:
+                                        110, // Double the radius for width and height
+                                    height: 110,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: MyMateThemes.textColor
+                                              .withOpacity(0.4),
+                                          spreadRadius: 4,
+                                          blurRadius: 4,
+                                        )
+                                      ],
+                                      border: Border.all(
+                                        color: MyMateThemes
+                                            .secondaryColor, // Set the border color
+                                        width: 4.0, // Set the border width
                                       ),
-                                      border: InputBorder.none,
-                                      contentPadding: EdgeInsets.symmetric(horizontal: 10),
                                     ),
-                                    style: TextStyle(color: MyMateThemes.textColor.withOpacity(0.8)),
+                                    child: CircleAvatar(
+                                      radius: 60,
+                                      backgroundImage:
+                                          NetworkImage(profilePicUrl!),
+                                      backgroundColor: Colors
+                                          .transparent, // To ensure no background color
+                                    ),
+                                  )
+                                : SvgPicture.asset('assets/images/circle.svg'),
+                          ),
+                          SizedBox(height: 5),
+                          TextButton(
+                              onPressed: _openPopupScreen,
+                              child: Text(
+                                'Edit',
+                                style: TextStyle(
+                                    color: MyMateThemes.primaryColor,
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 14),
+                              ))
+                          // Positioned(
+                          //   bottom : 0,
+                          //   right: -5,
+                          //   child: GestureDetector(
+                          //     onTap: _openPopupScreen,
+                          //     child: SvgPicture.asset('assets/images/edit.svg',color: MyMateThemes.textColor),
+                          //   ),
+                          // ),
+                        ],
+                      ),
+                    ),
+                    //SizedBox(height: 10),
+                    EditGalleryScreen(
+                      docId: widget.docId,
+                      onSave: () {},
+                    ),
+                    SizedBox(height: 30),
+                    _buildDropdownRow(
+                      label: 'Civil Status',
+                      value: _selectedCivilStatus,
+                      items: [
+                        'Select Option',
+                        'Single',
+                        'Unmarried',
+                        'Divorced',
+                        'Widowed'
+                      ],
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedCivilStatus = value;
+                        });
+                      },
+                    ),
+                    SizedBox(height: 13),
+                    _buildDropdownRow(
+                      label: 'Employment Type',
+                      value: _selectedEmploymentType,
+                      items: [
+                        'Select Option ',
+                        'Government',
+                        'Private',
+                        'Self Employed',
+                        'Unemployed',
+                        'Professional'
+                      ],
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedEmploymentType = value;
+                        });
+                      },
+                    ),
+                    SizedBox(height: 13),
+                    _buildTextFieldRow(
+                      label: 'Occupation',
+                      hintText: 'Enter your occupation',
+                      controller: occupationController,
+                    ),
+                    SizedBox(height: 13),
+                    _buildTextFieldRow(
+                      label: 'Contact No',
+                      hintText: 'Enter your contact number',
+                      controller: contactController,
+                    ),
+
+                    SizedBox(height: 13),
+                    _buildTextFieldRow(
+                      label: 'District',
+                      hintText: 'Enter your District',
+                      controller: DistrictController,
+                    ),
+
+                    SizedBox(height: 13),
+                    _buildTextFieldRow(
+                      label: 'Education',
+                      hintText: 'Enter your education',
+                      controller: educationController,
+                    ),
+
+                    SizedBox(height: 13),
+                    _buildDropdownRow(
+                      label: 'Religion',
+                      value: _selectedReligion,
+                      items: [
+                        'Select Option',
+                        'Hindu',
+                        'Christian',
+                        'Muslim',
+                        'Buddhist'
+                      ],
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedReligion = value;
+                        });
+                      },
+                    ),
+                    SizedBox(height: 50),
+                    Row(
+                      children: [
+                        SizedBox(width: 30),
+                        Text(
+                          'Expectations',
+                          style: TextStyle(
+                              color: MyMateThemes.textColor,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 20),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 5),
+                    Column(
+                      children: List.generate(
+                        controllers.length,
+                        (index) => Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Center(
+                            child: Container(
+                              width: 346,
+                              height: 44,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color:
+                                      MyMateThemes.textColor.withOpacity(0.2),
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: TextField(
+                                      controller: controllers[index],
+                                      decoration: InputDecoration(
+                                        hintText: 'Enter expectation',
+                                        hintStyle: TextStyle(
+                                          color: MyMateThemes.textColor
+                                              .withOpacity(0.5),
+                                        ),
+                                        border: InputBorder.none,
+                                        contentPadding: EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                      ),
+                                      style: TextStyle(
+                                          color: MyMateThemes.textColor
+                                              .withOpacity(0.8)),
+                                    ),
                                   ),
-                                ),
-                                IconButton(
-                                  icon: Icon(Icons.close, color:MyMateThemes.textColor,size:18),
-                                  onPressed: () => handleClose(index),
-                                  padding: EdgeInsets.zero,
-                                ),
-                              ],
+                                  IconButton(
+                                    icon: Icon(Icons.close,
+                                        color: MyMateThemes.textColor,
+                                        size: 18),
+                                    onPressed: () => handleClose(index),
+                                    padding: EdgeInsets.zero,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: 15),
-                  SizedBox(
-                    width: 340.0, // Set desired width
-                    height: 50.0, // Set desired height
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (controllers.length < 5) {
-                          setState(() {
-                            addNewContainer();
-                          });
-                        }
-                      },
-                      style:
-                      ButtonStyle(
-                        foregroundColor: MaterialStateProperty.all(MyMateThemes.primaryColor),
-                        backgroundColor: MaterialStateProperty.all(MyMateThemes.secondaryColor),
-                        shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5.0)
-                            )),
-                      ),
-
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text('+Add more',style: TextStyle(fontSize: 14),),
+                    SizedBox(height: 15),
+                    SizedBox(
+                      width: 340.0,
+                      height: 50.0,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (controllers.length < 5) {
+                            setState(() {
+                              addNewContainer();
+                            });
+                          }
+                        },
+                        style: ButtonStyle(
+                          foregroundColor: MaterialStateProperty.all(
+                              MyMateThemes.primaryColor),
+                          backgroundColor: MaterialStateProperty.all(
+                              MyMateThemes.secondaryColor),
+                          shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5.0))),
+                        ),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            '+Add more',
+                            style: TextStyle(fontSize: 14),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                  moreaboutme(),
-
-                ],
-              ),
-            )
-
-
-
-    );
+                    moreaboutme(),
+                  ],
+                ),
+              ));
   }
 
-
-  Widget moreaboutme(){
+  Widget moreaboutme() {
     return Container(
       color: MyMateThemes.backgroundColor,
       padding: EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
         children: [
-          SizedBox(height:65),
+          SizedBox(height: 65),
           Row(
             children: [
               SizedBox(width: 20),
-
               Text(
                 'More About Me',
                 style: TextStyle(
@@ -895,7 +893,7 @@ class _EditPageState extends State<EditPage> {
               ),
             ],
           ),
-          SizedBox(height:30),
+          SizedBox(height: 30),
           Row(
             children: [
               SizedBox(width: 45),
@@ -955,7 +953,6 @@ class _EditPageState extends State<EditPage> {
                   color: MyMateThemes.textColor.withOpacity(0.7),
                   fontSize: 15,
                   fontWeight: FontWeight.normal,
-
                 ),
               ),
             ],
@@ -977,12 +974,14 @@ class _EditPageState extends State<EditPage> {
                     activeColor: MyMateThemes.primaryColor,
                     // Change color if needed
                   ),
-                  Text('Vegetarian',
+                  Text(
+                    'Vegetarian',
                     style: TextStyle(
-                    color: MyMateThemes.textColor,
-                    fontSize: 14,
-                    fontWeight: FontWeight.normal,
-                  ),),
+                      color: MyMateThemes.textColor,
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
                 ],
               ),
               SizedBox(width: 50),
@@ -996,15 +995,16 @@ class _EditPageState extends State<EditPage> {
                         _selectedValue = value!;
                       });
                     },
-
                     activeColor: MyMateThemes.primaryColor,
                   ),
-                  Text('Non- Vegetarian',
+                  Text(
+                    'Non- Vegetarian',
                     style: TextStyle(
                       color: MyMateThemes.textColor,
                       fontSize: 14,
                       fontWeight: FontWeight.normal,
-                    ),),
+                    ),
+                  ),
                 ],
               ),
             ],
@@ -1019,12 +1019,10 @@ class _EditPageState extends State<EditPage> {
                   color: MyMateThemes.textColor.withOpacity(0.7),
                   fontSize: 15,
                   fontWeight: FontWeight.normal,
-
                 ),
               ),
             ],
           ),
-
           SizedBox(height: 30),
           _buildAlcoholSelection(),
           SizedBox(height: 45),
@@ -1037,7 +1035,6 @@ class _EditPageState extends State<EditPage> {
                   color: MyMateThemes.textColor.withOpacity(0.7),
                   fontSize: 15,
                   fontWeight: FontWeight.normal,
-
                 ),
               ),
             ],
@@ -1071,15 +1068,12 @@ class _EditPageState extends State<EditPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-
               SizedBox(width: 25),
               ElevatedButton(
-              onPressed: () async {
+                onPressed: () async {
                   // Store the selected values
                   await _saveChanges();
                   // await  StoreSelectedValues();
-
-
                 },
                 style: CommonButtonStyle.commonButtonStyle(),
                 child: Text(
@@ -1104,7 +1098,8 @@ class _EditPageState extends State<EditPage> {
             border: Border.all(
               color: MyMateThemes.textColor.withOpacity(0.2),
               width: 1,
-            ),            borderRadius: BorderRadius.circular(10.0),
+            ),
+            borderRadius: BorderRadius.circular(10.0),
           ),
           width: 346,
           height: 44,
@@ -1113,14 +1108,16 @@ class _EditPageState extends State<EditPage> {
             child: TextField(
               controller: controller,
               decoration: InputDecoration(
-                hintStyle:TextStyle(color: MyMateThemes.textColor.withOpacity(0.5),fontSize: 13,fontWeight: FontWeight.normal),
+                hintStyle: TextStyle(
+                    color: MyMateThemes.textColor.withOpacity(0.5),
+                    fontSize: 13,
+                    fontWeight: FontWeight.normal),
                 border: InputBorder.none,
                 enabledBorder: InputBorder.none,
                 focusedBorder: InputBorder.none,
                 contentPadding: EdgeInsets.all(13.0),
                 // Adjust padding as needed
                 hintText: hintText,
-
               ),
               onSubmitted: (value) {
                 if (value.isNotEmpty) {
@@ -1187,7 +1184,8 @@ class _EditPageState extends State<EditPage> {
           GestureDetector(
             onTap: () {
               setState(() {
-                hobbyTags.remove(tag); // Remove the tag when the close button is pressed
+                hobbyTags.remove(
+                    tag); // Remove the tag when the close button is pressed
               });
             },
             child: Icon(
@@ -1200,7 +1198,6 @@ class _EditPageState extends State<EditPage> {
       ),
     );
   }
-
 
   Widget _buildAlcoholSelection() {
     return Stack(
@@ -1223,7 +1220,7 @@ class _EditPageState extends State<EditPage> {
                   children: [
                     CustomPaint(
                       painter:
-                      _CirclePainter(isActive: selectedAlcoholIndex >= 0),
+                          _CirclePainter(isActive: selectedAlcoholIndex >= 0),
                       child: SizedBox(
                         width: 24,
                         height: 24,
@@ -1263,7 +1260,7 @@ class _EditPageState extends State<EditPage> {
                   children: [
                     CustomPaint(
                       painter:
-                      _CirclePainter(isActive: selectedAlcoholIndex >= 1),
+                          _CirclePainter(isActive: selectedAlcoholIndex >= 1),
                       child: SizedBox(
                         width: 24,
                         height: 24,
@@ -1303,7 +1300,7 @@ class _EditPageState extends State<EditPage> {
                   children: [
                     CustomPaint(
                       painter:
-                      _CirclePainter(isActive: selectedAlcoholIndex >= 2),
+                          _CirclePainter(isActive: selectedAlcoholIndex >= 2),
                       child: SizedBox(
                         width: 24,
                         height: 24,
@@ -1343,7 +1340,7 @@ class _EditPageState extends State<EditPage> {
                   children: [
                     CustomPaint(
                       painter:
-                      _CirclePainter(isActive: selectedAlcoholIndex >= 3),
+                          _CirclePainter(isActive: selectedAlcoholIndex >= 3),
                       child: SizedBox(
                         width: 24,
                         height: 24,
@@ -1383,7 +1380,7 @@ class _EditPageState extends State<EditPage> {
                   children: [
                     CustomPaint(
                       painter:
-                      _CirclePainter(isActive: selectedAlcoholIndex >= 4),
+                          _CirclePainter(isActive: selectedAlcoholIndex >= 4),
                       child: SizedBox(
                         width: 24,
                         height: 24,
@@ -1423,7 +1420,8 @@ class _EditPageState extends State<EditPage> {
       children: [
         CustomPaint(
           size: Size(MediaQuery.of(context).size.width, 24),
-          painter: _SmokingLinePainter(selectedSmokingIndex: selectedSmokingIndex),
+          painter:
+              _SmokingLinePainter(selectedSmokingIndex: selectedSmokingIndex),
         ),
         Row(
           children: [
@@ -1439,7 +1437,7 @@ class _EditPageState extends State<EditPage> {
                   children: [
                     CustomPaint(
                       painter:
-                      _CirclePainter(isActive: selectedSmokingIndex >= 0),
+                          _CirclePainter(isActive: selectedSmokingIndex >= 0),
                       child: SizedBox(
                         width: 24,
                         height: 24,
@@ -1479,7 +1477,7 @@ class _EditPageState extends State<EditPage> {
                   children: [
                     CustomPaint(
                       painter:
-                      _CirclePainter(isActive: selectedSmokingIndex >= 1),
+                          _CirclePainter(isActive: selectedSmokingIndex >= 1),
                       child: SizedBox(
                         width: 24,
                         height: 24,
@@ -1519,7 +1517,7 @@ class _EditPageState extends State<EditPage> {
                   children: [
                     CustomPaint(
                       painter:
-                      _CirclePainter(isActive: selectedSmokingIndex >= 2),
+                          _CirclePainter(isActive: selectedSmokingIndex >= 2),
                       child: SizedBox(
                         width: 24,
                         height: 24,
@@ -1559,7 +1557,7 @@ class _EditPageState extends State<EditPage> {
                   children: [
                     CustomPaint(
                       painter:
-                      _CirclePainter(isActive: selectedSmokingIndex >= 3),
+                          _CirclePainter(isActive: selectedSmokingIndex >= 3),
                       child: SizedBox(
                         width: 24,
                         height: 24,
@@ -1599,7 +1597,7 @@ class _EditPageState extends State<EditPage> {
                   children: [
                     CustomPaint(
                       painter:
-                      _CirclePainter(isActive: selectedSmokingIndex >= 4),
+                          _CirclePainter(isActive: selectedSmokingIndex >= 4),
                       child: SizedBox(
                         width: 24,
                         height: 24,
@@ -1655,7 +1653,7 @@ class _EditPageState extends State<EditPage> {
                   children: [
                     CustomPaint(
                       painter:
-                      _CirclePainter(isActive: selectedCookingIndex >= 0),
+                          _CirclePainter(isActive: selectedCookingIndex >= 0),
                       child: SizedBox(
                         width: 24,
                         height: 24,
@@ -1686,7 +1684,7 @@ class _EditPageState extends State<EditPage> {
                   children: [
                     CustomPaint(
                       painter:
-                      _CirclePainter(isActive: selectedCookingIndex >= 1),
+                          _CirclePainter(isActive: selectedCookingIndex >= 1),
                       child: SizedBox(
                         width: 24,
                         height: 24,
@@ -1717,7 +1715,7 @@ class _EditPageState extends State<EditPage> {
                   children: [
                     CustomPaint(
                       painter:
-                      _CirclePainter(isActive: selectedCookingIndex >= 2),
+                          _CirclePainter(isActive: selectedCookingIndex >= 2),
                       child: SizedBox(
                         width: 24,
                         height: 24,
@@ -1748,7 +1746,7 @@ class _EditPageState extends State<EditPage> {
                   children: [
                     CustomPaint(
                       painter:
-                      _CirclePainter(isActive: selectedCookingIndex >= 3),
+                          _CirclePainter(isActive: selectedCookingIndex >= 3),
                       child: SizedBox(
                         width: 24,
                         height: 24,
@@ -1779,7 +1777,7 @@ class _EditPageState extends State<EditPage> {
                   children: [
                     CustomPaint(
                       painter:
-                      _CirclePainter(isActive: selectedCookingIndex >= 4),
+                          _CirclePainter(isActive: selectedCookingIndex >= 4),
                       child: SizedBox(
                         width: 24,
                         height: 24,
@@ -1815,7 +1813,7 @@ class _CirclePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
       ..color =
-      isActive ? MyMateThemes.primaryColor : Colors.grey.withOpacity(0.3)
+          isActive ? MyMateThemes.primaryColor : Colors.grey.withOpacity(0.3)
       ..style = PaintingStyle.fill;
 
     canvas.drawCircle(
@@ -1831,8 +1829,9 @@ class _CirclePainter extends CustomPainter {
 class _LinePainter extends CustomPainter {
   final int selectedAlcoholIndex;
 
-
-  _LinePainter({required this.selectedAlcoholIndex,});
+  _LinePainter({
+    required this.selectedAlcoholIndex,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -1866,8 +1865,9 @@ class _LinePainter extends CustomPainter {
 class _SmokingLinePainter extends CustomPainter {
   final int selectedSmokingIndex;
 
-
-  _SmokingLinePainter({required this.selectedSmokingIndex,});
+  _SmokingLinePainter({
+    required this.selectedSmokingIndex,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -1897,8 +1897,6 @@ class _SmokingLinePainter extends CustomPainter {
     return true;
   }
 }
-
-
 
 class _LinearPainter extends CustomPainter {
   final int selectedCookingIndex;

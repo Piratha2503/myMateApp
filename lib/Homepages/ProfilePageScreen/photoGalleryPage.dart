@@ -32,18 +32,18 @@ class _PhotoGalleryState extends State<PhotoGallery> {
 
   Future<void> _fetchImages() async {
     try {
-      // String apiUrl = MyMateAPIs.get_client_byDocId_API;
-      // Uri url = Uri.parse('$apiUrl?$widget.docId');
-      // final response = await http.get(url);
-      // final data = jsonDecode(response.body);
-      // setState(() {
-      //   imagePaths = ["https://piratha.com/images/Piratha.jpg"];
-      // });
       final data = await fetchUserById(widget.docId);
+      final galleryData = data['gallery_image_urls'];
+
       setState(() {
-        imagePaths = List<String>.from(data['gallery_image_urls'] ?? []);
+        if (galleryData is List) {
+          imagePaths = List<String>.from(galleryData);
+        } else if (galleryData is String && galleryData.isNotEmpty) {
+          imagePaths = [galleryData];
+        } else {
+          imagePaths = [];
+        }
         isLoading = false;
-        print(imagePaths);
       });
     } catch (e) {
       setState(() {
@@ -56,17 +56,18 @@ class _PhotoGalleryState extends State<PhotoGallery> {
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
+    final bool hasImages = imagePaths.isNotEmpty;
 
     return isLoading
         ? Center(child: CircularProgressIndicator())
         : errorMessage.isNotEmpty
         ? Center(child: Text(errorMessage))
         : SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-              SectionTitle('Photo Gallery'),
-              SizedBox(height: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SectionTitle('Photo Gallery'),
+          SizedBox(height: 10),
 
           Row(
             children: [
@@ -76,7 +77,6 @@ class _PhotoGalleryState extends State<PhotoGallery> {
           ),
           SizedBox(height: 25),
 
-
           Container(
             height: screenHeight * 0.30,
             padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -84,7 +84,7 @@ class _PhotoGalleryState extends State<PhotoGallery> {
               borderRadius: BorderRadius.circular(20),
             ),
             child: CarouselSlider.builder(
-              itemCount: imagePaths.length,
+              itemCount: hasImages ? imagePaths.length : 3,
               itemBuilder: (context, index, realIndex) {
                 bool isCentered = index == _currentIndex;
 
@@ -99,10 +99,14 @@ class _PhotoGalleryState extends State<PhotoGallery> {
                         : MyMateThemes.secondaryColor,
                   ),
                   child: isCentered
+                      ? hasImages
                       ? Image.network(
                     imagePaths[index],
                     fit: BoxFit.fill,
+                    errorBuilder: (context, error, stackTrace) =>
+                        PlaceholderWidget(),
                   )
+                      : PlaceholderWidget()
                       : SizedBox.expand(),
                 );
               },
@@ -127,6 +131,7 @@ class _PhotoGalleryState extends State<PhotoGallery> {
     );
   }
 }
+
 Widget SectionTitle(String title) {
   return Row(
     children: [
@@ -142,5 +147,27 @@ Widget SectionTitle(String title) {
         ),
       ),
     ],
+  );
+}
+
+Widget PlaceholderWidget() {
+  return Container(
+    decoration: BoxDecoration(
+      color: Colors.grey[300],
+      borderRadius: BorderRadius.circular(15),
+    ),
+    child: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.image_not_supported, size: 50, color: Colors.grey[600]),
+          SizedBox(height: 8),
+          Text(
+            "No Image Available",
+            style: TextStyle(color: Colors.grey[600], fontSize: 14),
+          ),
+        ],
+      ),
+    ),
   );
 }
