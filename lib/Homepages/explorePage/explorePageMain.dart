@@ -170,12 +170,7 @@ class _ExplorePageState extends State<ExplorePage> with SingleTickerProviderStat
 
   @override
   Widget build(BuildContext context) {
-    return
-      ScreenUtilInit(
-      designSize: const Size(390,844),
-      minTextAdapt: true,
-      splitScreenMode: true,
-      builder: (context, child) {
+
         return FutureBuilder<String?>(
           future: getSavedDocId(),
           builder: (context, snapshot) {
@@ -325,8 +320,7 @@ class _ExplorePageState extends State<ExplorePage> with SingleTickerProviderStat
             }
           },
         );
-      },
-    );
+
   }
 
 }
