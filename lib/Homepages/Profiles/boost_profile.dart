@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mymateapp/MyMateThemes.dart';
+
 import '../ProfilePageScreen/MyProfileMain.dart';
 
 class boostprofile extends StatefulWidget {
@@ -21,7 +22,6 @@ class _boostprofileState extends State<boostprofile> {
   int _noOfTokens = 1;
   int _selectedTabIndex = 0;
   bool isLoading = true;
-  bool _isButtonClicked = false;
 
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
@@ -152,12 +152,6 @@ class _boostprofileState extends State<boostprofile> {
     });
   }
 
-  void _handleButtonClick() {
-    setState(() {
-      _isButtonClicked = !_isButtonClicked;
-    });
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -249,43 +243,27 @@ class _boostprofileState extends State<boostprofile> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
-                    onPressed: () {
-                      _handleClear();
-                      _handleButtonClick(); // Change button colors
-                    },
+                    onPressed: _handleClear,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                      _isButtonClicked ? MyMateThemes.primaryColor : MyMateThemes.backgroundColor,
+                      backgroundColor: Colors.grey[300],
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    child: Text(
+                    child: const Text(
                       'Clear',
-                      style: TextStyle(
-                        color: _isButtonClicked ? Colors.white : MyMateThemes.primaryColor,
-                      ),
+                      style: TextStyle(color: Colors.black),
                     ),
                   ),
-                  const SizedBox(width: 10),
                   ElevatedButton(
-                    onPressed: () {
-                      _handleComplete();
-                      _handleButtonClick(); // Change button colors
-                    },
+                    onPressed: _handleComplete,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                      _isButtonClicked ? MyMateThemes.backgroundColor : MyMateThemes.primaryColor,
+                      backgroundColor: MyMateThemes.primaryColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    child: Text(
-                      'Complete',
-                      style: TextStyle(
-                        color: _isButtonClicked ? MyMateThemes.primaryColor : Colors.white,
-                      ),
-                    ),
+                    child: const Text('Complete'),
                   ),
                 ],
               ),
@@ -443,64 +421,32 @@ Widget _buildCounterRow({
                 splashRadius: 20.0,
               ),
             ),
-          // Conditionally apply the padding for "No of Tokens" only
-          if (label == "No of Tokens")
-            Padding(
-              padding: const EdgeInsets.only(right: 55.0), // Adjust padding as needed
-              child: Container(
-                width: 73,
-                height: 27,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.0),
-                  border: Border.all(color: Colors.grey),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    if (showLightningBolt)
-                      SvgPicture.asset(
-                        'assets/images/firenew.svg',
-                        height: 16.0,
-                        width: 16.0,
-                        color: MyMateThemes.primaryColor,
-                      ),
-                    if (showLightningBolt) const SizedBox(width: 4.0),
-                    Text(
-                      value.toString().padLeft(2, '0'),
-                      style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
-                    ),
-                  ],
-                ),
-              ),
-            )
-          else
-            Container(
-              width: 73,
-              height: 27,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12.0),
-                border: Border.all(color: Colors.grey),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  if (showLightningBolt)
-                    SvgPicture.asset(
-                      'assets/images/firenew.svg',
-                      height: 16.0,
-                      width: 16.0,
-                      color: MyMateThemes.primaryColor,
-                    ),
-                  if (showLightningBolt) const SizedBox(width: 4.0),
-                  Text(
-                    value.toString().padLeft(2, '0'),
-                    style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
-                  ),
-                ],
-              ),
+          Container(
+            width: 56,
+            height: 36,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8.0),
+              border: Border.all(color: Colors.grey),
             ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (showLightningBolt)
+                  SvgPicture.asset(
+                    'assets/images/firenew.svg',
+                    height: 16.0,
+                    width: 16.0,
+                    color: MyMateThemes.primaryColor,
+                  ),
+                if (showLightningBolt) const SizedBox(width: 4.0),
+                Text(
+                  value.toString().padLeft(2, '0'),
+                  style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
+                ),
+              ],
+            ),
+          ),
           if (showControls)
             Padding(
               padding: const EdgeInsets.only(left: 8.0),

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 
 import '../../MyMateCommonBodies/MyMateApis.dart';
 import '../../MyMateCommonBodies/MyMateBottomBar.dart';
 import '../BadgeWidget.dart';
 import '../CompleteProfileScreen/CompleteProfileMain.dart';
+import '../checkMatchPages/checkMatchOptions.dart';
 import 'SubscribedHomeScreenWidgets.dart';
 
 class SubscribedhomescreenStructuredPage extends StatefulWidget {
@@ -83,21 +85,27 @@ class _SubscribedhomescreenStructuredPageState extends State<Subscribedhomescree
     return Scaffold(
       backgroundColor: MyMateThemes.backgroundColor,
         appBar: AppBar(
-          title:  CommonTextStyleForPage(name, MyMateThemes.textColor, FontWeight.w700, 20,),
+          backgroundColor: Colors.white,
+          title:  CommonTextStyleForPage(name, MyMateThemes.textColor, FontWeight.w700, 20.sp,),
           actions: <Widget>[
-            SizedBox(width: 60),
+            SizedBox(width: 60.w),
             BadgeWidget(
                 assetPath: 'assets/images/Group 2157.svg',
                 badgeValue: badgeValue1),
-            SizedBox(width: 25),
+            SizedBox(width: 25.w),
             BadgeWidget(
                 assetPath: 'assets/images/Group 2153.svg',
                 badgeValue: badgeValue2),
-            SizedBox( width: 25, )
+            SizedBox( width: 25.w )
           ],
         ),
-      body: Column(
+      body:
+      Padding(padding: EdgeInsets.symmetric(horizontal: 24.w),
+      child:
+
+      Column(
         mainAxisAlignment: MainAxisAlignment.center,
+
         children: <Widget>[
          SubscribedhomescreenStructuredPageTotalMatchColumn(context,widget.docId),
           Center(
@@ -105,18 +113,51 @@ class _SubscribedhomescreenStructuredPageState extends State<Subscribedhomescree
               'View Matches',
               style: TextStyle(
                 color: MyMateThemes.primaryColor,
-                fontSize: 18,
+                fontSize: 15.sp,
                 fontWeight: FontWeight.w500,
               ),
             ),
           ),
-          SizedBox(height: 20,),
-          SubscribeHomeScreenStructuredPageCarouselSliders(docId: widget.docId,),
-          SizedBox(height: 30),
+          SizedBox(height: 10.h),
+          Expanded(
+            child: SubscribeHomeScreenStructuredPageCarouselSliders(docId: widget.docId),
+          ),
+          SizedBox(height: 5.h),
           SubscribedhomescreenStructuredPageTokenContainers(context,widget.docId),
-          SizedBox(height: 20),
+         //SizedBox(height: 5.h),
+        SizedBox(
+             width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CheckMatchOptionsScreen(
+                        soulDocId: '',
+                        clientDocId: 'E0JFHhK2x6Gq2Ac6XSyP',
+                      ),
+                    ),
+                  );
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(MyMateThemes.primaryColor),
+                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.0.r),
+
+
+                  )),
+                  padding: MaterialStateProperty.all(
+                    EdgeInsets.symmetric(vertical: 24.0.h), // Adjust values as needed
+                  ),
+                ),
+                child: Text('Check Match',style: TextStyle(color: Colors.white),),
+              ),
+
+          ),
 
         ],
+
+      ),
       ),
 
       bottomNavigationBar: CustomBottomNavigationBar(

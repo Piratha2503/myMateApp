@@ -3,7 +3,6 @@ import 'package:http/http.dart' as http; // For making the HTTP request
 import 'dart:convert'; // For encoding the data
 import '../../MyMateThemes.dart';
 import '../ClosableContainer.dart';
-import '../ProfilePageScreen/MyProfileMain.dart';
 import 'CompleteProfileWidgets.dart';
 
 class PageThree extends StatefulWidget {
@@ -128,11 +127,7 @@ class _PageThreeState extends State<PageThree> {
 
     await _saveForm();
    await _updateForm();
-   
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => ProfilePage(docId: widget.docId, selectedBottomBarIconIndex: 3,)),
-    );
+
   }
 
   @override

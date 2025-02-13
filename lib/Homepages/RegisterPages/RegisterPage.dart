@@ -138,6 +138,11 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
 
   Future<String?> fetchDocIdByMobile(String mobile) async {
 
+    @override
+    void dispose(){
+      _controller.dispose();
+      super.dispose();
+    }
 
     try {
       final url = Uri.parse("https://backend.graycorp.io:9000/mymate/api/v1/getClientDataByMobile")
@@ -171,9 +176,8 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
     var random = Random();
     otp = (random.nextInt(9999-1001)+1000);
     Address address = Address(country: client_country);
-    String mobile = "+$mobile_code$phoneNumber";
     ContactInfo contactInfo = ContactInfo(
-        mobile: "+$mobile_code$phoneNumber",
+        mobile: phoneNumber,
         mobile_country_code: mobile_country_code,
         otp: otp,
         address: address
@@ -186,12 +190,9 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
         body: jsonEncode(clientData.toMap())
     );
 
-
-
     if(res.statusCode == 200){
       print(res.statusCode);
-      final docId = await fetchDocIdByMobile(mobile);
-      print(mobile);
+      final docId = await fetchDocIdByMobile(phoneNumber);
       if (docId != null) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('docId', docId);
@@ -206,11 +207,7 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-
-          const SnackBar(content: Text("Failed to fetch docId. Please try again.")
-
-          ),
-
+          const SnackBar(content: Text("Failed to fetch docId. Please try again.")),
         );
       }
     } else {
@@ -219,128 +216,94 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
         SnackBar(content: Text("Error: ${res.body}")),
       );
     }
-  //   if(res.statusCode == 200){
-  //     print(res.statusCode);
-  //     String formattedPhoneNumber = "$mobile_code$phoneNumber";
-  //
-  //     final docId = await fetchDocIdByMobile("+94768835990");
-  //     if (docId != null) {
-  //       Navigator.push(
-  //         context,
-  //         MaterialPageRoute(
-  //           builder: (context) => OtpPinput(
-  //             clientData: clientData,
-  //             docId: docId,
-  //           ),
-  //         ),
-  //       );
-  //     } else {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         const SnackBar(content: Text("Failed to fetch docId. Please try again.")),
-  //       );
-  //     }
-  //   } else {
-  //     print("Failed to register mobile. Response: ${res.body}");
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(content: Text("Error: ${res.body}")),
-  //     );
-  //
-     }
-  // }
+    if(res.statusCode == 200){
+      print(res.statusCode);
+      final docId = await fetchDocIdByMobile(phoneNumber);
+      if (docId != null) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => OtpPinput(
+              clientData: clientData,
+              docId: docId,
+            ),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Failed to fetch docId. Please try again.")),
+        );
+      }
+    } else {
+      print("Failed to register mobile. Response: ${res.body}");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error: ${res.body}")),
+      );
+
+    }
+  }
 
   void _openPopupScreen(BuildContext context, String mobileNumber) {
-    // Declare the state variable outside the inner builder so it persists.
-    bool isYesButtonDisabled = false;
     showDialog(
-      context: context,
+      context: context, // Ensure `context` is available
       builder: (BuildContext context) {
-        return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState) {
-            return AlertDialog(
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const SizedBox(height: 10),
-                  const Text(
-                    "Is this your Phone number",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 0.8,
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(height:10),
+              Text(
+                "Is this your Phone number",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500,color: MyMateThemes.textColor,letterSpacing: 0.8),
+              ),
+              SizedBox(height: 10),
 
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  TextField(
-                    controller: TextEditingController(text: mobileNumber),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      // color: MyMateThemes.textColor,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: MyMateThemes.secondaryColor,
-                          foregroundColor: MyMateThemes.primaryColor,
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(2),
-                          ),
-                        ),
-                        child: const Text("Edit"),
+              TextField(
+                controller: TextEditingController(text: mobileNumber),
+                textAlign: TextAlign.center, // Aligns the text to the center
+                style: TextStyle(
+                  fontSize: 20,
+                  color: MyMateThemes.textColor,
+                  fontWeight: FontWeight.bold,
+                ),
+
+              ),
+
+
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context); // Close the dialog
+                      // Add your "Edit" button functionality here
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                      MyMateThemes.secondaryColor, // Background color
+                      foregroundColor:MyMateThemes.primaryColor, // Text color
+                      padding: EdgeInsets.symmetric(horizontal: 16), // Padding
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(2), // Rounded corners
                       ),
-                      ElevatedButton(
-                        onPressed: isYesButtonDisabled
-                            ? null
-                            : () {
-                          // Disable the button after it's pressed.
-                          setState(() {
-                            isYesButtonDisabled = true;
-                          });
-                          // Call your addMobile function.
-                          addMobile();
-                          print("Number added");
-                        },
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                                (Set<MaterialState> states) {
-                              if (states.contains(MaterialState.disabled)) {
-                                return Colors.grey; // Disabled background color.
-                              }
-                              return MyMateThemes.primaryColor; // Enabled background color.
-                            },
-                          ),
-                          foregroundColor: MaterialStateProperty.resolveWith<Color>(
-                                (Set<MaterialState> states) {
-                              if (states.contains(MaterialState.disabled)) {
-                                return Colors.black; // Disabled text color.
-                              }
-                              return Colors.white; // Enabled text color.
-                            },
-                          ),
-                          shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(2),
-                            ),
-                          ),
-                        ),
-                        child: const Text("Yes"),
-                      ),
-                    ],
+                    ),
+
+                    child: Text("Edit"),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      addMobile();
+                      print("Number added");
+                    },
+                    style: CommonButtonStyle.commonButtonStyle(),
+
+                    child: Text("Yes"),
                   ),
                 ],
               ),
-            );
-          },
+            ],
+          ),
         );
       },
     );
@@ -433,7 +396,7 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
             child: ElevatedButton(
               onPressed: ()
               {
-                _openPopupScreen(context,"+$mobile_code$phoneNumber");
+                _openPopupScreen(context,"+$mobile_code $phoneNumber");
 
               },
 

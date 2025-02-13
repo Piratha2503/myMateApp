@@ -75,6 +75,7 @@ class _EditPageState extends State<EditPage> {
         setState(() {
           _selectedCivilStatus = clientData['civil_status'] ?? 'Select Status';
           _selectedEmploymentType = clientData['occupation_type'] ?? 'Select Type';
+          _selectedDistrict = clientData['city'] ?? 'Select District';
           DistrictController.text= clientData['city'] ?? '';
 
           _selectedValue = clientData['eating_habit'] ?? '';
@@ -452,7 +453,7 @@ class _EditPageState extends State<EditPage> {
       'mobile': contactController.text,
       'address': {
 
-        'city': DistrictController.text,
+        'city': _selectedDistrict,
       },
     };
 
@@ -660,13 +661,13 @@ class _EditPageState extends State<EditPage> {
                       height: 110,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: MyMateThemes.textColor.withOpacity(0.4),
-                            spreadRadius: 4,
-                            blurRadius: 4,
-                          )
-                        ],
+                        // boxShadow: [
+                        //   BoxShadow(
+                        //     color: MyMateThemes.textColor.withOpacity(0.4),
+                        //     spreadRadius: 4,
+                        //     blurRadius: 4,
+                        //   )
+                        // ],
                         border: Border.all(
                           color: MyMateThemes.secondaryColor, // Set the border color
                           width: 4.0, // Set the border width
@@ -680,7 +681,7 @@ class _EditPageState extends State<EditPage> {
                     )
                         : SvgPicture.asset('assets/images/circle.svg'),
                   ),
-                      SizedBox(height: 5),
+                     // SizedBox(height: 5),
                       TextButton(
                           onPressed: _openPopupScreen,
                           child: Text('Edit',style: TextStyle(color: MyMateThemes.primaryColor,fontWeight: FontWeight.normal,fontSize: 14),))

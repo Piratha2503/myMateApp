@@ -1,8 +1,9 @@
 import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -20,8 +21,14 @@ class Completegallerypage extends StatefulWidget {
 }
 
 class _CompletegallerypageState extends State<Completegallerypage> {
-  List<File> _selectedImages = [];
- bool _isLoading = false;
+  List<String?> _imageUrls = [null, null, null];
+
+  @override
+  void initState() {
+    super.initState();
+
+  }
+
 
   void _showMaxImageLimitDialog() {
     showDialog(
@@ -29,7 +36,7 @@ class _CompletegallerypageState extends State<Completegallerypage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Limit Reached'),
-          content: Text('You can add up to 3 images.'),
+          content: Text('You can add 3 images at a time.'),
           actions: [
             TextButton(
               onPressed: () {
@@ -43,119 +50,74 @@ class _CompletegallerypageState extends State<Completegallerypage> {
     );
   }
 
-  Future<File?> _cropImage(File imageFile) async {
-    CroppedFile? croppedFile = await ImageCropper().cropImage(
-      sourcePath: imageFile.path,
-      aspectRatio: const CropAspectRatio(ratioX: 1.0, ratioY: 1.0), // Square crop
-      compressQuality: 100, // Best quality
-      maxHeight: 1000,
-      maxWidth: 1000,
-      compressFormat: ImageCompressFormat.jpg,
-      uiSettings: [
-        AndroidUiSettings(
-          toolbarTitle: 'Crop Image',
-          toolbarColor: MyMateThemes.primaryColor,
-          toolbarWidgetColor: Colors.white,
-          lockAspectRatio: true, // Locks aspect ratio to 1:1
-        ),
-        IOSUiSettings(
-          title: 'Crop Image',
-          aspectRatioLockEnabled: true, // Locks aspect ratio to 1:1
-        ),
-      ],
-    );
-
-    if (croppedFile != null) {
-      return File(croppedFile.path);
-    }
-    return null;
-  }
-
-
   void _chooseImage(ImageSource source) async {
+    if (_imageUrls.where((url) => url != null).length >= 3) {
+      // Show a pop-up message if 3 images are already uploaded
+      _showMaxImageLimitDialog();
+      return; // Prevent adding another image
+    }
+
+
     final picker = ImagePicker();
-    List<XFile>? pickedImages;
+    final pickedImage = await picker.pickImage(source: source);
 
-    try {
-      if (source == ImageSource.gallery) {
-        pickedImages = await picker.pickMultiImage();
-      } else {
-        final pickedImage = await picker.pickImage(source: source);
-        if (pickedImage != null) pickedImages = [pickedImage];
+    if (pickedImage != null) {
+      CroppedFile? croppedFile = await ImageCropper().cropImage(
+        sourcePath: pickedImage.path,
+        aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
+        compressQuality: 100,
+        maxHeight: 1000,
+        maxWidth: 1000,
+        compressFormat: ImageCompressFormat.jpg,
+      );
+
+      if (croppedFile != null) {
+        File thumbnailFile = await _createThumbnail(File(croppedFile.path));
+
+        await _uploadImageToBackend(thumbnailFile);
+
+        // Fetch updated gallery images after upload
+        await _fetchGalleryImages();
       }
-
-      if (pickedImages != null && pickedImages.isNotEmpty) {
-        if (pickedImages.length + _selectedImages.length > 3) {
-          _showMaxImageLimitDialog();
-          return;
-        }
-
-        // Process images sequentially
-        for (final image in pickedImages) {
-          final croppedFile = await _cropImage(File(image.path));
-          if (croppedFile != null) {
-            final resizedFile = await _resizeImage(croppedFile);
-            setState(() {
-              _selectedImages.add(resizedFile);
-            });
-          }
-        }
-      }
-    } catch (e) {
-      print("Error picking images: $e");
     }
   }
 
-  Future<File> _resizeImage(File imageFile) async {
+  Future<File> _createThumbnail(File imageFile) async {
     final originalImage = img.decodeImage(await imageFile.readAsBytes());
     final resizedImage = img.copyResize(originalImage!, width: 150, height: 150);
-
-    final timestamp = DateTime.now().millisecondsSinceEpoch;
     final tempDir = Directory.systemTemp;
-    final resizedFile = File('${tempDir.path}/resized_image_$timestamp.jpg')
+    final thumbnailFile = File('${tempDir.path}/thumbnail.jpg')
       ..writeAsBytesSync(img.encodeJpg(resizedImage));
 
-    return resizedFile;
+    return thumbnailFile;
   }
 
-  Future<void> _uploadImagesToBackend() async {
-    setState(() {
-      _isLoading = true;
-    });
+  Future<void> _uploadImageToBackend(File imageFile) async {
+    String randomFileName = _generateRandomFileName() + '.jpg';
+    final url = Uri.parse(
+        "https://backend.graycorp.io:9000/mymate/api/v1/uploadProfileImages");
 
     try {
-      for (File imageFile in _selectedImages) {
-        String randomFileName = _generateRandomFileName() + '.jpg';
-        final url = Uri.parse(
-            "https://backend.graycorp.io:9000/mymate/api/v1/uploadProfileImages");
+      var request = http.MultipartRequest('PUT', url)
+        ..fields['docId'] = widget.docId
+        ..files.add(await http.MultipartFile.fromPath(
+          'gallery_image',
+          imageFile.path,
+          filename: randomFileName,
+        ));
 
-        var request = http.MultipartRequest('PUT', url)
-          ..fields['docId'] = widget.docId
-          ..files.add(await http.MultipartFile.fromPath(
-            'gallery_image',
-            imageFile.path,
-            filename: randomFileName,
-          ));
+      final response = await request.send();
 
-        final response = await request.send();
-        if (response.statusCode != 200) {
-          throw Exception('Failed to upload image: ${response.statusCode}');
-        }
+
+      if (response.statusCode == 200) {
+        print("Image uploaded successfully.");
+      } else {
+        print("Failed to upload image. Status code: ${response.statusCode}");
       }
     } catch (e) {
-      print("Error uploading images: $e");
-      // Show error to user
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error uploading images: $e')),
-      );
-    } finally {
-      setState(() {
-        _isLoading = false; // End loading
-        _selectedImages.clear();
-      });
+      print("Error uploading image: $e");
     }
   }
-
 
   String _generateRandomFileName() {
     final random = Random();
@@ -163,8 +125,39 @@ class _CompletegallerypageState extends State<Completegallerypage> {
     return List.generate(10, (index) => characters[random.nextInt(characters.length)]).join();
   }
 
-  void _onConfirm() async {
-    await _uploadImagesToBackend();
+  Future<void> _fetchGalleryImages() async {
+    final url = Uri.parse(
+        "https://backend.graycorp.io:9000/mymate/api/v1/getClientDataByDocId?docId=${widget.docId}");
+
+    try {
+      final response = await http.get(
+        url,
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        final List<String>? galleryImages = List<String>.from(data['profileImages']?['gallery_image_urls'] ?? {});
+
+        setState(() {
+          // Update the _imageUrls list with fetched data
+          for (int i = 0; i < galleryImages!.length; i++) {
+            if (i < 3) {
+              _imageUrls[i] = galleryImages[i];
+            }
+          }
+        });
+
+        print("Gallery images fetched successfully.");
+      } else {
+        print("Failed to fetch gallery images. Status code: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("Error fetching gallery images: $e");
+    }
+  }
+
+  void _onSave() {
     widget.onSave();
   }
 
@@ -177,14 +170,21 @@ class _CompletegallerypageState extends State<Completegallerypage> {
           height: 50,
           width: 165,
           child: ElevatedButton(
-            onPressed: widget.onSave,
+            onPressed: () {
+              _onSave();
+
+            },
             style: ElevatedButton.styleFrom(
               backgroundColor: MyMateThemes.primaryColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(3.0),
               ),
+              // padding: EdgeInsets.all(10)
             ),
-            child: Text('Skip', style: TextStyle(color: Colors.white)),
+            child: Text(
+              'Skip ',
+              style: TextStyle(color:Colors.white),
+            ),
           ),
         ),
         SizedBox(width: 20),
@@ -192,23 +192,22 @@ class _CompletegallerypageState extends State<Completegallerypage> {
           height: 50,
           width: 164,
           child: ElevatedButton(
-            onPressed: _onConfirm,
+            onPressed: () {
+              _onSave();
+            },
             style: ElevatedButton.styleFrom(
               backgroundColor: MyMateThemes.primaryColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(3.0),
               ),
             ),
-            child: _isLoading
-                ? const CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-            )
-                : const Text('Confirm', style: TextStyle(color: Colors.white)),
+            child: Text('Confirm', style: TextStyle(color: Colors.white)),
           ),
         ),
       ],
     );
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -220,7 +219,9 @@ class _CompletegallerypageState extends State<Completegallerypage> {
           Text("Upload to My Mate gallery"),
           SizedBox(height: 20),
           GestureDetector(
-            onTap: () => _chooseImage(ImageSource.gallery),
+            onTap: () {
+              _chooseImage(ImageSource.gallery);
+            },
             child: SvgPicture.asset('assets/images/cloud.svg'),
           ),
           SizedBox(height: 20),
@@ -229,96 +230,113 @@ class _CompletegallerypageState extends State<Completegallerypage> {
           ),
           SizedBox(height: 20),
           GestureDetector(
-            onTap: () => _chooseImage(ImageSource.camera),
+            onTap: () {
+              _chooseImage(ImageSource.camera);
+            },
             child: SvgPicture.asset('assets/images/took.svg'),
           ),
           SizedBox(height: 40),
-          // if (_selectedImages.isNotEmpty)
+          if (_imageUrls.any((url) => url != null))
             _BuildImageGallery(
-              selectedImages: _selectedImages,
+              imageUrls: _imageUrls,
               onDelete: (index) {
                 setState(() {
-                  _selectedImages.removeAt(index);
+                  _imageUrls[index] = null;
                 });
               },
             ),
-          SizedBox(height: 30),
-          _buildFooterRow(),
+          SizedBox(height: 40),
+          _buildFooterRow()
+
         ],
       ),
     );
   }
 }
 
+
+
 class _BuildImageGallery extends StatelessWidget {
-  final List<File> selectedImages;
+  final List<String?> imageUrls;
   final Function(int index) onDelete;
 
-  _BuildImageGallery({required this.selectedImages, required this.onDelete});
+  _BuildImageGallery({
+    required this.imageUrls,
+    required this.onDelete,
+  });
 
+  Future<void> _deleteImageFromBackend(String docId, String url) async {
+    final apiurl = Uri.parse(
+        "https://backend.graycorp.io:9000/mymate/api/v1/deleteGalleryImageByDocId?docId=$docId&url=$url");
+
+    try {
+      final response = await http.put(
+        apiurl,
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      if (response.statusCode == 200) {
+        print("Image deleted successfully from backend.");
+      } else {
+        print("Failed to delete image. Status code: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("Error deleting image: $e");
+    }
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(3, (index) {
-        if (index >= selectedImages.length) {
-          return Expanded(
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              elevation: 0,
-              child: Container(
-                width: 120,
-                height: 200,
-                decoration: BoxDecoration(
-                  color: Colors.grey[200], // Placeholder color
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.grey.shade200, width: 1),
-                ),
-                child: Center(child: Icon(Icons.image, color: Colors.grey)),
-              ),
-            ),
-          );
+        String? displayImageUrl = imageUrls[index];
+
+        if (displayImageUrl == null) {
+          return SizedBox(width: 0); // Skip the slot
         }
 
-        return Expanded(
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4),
           child: Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
-            elevation: 0,
-            child: Container(
-              width: 120,
-              height: 200,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.grey.shade200, width: 1),
-              ),
-              child: Column(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: Image.file(
-                      selectedImages[index],
-                      width: 120,
-                      height: 150,
-                      fit: BoxFit.cover,
+            elevation: 4,
+            child: Column(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Container(
+                    width: 120,
+                    height: 150,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: NetworkImage(displayImageUrl),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 8),
-                  GestureDetector(
-                    onTap: () => onDelete(index),
-                    child: Image.asset(
+                ),
+                SizedBox(height: 8),
+                GestureDetector(
+                  onTap: () async {
+
+                    await _deleteImageFromBackend(
+                        (context.findAncestorStateOfType<_CompletegallerypageState>() as _CompletegallerypageState).widget.docId,
+                        displayImageUrl);
+
+
+                    onDelete(index);
+                  },
+                  child: Image.asset(
                       'assets/images/trash.png',
                       width: 24,
                       height: 30,
-                      fit: BoxFit.contain,
-                    ),
+                      fit: BoxFit.contain
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         );
