@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:mymateapp/MyMateCommonBodies/MyMateApis.dart';
@@ -13,131 +14,229 @@ import '../../MyMateThemes.dart';
 import '../../dbConnection/Firebase.dart';
 import '../BadgeWidget.dart';
 import '../Profiles/OthersProfile.dart';
-  
 
-Widget SubscribedhomescreenStructuredPageTotalMatchColumn(BuildContext context,String docId){
-  return Center(
-    child: GestureDetector(
-      onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => Summarypage(docId: docId,)));
-      },
-      child: Stack(
+
+Widget SubscribedhomescreenStructuredPageTotalMatchColumn(BuildContext context, String docId) {
+  return
+    Expanded(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center, // Center everything horizontally
         children: [
-          SvgPicture.asset('assets/images/Frame.svg',
-              width: 300, height: 220),
-          Positioned(
-              top: 69,
-              right: 98,
-              child: CommonTextStyleForPage('137',Colors.white,FontWeight.w500,40,),
+          Stack(
+            alignment: Alignment.center, // Ensure all elements stay centered
+            clipBehavior: Clip.none, // Allow elements to overflow if needed
+            children: [
+              // Background Container
+              Container(
+                width: 300.w,
+                height: 210.h,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8.0.r),
+                ),
+              ),
+
+              // SVG Positioned at Center
+              Positioned.fill(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: SvgPicture.asset(
+                    'assets/images/Frame.svg',
+                    // height: 202.h,
+                    // width: 202.w,
+                    fit: BoxFit.contain, // Ensures it scales proportionally
+                  ),
+                ),
+              ),
+
+              // First Text (Centered on SVG)
+              Positioned(
+                top: 58.h, // Adjusted using proportional height
+                left: 0,
+                right: 0, // Centering the text horizontally
+                child: Center(
+                  child: CommonTextStyleForPage(
+                    '137',
+                    Colors.white,
+                    FontWeight.w700,
+                    28.sp, // Ensures text scales with screen
+                  ),
+                ),
+              ),
+
+              // Second Text (Below First Text)
+              Positioned(
+                top: 98.h, // Adjusted using proportional height
+                left: 0,
+                right: 0, // Centering the text horizontally
+                child: Center(
+                  child: CommonTextStyleForPage(
+                    'Matches Found',
+                    Colors.white,
+                    FontWeight.w500,
+                    12.sp, // Ensures text scales with screen
+                  ),
+                ),
+              ),
+            ],
           ),
-          Positioned(
-              top: 118,
-              right: 69,
-              child: CommonTextStyleForPage('Matches Found',Colors.white,FontWeight.w500,20,),
-              )
         ],
       ),
-    ),
-  );
-}
+    );
 
+
+}
 Widget SubscribedhomescreenStructuredPageTokenContainers(BuildContext context,String docId){
 
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    children: [
-      Stack(
-        children: [
-          Container(
-            width: 202,
-            height: 127,
-            decoration: BoxDecoration(
-              color: MyMateThemes.secondaryColor,
-              borderRadius: BorderRadius.circular(8.0),
+  return Expanded(
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Stack(
+          children: [
+            Container(
+              width: 220.w,
+              height: 130.h,
+              decoration: BoxDecoration(
+                color: MyMateThemes.secondaryColor,
+                borderRadius: BorderRadius.circular(8.0.r),
+              ),
             ),
-          ),
-          Positioned(
-              top: 75,
-              right: 140,
-              child: SvgPicture.asset('assets/images/tokens.svg')),
-          Positioned(
-              top: 10,
-              right: 16,
-              child: CommonTextStyleForPage('10',MyMateThemes.textColor,FontWeight.w500,18, ),
-          ),
-          Positioned(
-            top: 18,
-            right: 5,
-            child: TextButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Summarypage(docId: docId,)));
+            Positioned(
+                top: 75.h,
+                right: 160.w,
+                child: SvgPicture.asset('assets/images/tokens.svg')),
+            Positioned(
+              top: 8.h,
+              right: 16.w,
+              child: CommonTextStyleForPage('10',MyMateThemes.textColor,FontWeight.w500,18.sp, ),
+            ),
+            Positioned(
+              top: 16.h,
+              right: 3.w,
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Summarypage(docId: docId,)));
+                },
+                child: CommonTextStyleForPage('+Add Tokens',MyMateThemes.primaryColor,FontWeight.w500,10.sp),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(width: 10.w),
+        Stack(
+          children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Summarypage(docId: docId,)));
               },
-              child: CommonTextStyleForPage('+Add Tokens',MyMateThemes.primaryColor,FontWeight.w500,11,),
+              child:
+                  Stack(
+                    children: [
+                      Container(
+                        width: 110.w,
+                        height: 130.h,
+                        decoration: BoxDecoration(
+                          color: MyMateThemes.primaryColor,
+                          borderRadius: BorderRadius.circular(8.0.r),
+                        ),
+
+                      ),
+                      Positioned(
+                          top: 100.h,
+                          right: 40.w,
+                          child: Text('My Mates',style:TextStyle(color: Colors.white,fontSize: 12.sp))),
+                    ],
+                  ),
+
+
             ),
-          ),
-        ],
-      ),
-      GestureDetector(
-        onTap: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => Summarypage(docId: docId,)));
-        },
-        child: SvgPicture.asset('assets/images/mymates.svg'),
-      )
-    ],
+            Positioned(
+                top: 85.h,
+                right: 80.w,
+                child: SvgPicture.asset('assets/images/heart .svg',color: Colors.white,)),
+          ],
+        ),
+
+      ],
+    ),
+
   );
 }
 
 Widget SubscribedhomescreenStructuredPagePopupDialogWidget(BuildContext context){
-  return Stack(
-    children: [
-      Positioned(
-        top: MediaQuery.of(context).size.height *
-            0.53, // Adjust the top position as needed
-        left: MediaQuery.of(context).size.width *
-            0.005, // Adjust the left position as needed
-        right: MediaQuery.of(context).size.width *
-            0.005, // Adjust the right position as needed
-        child: Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: Container(
-            width: 350, // Set your desired width
-            height: 270, // Set your desired height
-            padding: EdgeInsets.all(20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                PopupDialogTextStyle( "Congratulations! You have received ", MyMateThemes.textColor, ),
-                Row(
-                  children: [
-                    PopupDialogTextStyle( '10 free ', MyMateThemes.primaryColor, ),
-                    PopupDialogTextStyle('Tokens. You can spend free',  MyMateThemes.textColor, ),
+  return Expanded(
+    child: Stack(
+      children: [
+        Positioned(
+          top: 450.h, // Adjust the top position as needed
+          left: 0.005.w, // Adjust the left position as needed
+          right: 0.005.w, // Adjust the right position as needed
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.r),
+            ),
+            child:Expanded (
+              child: Container(
+                width: 40.w, // Set your desired width
+                height: 250.h, // Set your desired height
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.r),
+                  color: Colors.white,
+
+                ),
+                padding: EdgeInsets.all(20.r),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    PopupDialogTextStyle( "Congratulations! You have received ", MyMateThemes.textColor, ),
+                    Row(
+                      children: [
+                        PopupDialogTextStyle( '10 free ', MyMateThemes.primaryColor, ),
+                        PopupDialogTextStyle('Tokens. You can spend free',  MyMateThemes.textColor, ),
+                      ],
+                    ),
+                    PopupDialogTextStyle("tokens to access Following",  MyMateThemes.textColor, ),
+                    PopupDialogTextStyle("features only",  MyMateThemes.textColor, ),
+                    SizedBox(height: 20.h),
+                    SvgPicture.asset('assets/images/Group 2216.svg'),
+                    SizedBox(height: 20.h),
+                SizedBox(
+                  height: 45.h,
+                  width: 100.w,
+                  child:
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop(); // Close the dialog
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(MyMateThemes.primaryColor),
+                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0.r),
+
+
+                        )),
+                        padding: MaterialStateProperty.all(
+                          EdgeInsets.symmetric(vertical: 12.0.h), // Adjust values as needed
+                        ),
+                      ),
+                      child: Text('Continue',style: TextStyle(color: Colors.white),),
+                    ),
+                ),
                   ],
                 ),
-                PopupDialogTextStyle("tokens to access Following",  MyMateThemes.textColor, ),
-                PopupDialogTextStyle("features only",  MyMateThemes.textColor, ),
-                SizedBox(height: 20),
-                SvgPicture.asset('assets/images/Group 2216.svg'),
-                SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(); // Close the dialog
-                  },
-                  style: CommonButtonStyle.commonButtonStyle(),
-                  child: Text('Continue'),
-                ),
-              ],
+              ),
             ),
           ),
+
         ),
-      ),
-    ],
+      ],
+    ),
+
   );
 }
 
@@ -148,6 +247,7 @@ Widget CommonTextStyleForPage(String text,Color color, FontWeight fontWeight, do
       fontSize: fontSize,
       fontWeight: fontWeight,
       color: color,
+
     ),
   );
 }
@@ -158,8 +258,9 @@ Widget PopupDialogTextStyle(String text, Color color){
     style: TextStyle(
       color: color,
       letterSpacing:
-      1.2, // Adjust letter spacing as needed
-      wordSpacing: 1.1, // Adjust word spacing as needed
+      1.1.r, // Adjust letter spacing as needed
+      wordSpacing: 0.8.r,
+      fontSize: 11.3.sp// Adjust word spacing as needed
     ),
   );
 }
@@ -207,16 +308,17 @@ class _SubscribeHomeScreenStructuredPageCarouselSlidersState extends State<Subsc
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+
+    return Expanded(
       child: clientDataList.isEmpty
           ? CircularProgressIndicator() // Show a loader while fetching data
           : CarouselSlider(
         options: CarouselOptions(
-          height: 140.0,
+          height: 200.0.h,
           autoPlay: true,
           enlargeCenterPage: true,
           aspectRatio: 21 / 10,
-          viewportFraction: 0.8,
+          viewportFraction: 0.8.h,
         ),
         items: clientDataList.map((clientData) {
           Client client = Client();
@@ -234,23 +336,27 @@ class _SubscribeHomeScreenStructuredPageCarouselSlidersState extends State<Subsc
     );
   }
   Widget SubscribedhomescreenStructuredPageCarouselSliderContainers(Client clientData){
-    return GestureDetector(
-      onTap: (){
+    return Expanded(
+      child:      GestureDetector(
+        onTap: (){
 
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>OtherProfilePage(SoulId: clientData.docId.toString())));
-      },
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 5.0),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: MyMateThemes.textColor.withOpacity(0.1),
-            width: 1,
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>OtherProfilePage(SoulId: clientData.docId.toString())));
+        },
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 5.0.w),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: MyMateThemes.textColor.withOpacity(0.1),
+              width: 1.w,
+            ),
+            borderRadius: BorderRadius.circular(5.r),
           ),
-          borderRadius: BorderRadius.circular(6),
+          child: ProfileColumns(clientData),
         ),
-        child: ProfileColumns(clientData),
       ),
+
     );
+
   }
 
   Widget ProfileColumns(Client clientData){
@@ -259,19 +365,19 @@ class _SubscribeHomeScreenStructuredPageCarouselSlidersState extends State<Subsc
       children: [
         Row(
             children: [
-              SizedBox(width: 20),
+              SizedBox(width: 20.w),
               Container(
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all( color: MyMateThemes.premiumAccent, width: 5.0,),),
+                  border: Border.all( color: MyMateThemes.premiumAccent, width: 4.0.w,),),
                 child: ClipOval(
                   child: Image.network(
                     clientData.profileImg.toString(),
                     fit: BoxFit.cover,
-                    height: 50,
-                    width: 50,
+                    height: 65.h,
+                    width: 65.w,
                     errorBuilder: (context, error, stackTrace) {
-                      return Icon(Icons.error, size: 50);
+                      return Icon(Icons.error, size: 60.w);
                     },
                     loadingBuilder: (context, child, progress) {
                       if (progress == null) return child;
@@ -282,47 +388,53 @@ class _SubscribeHomeScreenStructuredPageCarouselSlidersState extends State<Subsc
                   ),
                 )
               ),
-              SizedBox(width: 20),
+              SizedBox(width: 25.w),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only( bottom: 4.0),
-                    child: CommonTextStyleForPage( clientData.lastName.toString(), MyMateThemes.textColor, FontWeight.w700, 13,),
+                    padding: EdgeInsets.only( bottom: 5.0.h),
+                    child: CommonTextStyleForPage( clientData.lastName.toString(), MyMateThemes.textColor, FontWeight.w700, 15.sp,),
                   ),
                   Padding(
-                    padding: EdgeInsets.only( bottom: 4.0 ),
+                    padding: EdgeInsets.only( bottom: 5.0.h ),
                     child: Row(
                       children: [
-                        CommonTextStyleForPage(clientData.age.toString(), MyMateThemes.textColor, FontWeight.w400,11, ),
-                        CommonTextStyleForPage( "Status" ,MyMateThemes.textColor, FontWeight.w500, 11, ),
+                        CommonTextStyleForPage(clientData.age.toString(), MyMateThemes.textColor, FontWeight.w400,12.sp, ),
+                        CommonTextStyleForPage( " Status" ,MyMateThemes.textColor, FontWeight.w500, 12.sp, ),
                       ],
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only( bottom: 4.0), // Add bottom padding for spacing
-                    child: CommonTextStyleForPage(clientData.occupationType.toString(),MyMateThemes.textColor,FontWeight.w500,11,),
+                    padding: EdgeInsets.only( bottom: 5.0.h), // Add bottom padding for spacing
+                    child: CommonTextStyleForPage(clientData.occupationType.toString(),MyMateThemes.textColor,FontWeight.w500,12.sp,),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: 4.0),
-                    child: CommonTextStyleForPage(clientData.city.toString(),MyMateThemes.textColor,FontWeight.w500,11,),
+                    padding: EdgeInsets.only(bottom: 5.0.h),
+                    child: CommonTextStyleForPage(clientData.city.toString(),MyMateThemes.textColor,FontWeight.w500,12.sp,),
                   ),
-                  Container(
-                    width: 90,
-                    height: 20,
-                    decoration: BoxDecoration(
-                      color: MyMateThemes.secondaryColor,
-                      borderRadius: BorderRadius.circular(4.0),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 5.0.h),
+                    child:
+                    Container(
+                      width: 70.w,
+                      height: 25.h,
+                      decoration: BoxDecoration(
+                        color: MyMateThemes.secondaryColor,
+                        borderRadius: BorderRadius.circular(5.0.r),
+                      ),
+                      child: Row(
+                        children: [
+                          SizedBox(width: 10.w),
+                          SvgPicture.asset(
+                              'assets/images/heart .svg'),
+                          SizedBox(width: 5.w),
+
+                          CommonTextStyleForPage('66%',MyMateThemes.primaryColor,FontWeight.w500,12.sp),
+                        ],
+                      ),
                     ),
-                    child: Row(
-                      mainAxisAlignment:
-                      MainAxisAlignment.spaceEvenly,
-                      children: [
-                        SvgPicture.asset(
-                            'assets/images/heart .svg'),
-                        CommonTextStyleForPage('66%',MyMateThemes.primaryColor,FontWeight.w500,11),
-                      ],
-                    ),
+
                   ),
                 ],
               ),
@@ -354,7 +466,7 @@ Widget SubscribedhomescreenStructuredPageCarouselSlider(BuildContext,context){
             final profileList = snapshot.data!;
             return CarouselSlider(
               options: CarouselOptions(
-                height: 140.0,
+                height: 120.0.h,
                 autoPlay: true,
                 enlargeCenterPage: true,
                 aspectRatio: 21/10,
@@ -385,19 +497,19 @@ class SubscribedhomescreenStructuredPageCarouselSliderContainer extends Stateles
         Navigator.push(context, MaterialPageRoute(builder: (context)=>OtherProfilePage(SoulId: profile.docId)));
       },
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 5.0),
+        margin: EdgeInsets.symmetric(horizontal: 5.0.h),
         decoration: BoxDecoration(
           color: Colors.white,
           border: Border(
-            top: BorderSide(width: 0.5),
-            bottom:  BorderSide(width: 0.5),
+            top: BorderSide(width: 0.5.r),
+            bottom:  BorderSide(width: 0.5.r),
           ),
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(8.0.r),
           boxShadow: [
             BoxShadow(
               color: Colors.black12,
-              blurRadius: 2.0,
-              spreadRadius: 2.0,
+              blurRadius: 2.0.r,
+              spreadRadius: 2.0.r,
               offset: Offset(0, 3),
             ),
           ],
@@ -415,43 +527,43 @@ Widget ProfileColumn(ClientProfile profile){
     children: [
       Row(
           children: [
-            SizedBox(width: 20),
+            SizedBox(width: 20.w),
             Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all( color: MyMateThemes.premiumAccent, width: 5.0,),),
+                border: Border.all( color: MyMateThemes.premiumAccent, width: 5.0.w,),),
               child: CircleAvatar( radius: 50, backgroundImage: NetworkImage(profile.imageUrl),),),
-            SizedBox(width: 20),
+            SizedBox(width: 20.w),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.only( bottom: 4.0),
-                  child: CommonTextStyleForPage( profile.name, MyMateThemes.textColor, FontWeight.w700, 13,),
+                  padding: EdgeInsets.only( bottom: 3.0.h),
+                  child: CommonTextStyleForPage( profile.name, MyMateThemes.textColor, FontWeight.w700, 13.sp,),
                 ),
                 Padding(
-                  padding: EdgeInsets.only( bottom: 4.0 ),
+                  padding: EdgeInsets.only( bottom: 3.0.h ),
                   child: Row(
                     children: [
-                      CommonTextStyleForPage(' ${profile.age}, ', MyMateThemes.textColor, FontWeight.w400,11, ),
-                      CommonTextStyleForPage( profile.status, MyMateThemes.textColor, FontWeight.w500, 11, ),
+                      CommonTextStyleForPage(' ${profile.age}, ', MyMateThemes.textColor, FontWeight.w400,12.sp, ),
+                      CommonTextStyleForPage( profile.status, MyMateThemes.textColor, FontWeight.w500, 12.sp, ),
                     ],
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only( bottom: 4.0), // Add bottom padding for spacing
-                  child: CommonTextStyleForPage(' ${profile.occupation}',MyMateThemes.textColor,FontWeight.w500,11,),
+                  padding: EdgeInsets.only( bottom: 3.0.h), // Add bottom padding for spacing
+                  child: CommonTextStyleForPage(' ${profile.occupation}',MyMateThemes.textColor,FontWeight.w500,12.sp,),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(bottom: 4.0),
-                  child: CommonTextStyleForPage(' ${profile.district}',MyMateThemes.textColor,FontWeight.w500,11,),
+                  padding: EdgeInsets.only(bottom: 3.0.h),
+                  child: CommonTextStyleForPage(' ${profile.district}',MyMateThemes.textColor,FontWeight.w500,12.sp,),
                 ),
                 Container(
-                  width: 90,
-                  height: 20,
+                  width: 90.w,
+                  height: 40.h,
                   decoration: BoxDecoration(
                     color: MyMateThemes.secondaryColor,
-                    borderRadius: BorderRadius.circular(4.0),
+                    borderRadius: BorderRadius.circular(4.0.r),
                   ),
                   child: Row(
                     mainAxisAlignment:
@@ -459,7 +571,7 @@ Widget ProfileColumn(ClientProfile profile){
                     children: [
                       SvgPicture.asset(
                           'assets/images/heart .svg'),
-                      CommonTextStyleForPage(' ${profile.matchPercentage}',MyMateThemes.primaryColor,FontWeight.w500,11),
+                      CommonTextStyleForPage(' ${profile.matchPercentage}',MyMateThemes.primaryColor,FontWeight.w500,12.sp),
                     ],
                   ),
                 ),

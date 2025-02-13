@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 
 import '../../MyMateCommonBodies/MyMateApis.dart';
@@ -84,21 +85,27 @@ class _SubscribedhomescreenStructuredPageState extends State<Subscribedhomescree
     return Scaffold(
       backgroundColor: MyMateThemes.backgroundColor,
         appBar: AppBar(
-          title:  CommonTextStyleForPage(name, MyMateThemes.textColor, FontWeight.w700, 20,),
+          backgroundColor: Colors.white,
+          title:  CommonTextStyleForPage(name, MyMateThemes.textColor, FontWeight.w700, 20.sp,),
           actions: <Widget>[
-            SizedBox(width: 60),
+            SizedBox(width: 60.w),
             BadgeWidget(
                 assetPath: 'assets/images/Group 2157.svg',
                 badgeValue: badgeValue1),
-            SizedBox(width: 25),
+            SizedBox(width: 25.w),
             BadgeWidget(
                 assetPath: 'assets/images/Group 2153.svg',
                 badgeValue: badgeValue2),
-            SizedBox( width: 25, )
+            SizedBox( width: 25.w )
           ],
         ),
-      body: Column(
+      body:
+      Padding(padding: EdgeInsets.symmetric(horizontal: 24.w),
+      child:
+
+      Column(
         mainAxisAlignment: MainAxisAlignment.center,
+
         children: <Widget>[
          SubscribedhomescreenStructuredPageTotalMatchColumn(context,widget.docId),
           Center(
@@ -106,46 +113,51 @@ class _SubscribedhomescreenStructuredPageState extends State<Subscribedhomescree
               'View Matches',
               style: TextStyle(
                 color: MyMateThemes.primaryColor,
-                fontSize: 18,
+                fontSize: 15.sp,
                 fontWeight: FontWeight.w500,
               ),
             ),
           ),
-          SizedBox(height: 15,),
-          SubscribeHomeScreenStructuredPageCarouselSliders(docId: widget.docId,),
-          SizedBox(height: 25),
+          SizedBox(height: 10.h),
+          Expanded(
+            child: SubscribeHomeScreenStructuredPageCarouselSliders(docId: widget.docId),
+          ),
+          SizedBox(height: 5.h),
           SubscribedhomescreenStructuredPageTokenContainers(context,widget.docId),
-          SizedBox(height: 15),
-          Container(
-              height: 50,
-            width: 330,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5.0),
-            ),
-            child:
-            ElevatedButton(
-                onPressed: (){
+         //SizedBox(height: 5.h),
+        SizedBox(
+             width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => CheckMatchOptionsScreen( soulDocId: '', clientDocId: 'E0JFHhK2x6Gq2Ac6XSyP',)));
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CheckMatchOptionsScreen(
+                        soulDocId: '',
+                        clientDocId: 'E0JFHhK2x6Gq2Ac6XSyP',
+                      ),
+                    ),
+                  );
                 },
-                style:  ButtonStyle(
-                  foregroundColor: MaterialStateProperty.all(Colors.white),
+                style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(MyMateThemes.primaryColor),
-                  shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.0)
-                      )),
+                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.0.r),
+
+
+                  )),
                   padding: MaterialStateProperty.all(
-                    EdgeInsets.symmetric(vertical: 16.0, horizontal: 40.0), // Adjust values as needed
+                    EdgeInsets.symmetric(vertical: 24.0.h), // Adjust values as needed
                   ),
                 ),
-                child: Text('Check Match'))
+                child: Text('Check Match',style: TextStyle(color: Colors.white),),
+              ),
 
           ),
 
         ],
+
+      ),
       ),
 
       bottomNavigationBar: CustomBottomNavigationBar(

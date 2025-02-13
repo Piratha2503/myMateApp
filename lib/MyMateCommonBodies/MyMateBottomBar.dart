@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mymateapp/Homepages/ProfilePageScreen/MyProfileMain.dart';
 
@@ -50,8 +51,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return
-      SizedBox(
-      height: 79,
+    Expanded(child:       SizedBox(
+      height: 96.h,
 
       child: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -78,6 +79,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           onTab(index);
         },
       ),
+    ),
     );
   }
 
