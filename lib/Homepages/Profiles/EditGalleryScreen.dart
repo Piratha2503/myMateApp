@@ -317,11 +317,9 @@ class _BuildImageGallery extends StatelessWidget {
 
                               onDelete(index);
                             },
-                            child: Image.asset(
-                              'assets/images/trash.png',
-                              width: 24,
-                              height: 16,
-                                fit: BoxFit.contain
+                            child: SvgPicture.asset(
+                              'assets/images/trash.svg',
+
                             ),
                           ),
                         ],

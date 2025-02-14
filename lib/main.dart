@@ -9,6 +9,7 @@ import 'package:mymateapp/Homepages/Profiles/EditPage.dart';
 import 'package:mymateapp/Homepages/RegisterPages/RegisterPage.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'Homepages/MyMatesPage.dart';
 import 'Homepages/ProfilePageScreen/MyProfileMain.dart';
 import 'Homepages/Profiles/MoreAboutMe.dart';
 import 'Homepages/Profiles/boost_profile.dart';
@@ -60,9 +61,8 @@ class MyApp extends StatelessWidget {
             //AuthcheckState()
             //ProfilePage(docId: "SYfMHh6YUL6yobmIZXwO", selectedBottomBarIconIndex:0,),
             // CheckmatchPage( clientDocId: '', soulDocId: '',),
-            //SubscribedhomescreenStructuredPage(docId: '',),
+            SubscribedhomescreenStructuredPage(docId: '',),
             //MyMatesPage(results: [], search: [], docId: '',)
-            RegisterPage()
 
 
           );

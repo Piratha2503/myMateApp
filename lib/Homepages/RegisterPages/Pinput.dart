@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:mymateapp/Homepages/RegisterPages/NameAndGenderPage.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
@@ -8,13 +6,11 @@ import 'package:pinput/pinput.dart';
 import 'package:smart_auth/smart_auth.dart';
 
 import '../../MyMateThemes.dart';
-import '../ProfilePageScreen/MyProfileMain.dart';
 import 'OTPPage.dart';
 
 class OtpPinput extends StatefulWidget {
   final ClientData clientData;
-  final String docId;
-  OtpPinput({super.key, required this.clientData, required this. docId});
+  OtpPinput({super.key, required this.clientData, required String docId});
 
   @override
   State<OtpPinput> createState() => _OtpPinputState();
@@ -50,16 +46,14 @@ class _OtpPinputState extends State<OtpPinput> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-      ),
+      appBar: AppBar(),
       body: Form(
         key: formKey,
         child:Column(
             children: <Widget>[
               InstructionTexts(widget.clientData.contactInfo?.mobile),
               SizedBox( height: 90,),
-              OtpBoxes(clientData: widget.clientData, docId: widget.docId,),
+              OtpBoxes(clientData: widget.clientData,),
               SizedBox( height: 65,),
               OtpResend(),
               SizedBox( height: 50, ),
@@ -91,8 +85,7 @@ Widget InstructionTexts(String? mobile){
 
 class OtpBoxes extends StatefulWidget{
   final ClientData clientData;
-  final String docId;
-  const OtpBoxes({required this.clientData,required this.docId,super.key});
+  const OtpBoxes({required this.clientData,super.key});
 
   @override
   State<OtpBoxes> createState() => _OtpBoxesState();
@@ -140,54 +133,12 @@ class _OtpBoxesState extends State<OtpBoxes>{
           return value == otp ? null : 'Incorrect Pin';
         },
         hapticFeedbackType: HapticFeedbackType.lightImpact,
-          onCompleted: (pin) async {
-            if (pin == otp) {
-              debugPrint('OTP Correct: $pin');
-
-              String docId = widget.docId;
-              if (docId.isEmpty) {
-                debugPrint("Error: docId is missing!");
-                return;
-              }
-
-              try {
-                final response = await http.get(
-                  Uri.parse('https://backend.graycorp.io:9000/mymate/api/v1/getClientDataByDocId?docId=$docId'),
-                );
-
-                if (response.statusCode == 200) {
-                  Map<String, dynamic> userData = jsonDecode(response.body);
-                  bool page3Complete = userData['completeProfilePending']['_page3_complete'] ?? false;
-                  print(page3Complete);
-
-                if (page3Complete) {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ProfilePage(docId: docId, selectedBottomBarIconIndex: 3,),
-                      ),
-                    );
-                  } else {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => NameAndGender(
-                          clientData: widget.clientData,
-                          docId: docId,
-                        ),
-                      ),
-                    );
-                  }
-                } else {
-                  debugPrint("API Error: ${response.statusCode} - ${response.body}");
-                }
-              } catch (e) {
-                debugPrint("Error fetching user data: $e");
-              }
-            } else {
-              debugPrint("Incorrect OTP!");
-            }
-          },
+        onCompleted: (pin) {
+          if(pin == otp) {
+            debugPrint('onCompleted: $pin');
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>NameAndGender(clientData: widget.clientData, docId:  widget.clientData.docId ?? "Unknown",)));
+          }
+        },
         onChanged: (pin) {
           debugPrint('onChanged: $pin');
         },
