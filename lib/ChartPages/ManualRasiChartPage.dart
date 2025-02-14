@@ -129,7 +129,6 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
     List<String> requiredSegments = ['Sun', 'Mercury', 'Mars', 'Saturn', 'Jupiter', 'Rahu', 'Ketu', 'Venus', 'Moon'];
     return requiredSegments.every((segment) => segmentToBoxMap.containsKey(segment));
   }
-
   Future <void> _storeSelections() async{
     FirebaseDB firebaseDB = FirebaseDB();
 

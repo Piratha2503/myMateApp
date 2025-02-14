@@ -127,8 +127,8 @@ class _PageThreeState extends State<PageThree> {
     print("Triggered _saveAndUpdateForms");
 
     await _saveForm();
-   await _updateForm();
-   
+    await _updateForm();
+
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => ProfilePage(docId: widget.docId, selectedBottomBarIconIndex: 3,)),
