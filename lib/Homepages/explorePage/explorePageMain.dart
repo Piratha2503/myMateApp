@@ -232,7 +232,7 @@ class _ExplorePageState extends State<ExplorePage> with SingleTickerProviderStat
                                   Tab(text: 'Filter'),
                                 ],
                               ),
-                              SizedBox(height: 2.h), // Add spacing below the TabBar
+                            //  SizedBox(height: 2.h), // Add spacing below the TabBar
                               if (_tabController.index == 2)
                                 Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 10.w),
@@ -251,12 +251,12 @@ class _ExplorePageState extends State<ExplorePage> with SingleTickerProviderStat
                                 ),
                               if (_tabController.index != 2)
                                 Container(
-                                  height: 35.h,
+                                  height: 36.h,
                                   width: 353.w,
                                   decoration: BoxDecoration(
                                     border: Border.all(
                                       color: MyMateThemes.textColor.withOpacity(0.1),
-                                      width: 1,
+                                      width: 1.w,
                                     ),
                                     borderRadius: BorderRadius.circular(10),
                                   ),

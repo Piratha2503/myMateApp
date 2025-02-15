@@ -1,14 +1,11 @@
 import 'dart:convert';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:mymateapp/MyMateCommonBodies/MyMateApis.dart';
 import 'package:mymateapp/dbConnection/Clients.dart';
 import 'package:mymateapp/dbConnection/TempClass.dart';
-
 import '../../ManagePages/SummaryPage.dart';
 import '../../MyMateThemes.dart';
 import '../../dbConnection/Firebase.dart';
@@ -17,254 +14,267 @@ import '../Profiles/OthersProfile.dart';
 
 
 Widget SubscribedhomescreenStructuredPageTotalMatchColumn(BuildContext context, String docId) {
-  return
-    Expanded(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center, // Center everything horizontally
-        children: [
-          Stack(
-            alignment: Alignment.center, // Ensure all elements stay centered
-            clipBehavior: Clip.none, // Allow elements to overflow if needed
-            children: [
-              // Background Container
-              Container(
-                width: 300.w,
-                height: 210.h,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8.0.r),
-                ),
-              ),
-
-              // SVG Positioned at Center
-              Positioned.fill(
-                child: Align(
-                  alignment: Alignment.center,
-                  child: SvgPicture.asset(
-                    'assets/images/Frame.svg',
-                    // height: 202.h,
-                    // width: 202.w,
-                    fit: BoxFit.contain, // Ensures it scales proportionally
-                  ),
-                ),
-              ),
-
-              // First Text (Centered on SVG)
-              Positioned(
-                top: 58.h, // Adjusted using proportional height
-                left: 0,
-                right: 0, // Centering the text horizontally
-                child: Center(
-                  child: CommonTextStyleForPage(
-                    '137',
-                    Colors.white,
-                    FontWeight.w700,
-                    28.sp, // Ensures text scales with screen
-                  ),
-                ),
-              ),
-
-              // Second Text (Below First Text)
-              Positioned(
-                top: 98.h, // Adjusted using proportional height
-                left: 0,
-                right: 0, // Centering the text horizontally
-                child: Center(
-                  child: CommonTextStyleForPage(
-                    'Matches Found',
-                    Colors.white,
-                    FontWeight.w500,
-                    12.sp, // Ensures text scales with screen
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-
-
-}
-Widget SubscribedhomescreenStructuredPageTokenContainers(BuildContext context,String docId){
-
   return Expanded(
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Stack(
+    child: LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              width: 220.w,
-              height: 130.h,
-              decoration: BoxDecoration(
-                color: MyMateThemes.secondaryColor,
-                borderRadius: BorderRadius.circular(8.0.r),
-              ),
-            ),
-            Positioned(
-                top: 75.h,
-                right: 160.w,
-                child: SvgPicture.asset('assets/images/tokens.svg')),
-            Positioned(
-              top: 8.h,
-              right: 16.w,
-              child: CommonTextStyleForPage('10',MyMateThemes.textColor,FontWeight.w500,18.sp, ),
-            ),
-            Positioned(
-              top: 16.h,
-              right: 3.w,
-              child: TextButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Summarypage(docId: docId,)));
-                },
-                child: CommonTextStyleForPage('+Add Tokens',MyMateThemes.primaryColor,FontWeight.w500,10.sp),
-              ),
+            Stack(
+              alignment: Alignment.center,
+              clipBehavior: Clip.none,
+              children: [
+                Expanded(
+                  child: Container(
+                    width: constraints.maxWidth * 0.8, // Adjust width as needed
+                    height: constraints.maxHeight * 1, // Adjust height as needed
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
+
+                ),
+                Positioned.fill(
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: SvgPicture.asset(
+                      'assets/images/Frame.svg',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: constraints.maxHeight * 0.3, // Adjust top position
+                  left: 0,
+                  right: 0,
+                  child: Center(
+                    child: CommonTextStyleForPage(
+                      '137',
+                      Colors.white,
+                      FontWeight.w700,
+                      constraints.maxWidth * 0.08, // Adjust font size
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: constraints.maxHeight * 0.55, // Adjust top position
+                  left: 0,
+                  right: 0,
+                  child: Center(
+                    child: CommonTextStyleForPage(
+                      'Matches Found',
+                      Colors.white,
+                      FontWeight.w500,
+                      constraints.maxWidth * 0.05, // Adjust font size
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
-        ),
-        SizedBox(width: 10.w),
-        Stack(
+        );
+      },
+    ),
+  );
+}
+
+
+
+Widget SubscribedhomescreenStructuredPageTokenContainers(BuildContext context, String docId) {
+  return Expanded(
+    child: LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            GestureDetector(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Summarypage(docId: docId,)));
-              },
-              child:
-                  Stack(
+            Stack(
+              children: [
+                Container(
+                  width: constraints.maxWidth * 0.65, // Adjust width
+                  height: constraints.maxHeight * 0.7, // Adjust height
+                  decoration: BoxDecoration(
+                    color: MyMateThemes.secondaryColor,
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+                Positioned(
+                  top: constraints.maxHeight * 0.5, // Adjust top
+                  right: constraints.maxWidth * 0.35, // Adjust right
+                  child: SvgPicture.asset('assets/images/tokens.svg',
+                    width: constraints.maxWidth * 0.65, // Adjust width
+                    height: constraints.maxHeight * 0.7, // Adjust height
+                  ),
+                ),
+                Positioned(
+                  top: constraints.maxHeight * 0.1, // Adjust top
+                  right: constraints.maxWidth * 0.05, // Adjust right
+                  child: CommonTextStyleForPage('10', MyMateThemes.textColor, FontWeight.w500, constraints.maxWidth * 0.05),
+                ),
+                Positioned(
+                  top: constraints.maxHeight * 0.25, // Adjust top
+                  right: constraints.maxWidth * 0.01, // Adjust right
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Summarypage(docId: docId)),
+                      );
+                    },
+                    child: CommonTextStyleForPage('+Add Tokens', MyMateThemes.primaryColor, FontWeight.w500, constraints.maxWidth * 0.03),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(width: constraints.maxWidth * 0.02), // Use constraints for spacing
+            Stack(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Summarypage(docId: docId)));
+                  },
+                  child: Stack(
                     children: [
                       Container(
-                        width: 110.w,
-                        height: 130.h,
+                        width: constraints.maxWidth * 0.3, // Adjust width
+                        height: constraints.maxHeight * 0.7, // Adjust height
                         decoration: BoxDecoration(
                           color: MyMateThemes.primaryColor,
-                          borderRadius: BorderRadius.circular(8.0.r),
+                          borderRadius: BorderRadius.circular(8.0),
                         ),
-
                       ),
                       Positioned(
-                          top: 100.h,
-                          right: 40.w,
-                          child: Text('My Mates',style:TextStyle(color: Colors.white,fontSize: 12.sp))),
+                        top: constraints.maxHeight * 0.5, // Adjust top
+                        right: constraints.maxWidth * 0.05, // Adjust right
+                        child: Text('My Mates',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: constraints.maxWidth * 0.03)),
+                      ),
                     ],
                   ),
-
-
+                ),
+                Positioned(
+                  top: constraints.maxHeight * 0.45, // Adjust top
+                  right: constraints.maxWidth * 0.15, // Adjust right
+                  child: SvgPicture.asset('assets/images/heart .svg',
+                      color: Colors.white),
+                ),
+              ],
             ),
-            Positioned(
-                top: 85.h,
-                right: 80.w,
-                child: SvgPicture.asset('assets/images/heart .svg',color: Colors.white,)),
           ],
-        ),
-
-      ],
+        );
+      },
     ),
-
   );
 }
 
-Widget SubscribedhomescreenStructuredPagePopupDialogWidget(BuildContext context){
+
+
+Widget SubscribedhomescreenStructuredPagePopupDialogWidget(BuildContext context) {
   return Expanded(
-    child: Stack(
-      children: [
-        Positioned(
-          top: 450.h, // Adjust the top position as needed
-          left: 0.005.w, // Adjust the left position as needed
-          right: 0.005.w, // Adjust the right position as needed
-          child: Dialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.r),
-            ),
-            child:Expanded (
-              child: Container(
-                width: 40.w, // Set your desired width
-                height: 250.h, // Set your desired height
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.r),
-                  color: Colors.white,
-
+    child: LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        return Stack(
+          children: [
+            Positioned(
+              top: constraints.maxHeight * 0.5, // Adjust top position
+              left: constraints.maxWidth * 0.01, // Adjust left position
+              right: constraints.maxWidth * 0.01, // Adjust right position
+              child: Dialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
                 ),
-                padding: EdgeInsets.all(20.r),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    PopupDialogTextStyle( "Congratulations! You have received ", MyMateThemes.textColor, ),
-                    Row(
-                      children: [
-                        PopupDialogTextStyle( '10 free ', MyMateThemes.primaryColor, ),
-                        PopupDialogTextStyle('Tokens. You can spend free',  MyMateThemes.textColor, ),
-                      ],
-                    ),
-                    PopupDialogTextStyle("tokens to access Following",  MyMateThemes.textColor, ),
-                    PopupDialogTextStyle("features only",  MyMateThemes.textColor, ),
-                    SizedBox(height: 20.h),
-                    SvgPicture.asset('assets/images/Group 2216.svg'),
-                    SizedBox(height: 20.h),
-                SizedBox(
-                  height: 45.h,
-                  width: 100.w,
-                  child:
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pop(); // Close the dialog
-                      },
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(MyMateThemes.primaryColor),
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.0.r),
-
-
-                        )),
-                        padding: MaterialStateProperty.all(
-                          EdgeInsets.symmetric(vertical: 12.0.h), // Adjust values as needed
+                child: Container(
+                  width: constraints.maxWidth * 0.8,
+                  height: constraints.maxHeight * 0.4,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: Colors.white,
+                  ),
+                  padding: EdgeInsets.all(constraints.maxWidth * 0.04),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      PopupDialogTextStyle("Congratulations! You have received ",
+                          MyMateThemes.textColor),
+                      Row(
+                        children: [
+                          PopupDialogTextStyle('10 free ', MyMateThemes.primaryColor),
+                          PopupDialogTextStyle('Tokens. You can spend free',
+                              MyMateThemes.textColor),
+                        ],
+                      ),
+                      PopupDialogTextStyle(
+                          "tokens to access Following", MyMateThemes.textColor),
+                      PopupDialogTextStyle("features only", MyMateThemes.textColor),
+                      SizedBox(height: constraints.maxHeight * 0.02),
+                      SvgPicture.asset('assets/images/Group 2216.svg'),
+                      SizedBox(height: constraints.maxHeight * 0.02),
+                      SizedBox(
+                        height: constraints.maxHeight * 0.1,
+                        width: constraints.maxWidth * 0.3,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(); // Close the dialog
+                          },
+                          style: ButtonStyle(
+                            backgroundColor:
+                            MaterialStateProperty.all(MyMateThemes.primaryColor),
+                            shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                )),
+                            padding: MaterialStateProperty.all(
+                              EdgeInsets.symmetric(
+                                  vertical: constraints.maxHeight * 0.02),
+                            ),
+                          ),
+                          child: Text('Continue',
+                              style: TextStyle(color: Colors.white)),
                         ),
                       ),
-                      child: Text('Continue',style: TextStyle(color: Colors.white),),
-                    ),
-                ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-
-        ),
-      ],
+          ],
+        );
+      },
     ),
-
   );
 }
 
-Widget CommonTextStyleForPage(String text,Color color, FontWeight fontWeight, double fontSize, ){
+
+
+Widget CommonTextStyleForPage(
+    String text, Color color, FontWeight fontWeight, double fontSize) {
   return Text(
     text,
     style: TextStyle(
       fontSize: fontSize,
       fontWeight: fontWeight,
       color: color,
-
     ),
   );
 }
 
-Widget PopupDialogTextStyle(String text, Color color){
+Widget PopupDialogTextStyle(String text, Color color) {
   return Text(
     text,
     style: TextStyle(
       color: color,
-      letterSpacing:
-      1.1.r, // Adjust letter spacing as needed
-      wordSpacing: 0.8.r,
-      fontSize: 11.3.sp// Adjust word spacing as needed
+      letterSpacing: 1.1, // Removed .r
+      wordSpacing: 0.8,   // Removed .r
+      fontSize: 11.3,     // Removed .sp
     ),
   );
 }
-
 class SubscribeHomeScreenStructuredPageCarouselSliders extends StatefulWidget {
   String docId;
   SubscribeHomeScreenStructuredPageCarouselSliders({super.key,required this.docId});
@@ -308,276 +318,356 @@ class _SubscribeHomeScreenStructuredPageCarouselSlidersState extends State<Subsc
 
   @override
   Widget build(BuildContext context) {
-
     return Expanded(
       child: clientDataList.isEmpty
-          ? CircularProgressIndicator() // Show a loader while fetching data
-          : CarouselSlider(
-        options: CarouselOptions(
-          height: 200.0.h,
-          autoPlay: true,
-          enlargeCenterPage: true,
-          aspectRatio: 21 / 10,
-          viewportFraction: 0.8.h,
-        ),
-        items: clientDataList.map((clientData) {
-          Client client = Client();
-          client.lastName = clientData['last_name'];
-          client.fullName = clientData['full_name'];
-          client.profileImg = clientData['profile_img_url'];
-          client.age = clientData['age'];
-          client.occupationType = clientData['occupation_type'];
-          client.maritalStatus = clientData['marital_status'];
-          client.docId = clientData['docId'];
-          client.city = clientData['city'];
-          return SubscribedhomescreenStructuredPageCarouselSliderContainers(client);
-        }).toList(),
-      ),
-    );
-  }
-  Widget SubscribedhomescreenStructuredPageCarouselSliderContainers(Client clientData){
-    return Expanded(
-      child:      GestureDetector(
-        onTap: (){
-
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>OtherProfilePage(SoulId: clientData.docId.toString())));
-        },
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 5.0.w),
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: MyMateThemes.textColor.withOpacity(0.1),
-              width: 1.w,
+          ? const CircularProgressIndicator()
+          : LayoutBuilder( // Wrap with LayoutBuilder
+        builder: (BuildContext context, BoxConstraints constraints) { // constraints available here
+          return CarouselSlider(
+            options: CarouselOptions(
+              height: constraints.maxHeight * 0.9, // Use constraints here
+              autoPlay: true,
+              enlargeCenterPage: true,
+              aspectRatio: 24 / 10,
+              viewportFraction: 0.8,
             ),
-            borderRadius: BorderRadius.circular(5.r),
-          ),
-          child: ProfileColumns(clientData),
-        ),
+            items: clientDataList.map((clientData) {
+              Client client = Client();
+              client.lastName = clientData['last_name'];
+              client.fullName = clientData['full_name'];
+              client.profileImg = clientData['profile_img_url'];
+              client.age = clientData['age'];
+              client.occupationType = clientData['occupation_type'];
+              client.maritalStatus = clientData['marital_status'];
+              client.docId = clientData['docId'];
+              client.city = clientData['city'];
+              return SubscribedhomescreenStructuredPageCarouselSliderContainers(client); // Pass constraints
+            }).toList(),
+          );
+        },
       ),
-
     );
-
   }
 
-  Widget ProfileColumns(Client clientData){
+
+  Widget SubscribedhomescreenStructuredPageCarouselSliderContainers(Client clientData) {
+    return Expanded(
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          OtherProfilePage(SoulId: clientData.docId.toString())));
+            },
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.01), // Use constraints
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: MyMateThemes.textColor.withOpacity(0.1),
+                  width: constraints.maxWidth * 0.002, // Use constraints
+                ),
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              child: ProfileColumns(clientData,constraints), // Pass constraints
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget ProfileColumns(Client clientData, BoxConstraints constraints) { // Add constraints parameter
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Row(
-            children: [
-              SizedBox(width: 20.w),
-              Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all( color: MyMateThemes.premiumAccent, width: 4.0.w,),),
-                child: ClipOval(
-                  child: Image.network(
-                    clientData.profileImg.toString(),
-                    fit: BoxFit.cover,
-                    height: 65.h,
-                    width: 65.w,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Icon(Icons.error, size: 60.w);
-                    },
-                    loadingBuilder: (context, child, progress) {
-                      if (progress == null) return child;
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    },
-                  ),
-                )
-              ),
-              SizedBox(width: 25.w),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only( bottom: 5.0.h),
-                    child: CommonTextStyleForPage( clientData.lastName.toString(), MyMateThemes.textColor, FontWeight.w700, 15.sp,),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only( bottom: 5.0.h ),
-                    child: Row(
-                      children: [
-                        CommonTextStyleForPage(clientData.age.toString(), MyMateThemes.textColor, FontWeight.w400,12.sp, ),
-                        CommonTextStyleForPage( " Status" ,MyMateThemes.textColor, FontWeight.w500, 12.sp, ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only( bottom: 5.0.h), // Add bottom padding for spacing
-                    child: CommonTextStyleForPage(clientData.occupationType.toString(),MyMateThemes.textColor,FontWeight.w500,12.sp,),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 5.0.h),
-                    child: CommonTextStyleForPage(clientData.city.toString(),MyMateThemes.textColor,FontWeight.w500,12.sp,),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 5.0.h),
-                    child:
-                    Container(
-                      width: 70.w,
-                      height: 25.h,
-                      decoration: BoxDecoration(
-                        color: MyMateThemes.secondaryColor,
-                        borderRadius: BorderRadius.circular(5.0.r),
-                      ),
-                      child: Row(
-                        children: [
-                          SizedBox(width: 10.w),
-                          SvgPicture.asset(
-                              'assets/images/heart .svg'),
-                          SizedBox(width: 5.w),
-
-                          CommonTextStyleForPage('66%',MyMateThemes.primaryColor,FontWeight.w500,12.sp),
-                        ],
-                      ),
-                    ),
-
-                  ),
-                ],
-              ),
-            ]),
-      ],
-    );
-  }
-
-}
-
-Widget SubscribedhomescreenStructuredPageCarouselSlider(BuildContext,context){
-
-  Firebase firebase = Firebase();
-  final Future<List<ClientProfile>> profiles = firebase.getClientList();
-  final Stream<List<ClientProfile>> streamProfiles = firebase.getClientsStream();
-  return Center(
-      child: StreamBuilder<List<ClientProfile>>(
-
-        stream: streamProfiles,
-        builder: (context,snapshot){
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No profiles found.'));
-          }
-          else{
-            final profileList = snapshot.data!;
-            return CarouselSlider(
-              options: CarouselOptions(
-                height: 120.0.h,
-                autoPlay: true,
-                enlargeCenterPage: true,
-                aspectRatio: 21/10,
-                viewportFraction: 0.8,
-              ),
-              items: profileList.map((profile) {
-                return SubscribedhomescreenStructuredPageCarouselSliderContainer(profile: profile);
-              }).toList(),
-            );
-          }
-        },
-
-      )
-  );
-
-}
-
-class SubscribedhomescreenStructuredPageCarouselSliderContainer extends StatelessWidget{
-
-  ClientProfile profile;
-  SubscribedhomescreenStructuredPageCarouselSliderContainer({super.key,required this.profile});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: (){
-
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>OtherProfilePage(SoulId: profile.docId)));
-      },
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 5.0.h),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border(
-            top: BorderSide(width: 0.5.r),
-            bottom:  BorderSide(width: 0.5.r),
-          ),
-          borderRadius: BorderRadius.circular(8.0.r),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black12,
-              blurRadius: 2.0.r,
-              spreadRadius: 2.0.r,
-              offset: Offset(0, 3),
-            ),
-          ],
-        ),
-        child: ProfileColumn(profile),
-      ),
-    );
-  }
-
-}
-
-Widget ProfileColumn(ClientProfile profile){
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Row(
           children: [
-            SizedBox(width: 20.w),
+            SizedBox(width: constraints.maxWidth * 0.05), // Use constraints
             Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all( color: MyMateThemes.premiumAccent, width: 5.0.w,),),
-              child: CircleAvatar( radius: 50, backgroundImage: NetworkImage(profile.imageUrl),),),
-            SizedBox(width: 20.w),
+                border: Border.all(
+                  color: MyMateThemes.premiumAccent,
+                  width: constraints.maxWidth * 0.01, // Use constraints
+                ),
+              ),
+              child: ClipOval(
+                child: Image.network(
+                  clientData.profileImg.toString(),
+                  fit: BoxFit.cover,
+                  height: constraints.maxHeight * 0.4, // Use constraints
+                  width: constraints.maxWidth * 0.2, // Use constraints
+                  errorBuilder: (context, error, stackTrace) {
+                    return Icon(Icons.error, size: constraints.maxWidth * 0.2); // Use constraints
+                  },
+                  loadingBuilder: (context, child, progress) {
+                    if (progress == null) return child;
+                    return const Center(child: CircularProgressIndicator());
+                  },
+                ),
+              ),
+            ),
+            SizedBox(width: constraints.maxWidth * 0.06), // Use constraints
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.only( bottom: 3.0.h),
-                  child: CommonTextStyleForPage( profile.name, MyMateThemes.textColor, FontWeight.w700, 13.sp,),
+                  padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.02), // Use constraints
+                  child: CommonTextStyleForPage(
+                    clientData.lastName.toString(),
+                    MyMateThemes.textColor,
+                    FontWeight.w700,
+                    constraints.maxWidth * 0.05, // Use constraints
+                  ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only( bottom: 3.0.h ),
+                  padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.02), // Use constraints
                   child: Row(
                     children: [
-                      CommonTextStyleForPage(' ${profile.age}, ', MyMateThemes.textColor, FontWeight.w400,12.sp, ),
-                      CommonTextStyleForPage( profile.status, MyMateThemes.textColor, FontWeight.w500, 12.sp, ),
+                      CommonTextStyleForPage(
+                        clientData.age.toString(),
+                        MyMateThemes.textColor,
+                        FontWeight.w400,
+                        constraints.maxWidth * 0.035, // Use constraints
+                      ),
+                      CommonTextStyleForPage(
+                        " Status",
+                        MyMateThemes.textColor,
+                        FontWeight.w500,
+                        constraints.maxWidth * 0.035, // Use constraints
+                      ),
                     ],
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only( bottom: 3.0.h), // Add bottom padding for spacing
-                  child: CommonTextStyleForPage(' ${profile.occupation}',MyMateThemes.textColor,FontWeight.w500,12.sp,),
+                  padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.02), // Use constraints
+                  child: CommonTextStyleForPage(
+                    clientData.occupationType.toString(),
+                    MyMateThemes.textColor,
+                    FontWeight.w500,
+                    constraints.maxWidth * 0.035, // Use constraints
+                  ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(bottom: 3.0.h),
-                  child: CommonTextStyleForPage(' ${profile.district}',MyMateThemes.textColor,FontWeight.w500,12.sp,),
-                ),
-                Container(
-                  width: 90.w,
-                  height: 40.h,
-                  decoration: BoxDecoration(
-                    color: MyMateThemes.secondaryColor,
-                    borderRadius: BorderRadius.circular(4.0.r),
+                  padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.03), // Use constraints
+                  child: CommonTextStyleForPage(
+                    clientData.city.toString(),
+                    MyMateThemes.textColor,
+                    FontWeight.w500,
+                    constraints.maxWidth * 0.035, // Use constraints
                   ),
-                  child: Row(
-                    mainAxisAlignment:
-                    MainAxisAlignment.spaceEvenly,
-                    children: [
-                      SvgPicture.asset(
-                          'assets/images/heart .svg'),
-                      CommonTextStyleForPage(' ${profile.matchPercentage}',MyMateThemes.primaryColor,FontWeight.w500,12.sp),
-                    ],
+                ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.02), // Use constraints
+                  child: Container(
+                    width: constraints.maxWidth * 0.25, // Use constraints
+                    height: constraints.maxHeight * 0.2, // Use constraints
+                    decoration: BoxDecoration(
+                      color: MyMateThemes.secondaryColor,
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    child: Row(
+                      children: [
+                        SizedBox(width: constraints.maxWidth * 0.02), // Use constraints
+                        SvgPicture.asset('assets/images/heart .svg', width: constraints.maxWidth * 0.04), // Use constraints
+                        SizedBox(width: constraints.maxWidth * 0.01), // Use constraints
+                        CommonTextStyleForPage(
+                          '66%',
+                          MyMateThemes.primaryColor,
+                          FontWeight.w500,
+                          constraints.maxWidth * 0.045, // Use constraints
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
             ),
-          ]),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+Widget SubscribedhomescreenStructuredPageCarouselSlider(BuildContext context) { // Remove unused BuildContext
+  Firebase firebase = Firebase();
+  final Stream<List<ClientProfile>> streamProfiles = firebase.getClientsStream(); // No need for Future here
+
+  return Center(
+    child: StreamBuilder<List<ClientProfile>>(
+      stream: streamProfiles,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator()); // Add const for efficiency
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return const Center(child: Text('No profiles found.')); // Add const
+        } else {
+          final profileList = snapshot.data!;
+          return LayoutBuilder( // Add LayoutBuilder
+            builder: (BuildContext context, BoxConstraints constraints) { // Constraints available here
+              return CarouselSlider(
+                options: CarouselOptions(
+                  height: constraints.maxHeight * 0.5, // Use constraints for height, adjust 0.5 as needed
+                  autoPlay: true,
+                  enlargeCenterPage: true,
+                  aspectRatio: 21 / 10,
+                  viewportFraction: 0.8,
+                ),
+                items: profileList.map((profile) {
+                  return SubscribedhomescreenStructuredPageCarouselSliderContainer(profile: profile, ); // Pass constraints
+                }).toList(),
+              );
+            },
+          );
+        }
+      },
+    ),
+  );
+}
+
+class SubscribedhomescreenStructuredPageCarouselSliderContainer extends StatelessWidget {
+  final ClientProfile profile;
+
+  const SubscribedhomescreenStructuredPageCarouselSliderContainer({super.key, required this.profile});
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        OtherProfilePage(SoulId: profile.docId)));
+          },
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.01), // Use constraints
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border(
+                top: BorderSide(width: constraints.maxWidth * 0.002), // Use constraints
+                bottom: BorderSide(width: constraints.maxWidth * 0.002), // Use constraints
+              ),
+              borderRadius: BorderRadius.circular(8.0),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 2.0,
+                  spreadRadius: 2.0,
+                  offset: Offset(0, 3),
+                ),
+              ],
+            ),
+            child: ProfileColumn(profile,constraints), // Pass constraints
+          ),
+        );
+      },
+    );
+  }
+}
+
+Widget ProfileColumn(ClientProfile profile, BoxConstraints constraints) {
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Row(
+        children: [
+          SizedBox(width: constraints.maxWidth * 0.05), // Use constraints
+          Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: MyMateThemes.premiumAccent,
+                width: constraints.maxWidth * 0.01, // Use constraints
+              ),
+            ),
+            child: CircleAvatar(
+              radius: constraints.maxWidth * 0.1, // Use constraints
+              backgroundImage: NetworkImage(profile.imageUrl),
+            ),
+          ),
+          SizedBox(width: constraints.maxWidth * 0.06), // Use constraints
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.02), // Use constraints
+                child: CommonTextStyleForPage(
+                  profile.name,
+                  MyMateThemes.textColor,
+                  FontWeight.w700,
+                  constraints.maxWidth * 0.04, // Use constraints
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.02), // Use constraints
+                child: Row(
+                  children: [
+                    CommonTextStyleForPage(
+                      ' ${profile.age}, ',
+                      MyMateThemes.textColor,
+                      FontWeight.w400,
+                      constraints.maxWidth * 0.03, // Use constraints
+                    ),
+                    CommonTextStyleForPage(
+                      profile.status,
+                      MyMateThemes.textColor,
+                      FontWeight.w500,
+                      constraints.maxWidth * 0.03, // Use constraints
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.02), // Use constraints
+                child: CommonTextStyleForPage(
+                  profile.occupation,
+                  MyMateThemes.textColor,
+                  FontWeight.w500,
+                  constraints.maxWidth * 0.03, // Use constraints
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.02), // Use constraints
+                child: CommonTextStyleForPage(
+                  profile.district,
+                  MyMateThemes.textColor,
+                  FontWeight.w500,
+                  constraints.maxWidth * 0.03, // Use constraints
+                ),
+              ),
+              Container(
+                width: constraints.maxWidth * 0.2, // Use constraints
+                height: constraints.maxHeight * 0.1, // Use constraints
+                decoration: BoxDecoration(
+                  color: MyMateThemes.secondaryColor,
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SvgPicture.asset('assets/images/heart .svg', width: constraints.maxWidth * 0.04), // Use constraints
+                    CommonTextStyleForPage(
+                      ' ${profile.matchPercentage}',
+                      MyMateThemes.primaryColor,
+                      FontWeight.w500,
+                      constraints.maxWidth * 0.03, // Use constraints
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     ],
   );
 }

@@ -9,7 +9,6 @@ import 'package:mymateapp/Homepages/Profiles/EditPage.dart';
 import 'package:mymateapp/Homepages/RegisterPages/RegisterPage.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'Homepages/MyMatesPage.dart';
 import 'Homepages/ProfilePageScreen/MyProfileMain.dart';
 import 'Homepages/Profiles/MoreAboutMe.dart';
 import 'Homepages/Profiles/boost_profile.dart';
@@ -18,6 +17,8 @@ import 'Homepages/SubscribedhomeScreen/SubscribedHomeScreenBeforeProfileComplete
 import 'Homepages/SubscribedhomeScreen/SubscribedHomeScreenStructured.dart';
 import 'Homepages/explorePage/explorePageMain.dart';
 import 'Homepages/AddTokenPage.dart';
+import 'Homepages/myMatePage/myMatePageMain.dart';
+
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -61,9 +62,10 @@ class MyApp extends StatelessWidget {
             //AuthcheckState()
             //ProfilePage(docId: "SYfMHh6YUL6yobmIZXwO", selectedBottomBarIconIndex:0,),
             // CheckmatchPage( clientDocId: '', soulDocId: '',),
+           // ExplorePage(docId: '', results: [], search: [],),
+           // RegisterPage(),
+            //MyMatePage(results: [], search: [], docId: '',)
             SubscribedhomescreenStructuredPage(docId: '',),
-            //MyMatesPage(results: [], search: [], docId: '',)
-
 
           );
         }
