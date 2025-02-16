@@ -82,32 +82,34 @@ class _SubscribedhomescreenStructuredPageState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyMateThemes.backgroundColor,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(
-          name,
-          style: TextStyle(
-            color: MyMateThemes.textColor,
-            fontWeight: FontWeight.w700,
-            fontSize: 20,
-          ),
-        ),
-        actions: <Widget>[
-          BadgeWidget(assetPath: 'assets/images/Group 2157.svg', badgeValue: badgeValue1),
-          SizedBox(width: 20),
-          BadgeWidget(assetPath: 'assets/images/Group 2153.svg', badgeValue: badgeValue2),
-          SizedBox(width: 20)
-        ],
-      ),
       body: LayoutBuilder(
+
         builder: (context, constraints) {
           double width = constraints.maxWidth;
           double height = constraints.maxHeight;
           return Padding(
-            padding: EdgeInsets.symmetric(horizontal: width * 0.06),
+            padding: EdgeInsets.symmetric(horizontal: width * 0.08),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                AppBar(
+                  backgroundColor: Colors.white,
+                  centerTitle: true,
+                  title: Text(
+                    name,
+                    style: TextStyle(
+                      color: MyMateThemes.textColor,
+                      fontWeight: FontWeight.w700,
+                      fontSize: constraints.maxWidth * 0.045,
+                    ),
+                  ),
+                  actions: <Widget>[
+                    BadgeWidget(assetPath: 'assets/images/Group 2157.svg', badgeValue: badgeValue1),
+                    SizedBox(width: 20),
+                    // BadgeWidget(assetPath: 'assets/images/Group 2153.svg', badgeValue: badgeValue2),
+                    // SizedBox(width: 20)
+                  ],
+                ),
 
                 SubscribedhomescreenStructuredPageTotalMatchColumn(context, widget.docId),
                  SizedBox(height: height * 0.02),
@@ -122,7 +124,7 @@ class _SubscribedhomescreenStructuredPageState
                     ),
                   ),
                 ),
-               // SizedBox(height: height * 0.01),
+                SizedBox(height: height * 0.02),
                 Expanded(
                   child: SubscribeHomeScreenStructuredPageCarouselSliders(docId: widget.docId),
                 ),
@@ -130,7 +132,7 @@ class _SubscribedhomescreenStructuredPageState
                 SubscribedhomescreenStructuredPageTokenContainers(context, widget.docId),
                 SizedBox(
                   width: double.infinity,
-                  height: height * 0.09,
+                  height: height * 0.1,
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.push(

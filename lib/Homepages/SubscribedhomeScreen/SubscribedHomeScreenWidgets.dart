@@ -24,25 +24,16 @@ Widget SubscribedhomescreenStructuredPageTotalMatchColumn(BuildContext context, 
               alignment: Alignment.center,
               clipBehavior: Clip.none,
               children: [
-                Expanded(
-                  child: Container(
-                    width: constraints.maxWidth * 0.8, // Adjust width as needed
-                    height: constraints.maxHeight * 1, // Adjust height as needed
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                  ),
-
-                ),
-                Positioned.fill(
-                  child: Align(
+                Align(
                     alignment: Alignment.center,
                     child: SvgPicture.asset(
                       'assets/images/Frame.svg',
+                      height: constraints.maxHeight * 1.39,
+                      width:  constraints.maxWidth * 1,
+
                       fit: BoxFit.cover,
                     ),
-                  ),
+
                 ),
                 Positioned(
                   top: constraints.maxHeight * 0.3, // Adjust top position
@@ -58,7 +49,7 @@ Widget SubscribedhomescreenStructuredPageTotalMatchColumn(BuildContext context, 
                   ),
                 ),
                 Positioned(
-                  top: constraints.maxHeight * 0.55, // Adjust top position
+                  top: constraints.maxHeight * 0.56, // Adjust top position
                   left: 0,
                   right: 0,
                   child: Center(
@@ -66,7 +57,7 @@ Widget SubscribedhomescreenStructuredPageTotalMatchColumn(BuildContext context, 
                       'Matches Found',
                       Colors.white,
                       FontWeight.w500,
-                      constraints.maxWidth * 0.05, // Adjust font size
+                      constraints.maxWidth * 0.045, // Adjust font size
                     ),
                   ),
                 ),
@@ -92,27 +83,36 @@ Widget SubscribedhomescreenStructuredPageTokenContainers(BuildContext context, S
               children: [
                 Container(
                   width: constraints.maxWidth * 0.65, // Adjust width
-                  height: constraints.maxHeight * 0.7, // Adjust height
+                  height: constraints.maxHeight * 0.8, // Adjust height
                   decoration: BoxDecoration(
                     color: MyMateThemes.secondaryColor,
                     borderRadius: BorderRadius.circular(8.0),
                   ),
                 ),
                 Positioned(
-                  top: constraints.maxHeight * 0.5, // Adjust top
-                  right: constraints.maxWidth * 0.35, // Adjust right
-                  child: SvgPicture.asset('assets/images/tokens.svg',
-                    width: constraints.maxWidth * 0.65, // Adjust width
-                    height: constraints.maxHeight * 0.7, // Adjust height
+                  top: constraints.maxHeight * 0.56, // Adjust top
+                  right: constraints.maxWidth * 0.56, // Adjust right
+                  child: SvgPicture.asset('assets/images/fire.svg',
+
+                    color: MyMateThemes.textColor,
+                    width: constraints.maxWidth * 0.25, // Adjust width
+                    height: constraints.maxHeight * 0.09 , // Adjust height
                   ),
                 ),
                 Positioned(
-                  top: constraints.maxHeight * 0.1, // Adjust top
-                  right: constraints.maxWidth * 0.05, // Adjust right
-                  child: CommonTextStyleForPage('10', MyMateThemes.textColor, FontWeight.w500, constraints.maxWidth * 0.05),
+                  top: constraints.maxHeight * 0.67, // Adjust top
+                  right: constraints.maxWidth * 0.5, // Adjust right
+                  child: Text('Tokens',style: TextStyle(fontSize: constraints.maxWidth * 0.032,color: MyMateThemes.textColor),),
+
+
                 ),
                 Positioned(
-                  top: constraints.maxHeight * 0.25, // Adjust top
+                  top: constraints.maxHeight * 0.09, // Adjust top
+                  right: constraints.maxWidth * 0.05, // Adjust right
+                  child: CommonTextStyleForPage('10', MyMateThemes.textColor, FontWeight.w500, constraints.maxWidth * 0.045),
+                ),
+                Positioned(
+                  top: constraints.maxHeight * 0.11, // Adjust top
                   right: constraints.maxWidth * 0.01, // Adjust right
                   child: TextButton(
                     onPressed: () {
@@ -122,7 +122,7 @@ Widget SubscribedhomescreenStructuredPageTokenContainers(BuildContext context, S
                             builder: (context) => Summarypage(docId: docId)),
                       );
                     },
-                    child: CommonTextStyleForPage('+Add Tokens', MyMateThemes.primaryColor, FontWeight.w500, constraints.maxWidth * 0.03),
+                    child: CommonTextStyleForPage('+Add Tokens', MyMateThemes.primaryColor, FontWeight.w500, constraints.maxWidth * 0.033),
                   ),
                 ),
               ],
@@ -140,28 +140,30 @@ Widget SubscribedhomescreenStructuredPageTokenContainers(BuildContext context, S
                   child: Stack(
                     children: [
                       Container(
-                        width: constraints.maxWidth * 0.3, // Adjust width
-                        height: constraints.maxHeight * 0.7, // Adjust height
+                        width: constraints.maxWidth * 0.33, // Adjust width
+                        height: constraints.maxHeight * 0.8, // Adjust height
                         decoration: BoxDecoration(
                           color: MyMateThemes.primaryColor,
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                       ),
                       Positioned(
-                        top: constraints.maxHeight * 0.5, // Adjust top
-                        right: constraints.maxWidth * 0.05, // Adjust right
+                        top: constraints.maxHeight * 0.65, // Adjust top
+                        right: constraints.maxWidth * 0.15, // Adjust right
                         child: Text('My Mates',
                             style: TextStyle(
                                 color: Colors.white,
-                                fontSize: constraints.maxWidth * 0.03)),
+                                fontSize: constraints.maxWidth * 0.032)),
                       ),
                     ],
                   ),
                 ),
                 Positioned(
-                  top: constraints.maxHeight * 0.45, // Adjust top
-                  right: constraints.maxWidth * 0.15, // Adjust right
+                  top: constraints.maxHeight * 0.56, // Adjust top
+                  right: constraints.maxWidth * 0.25, // Adjust right
                   child: SvgPicture.asset('assets/images/heart .svg',
+                      width: constraints.maxWidth * 0.25, // Adjust width
+                      height: constraints.maxHeight * 0.09,
                       color: Colors.white),
                 ),
               ],
@@ -191,7 +193,7 @@ Widget SubscribedhomescreenStructuredPagePopupDialogWidget(BuildContext context)
                 ),
                 child: Container(
                   width: constraints.maxWidth * 0.8,
-                  height: constraints.maxHeight * 0.4,
+                  height: constraints.maxHeight * 0.38,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
                     color: Colors.white,
@@ -201,22 +203,61 @@ Widget SubscribedhomescreenStructuredPagePopupDialogWidget(BuildContext context)
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       PopupDialogTextStyle("Congratulations! You have received ",
-                          MyMateThemes.textColor),
+                          MyMateThemes.textColor,constraints.maxWidth * 0.035, // Use constraints
+                      ),
                       Row(
                         children: [
-                          PopupDialogTextStyle('10 free ', MyMateThemes.primaryColor),
+                          PopupDialogTextStyle('10 free ', MyMateThemes.primaryColor,constraints.maxWidth * 0.035, // Use constraints
+                          ),
                           PopupDialogTextStyle('Tokens. You can spend free',
-                              MyMateThemes.textColor),
+                              MyMateThemes.textColor,  constraints.maxWidth * 0.035, // Use constraints
+                          ),
                         ],
                       ),
                       PopupDialogTextStyle(
-                          "tokens to access Following", MyMateThemes.textColor),
-                      PopupDialogTextStyle("features only", MyMateThemes.textColor),
-                      SizedBox(height: constraints.maxHeight * 0.02),
-                      SvgPicture.asset('assets/images/Group 2216.svg'),
-                      SizedBox(height: constraints.maxHeight * 0.02),
+                          "tokens to access Following", MyMateThemes.textColor, constraints.maxWidth * 0.035, // Use constraints
+                      ),
+                      PopupDialogTextStyle("features only", MyMateThemes.textColor,constraints.maxWidth * 0.035, // Use constraints
+                      ),
+                      SizedBox(height: constraints.maxHeight * 0.03),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset('assets/images/fire.svg',
+
+                            color: MyMateThemes.primaryColor,
+                            width: constraints.maxWidth * 0.018, // Adjust width
+                            height: constraints.maxHeight * 0.018 , // Adjust height
+                          ),
+                          SizedBox( width: constraints.maxWidth * 0.01,),
+                          Text('* 1 Send / Accept interest',
+                              style: TextStyle(
+                                  color: MyMateThemes.textColor.withOpacity(0.6),
+                                  fontSize: constraints.maxWidth * 0.032)),
+                        ],
+                      ),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset('assets/images/fire.svg',
+
+                            color: MyMateThemes.primaryColor,
+                            width: constraints.maxWidth * 0.018, // Adjust width
+                            height: constraints.maxHeight * 0.018 , // Adjust height
+                          ),
+                          SizedBox( width: constraints.maxWidth * 0.01,),
+                          Text('* 2 Check Accurate Match',
+                              style: TextStyle(
+                                  color: MyMateThemes.textColor.withOpacity(0.6),
+                                  fontSize: constraints.maxWidth * 0.032)),
+                        ],
+                      ),
+
+
+                      SizedBox(height: constraints.maxHeight * 0.05),
                       SizedBox(
-                        height: constraints.maxHeight * 0.1,
+                        height: constraints.maxHeight * 0.07,
                         width: constraints.maxWidth * 0.3,
                         child: ElevatedButton(
                           onPressed: () {
@@ -231,7 +272,7 @@ Widget SubscribedhomescreenStructuredPagePopupDialogWidget(BuildContext context)
                                 )),
                             padding: MaterialStateProperty.all(
                               EdgeInsets.symmetric(
-                                  vertical: constraints.maxHeight * 0.02),
+                                  vertical: constraints.maxHeight * 0.005),
                             ),
                           ),
                           child: Text('Continue',
@@ -264,14 +305,15 @@ Widget CommonTextStyleForPage(
   );
 }
 
-Widget PopupDialogTextStyle(String text, Color color) {
+Widget PopupDialogTextStyle(String text, Color color,double fontSize) {
   return Text(
     text,
     style: TextStyle(
       color: color,
+      fontSize: fontSize,
       letterSpacing: 1.1, // Removed .r
       wordSpacing: 0.8,   // Removed .r
-      fontSize: 11.3,     // Removed .sp
+      //fontSize: 11.3,     // Removed .sp
     ),
   );
 }
@@ -318,18 +360,21 @@ class _SubscribeHomeScreenStructuredPageCarouselSlidersState extends State<Subsc
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return     Padding(
+      padding: EdgeInsets.zero,
+    child:Expanded(
       child: clientDataList.isEmpty
           ? const CircularProgressIndicator()
-          : LayoutBuilder( // Wrap with LayoutBuilder
-        builder: (BuildContext context, BoxConstraints constraints) { // constraints available here
+          : LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
           return CarouselSlider(
             options: CarouselOptions(
-              height: constraints.maxHeight * 0.9, // Use constraints here
+              height: constraints.maxHeight * 1.5,
               autoPlay: true,
-              enlargeCenterPage: true,
-              aspectRatio: 24 / 10,
-              viewportFraction: 0.8,
+              enlargeCenterPage: false, // Disable automatic enlargement
+              aspectRatio: 16 / 9,
+              viewportFraction: 0.97, // Slightly less than full to show next/prev
+              padEnds: true, // Remove padding at ends
             ),
             items: clientDataList.map((clientData) {
               Client client = Client();
@@ -341,11 +386,14 @@ class _SubscribeHomeScreenStructuredPageCarouselSlidersState extends State<Subsc
               client.maritalStatus = clientData['marital_status'];
               client.docId = clientData['docId'];
               client.city = clientData['city'];
-              return SubscribedhomescreenStructuredPageCarouselSliderContainers(client); // Pass constraints
+
+              return
+                SubscribedhomescreenStructuredPageCarouselSliderContainers(client);
             }).toList(),
           );
         },
       ),
+    ),
     );
   }
 
@@ -398,10 +446,10 @@ class _SubscribeHomeScreenStructuredPageCarouselSlidersState extends State<Subsc
                 child: Image.network(
                   clientData.profileImg.toString(),
                   fit: BoxFit.cover,
-                  height: constraints.maxHeight * 0.4, // Use constraints
-                  width: constraints.maxWidth * 0.2, // Use constraints
+                  height: constraints.maxHeight * 0.5, // Use constraints
+                  width: constraints.maxWidth * 0.25, // Use constraints
                   errorBuilder: (context, error, stackTrace) {
-                    return Icon(Icons.error, size: constraints.maxWidth * 0.2); // Use constraints
+                    return Icon(Icons.error, size: constraints.maxWidth * 0.24); // Use constraints
                   },
                   loadingBuilder: (context, child, progress) {
                     if (progress == null) return child;
@@ -463,8 +511,8 @@ class _SubscribeHomeScreenStructuredPageCarouselSlidersState extends State<Subsc
                 Padding(
                   padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.02), // Use constraints
                   child: Container(
-                    width: constraints.maxWidth * 0.25, // Use constraints
-                    height: constraints.maxHeight * 0.2, // Use constraints
+                    width: constraints.maxWidth * 0.2, // Use constraints
+                    height: constraints.maxHeight * 0.18, // Use constraints
                     decoration: BoxDecoration(
                       color: MyMateThemes.secondaryColor,
                       borderRadius: BorderRadius.circular(5.0),
@@ -478,7 +526,7 @@ class _SubscribeHomeScreenStructuredPageCarouselSlidersState extends State<Subsc
                           '66%',
                           MyMateThemes.primaryColor,
                           FontWeight.w500,
-                          constraints.maxWidth * 0.045, // Use constraints
+                          constraints.maxWidth * 0.04, // Use constraints
                         ),
                       ],
                     ),
@@ -517,7 +565,7 @@ Widget SubscribedhomescreenStructuredPageCarouselSlider(BuildContext context) { 
                   autoPlay: true,
                   enlargeCenterPage: true,
                   aspectRatio: 21 / 10,
-                  viewportFraction: 0.8,
+                  viewportFraction: 1,
                 ),
                 items: profileList.map((profile) {
                   return SubscribedhomescreenStructuredPageCarouselSliderContainer(profile: profile, ); // Pass constraints
