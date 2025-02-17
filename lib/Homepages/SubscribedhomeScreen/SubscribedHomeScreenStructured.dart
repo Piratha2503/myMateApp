@@ -87,28 +87,29 @@ class _SubscribedhomescreenStructuredPageState
         builder: (context, constraints) {
           double width = constraints.maxWidth;
           double height = constraints.maxHeight;
-          return Padding(
-            padding: EdgeInsets.symmetric(horizontal: width * 0.08),
-            child: Column(
+          return  Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                AppBar(
-                  backgroundColor: Colors.white,
-                  centerTitle: true,
-                  title: Text(
-                    name,
-                    style: TextStyle(
-                      color: MyMateThemes.textColor,
-                      fontWeight: FontWeight.w700,
-                      fontSize: constraints.maxWidth * 0.045,
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.05),
+                  child: AppBar(
+                    backgroundColor: Colors.white,
+                    centerTitle: true,
+                    title: Text(
+                      name,
+                      style: TextStyle(
+                        color: MyMateThemes.textColor,
+                        fontWeight: FontWeight.w700,
+                        fontSize: constraints.maxWidth * 0.045,
+                      ),
                     ),
+                    actions: <Widget>[
+                      BadgeWidget(assetPath: 'assets/images/Group 2157.svg', badgeValue: badgeValue1),
+                      SizedBox(width: 15),
+                      // BadgeWidget(assetPath: 'assets/images/Group 2153.svg', badgeValue: badgeValue2),
+                      // SizedBox(width: 20)
+                    ],
                   ),
-                  actions: <Widget>[
-                    BadgeWidget(assetPath: 'assets/images/Group 2157.svg', badgeValue: badgeValue1),
-                    SizedBox(width: 20),
-                    // BadgeWidget(assetPath: 'assets/images/Group 2153.svg', badgeValue: badgeValue2),
-                    // SizedBox(width: 20)
-                  ],
                 ),
 
                 SubscribedhomescreenStructuredPageTotalMatchColumn(context, widget.docId),
@@ -130,38 +131,43 @@ class _SubscribedhomescreenStructuredPageState
                 ),
                 SizedBox(height: height * 0.01),
                 SubscribedhomescreenStructuredPageTokenContainers(context, widget.docId),
-                SizedBox(
-                  width: double.infinity,
-                  height: height * 0.1,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CheckMatchOptionsScreen(
-                            soulDocId: '',
-                            clientDocId: 'E0JFHhK2x6Gq2Ac6XSyP',
+
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.05),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: height * 0.1,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CheckMatchOptionsScreen(
+                              soulDocId: '',
+                              clientDocId: 'E0JFHhK2x6Gq2Ac6XSyP',
+                            ),
+                          ),
+                        );
+                      },
+                      style: ButtonStyle(
+                        backgroundColor:
+                        MaterialStateProperty.all(MyMateThemes.primaryColor),
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5.0),
                           ),
                         ),
-                      );
-                    },
-                    style: ButtonStyle(
-                      backgroundColor:
-                      MaterialStateProperty.all(MyMateThemes.primaryColor),
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
+                      ),
+                      child: Text(
+                        'Check Match',
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
-                    child: Text(
-                      'Check Match',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
+
+                              ),
                 ),
               ],
-            ),
+
           );
         },
       ),
