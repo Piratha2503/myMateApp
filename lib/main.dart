@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,9 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:mymateapp/Homepages/CompleteProfileScreen/CompleteProfileMain.dart';
 import 'package:mymateapp/Homepages/Profiles/EditPage.dart';
 import 'package:mymateapp/Homepages/RegisterPages/RegisterPage.dart';
+import 'package:mymateapp/MyMateCommonBodies/MyMateApis.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'Homepages/MyMatesPage.dart';
+import 'ChartPages/GenerateChart.dart';
+import 'Homepages/CompleteProfileScreen/CompleteThree.dart';
 import 'Homepages/ProfilePageScreen/MyProfileMain.dart';
 import 'Homepages/Profiles/MoreAboutMe.dart';
 import 'Homepages/Profiles/boost_profile.dart';
@@ -18,15 +21,42 @@ import 'Homepages/SubscribedhomeScreen/SubscribedHomeScreenBeforeProfileComplete
 import 'Homepages/SubscribedhomeScreen/SubscribedHomeScreenStructured.dart';
 import 'Homepages/explorePage/explorePageMain.dart';
 import 'Homepages/AddTokenPage.dart';
+import 'Homepages/notification_page.dart';
+import 'Homepages/notification_service.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  // You can perform background processing here if needed.
+  print("Handling a background message: ${message.messageId}");
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
+
   );
+
+
+   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? docId =prefs.getString('docId');
+  print(docId);
+
+  // if (docId != null ){
+    NotificationService.startRealTimeListener("GPWatXU8o2zK8IEHym5D");
+  // } else {
+  //   print ("No saved docId found,skipping firestore listener");
+  //
+  // }
+  print(docId);
+
   runApp(const MyApp());
 }
 
@@ -35,6 +65,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     ClientData clientData = ClientData();
     PersonalDetails personalDetails = PersonalDetails();
     personalDetails.first_name = "Hello";
@@ -43,33 +74,43 @@ class MyApp extends StatelessWidget {
     clientData.docId = "TBT3I8DYa3BepMZPPqv6";
     clientData.personalDetails = personalDetails;
 
+
     return ScreenUtilInit(
         designSize: Size(390, 844), // Base size of your UI design
-        minTextAdapt: true,
-        splitScreenMode: true,
-        builder: (context, child) {
-          return MaterialApp(
-            title: 'Flutter Demo',
-            theme: ThemeData(
-                colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-                useMaterial3: true,
-                primaryColor: Colors.blue[200]),
-            debugShowCheckedModeBanner: false,
+    minTextAdapt: true,
+    splitScreenMode: true,
+    builder: (context, child) {
+    return MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            useMaterial3: true,
+            primaryColor: Colors.blue[200]),
+        debugShowCheckedModeBanner: false,
 
-            home:
-            // ProfilePage(selectedBottomBarIconIndex: 3, docId: 'SYfMHh6YUL6yobmIZXwO',)
-            //AuthcheckState()
-            //ProfilePage(docId: "SYfMHh6YUL6yobmIZXwO", selectedBottomBarIconIndex:0,),
-            // CheckmatchPage( clientDocId: '', soulDocId: '',),
-            SubscribedhomescreenStructuredPage(docId: '',),
-            //MyMatesPage(results: [], search: [], docId: '',)
-
-
-          );
-        }
+        home:
+        // ProfilePage(selectedBottomBarIconIndex: 3, docId: 'SYfMHh6YUL6yobmIZXwO',)
+        //AuthcheckState()
+        //ProfilePage(docId: "SYfMHh6YUL6yobmIZXwO", selectedBottomBarIconIndex:0,),
+        // CheckmatchPage( clientDocId: '', soulDocId: '',),
+       // RegisterPage()
+      // SubscribedhomescreenStructuredPage(docId: 'E0JFHhK2x6Gq2Ac6XSyP',)
+      //CompleteProfilePage(docId: 'qHPJAB0C6DavcfYnHAoO')
+      // EditPage(docId: 'qizCb7sXUhWEPy0awx0e', onSave: () {  },)
+      // GenerateChart()
+      //AstroChartScreen()
+      // boostprofile(docId: 'SYfMHh6YUL6yobmIZXwO',)
+      //PageThree(docId: 'qHPJAB0C6DavcfYnHAoO', onSave: () {  },)
+      //   MyMatePage(results: [], search: [], docId: 'qHPJAB0C6DavcfYnHAoO',)
+      NotificationPage(
+        selectedBottomBarIconIndex: 0,
+        docId: 'GPWatXU8o2zK8IEHym5D',)
+    );
+    }
     );
   }
 }
+
 
 
 class AuthcheckState extends StatefulWidget {
