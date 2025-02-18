@@ -437,114 +437,116 @@ class _SubscribeHomeScreenStructuredPageCarouselSlidersState extends State<Subsc
     );
   }
 
-  Widget ProfileColumns(Client clientData, BoxConstraints constraints) { // Add constraints parameter
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.05),
-      child: Column(
+  Widget ProfileColumns(Client clientData, BoxConstraints constraints) {
+    return
+      Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
             children: [
-              SizedBox(width: constraints.maxWidth * 0.05), // Use constraints
+              SizedBox(width: constraints.maxWidth * 0.05),
               Container(
-                  height: constraints.maxHeight * 0.54, // Use constraints
-                  width: constraints.maxWidth * 0.25, // Use constraints
+                height: constraints.maxHeight * 0.6,
+                width: constraints.maxWidth * 0.3,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
                     color: MyMateThemes.premiumAccent,
-
-                    width: constraints.maxWidth * 0.01, // Use constraints
+                    width: constraints.maxWidth * 0.01,
                   ),
                 ),
                 child:
-                    Expanded(child: ClipOval(
 
-                      child: Image.network(
-                        clientData.profileImg.toString(),
-                        fit: BoxFit.cover,
-                        height: constraints.maxHeight * 0.38, // Use constraints
-                        width: constraints.maxWidth * 0.2, // Use constraints
-                        errorBuilder: (context, error, stackTrace) {
-                          return Icon(Icons.error, size: constraints.maxWidth * 0.18); // Use constraints
-                        },
-                        loadingBuilder: (context, child, progress) {
-                          if (progress == null) return child;
-                          return const Center(child: CircularProgressIndicator());
-                        },
-                      ),
-                    ),
-                    )
+                Expanded(child:
+                ClipOval(
+                  child: Image.network(
+                    clientData.profileImg.toString(),
+                    fit: BoxFit.cover,
+                    height: constraints.maxHeight * 0.48, // Use constraints
+                    width: constraints.maxWidth * 0.2, // Use constraints
+                    errorBuilder: (context, error, stackTrace) {
+                      return Icon(Icons.error, size: constraints.maxWidth * 0.18); // Use constraints
+                    },
+                    loadingBuilder: (context, child, progress) {
+                      if (progress == null) return child;
+                      return const Center(child: CircularProgressIndicator());
+                    },
+                  ),
+                ),
+                ),
               ),
-              SizedBox(width: constraints.maxWidth * 0.06), // Use constraints
+              SizedBox(width: constraints.maxWidth * 0.06),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.02), // Use constraints
+                    padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.02),
                     child: CommonTextStyleForPage(
                       clientData.lastName.toString(),
                       MyMateThemes.textColor,
                       FontWeight.w700,
-                      constraints.maxWidth * 0.05, // Use constraints
+                      constraints.maxWidth * 0.05,
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.02), // Use constraints
+                    padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.02),
                     child: Row(
                       children: [
                         CommonTextStyleForPage(
                           clientData.age.toString(),
                           MyMateThemes.textColor,
                           FontWeight.w400,
-                          constraints.maxWidth * 0.035, // Use constraints
+                          constraints.maxWidth * 0.035,
                         ),
                         CommonTextStyleForPage(
                           " Status",
                           MyMateThemes.textColor,
                           FontWeight.w500,
-                          constraints.maxWidth * 0.035, // Use constraints
+                          constraints.maxWidth * 0.035,
                         ),
                       ],
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.02), // Use constraints
+                    padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.02),
                     child: CommonTextStyleForPage(
                       clientData.occupationType.toString(),
                       MyMateThemes.textColor,
                       FontWeight.w500,
-                      constraints.maxWidth * 0.035, // Use constraints
+                      constraints.maxWidth * 0.035,
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.03), // Use constraints
+                    padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.03),
                     child: CommonTextStyleForPage(
                       clientData.city.toString(),
                       MyMateThemes.textColor,
                       FontWeight.w500,
-                      constraints.maxWidth * 0.035, // Use constraints
+                      constraints.maxWidth * 0.035,
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.02), // Use constraints
+                    padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.02),
                     child: Container(
-                      width: constraints.maxWidth * 0.2, // Use constraints
-                      height: constraints.maxHeight * 0.18, // Use constraints
+                      width: constraints.maxWidth * 0.2,
+                      height: constraints.maxHeight * 0.18,
                       decoration: BoxDecoration(
                         color: MyMateThemes.secondaryColor,
                         borderRadius: BorderRadius.circular(5.0),
                       ),
                       child: Row(
                         children: [
-                          SizedBox(width: constraints.maxWidth * 0.02), // Use constraints
-                          SvgPicture.asset('assets/images/heart .svg', width: constraints.maxWidth * 0.04), // Use constraints
-                          SizedBox(width: constraints.maxWidth * 0.01), // Use constraints
+                          SizedBox(width: constraints.maxWidth * 0.02),
+                          SvgPicture.asset(
+                            'assets/images/heart.svg',
+                            width: constraints.maxWidth * 0.04,
+                          ),
+                          SizedBox(width: constraints.maxWidth * 0.01),
                           CommonTextStyleForPage(
                             '66%',
                             MyMateThemes.primaryColor,
                             FontWeight.w500,
-                            constraints.maxWidth * 0.04, // Use constraints
+                            constraints.maxWidth * 0.04,
                           ),
                         ],
                       ),
@@ -555,7 +557,7 @@ class _SubscribeHomeScreenStructuredPageCarouselSlidersState extends State<Subsc
             ],
           ),
         ],
-      ),
+
     );
   }
 }
