@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:mymateapp/Homepages/CompleteProfileScreen/CompleteProfileMain.dart';
 import 'package:mymateapp/Homepages/Profiles/EditPage.dart';
 import 'package:mymateapp/Homepages/RegisterPages/RegisterPage.dart';
+import 'package:mymateapp/Homepages/myMatePage/myMatePageMain.dart';
 import 'package:mymateapp/MyMateCommonBodies/MyMateApis.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -47,15 +48,15 @@ void main() async {
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? docId =prefs.getString('docId');
-  print(docId);
+  print('docid is :$docId');
 
   // if (docId != null ){
-    NotificationService.startRealTimeListener("GPWatXU8o2zK8IEHym5D");
+    NotificationService.startRealTimeListener(docId!);
   // } else {
   //   print ("No saved docId found,skipping firestore listener");
   //
   // }
-  print(docId);
+  print(docId!);
 
   runApp(const MyApp());
 }
@@ -89,22 +90,21 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
 
         home:
-        // ProfilePage(selectedBottomBarIconIndex: 3, docId: 'SYfMHh6YUL6yobmIZXwO',)
-        //AuthcheckState()
-        //ProfilePage(docId: "SYfMHh6YUL6yobmIZXwO", selectedBottomBarIconIndex:0,),
+           // ProfilePage(selectedBottomBarIconIndex: 3, docId: 'SYfMHh6YUL6yobmIZXwO',)
+          //AuthcheckState()
+         // ProfilePage(docId: "SYfMHh6YUL6yobmIZXwO", selectedBottomBarIconIndex:0,),
         // CheckmatchPage( clientDocId: '', soulDocId: '',),
-       // RegisterPage()
+        RegisterPage()
       // SubscribedhomescreenStructuredPage(docId: 'E0JFHhK2x6Gq2Ac6XSyP',)
-      //CompleteProfilePage(docId: 'qHPJAB0C6DavcfYnHAoO')
+     // CompleteProfilePage(docId: '3qmCKRqXr06udbChynui')
       // EditPage(docId: 'qizCb7sXUhWEPy0awx0e', onSave: () {  },)
-      // GenerateChart()
-      //AstroChartScreen()
-      // boostprofile(docId: 'SYfMHh6YUL6yobmIZXwO',)
-      //PageThree(docId: 'qHPJAB0C6DavcfYnHAoO', onSave: () {  },)
-      //   MyMatePage(results: [], search: [], docId: 'qHPJAB0C6DavcfYnHAoO',)
-      NotificationPage(
-        selectedBottomBarIconIndex: 0,
-        docId: 'GPWatXU8o2zK8IEHym5D',)
+       // GenerateChart()
+        //AstroChartScreen()
+         // boostprofile(docId: 'SYfMHh6YUL6yobmIZXwO',)
+          //PageThree(docId: 'qHPJAB0C6DavcfYnHAoO', onSave: () {  },)
+           //   MyMatePage(results: [], search: [], docId: 'qHPJAB0C6DavcfYnHAoO',)
+            //NotificationPage(selectedBottomBarIconIndex: 0, docId: 'GPWatXU8o2zK8IEHym5D',)
+             //  MyMatePage(results: [], search: [], docId: "SYfMHh6YUL6yobmIZXwO",)
     );
     }
     );

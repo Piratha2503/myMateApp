@@ -27,7 +27,7 @@ class EditPage extends StatefulWidget {
 }
 
 class _EditPageState extends State<EditPage> {
-
+bool showmoreaboutme = false;
   bool isLoading = true;
   File? _imageFile;
   String? _selectedCivilStatus;
@@ -69,6 +69,7 @@ class _EditPageState extends State<EditPage> {
 
       if (clientData.isNotEmpty) {
         setState(() {
+          showmoreaboutme = clientData['completeProfilePending']['_anything_filled_lifestyle'] ?? "";
           _selectedCivilStatus = clientData['civil_status'] ?? 'Select Status';
           _selectedEmploymentType = clientData['occupation_type'] ?? 'Select Type';
           DistrictController.text = clientData['city'] ?? '';
@@ -80,8 +81,14 @@ class _EditPageState extends State<EditPage> {
               _getIndexFromString(clientData['smoking'], _smokingOptions);
           selectedCookingIndex =
               _getIndexFromString(clientData['cooking'], _cookingOptions);
-          hobbyTags = List<String>.from(clientData['favorites'] ?? []);
-
+          // hobbyTags = List<String>.from(clientData['favorites'] ?? []);
+          if (clientData['favorites'] is List) {
+            hobbyTags = List<String>.from(clientData['favorites']);
+          } else if (clientData['favorites'] is String) {
+            hobbyTags = clientData['favorites'].toString().isEmpty ? [] : [clientData['favorites']];
+          } else {
+            hobbyTags = [];
+          }
           _selectedReligion = clientData['religion'] ?? 'Select Religion';
           occupationController.text = clientData['occupation'] ?? '';
           educationController.text = clientData['education'] ?? '';

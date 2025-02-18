@@ -53,11 +53,16 @@ class _PageThreeState extends State<PageThree> {
 
   Future<void> _saveForm() async {
     if (_validateForm()) {
+      final expectations = controllers
+          .map((c) => c.text.trim())
+          .where((text) => text.isNotEmpty)
+          .toList();
+
       final Map<String, dynamic> data = {
         'docId': widget.docId,
-
         'lifestyle': {
-          'expectations': controllers.map((c) => c.text).toList(),
+          // If there are no expectations, send null.
+          'expectations': expectations.isEmpty ? null : expectations,
         },
       };
 
@@ -75,9 +80,7 @@ class _PageThreeState extends State<PageThree> {
         print('Response status: ${response.statusCode}');
         print('Response body: ${response.body}');
 
-        if (response.statusCode == 200) {
-
-        } else {
+        if (response.statusCode != 200) {
           setState(() {
             error = 'Failed to save data: ${response.body}';
           });
@@ -89,6 +92,7 @@ class _PageThreeState extends State<PageThree> {
       }
     }
   }
+
 
   Future<void> _updateForm() async {
     if (_validateForm()) {
