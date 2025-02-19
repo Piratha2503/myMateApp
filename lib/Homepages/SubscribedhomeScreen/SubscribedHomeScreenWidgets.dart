@@ -17,56 +17,53 @@ Widget SubscribedhomescreenStructuredPageTotalMatchColumn(BuildContext context, 
   return Expanded(
     child: LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        return Padding(
-          padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.05),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Stack(
-                alignment: Alignment.center,
-                clipBehavior: Clip.none,
-                children: [
-                  Align(
-                      alignment: Alignment.center,
-                      child: SvgPicture.asset(
-                        'assets/images/Frame.svg',
-                        height: constraints.maxHeight * 1.39,
-                        width:  constraints.maxWidth * 0.9,
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Stack(
+              alignment: Alignment.center,
+              clipBehavior: Clip.none,
+              children: [
+                Align(
+                  alignment: Alignment.center,
+                  child: SvgPicture.asset(
+                    'assets/images/Frame.svg',
+                    height: constraints.maxHeight * 1.39,
+                    width:  constraints.maxWidth * 1,
 
-                        fit: BoxFit.cover,
-                      ),
-
+                    fit: BoxFit.cover,
                   ),
-                  Positioned(
-                    top: constraints.maxHeight * 0.3, // Adjust top position
-                    left: 0,
-                    right: 0,
-                    child: Center(
-                      child: CommonTextStyleForPage(
-                        '137',
-                        Colors.white,
-                        FontWeight.w700,
-                        constraints.maxWidth * 0.08, // Adjust font size
-                      ),
+
+                ),
+                Positioned(
+                  top: constraints.maxHeight * 0.28, // Adjust top position
+                  left: 0,
+                  right: 0,
+                  child: Center(
+                    child: CommonTextStyleForPage(
+                      '137',
+                      Colors.white,
+                      FontWeight.w700,
+                      constraints.maxWidth * 0.08, // Adjust font size
                     ),
                   ),
-                  Positioned(
-                    top: constraints.maxHeight * 0.57, // Adjust top position
-                    left: 0,
-                    right: 0,
-                    child: Center(
-                      child: CommonTextStyleForPage(
-                        'Matches Found',
-                        Colors.white,
-                        FontWeight.w500,
-                        constraints.maxWidth * 0.04, // Adjust font size
-                      ),
+                ),
+                Positioned(
+                  top: constraints.maxHeight * 0.56, // Adjust top position
+                  left: 0,
+                  right: 0,
+                  child: Center(
+                    child: CommonTextStyleForPage(
+                      'Matches Found',
+                      Colors.white,
+                      FontWeight.w500,
+                      constraints.maxWidth * 0.042, // Adjust font size
                     ),
                   ),
-                ],
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+          ],
         );
       },
     ),
@@ -87,7 +84,7 @@ Widget SubscribedhomescreenStructuredPageTokenContainers(BuildContext context, S
               Stack(
                 children: [
                   Container(
-                    width: constraints.maxWidth * 0.59, // Adjust width
+                    width: constraints.maxWidth * 0.6, // Adjust width
                     height: constraints.maxHeight * 0.8, // Adjust height
                     decoration: BoxDecoration(
                       color: MyMateThemes.secondaryColor,
@@ -95,8 +92,8 @@ Widget SubscribedhomescreenStructuredPageTokenContainers(BuildContext context, S
                     ),
                   ),
                   Positioned(
-                    top: constraints.maxHeight * 0.56, // Adjust top
-                    right: constraints.maxWidth * 0.52, // Adjust right
+                    top: constraints.maxHeight * 0.54, // Adjust top
+                    right: constraints.maxWidth * 0.55, // Adjust right
                     child: SvgPicture.asset('assets/images/fire.svg',
 
                       color: MyMateThemes.textColor,
@@ -105,9 +102,9 @@ Widget SubscribedhomescreenStructuredPageTokenContainers(BuildContext context, S
                     ),
                   ),
                   Positioned(
-                    top: constraints.maxHeight * 0.66, // Adjust top
-                    right: constraints.maxWidth * 0.46, // Adjust right
-                    child: Text('Tokens',style: TextStyle(fontSize: constraints.maxWidth * 0.032,color: MyMateThemes.textColor),),
+                    top: constraints.maxHeight * 0.64, // Adjust top
+                    right: constraints.maxWidth * 0.48, // Adjust right
+                    child: Text('Tokens',style: TextStyle(fontSize: constraints.maxWidth * 0.031,color: MyMateThemes.textColor),),
 
 
                   ),
@@ -145,7 +142,7 @@ Widget SubscribedhomescreenStructuredPageTokenContainers(BuildContext context, S
                     child: Stack(
                       children: [
                         Container(
-                          width: constraints.maxWidth * 0.29, // Adjust width
+                          width: constraints.maxWidth * 0.27, // Adjust width
                           height: constraints.maxHeight * 0.8, // Adjust height
                           decoration: BoxDecoration(
                             color: MyMateThemes.primaryColor,
@@ -153,22 +150,22 @@ Widget SubscribedhomescreenStructuredPageTokenContainers(BuildContext context, S
                           ),
                         ),
                         Positioned(
-                          top: constraints.maxHeight * 0.65, // Adjust top
-                          right: constraints.maxWidth * 0.13, // Adjust right
+                          top: constraints.maxHeight * 0.63, // Adjust top
+                          right: constraints.maxWidth * 0.11, // Adjust right
                           child: Text('My Mates',
                               style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: constraints.maxWidth * 0.032)),
+                                  fontSize: constraints.maxWidth * 0.031)),
                         ),
                       ],
                     ),
                   ),
                   Positioned(
-                    top: constraints.maxHeight * 0.56, // Adjust top
-                    right: constraints.maxWidth * 0.23, // Adjust right
+                    top: constraints.maxHeight * 0.55, // Adjust top
+                    right: constraints.maxWidth * 0.22, // Adjust right
                     child: SvgPicture.asset('assets/images/heart .svg',
-                        width: constraints.maxWidth * 0.25, // Adjust width
-                        height: constraints.maxHeight * 0.09,
+                        width: constraints.maxWidth * 0.24, // Adjust width
+                        height: constraints.maxHeight * 0.08,
                         color: Colors.white),
                   ),
                 ],
@@ -209,19 +206,19 @@ Widget SubscribedhomescreenStructuredPagePopupDialogWidget(BuildContext context)
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       PopupDialogTextStyle("Congratulations! You have received ",
-                          MyMateThemes.textColor,constraints.maxWidth * 0.035, // Use constraints
+                        MyMateThemes.textColor,constraints.maxWidth * 0.035, // Use constraints
                       ),
                       Row(
                         children: [
                           PopupDialogTextStyle('10 free ', MyMateThemes.primaryColor,constraints.maxWidth * 0.035, // Use constraints
                           ),
                           PopupDialogTextStyle('Tokens. You can spend free',
-                              MyMateThemes.textColor,  constraints.maxWidth * 0.035, // Use constraints
+                            MyMateThemes.textColor,  constraints.maxWidth * 0.035, // Use constraints
                           ),
                         ],
                       ),
                       PopupDialogTextStyle(
-                          "tokens to access Following", MyMateThemes.textColor, constraints.maxWidth * 0.035, // Use constraints
+                        "tokens to access Following", MyMateThemes.textColor, constraints.maxWidth * 0.035, // Use constraints
                       ),
                       PopupDialogTextStyle("features only", MyMateThemes.textColor,constraints.maxWidth * 0.035, // Use constraints
                       ),
@@ -366,20 +363,20 @@ class _SubscribeHomeScreenStructuredPageCarouselSlidersState extends State<Subsc
 
   @override
   Widget build(BuildContext context) {
-    return  Expanded(
-      child: clientDataList.isEmpty
-          ? const CircularProgressIndicator()
-          : LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          return
-           CarouselSlider(
+    return     Padding(
+      padding: EdgeInsets.zero,
+      child:Expanded(
+        child: clientDataList.isEmpty
+            ? const CircularProgressIndicator()
+            : LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            return CarouselSlider(
               options: CarouselOptions(
                 height: constraints.maxHeight * 1.5,
                 autoPlay: true,
-                enlargeCenterPage: true,
-                enlargeFactor: 0.1, // Disable automatic enlargement
+                enlargeCenterPage: false, // Disable automatic enlargement
                 aspectRatio: 16 / 9,
-                viewportFraction:0.91, // Slightly less than full to show next/prev
+                viewportFraction: 0.9, // Slightly less than full to show next/prev
                 padEnds: true, // Remove padding at ends
               ),
               items: clientDataList.map((clientData) {
@@ -396,13 +393,11 @@ class _SubscribeHomeScreenStructuredPageCarouselSlidersState extends State<Subsc
                 return
                   SubscribedhomescreenStructuredPageCarouselSliderContainers(client);
               }).toList(),
-
-
             );
-        },
+          },
+        ),
       ),
     );
-
   }
 
 
@@ -418,9 +413,7 @@ class _SubscribeHomeScreenStructuredPageCarouselSlidersState extends State<Subsc
                       builder: (context) =>
                           OtherProfilePage(SoulId: clientData.docId.toString())));
             },
-            child:
-
-            Container(
+            child: Container(
               margin: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.01), // Use constraints
               decoration: BoxDecoration(
                 border: Border.all(
@@ -437,116 +430,110 @@ class _SubscribeHomeScreenStructuredPageCarouselSlidersState extends State<Subsc
     );
   }
 
-  Widget ProfileColumns(Client clientData, BoxConstraints constraints) {
-    return
-      Column(
+  Widget ProfileColumns(Client clientData, BoxConstraints constraints) { // Add constraints parameter
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.05),
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
             children: [
-              SizedBox(width: constraints.maxWidth * 0.05),
+              SizedBox(width: constraints.maxWidth * 0.05), // Use constraints
               Container(
-                height: constraints.maxHeight * 0.6,
-                width: constraints.maxWidth * 0.3,
+                width: constraints.maxWidth * 0.25,
+                height: constraints.maxWidth * 0.25,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
                     color: MyMateThemes.premiumAccent,
                     width: constraints.maxWidth * 0.01,
                   ),
-                ),
-                child:
-
-                Expanded(child:
-                ClipOval(
-                  child: Image.network(
-                    clientData.profileImg.toString(),
+                  image: (clientData.profileImg != null && clientData.profileImg!.isNotEmpty)
+                      ? DecorationImage(
+                    image: NetworkImage( clientData.profileImg.toString()),
                     fit: BoxFit.cover,
-                    height: constraints.maxHeight * 0.48, // Use constraints
-                    width: constraints.maxWidth * 0.2, // Use constraints
-                    errorBuilder: (context, error, stackTrace) {
-                      return Icon(Icons.error, size: constraints.maxWidth * 0.18); // Use constraints
-                    },
-                    loadingBuilder: (context, child, progress) {
-                      if (progress == null) return child;
-                      return const Center(child: CircularProgressIndicator());
-                    },
+                  )
+                      : null,
+                ),
+                child: (clientData.profileImg == null || clientData.profileImg!.isEmpty)
+                    ? ClipOval(
+                  child: Icon(
+                    Icons.person,
+                    size: constraints.maxWidth * 0.1,
+                    color: Colors.grey[400],
                   ),
-                ),
-                ),
+                )
+                    : null,
               ),
-              SizedBox(width: constraints.maxWidth * 0.06),
+              SizedBox(width: constraints.maxWidth * 0.06), // Use constraints
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.02),
+                    padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.02), // Use constraints
                     child: CommonTextStyleForPage(
                       clientData.lastName.toString(),
                       MyMateThemes.textColor,
                       FontWeight.w700,
-                      constraints.maxWidth * 0.05,
+                      constraints.maxWidth * 0.05, // Use constraints
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.02),
+                    padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.02), // Use constraints
                     child: Row(
                       children: [
                         CommonTextStyleForPage(
                           clientData.age.toString(),
                           MyMateThemes.textColor,
                           FontWeight.w400,
-                          constraints.maxWidth * 0.035,
+                          constraints.maxWidth * 0.035, // Use constraints
                         ),
                         CommonTextStyleForPage(
                           " Status",
                           MyMateThemes.textColor,
                           FontWeight.w500,
-                          constraints.maxWidth * 0.035,
+                          constraints.maxWidth * 0.035, // Use constraints
                         ),
                       ],
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.02),
+                    padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.02), // Use constraints
                     child: CommonTextStyleForPage(
                       clientData.occupationType.toString(),
                       MyMateThemes.textColor,
                       FontWeight.w500,
-                      constraints.maxWidth * 0.035,
+                      constraints.maxWidth * 0.035, // Use constraints
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.03),
+                    padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.03), // Use constraints
                     child: CommonTextStyleForPage(
                       clientData.city.toString(),
                       MyMateThemes.textColor,
                       FontWeight.w500,
-                      constraints.maxWidth * 0.035,
+                      constraints.maxWidth * 0.035, // Use constraints
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.02),
+                    padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.02), // Use constraints
                     child: Container(
-                      width: constraints.maxWidth * 0.2,
-                      height: constraints.maxHeight * 0.18,
+                      width: constraints.maxWidth * 0.25, // Use constraints
+                      height: constraints.maxHeight * 0.18, // Use constraints
                       decoration: BoxDecoration(
                         color: MyMateThemes.secondaryColor,
                         borderRadius: BorderRadius.circular(5.0),
                       ),
                       child: Row(
                         children: [
-                          SizedBox(width: constraints.maxWidth * 0.02),
-                          SvgPicture.asset(
-                            'assets/images/heart.svg',
-                            width: constraints.maxWidth * 0.04,
-                          ),
-                          SizedBox(width: constraints.maxWidth * 0.01),
+                          SizedBox(width: constraints.maxWidth * 0.02), // Use constraints
+                          SvgPicture.asset('assets/images/heart .svg', width: constraints.maxWidth * 0.04), // Use constraints
+                          SizedBox(width: constraints.maxWidth * 0.01), // Use constraints
                           CommonTextStyleForPage(
-                            '66%',
+                            '60 - 80%',
                             MyMateThemes.primaryColor,
                             FontWeight.w500,
-                            constraints.maxWidth * 0.04,
+                            constraints.maxWidth * 0.04, // Use constraints
                           ),
                         ],
                       ),
@@ -557,7 +544,7 @@ class _SubscribeHomeScreenStructuredPageCarouselSlidersState extends State<Subsc
             ],
           ),
         ],
-
+      ),
     );
   }
 }
@@ -580,22 +567,17 @@ Widget SubscribedhomescreenStructuredPageCarouselSlider(BuildContext context) { 
           final profileList = snapshot.data!;
           return LayoutBuilder( // Add LayoutBuilder
             builder: (BuildContext context, BoxConstraints constraints) { // Constraints available here
-
-              return Padding(
-                  padding: EdgeInsets.zero,
-                  child:CarouselSlider(
+              return CarouselSlider(
                 options: CarouselOptions(
                   height: constraints.maxHeight * 0.5, // Use constraints for height, adjust 0.5 as needed
                   autoPlay: true,
                   enlargeCenterPage: true,
-                  enlargeFactor: 0.16,
-                  aspectRatio: 16 / 10,
-                  viewportFraction: 0.91,
+                  aspectRatio: 21 / 10,
+                  viewportFraction: 1,
                 ),
                 items: profileList.map((profile) {
                   return SubscribedhomescreenStructuredPageCarouselSliderContainer(profile: profile, ); // Pass constraints
                 }).toList(),
-                  )
               );
             },
           );
@@ -659,12 +641,12 @@ Widget ProfileColumn(ClientProfile profile, BoxConstraints constraints) {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(
-                color: MyMateThemes.textColor,
+                color: MyMateThemes.premiumAccent,
                 width: constraints.maxWidth * 0.01, // Use constraints
               ),
             ),
             child: CircleAvatar(
-              radius: constraints.maxWidth * 0.2, // Use constraints
+              radius: constraints.maxWidth * 0.1, // Use constraints
               backgroundImage: NetworkImage(profile.imageUrl),
             ),
           ),

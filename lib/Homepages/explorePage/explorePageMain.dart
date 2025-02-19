@@ -170,80 +170,80 @@ class _ExplorePageState extends State<ExplorePage> with SingleTickerProviderStat
 
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder<String?>(
+      future: getSavedDocId(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        } else if (snapshot.hasError) {
+          return const Scaffold(
+            body: Center(child: Text('Error loading docId')),
+          );
+        } else {
+          final docId = snapshot.data ?? '';
 
-        return FutureBuilder<String?>(
-          future: getSavedDocId(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Scaffold(
-                body: Center(child: CircularProgressIndicator()),
-              );
-            } else if (snapshot.hasError) {
-              return Scaffold(
-                body: Center(child: Text('Error loading docId')),
-              );
-            } else {
-              final docId = snapshot.data ?? '';
+          return LayoutBuilder(
+            builder: (context, constraints) {
+              double screenWidth = constraints.maxWidth;
+              bool isWideScreen = screenWidth > 600;
 
               return Scaffold(
                 backgroundColor: Colors.white,
                 body: NestedScrollView(
-
-                  controller: _scrollController, // Use ScrollController for advanced control
+                  controller: _scrollController,
                   headerSliverBuilder: (context, innerBoxIsScrolled) {
-
                     return [
                       SliverAppBar(
                         backgroundColor: Colors.white,
-                        floating: true, // Ensures the header reappears when scrolling up
-                        snap: true, // Snaps the header into view when scrolling up
-                        pinned: false, // Allows the entire header to scroll out of view
+                        floating: true,
+                        snap: true,
+                        pinned: false,
                         automaticallyImplyLeading: false,
-                        //    title: ExplorePageAppBar(context, _openFilterPage),
                         bottom: PreferredSize(
-                          preferredSize: Size.fromHeight(50.h), // Adjust height to accommodate additional widgets
+                          preferredSize: Size.fromHeight(isWideScreen ? 70 : 50),
                           child: Column(
                             children: [
                               TabBar(
                                 controller: _tabController,
                                 labelStyle: TextStyle(
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 12.sp,
+                                  fontSize: isWideScreen ? 16 : 12,
                                   color: MyMateThemes.textColor,
                                 ),
                                 unselectedLabelStyle: TextStyle(
                                   fontWeight: FontWeight.normal,
-                                  fontSize: 11.sp,
+                                  fontSize: isWideScreen ? 14 : 11,
                                   color: MyMateThemes.textColor.withOpacity(0.8),
                                 ),
                                 dividerColor: Colors.transparent,
-                                indicatorPadding: EdgeInsets.only(bottom: 6), // Adjust this for spacing
+                                indicatorPadding: const EdgeInsets.only(bottom: 6),
                                 indicator: UnderlineTabIndicator(
-                                  borderSide: BorderSide(
-                                    width: 3, // Thickness of the line
-                                    color: MyMateThemes.textColor, // Line color
+                                  borderSide: const BorderSide(
+                                    width: 3,
+                                    color: MyMateThemes.textColor,
                                   ),
-                                  borderRadius: BorderRadius.circular(10), // Rounded corners for the line
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
-                                labelPadding: EdgeInsets.symmetric(horizontal: 2.w),
-                                tabs: [
+                                labelPadding: const EdgeInsets.symmetric(horizontal: 8),
+                                tabs: const [
                                   Tab(text: 'Explore All'),
                                   Tab(text: 'View Matches'),
                                   Tab(text: 'Filter'),
                                 ],
                               ),
-                            //  SizedBox(height: 2.h), // Add spacing below the TabBar
+                              const SizedBox(height: 8),
                               if (_tabController.index == 2)
                                 Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 10.w),
+                                  padding: EdgeInsets.symmetric(horizontal: isWideScreen ? 24 : 12),
                                   child: ElevatedButton(
-
                                     style: CommonButtonStyle.commonButtonStyle(),
                                     onPressed: () {
                                       if (isFilterApplied) {
-                                        _clearFilter(); // ✅ Clear filters when active
+                                        _clearFilter();
                                       } else {
-                                        _openFilterPage(); // ✅ Open filter page when no filters applied
+                                        _openFilterPage();
                                       }
                                     },
                                     child: Text(isFilterApplied ? 'Clear Filter' : 'Apply Filter'),
@@ -251,50 +251,48 @@ class _ExplorePageState extends State<ExplorePage> with SingleTickerProviderStat
                                 ),
                               if (_tabController.index != 2)
                                 Container(
-                                  height: 36.h,
-                                  width: 353.w,
+                                  height: 40,
+                                  width: isWideScreen ? screenWidth * 0.5 : screenWidth * 0.9,
                                   decoration: BoxDecoration(
                                     border: Border.all(
                                       color: MyMateThemes.textColor.withOpacity(0.1),
-                                      width: 1.w,
+                                      width: 1,
                                     ),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
-                                  child:
-                                      Padding(
-                                  padding:EdgeInsets.symmetric(horizontal: 1.w),
-                                   child:TextField(
-
-                                     controller: searchController,
-                                     cursorColor: MyMateThemes.textColor,
-                                     style: TextStyle(fontSize: 14.sp, color: MyMateThemes.textColor),
-                                     decoration: InputDecoration(
-                                       prefixIcon: Padding(
-                                         //  padding:EdgeInsets.symmetric(horizontal: 25.w), // Adjust padding if needed
-                                         padding: EdgeInsets.all(8.r), // Adjust padding if needed
-                                         child: SvgPicture.asset(
-                                           'assets/images/search.svg', // Update with your SVG path
-                                           colorFilter: ColorFilter.mode(
-                                             MyMateThemes.textColor.withOpacity(0.6),
-                                             BlendMode.srcIn,
-                                           ),
-                                         ),
-                                       ),
-                                       contentPadding: EdgeInsets.symmetric(vertical: 3.h), // Centers text vertically
-                                       border: OutlineInputBorder(
-                                         borderRadius: BorderRadius.circular(10.r),
-                                         borderSide: BorderSide.none,
-                                       ),
-                                     ),
-                                   ),
-
-                                      )
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                                    child: TextField(
+                                      controller: searchController,
+                                      cursorColor: MyMateThemes.textColor,
+                                      style: TextStyle(
+                                        fontSize: isWideScreen ? 16 : 14,
+                                        color: MyMateThemes.textColor,
+                                      ),
+                                      decoration: InputDecoration(
+                                        prefixIcon: Padding(
+                                          padding: const EdgeInsets.all(8),
+                                          child: SvgPicture.asset(
+                                            'assets/images/search.svg',
+                                            colorFilter: ColorFilter.mode(
+                                              MyMateThemes.textColor.withOpacity(0.6),
+                                              BlendMode.srcIn,
+                                            ),
+                                          ),
+                                        ),
+                                        contentPadding: const EdgeInsets.symmetric(vertical: 10),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(10),
+                                          borderSide: BorderSide.none,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ),
                             ],
                           ),
                         ),
                       ),
-
                     ];
                   },
                   body: TabBarView(
@@ -312,32 +310,45 @@ class _ExplorePageState extends State<ExplorePage> with SingleTickerProviderStat
                     setState(() {
                       _selectedIndex = index;
                     });
-                    // Handle navigation here based on the index
                   },
                   docId: docId,
                 ),
               );
-            }
-          },
-        );
-
+            },
+          );
+        }
+      },
+    );
   }
 
+
 }
 
-PreferredSizeWidget ExplorePageAppBar(BuildContext context, VoidCallback onFilterTap) {
-  return AppBar(
-    backgroundColor: Colors.white,
-    automaticallyImplyLeading: false,
-    actions: [
-      IconButton(
-        icon: SvgPicture.asset('assets/images/filter1.svg', width: 24.w, height: 24.h),
-        onPressed: onFilterTap,
-      ),
-      SizedBox(width: 10.w),
-    ],
+LayoutBuilder ExplorePageAppBar(BuildContext context, VoidCallback onFilterTap) {
+  return LayoutBuilder(
+    builder: (context, constraints) {
+      double screenWidth = constraints.maxWidth;
+      bool isWideScreen = screenWidth > 600;
+
+      return AppBar(
+        backgroundColor: Colors.white,
+        automaticallyImplyLeading: false,
+        actions: [
+          IconButton(
+            icon: SvgPicture.asset(
+              'assets/images/filter1.svg',
+              width: isWideScreen ? 32 : 24,
+              height: isWideScreen ? 32 : 24,
+            ),
+            onPressed: onFilterTap,
+          ),
+          SizedBox(width: isWideScreen ? 16 : 10),
+        ],
+      );
+    },
   );
 }
+
 
 class _SliverTabBarDelegate extends SliverPersistentHeaderDelegate {
   final TabBar _tabBar;

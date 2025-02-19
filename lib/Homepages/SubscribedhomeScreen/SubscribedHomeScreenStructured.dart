@@ -90,27 +90,32 @@ class _SubscribedhomescreenStructuredPageState
           return  Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                AppBar(
-                  backgroundColor: Colors.white,
-                  centerTitle: true,
-                  title: Text(
-                    name,
-                    style: TextStyle(
-                      color: MyMateThemes.textColor,
-                      fontWeight: FontWeight.w700,
-                      fontSize: constraints.maxWidth * 0.045,
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.05),
+                  child: AppBar(
+                    backgroundColor: Colors.white,
+                    automaticallyImplyLeading: false,
+
+                    centerTitle: true,
+                    title: Text(
+                      name,
+                      style: TextStyle(
+                        color: MyMateThemes.textColor,
+                        fontWeight: FontWeight.w700,
+                        fontSize: constraints.maxWidth * 0.045,
+                      ),
                     ),
+                    actions: <Widget>[
+                      BadgeWidget(assetPath: 'assets/images/Group 2157.svg', badgeValue: badgeValue1),
+                      SizedBox(width: 20),
+                      // BadgeWidget(assetPath: 'assets/images/Group 2153.svg', badgeValue: badgeValue2),
+                      // SizedBox(width: 20)
+                    ],
                   ),
-                  actions: <Widget>[
-                    BadgeWidget(assetPath: 'assets/images/Group 2157.svg', badgeValue: badgeValue1),
-                    SizedBox(width: 20),
-                    // BadgeWidget(assetPath: 'assets/images/Group 2153.svg', badgeValue: badgeValue2),
-                    // SizedBox(width: 20)
-                  ],
                 ),
 
                 SubscribedhomescreenStructuredPageTotalMatchColumn(context, widget.docId),
-                 SizedBox(height: height * 0.02),
+                SizedBox(height: height * 0.02),
 
                 Center(
                   child: Text(
@@ -128,7 +133,6 @@ class _SubscribedhomescreenStructuredPageState
                 ),
                 SizedBox(height: height * 0.01),
                 SubscribedhomescreenStructuredPageTokenContainers(context, widget.docId),
-
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.05),
                   child: SizedBox(
@@ -160,8 +164,7 @@ class _SubscribedhomescreenStructuredPageState
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
-
-                              ),
+                  ),
                 ),
               ],
 
