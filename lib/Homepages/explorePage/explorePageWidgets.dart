@@ -142,7 +142,7 @@ Widget ViewMatchesGrid(BuildContext context, Future<List<Map<String, dynamic>>> 
 
         childAspectRatio: 0.48.h,
         // Fixed width-to-height ratio
-        children: data.map((profile) => buildGridItem(profile)).toList(),
+        children: data.map((profile) => buildViewItem(profile)).toList(),
       );
     },
   );
@@ -170,7 +170,7 @@ Widget FilterGrid(BuildContext context, List<Map<String, dynamic>> filteredResul
 
           childAspectRatio: 0.58.h,
           // Fixed width-to-height ratio
-          children: data.map((profile) => buildGridItem(profile)).toList(),
+          children: data.map((profile) => buildViewItem(profile)).toList(),
         );
     },
   );
