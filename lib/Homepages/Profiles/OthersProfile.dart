@@ -1,897 +1,981 @@
-  import 'package:flutter/material.dart';
-  import 'package:flutter_svg/flutter_svg.dart';
-  import 'package:mymateapp/MyMateThemes.dart';
-  import 'package:shared_preferences/shared_preferences.dart';
-  import 'package:http/http.dart' as http;
-  import '../../MyMateCommonBodies/MyMateApis.dart';
-  import '../../MyMateCommonBodies/MyMateBottomBar.dart';
-  import '../checkMatchPages/CheckMatch.dart';
-  import '../ProfilePageScreen/navamsaChartDesign.dart';
-  import '../ProfilePageScreen/photoGalleryPage.dart';
-  import '../ProfilePageScreen/rasiChartDesign.dart';
-  import '../custom_outline_button.dart';
-  import '../explorePage/explorePageMain.dart';
-  
-  class OtherProfilePage extends StatefulWidget {
-    final String SoulId;
-  
-    const OtherProfilePage({required this.SoulId, super.key});
-  
-    String get soulDocId => SoulId;
-  
-    @override
-    State<OtherProfilePage> createState() => _OtherProfilePageState();
+import 'dart:convert';
+import '../notification_service.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mymateapp/MyMateThemes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import '../../MyMateCommonBodies/MyMateApis.dart';
+import '../../MyMateCommonBodies/MyMateBottomBar.dart';
+import '../checkMatchPages/CheckMatch.dart';
+import '../ProfilePageScreen/navamsaChartDesign.dart';
+import '../ProfilePageScreen/photoGalleryPage.dart';
+import '../ProfilePageScreen/rasiChartDesign.dart';
+import '../custom_outline_button.dart';
+import '../explorePage/explorePageMain.dart';
+
+class OtherProfilePage extends StatefulWidget {
+  final String SoulId;
+
+  const OtherProfilePage({required this.SoulId, super.key});
+
+  String get soulDocId => SoulId;
+
+  @override
+  State<OtherProfilePage> createState() => _OtherProfilePageState();
+}
+
+class _OtherProfilePageState extends State<OtherProfilePage>
+    with TickerProviderStateMixin {
+  String full_name = "";
+  String gender = "";
+  String education = "";
+  String city = "";
+  String occupation = "";
+  String mobile = "";
+  String religion = "";
+  String mother_name = "";
+  String num_of_siblings = "";
+  String age = "";
+  String dob = "";
+  String dot = "";
+  String address = "";
+  String profilePictureUrl = "";
+  String country = "";
+  String rasi = "";
+  String natchathiram = "";
+  List<String> expectations = [];
+  bool _isSmall = false;
+  int _selectedIndex = 0;
+  int _selectedButtonIndex = 0;
+  final ScrollController _scrollController = ScrollController();
+  List<TextEditingController> controllers = [];
+  bool isLoading = true;
+
+  // Variable to track notification status. Default is "new"
+  String _notificationStatus ="";
+
+  Future<String?> getSavedDocId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('docId');
   }
-  
-  class _OtherProfilePageState extends State<OtherProfilePage>
-      with TickerProviderStateMixin {
-    String full_name = "";
-    String gender = "";
-    String education = "";
-    String city = "";
-    String occupation = "";
-    String mobile = "";
-    String religion = "";
-    String mother_name = "";
-    String num_of_siblings = "";
-    String age = "";
-    String dob = "";
-    String dot = "";
-    String address = "";
-    String profilePictureUrl = "";
-    String country = "";
-    String rasi = "";
-    String natchathiram = "";
-    List<String> expectations = [];
-    bool _isSmall = false;
-    int _selectedIndex = 0;
-    int _selectedButtonIndex = 0;
-    final ScrollController _scrollController = ScrollController();
-    List<TextEditingController> controllers = [];
-    bool isLoading = true;
-    bool _isRequestSent = false;
-  
-    Future<String?> getSavedDocId() async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      return prefs.getString('docId');
-    }
-  
-  
-  
-    Future<void> _sendRequestToBackend() async {
-      final docId = await getSavedDocId();
-       final SouldocId =widget.SoulId;
-      final url = Uri.parse(
-        "https://backend.graycorp.io:9000/mymate/api/v1/RequestSent"
-            "?sender_docId=$docId&receiver_docId=$SouldocId",
+
+
+  Future<void> _updateNotificationStatus(String status) async {
+    final senderDocId = await getSavedDocId();
+    final receiverDocId = widget.SoulId;
+    final senderName = await _fetchdetails(senderDocId);
+    final url = Uri.parse(
+      "https://backend.graycorp.io:9000/mymate/api/v1/requestSending?sender_docId=$senderDocId&receiver_docId=$receiverDocId&notification_status=$status",
+    );
+
+    try {
+      final response = await http.put(
+        url,
+        headers: {'Content-Type': 'application/json'},
       );
-  
-      try {
-  
-        final response = await http.put(
-          url,
-          headers: {'Content-Type': 'application/json'},
-        );
-  
-        if (response.statusCode == 200) {
-          _checkIfRequestSent();
-          print("Request sent successfully.");
-  
-        } else {
-          print("Failed to send request. Status code: ${response.statusCode}");
-          print("Response body: ${response.body}");
-  
+
+      if (response.statusCode == 200) {
+        print("Notification status updated successfully to $status");
+        _checkNotificationStatus();
+
+        String? receiverToken = 'eZSq6wLcQUy7bb4-ykFkfG:APA91bGlLxNqvzOJO4pXrgnIx7XJKEvIHVxboz6WM6hJOz8kyr2ETQR0oVukTCmH6NKQ9v9jTSu7qFOEd56d-obZ9i32OuA4XjXCI1leTVfBUIFW2vWwUIA';
+       // await _fetchFCMToken(receiverDocId);
+
+        if (receiverToken != null) {
+          await NotificationService.sendPushNotification(receiverToken, senderName, status);
         }
-      } catch (e) {
-        print("Error sending request: $e");
-  
+
+      } else {
+        print("Failed to update notification status. Status code: ${response.statusCode}");
+        print("Response body: ${response.body}");
       }
+    } catch (e) {
+      print("Error updating notification status: $e");
     }
-  
-    Future<void> _checkIfRequestSent() async {
-      final docId = await getSavedDocId();
-      final SouldocId =widget.SoulId;
-      try {
-        final url = Uri.parse(
-          'https://backend.graycorp.io:9000/mymate/api/v1/checkRequestSent'
-              '?sender_docId=$docId&receiver_docId=$SouldocId',
-        );
-  
-        final response = await http.get(url, headers: {'Content-Type': 'application/json'});
-  
-        if (response.statusCode == 200) {
-          setState(() {
-            _isRequestSent = response.body.toLowerCase() == 'true';
-          });
-        } else {
-          print('Failed to fetch request status: ${response.statusCode}');
-        }
-      } catch (e) {
-        print('Error checking request status: $e');
-      } finally {
+  }
+
+  Future<String> _fetchdetails(String? docId) async {
+    final senderDocId = await getSavedDocId();
+
+
+    final url = Uri.parse("https://backend.graycorp.io:9000/mymate/api/v1/getClientDataByDocId?docId=$senderDocId");
+
+    try {
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = jsonDecode(response.body);
+        return data['personalDetails']['full_name'] ?? "Unknown User";
+
+      } else {
+        print("❌ Failed to fetch sender's name: ${response.statusCode}");
+        return "Unknown User";
+      }
+    } catch (e) {
+      print("🚨 Error fetching sender's name: $e");
+      return "Unknown User";
+    }
+  }
+
+  Future<String?> _fetchFCMToken(String docId) async {
+    final url = Uri.parse(
+      'https://backend.graycorp.io:9000/mymate/api/v1/getClientFCMToken?docId=$docId',
+    );
+
+    try {
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = jsonDecode(response.body);
+        return data['fcm_token'];
+      } else {
+        print("Failed to fetch FCM token: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      print("Error fetching FCM token: $e");
+      return null;
+    }
+  }
+
+  Future<void> _checkNotificationStatus() async {
+    final senderDocId = await getSavedDocId();
+    final receiverDocId = widget.SoulId;
+    try {
+      final url = Uri.parse(
+        'https://backend.graycorp.io:9000/mymate/api/v1/checkNotificationStatus?sender_docId=$senderDocId&receiver_docId=$receiverDocId',
+      );
+
+      final response = await http.get(url, headers: {'Content-Type': 'application/json'});
+
+      if (response.statusCode == 200) {
         setState(() {
-          isLoading = false; // Stop showing the loading indicator
+          _notificationStatus = response.body.trim();
+          print(_notificationStatus);
         });
+      } else {
+        print('Failed to fetch notification status: ${response.statusCode}');
       }
+    } catch (e) {
+      print('Error checking notification status: $e');
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
     }
+  }
 
-    Future<void> getClient() async {
-  
-      try {
-        final data = await fetchUserById(widget.SoulId);
-  
-        if (data.isNotEmpty) {
-          setState(() {
-            full_name = data['full_name'] ?? "N/A";
-            gender = data['gender'] ?? "N/A";
-            education = data['education'] ?? "N/A";
-            city = data['city'] ?? "N/A";
-            occupation = data['occupation'] ?? "N/A";
-            mobile = data['mobile'].toString() ?? "N/A";
-            religion = data['religion'] ?? "N/A";
-            age = data['age'].toString() ?? "N/A";
-            dob = data['dob'] ?? "N/A";
-            dot = data['dot'] ?? "N/A";
-            country = data['country'] ?? "N/A";
-            rasi = data['rasi'] ?? "N/A";
-            natchathiram = data['natchathiram'] ?? "N/A";
-            profilePictureUrl =data['profile_pic_url'] ?? "N/A";
-            address = data['address'] ?? "N/A";
-            isLoading = false;
-            var expectations = data['expectations'] ?? [];
-  
-            print('Profile Picture URL: $profilePictureUrl');
+  Future<void> getClient() async {
+    try {
+      final data = await fetchUserById(widget.SoulId);
 
+      if (data.isNotEmpty) {
+        setState(() {
+          full_name = data['full_name'] ?? "N/A";
+          gender = data['gender'] ?? "N/A";
+          education = data['education'] ?? "N/A";
+          city = data['city'] ?? "N/A";
+          occupation = data['occupation'] ?? "N/A";
+          mobile = data['mobile'].toString() ?? "N/A";
+          religion = data['religion'] ?? "N/A";
+          age = data['age']?.toString() ?? "N/A";
+          dob = data['dob'] ?? "N/A";
+          dot = data['dot'] ?? "N/A";
+          country = data['country'] ?? "N/A";
+          rasi = data['rasi'] ?? "N/A";
+          natchathiram = data['natchathiram'] ?? "N/A";
+          profilePictureUrl = data['profile_pic_url'] ?? "N/A";
+          address = data['address'] ?? "N/A";
+          isLoading = false;
+          var expectations = data['expectations'] ?? [];
 
-
-            if (expectations is List<String>) {
-              controllers = expectations
-                  .map((expectation) => TextEditingController(text: expectation))
-                  .toList();
-            } else if (expectations is List) {
-              controllers = expectations
-                  .whereType<String>()
-                  .map((expectation) => TextEditingController(text: expectation))
-                  .toList();
-            } else {
-              controllers = [];
-            }
-          });
-        } else {
-          setState(() {
-            isLoading = false;
-          });
           print('Profile Picture URL: $profilePictureUrl');
-  
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Client data not found!')),
-          );
-        }
-      } catch (e) {
+
+          if (expectations is List<String>) {
+            controllers = expectations
+                .map((expectation) => TextEditingController(text: expectation))
+                .toList();
+          } else if (expectations is List) {
+            controllers = expectations
+                .whereType<String>()
+                .map((expectation) => TextEditingController(text: expectation))
+                .toList();
+          } else {
+            controllers = [];
+          }
+        });
+      } else {
         setState(() {
           isLoading = false;
         });
+        print('Profile Picture URL: $profilePictureUrl');
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e')),
+          const SnackBar(content: Text('Client data not found!')),
         );
       }
-  
-    }
-  
-    @override
-    void initState() {
-      super.initState();
-      getClient();
-      _scrollController.addListener(_scrollListener);
-      _checkIfRequestSent();
-    }
-  
-    @override
-    void dispose() {
-      _scrollController.removeListener(_scrollListener);
-      _scrollController.dispose();
-      super.dispose();
-    }
-  
-    void _toggleSize() {
+    } catch (e) {
       setState(() {
-        _isSmall = !_isSmall;
+        isLoading = false;
       });
-    }
-  
-    bool isButtonSelected(int index) {
-      return _selectedButtonIndex == index;
-    }
-  
-    void _scrollListener() {
-      double containerHeight = 620.0;
-      int newIndex = (_scrollController.offset / containerHeight).floor();
-      if (newIndex != _selectedButtonIndex) {
-        setState(() {
-          _selectedButtonIndex = newIndex;
-        });
-      }
-    }
-  
-    void _scrollToContainer(int index) {
-      double containerHeight = 550.0;
-      double targetPosition = index * containerHeight - containerHeight / 2;
-      _scrollController.animateTo(
-        targetPosition,
-        duration: Duration(milliseconds: 500),
-        curve: Curves.easeInOut,
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
       );
     }
-  
-    PreferredSizeWidget _buildAppBar() {
-      return AppBar(
-        backgroundColor: MyMateThemes.backgroundColor,
-        automaticallyImplyLeading: false,
-  
-        title: SafeArea(
-          child: Row(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ExplorePage(results: [], initialTabIndex: 0, search: [], docId: '',)));
-                },
-                child: SvgPicture.asset('assets/images/chevron-left.svg'),
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getClient();
+    _scrollController.addListener(_scrollListener);
+    _checkNotificationStatus();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_scrollListener);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _toggleSize() {
+    setState(() {
+      _isSmall = !_isSmall;
+    });
+  }
+
+  bool isButtonSelected(int index) {
+    return _selectedButtonIndex == index;
+  }
+
+  void _scrollListener() {
+    double containerHeight = 620.0;
+    int newIndex = (_scrollController.offset / containerHeight).floor();
+    if (newIndex != _selectedButtonIndex) {
+      setState(() {
+        _selectedButtonIndex = newIndex;
+      });
+    }
+  }
+
+  void _scrollToContainer(int index) {
+    double containerHeight = 550.0;
+    double targetPosition = index * containerHeight - containerHeight / 2;
+    _scrollController.animateTo(
+      targetPosition,
+      duration: Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  PreferredSizeWidget _buildAppBar() {
+    return AppBar(
+      backgroundColor: MyMateThemes.backgroundColor,
+      automaticallyImplyLeading: false,
+      title: SafeArea(
+        child: Row(
+          children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ExplorePage(
+                          results: [],
+                          initialTabIndex: 0,
+                          search: [],
+                          docId: '',
+                        )));
+              },
+              child: SvgPicture.asset('assets/images/chevron-left.svg'),
+            ),
+            SizedBox(width: 90.0),
+            Text(
+              "@ $full_name",
+              style: TextStyle(
+                color: MyMateThemes.textColor,
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
               ),
-              SizedBox(width: 90.0),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProfileInfo() {
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: _toggleSize,
+          child: AnimatedContainer(
+            duration: Duration(milliseconds: 500),
+            curve: Curves.easeInOut,
+            height: _isSmall ? 50 : 230,
+            alignment: _isSmall ? Alignment(-1.2, 1.0) : Alignment.center,
+            child: profilePictureUrl.isNotEmpty
+                ? ClipOval(
+              child: Image.network(
+                profilePictureUrl,
+                fit: BoxFit.cover,
+                height: _isSmall ? 50 : 230,
+                width: _isSmall ? 50 : 230,
+                errorBuilder: (context, error, stackTrace) {
+                  return Icon(Icons.error, size: _isSmall ? 50 : 230);
+                },
+                loadingBuilder: (context, child, progress) {
+                  if (progress == null) return child;
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+              ),
+            )
+                : Icon(Icons.account_circle, size: _isSmall ? 50 : 230),
+          ),
+        ),
+        GestureDetector(
+          onTap: _toggleSize,
+          child: Column(
+            children: [
               Text(
-                "@ $full_name",
+                full_name,
+                style: TextStyle(
+                  color: MyMateThemes.primaryColor,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              Text(
+                'Special Mention (Optional)',
                 style: TextStyle(
                   color: MyMateThemes.textColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
+                  fontSize: 14,
                 ),
               ),
             ],
           ),
         ),
-      );
-    }
-  
-    Widget _buildProfileInfo() {
-      return Column(
-        children: [
-          GestureDetector(
-            onTap: _toggleSize,
-            child: AnimatedContainer(
-              duration: Duration(milliseconds: 500),
-              curve: Curves.easeInOut,
-              height: _isSmall ? 50 : 230,
-              alignment: _isSmall ? Alignment(-1.2, 1.0) : Alignment.center,
-              child: profilePictureUrl.isNotEmpty
-                  ? ClipOval(
-                child: Image.network(
-                  profilePictureUrl,
-                  fit: BoxFit.cover,
-                  height: _isSmall ? 50 : 230,
-                  width: _isSmall ? 50 : 230,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Icon(Icons.error, size: _isSmall ? 50 : 230);
-                  },
-                  loadingBuilder: (context, child, progress) {
-                    if (progress == null) return child;
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  },
-                ),
-              )
-                  : Icon(Icons.account_circle, size: _isSmall ? 50 : 230),
-            ),
-          ),
-          GestureDetector(
-            onTap: _toggleSize,
-            child: Column(
-              children: [
-                Text(
-                  full_name,
-                  style: TextStyle(
-                    color: MyMateThemes.primaryColor,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                Text(
-                  'Special Mention (Optional)',
-                  style: TextStyle(
-                    color: MyMateThemes.textColor,
-                    fontSize: 14,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      );
-    }
-  
-    Widget _buildIconWithText(String iconPath, String age, String dob) {
-      return Container(
-        width: 120,
-        height: 72,
-        foregroundDecoration: BoxDecoration(
-          border: Border(
-            right: BorderSide(
-              color: MyMateThemes.secondaryColor,
-              width: 2,
-            ),
+      ],
+    );
+  }
+
+  Widget _buildIconWithText(String iconPath, String text1, String text2) {
+    return Container(
+      width: 120,
+      height: 72,
+      foregroundDecoration: BoxDecoration(
+        border: Border(
+          right: BorderSide(
+            color: MyMateThemes.secondaryColor,
+            width: 2,
           ),
         ),
-        child: Column(
-          children: [
-            SvgPicture.asset(iconPath),
-            SizedBox(height: 5),
-            Text(
-              age,
-              style: TextStyle(
-                color: MyMateThemes.textColor,
-                fontSize: 12,
-                fontWeight: FontWeight.normal,
-              ),
-            ),
-            Text(
-              dob,
-              style: TextStyle(
-                color: MyMateThemes.primaryColor,
-                fontSize: 10,
-                fontWeight: FontWeight.normal,
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-  
-    Widget _buildActionButtons() {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-      ElevatedButton(
-      onPressed: _isRequestSent ? null : _sendRequestToBackend, // Disable button if request already sent
-        style: ElevatedButton.styleFrom(
-          backgroundColor: _isRequestSent
-              ? Colors.grey // Disabled state color
-              : MyMateThemes.primaryColor, // Default button color
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5.0),
-          ),
-          foregroundColor: Colors.white,
-        ),
-        child: Text(_isRequestSent ? 'Request Sent' : 'Send Request'),
       ),
-  
-          SizedBox(width: 30),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => CheckmatchPage(soulDocId: widget.SoulId, clientDocId: 'E0JFHhK2x6Gq2Ac6XSyP',)),
-              );
-            },
-            style: ElevatedButton.styleFrom(
-                backgroundColor: MyMateThemes.primaryColor,
-                shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(5.0),),
-                foregroundColor: Colors.white
-            ),
-            child: Text('Check Match'),
-  
-          ),
-        ],
-      );
-    }
-  
-    Widget _buildSectionTitle(String title) {
-      return Row(
+      child: Column(
         children: [
-          SizedBox(width: 40),
-          SvgPicture.asset('assets/images/Group 2148.svg'),
-          SizedBox(width: 4),
+          SvgPicture.asset(iconPath),
+          SizedBox(height: 5),
           Text(
-            title,
+            text1,
+            style: TextStyle(
+              color: MyMateThemes.textColor,
+              fontSize: 12,
+              fontWeight: FontWeight.normal,
+            ),
+          ),
+          Text(
+            text2,
             style: TextStyle(
               color: MyMateThemes.primaryColor,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
+              fontSize: 10,
+              fontWeight: FontWeight.normal,
             ),
           ),
         ],
-      );
+      ),
+    );
+  }
+
+  // Action buttons updated with notification status logic.
+  Widget _buildActionButtons() {
+    String buttonText;
+    VoidCallback? buttonAction;
+
+    if (_notificationStatus == "New") {
+      buttonText = "Send Request";
+      buttonAction = () {
+        _showConfirmationDialog(
+          "Are you sure you want to send the request?",
+          onConfirm: () => _updateNotificationStatus("Request_Sent"),
+        );
+      };
+    } else if (_notificationStatus == "Request_Sent") {
+      buttonText = "Request Sent";
+      buttonAction = null;
+    } else if (_notificationStatus == "Request Received") {
+      buttonText = "Accept Request";
+      buttonAction = () {
+        _showConfirmationDialog(
+          "Are you sure you want to accept the request?",
+          onConfirm: () => _updateNotificationStatus("Accept"),
+        );
+      };
+    } else if (_notificationStatus == "Accept") {
+      buttonText = "Connected";
+      buttonAction = null;
+    } else {
+      buttonText = "Send Request";
+      buttonAction = () {
+        _showConfirmationDialog(
+          "Are you sure you want to send the request?",
+          onConfirm: () => _updateNotificationStatus("Request_Sent"),
+        );
+      };
     }
-  
-    Widget _buildContainers({required List<Widget> children}) {
-      return Column(
-        children: children,
-      );
-    }
-  
-    Widget _buildProfileDetails() {
-      return FutureBuilder<Map<String, dynamic>>(
-          future: fetchUserById(widget.SoulId), // Call API with docId
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                 child: CircularProgressIndicator()
-              );
-            } else if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
-            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return Center(child: Text('No data available'));
-            }
-  
-            final data = snapshot.data!;
-  
-            return Container(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(height: 20),
-                  _buildSectionTitle('About me'),
-                  SizedBox(height: 5),
-                  Row(
-                    children: [
-                      SizedBox(width: 40),
-                      SvgPicture.asset('assets/images/Line 11.svg'),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  _buildInfoRow('Full Name', data['full_name'] ?? 'N/A'),
-                  _buildInfoRow('Education', data['education'] ?? 'N/A'),
-                  _buildInfoRow('Height', '${data['height'] ?? 'N/A'} CM'),
-                  _buildInfoRow('Religion', data['religion'] ?? 'N/A'),
-                  _buildInfoRow('Language', data['language'] ?? 'Tamil, English'),
-                  _buildInfoRow('Caste', data['caste'] ?? 'Optional'),
-                  _buildInfoRow('Father\'s Name', data['first_name'] ?? 'N/A'),
-                  _buildInfoRow('Mother\'s Name', data['mother_name'] ?? 'N/A'),
-                  _buildInfoRow(
-                      'Siblings', data['num_of_siblings']?.toString() ?? 'N/A'),
-                  _buildInfoRow('Age', data['age']?.toString() ?? 'N/A'),
-                  _buildInfoRow(
-                      'Date of Birth', data['dob']?.toString() ?? 'N/A'),
-                  _buildInfoRow('Mobile', data['contact'] ?? 'N/A'),
-                  _buildInfoRow('Address', data['address'] ?? 'N/A'),
-  
-                  SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(width: 40),
-                      Text(
-                        'Expectations',
-                        style: TextStyle(
-                          color: MyMateThemes.textColor,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  _buildExpectations(),
-                ],
-              ),
-            );
-          }
-      );
-  
-    }
-  
-    Widget _buildInfoRow(String title, String value) {
-      return Container(
-        height: 34,
-        width: 297,
-        margin: EdgeInsets.symmetric(vertical: 5.0),
-        padding: EdgeInsets.symmetric(horizontal: 8.0),
-        decoration: BoxDecoration(
-          color: MyMateThemes.containerColor,
-          borderRadius: BorderRadius.circular(5.0),
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        ElevatedButton(
+          onPressed: buttonAction,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: buttonAction == null
+                ? Colors.grey
+                : MyMateThemes.primaryColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            foregroundColor: Colors.white,
+          ),
+          child: Text(buttonText),
         ),
-        child: Row(
-          children: [
-            // Fixed width for title
-            Container(
-              width: 120, // Adjust the width based on your design
+        SizedBox(width: 30),
+        ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => CheckmatchPage(
+                    soulDocId: widget.SoulId,
+                    clientDocId: 'E0JFHhK2x6Gq2Ac6XSyP',
+                  )),
+            );
+          },
+          style: ElevatedButton.styleFrom(
+              backgroundColor: MyMateThemes.primaryColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              foregroundColor: Colors.white),
+          child: Text('Check Match'),
+        ),
+      ],
+    );
+  }
+
+  void _showConfirmationDialog(String message, {required VoidCallback onConfirm}) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Confirmation"),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text("No"),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              onConfirm();
+            },
+            child: Text("Yes"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSectionTitle(String title) {
+    return Row(
+      children: [
+        SizedBox(width: 40),
+        SvgPicture.asset('assets/images/Group 2148.svg'),
+        SizedBox(width: 4),
+        Text(
+          title,
+          style: TextStyle(
+            color: MyMateThemes.primaryColor,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildContainers({required List<Widget> children}) {
+    return Column(
+      children: children,
+    );
+  }
+
+  Widget _buildProfileDetails() {
+    return FutureBuilder<Map<String, dynamic>>(
+        future: fetchUserById(widget.SoulId),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(child: Text('No data available'));
+          }
+
+          final data = snapshot.data!;
+
+          return Container(
+            padding: EdgeInsets.symmetric(horizontal: 16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: 20),
+                _buildSectionTitle('About me'),
+                SizedBox(height: 5),
+                Row(
+                  children: [
+                    SizedBox(width: 40),
+                    SvgPicture.asset('assets/images/Line 11.svg'),
+                  ],
+                ),
+                SizedBox(height: 10),
+                _buildInfoRow('Full Name', data['full_name'] ?? 'N/A'),
+                _buildInfoRow('Education', data['education'] ?? 'N/A'),
+                _buildInfoRow('Height', '${data['height'] ?? 'N/A'} CM'),
+                _buildInfoRow('Religion', data['religion'] ?? 'N/A'),
+                _buildInfoRow('Language', data['language'] ?? 'Tamil, English'),
+                _buildInfoRow('Caste', data['caste'] ?? 'Optional'),
+                _buildInfoRow('Father\'s Name', data['first_name'] ?? 'N/A'),
+                _buildInfoRow('Mother\'s Name', data['mother_name'] ?? 'N/A'),
+                _buildInfoRow('Siblings', data['num_of_siblings']?.toString() ?? 'N/A'),
+                _buildInfoRow('Age', data['age']?.toString() ?? 'N/A'),
+                _buildInfoRow('Date of Birth', data['dob']?.toString() ?? 'N/A'),
+                _buildInfoRow('Mobile', data['contact'] ?? 'N/A'),
+                _buildInfoRow('Address', data['address'] ?? 'N/A'),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(width: 40),
+                    Text(
+                      'Expectations',
+                      style: TextStyle(
+                        color: MyMateThemes.textColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                _buildExpectations(),
+              ],
+            ),
+          );
+        });
+  }
+
+  Widget _buildInfoRow(String title, String value) {
+    return Container(
+      height: 34,
+      width: 297,
+      margin: EdgeInsets.symmetric(vertical: 5.0),
+      padding: EdgeInsets.symmetric(horizontal: 8.0),
+      decoration: BoxDecoration(
+        color: MyMateThemes.containerColor,
+        borderRadius: BorderRadius.circular(5.0),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 120,
+            child: Text(
+              title,
+              style: TextStyle(
+                color: MyMateThemes.textColor,
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          SizedBox(width: 50),
+          Expanded(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
               child: Text(
-                title,
+                value,
                 style: TextStyle(
                   color: MyMateThemes.textColor,
-                  fontWeight: FontWeight.bold,
                   fontSize: 14,
+                  fontWeight: FontWeight.normal,
                 ),
-                overflow: TextOverflow.ellipsis,
+                softWrap: false,
+                overflow: TextOverflow.visible,
               ),
             ),
-            SizedBox(width: 50), // Space between title and value
-  
-            // Scrollable text for value
-            Expanded(
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildExpectations() {
+    return Column(
+      children: List.generate(
+        controllers.length,
+            (index) => Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Center(
+            child: Container(
+              height: 34,
+              width: 297,
+              margin: EdgeInsets.symmetric(vertical: 5.0),
+              padding: EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                color: MyMateThemes.containerColor,
+                borderRadius: BorderRadius.circular(5.0),
+              ),
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Text(
-                  value,
+                  controllers[index].text,
                   style: TextStyle(
                     color: MyMateThemes.textColor,
+                    fontWeight: FontWeight.bold,
                     fontSize: 14,
-                    fontWeight: FontWeight.normal,
                   ),
                   softWrap: false,
                   overflow: TextOverflow.visible,
                 ),
               ),
             ),
-          ],
-        ),
-      );
-    }
-  
-    Widget _buildExpectations() {
-      return Column(
-        children: List.generate(
-          controllers.length,
-              (index) => Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Center(
-              child:Container(
-                height: 34,
-                width: 297,
-                margin: EdgeInsets.symmetric(vertical: 5.0),
-                padding: EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                  color: MyMateThemes.containerColor,
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
-                child: Expanded(
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child:
-                    Text(
-                      controllers[index].text,
-                      style: TextStyle(
-                        color: MyMateThemes.textColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                      ),
-                      softWrap: false,
-                      overflow: TextOverflow.visible,
-                    ),
-  
-                  ),
-  
-                ),
-              ),
-  
-            ),
           ),
         ),
-  
-      );
-    }
+      ),
+    );
+  }
 
-    Widget _buildNavigationBar() {
-      return FutureBuilder<String?>(
-        future: getSavedDocId(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+  Widget _buildNavigationBar() {
+    return FutureBuilder<String?>(
+      future: getSavedDocId(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error loading docId'));
+        } else {
+          final docId = snapshot.data ?? '';
+          return CustomBottomNavigationBar(
+            selectedIndex: _selectedIndex,
+            onItemTapped: (index) {
+              setState(() {
+                _selectedIndex = index;
+              });
+            },
+            docId: docId,
+          );
+        }
+      },
+    );
+  }
 
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-
-            return Center(child: Text('Error loading docId'));
-          } else {
-            final docId = snapshot.data ?? '';
-            return CustomBottomNavigationBar(
-              selectedIndex: _selectedIndex,
-              onItemTapped: (index) {
-                setState(() {
-                  _selectedIndex = index;
-                });
-              },
-              docId: docId,
-            );
-          }
-        },
-      );
-    }
-  
-    @override
-    Widget build(BuildContext context) {
-      return Scaffold(
-        backgroundColor: MyMateThemes.backgroundColor,
-        appBar: _buildAppBar(),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                controller: _scrollController,
-                child: Column(
-                  children: [
-                    _buildProfileInfo(),
-                    SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildIconWithText(
-                            'assets/images/Group 2145.svg', '$age years', dob),
-                        _buildIconWithText('assets/images/Group 2146.svg',
-                            occupation, '$city  '),
-                        _buildIconWithText('assets/images/Group 2147.svg',
-                            city, '$country'),
-                      ],
-                    ),
-  
-                    SizedBox(height: 30),
-                    _buildActionButtons(),
-                    SizedBox(height: 30),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: MyMateThemes.backgroundColor,
+      appBar: _buildAppBar(),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              controller: _scrollController,
+              child: Column(
+                children: [
+                  _buildProfileInfo(),
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildIconWithText('assets/images/Group 2145.svg', '$age years', dob),
+                      _buildIconWithText('assets/images/Group 2146.svg', occupation, '$city'),
+                      _buildIconWithText('assets/images/Group 2147.svg', city, '$country'),
+                    ],
+                  ),
+                  SizedBox(height: 30),
+                  _buildActionButtons(),
+                  SizedBox(height: 30),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            child: SvgPicture.asset('assets/images/Group 2196.svg'),
+                            onTap: () {
+                              setState(() {
+                                _selectedButtonIndex = 0;
+                              });
+                              _scrollToContainer(1);
+                            },
+                          ),
+                          SizedBox(width: 30),
+                          Column(
+                            children: [
+                              GestureDetector(
+                                child: SvgPicture.asset('assets/images/Group 2192.svg'),
+                                onTap: () {
+                                  setState(() {
+                                    _selectedButtonIndex = 1;
+                                  });
+                                  _scrollToContainer(2);
+                                },
+                              ),
+                              SizedBox(height: 16),
+                              GestureDetector(
+                                child: SvgPicture.asset('assets/images/Group 2197.svg'),
+                                onTap: () {
+                                  setState(() {
+                                    _selectedButtonIndex = 2;
+                                  });
+                                  _scrollToContainer(3);
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 40),
+                  _buildSectionTitle("Astrology"),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      SizedBox(width: 40),
+                      SvgPicture.asset('assets/images/Line 11.svg'),
+                    ],
+                  ),
+                  SizedBox(height: 25),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 140,
+                        height: 172,
+                        margin: EdgeInsets.symmetric(vertical: 5.0),
+                        padding: EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          color: MyMateThemes.containerColor,
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        child: Stack(
                           children: [
-                            GestureDetector(
-                              child: SvgPicture.asset(
-                                  'assets/images/Group 2196.svg'),
-                              onTap: () {
-                                setState(() {
-                                  _selectedButtonIndex = 0;
-                                });
-                                _scrollToContainer(1);
-                              },
+                            Positioned(
+                              top: 10,
+                              left: 10,
+                              child: SvgPicture.asset('assets/images/Group.svg'),
                             ),
-                            SizedBox(width: 30),
-                            Column(
-                              children: [
-                                GestureDetector(
-                                  child: SvgPicture.asset(
-                                      'assets/images/Group 2192.svg'),
-                                  onTap: () {
-                                    setState(() {
-                                      _selectedButtonIndex = 1;
-                                    });
-                                    _scrollToContainer(2);
-                                  },
-                                ),
-                                SizedBox(height: 16),
-                                GestureDetector(
-                                  child: SvgPicture.asset(
-                                      'assets/images/Group 2197.svg'),
-                                  onTap: () {
-                                    setState(() {
-                                      _selectedButtonIndex = 2;
-                                    });
-                                    _scrollToContainer(3);
-                                  },
-                                ),
-                              ],
+                            Positioned(
+                              bottom: 10,
+                              left: 5,
+                              child: Column(
+                                children: [
+                                  Text(
+                                    dob,
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: MyMateThemes.primaryColor,
+                                        fontWeight: FontWeight.normal),
+                                  ),
+                                  Text(
+                                    dot,
+                                    style: TextStyle(
+                                        fontSize: 10,
+                                        color: MyMateThemes.textColor,
+                                        fontWeight: FontWeight.normal),
+                                  ),
+                                  Text(
+                                    '$city, $country',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: MyMateThemes.primaryColor,
+                                        fontWeight: FontWeight.normal),
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
-                      ],
-                    ),
-                    SizedBox(height: 40),
-                    _buildSectionTitle("Astrology"),
-                    SizedBox(height: 10),
-                    Row(
-                      children: [
-                        SizedBox(width: 40),
-                        SvgPicture.asset('assets/images/Line 11.svg'),
-                      ],
-                    ),
-                    SizedBox(height: 25),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 140,
-                          height: 172,
-                          margin: EdgeInsets.symmetric(vertical: 5.0),
-                          padding: EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                            color: MyMateThemes.containerColor,
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                top: 10,
-                                left: 10,
-                                child:
-                                SvgPicture.asset('assets/images/Group.svg'),
-                              ),
-                              Positioned(
-                                bottom: 10,
-                                left: 5,
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      dob,
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: MyMateThemes.primaryColor,
-                                          fontWeight: FontWeight.normal),
-                                    ),
-                                    Text(
-                                      dot,
-                                      style: TextStyle(
-                                          fontSize: 10,
-                                          color: MyMateThemes.textColor,
-                                          fontWeight: FontWeight.normal),
-                                    ),
-                                    Text(
-                                      '$city ,$country  ',
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: MyMateThemes.primaryColor,
-                                          fontWeight: FontWeight.normal),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
+                      ),
+                      SizedBox(width: 15),
+                      Container(
+                        width: 140,
+                        height: 172,
+                        margin: EdgeInsets.symmetric(vertical: 5.0),
+                        padding: EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          color: MyMateThemes.primaryColor,
+                          borderRadius: BorderRadius.circular(15.0),
                         ),
-                        SizedBox(width: 15),
-                        Container(
-                          width: 140,
-                          height: 172,
-                          margin: EdgeInsets.symmetric(vertical: 5.0),
-                          padding: EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                            color: MyMateThemes.primaryColor,
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                top: 8,
-                                left: 6.5,
-                                child: SvgPicture.asset(
-                                    'assets/images/Group 2217.svg'),
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              top: 8,
+                              left: 6.5,
+                              child: SvgPicture.asset('assets/images/Group 2217.svg'),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              left: 48,
+                              child: Column(
+                                children: [
+                                  Text(
+                                    natchathiram,
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.normal),
+                                  ),
+                                  Text(
+                                    rasi,
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.normal),
+                                  ),
+                                ],
                               ),
-                              Positioned(
-                                bottom: 0,
-                                left: 48,
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      natchathiram,
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.normal),
-                                    ),
-                                    Text(
-                                      rasi,
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.normal),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    SizedBox(height: 40),
-                    _buildContainers(
-                      children: [
-                        RasiChartDesign(),
-                        SizedBox(height: 40),
-                        NavamsaChartDesign(),
-                        SizedBox(height: 40),
-                        _buildProfileDetails(),
-                        SizedBox(height: 40),
-                        PhotoGallery(docId: widget.SoulId),
-                        SizedBox(height: 40),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: 10),
-            Align(
-              alignment: Alignment.center,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CustomOutlineButton(
-                    assetPath: 'assets/images/Group 2148.svg',
-                    label: 'Astrology',
-                    index: 0,
-                    isSelected: isButtonSelected(0),
-                    onPressed: () {
-                      setState(() {
-                        _selectedButtonIndex = 0;
-                      });
-                      _scrollToContainer(1);
-                    },
+                      ),
+                    ],
                   ),
-                  SizedBox(width: 10),
-                  CustomOutlineButton(
-                    assetPath: 'assets/images/Group 2150.svg',
-                    label: 'About me',
-                    index: 1,
-                    isSelected: isButtonSelected(1),
-                    onPressed: () {
-                      setState(() {
-                        _selectedButtonIndex = 1;
-                      });
-                      _scrollToContainer(2);
-                    },
-                  ),
-                  SizedBox(width: 10),
-                  CustomOutlineButton(
-                    assetPath: 'assets/images/Group 2149.svg',
-                    label: 'Photo Gallery',
-                    index: 2,
-                    isSelected: isButtonSelected(2),
-                    onPressed: () {
-                      setState(() {
-                        _selectedButtonIndex = 2;
-                      });
-                      _scrollToContainer(3);
-                    },
+                  SizedBox(height: 40),
+                  _buildContainers(
+                    children: [
+                      RasiChartDesign(),
+                      SizedBox(height: 40),
+                      NavamsaChartDesign(),
+                      SizedBox(height: 40),
+                      _buildProfileDetails(),
+                      SizedBox(height: 40),
+                      PhotoGallery(docId: widget.SoulId),
+                      SizedBox(height: 40),
+                    ],
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 10),
-  
-          ],
-        ),
-        bottomNavigationBar: _buildNavigationBar(),
-      );
-    }
+          ),
+          SizedBox(height: 10),
+          Align(
+            alignment: Alignment.center,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CustomOutlineButton(
+                  assetPath: 'assets/images/Group 2148.svg',
+                  label: 'Astrology',
+                  index: 0,
+                  isSelected: isButtonSelected(0),
+                  onPressed: () {
+                    setState(() {
+                      _selectedButtonIndex = 0;
+                    });
+                    _scrollToContainer(1);
+                  },
+                ),
+                SizedBox(width: 10),
+                CustomOutlineButton(
+                  assetPath: 'assets/images/Group 2150.svg',
+                  label: 'About me',
+                  index: 1,
+                  isSelected: isButtonSelected(1),
+                  onPressed: () {
+                    setState(() {
+                      _selectedButtonIndex = 1;
+                    });
+                    _scrollToContainer(2);
+                  },
+                ),
+                SizedBox(width: 10),
+                CustomOutlineButton(
+                  assetPath: 'assets/images/Group 2149.svg',
+                  label: 'Photo Gallery',
+                  index: 2,
+                  isSelected: isButtonSelected(2),
+                  onPressed: () {
+                    setState(() {
+                      _selectedButtonIndex = 2;
+                    });
+                    _scrollToContainer(3);
+                  },
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 10),
+        ],
+      ),
+      bottomNavigationBar: _buildNavigationBar(),
+    );
   }
-  
-  class _CirclePainter extends CustomPainter {
-    final bool isActive;
-  
-    _CirclePainter({required this.isActive});
-  
-    @override
-    void paint(Canvas canvas, Size size) {
-      final paint = Paint()
-        ..color = isActive ? MyMateThemes.primaryColor : Colors.grey[300]!
-        ..style = PaintingStyle.fill;
-  
-      canvas.drawCircle(Offset(size.width / 2, size.height / 2), 12, paint);
-    }
-  
-    @override
-    bool shouldRepaint(covariant CustomPainter oldDelegate) {
-      return true;
-    }
+}
+
+class _CirclePainter extends CustomPainter {
+  final bool isActive;
+
+  _CirclePainter({required this.isActive});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = isActive ? MyMateThemes.primaryColor : Colors.grey[300]!
+      ..style = PaintingStyle.fill;
+
+    canvas.drawCircle(Offset(size.width / 2, size.height / 2), 12, paint);
   }
-  
-  class _LinePainter extends CustomPainter {
-    @override
-    void paint(Canvas canvas, Size size) {
-      final paint = Paint()
-        ..color = Colors.grey[300]!
-        ..strokeWidth = 2;
-  
-      double startX = size.width / 10;
-      double endX = size.width - size.width / 10;
-      double centerY = size.height / 2;
-  
-      canvas.drawLine(Offset(startX, centerY), Offset(endX, centerY), paint);
-    }
-  
-    @override
-    bool shouldRepaint(covariant CustomPainter oldDelegate) {
-      return false;
-    }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
   }
+}
+
+class _LinePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.grey[300]!
+      ..strokeWidth = 2;
+
+    double startX = size.width / 10;
+    double endX = size.width - size.width / 10;
+    double centerY = size.height / 2;
+
+    canvas.drawLine(Offset(startX, centerY), Offset(endX, centerY), paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
+  }
+}

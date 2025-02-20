@@ -42,21 +42,21 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
 
   );
+  await NotificationService.initialize();
 
-
-   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? docId =prefs.getString('docId');
   print('docid is :$docId');
 
   // if (docId != null ){
-    NotificationService.startRealTimeListener(docId!);
-  // } else {
+  //   NotificationService.startRealTimeListener(docId);
+  //  } else {
   //   print ("No saved docId found,skipping firestore listener");
   //
-  // }
-  print(docId!);
+  //  }
+  // print(docId);
 
   runApp(const MyApp());
 }
@@ -90,11 +90,11 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
 
         home:
-           // ProfilePage(selectedBottomBarIconIndex: 3, docId: 'SYfMHh6YUL6yobmIZXwO',)
+            ProfilePage(selectedBottomBarIconIndex: 3, docId: 'SYfMHh6YUL6yobmIZXwO')
           //AuthcheckState()
          // ProfilePage(docId: "SYfMHh6YUL6yobmIZXwO", selectedBottomBarIconIndex:0,),
         // CheckmatchPage( clientDocId: '', soulDocId: '',),
-        RegisterPage()
+       // RegisterPage()
       // SubscribedhomescreenStructuredPage(docId: 'E0JFHhK2x6Gq2Ac6XSyP',)
      // CompleteProfilePage(docId: '3qmCKRqXr06udbChynui')
       // EditPage(docId: 'qizCb7sXUhWEPy0awx0e', onSave: () {  },)
@@ -103,7 +103,7 @@ class MyApp extends StatelessWidget {
          // boostprofile(docId: 'SYfMHh6YUL6yobmIZXwO',)
           //PageThree(docId: 'qHPJAB0C6DavcfYnHAoO', onSave: () {  },)
            //   MyMatePage(results: [], search: [], docId: 'qHPJAB0C6DavcfYnHAoO',)
-            //NotificationPage(selectedBottomBarIconIndex: 0, docId: 'GPWatXU8o2zK8IEHym5D',)
+            // NotificationPage(selectedBottomBarIconIndex: 0, docId: 'zx7sjs4q0Kq43FPwrybU',)
              //  MyMatePage(results: [], search: [], docId: "SYfMHh6YUL6yobmIZXwO",)
     );
     }
