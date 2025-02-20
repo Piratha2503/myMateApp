@@ -51,7 +51,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return
-    Expanded(child:       SizedBox(
+    Expanded(child:
+    SizedBox(
       height: 96.h,
 
       child: BottomNavigationBar(
