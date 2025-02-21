@@ -8,6 +8,7 @@ import 'package:mymateapp/Homepages/CompleteProfileScreen/CompleteProfileMain.da
 import 'package:mymateapp/Homepages/Profiles/EditPage.dart';
 import 'package:mymateapp/Homepages/RegisterPages/RegisterPage.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Homepages/ProfilePageScreen/MyProfileMain.dart';
 import 'Homepages/Profiles/MoreAboutMe.dart';
@@ -17,6 +18,7 @@ import 'Homepages/SubscribedhomeScreen/SubscribedHomeScreenBeforeProfileComplete
 import 'Homepages/SubscribedhomeScreen/SubscribedHomeScreenStructured.dart';
 import 'Homepages/explorePage/explorePageMain.dart';
 import 'Homepages/AddTokenPage.dart';
+import 'Homepages/explorePage/exploreProvider.dart';
 import 'Homepages/myMatePage/myMatePageMain.dart';
 
 import 'firebase_options.dart';
@@ -28,7 +30,14 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => ExploreProvider()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -62,10 +71,10 @@ class MyApp extends StatelessWidget {
             //AuthcheckState()
             //ProfilePage(docId: "SYfMHh6YUL6yobmIZXwO", selectedBottomBarIconIndex:0,),
             // CheckmatchPage( clientDocId: '', soulDocId: '',),
-           // ExplorePage(docId: '', results: [], search: [],),
-           // RegisterPage(),
+            ExplorePage(docId: '', results: [], search: [],),
+            // RegisterPage(),
             //MyMatePage(results: [], search: [], docId: '',)
-            SubscribedhomescreenStructuredPage(docId: '',),
+            //SubscribedhomescreenStructuredPage(docId: '',),
 
           );
         }

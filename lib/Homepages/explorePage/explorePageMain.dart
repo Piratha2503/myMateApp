@@ -27,6 +27,7 @@ class ExplorePage extends StatefulWidget {
   _ExplorePageState createState() => _ExplorePageState();
 }
 
+
 class _ExplorePageState extends State<ExplorePage> with SingleTickerProviderStateMixin {
   // late Timer _debounce;
   int _selectedIndex = 1;
@@ -79,7 +80,7 @@ class _ExplorePageState extends State<ExplorePage> with SingleTickerProviderStat
     if (_debounce?.isActive ?? false) _debounce!.cancel();
 
     _debounce = Timer(const Duration(milliseconds: 1000), () {
-     // String query = searchController.text.toLowerCase().trim();
+      // String query = searchController.text.toLowerCase().trim();
 
 
       final searchCriteria = {
@@ -233,7 +234,6 @@ class _ExplorePageState extends State<ExplorePage> with SingleTickerProviderStat
                                   Tab(text: 'Filter'),
                                 ],
                               ),
-                              const SizedBox(height: 8),
                               if (_tabController.index == 2)
                                 Padding(
                                   padding: EdgeInsets.symmetric(horizontal: isWideScreen ? 24 : 12),
