@@ -302,6 +302,7 @@ Future<void> updateClientData(ClientData clientData) async {
       url,
       headers: {
         "Content-Type": "application/json",
+
       },
       body: jsonEncode(clientDataMap),
     );

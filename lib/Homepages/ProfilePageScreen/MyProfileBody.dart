@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -29,7 +28,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
   final Firebase firebase = Firebase();
   late List<double> _positions;
 
-  bool isFormFilled = true;
+  bool isFormFilled = false;
 
   String full_name = "";
   String gender = "";
@@ -74,6 +73,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
 
     if(data.isNotEmpty){
       setState(() {
+        isFormFilled = data['completeProfilePending']['_anything_filled_lifestyle'] ?? "N/A";
         personalDetails.full_name = data['full_name'] ?? "N/A";
         personalDetails.gender = data['gender'] ?? "N/A";
         education = data['education'] ?? "N/A";
@@ -109,7 +109,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
 
   @override
   void initState() {
-
+    isFormFilled = false;
     super.initState();
 
     getClient().then((_) {
@@ -259,9 +259,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                       ),
                     ],
 
-                    // Second Section - Show if the form is filled
                     if (isFormFilled) ...[
-                      // Your additional info section here
                       AdditionalInfo(docId: widget.docId,)
                     ],
                   ],

@@ -8,7 +8,7 @@ import 'package:mymateapp/Homepages/explorePage/explorePageMain.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import '../Homepages/HomeScreenBeforeSubscibe.dart';
 
-import '../Homepages/Notification.dart';
+import '../Homepages/notification_page.dart';
 import 'RouterFunction.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
@@ -42,7 +42,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
     switch(index){
       case 0: NavigatorFunction(context, SubscribedhomescreenStructuredPage(docId: widget.docId,));
       case 1: NavigatorFunction(context, ExplorePage(results: [], docId: widget.docId,search: [],));
-      case 2: NavigatorFunction(context, NotificationPage(index, docId: widget.docId,));
+      case 2: NavigatorFunction(context, NotificationPage(3, docId: widget.docId,));
       case 3: Navigator.push(context, MaterialPageRoute(builder: (context)=> ProfilePage(docId: widget.docId,
         selectedBottomBarIconIndex: 3,)));
     }

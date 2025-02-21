@@ -20,7 +20,6 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-
   void Check() {
     print("Hello");
   }
@@ -38,18 +37,17 @@ class _RegisterPageState extends State<RegisterPage> {
           mainAxisSize: MainAxisSize.max,
           children: [
             EnterYourPhoneNumber(),
-            SizedBox(height: 15,),
+            SizedBox(
+              height: 15,
+            ),
             TextInstructions(),
             PhoneFieldAndNextButton(),
           ],
-        )
-    );
+        ));
   }
 }
 
-
-
-Widget EnterYourPhoneNumber(){
+Widget EnterYourPhoneNumber() {
   return Center(
     child: Text(
       "Enter your phone number",
@@ -59,27 +57,24 @@ Widget EnterYourPhoneNumber(){
         fontWeight: FontWeight.w700,
         color: MyMateThemes.textColor,
         letterSpacing: 0.8,
-
       ),
     ),
   );
 }
 
-Widget TextInstructions(){
+Widget TextInstructions() {
   return Column(
     children: <Widget>[
       Center(
-        child: Text("Make sure this number can receive SMS.",
+        child: Text(
+          "Make sure this number can receive SMS.",
           style: TextStyle(
               fontSize: 14,
               color: MyMateThemes.textColor,
               fontFamily: "Work Sans",
               fontWeight: FontWeight.normal,
               letterSpacing: 0.6,
-              wordSpacing: 0.5
-
-
-          ),
+              wordSpacing: 0.5),
         ),
       ),
       Center(
@@ -91,11 +86,7 @@ Widget TextInstructions(){
               fontFamily: "Work Sans",
               fontWeight: FontWeight.normal,
               letterSpacing: 0.6,
-              wordSpacing: 0.5
-
-
-
-          ),
+              wordSpacing: 0.5),
         ),
       ),
       Center(
@@ -107,45 +98,40 @@ Widget TextInstructions(){
               fontFamily: "Work Sans",
               fontWeight: FontWeight.normal,
               letterSpacing: 0.6,
-              wordSpacing: 0.5
-
-
-
-          ),
+              wordSpacing: 0.5),
         ),
       ),
     ],
   );
 }
 
-class PhoneFieldAndNextButton extends StatefulWidget{
-
+class PhoneFieldAndNextButton extends StatefulWidget {
   const PhoneFieldAndNextButton({super.key});
 
   @override
-  State<PhoneFieldAndNextButton> createState() => _PhoneFieldAndNextButtonState();
-
+  State<PhoneFieldAndNextButton> createState() =>
+      _PhoneFieldAndNextButtonState();
 }
 
-class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
+class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton> {
   final TextEditingController _controller = TextEditingController();
   String phoneNumber = "";
   String mobile_country_code = "";
   String client_country = "";
-  String mobile_code = "94";
+  String mobile_code = "+94";
   int? otp = 0;
   FirebaseDB firebaseDB = FirebaseDB();
 
   Future<String?> fetchDocIdByMobile(String mobile) async {
-
     @override
-    void dispose(){
+    void dispose() {
       _controller.dispose();
       super.dispose();
     }
 
     try {
-      final url = Uri.parse("https://backend.graycorp.io:9000/mymate/api/v1/getClientDataByMobile")
+      final url = Uri.parse(
+              "https://backend.graycorp.io:9000/mymate/api/v1/getClientDataByMobile")
           .replace(queryParameters: {'mobile': mobile});
 
       final response = await http.get(
@@ -153,17 +139,14 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
         headers: {'Content-Type': 'application/json'},
       );
 
-
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         final docId = data['docId'];
         print("Fetched docId: $docId");
         return data['docId'];
-
-      }
-
-      else {
-        print("Failed to fetch docId: ${response.statusCode}, ${response.body}");
+      } else {
+        print(
+            "Failed to fetch docId: ${response.statusCode}, ${response.body}");
       }
     } catch (e) {
       print("Error fetching docId: $e");
@@ -171,33 +154,37 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
     return null;
   }
 
-  Future<void> addMobile() async{
+  Future<void> addMobile() async {
     print("Running");
     var random = Random();
-    otp = (random.nextInt(9999-1001)+1000);
+    otp = (random.nextInt(9999 - 1001) + 1000);
     Address address = Address(country: client_country);
+    String formattedPhoneNumber = "+$mobile_code$phoneNumber";
     ContactInfo contactInfo = ContactInfo(
-        mobile: phoneNumber,
+        mobile: "+$mobile_code$phoneNumber",
         mobile_country_code: mobile_country_code,
         otp: otp,
-        address: address
-    );
+        address: address);
     ClientData clientData = ClientData(contactInfo: contactInfo);
     final url = Uri.parse(MyMateAPIs.mobile_number_registration_API);
-    final res = await http.post(
-        url,
-        headers: {'Content-Type': 'application/json',},
-        body: jsonEncode(clientData.toMap())
-    );
+    final res = await http.post(url,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(clientData.toMap()));
 
-    if(res.statusCode == 200){
+    if (res.statusCode == 200) {
       print(res.statusCode);
-      final docId = await fetchDocIdByMobile(phoneNumber);
+
+      final docId = await fetchDocIdByMobile(formattedPhoneNumber);
+      print('formatted phone number is $formattedPhoneNumber');
+
       if (docId != null) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('docId', docId);
 
-        Navigator.push( context,
+        Navigator.push(
+          context,
           MaterialPageRoute(
             builder: (context) => OtpPinput(
               clientData: clientData,
@@ -207,7 +194,8 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Failed to fetch docId. Please try again.")),
+          const SnackBar(
+              content: Text("Failed to fetch docId. Please try again.")),
         );
       }
     } else {
@@ -216,9 +204,10 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
         SnackBar(content: Text("Error: ${res.body}")),
       );
     }
-    if(res.statusCode == 200){
+    if (res.statusCode == 200) {
       print(res.statusCode);
       final docId = await fetchDocIdByMobile(phoneNumber);
+      print('phone number is $phoneNumber');
       if (docId != null) {
         Navigator.push(
           context,
@@ -231,7 +220,8 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Failed to fetch docId. Please try again.")),
+          const SnackBar(
+              content: Text("Failed to fetch docId. Please try again.")),
         );
       }
     } else {
@@ -239,8 +229,7 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Error: ${res.body}")),
       );
-
-    }
+     }
   }
 
   void _openPopupScreen(BuildContext context, String mobileNumber) {
@@ -251,13 +240,16 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(height:10),
+              SizedBox(height: 10),
               Text(
                 "Is this your Phone number",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500,color: MyMateThemes.textColor,letterSpacing: 0.8),
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    color: MyMateThemes.textColor,
+                    letterSpacing: 0.8),
               ),
               SizedBox(height: 10),
-
               TextField(
                 controller: TextEditingController(text: mobileNumber),
                 textAlign: TextAlign.center, // Aligns the text to the center
@@ -266,10 +258,7 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
                   color: MyMateThemes.textColor,
                   fontWeight: FontWeight.bold,
                 ),
-
               ),
-
-
               SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -281,14 +270,14 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor:
-                      MyMateThemes.secondaryColor, // Background color
-                      foregroundColor:MyMateThemes.primaryColor, // Text color
+                          MyMateThemes.secondaryColor, // Background color
+                      foregroundColor: MyMateThemes.primaryColor, // Text color
                       padding: EdgeInsets.symmetric(horizontal: 16), // Padding
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(2), // Rounded corners
+                        borderRadius:
+                            BorderRadius.circular(2), // Rounded corners
                       ),
                     ),
-
                     child: Text("Edit"),
                   ),
                   ElevatedButton(
@@ -297,7 +286,6 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
                       print("Number added");
                     },
                     style: CommonButtonStyle.commonButtonStyle(),
-
                     child: Text("Yes"),
                   ),
                 ],
@@ -309,11 +297,8 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
-
-
     return Column(
       children: <Widget>[
         SizedBox(
@@ -321,7 +306,7 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
         ),
         Center(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 50,vertical: 5),
+            padding: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
             child: IntlPhoneField(
               readOnly: true,
               showCursor: false,
@@ -337,31 +322,35 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
                 LengthLimitingTextInputFormatter(10),
                 FilteringTextInputFormatter.digitsOnly,
               ],
-              decoration: InputDecoration(hintText: client_country,
+              decoration: InputDecoration(
+                  hintText: client_country,
                   hintStyle: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 18,
-                      color: Colors.grey
-                  )),
+                      color: Colors.grey)),
             ),
           ),
         ),
         Center(
           child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 50,),
+              padding: EdgeInsets.symmetric(
+                horizontal: 50,
+              ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
                     width: 45,
-                    decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 1,color: Colors.grey))),
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(width: 1, color: Colors.grey))),
                     child: TextField(
                       readOnly: true,
                       decoration: InputDecoration(
                           hintText: "+$mobile_code",
-                          hintStyle: TextStyle(color: Colors.grey)
-                      ),
-                      style: TextStyle(fontSize: 18,color: Colors.grey),),
+                          hintStyle: TextStyle(color: Colors.grey)),
+                      style: TextStyle(fontSize: 18, color: Colors.grey),
+                    ),
                   ),
                   SizedBox(
                     width: 10,
@@ -369,12 +358,14 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
                   Container(
                     width: 235,
                     child: TextField(
-                      style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                       controller: _controller,
                       decoration: InputDecoration(
-                          border: UnderlineInputBorder(borderSide: BorderSide(width: 1,color: Colors.grey))
-                      ),
-                      onChanged: (number){
+                          border: UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 1, color: Colors.grey))),
+                      onChanged: (number) {
                         setState(() {
                           phoneNumber = number;
                         });
@@ -383,8 +374,7 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
                     ),
                   )
                 ],
-              )
-          ),
+              )),
         ),
         SizedBox(
           height: 50,
@@ -394,18 +384,15 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
             height: 58,
             width: 166,
             child: ElevatedButton(
-              onPressed: ()
-              {
-                _openPopupScreen(context,"+$mobile_code $phoneNumber");
-
+              onPressed: () {
+                _openPopupScreen(context, "+$mobile_code$phoneNumber");
               },
-
               style: ButtonStyle(
                 foregroundColor: MaterialStatePropertyAll(Colors.white),
-                backgroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
-                shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                    borderRadius: BorderRadius.zero)
-                ),
+                backgroundColor:
+                    MaterialStatePropertyAll(MyMateThemes.primaryColor),
+                shape: MaterialStatePropertyAll(
+                    RoundedRectangleBorder(borderRadius: BorderRadius.zero)),
               ),
               child: const Text(
                 "Get Started",
@@ -414,7 +401,6 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
             ),
           ),
         ),
-
       ],
     );
   }
