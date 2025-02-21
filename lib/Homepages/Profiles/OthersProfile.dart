@@ -61,8 +61,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
 
 
   Future<void> _updateNotificationStatus(String status) async {
-    final senderDocId = "SYfMHh6YUL6yobmIZXwO";
-    //await getSavedDocId();
+    final senderDocId = await getSavedDocId();
     final receiverDocId = widget.SoulId;
     final senderName = await _fetchdetails(senderDocId);
     final url = Uri.parse(

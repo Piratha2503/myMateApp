@@ -89,7 +89,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
 
         home:
-            ProfilePage(selectedBottomBarIconIndex: 3, docId: 'SYfMHh6YUL6yobmIZXwO')
+           // ProfilePage(selectedBottomBarIconIndex: 3, docId: 'zx7sjs4q0Kq43FPwrybU')
           //AuthcheckState()
          // ProfilePage(docId: "SYfMHh6YUL6yobmIZXwO", selectedBottomBarIconIndex:0,),
         // CheckmatchPage( clientDocId: '', soulDocId: '',),
@@ -102,7 +102,7 @@ class MyApp extends StatelessWidget {
          // boostprofile(docId: 'SYfMHh6YUL6yobmIZXwO',)
           //PageThree(docId: 'qHPJAB0C6DavcfYnHAoO', onSave: () {  },)
            //   MyMatePage(results: [], search: [], docId: 'qHPJAB0C6DavcfYnHAoO',)
-            // NotificationPage(selectedBottomBarIconIndex: 0, docId: 'zx7sjs4q0Kq43FPwrybU',)
+             NotificationPage(0, docId: 'zx7sjs4q0Kq43FPwrybU',)
              //  MyMatePage(results: [], search: [], docId: "SYfMHh6YUL6yobmIZXwO",)
     );
     }

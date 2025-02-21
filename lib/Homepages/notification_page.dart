@@ -24,16 +24,19 @@ class _NotificationPageState extends State<NotificationPage> {
   void initState() {
     super.initState();
     NotificationService.initialize();
-    _fetchNotifications();
+     _fetchNotifications();
+    print("doc id passed here is :${widget.docId}");
+    print (notifications);
   }
 
-  //Fetch notifications from API
+
   Future<void> _fetchNotifications() async {
     try {
-      List<Map<String, dynamic>> fetchedNotifications =
-          await NotificationService.fetchRequests(widget.docId);
+      List<Map<String, dynamic>> fetchedNotifications = await NotificationService.fetchRequests(widget.docId);
+
       setState(() {
         notifications = fetchedNotifications;
+        print('Notifications fetched: $notifications');
       });
     } catch (e) {
       print("Error fetching notifications: $e");

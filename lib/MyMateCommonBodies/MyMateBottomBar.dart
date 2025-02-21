@@ -42,7 +42,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
     switch(index){
       case 0: NavigatorFunction(context, SubscribedhomescreenStructuredPage(docId: widget.docId,));
       case 1: NavigatorFunction(context, ExplorePage(results: [], docId: widget.docId,search: [],));
-      case 2: NavigatorFunction(context, NotificationPage(index, docId: widget.docId,));
+      case 2: NavigatorFunction(context, NotificationPage(3, docId: widget.docId,));
       case 3: Navigator.push(context, MaterialPageRoute(builder: (context)=> ProfilePage(docId: widget.docId,
         selectedBottomBarIconIndex: 3,)));
     }

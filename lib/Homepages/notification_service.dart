@@ -158,18 +158,19 @@ class NotificationService {
   }
 
   static Future<List<Map<String, dynamic>>> fetchRequests(String docId) async {
-    List<Map<String, dynamic>> newNotifications = [];
+    List<Map<String, dynamic>> allNotifications = [];
 
     try {
       List<String> receivedDocIds = await _fetchReceivedRequestDocIds(docId);
 
       final response = await http.get(
-          Uri.parse('https://backend.graycorp.io:9000/mymate/api/v1/getClientDataList'));
+          Uri.parse('https://backend.graycorp.io:9000/mymate/api/v1/getClientDataList')
+      );
 
       if (response.statusCode == 200) {
         List<dynamic> users = jsonDecode(response.body);
 
-        // Users who sent a request
+        // Fetch users who sent a request
         List<Map<String, dynamic>> matchingUsers = users.where((user) {
           return receivedDocIds.contains(user['docId']);
         }).map((user) {
@@ -181,16 +182,7 @@ class NotificationService {
           };
         }).toList();
 
-        for (var user in matchingUsers) {
-          String requestId = user['docId'];
-           if (!_notifiedRequestIds.contains(requestId)) {
-          //   _showLocalNotification("New Request", "${user['fullName']} sent you a request!");
-             _notifiedRequestIds.add(requestId);
-            newNotifications.add(user);
-          }
-        }
-
-       // Users who accepted our request
+        // Fetch users who accepted our request
         List<Map<String, dynamic>> acceptedUsers = users.where((user) {
           List<dynamic>? acceptedList = user['matchings']?['acceptDocIdList'];
           return acceptedList != null && acceptedList.contains(docId);
@@ -203,14 +195,9 @@ class NotificationService {
           };
         }).toList();
 
-        for (var user in acceptedUsers) {
-          String acceptedId = user['docId'];
-          if (!_notifiedRequestIds.contains(acceptedId)) {
-           // _showLocalNotification("Request Accepted", "${user['fullName']} has accepted your request!");
-            _notifiedRequestIds.add(acceptedId);
-            newNotifications.add(user);
-          }
-        }
+        // Merge both request and accept notifications
+        allNotifications.addAll(matchingUsers);
+        allNotifications.addAll(acceptedUsers);
       } else {
         print("Failed to fetch user data: ${response.statusCode}");
       }
@@ -218,9 +205,8 @@ class NotificationService {
       print("Error fetching requests: $e");
     }
 
-    return newNotifications;
+    return allNotifications;
   }
-
 
 //
 //
