@@ -131,95 +131,95 @@ class NotificationService {
     return client.credentials.accessToken.data;
   }
 
-  // static Future<List<String>> _fetchReceivedRequestDocIds(String docId) async {
-  //   final response = await http.get(
-  //     Uri.parse(
-  //         'https://backend.graycorp.io:9000/mymate/api/v1/getClientDataByDocId?docId=$docId'),
-  //   );
-  //
-  //   print('Fetching requests for docId: $docId');
-  //
-  //   if (response.statusCode == 200) {
-  //     final Map<String, dynamic>? data = jsonDecode(response.body);
-  //
-  //     if (data == null ||
-  //         !data.containsKey('matchings') ||
-  //         data['matchings']['requestReceivedDocIdList'] == null) {
-  //       print(" No requestReceivedDocIdList found!");
-  //       return [];
-  //     }
-  //
-  //     List<dynamic> receivedDocIds = data['matchings']['requestReceivedDocIdList'];
-  //     return receivedDocIds.map((id) => id.toString()).toList();
-  //   } else {
-  //     print(" Failed to fetch received requests: ${response.statusCode}");
-  //     return [];
-  //   }
-  // }
-  //
-  // static Future<List<Map<String, dynamic>>> fetchRequests(String docId) async {
-  //   List<Map<String, dynamic>> newNotifications = [];
-  //
-  //   try {
-  //     List<String> receivedDocIds = await _fetchReceivedRequestDocIds(docId);
-  //
-  //     final response = await http.get(
-  //         Uri.parse('https://backend.graycorp.io:9000/mymate/api/v1/getClientDataList'));
-  //
-  //     if (response.statusCode == 200) {
-  //       List<dynamic> users = jsonDecode(response.body);
-  //
-  //       // Users who sent a request
-  //       List<Map<String, dynamic>> matchingUsers = users.where((user) {
-  //         return receivedDocIds.contains(user['docId']);
-  //       }).map((user) {
-  //         return {
-  //           'docId': user['docId'],
-  //           'fullName': user['personalDetails']?['full_name'] ?? 'Unknown User',
-  //           'profileImage': user['profileImages']?['profile_pic_url'] ?? '',
-  //           'type': 'request' // Differentiating request type
-  //         };
-  //       }).toList();
-  //
-  //       for (var user in matchingUsers) {
-  //         String requestId = user['docId'];
-  //         if (!_notifiedRequestIds.contains(requestId)) {
-  //           _showLocalNotification("New Request", "${user['fullName']} sent you a request!");
-  //           _notifiedRequestIds.add(requestId);
-  //           newNotifications.add(user);
-  //         }
-  //       }
+  static Future<List<String>> _fetchReceivedRequestDocIds(String docId) async {
+    final response = await http.get(
+      Uri.parse(
+          'https://backend.graycorp.io:9000/mymate/api/v1/getClientDataByDocId?docId=$docId'),
+    );
 
-        // Users who accepted our request
-//         List<Map<String, dynamic>> acceptedUsers = users.where((user) {
-//           List<dynamic>? acceptedList = user['matchings']?['acceptDocIdList'];
-//           return acceptedList != null && acceptedList.contains(docId);
-//         }).map((user) {
-//           return {
-//             'docId': user['docId'],
-//             'fullName': user['personalDetails']?['full_name'] ?? 'Unknown User',
-//             'profileImage': user['profileImages']?['profile_pic_url'] ?? '',
-//             'type': 'accept' // Differentiating accept type
-//           };
-//         }).toList();
-//
-//         for (var user in acceptedUsers) {
-//           String acceptedId = user['docId'];
-//           if (!_notifiedRequestIds.contains(acceptedId)) {
-//             _showLocalNotification("Request Accepted", "${user['fullName']} has accepted your request!");
-//             _notifiedRequestIds.add(acceptedId);
-//             newNotifications.add(user);
-//           }
-//         }
-//       } else {
-//         print("Failed to fetch user data: ${response.statusCode}");
-//       }
-//     } catch (e) {
-//       print("Error fetching requests: $e");
-//     }
-//
-//     return newNotifications;
-//   }
+    print('Fetching requests for docId: $docId');
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic>? data = jsonDecode(response.body);
+
+      if (data == null ||
+          !data.containsKey('matchings') ||
+          data['matchings']['requestReceivedDocIdList'] == null) {
+        print(" No requestReceivedDocIdList found!");
+        return [];
+      }
+
+      List<dynamic> receivedDocIds = data['matchings']['requestReceivedDocIdList'];
+      return receivedDocIds.map((id) => id.toString()).toList();
+    } else {
+      print(" Failed to fetch received requests: ${response.statusCode}");
+      return [];
+    }
+  }
+
+  static Future<List<Map<String, dynamic>>> fetchRequests(String docId) async {
+    List<Map<String, dynamic>> newNotifications = [];
+
+    try {
+      List<String> receivedDocIds = await _fetchReceivedRequestDocIds(docId);
+
+      final response = await http.get(
+          Uri.parse('https://backend.graycorp.io:9000/mymate/api/v1/getClientDataList'));
+
+      if (response.statusCode == 200) {
+        List<dynamic> users = jsonDecode(response.body);
+
+        // Users who sent a request
+        List<Map<String, dynamic>> matchingUsers = users.where((user) {
+          return receivedDocIds.contains(user['docId']);
+        }).map((user) {
+          return {
+            'docId': user['docId'],
+            'fullName': user['personalDetails']?['full_name'] ?? 'Unknown User',
+            'profileImage': user['profileImages']?['profile_pic_url'] ?? '',
+            'type': 'request'
+          };
+        }).toList();
+
+        for (var user in matchingUsers) {
+          String requestId = user['docId'];
+           if (!_notifiedRequestIds.contains(requestId)) {
+          //   _showLocalNotification("New Request", "${user['fullName']} sent you a request!");
+             _notifiedRequestIds.add(requestId);
+            newNotifications.add(user);
+          }
+        }
+
+       // Users who accepted our request
+        List<Map<String, dynamic>> acceptedUsers = users.where((user) {
+          List<dynamic>? acceptedList = user['matchings']?['acceptDocIdList'];
+          return acceptedList != null && acceptedList.contains(docId);
+        }).map((user) {
+          return {
+            'docId': user['docId'],
+            'fullName': user['personalDetails']?['full_name'] ?? 'Unknown User',
+            'profileImage': user['profileImages']?['profile_pic_url'] ?? '',
+            'type': 'accept'
+          };
+        }).toList();
+
+        for (var user in acceptedUsers) {
+          String acceptedId = user['docId'];
+          if (!_notifiedRequestIds.contains(acceptedId)) {
+           // _showLocalNotification("Request Accepted", "${user['fullName']} has accepted your request!");
+            _notifiedRequestIds.add(acceptedId);
+            newNotifications.add(user);
+          }
+        }
+      } else {
+        print("Failed to fetch user data: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("Error fetching requests: $e");
+    }
+
+    return newNotifications;
+  }
 //
 //
 //   static void startRealTimeListener(String docId) {

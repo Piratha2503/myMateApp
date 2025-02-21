@@ -52,7 +52,6 @@ class _OtherProfilePageState extends State<OtherProfilePage>
   List<TextEditingController> controllers = [];
   bool isLoading = true;
 
-  // Variable to track notification status. Default is "new"
   String _notificationStatus ="";
 
   Future<String?> getSavedDocId() async {
@@ -62,7 +61,8 @@ class _OtherProfilePageState extends State<OtherProfilePage>
 
 
   Future<void> _updateNotificationStatus(String status) async {
-    final senderDocId = await getSavedDocId();
+    final senderDocId = "SYfMHh6YUL6yobmIZXwO";
+    //await getSavedDocId();
     final receiverDocId = widget.SoulId;
     final senderName = await _fetchdetails(senderDocId);
     final url = Uri.parse(
@@ -398,7 +398,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
     );
   }
 
-  // Action buttons updated with notification status logic.
+
   Widget _buildActionButtons() {
     String buttonText;
     VoidCallback? buttonAction;
@@ -482,7 +482,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
         title: Text("Confirmation"),
         content: Text(message),
         actions: [
-          TextButton(
+          ElevatedButton(
             onPressed: () => Navigator.pop(context),
             child: Text("No"),
           ),
