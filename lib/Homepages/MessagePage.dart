@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 
-import 'Notification.dart';
 import '../MyMateCommonBodies/MyMateBottomBar.dart';
+import 'notification_page.dart';
 
 class MessagePage extends StatefulWidget {
   final String docId;

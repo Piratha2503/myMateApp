@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mymateapp/Homepages/Profiles/OthersProfile.dart';
+import 'package:mymateapp/MyMateCommonBodies/MyMateBottomBar.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 
 import 'notification_service.dart';
@@ -8,9 +9,8 @@ class NotificationPage extends StatefulWidget {
   final int selectedBottomBarIconIndex;
   final String docId;
 
-  const NotificationPage(
-      {Key? key, required this.selectedBottomBarIconIndex, required this.docId})
-      : super(key: key);
+  const NotificationPage(this.selectedBottomBarIconIndex,{super.key,required this.docId});
+
 
   @override
   _NotificationPageState createState() => _NotificationPageState();
@@ -18,6 +18,7 @@ class NotificationPage extends StatefulWidget {
 
 class _NotificationPageState extends State<NotificationPage> {
   List<Map<String, dynamic>> notifications = [];
+  int _selectedIndex = 0;
 
   @override
   void initState() {
@@ -67,14 +68,27 @@ class _NotificationPageState extends State<NotificationPage> {
                               name, imageUrl, type, docId, context),
                         );
                       },
-                    ),
+              ),
             ),
           ],
         ),
       ),
+      bottomNavigationBar: _buildNavigationBar(),
+    );
+  }
+  Widget _buildNavigationBar() {
+    return CustomBottomNavigationBar(
+      selectedIndex: _selectedIndex,
+      onItemTapped: (index) {
+        setState(() {
+          _selectedIndex = index;
+        });
+      },
+      docId: widget.docId,
     );
   }
 }
+
 
 // User details widget
 Padding UserDetails() {
@@ -94,6 +108,7 @@ Padding UserDetails() {
     ),
   );
 }
+
 
 Widget NotificationContainer(String name, String imageUrl, String type, String docId, BuildContext context) {
   return GestureDetector(
@@ -153,3 +168,4 @@ Widget NotificationContainer(String name, String imageUrl, String type, String d
     ),
   );
 }
+
