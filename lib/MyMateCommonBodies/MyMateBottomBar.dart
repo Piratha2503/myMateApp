@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mymateapp/Homepages/ProfilePageScreen/MyProfileMain.dart';
-
 import 'package:mymateapp/Homepages/SubscribedhomeScreen/SubscribedHomeScreenStructured.dart';
 import 'package:mymateapp/Homepages/explorePage/explorePageMain.dart';
 import 'package:mymateapp/MyMateThemes.dart';
+import '../Homepages/AddTokenPages/AddTokenMain.dart';
 import '../Homepages/HomeScreenBeforeSubscibe.dart';
 
 import '../Homepages/Notification.dart';
+import '../Homepages/myMatePage/myMatePageMain.dart';
 import 'RouterFunction.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
@@ -42,8 +43,9 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
     switch(index){
       case 0: NavigatorFunction(context, SubscribedhomescreenStructuredPage(docId: widget.docId,));
       case 1: NavigatorFunction(context, ExplorePage(results: [], docId: widget.docId,search: [],));
-      case 2: NavigatorFunction(context, NotificationPage(index, docId: widget.docId,));
-      case 3: Navigator.push(context, MaterialPageRoute(builder: (context)=> ProfilePage(docId: widget.docId,
+      case 2: NavigatorFunction(context, MyMatePage( docId: widget.docId, results: [], search: [],));
+      case 3: NavigatorFunction(context, AddTokenMainPage( docId: widget.docId));
+      case 4: Navigator.push(context, MaterialPageRoute(builder: (context)=> ProfilePage(docId: widget.docId,
         selectedBottomBarIconIndex: 3,)));
     }
   }
@@ -51,36 +53,48 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return
-    Expanded(child:
-    SizedBox(
-      height: 96.h,
+    LayoutBuilder(
+        builder: (context, constraints) {
+          // Read width and height from constraints to use for responsive sizing.
+          final double width = constraints.maxWidth;
+          final double height = constraints.maxHeight;
+        return Expanded(child:
+        SizedBox(
+         //height: 96.h,
+         // height: height * 0.1,
+          child: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: Colors.transparent, // Transparent to blend with page
+            elevation: 0,
+            showSelectedLabels: false, // Hides selected item labels
+            showUnselectedLabels: false,// Removes shadow/border
+            items: [
 
-      child: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.transparent, // Transparent to blend with page
-        elevation: 0, // Removes shadow/border
-        items: [
+              _buildBottomNavigationBarItem(
+                  'assets/images/bhome.svg', 'Home', 0),
+              _buildBottomNavigationBarItem(
+                  'assets/images/bexplore.svg', 'Explore', 1),
+              _buildBottomNavigationBarItem(
+                  'assets/images/bheart.svg', 'myMate', 2),
+              _buildBottomNavigationBarItem(
+                  'assets/images/bfire.svg', 'token', 3),
 
-          _buildBottomNavigationBarItem(
-              'assets/images/Group 2141.svg', 'Home', 0),
-          _buildBottomNavigationBarItem(
-              'assets/images/Group 2142.svg', 'Explore', 1),
-          _buildBottomNavigationBarItem(
-              'assets/images/Group 2143.svg', 'Notifications', 2),
-          _buildBottomNavigationBarItem(
-              'assets/images/Group 2144.svg', 'Profile', 3),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: MyMateThemes.primaryColor,
-        unselectedItemColor: MyMateThemes.secondaryColor,
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-          onTab(index);
-        },
-      ),
-    ),
+              _buildBottomNavigationBarItem(
+                  'assets/images/buser.svg', 'Profile', 4),
+            ],
+            currentIndex: _selectedIndex,
+            selectedItemColor: MyMateThemes.primaryColor,
+            unselectedItemColor: MyMateThemes.secondaryColor,
+            onTap: (index) {
+              setState(() {
+                _selectedIndex = index;
+              });
+              onTab(index);
+            },
+          ),
+        ),
+        );
+      }
     );
   }
 

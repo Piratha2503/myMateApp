@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 
 import '../../ManagePages/ManagePage.dart';
+import '../../MyMateCommonBodies/MyMateBottomBar.dart';
 import 'AddTokenWidgets.dart';
 
 
@@ -16,6 +17,8 @@ class AddTokenMainPage extends StatefulWidget {
 }
 
 class _AddTokenMainPageState extends State<AddTokenMainPage> {
+  int _selectedIndex = 3;
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -142,6 +145,17 @@ class _AddTokenMainPageState extends State<AddTokenMainPage> {
               ),
             ),
           ),
+          bottomNavigationBar: CustomBottomNavigationBar(
+            selectedIndex: _selectedIndex,
+            onItemTapped: (index) {
+              setState(() {
+                _selectedIndex = index;
+              });
+              // Handle navigation here based on the index
+            },
+            docId: '',
+          ),
+
         );
       },
     );
