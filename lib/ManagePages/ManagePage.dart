@@ -195,6 +195,7 @@ class _ManagePageState extends State<ManagePage> {
 
 
                                 Row(
+
                                       children: [
                                         SvgPicture.asset(
                                           'assets/images/fire.svg',
