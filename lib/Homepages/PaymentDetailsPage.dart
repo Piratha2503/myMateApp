@@ -359,6 +359,7 @@ class _PaymentDetailsPageState extends State<PaymentDetailsPage> {
                             value: selectedYear,
                             items: years
                                 .map((year) => DropdownMenuItem(
+
                               value: year,
                               child: Text(
                                 year,

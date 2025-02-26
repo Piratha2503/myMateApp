@@ -431,7 +431,8 @@ class _SubscribeHomeScreenStructuredPageCarouselSlidersState extends State<Subsc
   }
 
   Widget ProfileColumns(Client clientData, BoxConstraints constraints) { // Add constraints parameter
-    return Padding(
+    return
+      Padding(
       padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.05),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

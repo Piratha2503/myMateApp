@@ -135,7 +135,8 @@ class _SubscribedhomescreenStructuredPageState
                 SubscribedhomescreenStructuredPageTokenContainers(context, widget.docId),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.05),
-                  child: SizedBox(
+                  child:
+                  SizedBox(
                     width: double.infinity,
                     height: height * 0.1,
                     child: ElevatedButton(
