@@ -13,6 +13,9 @@ class PaymentDetailsPage extends StatefulWidget {
 }
 
 class _PaymentDetailsPageState extends State<PaymentDetailsPage> {
+
+  DateTime _selectedDate = DateTime.now();
+
   late final int badgeValue = 6;
 
   final TextEditingController _cardController = TextEditingController();
@@ -44,7 +47,7 @@ class _PaymentDetailsPageState extends State<PaymentDetailsPage> {
     'December'
   ];
 
-  final List<String> years = List.generate(20, (index) => (2024 + index).toString());
+  final List<String> years = List.generate(50, (index) => (2024 + index).toString());
 
 
   Widget _numberPadButton(String value) {
@@ -98,6 +101,8 @@ class _PaymentDetailsPageState extends State<PaymentDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: false, // Prevents UI shrinking when keyboard appears
+
       body: LayoutBuilder(
           builder: (context, constraints) {
             double width = constraints.maxWidth;
@@ -303,8 +308,6 @@ class _PaymentDetailsPageState extends State<PaymentDetailsPage> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         SizedBox(width:width*0.045),
-                        Expanded(
-                          child:
                         SizedBox(
                           width:width * 0.28,
                           height:height * 0.055,
@@ -339,9 +342,7 @@ class _PaymentDetailsPageState extends State<PaymentDetailsPage> {
                             ),
                           ),
                         ),
-                        ),
                         SizedBox(width: width * 0.023),
-
                         SizedBox(
                           width:width * 0.2,
                           height:height * 0.055,
@@ -397,7 +398,7 @@ class _PaymentDetailsPageState extends State<PaymentDetailsPage> {
                             },
                             style: TextStyle(fontSize:width * 0.034,color: MyMateThemes.textColor), // Smaller font size
                             decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(horizontal:width* 0.02, vertical:height* 0.025), // Adjust padding
+                              contentPadding: EdgeInsets.symmetric(horizontal:width* 0.02, vertical:width* 0.01), // Adjust padding
                               border: InputBorder.none,
 
                             ),
