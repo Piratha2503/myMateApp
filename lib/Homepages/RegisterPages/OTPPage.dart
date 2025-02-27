@@ -37,7 +37,8 @@ class _otpPage extends State<otpPage> {
                   height: height*0.11,
                 ),
                Center(
-                child: Text(
+                child:
+                Text(
                   "Enter verification code",
                   style: TextStyle(
                     fontSize: width*0.05,
@@ -76,7 +77,7 @@ class _otpPage extends State<otpPage> {
 
                           children: [
                             SizedBox(
-                              width: width*0.1,
+                              width: width*0.05,
                             ),
                             OtpSizedBox(),
                             SizedBox(
@@ -92,7 +93,7 @@ class _otpPage extends State<otpPage> {
                             ),
                             OtpSizedBox(),
                             SizedBox(
-                              width: width*0.1,
+                              width: width*0.05,
                             ),
                           ],
                         )
