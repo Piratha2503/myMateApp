@@ -37,7 +37,7 @@ class _WelcomePageState extends State<WelcomePage> {
             PolicyRead(),
             TermsAndPolicies(),
             SizedBox(height: height*0.02),
-            GetStartButton(),
+            GetStartButton(width,height),
             SizedBox(height:height*0.04),
             Text(
               " Copyright @ 2025 Gray Corp (Pvt) Ltd",
@@ -275,7 +275,10 @@ class PolicyRead extends StatelessWidget {
 }
 
 class GetStartButton extends StatelessWidget {
-  const GetStartButton({super.key});
+  final double width;
+  final double height;
+
+  const GetStartButton(this.width, this.height, {super.key});
 
   void Clicked(BuildContext context) {
     Navigator.push(
@@ -283,16 +286,13 @@ class GetStartButton extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-        builder: (context, constraints) {
-          double width = constraints.maxWidth;
-          double height = constraints.maxHeight;
-        return Row(
+
+    Widget build(BuildContext context) {
+      return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-             // height: height*0.1,
+              height: height*0.07,
               width: width*0.45,
               child: ElevatedButton(
                 onPressed: () {
@@ -308,7 +308,6 @@ class GetStartButton extends StatelessWidget {
             )
           ],
         );
-      }
-    );
+
   }
 }
