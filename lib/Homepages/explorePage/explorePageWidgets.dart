@@ -134,16 +134,20 @@ Widget ViewMatchesGrid(BuildContext context, Future<List<Map<String, dynamic>>> 
       }
 
       final data = snapshot.data!;
-      return  GridView.count(
-        padding: EdgeInsets.symmetric(horizontal: 10.w),
-        crossAxisCount: 2,
-        crossAxisSpacing:3.w,
-        mainAxisSpacing: 3.h,
+      return
+        LayoutBuilder(
+          builder: (context, constraints) {
 
-        childAspectRatio: 0.48.h,
-        // Fixed width-to-height ratio
-        children: data.map((profile) => buildViewItem(profile)).toList(),
-      );
+            return GridView.count(
+              padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.04),
+              crossAxisSpacing: constraints.maxWidth * 0.005,
+              mainAxisSpacing: constraints.maxHeight * 0.005,
+              childAspectRatio:  2.6,
+              crossAxisCount: 1,
+              children: data.map((profile) => buildViewItem(profile)).toList(),
+            );
+          },
+        );
     },
   );
 }
@@ -162,15 +166,18 @@ Widget FilterGrid(BuildContext context, List<Map<String, dynamic>> filteredResul
       print('Filtered Profiles in UI: $data'); // Log filtered profiles in UI
 
       return
-        GridView.count(
-          padding: EdgeInsets.symmetric(horizontal: 10.w),
-          crossAxisCount: 2,
-          crossAxisSpacing:3.w,
-          mainAxisSpacing: 3.h,
+        LayoutBuilder(
+          builder: (context, constraints) {
 
-          childAspectRatio: 0.58.h,
-          // Fixed width-to-height ratio
-          children: data.map((profile) => buildViewItem(profile)).toList(),
+            return GridView.count(
+              padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.04),
+              crossAxisSpacing: constraints.maxWidth * 0.005,
+              mainAxisSpacing: constraints.maxHeight * 0.005,
+              childAspectRatio:  2.6,
+              crossAxisCount: 1,
+              children: data.map((profile) => buildViewItem(profile)).toList(),
+            );
+          },
         );
     },
   );

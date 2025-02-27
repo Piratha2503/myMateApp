@@ -187,8 +187,9 @@ class _ExplorePageState extends State<ExplorePage> with SingleTickerProviderStat
 
           return LayoutBuilder(
             builder: (context, constraints) {
-              double screenWidth = constraints.maxWidth;
-              bool isWideScreen = screenWidth > 600;
+              double width = constraints.maxWidth;
+              double height = constraints.maxWidth;
+
 
               return Scaffold(
                 backgroundColor: Colors.white,
@@ -203,40 +204,41 @@ class _ExplorePageState extends State<ExplorePage> with SingleTickerProviderStat
                         pinned: false,
                         automaticallyImplyLeading: false,
                         bottom: PreferredSize(
-                          preferredSize: Size.fromHeight(isWideScreen ? 70 : 50),
+                          preferredSize: Size.fromHeight( height*0.2),
                           child: Column(
                             children: [
                               TabBar(
                                 controller: _tabController,
                                 labelStyle: TextStyle(
                                   fontWeight: FontWeight.w600,
-                                  fontSize: isWideScreen ? 16 : 12,
+                                  fontSize: width*0.036 ,
                                   color: MyMateThemes.textColor,
                                 ),
                                 unselectedLabelStyle: TextStyle(
                                   fontWeight: FontWeight.normal,
-                                  fontSize: isWideScreen ? 14 : 11,
+                                  fontSize: width*0.035 ,
                                   color: MyMateThemes.textColor.withOpacity(0.8),
                                 ),
                                 dividerColor: Colors.transparent,
-                                indicatorPadding: const EdgeInsets.only(bottom: 6),
-                                indicator: UnderlineTabIndicator(
-                                  borderSide: const BorderSide(
-                                    width: 3,
-                                    color: MyMateThemes.textColor,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                labelPadding: const EdgeInsets.symmetric(horizontal: 8),
-                                tabs: const [
+                                indicatorPadding: EdgeInsets.only(bottom:width*0.01),
+                                // indicator: UnderlineTabIndicator(
+                                //   borderSide:  BorderSide(
+                                //     width: 3,
+                                //     color: MyMateThemes.textColor,
+                                //   ),
+                                //   borderRadius: BorderRadius.circular(10),
+                                // ),
+                               // labelPadding: const EdgeInsets.symmetric(horizontal: 8),
+                                tabs:  [
                                   Tab(text: 'Explore All'),
                                   Tab(text: 'View Matches'),
                                   Tab(text: 'Filter'),
                                 ],
                               ),
+                              //SizedBox(height: height*0.01),
                               if (_tabController.index == 2)
                                 Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: isWideScreen ? 24 : 12),
+                                  padding: EdgeInsets.symmetric(horizontal: width*0.04),
                                   child: ElevatedButton(
                                     style: CommonButtonStyle.commonButtonStyle(),
                                     onPressed: () {
@@ -250,40 +252,43 @@ class _ExplorePageState extends State<ExplorePage> with SingleTickerProviderStat
                                   ),
                                 ),
                               if (_tabController.index != 2)
-                                Container(
-                                  height: 40,
-                                  width: isWideScreen ? screenWidth * 0.5 : screenWidth * 0.9,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: MyMateThemes.textColor.withOpacity(0.1),
-                                      width: 1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                                    child: TextField(
-                                      controller: searchController,
-                                      cursorColor: MyMateThemes.textColor,
-                                      style: TextStyle(
-                                        fontSize: isWideScreen ? 16 : 14,
-                                        color: MyMateThemes.textColor,
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: width*0.035,vertical: height*0.02),
+                                  child: Container(
+                                    height: height*0.1,
+                                    width:  width * 0.86 ,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: MyMateThemes.textColor.withOpacity(0.1),
+                                        width: width*0.004,
                                       ),
-                                      decoration: InputDecoration(
-                                        prefixIcon: Padding(
-                                          padding: const EdgeInsets.all(8),
-                                          child: SvgPicture.asset(
-                                            'assets/images/search.svg',
-                                            colorFilter: ColorFilter.mode(
-                                              MyMateThemes.textColor.withOpacity(0.6),
-                                              BlendMode.srcIn,
+                                      borderRadius: BorderRadius.circular(width*0.01),
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(horizontal:width*0.01,vertical: height*0.001 ),
+                                      child: TextField(
+                                        controller: searchController,
+                                        cursorColor: MyMateThemes.textColor,
+                                        style: TextStyle(
+                                          fontSize: width*0.05 ,
+                                          color: MyMateThemes.textColor,
+                                        ),
+                                        decoration: InputDecoration(
+                                          prefixIcon: Padding(
+                                            padding:  EdgeInsets.all(height*0.02),
+                                            child: SvgPicture.asset(
+                                              'assets/images/search.svg',
+                                              colorFilter: ColorFilter.mode(
+                                                MyMateThemes.textColor.withOpacity(0.6),
+                                                BlendMode.srcIn,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        contentPadding: const EdgeInsets.symmetric(vertical: 10),
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(10),
-                                          borderSide: BorderSide.none,
+                                          contentPadding:  EdgeInsets.symmetric(vertical:height*0.01),
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(10),
+                                            borderSide: BorderSide.none,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -327,8 +332,8 @@ class _ExplorePageState extends State<ExplorePage> with SingleTickerProviderStat
 LayoutBuilder ExplorePageAppBar(BuildContext context, VoidCallback onFilterTap) {
   return LayoutBuilder(
     builder: (context, constraints) {
-      double screenWidth = constraints.maxWidth;
-      bool isWideScreen = screenWidth > 600;
+      double width = constraints.maxWidth;
+      double height = constraints.maxHeight;
 
       return AppBar(
         backgroundColor: Colors.white,
@@ -337,12 +342,12 @@ LayoutBuilder ExplorePageAppBar(BuildContext context, VoidCallback onFilterTap) 
           IconButton(
             icon: SvgPicture.asset(
               'assets/images/filter1.svg',
-              width: isWideScreen ? 32 : 24,
-              height: isWideScreen ? 32 : 24,
+              width:  width*0.15,
+              height:  height*0.15 ,
             ),
             onPressed: onFilterTap,
           ),
-          SizedBox(width: isWideScreen ? 16 : 10),
+          SizedBox(width: width*0.1 ),
         ],
       );
     },
