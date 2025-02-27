@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -20,6 +21,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+
   void Check() {
     print("Hello");
   }
@@ -155,6 +157,9 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton> {
   }
 
   Future<void> addMobile() async {
+     final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+
+    String? token = await _firebaseMessaging.getToken();
     print("Running");
     var random = Random();
     otp = (random.nextInt(9999 - 1001) + 1000);
@@ -182,7 +187,9 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton> {
       if (docId != null) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('docId', docId);
+         await prefs.setString('token', token!);
 
+        print('token is :$token');
         Navigator.push(
           context,
           MaterialPageRoute(

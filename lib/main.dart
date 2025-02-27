@@ -14,6 +14,7 @@ import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'ChartPages/GenerateChart.dart';
 import 'Homepages/CompleteProfileScreen/CompleteThree.dart';
+import 'Homepages/MessagePage.dart';
 import 'Homepages/ProfilePageScreen/MyProfileMain.dart';
 import 'Homepages/Profiles/MoreAboutMe.dart';
 import 'Homepages/Profiles/boost_profile.dart';
@@ -91,7 +92,7 @@ class MyApp extends StatelessWidget {
         home:
            // ProfilePage(selectedBottomBarIconIndex: 3, docId: 'zx7sjs4q0Kq43FPwrybU')
           //AuthcheckState()
-         // ProfilePage(docId: "SYfMHh6YUL6yobmIZXwO", selectedBottomBarIconIndex:0,),
+          //ProfilePage(docId: "uL82irbLGveGxNP6Gyfd", selectedBottomBarIconIndex:0,),
         // CheckmatchPage( clientDocId: '', soulDocId: '',),
        // RegisterPage()
       // SubscribedhomescreenStructuredPage(docId: 'E0JFHhK2x6Gq2Ac6XSyP',)
@@ -102,8 +103,9 @@ class MyApp extends StatelessWidget {
          // boostprofile(docId: 'SYfMHh6YUL6yobmIZXwO',)
           //PageThree(docId: 'qHPJAB0C6DavcfYnHAoO', onSave: () {  },)
            //   MyMatePage(results: [], search: [], docId: 'qHPJAB0C6DavcfYnHAoO',)
-             NotificationPage(0, docId: 'zx7sjs4q0Kq43FPwrybU',)
+            // NotificationPage(0, docId: 'zx7sjs4q0Kq43FPwrybU',)
              //  MyMatePage(results: [], search: [], docId: "SYfMHh6YUL6yobmIZXwO",)
+               MessagePage(docId: 'SYfMHh6YUL6yobmIZXwO', soulId: 'E0JFHhK2x6Gq2Ac6XSyP',)
     );
     }
     );

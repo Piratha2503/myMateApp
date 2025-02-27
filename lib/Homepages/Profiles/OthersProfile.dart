@@ -57,12 +57,19 @@ class _OtherProfilePageState extends State<OtherProfilePage>
   Future<String?> getSavedDocId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('docId');
+
+  }
+
+  Future <String?> getSavedToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('token');
   }
 
 
   Future<void> _updateNotificationStatus(String status) async {
     final senderDocId = await getSavedDocId();
     final receiverDocId = widget.SoulId;
+    final String? receiverToken = await getSavedToken();
     final senderName = await _fetchdetails(senderDocId);
     final url = Uri.parse(
       "https://backend.graycorp.io:9000/mymate/api/v1/requestSending?sender_docId=$senderDocId&receiver_docId=$receiverDocId&notification_status=$status",
@@ -78,7 +85,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
         print("Notification status updated successfully to $status");
         _checkNotificationStatus();
 
-        String? receiverToken = 'eZSq6wLcQUy7bb4-ykFkfG:APA91bGlLxNqvzOJO4pXrgnIx7XJKEvIHVxboz6WM6hJOz8kyr2ETQR0oVukTCmH6NKQ9v9jTSu7qFOEd56d-obZ9i32OuA4XjXCI1leTVfBUIFW2vWwUIA';
+        // String? receiverToken = 'eZSq6wLcQUy7bb4-ykFkfG:APA91bGlLxNqvzOJO4pXrgnIx7XJKEvIHVxboz6WM6hJOz8kyr2ETQR0oVukTCmH6NKQ9v9jTSu7qFOEd56d-obZ9i32OuA4XjXCI1leTVfBUIFW2vWwUIA';
        // await _fetchFCMToken(receiverDocId);
 
         if (receiverToken != null) {
@@ -107,35 +114,16 @@ class _OtherProfilePageState extends State<OtherProfilePage>
         return data['personalDetails']['full_name'] ?? "Unknown User";
 
       } else {
-        print("❌ Failed to fetch sender's name: ${response.statusCode}");
+        print(" Failed to fetch sender's name: ${response.statusCode}");
         return "Unknown User";
       }
     } catch (e) {
-      print("🚨 Error fetching sender's name: $e");
+      print(" Error fetching sender's name: $e");
       return "Unknown User";
     }
   }
 
-  Future<String?> _fetchFCMToken(String docId) async {
-    final url = Uri.parse(
-      'https://backend.graycorp.io:9000/mymate/api/v1/getClientFCMToken?docId=$docId',
-    );
 
-    try {
-      final response = await http.get(url);
-
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> data = jsonDecode(response.body);
-        return data['fcm_token'];
-      } else {
-        print("Failed to fetch FCM token: ${response.statusCode}");
-        return null;
-      }
-    } catch (e) {
-      print("Error fetching FCM token: $e");
-      return null;
-    }
-  }
 
   Future<void> _checkNotificationStatus() async {
     final senderDocId = await getSavedDocId();

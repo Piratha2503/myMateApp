@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:googleapis_auth/auth_io.dart' as auth;
 
@@ -34,16 +36,35 @@ class NotificationService {
     InitializationSettings(android: androidInit);
     await _flutterLocalNotificationsPlugin.initialize(initSettings);
 
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       if (message.notification != null) {
         _showLocalNotification(
           message.notification!.title ?? "New Request",
           message.notification!.body ?? "Someone sent you a request.",
         );
-        print("🔔 Message body: ${message.notification?.body}");
+        print(" Message body: ${message.notification?.body}");
 
       }
+      if ( message.data.containsKey('senderId')) {
+        String messageId = message.data['messageId'];
+        String senderId = message.data['senderId'];
+        String receiverId = FirebaseAuth.instance.currentUser!.uid;
+
+        await FirebaseFirestore.instance
+            .collection('clients')
+            .doc(receiverId)
+            .collection('messages')
+            .doc(senderId)
+            .collection('chats')
+            .doc(messageId)
+            .update({'status': 'delivered'});
+        print("onMessage triggered: ${message.data}");
+
+        print("Message $messageId marked as delivered.");
+      }
     });
+
+
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print("Notification clicked!");
@@ -56,7 +77,7 @@ class NotificationService {
     int notificationId = DateTime.now().millisecondsSinceEpoch.remainder(100000);
 
     final BigPictureStyleInformation bigPictureStyle = BigPictureStyleInformation(
-      const DrawableResourceAndroidBitmap('@mipmap/ic_launcher'), // Local app logo
+      const DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),
       largeIcon: const DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),
       contentTitle: title,
       summaryText: body,
@@ -121,6 +142,45 @@ class NotificationService {
     }
   }
 
+  static Future<void> sendMessageNotification(String fcmToken, String SenderName, String message, String messageId) async {
+    final String firebaseProjectId = "mymate-62700";
+    final String accessToken = await getAccessToken();
+
+    try {
+      final response = await http.post(
+        Uri.parse("https://fcm.googleapis.com/v1/projects/$firebaseProjectId/messages:send"),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $accessToken',
+        },
+        body: jsonEncode({
+          "message": {
+            "token": fcmToken,
+            "notification": {
+              "title": "New Message",
+              "body": "$SenderName: $message",
+            },
+            "data": {
+              "click_action": "FLUTTER_NOTIFICATION_CLICK",
+              "type": "message",
+              "senderId": SenderName,
+              "message": message,
+              "messageId" : messageId
+            }
+          }
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        print(" Message notification sent successfully!");
+      } else {
+        print(" Failed to send message notification: ${response.body}");
+      }
+    } catch (e) {
+      print(" Error sending message notification: $e");
+    }
+  }
+
   static Future<String> getAccessToken() async {
     String jsonString = await rootBundle.loadString('assets/mymate-62700-firebase-adminsdk-lh9km-3f583c87c4.json');
     final serviceAccount = json.decode(jsonString);
@@ -170,7 +230,6 @@ class NotificationService {
       if (response.statusCode == 200) {
         List<dynamic> users = jsonDecode(response.body);
 
-        // Fetch users who sent a request
         List<Map<String, dynamic>> matchingUsers = users.where((user) {
           return receivedDocIds.contains(user['docId']);
         }).map((user) {
@@ -182,7 +241,6 @@ class NotificationService {
           };
         }).toList();
 
-        // Fetch users who accepted our request
         List<Map<String, dynamic>> acceptedUsers = users.where((user) {
           List<dynamic>? acceptedList = user['matchings']?['acceptDocIdList'];
           return acceptedList != null && acceptedList.contains(docId);
@@ -195,7 +253,6 @@ class NotificationService {
           };
         }).toList();
 
-        // Merge both request and accept notifications
         allNotifications.addAll(matchingUsers);
         allNotifications.addAll(acceptedUsers);
       } else {
