@@ -4,26 +4,27 @@ import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:mymateapp/Homepages/CompleteProfileScreen/CompleteProfileMain.dart';
-import 'package:mymateapp/Homepages/Profiles/EditPage.dart';
+import 'package:mymateapp/Homepages/HomeScreenBeforeSubscribe.dart';
 import 'package:mymateapp/Homepages/RegisterPages/RegisterPage.dart';
+import 'package:mymateapp/Homepages/explorePage/exploreProvider.dart';
+import 'package:mymateapp/ManagePages/SettingsPage.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'Homepages/ProfilePageScreen/MyProfileMain.dart';
-import 'Homepages/Profiles/MoreAboutMe.dart';
-import 'Homepages/Profiles/boost_profile.dart';
-import 'Homepages/SubscribedHomeScreen.dart';
+import 'ChartPages/ChartCalPage.dart';
+import 'ChartPages/ChartInputPage.dart';
+import 'ChartPages/ChartViewPage.dart';
+import 'ChartPages/GenerateChart.dart';
+import 'ChartPages/PlaceDateTimeInput.dart';
+import 'Homepages/AddTokenPages/AddTokenMain.dart';
+import 'Homepages/RegisterPages/NameAndGenderPage.dart';
+import 'Homepages/RegisterPages/OTPPage.dart';
+import 'Homepages/RegisterPages/Pinput.dart';
 import 'Homepages/SubscribedhomeScreen/SubscribedHomeScreenBeforeProfileCompleted.dart';
 import 'Homepages/SubscribedhomeScreen/SubscribedHomeScreenStructured.dart';
+import 'Homepages/WelcomeScreen.dart';
 import 'Homepages/explorePage/explorePageMain.dart';
-import 'Homepages/AddTokenPage.dart';
-import 'Homepages/explorePage/exploreProvider.dart';
-import 'Homepages/myMatePage/myMatePageMain.dart';
-
 import 'firebase_options.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -67,14 +68,11 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
 
             home:
-            // ProfilePage(selectedBottomBarIconIndex: 3, docId: 'SYfMHh6YUL6yobmIZXwO',)
-            //AuthcheckState()
+            AddTokenMainPage(docId: '',)
             //ProfilePage(docId: "SYfMHh6YUL6yobmIZXwO", selectedBottomBarIconIndex:0,),
-            // CheckmatchPage( clientDocId: '', soulDocId: '',),
-            ExplorePage(docId: '', results: [], search: [],),
-            // RegisterPage(),
-            //MyMatePage(results: [], search: [], docId: '',)
+           // HomeScreenBeforeSubscibe(0,docId: '',),
             //SubscribedhomescreenStructuredPage(docId: '',),
+            //MyMatePage(results: [], search: [], docId: '',)
 
           );
         }
