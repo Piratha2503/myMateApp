@@ -403,10 +403,10 @@ final List<Widget> packageSliders = [
                     ),
                     Positioned(
                       //top:29,
-                      top: constraints.maxHeight * 0.04,
-                      left:constraints.maxWidth * 0.06,
+                      top: constraints.maxHeight * 0.06,
+                      left:constraints.maxWidth * 0.3,
                       child:
-                      SvgPicture.asset('assets/images/tick.svg'),
+                      SvgPicture.asset('assets/images/Layer 1.svg',height:19,width: 19,),
                     ),
                     Positioned(
                       top: constraints.maxHeight * 0.04,
