@@ -107,8 +107,11 @@ class _PaymentDetailsPageState extends State<PaymentDetailsPage> {
           builder: (context, constraints) {
             double width = constraints.maxWidth;
             double height = constraints.maxHeight;
+
             return SafeArea(
+
               child: Padding(
+
                 padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.05),
                 child: Column(
                   children: [
@@ -144,6 +147,7 @@ class _PaymentDetailsPageState extends State<PaymentDetailsPage> {
                                   ],
                                 ),
                                 child: Column(
+
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     SizedBox(height:height*0.01),
