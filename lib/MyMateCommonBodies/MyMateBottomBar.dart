@@ -6,7 +6,7 @@ import 'package:mymateapp/Homepages/SubscribedhomeScreen/SubscribedHomeScreenStr
 import 'package:mymateapp/Homepages/explorePage/explorePageMain.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import '../Homepages/AddTokenPages/AddTokenMain.dart';
-import '../Homepages/HomeScreenBeforeSubscibe.dart';
+import '../Homepages/HomeScreenBeforeSubscribe.dart';
 
 import '../Homepages/Notification.dart';
 import '../Homepages/myMatePage/myMatePageMain.dart';
