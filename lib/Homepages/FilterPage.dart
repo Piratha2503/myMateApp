@@ -152,29 +152,19 @@ class _FilterPageState extends State<FilterPage> {
       filters['age'] = AgeController.text;
     }
 
-    //
-    // if (minAgeController.text.isNotEmpty) {
-    //   filters['min_age'] = minAgeController.text;
-    // }
-    //
-    // if (maxAgeController.text.isNotEmpty) {
-    //   filters['max_age'] = maxAgeController.text;
-    // }
-
     try {
       // Fetch filtered profiles
       final results = await filterAllUsers(filters);
       print('Filtered Results: $results');
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ExplorePage(
-            initialTabIndex: 2,
-            results: results, search: [], docId: '', // Pass the filtered results here
-          ),
-        ),
-      );
+      // ✅ Pass all necessary data back to `ExplorePage`
+      Navigator.pop(context, {
+        'filters': filters,
+        'results': results,
+        'initialTabIndex': 2, // ✅ Ensure tab index is passed back
+        'search': [], // ✅ Preserve search parameter
+        'docId': '', // ✅ Preserve docId
+      });
     } catch (error) {
       print('Error: $error');
       ScaffoldMessenger.of(context).showSnackBar(
@@ -182,8 +172,6 @@ class _FilterPageState extends State<FilterPage> {
       );
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {

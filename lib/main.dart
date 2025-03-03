@@ -1,28 +1,44 @@
 import 'dart:convert';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:mymateapp/ChartPages/ManualRasiChartPage.dart';
+import 'package:mymateapp/Homepages/HomeScreenBeforeSubscribe.dart';
 import 'package:mymateapp/Homepages/RegisterPages/RegisterPage.dart';
+import 'package:mymateapp/Homepages/explorePage/exploreProvider.dart';
+import 'package:mymateapp/ManagePages/SettingsPage.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'ChartPages/ManualNavamsaChartPage.dart';
-import 'Homepages/ProfilePageScreen/MyProfileMain.dart';
-import 'Homepages/Profiles/boost_profile.dart';
+import 'ChartPages/ChartCalPage.dart';
+import 'ChartPages/ChartInputPage.dart';
+import 'ChartPages/ChartViewPage.dart';
+import 'ChartPages/GenerateChart.dart';
+import 'ChartPages/PlaceDateTimeInput.dart';
+import 'Homepages/AddTokenPages/AddTokenMain.dart';
+import 'Homepages/RegisterPages/NameAndGenderPage.dart';
+import 'Homepages/RegisterPages/OTPPage.dart';
+import 'Homepages/RegisterPages/Pinput.dart';
+import 'Homepages/SubscribedhomeScreen/SubscribedHomeScreenBeforeProfileCompleted.dart';
 import 'Homepages/SubscribedhomeScreen/SubscribedHomeScreenStructured.dart';
+import 'Homepages/WelcomeScreen.dart';
 import 'Homepages/explorePage/explorePageMain.dart';
-import 'Homepages/AddTokenPage.dart';
 import 'firebase_options.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => ExploreProvider()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -30,8 +46,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Astrology astrology = Astrology();
-
     ClientData clientData = ClientData();
     PersonalDetails personalDetails = PersonalDetails();
     personalDetails.first_name = "Hello";
@@ -39,18 +53,29 @@ class MyApp extends StatelessWidget {
     personalDetails.gender = "Male";
     clientData.docId = "TBT3I8DYa3BepMZPPqv6";
     clientData.personalDetails = personalDetails;
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-          primaryColor: Colors.blue[200]),
-      debugShowCheckedModeBanner: false,
 
-      home:
-      // CheckmatchPage( clientDocId: '', soulDocId: '',),
-      ManualRasiChartPage(clientData: clientData),
-    //  ManualNavamsaChartPage(clientData: clientData, astrology:astrology)
+    return ScreenUtilInit(
+        designSize: Size(390, 844), // Base size of your UI design
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (context, child) {
+          return MaterialApp(
+            title: 'Flutter Demo',
+            theme: ThemeData(
+                colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+                useMaterial3: true,
+                primaryColor: Colors.blue[200]),
+            debugShowCheckedModeBanner: false,
+
+            home:
+            AddTokenMainPage(docId: '',)
+            //ProfilePage(docId: "SYfMHh6YUL6yobmIZXwO", selectedBottomBarIconIndex:0,),
+           // HomeScreenBeforeSubscibe(0,docId: '',),
+            //SubscribedhomescreenStructuredPage(docId: '',),
+            //MyMatePage(results: [], search: [], docId: '',)
+
+          );
+        }
     );
   }
 }
@@ -77,9 +102,9 @@ class _AuthcheckState extends State<AuthcheckState> {
         } else {
           final docId = snapshot.data;
           if (docId != null) {
-            return ProfilePage(docId: docId, selectedBottomBarIconIndex: 3,);
+            return SubscribedhomescreenStructuredPage(docId: docId,);
           } else {
-            return SubscribedhomescreenStructuredPage(docId: 'yVBYhDY52IN0IwMkmcGu');
+            return RegisterPage();
           }
         }
       },

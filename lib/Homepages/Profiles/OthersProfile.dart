@@ -5,7 +5,7 @@
   import 'package:http/http.dart' as http;
   import '../../MyMateCommonBodies/MyMateApis.dart';
   import '../../MyMateCommonBodies/MyMateBottomBar.dart';
-  import '../CheckMatch.dart';
+  import '../checkMatchPages/CheckMatch.dart';
   import '../ProfilePageScreen/navamsaChartDesign.dart';
   import '../ProfilePageScreen/photoGalleryPage.dart';
   import '../ProfilePageScreen/rasiChartDesign.dart';
@@ -114,9 +114,7 @@
         });
       }
     }
-  
-  
-  
+
     Future<void> getClient() async {
   
       try {
@@ -143,8 +141,9 @@
             var expectations = data['expectations'] ?? [];
   
             print('Profile Picture URL: $profilePictureUrl');
-  
-  
+
+
+
             if (expectations is List<String>) {
               controllers = expectations
                   .map((expectation) => TextEditingController(text: expectation))
@@ -239,7 +238,7 @@
                 },
                 child: SvgPicture.asset('assets/images/chevron-left.svg'),
               ),
-              SizedBox(width: 70.0),
+              SizedBox(width: 90.0),
               Text(
                 "@ $full_name",
                 style: TextStyle(
@@ -415,7 +414,9 @@
           future: fetchUserById(widget.SoulId), // Call API with docId
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return Center(
+                 child: CircularProgressIndicator()
+              );
             } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else if (!snapshot.hasData || snapshot.data!.isEmpty) {

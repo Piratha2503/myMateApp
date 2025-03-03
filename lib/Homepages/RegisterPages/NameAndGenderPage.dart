@@ -22,18 +22,11 @@ class NameAndGender extends StatefulWidget {
 class _NameAndGenderState extends State<NameAndGender> {
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
-  String selectedGender = ""; // To track the selected gender
-
-  void updateSelectedGender(String gender) {
-    setState(() {
-      selectedGender = gender;
-    });
-  }
+  String selectedGender = "";
 
   @override
   void initState() {
     super.initState();
-    print(widget.clientData.contactInfo?.mobile);
     getClientData();
   }
 
@@ -53,48 +46,61 @@ class _NameAndGenderState extends State<NameAndGender> {
 
   @override
   Widget build(BuildContext context) {
-    PersonalDetails? personalDetails = PersonalDetails();
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        double width = constraints.maxWidth;
+        double height = constraints.maxHeight;
+        PersonalDetails personalDetails = PersonalDetails();
 
-    return Scaffold(
-      backgroundColor: MyMateThemes.backgroundColor,
-      body: Column(
-        children: [
-          Form(
-            child: Center(
+        return Scaffold(
+          backgroundColor: MyMateThemes.backgroundColor,
+          body: SingleChildScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: width * 0.05),
               child: Column(
                 children: [
-                  SizedBox(height: 75),
-                  Text('Enter your details',style: TextStyle(color: MyMateThemes.textColor,fontSize: 24,fontWeight: FontWeight.w800,letterSpacing: 0.8),),
-                  SizedBox(height: 30),
-                  InputField("First name", firstNameController),
-                  SizedBox(height: 10),
-                  InputField("Last name", lastNameController),
-                  SizedBox(height: 30),
-                  GenderButtons(personalDetails),
-                  SizedBox(height: 60),
+                  SizedBox(height: height * 0.1),
+                  Text(
+                    'Enter your details',
+                    style: TextStyle(
+                      color: MyMateThemes.textColor,
+                      fontSize: width * 0.06,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 0.8,
+                    ),
+                  ),
+                  SizedBox(height: height * 0.04),
+                  InputField("First name", firstNameController, width,height),
+                  SizedBox(height: height * 0.02),
+                  InputField("Last name", lastNameController, width,height),
+                  SizedBox(height: height * 0.05),
+                  GenderButtons(personalDetails, width),
+                  SizedBox(height: height * 0.1),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: NextButton(
+                      clientData: widget.clientData,
+                      personalDetails: personalDetails,
+                      firstTextController: firstNameController,
+                      lastTextController: lastNameController,
+                      selectedGender: selectedGender,
+                      width: width,
+                      height: height,
+
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              NextButton(
-                clientData: widget.clientData,
-                personalDetails: personalDetails,
-                firstTextController: firstNameController,
-                lastTextController: lastNameController,
-                selectedGender: selectedGender,
-              ),
-              SizedBox(width: 25),
-            ],
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 
-  Widget GenderButtons(PersonalDetails? personalDetails) {
+  Widget GenderButtons(PersonalDetails personalDetails, double width) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -105,11 +111,12 @@ class _NameAndGenderState extends State<NameAndGender> {
           onSelected: () {
             setState(() {
               selectedGender = "Male";
-              personalDetails?.gender = selectedGender;
+              personalDetails.gender = selectedGender;
             });
           },
+          width: width,
         ),
-        SizedBox(width: 40),
+        SizedBox(width: width * 0.05),
         GenderButton(
           gender: "Female",
           icon: Icons.female_outlined,
@@ -117,70 +124,55 @@ class _NameAndGenderState extends State<NameAndGender> {
           onSelected: () {
             setState(() {
               selectedGender = "Female";
-              personalDetails?.gender = selectedGender;
+              personalDetails.gender = selectedGender;
             });
           },
+          width: width,
         ),
       ],
     );
   }
 }
 
-class GenderButton extends StatefulWidget {
+class GenderButton extends StatelessWidget {
   final String gender;
   final IconData icon;
   final bool isSelected;
   final VoidCallback onSelected;
+  final double width;
 
   const GenderButton({
     required this.gender,
     required this.icon,
     required this.isSelected,
     required this.onSelected,
+    required this.width,
     super.key,
   });
 
   @override
-  _GenderButtonState createState() => _GenderButtonState();
-}
-
-class _GenderButtonState extends State<GenderButton> {
-  @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: widget.onSelected,
+      onPressed: onSelected,
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(MyMateThemes.backgroundColor),
-        foregroundColor: MaterialStateProperty.all(MyMateThemes.primaryColor),
         side: MaterialStateProperty.all(
           BorderSide(
-            color: widget.isSelected
-                ? MyMateThemes.primaryColor
-                : MyMateThemes.secondaryColor,
+            color: isSelected ? MyMateThemes.primaryColor : MyMateThemes.secondaryColor,
             width: 2,
           ),
         ),
-        alignment: Alignment.center,
-        fixedSize: MaterialStateProperty.all(Size(120, 120)),
+        fixedSize: MaterialStateProperty.all(Size(width * 0.3, width * 0.3)),
         shape: MaterialStateProperty.all(RoundedRectangleBorder()),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            widget.icon,
-            size: 70,
-            color: MyMateThemes.primaryColor,
-          ),
-          SizedBox(height: 8),
+          Icon(icon, size: width * 0.1, color: MyMateThemes.primaryColor),
+          SizedBox(height: width * 0.02),
           Text(
-            widget.gender,
-            style: TextStyle(
-              fontWeight: FontWeight.w800,
-              fontSize: 15,
-              color: MyMateThemes.textColor,
-            ),
-            textAlign: TextAlign.center,
+            gender,
+            style: TextStyle(fontWeight: FontWeight.w800, fontSize: width * 0.04),
           ),
         ],
       ),
@@ -188,10 +180,11 @@ class _GenderButtonState extends State<GenderButton> {
   }
 }
 
-Widget InputField(String inputName, TextEditingController nameController) {
+Widget InputField(String inputName, TextEditingController nameController, double width,double height) {
+
   return SizedBox(
-    width: 300,
-    height: 75,
+    width: width * 0.8,
+    height: height*0.08,
     child: TextField(
       controller: nameController,
       decoration: InputDecoration(
@@ -199,18 +192,19 @@ Widget InputField(String inputName, TextEditingController nameController) {
         labelStyle: TextStyle(
           fontWeight: FontWeight.w600,
           color: MyMateThemes.textColor.withOpacity(0.6),
-          fontSize: 20,
+          fontSize:width*0.05 ,
           letterSpacing: 0.8,
         ),
       ),
       style: TextStyle(
         fontWeight: FontWeight.w600,
         color: MyMateThemes.textColor,
-        fontSize: 20,
+        fontSize: width*0.05,
       ),
     ),
   );
 }
+
 
 class NextButton extends StatelessWidget {
   final ClientData clientData;
@@ -218,6 +212,8 @@ class NextButton extends StatelessWidget {
   final TextEditingController firstTextController;
   final TextEditingController lastTextController;
   final String selectedGender;
+  final double width;
+  final double height;
 
   NextButton({
     required this.clientData,
@@ -225,7 +221,11 @@ class NextButton extends StatelessWidget {
     required this.firstTextController,
     required this.lastTextController,
     required this.selectedGender,
+    required this.width,
+    required this.height,
+
     super.key,
+
   });
 
   Future<void> updateClientProfile(BuildContext context) async {
@@ -264,17 +264,14 @@ class NextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 58,
-      width: 166,
+      height: height * 0.08,
+      width: width * 0.42,
       child: ElevatedButton(
-        onPressed: () {
-          updateClientProfile(context);
-        },
+        onPressed: () => updateClientProfile(context),
         style: CommonButtonStyle.commonButtonStyle(),
-
         child: Text(
           "Get Started",
-          style: TextStyle(fontSize: MyMateThemes.buttonFontSize),
+          style: TextStyle(fontSize: width * 0.04),
         ),
       ),
     );

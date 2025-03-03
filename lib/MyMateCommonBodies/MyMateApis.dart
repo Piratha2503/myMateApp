@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
 import '../Homepages/explorePage/explorePageWidgets.dart';
+import '../dbConnection/ClientDatabase.dart';
 
 class MyMateAPIs{
 
@@ -26,9 +26,12 @@ class MyMateAPIs{
   static String send_request_API = "https://backend.graycorp.io:9000/mymate/api/v1/RequestSent";
 
 
+
+
 }
 Future<Map<String, dynamic>> fetchUserById(String docId,) async {
   final String apiUrl = MyMateAPIs.get_client_byDocId_API;
+
 
   try {
     if (docId.isEmpty) {
@@ -36,7 +39,7 @@ Future<Map<String, dynamic>> fetchUserById(String docId,) async {
       return {};
     }
     final Uri url = Uri.parse('$apiUrl?docId=$docId');
-
+    print('Fetching details from: $url');
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -107,7 +110,7 @@ Future<Map<String, dynamic>> fetchUserById(String docId,) async {
         'favorites': lifestyle['personal_interest'] ?? 'N/A',
         'alcohol': lifestyle['habits'] ?? 'N/A',
         'sports': data['sports'] ?? 'N/A',
-        'cooking': data['cooking'] ?? 'N/A',
+        // 'cooking': data['cooking'] ?? 'N/A',
         'bio': personalDetails['bio'] ?? 'N/A',
         'images': userImages,
         'civil_status' : personalDetails['marital_status'] ?? 'N/A',
@@ -117,6 +120,11 @@ Future<Map<String, dynamic>> fetchUserById(String docId,) async {
         'country' : address['country'] ?? 'N/A',
         'rasi': astrology['rasi'] ?? 'N/A',
         'natchathiram': astrology['natchathiram'] ?? 'N/A',
+        'alcoholIntake' :lifestyle['alcoholIntake'] ?? 'N/A',
+        'cooking' :lifestyle['cooking'] ?? 'N/A',
+        'eating_habit' :lifestyle['eating_habit'] ?? 'N/A',
+        'smoking' :lifestyle['smoking'] ?? 'N/A',
+        'personal_intrest': lifestyle['personal_intrest'] ?? 'N/A',
 
 
       };
@@ -283,3 +291,34 @@ Future<List<Map<String, dynamic>>> searchAllUsers(Map<String, String> searchPara
 
 
 
+Future<void> updateClientData(ClientData clientData) async {
+  final url = Uri.parse('https://backend.graycorp.io:9000/mymate/api/v1/updateClient');
+
+  try {
+    final Map<String, dynamic> clientDataMap = clientData.toMap();
+    print("📤 Sending JSON Data: ${jsonEncode(clientDataMap)}"); // Debugging
+
+    final response = await http.put(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: jsonEncode(clientDataMap),
+    );
+
+    print("🔹 Response Code: ${response.statusCode}");
+    print("🔹 Response Body: ${response.body}");
+
+    if (response.statusCode == 200) {
+      // final clientData = jsonDecode(response.body);
+      // final astrology = clientData['astrology'] ?? {};
+      //
+
+      print("✅ Client data updated successfully.");
+    } else {
+      print("❌ Error updating client data: ${response.statusCode} - ${response.body}");
+    }
+  } catch (e) {
+    print("❌ API error: $e");
+  }
+}
