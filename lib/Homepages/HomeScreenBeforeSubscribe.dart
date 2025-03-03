@@ -140,82 +140,88 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
 
   Widget _buildBody() {
     return LayoutBuilder(
-        builder: (context, constraints) {
-          double width = constraints.maxWidth;
-          double height = constraints.maxHeight;
+      builder: (context, constraints) {
+        double width = constraints.maxWidth;
+        double height = constraints.maxHeight;
+
         return Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: height*0.02),
+              SizedBox(height: height * 0.01),
               _buildHeaderText('Congratulations'),
               _buildSubHeaderText("You're successfully registered"),
-            Expanded(
-              child: LayoutBuilder(
-                builder: (BuildContext context, BoxConstraints constraints) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Stack(
-                        alignment: Alignment.center,
-                        clipBehavior: Clip.none,
-                        children: [
-                          Align(
-                            alignment: Alignment.center,
-                            child: SvgPicture.asset(
-                              'assets/images/Frame.svg',
-                              height: constraints.maxHeight * 1.39,
-                              width:  constraints.maxWidth * 1,
 
-                              fit: BoxFit.cover,
-                            ),
-
-                          ),
-                          Positioned(
-                            top: constraints.maxHeight * 0.28, // Adjust top position
-                            left: 0,
-                            right: 0,
-                            child: Center(
-                              child: CommonTextStyleForPage(
-                                '137',
-                                Colors.white,
-                                FontWeight.w700,
-                                constraints.maxWidth * 0.08, // Adjust font size
+              // Use a SizedBox with a defined height to maintain proportions
+              SizedBox(
+                height: height * 0.3, // Adjust height for large screens
+                width: width * 1.3, // Ensures better width scaling
+                child: LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    print('Height: ${constraints.maxHeight*0.9}, Width: ${constraints.maxWidth}'); // Debugging
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Stack(
+                          alignment: Alignment.center,
+                          clipBehavior: Clip.none,
+                          children: [
+                            Align(
+                              alignment: Alignment.center,
+                              child: SvgPicture.asset(
+                                'assets/images/Frame.svg',
+                                height: constraints.maxHeight * 1.3,
+                                width: constraints.maxWidth * 1,
+                                fit: BoxFit.cover,
                               ),
                             ),
-                          ),
-                          Positioned(
-                            top: constraints.maxHeight * 0.56, // Adjust top position
-                            left: 0,
-                            right: 0,
-                            child: Center(
-                              child: CommonTextStyleForPage(
-                                'Matches Found',
-                                Colors.white,
-                                FontWeight.w500,
-                                constraints.maxWidth * 0.042, // Adjust font size
+                            Positioned(
+                              top: constraints.maxHeight * 0.3, // Adjust top position
+                              left: 0,
+                              right: 0,
+                              child: Center(
+                                child: CommonTextStyleForPage(
+                                  '137',
+                                  Colors.white,
+                                  FontWeight.w700,
+                                  constraints.maxWidth * 0.08, // Adjust font size
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  );
-                },
+                            Positioned(
+                              top: constraints.maxHeight * 0.56, // Adjust top position
+                              left: 0,
+                              right: 0,
+                              child: Center(
+                                child: CommonTextStyleForPage(
+                                  'Matches Found',
+                                  Colors.white,
+                                  FontWeight.w500,
+                                  constraints.maxWidth * 0.043, // Adjust font size
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+                  },
+                ),
               ),
-            ),
+
+              SizedBox(height: height * 0.02),
               _buildHeaderText('View Matches'),
-              SizedBox(height: height*0.04),
+              SizedBox(height: height * 0.015),
               _buildFreePremiumRow(),
-              SizedBox(height: height*0.01),
+              SizedBox(height: height * 0.01),
               _buildImageContainers(),
-              SizedBox(height: height*0.02),
+              SizedBox(height: height * 0.02),
               _buildFooterRow(),
-              SizedBox(height: height*0.01),
+              SizedBox(height: height * 0.01),
             ],
           ),
         );
-      }
+      },
     );
   }
 
@@ -231,7 +237,7 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
             text,
             style: TextStyle(
               color: MyMateThemes.primaryColor,
-              fontSize: width*0.05,
+              fontSize: width*0.042,
               fontWeight: FontWeight.w500,
             ),
           ),

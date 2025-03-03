@@ -154,7 +154,7 @@ class _PaymentDetailsPageState extends State<PaymentDetailsPage> {
                                     Row(
                                       children: [
                                         SizedBox(width: width*0.06),
-                                        SvgPicture.asset('assets/images/white.svg'),
+                                        SvgPicture.asset('assets/images/Layer 1.svg',height:19,width: 19),
                                       ],
                                     ),
                                     SizedBox(height: height*0.005),
