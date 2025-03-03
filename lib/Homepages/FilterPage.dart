@@ -173,8 +173,6 @@ class _FilterPageState extends State<FilterPage> {
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
