@@ -23,6 +23,7 @@ class _AllactionpageState extends State<Allactionpage> {
           double height = constraints.maxHeight;
 
           return Scaffold(
+
           body: SafeArea(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
