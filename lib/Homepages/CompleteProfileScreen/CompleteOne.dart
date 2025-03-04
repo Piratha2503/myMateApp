@@ -12,8 +12,9 @@ import '../../MyMateThemes.dart';
 class PageOne extends StatefulWidget {
   final VoidCallback onSave;
   final String docId;
+  final BoxConstraints constraints; // Receive constraints from parent
 
-  PageOne({required this.onSave, required this.docId});
+  PageOne({required this.onSave, required this.docId,required this.constraints});
 
   @override
   _PageOneState createState() => _PageOneState();
@@ -180,65 +181,77 @@ class _PageOneState extends State<PageOne> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          SizedBox(height: 50),
-          Text("Update Your Profile"),
-          SizedBox(height: 40),
-          Stack(
-            children: [
-              GestureDetector(
-                // onTap: _openPopupScreen,
-                // child: _savedImageUrl != null
-                //     ? CircleAvatar(
-                //   radius: 50,
-                //   backgroundImage: NetworkImage(_savedImageUrl!),
-                // )
-                  child  : _imageFile != null
-                    ? CircleAvatar(
-                  radius: 50,
-                  backgroundImage: FileImage(_imageFile!),
-                )
-                    : SvgPicture.asset('assets/images/circle.svg'),
+    double width = widget.constraints.maxWidth;
+    double height = widget.constraints.maxHeight;
+
+        return Center(
+
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              SizedBox(height: height*0.04),
+              Text("Update Your Profile",style: TextStyle(color: MyMateThemes.textColor,fontSize: width*0.04),),
+              SizedBox(height: height*0.02),
+              Stack(
+                children: [
+                  GestureDetector(
+                    // onTap: _openPopupScreen,
+                    // child: _savedImageUrl != null
+                    //     ? CircleAvatar(
+                    //   radius: 50,
+                    //   backgroundImage: NetworkImage(_savedImageUrl!),
+                    // )
+                      child  : _imageFile != null
+                        ? CircleAvatar(
+                      radius: width*0.05,
+                      backgroundImage: FileImage(_imageFile!),
+                    )
+                        : SvgPicture.asset('assets/images/circle.svg',height: height*0.15,),
+                  ),
+                  // Positioned(
+                  //   bottom: -6,
+                  //   left: 76,
+                  //   child: GestureDetector(
+                  //     onTap: _openPopupScreen,
+                  //     child: SvgPicture.asset('assets/images/edit.svg'),
+                  //   ),
+                  // ),
+                ],
               ),
-              // Positioned(
-              //   bottom: -6,
-              //   left: 76,
-              //   child: GestureDetector(
-              //     onTap: _openPopupScreen,
-              //     child: SvgPicture.asset('assets/images/edit.svg'),
-              //   ),
-              // ),
+              SizedBox(height: height*0.08),
+              GestureDetector(
+                onTap: () {
+                  _chooseImage(ImageSource.gallery);
+                },
+                child: SvgPicture.asset('assets/images/cloud.svg'),
+              ),
+              SizedBox(height: height*0.03),
+              GestureDetector(
+                child: SvgPicture.asset('assets/images/orr.svg'),
+              ),
+              SizedBox(height: height*0.03),
+              GestureDetector(
+                onTap: () {
+                  _chooseImage(ImageSource.camera);
+                },
+                child: SvgPicture.asset('assets/images/took.svg'),
+              ),
+              SizedBox(height: height*0.05),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+
+                  ElevatedButton(
+                    onPressed: _onSave,
+                    style: CommonButtonStyle.commonButtonStyle(),
+                    child: Text('Next'),
+                  ),
+                  SizedBox(width: width*0.1,)
+                ],
+              ),
+
             ],
           ),
-          SizedBox(height: 60),
-          GestureDetector(
-            onTap: () {
-              _chooseImage(ImageSource.gallery);
-            },
-            child: SvgPicture.asset('assets/images/cloud.svg'),
-          ),
-          SizedBox(height: 20),
-          GestureDetector(
-            child: SvgPicture.asset('assets/images/orr.svg'),
-          ),
-          SizedBox(height: 20),
-          GestureDetector(
-            onTap: () {
-              _chooseImage(ImageSource.camera);
-            },
-            child: SvgPicture.asset('assets/images/took.svg'),
-          ),
-          SizedBox(height: 40),
-          ElevatedButton(
-            onPressed: _onSave,
-            style: CommonButtonStyle.commonButtonStyle(),
-            child: Text('Next'),
-          ),
-        ],
-      ),
-    );
+        );
   }
 }

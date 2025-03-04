@@ -7,7 +7,10 @@ import 'CompleteProfileWidgets.dart';
 class PageTwo extends StatefulWidget {
   final VoidCallback onSave;
   final String docId;
-  PageTwo({required this.onSave, required this.docId});
+  final BoxConstraints constraints; // Receive constraints from parent
+
+
+  PageTwo({required this.onSave, required this.docId, required this.constraints});
 
   @override
   _PageTwoState createState() => _PageTwoState();
@@ -214,25 +217,32 @@ class _PageTwoState extends State<PageTwo> {
 
   @override
   Widget build(BuildContext context) {
+    double width = widget.constraints.maxWidth;
+    double height = widget.constraints.maxHeight;
+
     return Form(
       key: _formKey,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 12),
+          SizedBox(height: height*0.05),
           CompleteProfileWidgets.buildDropdownRow(
             label: "Civil Status",
             value: _selectedCivilStatus,
+            constraints: widget.constraints,
+
             items: ['-- Select Option --', 'Unmarried', 'Divorced', 'Widowed'],
             onChanged: (value) => setState(() {
               _selectedCivilStatus = value;
-            }),
+            }), widget: widget,
           ),
-          SizedBox(height: 12),
+          SizedBox(height: height*0.015),
           CompleteProfileWidgets.buildDropdownRow(
             label: "Employment Type",
             value: _selectedEmploymentType,
+            constraints: widget.constraints,
+
             items: [
               '-- Select Option --',
               'Government',
@@ -242,52 +252,60 @@ class _PageTwoState extends State<PageTwo> {
             ],
             onChanged: (value) => setState(() {
               _selectedEmploymentType = value;
-            }),
+            }), widget: widget,
           ),
-          SizedBox(height: 12),
+          SizedBox(height: height*0.015),
           CompleteProfileWidgets.buildTextFieldRow(
             label: "Occupation",
             hintText: "Enter Occupation",
-            controller: _occupationController,
+            constraints: widget.constraints,
+
+            controller: _occupationController, widget: widget,
           ),
           if (OccupationError != null)
             Text(OccupationError!,
-                style: TextStyle(color: Colors.red[800], fontSize: 10)),
-          SizedBox(height: 12),
+                style: TextStyle(color: Colors.red[800], fontSize: width*0.025)),
+          SizedBox(height: height*0.015),
           CompleteProfileWidgets.buildTextFieldRow(
             label: "Height (in cm)",
             hintText: "Enter height",
-            controller: _heightController,
+            constraints: widget.constraints,
+
+            controller: _heightController, widget: widget,
           ),
           if (HeightError != null)
             Text(HeightError!,
-                style: TextStyle(color: Colors.red[800], fontSize: 12)),
-          SizedBox(height: 12),
+                style: TextStyle(color: Colors.red[800], fontSize: width*0.025)),
+          SizedBox(height: height*0.015),
           CompleteProfileWidgets.buildTextFieldRow(
             label: "District",
             hintText: "Enter the district",
-            controller: _DistrictController,
+            constraints: widget.constraints,
+
+            controller: _DistrictController, widget: widget,
           ),
           if (DistrictError != null)
             Text(DistrictError!,
-                style: TextStyle(color: Colors.red[800], fontSize: 10)),
-          SizedBox(height: 12),
+                style: TextStyle(color: Colors.red[800], fontSize: width*0.025)),
+          SizedBox(height: height*0.015),
           CompleteProfileWidgets.buildTextFieldRow(
             label: "Education",
             hintText: "Enter Education",
-            controller: _educationController,
+            constraints: widget.constraints,
+
+            controller: _educationController, widget: widget,
           ),
           if (EducationError != null)
             Text(EducationError!,
-                style: TextStyle(color: Colors.red[800], fontSize: 10)),
-          SizedBox(height: 20),
+                style: TextStyle(color: Colors.red[800], fontSize: width*0.025)),
+          SizedBox(height: height*0.1),
 
 
           if (showGeneralError)
             Align(
               alignment: Alignment.centerRight,
               child: Padding(
-                padding: const EdgeInsets.only(right: 24),
+                padding: const EdgeInsets.only(right: 2),
                 child: Text(
                   "These fields are mandatory.",
                   style: TextStyle(color: Colors.red[800]),
@@ -295,7 +313,7 @@ class _PageTwoState extends State<PageTwo> {
               ),
             ),
 
-          SizedBox(height: 20),
+          SizedBox(height: height*0.06),
           ElevatedButton(
             onPressed: _onSave,
             style: CommonButtonStyle.commonButtonStyle(),
