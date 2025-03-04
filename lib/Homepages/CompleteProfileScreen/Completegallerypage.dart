@@ -13,8 +13,9 @@ import '../../MyMateThemes.dart';
 class Completegallerypage extends StatefulWidget {
   final VoidCallback onSave;
   final String docId;
+  final BoxConstraints constraints; // Receive constraints from parent
 
-  Completegallerypage({required this.onSave, required this.docId});
+  Completegallerypage({required this.onSave, required this.docId, required this.constraints});
 
   @override
   _CompletegallerypageState createState() => _CompletegallerypageState();
@@ -284,7 +285,7 @@ class _BuildImageGallery extends StatelessWidget {
       print("Error deleting image: $e");
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Row(

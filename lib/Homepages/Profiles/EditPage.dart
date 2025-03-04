@@ -657,7 +657,7 @@ class _EditPageState extends State<EditPage> {
                     onTap: _openPopupScreen,
                     child: profilePicUrl != null
                         ? Container(
-                      width: 110, // Double the radius for width and height
+                      width: 80, // Double the radius for width and height
                       height: 110,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,

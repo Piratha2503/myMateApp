@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mymateapp/Homepages/HomeScreenBeforeSubscibe.dart';
+import 'package:mymateapp/Homepages/HomeScreenBeforeSubscribe.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 
