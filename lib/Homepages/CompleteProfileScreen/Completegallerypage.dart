@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -13,9 +14,8 @@ import '../../MyMateThemes.dart';
 class Completegallerypage extends StatefulWidget {
   final VoidCallback onSave;
   final String docId;
-  final BoxConstraints constraints; // Receive constraints from parent
 
-  Completegallerypage({required this.onSave, required this.docId, required this.constraints});
+  Completegallerypage({required this.onSave, required this.docId});
 
   @override
   _CompletegallerypageState createState() => _CompletegallerypageState();
@@ -167,45 +167,53 @@ class _CompletegallerypageState extends State<Completegallerypage> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         SizedBox(width: 22),
-        SizedBox(
-          height: 50,
-          width: 165,
-          child: ElevatedButton(
-            onPressed: () {
-              _onSave();
+    SizedBox(
+    height: MediaQuery.of(context).size.height * 0.07, // 6% of screen height
+    width: MediaQuery.of(context).size.width * 0.35, // 45% of screen width
+    child: ElevatedButton(
+    onPressed: () {
+    _onSave();
+    },
+    style: ElevatedButton.styleFrom(
+    backgroundColor: MyMateThemes.primaryColor,
+    shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(3.0),
+    ),
+    ),
+    child: Text(
+    'Skip',
+    style: TextStyle(
+    color: Colors.white,
+    fontSize: MediaQuery.of(context).size.width * 0.04, // 4% of screen width
+    ),
+    ),
+    ),
+    ),
 
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: MyMateThemes.primaryColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(3.0),
-              ),
-              // padding: EdgeInsets.all(10)
-            ),
-            child: Text(
-              'Skip ',
-              style: TextStyle(color:Colors.white),
-            ),
-          ),
-        ),
-        SizedBox(width: 20),
-        SizedBox(
-          height: 50,
-          width: 164,
-          child: ElevatedButton(
-            onPressed: () {
-              _onSave();
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: MyMateThemes.primaryColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(3.0),
-              ),
-            ),
-            child: Text('Confirm', style: TextStyle(color: Colors.white)),
-          ),
-        ),
-      ],
+    SizedBox(width: 20),
+    SizedBox(
+      height: MediaQuery.of(context).size.height * 0.07, // 6% of screen height
+      width: MediaQuery.of(context).size.width * 0.35, // 45% of screen width
+    child: ElevatedButton(
+    onPressed: () {
+    _onSave();
+    },
+    style: ElevatedButton.styleFrom(
+    backgroundColor: MyMateThemes.primaryColor,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(3.0),
+    ),
+    ),
+    child: Text(
+    'Confirm',
+    style: TextStyle(
+    color: Colors.white,
+      fontSize: MediaQuery.of(context).size.width * 0.04, // 4% of screen width
+    ),
+    ),
+    ),
+    ),
+    ],
     );
   }
 
@@ -288,6 +296,10 @@ class _BuildImageGallery extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get screen width & height using MediaQuery
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(3, (index) {
@@ -298,7 +310,7 @@ class _BuildImageGallery extends StatelessWidget {
         }
 
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4),
+          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.01), // Responsive padding
           child: Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
@@ -309,8 +321,8 @@ class _BuildImageGallery extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: Container(
-                    width: 120,
-                    height: 150,
+                    width: screenWidth * 0.28, // 28% of screen width
+                    height: screenHeight * 0.2, // 20% of screen height
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image: NetworkImage(displayImageUrl),
@@ -319,22 +331,23 @@ class _BuildImageGallery extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 8),
+                SizedBox(height: screenHeight * 0.01), // Responsive spacing
+
                 GestureDetector(
                   onTap: () async {
-
                     await _deleteImageFromBackend(
-                        (context.findAncestorStateOfType<_CompletegallerypageState>() as _CompletegallerypageState).widget.docId,
+                        (context.findAncestorStateOfType<_CompletegallerypageState>() as _CompletegallerypageState)
+                            .widget
+                            .docId,
                         displayImageUrl);
-
 
                     onDelete(index);
                   },
                   child: Image.asset(
-                      'assets/images/trash.png',
-                      width: 24,
-                      height: 30,
-                      fit: BoxFit.contain
+                    'assets/images/trash.png',
+                    width: screenWidth * 0.06, // 6% of screen width
+                    height: screenHeight * 0.05, // 5% of screen height
+                    fit: BoxFit.contain,
                   ),
                 ),
               ],

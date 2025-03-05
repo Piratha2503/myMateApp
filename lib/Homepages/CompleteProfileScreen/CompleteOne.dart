@@ -12,9 +12,8 @@ import '../../MyMateThemes.dart';
 class PageOne extends StatefulWidget {
   final VoidCallback onSave;
   final String docId;
-  final BoxConstraints constraints; // Receive constraints from parent
 
-  PageOne({required this.onSave, required this.docId,required this.constraints});
+  PageOne({required this.onSave, required this.docId});
 
   @override
   _PageOneState createState() => _PageOneState();
@@ -181,77 +180,100 @@ class _PageOneState extends State<PageOne> {
 
   @override
   Widget build(BuildContext context) {
-    double width = widget.constraints.maxWidth;
-    double height = widget.constraints.maxHeight;
+    // Get screen width & height using MediaQuery
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
 
-        return Center(
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          SizedBox(height: screenHeight * 0.04),
 
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(height: height*0.04),
-              Text("Update Your Profile",style: TextStyle(color: MyMateThemes.textColor,fontSize: width*0.04),),
-              SizedBox(height: height*0.02),
-              Stack(
-                children: [
-                  GestureDetector(
-                    // onTap: _openPopupScreen,
-                    // child: _savedImageUrl != null
-                    //     ? CircleAvatar(
-                    //   radius: 50,
-                    //   backgroundImage: NetworkImage(_savedImageUrl!),
-                    // )
-                      child  : _imageFile != null
-                        ? CircleAvatar(
-                      radius: width*0.05,
-                      backgroundImage: FileImage(_imageFile!),
-                    )
-                        : SvgPicture.asset('assets/images/circle.svg',height: height*0.15,),
-                  ),
-                  // Positioned(
-                  //   bottom: -6,
-                  //   left: 76,
-                  //   child: GestureDetector(
-                  //     onTap: _openPopupScreen,
-                  //     child: SvgPicture.asset('assets/images/edit.svg'),
-                  //   ),
-                  // ),
-                ],
-              ),
-              SizedBox(height: height*0.08),
+          Text(
+            "Update Your Profile",
+            style: TextStyle(
+              color: MyMateThemes.textColor,
+              fontSize: screenWidth * 0.05, // Adjust font size based on screen width
+            ),
+          ),
+
+          SizedBox(height: screenHeight * 0.02),
+
+          Stack(
+            alignment: Alignment.center,
+            children: [
               GestureDetector(
-                onTap: () {
-                  _chooseImage(ImageSource.gallery);
-                },
-                child: SvgPicture.asset('assets/images/cloud.svg'),
+                child: _imageFile != null
+                    ? CircleAvatar(
+                  radius: screenWidth * 0.12, // Adjust avatar size dynamically
+                  backgroundImage: FileImage(_imageFile!),
+                )
+                    : SvgPicture.asset(
+                  'assets/images/circle.svg',
+                  height: screenHeight * 0.15, // Responsive size
+                ),
               ),
-              SizedBox(height: height*0.03),
-              GestureDetector(
-                child: SvgPicture.asset('assets/images/orr.svg'),
-              ),
-              SizedBox(height: height*0.03),
-              GestureDetector(
-                onTap: () {
-                  _chooseImage(ImageSource.camera);
-                },
-                child: SvgPicture.asset('assets/images/took.svg'),
-              ),
-              SizedBox(height: height*0.05),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-
-                  ElevatedButton(
-                    onPressed: _onSave,
-                    style: CommonButtonStyle.commonButtonStyle(),
-                    child: Text('Next'),
-                  ),
-                  SizedBox(width: width*0.1,)
-                ],
-              ),
-
             ],
           ),
-        );
+
+          SizedBox(height: screenHeight * 0.06),
+
+          GestureDetector(
+            onTap: () {
+              _chooseImage(ImageSource.gallery);
+            },
+            child: SvgPicture.asset(
+              'assets/images/cloud.svg',
+              height: screenHeight * 0.11, // Responsive icon size
+            ),
+          ),
+
+          SizedBox(height: screenHeight * 0.015),
+
+          GestureDetector(
+            child: SvgPicture.asset(
+              'assets/images/orr.svg',
+              height: screenHeight * 0.04, // Adjust icon size
+            ),
+          ),
+
+          SizedBox(height: screenHeight * 0.015),
+
+          GestureDetector(
+            onTap: () {
+              _chooseImage(ImageSource.camera);
+            },
+            child: SvgPicture.asset(
+              'assets/images/took.svg',
+              height: screenHeight * 0.08, // Adjust icon size
+            ),
+          ),
+
+          SizedBox(height: screenHeight * 0.05),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.08,
+                width: MediaQuery.of(context).size.width * 0.32,
+                child:
+                ElevatedButton(
+                  onPressed: _onSave,
+                  style: CommonButtonStyle.commonButtonStyle(),
+                  child: Text(
+                    'Next',
+                    style: TextStyle(fontSize: screenWidth * 0.045), // Responsive font size
+                  ),
+                ),
+              ),
+
+              SizedBox(width: screenWidth * 0.1),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }

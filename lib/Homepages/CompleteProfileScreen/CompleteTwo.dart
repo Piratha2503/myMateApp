@@ -7,10 +7,9 @@ import 'CompleteProfileWidgets.dart';
 class PageTwo extends StatefulWidget {
   final VoidCallback onSave;
   final String docId;
-  final BoxConstraints constraints; // Receive constraints from parent
 
 
-  PageTwo({required this.onSave, required this.docId, required this.constraints});
+  PageTwo({required this.onSave, required this.docId});
 
   @override
   _PageTwoState createState() => _PageTwoState();
@@ -217,8 +216,8 @@ class _PageTwoState extends State<PageTwo> {
 
   @override
   Widget build(BuildContext context) {
-    double width = widget.constraints.maxWidth;
-    double height = widget.constraints.maxHeight;
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
 
     return Form(
       key: _formKey,
@@ -230,18 +229,16 @@ class _PageTwoState extends State<PageTwo> {
           CompleteProfileWidgets.buildDropdownRow(
             label: "Civil Status",
             value: _selectedCivilStatus,
-            constraints: widget.constraints,
 
             items: ['-- Select Option --', 'Unmarried', 'Divorced', 'Widowed'],
             onChanged: (value) => setState(() {
               _selectedCivilStatus = value;
-            }), widget: widget,
+            }), context: context,
           ),
           SizedBox(height: height*0.015),
           CompleteProfileWidgets.buildDropdownRow(
             label: "Employment Type",
             value: _selectedEmploymentType,
-            constraints: widget.constraints,
 
             items: [
               '-- Select Option --',
@@ -252,15 +249,14 @@ class _PageTwoState extends State<PageTwo> {
             ],
             onChanged: (value) => setState(() {
               _selectedEmploymentType = value;
-            }), widget: widget,
+            }), context: context,
           ),
           SizedBox(height: height*0.015),
           CompleteProfileWidgets.buildTextFieldRow(
             label: "Occupation",
             hintText: "Enter Occupation",
-            constraints: widget.constraints,
 
-            controller: _occupationController, widget: widget,
+            controller: _occupationController,  context: context,
           ),
           if (OccupationError != null)
             Text(OccupationError!,
@@ -269,9 +265,8 @@ class _PageTwoState extends State<PageTwo> {
           CompleteProfileWidgets.buildTextFieldRow(
             label: "Height (in cm)",
             hintText: "Enter height",
-            constraints: widget.constraints,
 
-            controller: _heightController, widget: widget,
+            controller: _heightController, context: context,
           ),
           if (HeightError != null)
             Text(HeightError!,
@@ -280,9 +275,8 @@ class _PageTwoState extends State<PageTwo> {
           CompleteProfileWidgets.buildTextFieldRow(
             label: "District",
             hintText: "Enter the district",
-            constraints: widget.constraints,
 
-            controller: _DistrictController, widget: widget,
+            controller: _DistrictController, context: context,
           ),
           if (DistrictError != null)
             Text(DistrictError!,
@@ -291,9 +285,8 @@ class _PageTwoState extends State<PageTwo> {
           CompleteProfileWidgets.buildTextFieldRow(
             label: "Education",
             hintText: "Enter Education",
-            constraints: widget.constraints,
 
-            controller: _educationController, widget: widget,
+            controller: _educationController, context: context,
           ),
           if (EducationError != null)
             Text(EducationError!,

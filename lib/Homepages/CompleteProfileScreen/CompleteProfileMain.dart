@@ -39,9 +39,10 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
         builder: (context, constraints) {
-          double width = constraints.maxWidth;
-          double height = constraints.maxHeight;
-        return Scaffold(
+          double width = MediaQuery.of(context).size.width;
+          double height = MediaQuery.of(context).size.height;
+
+          return Scaffold(
           backgroundColor: Colors.white,
           resizeToAvoidBottomInset: false,
           body: SafeArea(
@@ -86,7 +87,7 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
                   SizedBox(height: height*0.05,),
                   _buildStepIndicator(),
                   SizedBox(height: height*0.01,),
-                  _buildCurrentPage(currentPage,constraints),
+                  _buildCurrentPage(currentPage,),
                   SizedBox(height: height*0.01,),
                 ],
               ),
@@ -115,8 +116,9 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
   LayoutBuilder _buildStepIndicator() {
     return LayoutBuilder(
         builder: (context, constraints) {
-          double width = constraints.maxWidth;
-          double height = constraints.maxHeight;
+          double width = MediaQuery.of(context).size.width;
+          double height = MediaQuery.of(context).size.height;
+
         return FlutterStepIndicator(
           height: 24,
           paddingLine:  EdgeInsets.symmetric(horizontal: 0),
@@ -133,16 +135,16 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
   }
 
   // Build the current page and pass the formData to each page
-  Widget _buildCurrentPage(int currentPage, BoxConstraints constraints) {
+  Widget _buildCurrentPage(int currentPage) {
     switch (currentPage) {
       case 0:
-        return PageOne(onSave: _onPageSaved, docId: widget.docId, constraints: constraints);
+        return PageOne(onSave: _onPageSaved, docId: widget.docId);
       case 1:
-        return Completegallerypage(onSave: _onPageSaved, docId: widget.docId, constraints: constraints);
+        return Completegallerypage(onSave: _onPageSaved, docId: widget.docId);
       case 2:
-        return PageTwo(onSave: _onPageSaved, docId: widget.docId, constraints: constraints);
+        return PageTwo(onSave: _onPageSaved, docId: widget.docId);
       case 3:
-        return PageThree(onSave: _onPageSaved, docId: widget.docId, constraints: constraints);
+        return PageThree(onSave: _onPageSaved, docId: widget.docId);
       default:
         return SizedBox();
     }

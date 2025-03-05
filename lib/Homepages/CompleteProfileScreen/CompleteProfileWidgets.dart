@@ -39,12 +39,11 @@ class CompleteProfileWidgets {
     required String label,
     required String hintText,
     required TextEditingController controller,
-    required BoxConstraints constraints, // Accept constraints
     String? errorText,
-    required dynamic widget,
+    required BuildContext context,
   }) {
-    double width = widget.constraints.maxWidth;
-    double height = widget.constraints.maxHeight;
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
 
     return Container(
       decoration: BoxDecoration(
@@ -100,12 +99,11 @@ class CompleteProfileWidgets {
     required String? value,
     required List<String> items,
     required ValueChanged<String?> onChanged,
-    required BoxConstraints constraints, // Accept constraints
-    required dynamic widget,
+    required BuildContext context,
 
   }) {
-    double width = widget.constraints.maxWidth;
-    double height = widget.constraints.maxHeight;
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
 
     return Container(
       decoration: BoxDecoration(

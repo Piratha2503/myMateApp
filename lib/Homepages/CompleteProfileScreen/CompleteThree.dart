@@ -8,9 +8,8 @@ import 'CompleteProfileWidgets.dart';
 class PageThree extends StatefulWidget {
   final VoidCallback onSave;
   final String docId;
-  final BoxConstraints constraints; // Receive constraints from parent
 
-  PageThree({required this.onSave,required this.docId, required this.constraints});
+  PageThree({required this.onSave,required this.docId});
 
   @override
   _PageThreeState createState() => _PageThreeState();
@@ -133,8 +132,8 @@ class _PageThreeState extends State<PageThree> {
 
   @override
   Widget build(BuildContext context) {
-    double width = widget.constraints.maxWidth;
-    double height = widget.constraints.maxHeight;
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
 
     return Center(
       child: Column(
@@ -143,7 +142,6 @@ class _PageThreeState extends State<PageThree> {
         children: [
           SizedBox(height: height*0.03),
           CompleteProfileWidgets.buildDropdownRow(
-            constraints: widget.constraints,
 
             label: "Religion",
             value: _selectedReligion,
@@ -156,34 +154,31 @@ class _PageThreeState extends State<PageThree> {
             ],
             onChanged: (value) => setState(() {
               _selectedReligion = value;
-            }), widget: widget,
+            }), context: context,
           ),
           SizedBox(height: height*0.015),
           CompleteProfileWidgets.buildTextFieldRow(
             label: "Caste",
             hintText: "Enter your Caste",
-            constraints: widget.constraints,
 
-            controller: _casteController, widget: widget,
+            controller: _casteController, context: context,
           ),
           SizedBox(height: height*0.015),
           CompleteProfileWidgets.buildDropdownRow(
             label: "Language",
             value: _selectedLanguage,
-            constraints: widget.constraints,
 
             items: ['-- Select Option --', 'Tamil', 'English', 'Sinhala'],
             onChanged: (value) => setState(() {
               _selectedLanguage = value;
-            }), widget: widget,
+            }), context: context, 
           ),
           SizedBox(height: height*0.015),
           CompleteProfileWidgets.buildTextFieldRow(
             label: "No of Siblings",
             hintText: "Enter Number",
-            constraints: widget.constraints,
 
-            controller: _siblingsController, widget: widget,
+            controller: _siblingsController,  context:context ,
           ),
           SizedBox(height: height*0.015),
           Container(
@@ -298,17 +293,27 @@ class _PageThreeState extends State<PageThree> {
               ),
             ),
           ),
-          SizedBox(height: height*0.08),
+          SizedBox(height: height*0.06),
           Align(
             alignment: Alignment.bottomRight,
-            child:  ElevatedButton(
-              onPressed: () async {
-                await _saveAndUpdateForms();
-              },
-              style: CommonButtonStyle.commonButtonStyle(),
-              child: Text('Complete'),
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.07, // 6% of screen height
+              width: MediaQuery.of(context).size.width * 0.35, // 45% of screen width
+              child:     ElevatedButton(
+                onPressed: () async {
+                  await _saveAndUpdateForms();
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: MyMateThemes.primaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(3.0),
+                  ),
+                ),
+                child: Text('Complete',style: TextStyle(color: Colors.white),),
+              ),
             ),
-          )
+          ),
+          SizedBox(height: height*0.03),
 
         ],
       ),
