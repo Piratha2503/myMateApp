@@ -20,10 +20,9 @@ import 'EditGalleryScreen.dart';
 class EditPage extends StatefulWidget {
   final VoidCallback onSave;
   final String docId;
-  final double width;
-  final double height;
 
-  const EditPage({required this.docId, super.key, required this.onSave, required this.width, required this.height});
+
+  const EditPage({required this.docId, super.key, required this.onSave});
 
   @override
   State<EditPage> createState() => _EditPageState();
@@ -231,38 +230,62 @@ class _EditPageState extends State<EditPage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        // Get screen width & height using MediaQuery
+        double screenWidth = MediaQuery.of(context).size.width;
+        double screenHeight = MediaQuery.of(context).size.height;
+
         return AlertDialog(
           backgroundColor: Colors.white,
           content: SizedBox(
-            height: widget.height*0.35,
-            width: widget.width*0.2,
+            height: screenHeight * 0.4, // 35% of screen height
+            width: screenWidth * 0.5, // 50% of screen width
             child: Column(
+              mainAxisSize: MainAxisSize.min, // Avoid unnecessary space
               children: [
-                SizedBox(height: widget.height*0.02),
+                SizedBox(height: screenHeight * 0.02), // 2% of screen height
+
                 GestureDetector(
                   onTap: () {
                     _chooseImage(ImageSource.gallery);
                   },
-                  child: SvgPicture.asset('assets/images/choose.svg'),
+                  child: SvgPicture.asset(
+                    'assets/images/choose.svg',
+                    height: screenHeight * 0.08, // Scaled image size
+                  ),
                 ),
-                SizedBox(height: widget.height*0.02),
+
+                SizedBox(height: screenHeight * 0.02),
+
                 GestureDetector(
-                  child: SvgPicture.asset('assets/images/or.svg'),
+                  child: SvgPicture.asset(
+                    'assets/images/or.svg',
+                    height: screenHeight * 0.06, // Adjusted icon size
+                  ),
                 ),
-                SizedBox(height: widget.height*0.02),
+
+                SizedBox(height: screenHeight * 0.02),
+
                 GestureDetector(
                   onTap: () {
                     _chooseImage(ImageSource.camera);
                   },
-                  child: SvgPicture.asset('assets/images/take.svg'),
+                  child: SvgPicture.asset(
+                    'assets/images/take.svg',
+                    height: screenHeight * 0.08, // Scaled image size
+                  ),
                 ),
-                SizedBox(height: widget.height*0.03),
+
+                SizedBox(height: screenHeight * 0.03),
+
                 GestureDetector(
                   onTap: () {
-                    _onSave;
+                    _onSave();
                     _fetchClientData();
                   },
-                  child: SvgPicture.asset('assets/images/Active.svg'),
+                  child: SvgPicture.asset(
+                    'assets/images/Active.svg',
+                    height: screenHeight * 0.08, // Adjusted image size
+                  ),
                 ),
               ],
             ),
@@ -271,31 +294,35 @@ class _EditPageState extends State<EditPage> {
       },
     );
   }
-
   Widget _buildTextFieldRow({
     required String label,
     required String hintText,
     required TextEditingController controller,
+    required BuildContext context, // Pass context to access MediaQuery
   }) {
+    // Get screen width & height using MediaQuery
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         // Label
         Row(
           children: [
-            SizedBox(width: widget.width*0.09),
+            SizedBox(width: screenWidth * 0.09), // 9% of screen width
             Text(
               label,
               style: TextStyle(
                 color: MyMateThemes.textColor,
                 fontWeight: FontWeight.w400,
-                fontSize: widget.width*0.042,
+                fontSize: screenWidth * 0.042, // Adjust font size dynamically
               ),
             ),
           ],
         ),
 
-        SizedBox(height: widget.height*0.01), // Add space between the label and the text field
+        SizedBox(height: screenHeight * 0.01), // 1% of screen height
 
         // Text Field
         Container(
@@ -304,28 +331,31 @@ class _EditPageState extends State<EditPage> {
               color: MyMateThemes.textColor.withOpacity(0.2),
               width: 1,
             ),
-            borderRadius: BorderRadius.circular(widget.width*0.02),
+            borderRadius: BorderRadius.circular(screenWidth * 0.02), // Dynamic border radius
           ),
-          width: widget.width*0.9,
-          height: widget.height*0.06,
+          width: screenWidth * 0.9, // 90% of screen width
+          height: screenHeight * 0.06, // 6% of screen height
           child: TextField(
             controller: controller,
             decoration: InputDecoration(
               hintText: hintText,
-              hintStyle:
-              TextStyle(color: MyMateThemes.textColor.withOpacity(0.5)),
+              hintStyle: TextStyle(
+                color: MyMateThemes.textColor.withOpacity(0.5),
+              ),
               border: InputBorder.none,
-              contentPadding: EdgeInsets.symmetric(horizontal: widget.width*0.05),
+              contentPadding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05), // Responsive padding
             ),
             style: TextStyle(
-                color: MyMateThemes.textColor.withOpacity(0.7),
-                fontSize: widget.width*0.04,
-                fontWeight: FontWeight.w400),
+              color: MyMateThemes.textColor.withOpacity(0.7),
+              fontSize: screenWidth * 0.04, // Dynamic font size
+              fontWeight: FontWeight.w400,
+            ),
           ),
         ),
       ],
     );
   }
+
 
   Widget _buildDropdownRow({
     required String label,
@@ -333,24 +363,27 @@ class _EditPageState extends State<EditPage> {
     required List<String> items,
     required ValueChanged<String?> onChanged,
   }) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         // Label
         Row(
           children: [
-            SizedBox(width: widget.width*0.09),
+            SizedBox(width: width*0.09),
             Text(
               label,
               style: TextStyle(
                 color: MyMateThemes.textColor,
                 fontWeight: FontWeight.w400,
-                fontSize:widget.width*0.042,
+                fontSize:width*0.042,
               ),
             ),
           ],
         ),
-        SizedBox(height: widget.height*0.01), // Add space between the label and the dropdown
+        SizedBox(height: height*0.01), // Add space between the label and the dropdown
         // Dropdown Field
         Container(
           decoration: BoxDecoration(
@@ -358,10 +391,10 @@ class _EditPageState extends State<EditPage> {
               color: MyMateThemes.textColor.withOpacity(0.2),
               width: 1,
             ),
-            borderRadius: BorderRadius.circular(widget.width*0.02),
+            borderRadius: BorderRadius.circular(width*0.02),
           ),
-          width: widget.width*0.9,
-          height: widget.height*0.06,
+          width: width*0.9,
+          height:height*0.06,
           child: DropdownButtonHideUnderline(
             child: DropdownButton2<String>(
               value: value,
@@ -373,11 +406,11 @@ class _EditPageState extends State<EditPage> {
                       style: item.startsWith('Select')
                           ? TextStyle(
                           color: MyMateThemes.textColor.withOpacity(0.5),
-                          fontSize: widget.width*0.04,
+                          fontSize: width*0.04,
                           fontWeight: FontWeight.w400)
                           : TextStyle(
                           color: MyMateThemes.textColor.withOpacity(0.7),
-                          fontSize: widget.width*0.04,
+                          fontSize: width*0.04,
                           fontWeight: FontWeight.w400)),
                 );
               }).toList(),
@@ -598,8 +631,9 @@ class _EditPageState extends State<EditPage> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
         builder: (context, constraints) {
-          double width = constraints.maxWidth;
-          double height = constraints.maxHeight;
+          double width = MediaQuery.of(context).size.width;
+          double height = MediaQuery.of(context).size.height;
+
           return Scaffold(
               backgroundColor: Colors.white,
               resizeToAvoidBottomInset: false,
@@ -608,7 +642,7 @@ class _EditPageState extends State<EditPage> {
                 automaticallyImplyLeading: false,
                 title: SafeArea(
                   child: Padding(
-                    padding: new EdgeInsets.all(widget.width*0.02),
+                    padding: new EdgeInsets.all(width*0.02),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -670,7 +704,7 @@ class _EditPageState extends State<EditPage> {
                                 border: Border.all(
                                   color: MyMateThemes
                                       .secondaryColor, // Set the border color
-                                  width: widget.width*0.01, // Set the border width
+                                  width: width*0.01, // Set the border width
                                 ),
                               ),
                               child: CircleAvatar(
@@ -683,7 +717,7 @@ class _EditPageState extends State<EditPage> {
                             )
                                 : SvgPicture.asset('assets/images/circle.svg'),
                           ),
-                          SizedBox(height: widget.width*0.01),
+                          SizedBox(height: width*0.01),
                           TextButton(
                               onPressed: _openPopupScreen,
                               child: Text(
@@ -746,6 +780,7 @@ class _EditPageState extends State<EditPage> {
                     ),
                     SizedBox(height: height*0.018),
                     _buildTextFieldRow(
+                      context:context,
                       label: 'Occupation',
                       hintText: 'Enter your occupation',
                       controller: occupationController,
@@ -754,11 +789,12 @@ class _EditPageState extends State<EditPage> {
                     _buildTextFieldRow(
                       label: 'Contact No',
                       hintText: 'Enter your contact number',
-                      controller: contactController,
+                      controller: contactController, context: context,
                     ),
 
                     SizedBox(height: height*0.018),
                     _buildTextFieldRow(
+                      context:context,
                       label: 'District',
                       hintText: 'Enter your District',
                       controller: DistrictController,
@@ -766,6 +802,7 @@ class _EditPageState extends State<EditPage> {
 
                     SizedBox(height: height*0.018),
                     _buildTextFieldRow(
+                      context:context,
                       label: 'Education',
                       hintText: 'Enter your education',
                       controller: educationController,
@@ -788,35 +825,35 @@ class _EditPageState extends State<EditPage> {
                         });
                       },
                     ),
-                    SizedBox(height: widget.height*0.08),
+                    SizedBox(height: height*0.08),
                     Row(
                       children: [
-                        SizedBox(width:widget.width*0.07),
+                        SizedBox(width:width*0.07),
                         Text(
                           'Expectations',
                           style: TextStyle(
                               color: MyMateThemes.textColor,
                               fontWeight: FontWeight.w500,
                               letterSpacing: 0.8,
-                              fontSize: widget.width*0.05),
+                              fontSize: width*0.05),
                         ),
                       ],
                     ),
-                    SizedBox(height: widget.height*0.02),
+                    SizedBox(height: height*0.02),
                     Column(
                       children: List.generate(
                         controllers.length,
                             (index) => Padding(
-                          padding: EdgeInsets.all(widget.height*0.01),
+                          padding: EdgeInsets.all(height*0.01),
                           child: Center(
                             child: Container(
-                              width: widget.width*0.9,
-                              height: widget.height*0.08,
+                              width: width*0.9,
+                              height: height*0.08,
                               decoration: BoxDecoration(
                                 border: Border.all(
                                   color:
                                   MyMateThemes.textColor.withOpacity(0.2),
-                                  width: widget.width*0.0025,
+                                  width: width*0.0025,
                                 ),
                                 borderRadius: BorderRadius.circular(8.0),
                               ),
@@ -833,7 +870,7 @@ class _EditPageState extends State<EditPage> {
                                         ),
                                         border: InputBorder.none,
                                         contentPadding: EdgeInsets.symmetric(
-                                            horizontal: widget.width*0.03),
+                                            horizontal: width*0.03),
                                       ),
                                       style: TextStyle(
                                           color: MyMateThemes.textColor
@@ -843,7 +880,7 @@ class _EditPageState extends State<EditPage> {
                                   IconButton(
                                     icon: Icon(Icons.close,
                                         color: MyMateThemes.textColor,
-                                        size: widget.width*0.045),
+                                        size: width*0.045),
                                     onPressed: () => handleClose(index),
                                     padding: EdgeInsets.zero,
                                   ),
@@ -854,10 +891,10 @@ class _EditPageState extends State<EditPage> {
                         ),
                       ),
                     ),
-                    SizedBox(height: widget.height*0.03),
+                    SizedBox(height: height*0.03),
                     SizedBox(
-                      width: widget.width*0.9,
-                      height: widget.height*0.07,
+                      width: width*0.9,
+                      height: height*0.07,
                       child: ElevatedButton(
                         onPressed: () {
                           if (controllers.length < 5) {
@@ -873,14 +910,14 @@ class _EditPageState extends State<EditPage> {
                               MyMateThemes.secondaryColor),
                           shape: MaterialStateProperty.all(
                               RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(widget.width*0.02))),
+                                  borderRadius: BorderRadius.circular(width*0.02))),
                         ),
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
                             '+ Add more',
 
-                            style: TextStyle(color:MyMateThemes.primaryColor,fontSize: widget.width*0.038,letterSpacing: 0.8),
+                            style: TextStyle(color:MyMateThemes.primaryColor,fontSize: width*0.038,letterSpacing: 0.8),
                           ),
                         ),
                       ),
@@ -894,59 +931,62 @@ class _EditPageState extends State<EditPage> {
   }
 
   Widget moreaboutme() {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
     return Builder(
       builder: (context) {
         return Container(
           color: Colors.white,
-          padding: EdgeInsets.symmetric(horizontal: widget.width*0.04),
+          padding: EdgeInsets.symmetric(horizontal: width*0.04),
           child: Column(
             children: [
-              SizedBox(height: widget.height*0.08),
+              SizedBox(height: height*0.08),
               Row(
                 children: [
-                  SizedBox(width: widget.width*0.04),
+                  SizedBox(width: width*0.04),
                   Text(
                     'More About Me',
                     style: TextStyle(
                         color: MyMateThemes.textColor,
                         fontWeight: FontWeight.w500,
-                        fontSize: widget.width*0.05),
+                        fontSize: width*0.05),
                   ),
                 ],
               ),
-              SizedBox(height: widget.height*0.06),
+              SizedBox(height: height*0.06),
               Row(
                 children: [
-                  SizedBox(width: widget.width*0.1),
+                  SizedBox(width: width*0.1),
                   Text(
                     'Personal Interest',
                     style: TextStyle(
                       color: MyMateThemes.textColor,
-                      fontSize: widget.width*0.042,
+                      fontSize: width*0.042,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: widget.height*0.015),
+              SizedBox(height: height*0.015),
               Row(
                 children: [
-                  SizedBox(width: widget.width*0.07),
+                  SizedBox(width: width*0.07),
                   SvgPicture.asset('assets/images/Line 11.svg'),
                 ],
               ),
-              SizedBox(height: widget.height*0.02),
+              SizedBox(height: height*0.02),
               _buildTextField(hobbyController, '-- Type here --', _addHobbyTag),
-              SizedBox(height:  widget.height*0.025),
+              SizedBox(height:  height*0.025),
               Wrap(
                 children: hobbyTags.map((tag) {
                   return _buildTagWithCloseButton(tag);
                 }).toList(),
               ),
-              SizedBox(height:  widget.width*0.1),
+              SizedBox(height:  width*0.1),
               Row(
                 children: [
-                  SizedBox(width:  widget.width*0.1),
+                  SizedBox(width: width*0.1),
                   Text(
                     'Life Style',
                     style: TextStyle(
@@ -957,32 +997,32 @@ class _EditPageState extends State<EditPage> {
                   ),
                 ],
               ),
-              SizedBox(height:  widget.height*0.015),
+              SizedBox(height:height*0.015),
               Row(
                 children: [
-                  SizedBox(width:  widget.width*0.07),
+                  SizedBox(width:width*0.07),
                   SvgPicture.asset('assets/images/Line 11.svg'),
                 ],
               ),
-              SizedBox(height:  widget.height*0.03),
+              SizedBox(height: height*0.03),
               Row(
                 children: [
-                  SizedBox(width:  widget.width*0.08),
+                  SizedBox(width: width*0.08),
                   Text(
                     'Eating Habits',
                     style: TextStyle(
                       color: MyMateThemes.textColor.withOpacity(0.7),
-                      fontSize:  widget.width*0.04,
+                      fontSize: width*0.04,
                       fontWeight: FontWeight.normal,
                     ),
                   ),
                 ],
               ),
-              SizedBox(height:  widget.height*0.005),
+              SizedBox(height: height*0.005),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  SizedBox(width: widget.width*0.04),
+                  SizedBox(width:width*0.04),
                   Row(
                     children: [
                       Radio<String>(
@@ -1000,7 +1040,7 @@ class _EditPageState extends State<EditPage> {
                         'Vegetarian',
                         style: TextStyle(
                           color: MyMateThemes.textColor,
-                          fontSize:  widget.width*0.037,
+                          fontSize: width*0.037,
                           fontWeight: FontWeight.normal,
                         ),
                       ),
@@ -1023,7 +1063,7 @@ class _EditPageState extends State<EditPage> {
                         'Non- Vegetarian',
                         style: TextStyle(
                           color: MyMateThemes.textColor,
-                          fontSize:  widget.width*0.037,
+                          fontSize:  width*0.037,
                           fontWeight: FontWeight.normal,
                         ),
                       ),
@@ -1031,42 +1071,42 @@ class _EditPageState extends State<EditPage> {
                   ),
                 ],
               ),
-              SizedBox(height:  widget.height*0.05),
+              SizedBox(height: height*0.05),
               Row(
                 children: [
-                  SizedBox(width:  widget.width*0.08),
+                  SizedBox(width: width*0.08),
                   Text(
                     'Alcohol',
                     style: TextStyle(
                       color: MyMateThemes.textColor.withOpacity(0.7),
-                      fontSize:  widget.width*0.04,
+                      fontSize:  width*0.04,
                       fontWeight: FontWeight.normal,
                     ),
                   ),
                 ],
               ),
-              SizedBox(height:  widget.height*0.04),
+              SizedBox(height:  height*0.04),
               _buildAlcoholSelection(),
-              SizedBox(height:  widget.width*0.1),
+              SizedBox(height: width*0.1),
               Row(
                 children: [
-                  SizedBox(width: widget.width*0.08),
+                  SizedBox(width: width*0.08),
                   Text(
                     'Smoking',
                     style: TextStyle(
                       color: MyMateThemes.textColor.withOpacity(0.7),
-                      fontSize:  widget.width*0.04,
+                      fontSize:  width*0.04,
                       fontWeight: FontWeight.normal,
                     ),
                   ),
                 ],
               ),
-              SizedBox(height:  widget.height*0.04),
+              SizedBox(height:  height*0.04),
               _buildSmokingSelection(),
-              SizedBox(height:  widget.height*0.08),
+              SizedBox(height:  height*0.08),
               Row(
                 children: [
-                  SizedBox(width:  widget.width*0.1),
+                  SizedBox(width:  width*0.1),
                   Text(
                     'Cooking',
                     style: TextStyle(
@@ -1077,16 +1117,16 @@ class _EditPageState extends State<EditPage> {
                   ),
                 ],
               ),
-              SizedBox(height:  widget.height*0.015),
+              SizedBox(height:  height*0.015),
               Row(
                 children: [
-                  SizedBox(width:  widget.width*0.07),
+                  SizedBox(width:  width*0.07),
                   SvgPicture.asset('assets/images/Line 11.svg'),
                 ],
               ),
-              SizedBox(height:  widget.height*0.04),
+              SizedBox(height: height*0.04),
               _buildCookingSelection(),
-              SizedBox(height:  widget.height*0.1),
+              SizedBox(height:  height*0.1),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -1099,12 +1139,12 @@ class _EditPageState extends State<EditPage> {
                     style: CommonButtonStyle.commonButtonStyle(),
                     child: Text(
                       'Save',
-                      style: TextStyle(color: Colors.white,fontSize: widget.width*0.04, letterSpacing: 1.5),
+                      style: TextStyle(color: Colors.white,fontSize: width*0.04, letterSpacing: 1.5),
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: widget.height*0.1),
+              SizedBox(height:height*0.1),
             ],
           ),
         );
@@ -1114,31 +1154,34 @@ class _EditPageState extends State<EditPage> {
 
   Widget _buildTextField(TextEditingController controller, String hintText,
       VoidCallback onSubmitted) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
     return Column(
       children: [
         Container(
           decoration: BoxDecoration(
             border: Border.all(
               color: MyMateThemes.textColor.withOpacity(0.2),
-              width:  widget.width*0.003,
+              width:  width*0.003,
             ),
-            borderRadius: BorderRadius.circular(widget.width*0.01),
+            borderRadius: BorderRadius.circular(width*0.01),
           ),
-          width: widget.width*0.9,
-          height: widget.height*0.06,
+          width: width*0.9,
+          height: height*0.06,
           child: Padding(
-            padding: EdgeInsets.only(left:  widget.height*0.01),
+            padding: EdgeInsets.only(left:  height*0.01),
             child: TextField(
               controller: controller,
               decoration: InputDecoration(
                 hintStyle: TextStyle(
                     color: MyMateThemes.textColor.withOpacity(0.5),
-                    fontSize:  widget.width*0.035,
+                    fontSize:  width*0.035,
                     fontWeight: FontWeight.normal),
                 border: InputBorder.none,
                 enabledBorder: InputBorder.none,
                 focusedBorder: InputBorder.none,
-                contentPadding: EdgeInsets.all( widget.width*0.04),
+                contentPadding: EdgeInsets.all( width*0.04),
                 // Adjust padding as needed
                 hintText: hintText,
               ),
@@ -1160,11 +1203,11 @@ class _EditPageState extends State<EditPage> {
               // width: 350,
               // height: 50,
 
-              padding: EdgeInsets.symmetric(horizontal:  widget.width*0.03, vertical: widget.height*0.01),
-              margin: EdgeInsets.only(top:  widget.height*0.01),
+              padding: EdgeInsets.symmetric(horizontal: width*0.03, vertical: height*0.01),
+              margin: EdgeInsets.only(top:height*0.01),
               decoration: BoxDecoration(
                 color: MyMateThemes.secondaryColor,
-                borderRadius: BorderRadius.circular( widget.width*0.01),
+                borderRadius: BorderRadius.circular( width*0.01),
               ),
               child: Text('+ Add "${controller.text}"'),
               // child: Row(
@@ -1186,12 +1229,15 @@ class _EditPageState extends State<EditPage> {
   }
 
   Widget _buildTagWithCloseButton(String tag) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
     return Container(
-      padding: EdgeInsets.symmetric(horizontal:  widget.width*0.03, vertical:  widget.height*0.008),
-      margin: EdgeInsets.symmetric(horizontal:  widget.width*0.02, vertical:  widget.height*0.01),
+      padding: EdgeInsets.symmetric(horizontal: width*0.03, vertical:  height*0.008),
+      margin: EdgeInsets.symmetric(horizontal:  width*0.02, vertical:  height*0.01),
       decoration: BoxDecoration(
         color: MyMateThemes.primaryColor,
-        borderRadius: BorderRadius.circular( widget.width*0.01),
+        borderRadius: BorderRadius.circular( width*0.01),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -1200,10 +1246,10 @@ class _EditPageState extends State<EditPage> {
             tag,
             style: TextStyle(
               color: Colors.white,
-              fontSize:  widget.width*0.035,
+              fontSize:  width*0.035,
             ),
           ),
-          SizedBox(width: widget.width*0.02),
+          SizedBox(width: width*0.02),
           GestureDetector(
             onTap: () {
               setState(() {
@@ -1214,7 +1260,7 @@ class _EditPageState extends State<EditPage> {
             child: Icon(
               Icons.close,
               color: Colors.white,
-              size:  widget.width*0.045,
+              size:  width*0.045,
             ),
           ),
         ],
@@ -1223,15 +1269,18 @@ class _EditPageState extends State<EditPage> {
   }
 
   Widget _buildAlcoholSelection() {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
     return Stack(
       children: [
         CustomPaint(
-          size: Size(MediaQuery.of(context).size.width, widget.height*0.02),
+          size: Size(MediaQuery.of(context).size.width, height*0.02),
           painter: _LinePainter(selectedAlcoholIndex: selectedAlcoholIndex),
         ),
         Row(
           children: [
-            SizedBox(width: widget.width*0.01),
+            SizedBox(width: width*0.01),
             Expanded(
               child: GestureDetector(
                 onTap: () {
@@ -1245,18 +1294,18 @@ class _EditPageState extends State<EditPage> {
                       painter:
                       _CirclePainter(isActive: selectedAlcoholIndex >= 0),
                       child: SizedBox(
-                        width: widget.width*0.06,
-                        height: widget.height*0.02,
+                        width:width*0.06,
+                        height: height*0.02,
                       ),
                     ),
-                    SizedBox(height:  widget.height*0.015),
+                    SizedBox(height:  height*0.015),
                     Text(
                       'Never',
                       style: TextStyle(
                         color: selectedAlcoholIndex >= 0
                             ? MyMateThemes.textColor
                             : MyMateThemes.textColor.withOpacity(0.6),
-                        fontSize:  widget.width*0.027,
+                        fontSize:  width*0.027,
                       ),
                     ),
                     Text(
@@ -1265,7 +1314,7 @@ class _EditPageState extends State<EditPage> {
                         color: selectedAlcoholIndex >= 0
                             ? MyMateThemes.textColor
                             : MyMateThemes.textColor.withOpacity(0.6),
-                        fontSize:  widget.width*0.027,
+                        fontSize:  width*0.027,
                       ),
                     ),
                   ],
@@ -1285,18 +1334,18 @@ class _EditPageState extends State<EditPage> {
                       painter:
                       _CirclePainter(isActive: selectedAlcoholIndex >= 1),
                       child: SizedBox(
-                        width:  widget.width*0.06,
-                        height:  widget.height*0.02,
+                        width:  width*0.06,
+                        height:  height*0.02,
                       ),
                     ),
-                    SizedBox(height:  widget.height*0.015),
+                    SizedBox(height:  height*0.015),
                     Text(
                       'Rarely',
                       style: TextStyle(
                         color: selectedAlcoholIndex >= 1
                             ? MyMateThemes.textColor
                             : MyMateThemes.textColor.withOpacity(0.6),
-                        fontSize:  widget.width*0.027,
+                        fontSize:  width*0.027,
                       ),
                     ),
                     Text(
@@ -1305,7 +1354,7 @@ class _EditPageState extends State<EditPage> {
                         color: selectedAlcoholIndex >= 1
                             ? MyMateThemes.textColor
                             : MyMateThemes.textColor.withOpacity(0.6),
-                        fontSize:  widget.width*0.027,
+                        fontSize:  width*0.027,
                       ),
                     ),
                   ],
@@ -1325,18 +1374,18 @@ class _EditPageState extends State<EditPage> {
                       painter:
                       _CirclePainter(isActive: selectedAlcoholIndex >= 2),
                       child: SizedBox(
-                        width:  widget.width*0.06,
-                        height:  widget.height*0.02,
+                        width:  width*0.06,
+                        height:  height*0.02,
                       ),
                     ),
-                    SizedBox(height:  widget.height*0.015),
+                    SizedBox(height:  height*0.015),
                     Text(
                       'Occasionally',
                       style: TextStyle(
                         color: selectedAlcoholIndex >= 2
                             ? MyMateThemes.textColor
                             : MyMateThemes.textColor.withOpacity(0.6),
-                        fontSize:  widget.width*0.027,
+                        fontSize: width*0.027,
                       ),
                     ),
                     Text(
@@ -1345,7 +1394,7 @@ class _EditPageState extends State<EditPage> {
                         color: selectedAlcoholIndex >= 2
                             ? MyMateThemes.textColor
                             : MyMateThemes.textColor.withOpacity(0.6),
-                        fontSize:  widget.width*0.027,
+                        fontSize:  width*0.027,
                       ),
                     ),
                   ],
@@ -1365,18 +1414,18 @@ class _EditPageState extends State<EditPage> {
                       painter:
                       _CirclePainter(isActive: selectedAlcoholIndex >= 3),
                       child: SizedBox(
-                        width:  widget.width*0.06,
-                        height:  widget.height*0.02,
+                        width:  width*0.06,
+                        height:  height*0.02,
                       ),
                     ),
-                    SizedBox(height:  widget.height*0.015),
+                    SizedBox(height:  height*0.015),
                     Text(
                       'Regularly',
                       style: TextStyle(
                         color: selectedAlcoholIndex >= 3
                             ? MyMateThemes.textColor
                             : MyMateThemes.textColor.withOpacity(0.6),
-                        fontSize:  widget.width*0.027,
+                        fontSize: width*0.027,
                       ),
                     ),
                     Text(
@@ -1385,7 +1434,7 @@ class _EditPageState extends State<EditPage> {
                         color: selectedAlcoholIndex >= 3
                             ? MyMateThemes.textColor
                             : MyMateThemes.textColor.withOpacity(0.6),
-                        fontSize:  widget.width*0.027,
+                        fontSize:  width*0.027,
                       ),
                     ),
                   ],
@@ -1405,18 +1454,18 @@ class _EditPageState extends State<EditPage> {
                       painter:
                       _CirclePainter(isActive: selectedAlcoholIndex >= 4),
                       child: SizedBox(
-                        width:  widget.width*0.06,
-                        height:  widget.height*0.02,
+                        width:  width*0.06,
+                        height:  height*0.02,
                       ),
                     ),
-                    SizedBox(height:  widget.height*0.015),
+                    SizedBox(height:  height*0.015),
                     Text(
                       'Swimming',
                       style: TextStyle(
                         color: selectedAlcoholIndex >= 4
                             ? MyMateThemes.textColor
                             : MyMateThemes.textColor.withOpacity(0.6),
-                        fontSize:  widget.width*0.027,
+                        fontSize:  width*0.027,
                       ),
                     ),
                     Text(
@@ -1425,7 +1474,7 @@ class _EditPageState extends State<EditPage> {
                         color: selectedAlcoholIndex >= 4
                             ? MyMateThemes.textColor
                             : MyMateThemes.textColor.withOpacity(0.6),
-                        fontSize:  widget.width*0.027,
+                        fontSize:  width*0.027,
                       ),
                     ),
                   ],
@@ -1439,16 +1488,19 @@ class _EditPageState extends State<EditPage> {
   }
 
   Widget _buildSmokingSelection() {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
     return Stack(
       children: [
         CustomPaint(
-          size: Size(MediaQuery.of(context).size.width,  widget.height*0.02),
+          size: Size(MediaQuery.of(context).size.width,  height*0.02),
           painter:
           _SmokingLinePainter(selectedSmokingIndex: selectedSmokingIndex),
         ),
         Row(
           children: [
-            SizedBox(width: widget.width*0.01),
+            SizedBox(width:width*0.01),
             Expanded(
               child: GestureDetector(
                 onTap: () {
@@ -1462,18 +1514,18 @@ class _EditPageState extends State<EditPage> {
                       painter:
                       _CirclePainter(isActive: selectedSmokingIndex >= 0),
                       child: SizedBox(
-                        width: widget.width*0.06,
-                        height: widget.height*0.02,
+                        width: width*0.06,
+                        height: height*0.02,
                       ),
                     ),
-                    SizedBox(height: widget.height*0.015),
+                    SizedBox(height: height*0.015),
                     Text(
                       'Never',
                       style: TextStyle(
                         color: selectedSmokingIndex >= 0
                             ? MyMateThemes.textColor
                             : MyMateThemes.textColor.withOpacity(0.6),
-                        fontSize: widget.width*0.027,
+                        fontSize: width*0.027,
                       ),
                     ),
                     Text(
@@ -1482,7 +1534,7 @@ class _EditPageState extends State<EditPage> {
                         color: selectedSmokingIndex >= 0
                             ? MyMateThemes.textColor
                             : MyMateThemes.textColor.withOpacity(0.6),
-                        fontSize: widget.width*0.027,
+                        fontSize: width*0.027,
                       ),
                     ),
                   ],
@@ -1502,18 +1554,18 @@ class _EditPageState extends State<EditPage> {
                       painter:
                       _CirclePainter(isActive: selectedSmokingIndex >= 1),
                       child: SizedBox(
-                        width: widget.width*0.06,
-                        height: widget.height*0.02,
+                        width: width*0.06,
+                        height: height*0.02,
                       ),
                     ),
-                    SizedBox(height: widget.height*0.015),
+                    SizedBox(height: height*0.015),
                     Text(
                       'Rarely',
                       style: TextStyle(
                         color: selectedSmokingIndex >= 1
                             ? MyMateThemes.textColor
                             : MyMateThemes.textColor.withOpacity(0.6),
-                        fontSize: widget.width*0.027,
+                        fontSize: width*0.027,
                       ),
                     ),
                     Text(
@@ -1522,7 +1574,7 @@ class _EditPageState extends State<EditPage> {
                         color: selectedSmokingIndex >= 1
                             ? MyMateThemes.textColor
                             : MyMateThemes.textColor.withOpacity(0.6),
-                        fontSize: widget.width*0.027,
+                        fontSize: width*0.027,
                       ),
                     ),
                   ],
@@ -1542,18 +1594,18 @@ class _EditPageState extends State<EditPage> {
                       painter:
                       _CirclePainter(isActive: selectedSmokingIndex >= 2),
                       child: SizedBox(
-                        width: widget.width*0.06,
-                        height: widget.height*0.02,
+                        width: width*0.06,
+                        height: height*0.02,
                       ),
                     ),
-                    SizedBox(height: widget.height*0.015),
+                    SizedBox(height: height*0.015),
                     Text(
                       'Occasionally',
                       style: TextStyle(
                         color: selectedSmokingIndex >= 2
                             ? MyMateThemes.textColor
                             : MyMateThemes.textColor.withOpacity(0.6),
-                        fontSize: widget.width*0.027,
+                        fontSize: width*0.027,
                       ),
                     ),
                     Text(
@@ -1562,7 +1614,7 @@ class _EditPageState extends State<EditPage> {
                         color: selectedSmokingIndex >= 2
                             ? MyMateThemes.textColor
                             : MyMateThemes.textColor.withOpacity(0.6),
-                        fontSize: widget.width*0.027,
+                        fontSize: width*0.027,
                       ),
                     ),
                   ],
@@ -1582,18 +1634,18 @@ class _EditPageState extends State<EditPage> {
                       painter:
                       _CirclePainter(isActive: selectedSmokingIndex >= 3),
                       child: SizedBox(
-                        width: widget.width*0.06,
-                        height: widget.height*0.02,
+                        width: width*0.06,
+                        height: height*0.02,
                       ),
                     ),
-                    SizedBox(height: widget.height*0.015),
+                    SizedBox(height: height*0.015),
                     Text(
                       'Regularly',
                       style: TextStyle(
                         color: selectedSmokingIndex >= 3
                             ? MyMateThemes.textColor
                             : MyMateThemes.textColor.withOpacity(0.6),
-                        fontSize: widget.width*0.027,
+                        fontSize: width*0.027,
                       ),
                     ),
                     Text(
@@ -1602,7 +1654,7 @@ class _EditPageState extends State<EditPage> {
                         color: selectedSmokingIndex >= 3
                             ? MyMateThemes.textColor
                             : MyMateThemes.textColor.withOpacity(0.6),
-                        fontSize: widget.width*0.027,
+                        fontSize: width*0.027,
                       ),
                     ),
                   ],
@@ -1622,18 +1674,18 @@ class _EditPageState extends State<EditPage> {
                       painter:
                       _CirclePainter(isActive: selectedSmokingIndex >= 4),
                       child: SizedBox(
-                        width: widget.width*0.06,
-                        height: widget.height*0.02,
+                        width: width*0.06,
+                        height: height*0.02,
                       ),
                     ),
-                    SizedBox(height: widget.height*0.015),
+                    SizedBox(height: height*0.015),
                     Text(
                       'Chain',
                       style: TextStyle(
                         color: selectedSmokingIndex >= 4
                             ? MyMateThemes.textColor
                             : MyMateThemes.textColor.withOpacity(0.6),
-                        fontSize: widget.width*0.027,
+                        fontSize: width*0.027,
                       ),
                     ),
                     Text(
@@ -1642,7 +1694,7 @@ class _EditPageState extends State<EditPage> {
                         color: selectedSmokingIndex >= 4
                             ? MyMateThemes.textColor
                             : MyMateThemes.textColor.withOpacity(0.6),
-                        fontSize: widget.width*0.027,
+                        fontSize: width*0.027,
                       ),
                     ),
                   ],
@@ -1656,15 +1708,18 @@ class _EditPageState extends State<EditPage> {
   }
 
   Widget _buildCookingSelection() {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
     return Stack(
       children: [
         CustomPaint(
-          size: Size(MediaQuery.of(context).size.width, widget.height*0.02),
+          size: Size(MediaQuery.of(context).size.width, height*0.02),
           painter: _LinearPainter(selectedCookingIndex: selectedCookingIndex),
         ),
         Row(
           children: [
-            SizedBox(width: widget.width*0.01),
+            SizedBox(width:width*0.01),
             Expanded(
               child: GestureDetector(
                 onTap: () {
@@ -1678,18 +1733,18 @@ class _EditPageState extends State<EditPage> {
                       painter:
                       _CirclePainter(isActive: selectedCookingIndex >= 0),
                       child: SizedBox(
-                        width: widget.width*0.06,
-                        height: widget.height*0.02,
+                        width: width*0.06,
+                        height: height*0.02,
                       ),
                     ),
-                    SizedBox(height: widget.height*0.015),
+                    SizedBox(height: height*0.015),
                     Text(
                       'Zero',
                       style: TextStyle(
                         color: selectedCookingIndex >= 0
                             ? MyMateThemes.textColor
                             : MyMateThemes.textColor.withOpacity(0.6),
-                        fontSize: widget.width*0.027,
+                        fontSize: width*0.027,
                       ),
                     ),
                   ],
@@ -1709,18 +1764,18 @@ class _EditPageState extends State<EditPage> {
                       painter:
                       _CirclePainter(isActive: selectedCookingIndex >= 1),
                       child: SizedBox(
-                        width: widget.width*0.06,
-                        height: widget.height*0.02,
+                        width: width*0.06,
+                        height: height*0.02,
                       ),
                     ),
-                    SizedBox(height: widget.height*0.015),
+                    SizedBox(height: height*0.015),
                     Text(
                       'Novice',
                       style: TextStyle(
                         color: selectedCookingIndex >= 1
                             ? MyMateThemes.textColor
                             : MyMateThemes.textColor.withOpacity(0.6),
-                        fontSize: widget.width*0.027,
+                        fontSize: width*0.027,
                       ),
                     ),
                   ],
@@ -1740,18 +1795,18 @@ class _EditPageState extends State<EditPage> {
                       painter:
                       _CirclePainter(isActive: selectedCookingIndex >= 2),
                       child: SizedBox(
-                        width: widget.width*0.06,
-                        height: widget.height*0.02,
+                        width: width*0.06,
+                        height:height*0.02,
                       ),
                     ),
-                    SizedBox(height: widget.height*0.015),
+                    SizedBox(height: height*0.015),
                     Text(
                       'Basic',
                       style: TextStyle(
                         color: selectedCookingIndex >= 2
                             ? MyMateThemes.textColor
                             : MyMateThemes.textColor.withOpacity(0.6),
-                        fontSize: widget.width*0.027,
+                        fontSize: width*0.027,
                       ),
                     ),
                   ],
@@ -1771,18 +1826,18 @@ class _EditPageState extends State<EditPage> {
                       painter:
                       _CirclePainter(isActive: selectedCookingIndex >= 3),
                       child: SizedBox(
-                        width: widget.width*0.06,
-                        height: widget.height*0.02,
+                        width: width*0.06,
+                        height: height*0.02,
                       ),
                     ),
-                    SizedBox(height: widget.height*0.015),
+                    SizedBox(height:height*0.015),
                     Text(
                       'Intermediate',
                       style: TextStyle(
                         color: selectedCookingIndex >= 3
                             ? MyMateThemes.textColor
                             : MyMateThemes.textColor.withOpacity(0.6),
-                        fontSize: widget.width*0.027,
+                        fontSize: width*0.027,
                       ),
                     ),
                   ],
@@ -1802,18 +1857,18 @@ class _EditPageState extends State<EditPage> {
                       painter:
                       _CirclePainter(isActive: selectedCookingIndex >= 4),
                       child: SizedBox(
-                        width: widget.width*0.06,
-                        height: widget.height*0.02,
+                        width: width*0.06,
+                        height: height*0.02,
                       ),
                     ),
-                    SizedBox(height: widget.height*0.015),
+                    SizedBox(height: height*0.015),
                     Text(
                       'Advanced',
                       style: TextStyle(
                         color: selectedCookingIndex >= 4
                             ? MyMateThemes.textColor
                             : MyMateThemes.textColor.withOpacity(0.6),
-                        fontSize: widget.width*0.027,
+                        fontSize: width*0.027,
                       ),
                     ),
                   ],
