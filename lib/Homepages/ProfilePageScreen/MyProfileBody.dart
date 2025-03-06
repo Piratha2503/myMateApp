@@ -334,26 +334,24 @@ class _MyProfileBodyState extends State<MyProfileBody> {
             child: Container(
               height: MediaQuery.of(context).size.height * 0.25,
               width: MediaQuery.of(context).size.width * 0.5,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.25),
-                color: MyMateThemes.secondaryColor,
-              ),
+              // decoration: BoxDecoration(
+              //   borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.25),
+              //   color: MyMateThemes.secondaryColor,
+              // ),
               child: Center(
                 child: AnimatedContainer(
                   duration: Duration(milliseconds: 500),
                   curve: Curves.easeInOut,
-                  height: _isSmall
-                      ? MediaQuery.of(context).size.width * 0.15
-                      : MediaQuery.of(context).size.width * 0.5,
-                  alignment: _isSmall ? Alignment(-1.2, 1.0) : Alignment.center,
+                  height: _isSmall ? 50 : 230,
+
+                  alignment: _isSmall ? Alignment(-0.8, 1.0) : Alignment.center,
                   child: profilePictureUrl.isNotEmpty
                       ? ClipOval(
                     child: Image.network(
                       profilePictureUrl,
                       fit: BoxFit.cover,
-                      height: _isSmall
-                          ? MediaQuery.of(context).size.width * 0.15
-                          : MediaQuery.of(context).size.width * 0.6,
+                      height: _isSmall ? 50 : 230,
+
                       width: _isSmall
                           ? MediaQuery.of(context).size.width * 0.15
                           : MediaQuery.of(context).size.width * 0.6,
@@ -374,8 +372,8 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                       : Icon(
                     Icons.account_circle,
                     size: _isSmall
-                        ? MediaQuery.of(context).size.width * 0.15
-                        : MediaQuery.of(context).size.width * 0.6,
+                        ? MediaQuery.of(context).size.width * 0.2
+                        : MediaQuery.of(context).size.width * 0.5,
                   ),
                 ),
               ),

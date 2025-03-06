@@ -235,10 +235,10 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
             ],
           ),
           SizedBox(height: screenHeight * 0.02),
-          _buildTextField(hobbyController, 'Personal Interest'),
+          _buildTextField(context,hobbyController, 'Personal Interest'),
           SizedBox(height: screenHeight * 0.03),
           Wrap(
-            children: hobbyTags.map((tag) => _buildTag(tag)).toList(),
+            children: hobbyTags.map((tag) => _buildTag(tag as BuildContext,'')).toList(),
           ),
           SizedBox(height: screenHeight * 0.05),
           Row(
@@ -372,34 +372,40 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
     );
   }}
 
-Widget Tag(String text) {
+Widget Tag(BuildContext context, String text) {
   return Container(
-    padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+    padding: EdgeInsets.symmetric(
+      horizontal: MediaQuery.of(context).size.width * 0.03, // 3% of screen width
+      vertical: MediaQuery.of(context).size.height * 0.01, // 1% of screen height
+    ),
     decoration: BoxDecoration(
       color: MyMateThemes.primaryColor,
-      borderRadius: BorderRadius.circular(8.0),
+      borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.02), // Responsive border radius
     ),
     child: Text(
       text,
       style: TextStyle(
         color: Colors.white,
-        fontSize: 14.0,
+        fontSize: MediaQuery.of(context).size.width * 0.035, // Responsive font size
       ),
     ),
   );
 }
 
-Widget SectionTitle(String title) {
+Widget SectionTitle(BuildContext context, String title) {
   return Row(
     children: [
-      SizedBox(width: 40),
-      SvgPicture.asset('assets/images/Group 2148.svg'),
-      SizedBox(width: 4),
+      SizedBox(width: MediaQuery.of(context).size.width * 0.1), // 10% of screen width
+      SvgPicture.asset(
+        'assets/images/Group 2148.svg',
+        width: MediaQuery.of(context).size.width * 0.06, // Responsive icon size
+      ),
+      SizedBox(width: MediaQuery.of(context).size.width * 0.01), // Small spacing
       Text(
         title,
         style: TextStyle(
           color: MyMateThemes.primaryColor,
-          fontSize: 16,
+          fontSize: MediaQuery.of(context).size.width * 0.045, // Responsive font size
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -407,25 +413,28 @@ Widget SectionTitle(String title) {
   );
 }
 
-Widget _buildTextField(TextEditingController controller, String hintText) {
+Widget _buildTextField(BuildContext context, TextEditingController controller, String hintText) {
   return Container(
     decoration: BoxDecoration(
       color: MyMateThemes.containerColor,
-      borderRadius: BorderRadius.circular(8.0),
+      borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.02), // Responsive border radius
     ),
-    width: 310,
-    height: 37,
+    width: MediaQuery.of(context).size.width * 0.8, // 80% of screen width
+    height: MediaQuery.of(context).size.height * 0.05, // 5% of screen height
     child: Padding(
-      padding: const EdgeInsets.only(left: 10.0),
+      padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.025), // Responsive left padding
       child: TextField(
         controller: controller,
         enabled: false, // Disable editing
         decoration: InputDecoration(
-          hintStyle: TextStyle(color: MyMateThemes.textColor.withOpacity(0.5)),
+          hintStyle: TextStyle(
+            color: MyMateThemes.textColor.withOpacity(0.5),
+            fontSize: MediaQuery.of(context).size.width * 0.04, // Responsive font size
+          ),
           border: InputBorder.none,
           enabledBorder: InputBorder.none,
           focusedBorder: InputBorder.none,
-          contentPadding: EdgeInsets.all(9.0),
+          contentPadding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.012), // Responsive content padding
           hintText: hintText,
         ),
       ),
@@ -433,19 +442,25 @@ Widget _buildTextField(TextEditingController controller, String hintText) {
   );
 }
 
-Widget _buildTag(String text) {
+Widget _buildTag(BuildContext context, String text) {
   return Container(
-    margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-    padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+    margin: EdgeInsets.symmetric(
+      horizontal: MediaQuery.of(context).size.width * 0.012, // 1.2% of screen width
+      vertical: MediaQuery.of(context).size.height * 0.007, // 0.7% of screen height
+    ),
+    padding: EdgeInsets.symmetric(
+      horizontal: MediaQuery.of(context).size.width * 0.03, // 3% of screen width
+      vertical: MediaQuery.of(context).size.height * 0.01, // 1% of screen height
+    ),
     decoration: BoxDecoration(
       color: MyMateThemes.primaryColor,
-      borderRadius: BorderRadius.circular(8.0),
+      borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.02), // Responsive border radius
     ),
     child: Text(
       text,
       style: TextStyle(
         color: Colors.white,
-        fontSize: 14.0,
+        fontSize: MediaQuery.of(context).size.width * 0.035, // Responsive font size
       ),
     ),
   );

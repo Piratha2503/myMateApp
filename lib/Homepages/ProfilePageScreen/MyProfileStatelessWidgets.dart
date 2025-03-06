@@ -39,7 +39,7 @@ class _AboutMeState extends State<AboutMe>{
             SizedBox(height: MediaQuery.of(context).size.height * 0.025),
 
             // Section Title
-            SectionTitle( 'About me'),
+            SectionTitle( context,'About me'),
             SizedBox(height: MediaQuery.of(context).size.height * 0.007),
 
             // Decorative Line
@@ -101,13 +101,14 @@ class AstrologySection extends StatelessWidget {
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
+   final key ;// Assign key to the section
 
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: screenHeight * 0.02),
-          SectionTitle( 'Astrology' ),
+          SectionTitle( context,'Astrology' ),
           SizedBox(height: screenHeight * 0.007),
 
           // Decorative Line

@@ -24,6 +24,8 @@ class _PhotoGalleryState extends State<PhotoGallery> {
   bool isLoading = true;
   String errorMessage = '';
 
+  final GlobalKey _photoGalleryKey = GlobalKey();
+
   @override
   void initState() {
     super.initState();
@@ -63,7 +65,9 @@ class _PhotoGalleryState extends State<PhotoGallery> {
         : errorMessage.isNotEmpty
         ? Center(child: Text(errorMessage))
         : SingleChildScrollView(
-          child: Column(
+      key: _photoGalleryKey,
+
+      child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
               children: [
               SectionTitle(context,'Photo Gallery'),
