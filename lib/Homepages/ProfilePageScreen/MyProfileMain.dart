@@ -83,32 +83,39 @@ class _ProfilePageState extends State<ProfilePage>
     );
   }
 
-  Widget MyProfileMainAppbar(){
-    return SafeArea(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              SizedBox(width: 50),
-              Text(
-                '@user240676',
-                style: TextStyle(
-                  color: MyMateThemes.textColor,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
+  Widget MyProfileMainAppbar() {
+
+    return AppBar(
+      backgroundColor: Colors.white,
+      automaticallyImplyLeading: false,
+
+      title: SafeArea(
+
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(width: MediaQuery.of(context).size.width * 0.1), // Adjust spacing dynamically
+                Text(
+                  '@user240676',
+                  style: TextStyle(
+                    color: MyMateThemes.textColor,
+                    fontSize: MediaQuery.of(context).size.width * 0.05, // Responsive font size
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ),
-              SizedBox(width: 40),
-              BadgeWidget(
-                  assetPath: 'assets/images/Group 2157.svg', badgeValue: 1),
-              SizedBox(width: 25),
-              BadgeWidget(
-                  assetPath: 'assets/images/Group 2153.svg', badgeValue: 10),
-            ],
-          ),
-        ],
+                SizedBox(width: MediaQuery.of(context).size.width * 0.07),
+                BadgeWidget(
+                    assetPath: 'assets/images/Group 2157.svg', badgeValue: 1),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+                BadgeWidget(
+                    assetPath: 'assets/images/Group 2153.svg', badgeValue: 10),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

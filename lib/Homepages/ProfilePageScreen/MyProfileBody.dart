@@ -130,6 +130,10 @@ class _MyProfileBodyState extends State<MyProfileBody> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    final screenWidth = mediaQuery.size.width;
+    final screenHeight = mediaQuery.size.height;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -138,20 +142,20 @@ class _MyProfileBodyState extends State<MyProfileBody> {
             controller: _scrollController,
             child: Column(
               children: [
-                ProfileInfo(personalDetails.full_name.toString(),profilePictureUrl),
-                SizedBox(height: 20),
+                ProfileInfo(personalDetails.full_name.toString(), profilePictureUrl),
+                SizedBox(height: screenHeight * 0.03),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    IconWithText('assets/images/Group 2145.svg', '$age years', dob),
-                    IconWithText('assets/images/Group 2146.svg', occupation, '$city - '),
-                    IconWithText('assets/images/Group 2147.svg', city, city),
+                    IconWithText(context,'assets/images/Group 2145.svg', '$age years', dob),
+                    IconWithText(context,'assets/images/Group 2146.svg', occupation, '$city - '),
+                    IconWithText(context,'assets/images/Group 2147.svg', city, city),
                   ],
                 ),
-                SizedBox(height: 30),
-                ActionButtons(context,widget.docId),
-                SizedBox(height: 30),
+                SizedBox(height: screenHeight * 0.03),
+                ActionButtons(context, widget.docId),
+                SizedBox(height: screenHeight * 0.03),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -160,7 +164,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         GestureDetector(
-                          child: SvgPicture.asset( 'assets/images/Group 2196.svg'),
+                          child: SvgPicture.asset('assets/images/Group 2196.svg', width: screenWidth * 0.13,height:screenHeight * 0.25 ,),
                           onTap: () {
                             setState(() {
                               _selectedButtonIndex = 0;
@@ -168,11 +172,11 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                             _scrollToContainer(1);
                           },
                         ),
-                        SizedBox(width: 30),
+                        SizedBox(width: screenWidth * 0.03),
                         Column(
                           children: [
                             GestureDetector(
-                              child: SvgPicture.asset('assets/images/Group 2192.svg'),
+                              child: SvgPicture.asset('assets/images/Group 2192.svg', width: screenWidth * 0.13,height:screenHeight * 0.12 ),
                               onTap: () {
                                 setState(() {
                                   _selectedButtonIndex = 1;
@@ -180,9 +184,9 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                                 _scrollToContainer(2);
                               },
                             ),
-                            SizedBox(height: 16),
+                            SizedBox(height: screenHeight * 0.02),
                             GestureDetector(
-                              child: SvgPicture.asset('assets/images/Group 2197.svg'),
+                              child: SvgPicture.asset('assets/images/Group 2197.svg', width: screenWidth * 0.13,height:screenHeight * 0.12),
                               onTap: () {
                                 setState(() {
                                   _selectedButtonIndex = 2;
@@ -196,82 +200,76 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: screenHeight * 0.02),
                 AstrologySection(),
                 Containers(
-                  children:[
-                    AboutMe(education: education, personalDetails: personalDetails, docId: widget.docId,),
-                    SizedBox(height: 48),
+                  children: [
+                    AboutMe(education: education, personalDetails: personalDetails, docId: widget.docId),
+                    SizedBox(height: screenHeight * 0.06),
                     PhotoGallery(docId: widget.docId),
-                    SizedBox(height:30),
-                    SectionTitle('More about me'),
-                    SizedBox(height: 5),
+                    SizedBox(height: screenHeight * 0.04),
+                    SectionTitle(context,'More about me',),
+                    SizedBox(height: screenHeight * 0.01),
                     Row(
                       children: [
-                        SizedBox(width: 40),
+                        SizedBox(width: screenWidth * 0.1),
                         SvgPicture.asset('assets/images/Line 11.svg'),
                       ],
                     ),
-                    SizedBox(height: 25),
-
-                    // First Section - Show if the form is not filled
+                    SizedBox(height: screenHeight * 0.03),
                     if (!isFormFilled) ...[
                       Row(
                         children: [
-                          SizedBox(width: 42),
+                          SizedBox(width: screenWidth * 0.1),
                           Text(
                             'No more about me found',
                             style: TextStyle(
                               color: MyMateThemes.textColor.withOpacity(0.8),
-                              fontSize: 16,
+                              fontSize: screenWidth * 0.04,
                               fontWeight: FontWeight.normal,
                               letterSpacing: 1,
                             ),
                           ),
                         ],
                       ),
-                      SizedBox(height: 20),
+                      SizedBox(height: screenHeight * 0.02),
                       Row(
                         children: [
-                          SizedBox(width: 40),
+                          SizedBox(width: screenWidth * 0.1),
                           ElevatedButton(
                             onPressed: () async {
                               final result = await Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => MoreAboutMePage(docId: widget.docId,),
+                                  builder: (context) => MoreAboutMePage(docId: widget.docId),
                                 ),
                               );
                               if (result != null) {
                                 setState(() {
-                                  isFormFilled = true; // Set this to true when the form is completed
+                                  isFormFilled = true;
                                 });
                               }
                             },
                             child: Text(
                               '+ Add more about me ',
-                              style: TextStyle(fontSize: 14, letterSpacing: 0.8),
+                              style: TextStyle(fontSize: screenWidth * 0.035, letterSpacing: 0.8),
                             ),
                             style: CommonButtonStyle.commonButtonStyle(),
                           ),
-
                         ],
                       ),
                     ],
-
-                    // Second Section - Show if the form is filled
                     if (isFormFilled) ...[
-                      // Your additional info section here
-                      AdditionalInfo(docId: widget.docId,)
+                      AdditionalInfo(docId: widget.docId),
                     ],
                   ],
                 ),
-                SizedBox(height: 30),
+                SizedBox(height: screenHeight * 0.04),
               ],
             ),
           ),
         ),
-        SizedBox(height: 20),
+        SizedBox(height: screenHeight * 0.02),
         Align(
           alignment: Alignment.center,
           child: Row(
@@ -283,14 +281,13 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                 index: 0,
                 isSelected: isButtonSelected(0),
                 onPressed: () {
-
                   setState(() {
                     _selectedButtonIndex = 0;
                   });
                   _scrollToContainer(1);
                 },
               ),
-              SizedBox(width: 10),
+              SizedBox(width: screenWidth * 0.013),
               CustomOutlineButton(
                 assetPath: 'assets/images/Group 2150.svg',
                 label: 'About me',
@@ -303,7 +300,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                   _scrollToContainer(2);
                 },
               ),
-              SizedBox(width: 10),
+              SizedBox(width: screenWidth * 0.013),
               CustomOutlineButton(
                 assetPath: 'assets/images/Group 2149.svg',
                 label: 'Photo Gallery',
@@ -316,14 +313,13 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                   _scrollToContainer(3);
                 },
               ),
-              // Add other buttons similarly
             ],
           ),
         ),
-
       ],
     );
   }
+
 
   Widget ProfileInfo(String full_name,String image_url) {
 
@@ -332,47 +328,60 @@ class _MyProfileBodyState extends State<MyProfileBody> {
     return Column(
       children: [
         Container(
-          height: 220,
+          height: MediaQuery.of(context).size.height * 0.3,
+          width: MediaQuery.of(context).size.width * 0.5,
           child: Center(
             child: Container(
-              height: 185,
-              width: 185,
+              height: MediaQuery.of(context).size.height * 0.25,
+              width: MediaQuery.of(context).size.width * 0.5,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
+                borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.25),
                 color: MyMateThemes.secondaryColor,
               ),
               child: Center(
                 child: AnimatedContainer(
                   duration: Duration(milliseconds: 500),
                   curve: Curves.easeInOut,
-                  height: _isSmall ? 50 : 230,
+                  height: _isSmall
+                      ? MediaQuery.of(context).size.width * 0.15
+                      : MediaQuery.of(context).size.width * 0.5,
                   alignment: _isSmall ? Alignment(-1.2, 1.0) : Alignment.center,
                   child: profilePictureUrl.isNotEmpty
                       ? ClipOval(
                     child: Image.network(
                       profilePictureUrl,
                       fit: BoxFit.cover,
-                      height: _isSmall ? 50 : 230,
-                      width: _isSmall ? 50 : 230,
+                      height: _isSmall
+                          ? MediaQuery.of(context).size.width * 0.15
+                          : MediaQuery.of(context).size.width * 0.6,
+                      width: _isSmall
+                          ? MediaQuery.of(context).size.width * 0.15
+                          : MediaQuery.of(context).size.width * 0.6,
                       errorBuilder: (context, error, stackTrace) {
-                        return Icon(Icons.error, size: _isSmall ? 50 : 230);
+                        return Icon(
+                          Icons.error,
+                          size: _isSmall
+                              ? MediaQuery.of(context).size.width * 0.15
+                              : MediaQuery.of(context).size.width * 0.45,
+                        );
                       },
                       loadingBuilder: (context, child, progress) {
                         if (progress == null) return child;
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
+                        return Center(child: CircularProgressIndicator());
                       },
                     ),
                   )
-                      : Icon(Icons.account_circle, size: _isSmall ? 50 : 230),
+                      : Icon(
+                    Icons.account_circle,
+                    size: _isSmall
+                        ? MediaQuery.of(context).size.width * 0.15
+                        : MediaQuery.of(context).size.width * 0.6,
+                  ),
                 ),
               ),
             ),
           ),
         ),
-
-
         GestureDetector(
           child: AnimatedContainer(
             duration: Duration(milliseconds: 500),
@@ -385,7 +394,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                   full_name,
                   style: TextStyle(
                     color: MyMateThemes.primaryColor,
-                    fontSize: 20,
+                    fontSize: MediaQuery.of(context).size.width * 0.05,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -393,7 +402,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                   'Special Mention (Optional)',
                   style: TextStyle(
                     color: MyMateThemes.textColor,
-                    fontSize: 14,
+                    fontSize: MediaQuery.of(context).size.width * 0.035,
                     fontWeight: FontWeight.normal,
                   ),
                 ),
@@ -407,20 +416,25 @@ class _MyProfileBodyState extends State<MyProfileBody> {
 
 
 }
-Widget SectionTitle(String title) {
+Widget SectionTitle(BuildContext context, String title) {
   return Row(
     children: [
-      SizedBox(width: 40),
-      SvgPicture.asset('assets/images/Group 2148.svg'),
-      SizedBox(width: 4),
+      SizedBox(width: MediaQuery.of(context).size.width * 0.1),
+      SvgPicture.asset(
+        'assets/images/Group 2148.svg',
+        width: MediaQuery.of(context).size.width * 0.05,
+        height: MediaQuery.of(context).size.width * 0.05,
+      ),
+      SizedBox(width: MediaQuery.of(context).size.width * 0.01),
       Text(
         title,
         style: TextStyle(
           color: MyMateThemes.primaryColor,
-          fontSize: 16,
+          fontSize: MediaQuery.of(context).size.width * 0.045,
           fontWeight: FontWeight.bold,
         ),
       ),
     ],
   );
 }
+

@@ -8,27 +8,31 @@ import '../../MyMateThemes.dart';
 import '../Profiles/EditPage.dart';
 import '../Profiles/MoreAboutMe.dart';
 
-Widget IconWithText(String iconPath, String text1, String text2) {
+Widget IconWithText(BuildContext context, String iconPath, String text1, String text2) {
   return Container(
-    width: 120,
-    height: 72,
+    width: MediaQuery.of(context).size.width * 0.28,
+    height: MediaQuery.of(context).size.height * 0.1,
     foregroundDecoration: BoxDecoration(
       border: Border(
         right: BorderSide(
           color: MyMateThemes.secondaryColor,
-          width: 2,
+          width: MediaQuery.of(context).size.width * 0.005,
         ),
       ),
     ),
     child: Column(
       children: [
-        SvgPicture.asset(iconPath),
-        SizedBox(height: 5),
+        SvgPicture.asset(
+          iconPath,
+          width: MediaQuery.of(context).size.width * 0.08,
+          height: MediaQuery.of(context).size.width * 0.08,
+        ),
+        SizedBox(height: MediaQuery.of(context).size.height * 0.007),
         Text(
           text1,
           style: TextStyle(
             color: MyMateThemes.textColor,
-            fontSize: 12,
+            fontSize: MediaQuery.of(context).size.width * 0.03,
             fontWeight: FontWeight.normal,
           ),
         ),
@@ -36,7 +40,7 @@ Widget IconWithText(String iconPath, String text1, String text2) {
           text2,
           style: TextStyle(
             color: MyMateThemes.primaryColor,
-            fontSize: 10,
+            fontSize: MediaQuery.of(context).size.width * 0.025,
             fontWeight: FontWeight.normal,
           ),
         ),
@@ -49,44 +53,62 @@ Widget ActionButtons(BuildContext context, String docId) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
-      ElevatedButton(
-        onPressed: () {
-          NavigatorFunction(
-              context,
-              boostprofile(
-                docId: docId,
-              ));
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: MyMateThemes.primaryColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
+      SizedBox(
+        height:MediaQuery.of(context).size.height * 0.06 ,
+        width: MediaQuery.of(context).size.width * 0.35,
+        child:
+        ElevatedButton(
+          onPressed: () {
+            NavigatorFunction(
+                context,
+                boostprofile(
+                  docId: docId,
+                ));
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: MyMateThemes.primaryColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.025),
+            ),
+            padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * 0.05,
+              vertical: MediaQuery.of(context).size.height * 0.015,
+            ),
+          ),
+          child: Text(
+            'Boost ',
+            style: TextStyle(color: Colors.white, fontSize: MediaQuery.of(context).size.width * 0.04),
           ),
         ),
-        child: Text(
-          'Boost ',
-          style: TextStyle(color: Colors.white),
-        ),
+
       ),
-      SizedBox(width: 60),
-      ElevatedButton(
-        onPressed: () {
-          NavigatorFunction(
-              context,
-              EditPage(
-                docId: docId,
-                onSave: () {},
-              ));
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: MyMateThemes.primaryColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
+      SizedBox(width: MediaQuery.of(context).size.width * 0.1),
+      SizedBox(
+        height:MediaQuery.of(context).size.height * 0.06 ,
+        width: MediaQuery.of(context).size.width * 0.35,
+        child: ElevatedButton(
+          onPressed: () {
+            NavigatorFunction(
+                context,
+                EditPage(
+                  docId: docId,
+                  onSave: () {},
+                ));
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: MyMateThemes.primaryColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.025),
+            ),
+            padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * 0.05,
+              vertical: MediaQuery.of(context).size.height * 0.015,
+            ),
           ),
-        ),
-        child: Text(
-          'Edit Profile',
-          style: TextStyle(color: Colors.white),
+          child: Text(
+            'Edit Profile',
+            style: TextStyle(color: Colors.white, fontSize: MediaQuery.of(context).size.width * 0.04),
+          ),
         ),
       ),
     ],
@@ -182,72 +204,80 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              SizedBox(width: 40),
+              SizedBox(width: screenWidth * 0.1),
               Text(
                 'Personal Interest',
                 style: TextStyle(
                   color: MyMateThemes.textColor,
-                  fontSize: 14,
+                  fontSize: screenWidth * 0.044,
                 ),
               ),
             ],
           ),
-          SizedBox(height: 10),
+          SizedBox(height: screenHeight * 0.013),
           Row(
             children: [
-              SizedBox(width: 35),
-              SvgPicture.asset('assets/images/Line 11.svg'),
+              SizedBox(width: screenWidth * 0.09),
+              SvgPicture.asset(
+                'assets/images/Line 11.svg',
+                width: screenWidth * 0.79,
+              ),
             ],
           ),
-          SizedBox(height: 15),
+          SizedBox(height: screenHeight * 0.02),
           _buildTextField(hobbyController, 'Personal Interest'),
-          SizedBox(height: 20),
+          SizedBox(height: screenHeight * 0.03),
           Wrap(
             children: hobbyTags.map((tag) => _buildTag(tag)).toList(),
           ),
-          SizedBox(height: 40),
+          SizedBox(height: screenHeight * 0.05),
           Row(
             children: [
-              SizedBox(width: 45),
+              SizedBox(width: screenWidth * 0.1),
               Text(
-                'Habits',
+                'Life style',
                 style: TextStyle(
                   color: MyMateThemes.textColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
+                  fontSize: screenWidth * 0.044,
                 ),
               ),
             ],
           ),
-          SizedBox(height: 10),
+          SizedBox(height: screenHeight * 0.013),
           Row(
             children: [
-              SizedBox(width: 35),
-              SvgPicture.asset('assets/images/Line 11.svg'),
+              SizedBox(width: screenWidth * 0.09),
+              SvgPicture.asset(
+                'assets/images/Line 11.svg',
+                width: screenWidth * 0.79,
+              ),
             ],
           ),
-          SizedBox(height: 15),
+          SizedBox(height: screenHeight * 0.02),
           Row(
             children: [
-              SizedBox(width: 45),
+              SizedBox(width: screenWidth * 0.1),
               Text(
                 'Eating Habits',
                 style: TextStyle(
-                  color: MyMateThemes.textColor,
-                  fontSize: 16,
+                  color: MyMateThemes.textColor.withOpacity(0.7),
+                  fontSize: screenWidth * 0.04,
                   fontWeight: FontWeight.normal,
                 ),
               ),
             ],
           ),
-          SizedBox(height: 10),
+          SizedBox(height: screenHeight * 0.02),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -256,86 +286,91 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
                   Radio<String>(
                     value: 'Vegetarian',
                     groupValue: _selectedValue,
-                    onChanged: null, // Disable interaction
+                    onChanged: null,
                     activeColor: MyMateThemes.primaryColor,
                   ),
                   Text('Vegetarian'),
                 ],
               ),
-              SizedBox(width: 50),
+              SizedBox(width: screenWidth * 0.12),
               Row(
                 children: [
                   Radio<String>(
-                    value: 'Non- Vegetarian',
+                    value: 'Non-Vegetarian',
                     groupValue: _selectedValue,
-                    onChanged: null, // Disable interaction
+                    onChanged: null,
                     activeColor: MyMateThemes.primaryColor,
                   ),
-                  Text('Non- Vegetarian'),
+                  Text('Non-Vegetarian'),
                 ],
               ),
             ],
           ),
-          SizedBox(height: 30),
+          SizedBox(height: screenHeight * 0.04),
           Row(
             children: [
-              SizedBox(width: 45),
+              SizedBox(width: screenWidth * 0.1),
               Text(
                 'Alcohol',
                 style: TextStyle(
-                  color: MyMateThemes.textColor,
-                  fontSize: 16,
+                  color: MyMateThemes.textColor.withOpacity(0.7),
+                  fontSize: screenWidth * 0.04,
                   fontWeight: FontWeight.normal,
                 ),
               ),
             ],
           ),
-          SizedBox(height: 30),
-          _buildAlcoholSelection(selectedAlcoholIndex,context),
-          SizedBox(height: 45),
+          SizedBox(height: screenHeight * 0.04),
+          _buildAlcoholSelection(selectedAlcoholIndex, context),
+          SizedBox(height: screenHeight * 0.06),
           Row(
             children: [
-              SizedBox(width: 45),
+              SizedBox(width: screenWidth * 0.1),
               Text(
                 'Smoking',
                 style: TextStyle(
-                  color: MyMateThemes.textColor,
-                  fontSize: 16,
+                  color: MyMateThemes.textColor.withOpacity(0.7),
+                  fontSize: screenWidth * 0.04,
                   fontWeight: FontWeight.normal,
                 ),
               ),
             ],
           ),
-          SizedBox(height: 30),
-          _buildSmokingSelection(selectedSmokingIndex,context),
-          SizedBox(height: 45),
+          SizedBox(height: screenHeight * 0.04),
+          _buildSmokingSelection(selectedSmokingIndex, context),
+          SizedBox(height: screenHeight * 0.06),
           Row(
             children: [
-              SizedBox(width: 45),
+              SizedBox(width: screenWidth * 0.1),
               Text(
                 'Cooking',
                 style: TextStyle(
                   color: MyMateThemes.textColor,
-                  fontSize: 16,
+                  fontSize: screenWidth * 0.045,
                   fontWeight: FontWeight.w500,
                 ),
               ),
             ],
           ),
-          SizedBox(height: 10),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.007),
+
+          // Decorative Line
           Row(
             children: [
-              SizedBox(width: 35),
-              SvgPicture.asset('assets/images/Line 11.svg'),
+              SizedBox(width: MediaQuery.of(context).size.width * 0.08),
+              SvgPicture.asset(
+                'assets/images/Line 11.svg',
+                width: MediaQuery.of(context).size.width * 0.8,
+              ),
             ],
           ),
-          SizedBox(height: 30),
-          _buildCookingSelection(selectedCookingIndex,context),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.04),
+
+          _buildCookingSelection(selectedCookingIndex, context),
         ],
       ),
     );
-  }
-}
+  }}
 
 Widget Tag(String text) {
   return Container(
@@ -378,7 +413,7 @@ Widget _buildTextField(TextEditingController controller, String hintText) {
       color: MyMateThemes.containerColor,
       borderRadius: BorderRadius.circular(8.0),
     ),
-    width: 330,
+    width: 310,
     height: 37,
     child: Padding(
       padding: const EdgeInsets.only(left: 10.0),
@@ -420,10 +455,14 @@ Widget _buildAlcoholSelection(
     final int selectedAlcoholIndex,
     BuildContext context,
     ) {
+  double circleSize = MediaQuery.of(context).size.width * 0.06;
+  double textSize = MediaQuery.of(context).size.width * 0.025;
+  double spacing = MediaQuery.of(context).size.height * 0.015;
+
   return Stack(
     children: [
       CustomPaint(
-        size: Size(MediaQuery.of(context).size.width, 24),
+        size: Size(MediaQuery.of(context).size.width, circleSize),
         painter: _LinePainter(selectedAlcoholIndex: selectedAlcoholIndex),
       ),
       Row(
@@ -436,16 +475,16 @@ Widget _buildAlcoholSelection(
                     painter:
                     _CirclePainter(isActive: selectedAlcoholIndex >= i),
                     child: SizedBox(
-                      width: 24,
-                      height: 24,
+                      width: circleSize,
+                      height: circleSize,
                     ),
                   ),
-                  SizedBox(height: 13),
+                  SizedBox(height: spacing),
                   Text(
                     _alcoholOptions[i].split(' ')[0],
                     style: TextStyle(
                       color: Colors.grey[700],
-                      fontSize: 10,
+                      fontSize: textSize,
                     ),
                   ),
                 ],
@@ -461,10 +500,14 @@ Widget _buildSmokingSelection(
     final int selectedSmokingIndex,
     BuildContext context,
     ) {
+  double circleSize = MediaQuery.of(context).size.width * 0.06;
+  double textSize = MediaQuery.of(context).size.width * 0.025;
+  double spacing = MediaQuery.of(context).size.height * 0.015;
+
   return Stack(
     children: [
       CustomPaint(
-        size: Size(MediaQuery.of(context).size.width, 24),
+        size: Size(MediaQuery.of(context).size.width, circleSize),
         painter: _SmokingLinePainter(selectedSmokingIndex: selectedSmokingIndex),
       ),
       Row(
@@ -477,16 +520,16 @@ Widget _buildSmokingSelection(
                     painter:
                     _CirclePainter(isActive: selectedSmokingIndex >= i),
                     child: SizedBox(
-                      width: 24,
-                      height: 24,
+                      width: circleSize,
+                      height: circleSize,
                     ),
                   ),
-                  SizedBox(height: 13),
+                  SizedBox(height: spacing),
                   Text(
                     _smokingOptions[i].split(' ')[0],
                     style: TextStyle(
                       color: Colors.grey[700],
-                      fontSize: 10,
+                      fontSize: textSize,
                     ),
                   ),
                 ],
@@ -502,11 +545,14 @@ Widget _buildCookingSelection(
     final int selectedCookingIndex,
     BuildContext context,
     ) {
+  double circleSize = MediaQuery.of(context).size.width * 0.06;
+  double textSize = MediaQuery.of(context).size.width * 0.025;
+  double spacing = MediaQuery.of(context).size.height * 0.015;
 
   return Stack(
     children: [
       CustomPaint(
-        size: Size(MediaQuery.of(context).size.width, 24),
+        size: Size(MediaQuery.of(context).size.width, circleSize),
         painter: _LinearPainter(selectedCookingIndex: selectedCookingIndex),
       ),
       Row(
@@ -519,16 +565,16 @@ Widget _buildCookingSelection(
                     painter:
                     _CirclePainter(isActive: selectedCookingIndex >= i),
                     child: SizedBox(
-                      width: 24,
-                      height: 24,
+                      width: circleSize,
+                      height: circleSize,
                     ),
                   ),
-                  SizedBox(height: 13),
+                  SizedBox(height: spacing),
                   Text(
                     _cookingOptions[i],
                     style: TextStyle(
                       color: Colors.grey[700],
-                      fontSize: 10,
+                      fontSize: textSize,
                     ),
                   ),
                 ],

@@ -1,55 +1,73 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import '../../MyMateThemes.dart';
 
-Widget RasiChartDesign() {
+Widget RasiChartDesign(BuildContext context) {
+  double containerSize = MediaQuery.of(context).size.width * 0.7;
+  double boxSize = containerSize / 3.5;
+  double innerBoxSize = containerSize / 2.3;
+  double fontSize = containerSize * 0.045;
+  final double screenHeight = MediaQuery.of(context).size.height;
+  final double screenWidth = MediaQuery.of(context).size.width;
+
   return Container(
-    height: 258,
-    width: 258,
+    height: containerSize,
+    width: containerSize,
     color: MyMateThemes.containerColor,
     child: Stack(
       children: [
-        Positioned( top: 10,  left: 10,  child: IndividualBox("01")),
-        Positioned( top: 10,  left: 72,  child: IndividualBox("02")),
-        Positioned( top: 10,  left: 134, child: IndividualBox("03")),
-        Positioned( top: 10,  left: 196, child: IndividualBox("04")),
-        Positioned( top: 72,  left: 10,  child: IndividualBox("12")),
-        Positioned( top: 134, left: 10,  child: IndividualBox("11")),
-        Positioned( top: 196, left: 10,  child: IndividualBox("10")),
-        Positioned( top: 72,  left: 196, child: IndividualBox("05")),
-        Positioned( top: 134, left: 196, child: IndividualBox("06")),
-        Positioned( top: 196, left: 196, child: IndividualBox("07")),
-        Positioned( top: 196, left: 134, child: IndividualBox("08")),
-        Positioned( top: 196, left: 72,  child: IndividualBox("09")),
+        Positioned(top: boxSize * 0.18, left: boxSize * 0.18, child: IndividualBox(context,"01")),
+        Positioned(top: boxSize * 0.18, left: boxSize * 1.03, child: IndividualBox(context,"02")),
+        Positioned(top: boxSize * 0.18, left: boxSize * 1.82, child: IndividualBox(context,"03")),
+        Positioned(top: boxSize * 0.18, left: boxSize * 2.64, child: IndividualBox(context,"04")),
+        Positioned(top: boxSize * 0.98, left: boxSize * 0.18, child: IndividualBox(context,"12")),
+        Positioned(top: boxSize * 1.82, left: boxSize * 0.18, child: IndividualBox(context,"11")),
+        Positioned(top: boxSize * 2.64, left: boxSize * 0.18, child: IndividualBox(context,"10")),
+        Positioned(top: boxSize * 0.98, left: boxSize * 2.64, child: IndividualBox(context,"05")),
+        Positioned(top: boxSize * 1.82, left: boxSize * 2.64, child: IndividualBox(context,"06")),
+        Positioned(top: boxSize * 2.64, left: boxSize * 2.64, child: IndividualBox(context,"07")),
+        Positioned(top: boxSize * 2.64, left: boxSize * 1.82, child: IndividualBox(context,"08")),
+        Positioned(top: boxSize * 2.64, left: boxSize * 1.03, child: IndividualBox(context,"09")),
+
         Positioned(
-          top: 72,
-          left: 72,
-          child: Container(
-            height: 114,
-            width: 114,
+          top: boxSize * 1.0,
+          left: boxSize * 1.0,
+          child:
+          Container(
+            height: innerBoxSize,
+            width: innerBoxSize,
             decoration: BoxDecoration(
               color: MyMateThemes.primaryColor,
-              borderRadius: BorderRadius.circular(4.0),
+              borderRadius: BorderRadius.circular(containerSize * 0.015),
             ),
-            child: Stack(
+            child:
+            Stack(
               children: [
                 Positioned(
-                  bottom: 5,
-                  left: 3,
+                  top: screenHeight * 0.01,
+                  left: screenWidth * 0.06,
+                  child: SvgPicture.asset('assets/images/Group 2217.svg', width: screenWidth * 0.1,height: screenHeight*0.1,),
+                ),
+                Positioned(
+                  bottom: screenHeight * 0.005,
+                  left: screenWidth * 0.01,
                   child: Column(
                     children: [
                       Text(
                         'Hastam',
                         style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.white,
-                            fontWeight: FontWeight.normal),
+                          fontSize: screenWidth * 0.025,
+                          color: Colors.white,
+                          fontWeight: FontWeight.normal,
+                        ),
                       ),
                       Text(
                         'Virgo (kanni)',
                         style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.white,
-                            fontWeight: FontWeight.normal),
+                          fontSize: screenWidth * 0.025,
+                          color: Colors.white,
+                          fontWeight: FontWeight.normal,
+                        ),
                       ),
                     ],
                   ),
@@ -62,31 +80,38 @@ Widget RasiChartDesign() {
     ),
   );
 }
-
 List<Widget> widgetList = [
   Text("sun"),
 
 ];
 
-Widget IndividualBox(String number){
+Widget IndividualBox(BuildContext context, String number) {
+  double boxSize = MediaQuery.of(context).size.width * 0.14;
+  double borderRadius = boxSize * 0.08;
+  double fontSize = boxSize * 0.2;
+
   return Container(
-    height: 52,
-    width: 52,
+    height: boxSize,
+    width: boxSize,
     decoration: BoxDecoration(
       color: MyMateThemes.primaryColor,
-      borderRadius: BorderRadius.circular(4.0),
+      borderRadius: BorderRadius.circular(borderRadius),
     ),
     child: Stack(
       children: [
         Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+
             Text(
               number,
               style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 10),
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+                fontSize: fontSize,
+              ),
             ),
+            SizedBox(height: boxSize*0.3,),
             Column(
               children: widgetList,
             )

@@ -46,8 +46,8 @@ class CustomOutlineButton extends StatelessWidget {
         children: [
           SvgPicture.asset(
             assetPath,
-            width: 18.29,
-            height: 18.29,
+            width: 12.29,
+            height: 12.29,
           ),
           SizedBox(width: 4),
           Text(
