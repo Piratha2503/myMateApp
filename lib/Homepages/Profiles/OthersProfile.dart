@@ -244,14 +244,30 @@ class _OtherProfilePageState extends State<OtherProfilePage>
   }
 
   void _scrollListener() {
-    double containerHeight = 620.0;
-    int newIndex = (_scrollController.offset / containerHeight).floor();
-    if (newIndex != _selectedButtonIndex) {
-      setState(() {
-        _selectedButtonIndex = newIndex;
-      });
+    List<GlobalKey> anchorKeys = [_anchorKey1, _anchorKey2, _anchorKey3];
+
+    for (int i = 0; i < anchorKeys.length; i++) {
+      BuildContext? context = anchorKeys[i].currentContext;
+      if (context != null) {
+        RenderObject? renderObject = context.findRenderObject();
+        if (renderObject != null) {
+          RenderBox box = renderObject as RenderBox;
+          Offset position = box.localToGlobal(Offset.zero);
+
+          // Check if this anchor is within the viewport
+          if (position.dy >= 0 && position.dy < MediaQuery.of(context).size.height / 2) {
+            if (_selectedButtonIndex != i) {
+              setState(() {
+                _selectedButtonIndex = i;
+              });
+            }
+            break; // Stop checking further once the first visible anchor is found
+          }
+        }
+      }
     }
   }
+
 
   void _scrollToContainer(GlobalKey anchorKey) {
     BuildContext? context = anchorKey.currentContext;
@@ -443,7 +459,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
             text1,
             style: TextStyle(
               color: MyMateThemes.textColor,
-              fontSize: MediaQuery.of(context).size.width * 0.03,
+              fontSize: MediaQuery.of(context).size.width * 0.028,
               fontWeight: FontWeight.normal,
             ),
           ),
@@ -451,7 +467,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
             text2,
             style: TextStyle(
               color: MyMateThemes.primaryColor,
-              fontSize: MediaQuery.of(context).size.width * 0.025,
+              fontSize: MediaQuery.of(context).size.width * 0.028,
               fontWeight: FontWeight.normal,
             ),
           ),
@@ -796,7 +812,8 @@ class _OtherProfilePageState extends State<OtherProfilePage>
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Expanded(
-            child: SingleChildScrollView(
+            child:
+            SingleChildScrollView(
               controller: _scrollController,
               child: Column(
                 children: [
@@ -894,7 +911,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
               ),
             ),
           ),
-          SizedBox(height: screenHeight * 0.06),
+          SizedBox(height: screenHeight * 0.02),
           Align(
             alignment: Alignment.center,
             child: Row(

@@ -106,10 +106,11 @@ class _SubscribedhomescreenStructuredPageState
                       ),
                     ),
                     actions: <Widget>[
-                      BadgeWidget(assetPath: 'assets/images/Group 2157.svg', badgeValue: badgeValue1),
-                      SizedBox(width: 20),
-                      // BadgeWidget(assetPath: 'assets/images/Group 2153.svg', badgeValue: badgeValue2),
-                      // SizedBox(width: 20)
+
+                      BadgeWidget(assetPath: 'assets/images/bell.svg', badgeValue: badgeValue1),
+                      SizedBox(width: constraints.maxWidth * 0.045),
+                      BadgeWidget(assetPath: 'assets/images/Group 2157.svg', badgeValue: badgeValue2),
+                      SizedBox(width: constraints.maxWidth * 0.045),
                     ],
                   ),
                 ),

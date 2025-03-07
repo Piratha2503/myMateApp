@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mymateapp/Homepages/ProfilePageScreen/MyProfileBody.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import '../../../MyMateCommonBodies/MyMateBottomBar.dart';
@@ -31,6 +32,9 @@ class _ProfilePageState extends State<ProfilePage>
   bool _isSmall = true;
 
   int _selectedIndex = 0;
+
+  int badgeValue1 = 2;
+  int badgeValue2 = 10;
 
   final ScrollController _scrollController = ScrollController();
   int selectedAlcoholIndex = 0;
@@ -97,7 +101,7 @@ class _ProfilePageState extends State<ProfilePage>
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(width: MediaQuery.of(context).size.width * 0.1), // Adjust spacing dynamically
+                SizedBox(width: MediaQuery.of(context).size.width * 0.2), // Adjust spacing dynamically
                 Text(
                   '@user240676',
                   style: TextStyle(
@@ -106,12 +110,24 @@ class _ProfilePageState extends State<ProfilePage>
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                SizedBox(width: MediaQuery.of(context).size.width * 0.07),
-                BadgeWidget(
-                    assetPath: 'assets/images/Group 2157.svg', badgeValue: 1),
-                SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                BadgeWidget(
-                    assetPath: 'assets/images/Group 2153.svg', badgeValue: 10),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.08),
+                SvgPicture.asset('assets/images/fire.svg',height: MediaQuery.of(context).size.height * 0.02,),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.01),
+
+                Text('78',style: TextStyle(color: MyMateThemes.textColor,fontSize:MediaQuery.of(context).size.width * 0.05 ),),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.01),
+
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.menu, color: MyMateThemes.primaryColor),
+                ),
+                  //
+                  //
+                  // BadgeWidget(assetPath: 'assets/images/bell.svg', badgeValue: badgeValue1),
+                  // SizedBox(width: MediaQuery.of(context).size.width  * 0.045),
+                  // BadgeWidget(assetPath: 'assets/images/Group 2157.svg', badgeValue: badgeValue2),
+                  // SizedBox(width:MediaQuery.of(context).size.width  * 0.045),
+
               ],
             ),
           ],

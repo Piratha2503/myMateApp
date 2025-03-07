@@ -56,14 +56,56 @@ class _MyProfileBodyState extends State<MyProfileBody> {
   bool isLoading = true;
   PersonalDetails personalDetails = PersonalDetails();
 
-  void _scrollToContainer(int index) {
-    double containerHeight =MediaQuery.of(context).size.height;
-    double targetPosition = index * containerHeight - containerHeight/6;
-    _scrollController.animateTo(
-      targetPosition,
-      duration: Duration(milliseconds: 500),
-      curve: Curves.easeInOut,
-    );
+
+
+  final GlobalKey _anchorKey1 = GlobalKey();
+  final GlobalKey _anchorKey2 = GlobalKey();
+  final GlobalKey _anchorKey3 = GlobalKey();
+
+
+
+  void _scrollListener() {
+    List<GlobalKey> anchorKeys = [_anchorKey1, _anchorKey2, _anchorKey3];
+
+    for (int i = 0; i < anchorKeys.length; i++) {
+      BuildContext? context = anchorKeys[i].currentContext;
+      if (context != null) {
+        RenderObject? renderObject = context.findRenderObject();
+        if (renderObject != null) {
+          RenderBox box = renderObject as RenderBox;
+          Offset position = box.localToGlobal(Offset.zero);
+
+          // Check if this anchor is within the viewport
+          if (position.dy >= 0 && position.dy < MediaQuery.of(context).size.height / 2) {
+            if (_selectedButtonIndex != i) {
+              setState(() {
+                _selectedButtonIndex = i;
+              });
+            }
+            break; // Stop checking further once the first visible anchor is found
+          }
+        }
+      }
+    }
+  }
+
+
+  void _scrollToContainer(GlobalKey anchorKey) {
+    BuildContext? context = anchorKey.currentContext;
+    if (context != null) {
+      RenderObject? renderObject = context.findRenderObject();
+      if (renderObject != null) {
+        RenderBox box = renderObject as RenderBox;
+        Offset position = box.localToGlobal(Offset.zero);
+        double targetOffset = position.dy + _scrollController.offset;
+
+        _scrollController.animateTo(
+          targetOffset - 50, // Adjust for padding if needed
+          duration: Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+        );
+      }
+    }
   }
 
   bool isButtonSelected(int index) => _selectedButtonIndex == index;
@@ -105,12 +147,18 @@ class _MyProfileBodyState extends State<MyProfileBody> {
   }
 
 
-
+  @override
+  void dispose() {
+    _scrollController.removeListener(_scrollListener);
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
 
     super.initState();
+    _scrollController.addListener(_scrollListener);
 
     getClient().then((_) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -166,10 +214,13 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                         GestureDetector(
                           child: SvgPicture.asset('assets/images/Group 2196.svg', width: screenWidth * 0.13,height:screenHeight * 0.25 ,),
                           onTap: () {
-                            setState(() {
-                              _selectedButtonIndex = 0;
-                            });
-                            _scrollToContainer(1);
+
+
+                            // setState(() {
+                            //   _selectedButtonIndex = 0;
+                            // });
+                            _scrollToContainer(_anchorKey1);
+                            ;
                           },
                         ),
                         SizedBox(width: screenWidth * 0.03),
@@ -178,20 +229,22 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                             GestureDetector(
                               child: SvgPicture.asset('assets/images/Group 2192.svg', width: screenWidth * 0.13,height:screenHeight * 0.12 ),
                               onTap: () {
-                                setState(() {
-                                  _selectedButtonIndex = 1;
-                                });
-                                _scrollToContainer(2);
+                                // setState(() {
+                                //   _selectedButtonIndex = 1;
+                                // });
+                                _scrollToContainer(_anchorKey2);
+                                ;
                               },
                             ),
                             SizedBox(height: screenHeight * 0.02),
                             GestureDetector(
                               child: SvgPicture.asset('assets/images/Group 2197.svg', width: screenWidth * 0.13,height:screenHeight * 0.12),
                               onTap: () {
-                                setState(() {
-                                  _selectedButtonIndex = 2;
-                                });
-                                _scrollToContainer(3);
+                                // setState(() {
+                                //   _selectedButtonIndex = 2;
+                                // });
+                                _scrollToContainer(_anchorKey3);
+                                ;
                               },
                             ),
                           ],
@@ -201,11 +254,18 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                   ],
                 ),
                 SizedBox(height: screenHeight * 0.02),
+                SizedBox(key: _anchorKey1),
+                SizedBox(height: screenHeight * 0.06),
                 AstrologySection(),
                 Containers(
                   children: [
+                    SizedBox(key: _anchorKey2),
+                    SizedBox(height: screenHeight * 0.06),
                     AboutMe(education: education, personalDetails: personalDetails, docId: widget.docId),
                     SizedBox(height: screenHeight * 0.06),
+                    SizedBox(key: _anchorKey3),
+                    SizedBox(height: screenHeight * 0.06),
+
                     PhotoGallery(docId: widget.docId),
                     SizedBox(height: screenHeight * 0.04),
                     SectionTitle(context,'More about me',),
@@ -281,10 +341,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                 index: 0,
                 isSelected: isButtonSelected(0),
                 onPressed: () {
-                  setState(() {
-                    _selectedButtonIndex = 0;
-                  });
-                  _scrollToContainer(1);
+                  _scrollToContainer(_anchorKey1);
                 },
               ),
               SizedBox(width: screenWidth * 0.013),
@@ -294,10 +351,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                 index: 1,
                 isSelected: isButtonSelected(1),
                 onPressed: () {
-                  setState(() {
-                    _selectedButtonIndex = 1;
-                  });
-                  _scrollToContainer(2);
+                  _scrollToContainer(_anchorKey2);
                 },
               ),
               SizedBox(width: screenWidth * 0.013),
@@ -307,10 +361,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                 index: 2,
                 isSelected: isButtonSelected(2),
                 onPressed: () {
-                  setState(() {
-                    _selectedButtonIndex = 2;
-                  });
-                  _scrollToContainer(3);
+                  _scrollToContainer(_anchorKey3);
                 },
               ),
             ],

@@ -90,35 +90,40 @@ class _PhotoGalleryState extends State<PhotoGallery> {
             ),
             child: CarouselSlider.builder(
               itemCount: imagePaths.length,
+
               itemBuilder: (context, index, realIndex) {
                 bool isCentered = index == _currentIndex;
 
                 return AnimatedContainer(
+
                   duration: Duration(milliseconds: 100),
                   width: screenWidth*0.7,
                   height: screenHeight*0.6,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
+                    borderRadius: BorderRadius.circular(screenWidth*0.04),
                     color: isCentered
                         ? Colors.transparent
                         : MyMateThemes.secondaryColor,
                   ),
-                  child: isCentered
-                      ? Image.network(
-                    imagePaths[index],
-                    fit: BoxFit.fill,
-                  )
-                      : SizedBox.expand(),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(screenWidth * 0.04),
+                    child: isCentered
+                        ? Image.network(
+                      imagePaths[index],
+                      fit: BoxFit.fill,
+                    )
+                        : SizedBox.expand(),
+                  ),
                 );
               },
               options: CarouselOptions(
                 height: screenHeight*0.6,
-                enlargeCenterPage: true,
+                enlargeCenterPage: false,
                 aspectRatio: 16 / 9,
                 autoPlay: false,
                 enableInfiniteScroll: false,
                 scrollPhysics: BouncingScrollPhysics(),
-                viewportFraction: 0.75,
+                viewportFraction: 0.8,
                 onPageChanged: (index, reason) {
                   setState(() {
                     _currentIndex = index;
