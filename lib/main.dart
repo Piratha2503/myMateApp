@@ -5,10 +5,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mymateapp/Homepages/HomeScreenBeforeSubscribe.dart';
+import 'package:mymateapp/Homepages/PaymentDetailsPage.dart';
+import 'package:mymateapp/Homepages/Profiles/EditPage.dart';
+import 'package:mymateapp/Homepages/RegisterPages/ChartOptions.dart';
 import 'package:mymateapp/Homepages/RegisterPages/RegisterPage.dart';
 import 'package:mymateapp/Homepages/explorePage/exploreProvider.dart';
+import 'package:mymateapp/ManagePages/ManagePage.dart';
 import 'package:mymateapp/ManagePages/SettingsPage.dart';
+import 'package:mymateapp/ManagePages/SummaryPage.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
+import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'ChartPages/ChartCalPage.dart';
@@ -17,6 +23,10 @@ import 'ChartPages/ChartViewPage.dart';
 import 'ChartPages/GenerateChart.dart';
 import 'ChartPages/PlaceDateTimeInput.dart';
 import 'Homepages/AddTokenPages/AddTokenMain.dart';
+import 'Homepages/CompleteProfileScreen/CompleteProfileMain.dart';
+import 'Homepages/FilterPage.dart';
+import 'Homepages/ProfilePageScreen/MyProfileMain.dart';
+import 'Homepages/Profiles/OthersProfile.dart';
 import 'Homepages/RegisterPages/NameAndGenderPage.dart';
 import 'Homepages/RegisterPages/OTPPage.dart';
 import 'Homepages/RegisterPages/Pinput.dart';
@@ -24,6 +34,8 @@ import 'Homepages/SubscribedhomeScreen/SubscribedHomeScreenBeforeProfileComplete
 import 'Homepages/SubscribedhomeScreen/SubscribedHomeScreenStructured.dart';
 import 'Homepages/WelcomeScreen.dart';
 import 'Homepages/explorePage/explorePageMain.dart';
+import 'ManagePages/AllActionPage.dart';
+import 'ManagePages/HelpPage.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -68,12 +80,12 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
 
             home:
-            AddTokenMainPage(docId: '',)
-            //ProfilePage(docId: "SYfMHh6YUL6yobmIZXwO", selectedBottomBarIconIndex:0,),
-           // HomeScreenBeforeSubscibe(0,docId: '',),
-            //SubscribedhomescreenStructuredPage(docId: '',),
-            //MyMatePage(results: [], search: [], docId: '',)
-
+           //OtherProfilePage(SoulId: 'E0JFHhK2x6Gq2Ac6XSyP',),
+          // ProfilePage(selectedBottomBarIconIndex: 0, docId: 'E0JFHhK2x6Gq2Ac6XSyP')
+            AddTokenMainPage(docId: '',),
+           //FilterPage(),
+           //MyMatePage(results: [], search: [], docId: '',)
+             // EditPage(docId: 'E0JFHhK2x6Gq2Ac6XSyP', onSave: () {  }),
           );
         }
     );

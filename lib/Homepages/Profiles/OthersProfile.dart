@@ -13,6 +13,7 @@ import '../ProfilePageScreen/photoGalleryPage.dart';
 import '../ProfilePageScreen/rasiChartDesign.dart';
 import '../custom_outline_button.dart';
 import '../explorePage/explorePageMain.dart';
+import 'menuPage.dart';
 
 class OtherProfilePage extends StatefulWidget {
   final String SoulId;
@@ -346,7 +347,13 @@ class _OtherProfilePageState extends State<OtherProfilePage>
 
             // Kebab Menu (Three Dots)
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => MenuPage(docId: '',)));
+
+              },
               icon: Icon(Icons.more_vert, color: MyMateThemes.primaryColor),
             ),
           ],
