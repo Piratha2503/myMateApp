@@ -239,7 +239,7 @@ class _SettingspageState extends State<Settingspage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => EditGalleryScreen(docId:widget.docId, onSave: () {  },)));
+                                builder: (context) => EditGalleryScreen(docId:widget.docId, onSave: () {  })));
                       },
                       child: SvgPicture.asset(
                         'assets/images/Photos.svg',
