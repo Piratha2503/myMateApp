@@ -21,15 +21,16 @@ class _AddTokenMainPageState extends State<AddTokenMainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
+
         // Read width and height from constraints to use for responsive sizing.
-        final double width = constraints.maxWidth;
-        final double height = constraints.maxHeight;
+        final mediaQuery = MediaQuery.of(context);
+        final width = mediaQuery.size.width;
+        final height = mediaQuery.size.height;
         return Scaffold(
+          backgroundColor: Colors.white,
           body: SafeArea(
-            child: Center(
-              child: SingleChildScrollView(
+            child: SingleChildScrollView(
+              child: Center(
                 child: Column(
                   children: [
                     // Header with back button and title
@@ -65,6 +66,8 @@ class _AddTokenMainPageState extends State<AddTokenMainPage> {
                         ],
                       ),
                     ),
+                    SizedBox(height: height * 0.03),
+
                     // Package slider carousel
                     CarouselSlider(
                       items: packageSliders,
@@ -74,7 +77,7 @@ class _AddTokenMainPageState extends State<AddTokenMainPage> {
                         autoPlayCurve: Curves.fastOutSlowIn,
                         enableInfiniteScroll: false,
                         autoPlayAnimationDuration: const Duration(milliseconds: 800),
-                        viewportFraction: 0.76,
+                        viewportFraction: 0.8,
                       ),
                     ),
                     SizedBox(height: height * 0.03),
@@ -94,9 +97,9 @@ class _AddTokenMainPageState extends State<AddTokenMainPage> {
                           children: [
                             // Positioned play icon
                             Positioned(
-                              top: constraints.maxHeight * 0.04,
+                              top: height * 0.04,
                               //top: constraints.maxHeight * 0.2,
-                              left:constraints.maxWidth * 0.08,
+                              left:width* 0.08,
                               child: SvgPicture.asset(
                                 'assets/images/play.svg',
                                 width: width * 0.08,
@@ -104,8 +107,8 @@ class _AddTokenMainPageState extends State<AddTokenMainPage> {
                             ),
                             // Positioned text overlay
                             Positioned(
-                              top: constraints.maxHeight * 0.031,
-                              right: constraints.maxWidth * 0.15,
+                              top: height* 0.031,
+                              right: width * 0.15,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -126,18 +129,8 @@ class _AddTokenMainPageState extends State<AddTokenMainPage> {
                     ),
                     SizedBox(height: height * 0.03),
                     // Offer slider carousel
-                    CarouselSlider(
-                      items: offerSliders,
-                      options: CarouselOptions(
-                        enlargeCenterPage: true,
-                        aspectRatio: 14 / 8,
-                        autoPlayCurve: Curves.fastOutSlowIn,
-                        enableInfiniteScroll: false,
-                        autoPlayAnimationDuration: const Duration(milliseconds: 800),
-                        viewportFraction: 0.76,
-                      ),
-                    ),
-                    SizedBox(height: height * 0.03),
+                    buildCurrentOffers(),
+                    SizedBox(height: height * 0.05),
 
 
                   ],
@@ -157,8 +150,7 @@ class _AddTokenMainPageState extends State<AddTokenMainPage> {
           ),
 
         );
-      },
-    );
+
   }
 }
 

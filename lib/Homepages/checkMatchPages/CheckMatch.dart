@@ -409,9 +409,9 @@ class _CheckmatchPageState extends State<CheckmatchPage> {
                 child: Column(
                   children: [
                     SizedBox(height: 50),
-                    RasiChartDesign(),
+                    RasiChartDesign(context),
                     SizedBox(height: 40),
-                    NavamsaChartDesign(),
+                    NavamsaChartDesign(context),
                   ],
                 ),
               ),

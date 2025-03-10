@@ -59,6 +59,10 @@ class _ExpectationsWidgetState extends State<ExpectationsWidget> {
   }
 
   Widget _buildExpectations() {
+    double containerWidth = MediaQuery.of(context).size.width * 0.8;
+    double containerHeight = MediaQuery.of(context).size.height * 0.05;
+    double fontSize = MediaQuery.of(context).size.width * 0.04;
+
     return Column(
       children: List.generate(
         controllers.length,
@@ -66,13 +70,16 @@ class _ExpectationsWidgetState extends State<ExpectationsWidget> {
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Center(
             child: Container(
-              height: 34,
-              width: 297,
+              height: containerHeight,
+              width: containerWidth,
               margin: const EdgeInsets.symmetric(vertical: 5.0),
               padding: const EdgeInsets.all(8.0),
               decoration: BoxDecoration(
-                color: MyMateThemes.containerColor,
-                borderRadius: BorderRadius.circular(5.0),
+                border: Border.all(
+                  color: MyMateThemes.textColor.withOpacity(0.2),
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.circular(containerWidth * 0.01), // Dynamic border radius
               ),
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -81,7 +88,7 @@ class _ExpectationsWidgetState extends State<ExpectationsWidget> {
                   style: TextStyle(
                     color: MyMateThemes.textColor,
                     fontWeight: FontWeight.bold,
-                    fontSize: 14,
+                    fontSize: fontSize,
                   ),
                   softWrap: false,
                   overflow: TextOverflow.visible,

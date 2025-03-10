@@ -24,6 +24,8 @@ class _PhotoGalleryState extends State<PhotoGallery> {
   bool isLoading = true;
   String errorMessage = '';
 
+  final GlobalKey _photoGalleryKey = GlobalKey();
+
   @override
   void initState() {
     super.initState();
@@ -56,64 +58,72 @@ class _PhotoGalleryState extends State<PhotoGallery> {
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
+    final double screenWidth = MediaQuery.of(context).size.width;
 
     return isLoading
         ? Center(child: CircularProgressIndicator())
         : errorMessage.isNotEmpty
         ? Center(child: Text(errorMessage))
         : SingleChildScrollView(
-          child: Column(
+      key: _photoGalleryKey,
+
+      child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-              SectionTitle('Photo Gallery'),
-              SizedBox(height: 10),
+              SectionTitle(context,'Photo Gallery'),
+              SizedBox(height: screenHeight*0.01),
 
           Row(
             children: [
-              SizedBox(width: 40),
+              SizedBox(width: screenWidth*0.1),
               SvgPicture.asset('assets/images/Line 11.svg'),
             ],
           ),
-          SizedBox(height: 25),
+                SizedBox(height: screenHeight*0.03),
 
 
           Container(
-            height: screenHeight * 0.30,
+            height: screenHeight * 0.35,
             padding: EdgeInsets.symmetric(horizontal: 16.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
             ),
             child: CarouselSlider.builder(
               itemCount: imagePaths.length,
+
               itemBuilder: (context, index, realIndex) {
                 bool isCentered = index == _currentIndex;
 
                 return AnimatedContainer(
+
                   duration: Duration(milliseconds: 100),
-                  width: 297,
-                  height: 379,
+                  width: screenWidth*0.7,
+                  height: screenHeight*0.6,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
+                    borderRadius: BorderRadius.circular(screenWidth*0.04),
                     color: isCentered
                         ? Colors.transparent
                         : MyMateThemes.secondaryColor,
                   ),
-                  child: isCentered
-                      ? Image.network(
-                    imagePaths[index],
-                    fit: BoxFit.fill,
-                  )
-                      : SizedBox.expand(),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(screenWidth * 0.04),
+                    child: isCentered
+                        ? Image.network(
+                      imagePaths[index],
+                      fit: BoxFit.fill,
+                    )
+                        : SizedBox.expand(),
+                  ),
                 );
               },
               options: CarouselOptions(
-                height: 379.0,
-                enlargeCenterPage: true,
+                height: screenHeight*0.6,
+                enlargeCenterPage: false,
                 aspectRatio: 16 / 9,
                 autoPlay: false,
                 enableInfiniteScroll: false,
                 scrollPhysics: BouncingScrollPhysics(),
-                viewportFraction: 0.75,
+                viewportFraction: 0.8,
                 onPageChanged: (index, reason) {
                   setState(() {
                     _currentIndex = index;
@@ -127,17 +137,20 @@ class _PhotoGalleryState extends State<PhotoGallery> {
     );
   }
 }
-Widget SectionTitle(String title) {
+Widget SectionTitle(BuildContext context, String title) {
   return Row(
     children: [
-      SizedBox(width: 40),
-      SvgPicture.asset('assets/images/Group 2148.svg'),
-      SizedBox(width: 4),
+      SizedBox(width: MediaQuery.of(context).size.width * 0.1),
+      SvgPicture.asset(
+        'assets/images/Group 2148.svg',
+        width: MediaQuery.of(context).size.width * 0.07,
+      ),
+      SizedBox(width: MediaQuery.of(context).size.width * 0.01),
       Text(
         title,
         style: TextStyle(
           color: MyMateThemes.primaryColor,
-          fontSize: 16,
+          fontSize: MediaQuery.of(context).size.width * 0.045,
           fontWeight: FontWeight.bold,
         ),
       ),

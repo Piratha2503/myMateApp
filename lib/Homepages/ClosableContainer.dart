@@ -7,6 +7,7 @@ class ClosableContainer extends StatefulWidget {
   final Function(int) onClose;
   final BuildContext parentContext;
 
+
   const ClosableContainer({super.key, 
     required this.controller,
     required this.index,
@@ -44,62 +45,71 @@ class _ClosableContainerState extends State<ClosableContainer> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: Column(
-        children: [
-          Stack(
+    return LayoutBuilder(
+        builder: (context, constraints) {
+          double width = constraints.maxWidth;
+          double height = constraints.maxHeight;
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          child: Column(
             children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: MyMateThemes.secondaryColor,
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                width: 346,
-                height: 65, // Increased height to accommodate TextField
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: widget.controller,
-                    maxLength: 10,
-                    decoration: InputDecoration(
-                      hintText: 'Enter text',
-                      counterText:
-                          characterCount <= 10 ? '$characterCount/10' : '',
+              Stack(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: MyMateThemes.textColor.withOpacity(0.2),
+                        width: width*0.003,
+                      ),
+                      borderRadius: BorderRadius.circular(width*0.02),
                     ),
-                    onChanged: (text) {
-                      setState(() {
-                        characterCount = text.length;
-                        error = characterCount > 10
-                            ? 'Character limit exceeded'
-                            : '';
-                        if (characterCount > 10) {
-                          _showAlertDialog(context);
-                        }
-                      });
-                    },
+                    width: width*0.99,
+                    height: 65, // Increased height to accommodate TextField
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        controller: widget.controller,
+                        maxLength: 20,
+                        decoration: InputDecoration(
+                          hintText: 'Enter text',
+                          counterText:
+                              characterCount <= 20 ? '$characterCount/20' : '',
+                        ),
+                        onChanged: (text) {
+                          setState(() {
+                            characterCount = text.length;
+                            error = characterCount > 20
+                                ? 'Character limit exceeded'
+                                : '';
+                            if (characterCount > 20) {
+                              _showAlertDialog(context);
+                            }
+                          });
+                        },
+                      ),
+                    ),
                   ),
-                ),
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    child: IconButton(
+                      icon: Icon(Icons.close),
+                      onPressed: () {
+                        widget.onClose(widget.index); // Call onClose directly
+                      },
+                    ),
+                  ),
+                ],
               ),
-              Positioned(
-                top: 0,
-                right: 0,
-                child: IconButton(
-                  icon: Icon(Icons.close),
-                  onPressed: () {
-                    widget.onClose(widget.index); // Call onClose directly
-                  },
+              if (error.isNotEmpty)
+                Text(
+                  error,
+                  style: TextStyle(color: Colors.red),
                 ),
-              ),
             ],
           ),
-          if (error.isNotEmpty)
-            Text(
-              error,
-              style: TextStyle(color: Colors.red),
-            ),
-        ],
-      ),
+        );
+      }
     );
   }
 }

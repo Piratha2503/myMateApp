@@ -27,7 +27,7 @@ class BadgeWidget extends StatelessWidget {
               SvgPicture.asset(assetPath),
               if (badgeValue > 0)
                 Positioned(
-                  top: -constraints.maxHeight * 0.15, // Adjust the top position as needed
+                  top: -constraints.maxHeight * 0.19, // Adjust the top position as needed
                   right: -constraints.maxHeight * 0.2, // Adjust the right position as needed
                   child:
 
