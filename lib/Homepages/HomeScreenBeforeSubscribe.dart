@@ -79,6 +79,8 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
       preferredSize: Size.fromHeight(40.0),
       child: AppBar(
         backgroundColor: MyMateThemes.backgroundColor,
+        automaticallyImplyLeading: false,
+
         title: SafeArea(
           child:  LayoutBuilder(
               builder: (context, constraints) {

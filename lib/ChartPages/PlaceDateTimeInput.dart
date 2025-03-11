@@ -9,6 +9,7 @@ import 'package:mymateapp/MyMateThemes.dart';
 import 'package:http/http.dart' as http;
 import '../Homepages/RegisterPages/ChartOptions.dart';
 import '../dbConnection/ClientDatabase.dart';
+import 'AutoGenerateChart.dart';
 
 class PlaceDateTimeInput extends StatefulWidget {
   ClientData clientData;
@@ -29,6 +30,7 @@ class _PlaceDateTimeInputState extends State<PlaceDateTimeInput> {
   String text2 = "You will receive your activation code";
   String text3 = "through it.";
   String district = "";
+  ClientData clientData = ClientData();
 
 
   @override
@@ -39,10 +41,26 @@ class _PlaceDateTimeInputState extends State<PlaceDateTimeInput> {
           final double width = constraints.maxWidth;
           final double height = constraints.maxHeight;
         return Scaffold(
-          appBar: AppBar(),
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back_ios, color: MyMateThemes.primaryColor),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ChartOptions(clientData:clientData ,)));
+              },
+            ),
+
+          ),
           body: SingleChildScrollView(
+
             child: Column(
               children: <Widget>[
+                SizedBox(height: height*0.01),
+
                 Flex(
                   direction: Axis.vertical,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -226,6 +244,10 @@ class _PlaceDateTimeInputState extends State<PlaceDateTimeInput> {
                         onPressed: ()
                         {
                           updatePlaceDateTime();
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AutogeneratechartPage()));
                         },
                         style: ButtonStyle(
                           foregroundColor: MaterialStatePropertyAll(Colors.white),

@@ -104,7 +104,11 @@ class _CheckMatchOptionsScreenState extends State<CheckMatchOptionsScreen> {
 
 
   void showAddNewPopup(bool isLeft) {
+    resizeToAvoidBottomInset: false; // Prevent resizing when the keyboard appears
+
     showDialog(
+
+
       context: context,
       builder: (context) {
         TextEditingController nameController = TextEditingController();
@@ -145,290 +149,295 @@ class _CheckMatchOptionsScreenState extends State<CheckMatchOptionsScreen> {
 
         return AlertDialog(
           backgroundColor: Colors.white,
-          content:
-          StatefulBuilder(  // Add StatefulBuilder to manage state inside the dialog
+          content: StatefulBuilder(
             builder: (context, setDialogState) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Name Input
-                  Container(
-                    width: 300,
-                    padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: MyMateThemes.textColor.withOpacity(0.2)),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child:IntrinsicHeight(
-                      child:
-                    TextField(
-                      controller: nameController,
-                      decoration: const InputDecoration(
-                        labelText: 'Name',
-                        labelStyle: TextStyle(
+              double width = MediaQuery.of(context).size.width;
+              double height = MediaQuery.of(context).size.height;
+              double fontSize = width * 0.04;
 
-                          color: MyMateThemes.textColor,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        border: InputBorder.none,
+              return Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Name Input
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.07,
+                      width: MediaQuery.of(context).size.width * 0.85,
+                      padding: EdgeInsets.symmetric(vertical: height * 0.005, horizontal: width * 0.025),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: MyMateThemes.textColor.withOpacity(0.2)),
+                        borderRadius: BorderRadius.circular(width*0.02),
                       ),
-                    ),
-                    ),
-                  ),
-                  SizedBox(height: 15),
-
-                  // Gender Selection (Now updates correctly)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Row(
-                        children: [
-                          Radio<String>(
-                            value: 'Male',
-                            groupValue: selectedGender,
-                            onChanged: (value) {
-                              setDialogState(() {  // Updates state inside dialog
-                                selectedGender = value!;
-                              });
-                            },
-                            activeColor:MyMateThemes.primaryColor,
-                          ),
-                          const Text('Male',
-                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
-                          ),
-                        ],
-                      ),
-                      SizedBox(width: 40),
-                      Row(
-                        children: [
-                          Radio<String>(
-                            value: 'Female',
-                            groupValue: selectedGender,
-                            onChanged: (value) {
-                              setDialogState(() {  // Updates state inside dialog
-                                selectedGender = value!;
-                              });
-                            },
-                            activeColor: MyMateThemes.primaryColor,
-                          ),
-                          const Text('Female',
-                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 15),
-                  // Date Picker
-                  Container(
-                    width: 300,
-                    height: 70,
-                    padding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 10.0),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: MyMateThemes.textColor.withOpacity(0.2)),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-
-                        Expanded(
-                          child:
-                          TextField(
-                            controller: dobController,
-                            readOnly: true,
-                            onTap: () => _selectDate(context, setDialogState),
-                            decoration: InputDecoration(
-                              labelText: "Date Of Birth",
-                              hintText: 'DD/MM/YY',
-                              hintStyle: TextStyle(
-                                color: MyMateThemes.textColor,
-                                fontWeight: FontWeight.w400,
-                                fontSize: 15,
-                              ),
-                              labelStyle: TextStyle(
-                                color: MyMateThemes.textColor,
-                                fontWeight: FontWeight.w400,
-                                fontSize: 15,
-                              ),
-                              border: InputBorder.none,
-                              suffixIcon: Icon(Icons.calendar_today),
-                              contentPadding: EdgeInsets.only(top: 5), // Adjust field padding
-                            ),
-                          ),
-                        ),
-                        // Text(
-                        //   'DD/MM/YY',  // Custom helper text
-                        //   style: TextStyle(
-                        //     color: MyMateThemes.textColor.withOpacity(0.5),
-                        //     fontWeight: FontWeight.w400,
-                        //     fontSize: 14,  // Adjust size if needed
-                        //   ),
-                        // ),
-                        SizedBox(height: 6),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 15),
-
-                  // Place of Birth Input
-                  Container(
-                    width: 300,
-
-                    padding: EdgeInsets.symmetric(vertical: 6.0, horizontal: 5.0),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: MyMateThemes.textColor.withOpacity(0.2)),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: IntrinsicHeight( // Allows height to adjust based on content
-                      child: GooglePlaceAutoCompleteTextField(
-                        countries: ["LK"],
-                        textStyle: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 15,
-                            color: MyMateThemes.textColor
-                        ),
-                        boxDecoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(width: 1.0, color: Colors.transparent),
-                          ),
-                        ),
-                        textEditingController: placeController,
-                        googleAPIKey: "AIzaSyAFhnkirk4iFypOdxfiECUWKRVOtE0azMo",
-                        inputDecoration: InputDecoration(
-                          labelText: "Place of birth",
+                      child: TextField(
+                        controller: nameController,
+                        decoration: InputDecoration(
+                          labelText: 'Name',
                           labelStyle: TextStyle(
                             color: MyMateThemes.textColor,
+                            fontSize: MediaQuery.of(context).size.width * 0.04,
                             fontWeight: FontWeight.w400,
-                            fontSize: 15,
                           ),
                           border: InputBorder.none,
-                          enabledBorder: InputBorder.none,
                         ),
-                        debounceTime: 400,
-                        isLatLngRequired: true,
-                        getPlaceDetailWithLatLng: (Prediction prediction) {
-                          print("placeDetails${prediction.lat}");
-                        },
-                        itemClick: (Prediction prediction) {
-                          List<String>? stringList = prediction.description?.split(",");
-                          setState(() {
-                            district = stringList![0].toString();
-                          });
-                          placeController.text = prediction.description ?? "";
-                          placeController.selection = TextSelection.fromPosition(
-                              TextPosition(offset: prediction.description?.length ?? 0));
-                        },
-                        seperatedBuilder: Divider(),
-                        containerHorizontalPadding: 10,
-                        itemBuilder: (context, index, Prediction prediction) {
-                          return Container(
-                            padding: EdgeInsets.all(10),
-                            child: Row(
-                              children: [
-                                Icon(Icons.location_on),
-                                SizedBox(width: 7),
-                                Expanded(
+                      ),
+                    ),
+                    SizedBox(height: height*0.01),
+
+                    // Gender Selection (Now updates correctly)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                          children: [
+                            Radio<String>(
+                              value: 'Male',
+                              groupValue: selectedGender,
+                              onChanged: (value) {
+                                setDialogState(() {  // Updates state inside dialog
+                                  selectedGender = value!;
+                                });
+                              },
+                              activeColor:MyMateThemes.primaryColor,
+                            ),
+                             Text('Male',
+                              style: TextStyle(fontSize: width*0.035, fontWeight: FontWeight.normal),
+                            ),
+                          ],
+                        ),
+                        SizedBox(width: width*0.04),
+                        Row(
+                          children: [
+                            Radio<String>(
+                              value: 'Female',
+                              groupValue: selectedGender,
+                              onChanged: (value) {
+                                setDialogState(() {  // Updates state inside dialog
+                                  selectedGender = value!;
+                                });
+                              },
+                              activeColor: MyMateThemes.primaryColor,
+                            ),
+                             Text('Female',
+                              style: TextStyle(fontSize: width*0.035, fontWeight: FontWeight.normal),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: height*0.01),
+                    // Date Picker
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.85,
+                      height: MediaQuery.of(context).size.height * 0.07,
+                      padding: EdgeInsets.symmetric(
+                        vertical: MediaQuery.of(context).size.height * 0.005,
+                        horizontal: MediaQuery.of(context).size.width * 0.025,
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: MyMateThemes.textColor.withOpacity(0.2)),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              controller: dobController,
+                              readOnly: true,
+                              onTap: () => _selectDate(context, setDialogState),
+                              decoration: InputDecoration(
+                                labelText: "Date Of Birth",
+                                hintText: 'DD/MM/YY',
+                                hintStyle: TextStyle(
+                                  color: MyMateThemes.textColor,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: MediaQuery.of(context).size.width * 0.04,
+                                ),
+                                labelStyle: TextStyle(
+                                  color: MyMateThemes.textColor,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: MediaQuery.of(context).size.width * 0.04,
+                                ),
+                                border: InputBorder.none,
+                                suffixIcon: Icon(Icons.calendar_today),
+                                contentPadding: EdgeInsets.only(
+                                  top: MediaQuery.of(context).size.height * 0.007,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: MediaQuery.of(context).size.height * 0.008),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: height*0.01),
+
+                    // Place of Birth Input
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.85,
+                      height: MediaQuery.of(context).size.height * 0.07,
+
+                      padding: EdgeInsets.symmetric(
+                        vertical: MediaQuery.of(context).size.height * 0.008,
+                        horizontal: MediaQuery.of(context).size.width * 0.02,
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: MyMateThemes.textColor.withOpacity(0.2)),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: IntrinsicHeight(
+                        child: GooglePlaceAutoCompleteTextField(
+                          countries: ["LK"],
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: MediaQuery.of(context).size.width * 0.04,
+                            color: MyMateThemes.textColor,
+                          ),
+                          boxDecoration: BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(width: 1.0, color: Colors.transparent),
+                            ),
+                          ),
+                          textEditingController: placeController,
+                          googleAPIKey: "AIzaSyAFhnkirk4iFypOdxfiECUWKRVOtE0azMo",
+                          inputDecoration: InputDecoration(
+                            labelText: "Place of birth",
+                            labelStyle: TextStyle(
+                              color: MyMateThemes.textColor,
+                              fontWeight: FontWeight.w400,
+                              fontSize: MediaQuery.of(context).size.width * 0.04,
+                            ),
+                            border: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                          ),
+                          debounceTime: 400,
+                          isLatLngRequired: true,
+                          getPlaceDetailWithLatLng: (Prediction prediction) {
+                            print("placeDetails${prediction.lat}");
+                          },
+                          itemClick: (Prediction prediction) {
+                            List<String>? stringList = prediction.description?.split(",");
+                            setState(() {
+                              district = stringList![0].toString();
+                            });
+                            placeController.text = prediction.description ?? "";
+                            placeController.selection = TextSelection.fromPosition(
+                              TextPosition(offset: prediction.description?.length ?? 0),
+                            );
+                          },
+                          seperatedBuilder: Divider(),
+                          containerHorizontalPadding: 10,
+                          itemBuilder: (context, index, Prediction prediction) {
+                            return Container(
+                              padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.025),
+                              child: Row(
+                                children: [
+                                  Icon(Icons.location_on),
+                                  SizedBox(width: MediaQuery.of(context).size.width * 0.02),
+                                  Expanded(
                                     child: Text(
                                       prediction.description ?? "",
                                       style: TextStyle(
                                         fontWeight: FontWeight.normal,
-                                        fontSize: 15,
+                                        fontSize: MediaQuery.of(context).size.width * 0.04,
                                       ),
-                                    )
-                                ),
-                              ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                          isCrossBtnShown: true,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: height*0.01),
+
+                    // Time Picker
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.85,
+                      height: MediaQuery.of(context).size.height * 0.07,
+                      padding: EdgeInsets.symmetric(
+                        vertical: MediaQuery.of(context).size.height * 0.007,
+                        horizontal: MediaQuery.of(context).size.width * 0.025,
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: MyMateThemes.textColor.withOpacity(0.2)),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: TextField(
+                        controller: timeController,
+                        readOnly: true,
+                        onTap: () => _selectTime(context, setDialogState),
+                        decoration: InputDecoration(
+                          labelText: "Time Of Birth",
+                          labelStyle: TextStyle(
+                            color: MyMateThemes.textColor,
+                            fontWeight: FontWeight.w400,
+                            fontSize: MediaQuery.of(context).size.width * 0.04,
+                          ),
+                          border: InputBorder.none,
+                          suffixIcon: Icon(Icons.access_time),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: height*0.01),
+
+                    // Confirm Button
+                    ElevatedButton(
+                      onPressed: () {
+                        if (nameController.text.isEmpty ||
+                            selectedGender == null ||
+                            dobController.text.isEmpty ||
+                            placeController.text.isEmpty ||
+                            timeController.text.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: const Text("Please complete all fields."),
+                              backgroundColor: MyMateThemes.primaryColor,
                             ),
                           );
-                        },
-                        isCrossBtnShown: true,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 15),
-
-                  // Time Picker
-                  Container(
-                    width: 300,
-                    height: 70,
-                    padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: MyMateThemes.textColor.withOpacity(0.2)),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: TextField(
-                      controller: timeController,
-                      readOnly: true,
-                      onTap: () => _selectTime(context, setDialogState),
-                      decoration: InputDecoration(
-                        labelText: "Time Of Birth",
-                        labelStyle: TextStyle(
-                          color:MyMateThemes.textColor,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 15,
-                        ),
-                        border: InputBorder.none,
-                        suffixIcon: Icon(Icons.access_time),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-
-                  // Confirm Button
-                  ElevatedButton(
-                    onPressed: () {
-                      if (nameController.text.isEmpty ||
-                          selectedGender == null ||
-                          dobController.text.isEmpty ||
-                          placeController.text.isEmpty ||
-                          timeController.text.isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: const Text("Please complete all fields."),
-                            backgroundColor: MyMateThemes.primaryColor,
-                          ),
-                        );
-                        return;
-                      }
-
-                      Navigator.of(context).pop();
-                      setState(() { // Update main widget state
-                        if (isLeft) {
-                          leftDetails = {
-                            'Name': nameController.text,
-                            'Gender': selectedGender!, // Use selectedGender instead of _selectedValue
-                            'DOB': dobController.text,
-                            'POB': placeController.text,
-                            'TOB': timeController.text,
-                          };
-                        } else {
-                          rightDetails = {
-                            'Name': nameController.text,
-                            'Gender': selectedGender!, // Use selectedGender instead of _selectedValue
-                            'DOB': dobController.text,
-                            'POB': placeController.text,
-                            'TOB': timeController.text,
-                          };
+                          return;
                         }
-                        checkButtonState();
-                      });
-                    },
-                    style: ButtonStyle(
-                      foregroundColor: MaterialStateProperty.all(Colors.white),
-                      backgroundColor: MaterialStateProperty.all(MyMateThemes.primaryColor),
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.0),
+
+                        Navigator.of(context).pop();
+                        setState(() { // Update main widget state
+                          if (isLeft) {
+                            leftDetails = {
+                              'Name': nameController.text,
+                              'Gender': selectedGender!, // Use selectedGender instead of _selectedValue
+                              'DOB': dobController.text,
+                              'POB': placeController.text,
+                              'TOB': timeController.text,
+                            };
+                          } else {
+                            rightDetails = {
+                              'Name': nameController.text,
+                              'Gender': selectedGender!, // Use selectedGender instead of _selectedValue
+                              'DOB': dobController.text,
+                              'POB': placeController.text,
+                              'TOB': timeController.text,
+                            };
+                          }
+                          checkButtonState();
+                        });
+                      },
+                      style: ButtonStyle(
+                        foregroundColor: MaterialStateProperty.all(Colors.white),
+                        backgroundColor: MaterialStateProperty.all(MyMateThemes.primaryColor),
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                        ),
+                        padding: MaterialStateProperty.all(
+                          EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
                         ),
                       ),
-                      padding: MaterialStateProperty.all(
-                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
-                      ),
+                      child: const Text('Confirm'),
                     ),
-                    child: const Text('Confirm'),
-                  ),
-                ],
+                  ],
+                ),
               );
             },
           ),
@@ -447,70 +456,72 @@ class _CheckMatchOptionsScreenState extends State<CheckMatchOptionsScreen> {
         TextEditingController timeController = TextEditingController();
         TextEditingController searchController = TextEditingController();
 
-        String? selectedGender; // Local state for gender inside dialog
+        String? selectedGender;
 
         return AlertDialog(
           backgroundColor: Colors.white,
-          content:
-          StatefulBuilder(  // Add StatefulBuilder to manage state inside the dialog
+          content: StatefulBuilder(
             builder: (context, setDialogState) {
+              double screenWidth = MediaQuery.of(context).size.width;
+              double screenHeight = MediaQuery.of(context).size.height;
+
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(height:20),
+                  SizedBox(height: screenHeight * 0.02),
                   Container(
-                      height: 40,
-                      width: 350,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: MyMateThemes.textColor.withOpacity(0.1),
-                          width: 1,
-                        ),
-                        borderRadius: BorderRadius.circular(10),
+                    height: screenHeight * 0.06,
+                    width: screenWidth * 0.9,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: MyMateThemes.textColor.withOpacity(0.1),
+                        width: 1,
                       ),
-                      child:
-                      Padding(
-                        padding:EdgeInsets.symmetric(horizontal: 1),
-                        child:TextField(
-                          controller: searchController,
-                          cursorColor: MyMateThemes.textColor,
-                          style: TextStyle(fontSize: 14, color: MyMateThemes.textColor),
-                          decoration: InputDecoration(
-                            hintText: 'Search',
-                            hintStyle: TextStyle(color: MyMateThemes.textColor,fontSize: 15,fontWeight:FontWeight.w300,letterSpacing: 0.8),
-                            prefixIcon: Padding(
-                              //  padding:EdgeInsets.symmetric(horizontal: 25.w), // Adjust padding if needed
-                              padding: EdgeInsets.all(8), // Adjust padding if needed
-
-                              child: SvgPicture.asset(
-                                'assets/images/search.svg', // Update with your SVG path
-                                colorFilter: ColorFilter.mode(
-                                  MyMateThemes.textColor.withOpacity(0.3),
-                                  BlendMode.srcIn,
-                                ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.01),
+                      child: TextField(
+                        controller: searchController,
+                        cursorColor: MyMateThemes.textColor,
+                        style: TextStyle(fontSize: screenWidth * 0.04, color: MyMateThemes.textColor),
+                        decoration: InputDecoration(
+                          hintText: 'Search',
+                          hintStyle: TextStyle(
+                            color: MyMateThemes.textColor,
+                            fontSize: screenWidth * 0.04,
+                            fontWeight: FontWeight.w300,
+                            letterSpacing: 0.8,
+                          ),
+                          prefixIcon: Padding(
+                            padding: EdgeInsets.all(screenWidth * 0.02),
+                            child: SvgPicture.asset(
+                              'assets/images/search.svg',
+                              height: screenHeight*0.01,
+                              colorFilter: ColorFilter.mode(
+                                MyMateThemes.textColor.withOpacity(0.3),
+                                BlendMode.srcIn,
                               ),
                             ),
-                            contentPadding: EdgeInsets.symmetric(vertical: 3), // Centers text vertically
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide.none,
-                            ),
+                          ),
+                          contentPadding: EdgeInsets.symmetric(vertical: screenHeight * 0.01),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none,
                           ),
                         ),
-
-                      )
+                      ),
+                    ),
                   ),
-                  SizedBox(height: 15),
-
-                  // Confirm Button
+                  SizedBox(height: screenHeight * 0.02),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pop();
-                      setState(() { // Update main widget state
+                      setState(() {
                         if (isLeft) {
                           leftDetails = {
                             'Name': nameController.text,
-                            'Gender': selectedGender!, // Use selectedGender instead of _selectedValue
+                            'Gender': selectedGender!,
                             'DOB': dobController.text,
                             'POB': placeController.text,
                             'TOB': timeController.text,
@@ -518,7 +529,7 @@ class _CheckMatchOptionsScreenState extends State<CheckMatchOptionsScreen> {
                         } else {
                           rightDetails = {
                             'Name': nameController.text,
-                            'Gender': selectedGender!, // Use selectedGender instead of _selectedValue
+                            'Gender': selectedGender!,
                             'DOB': dobController.text,
                             'POB': placeController.text,
                             'TOB': timeController.text,
@@ -527,16 +538,15 @@ class _CheckMatchOptionsScreenState extends State<CheckMatchOptionsScreen> {
                         checkButtonState();
                       });
                     },
-                    style: ButtonStyle(
-                      foregroundColor: MaterialStateProperty.all(Colors.white),
-                      backgroundColor: MaterialStateProperty.all(MyMateThemes.primaryColor),
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: MyMateThemes.primaryColor,
+                      padding: EdgeInsets.symmetric(
+                        vertical: screenHeight * 0.015,
+                        horizontal: screenWidth * 0.1,
                       ),
-                      padding: MaterialStateProperty.all(
-                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0),
                       ),
                     ),
                     child: const Text('Confirm'),
@@ -549,7 +559,6 @@ class _CheckMatchOptionsScreenState extends State<CheckMatchOptionsScreen> {
       },
     );
   }
-
   void showGlobalSearchPopup(bool isLeft) {
     showDialog(
       context: context,
@@ -560,70 +569,73 @@ class _CheckMatchOptionsScreenState extends State<CheckMatchOptionsScreen> {
         TextEditingController timeController = TextEditingController();
         TextEditingController searchController = TextEditingController();
 
-        String? selectedGender; // Local state for gender inside dialog
+        String? selectedGender;
 
         return AlertDialog(
           backgroundColor: Colors.white,
-          content:
-          StatefulBuilder(  // Add StatefulBuilder to manage state inside the dialog
+          content: StatefulBuilder(
             builder: (context, setDialogState) {
+              double screenWidth = MediaQuery.of(context).size.width;
+              double screenHeight = MediaQuery.of(context).size.height;
+
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(height:20),
+                  SizedBox(height: screenHeight * 0.02),
                   Container(
-                      height: 40,
-                      width: 350,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: MyMateThemes.textColor.withOpacity(0.1),
-                          width: 1,
-                        ),
-                        borderRadius: BorderRadius.circular(10),
+                    height: screenHeight * 0.06,
+                    width: screenWidth * 0.9,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: MyMateThemes.textColor.withOpacity(0.1),
+                        width: 1,
                       ),
-                      child:
-                      Padding(
-                        padding:EdgeInsets.symmetric(horizontal: 1),
-                        child:TextField(
-                          controller: searchController,
-                          cursorColor: MyMateThemes.textColor,
-                          style: TextStyle(fontSize: 14, color: MyMateThemes.textColor),
-                          decoration: InputDecoration(
-                            hintText: 'Search',
-                            hintStyle: TextStyle(color: MyMateThemes.textColor,fontSize: 15,fontWeight:FontWeight.w300,letterSpacing: 0.8),
-                            prefixIcon: Padding(
-                              //  padding:EdgeInsets.symmetric(horizontal: 25.w), // Adjust padding if needed
-                              padding: EdgeInsets.all(8), // Adjust padding if needed
-
-                              child: SvgPicture.asset(
-                                'assets/images/search.svg', // Update with your SVG path
-                                colorFilter: ColorFilter.mode(
-                                  MyMateThemes.textColor.withOpacity(0.3),
-                                  BlendMode.srcIn,
-                                ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.01),
+                      child: TextField(
+                        controller: searchController,
+                        cursorColor: MyMateThemes.textColor,
+                        style: TextStyle(fontSize: screenWidth * 0.04, color: MyMateThemes.textColor),
+                        decoration: InputDecoration(
+                          hintText: 'Search',
+                          hintStyle: TextStyle(
+                            color: MyMateThemes.textColor,
+                            fontSize: screenWidth * 0.04,
+                            fontWeight: FontWeight.w300,
+                            letterSpacing: 0.8,
+                          ),
+                          prefixIcon: Padding(
+                            padding: EdgeInsets.all(screenWidth * 0.02),
+                            child: SvgPicture.asset(
+                              'assets/images/search.svg',
+                              height: screenHeight*0.01,
+                              width: screenWidth*0.01,
+                              colorFilter: ColorFilter.mode(
+                                MyMateThemes.textColor.withOpacity(0.3),
+                                BlendMode.srcIn,
                               ),
                             ),
-                            contentPadding: EdgeInsets.symmetric(vertical: 3), // Centers text vertically
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide.none,
-                            ),
+                          ),
+                          contentPadding: EdgeInsets.symmetric(vertical: screenHeight * 0.01),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(screenWidth*0.02),
+                            borderSide: BorderSide.none,
                           ),
                         ),
-
-                      )
+                      ),
+                    ),
                   ),
-                  SizedBox(height: 15),
-
-                  // Confirm Button
+                  SizedBox(height: screenHeight * 0.02),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pop();
-                      setState(() { // Update main widget state
+                      setState(() {
                         if (isLeft) {
                           leftDetails = {
                             'Name': nameController.text,
-                            'Gender': selectedGender!, // Use selectedGender instead of _selectedValue
+                            'Gender': selectedGender!,
                             'DOB': dobController.text,
                             'POB': placeController.text,
                             'TOB': timeController.text,
@@ -631,7 +643,7 @@ class _CheckMatchOptionsScreenState extends State<CheckMatchOptionsScreen> {
                         } else {
                           rightDetails = {
                             'Name': nameController.text,
-                            'Gender': selectedGender!, // Use selectedGender instead of _selectedValue
+                            'Gender': selectedGender!,
                             'DOB': dobController.text,
                             'POB': placeController.text,
                             'TOB': timeController.text,
@@ -640,16 +652,15 @@ class _CheckMatchOptionsScreenState extends State<CheckMatchOptionsScreen> {
                         checkButtonState();
                       });
                     },
-                    style: ButtonStyle(
-                      foregroundColor: MaterialStateProperty.all(Colors.white),
-                      backgroundColor: MaterialStateProperty.all(MyMateThemes.primaryColor),
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: MyMateThemes.primaryColor,
+                      padding: EdgeInsets.symmetric(
+                        vertical: screenHeight * 0.015,
+                        horizontal: screenWidth * 0.1,
                       ),
-                      padding: MaterialStateProperty.all(
-                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0),
                       ),
                     ),
                     child: const Text('Confirm'),
@@ -665,19 +676,17 @@ class _CheckMatchOptionsScreenState extends State<CheckMatchOptionsScreen> {
 
   Widget buildDropdown(bool isLeft) {
     List<String> dropdownItems = isLeft
-        ? ['@ My username', 'Add New', 'Global Search'] // Left dropdown (without "Add New")
-        : ['Select', 'Add New', 'Add Friends', 'Global Search']; // Right dropdown (with "Add New")
-
+        ? ['@ My username', 'Add New', 'Global Search']
+        : ['Select', 'Add New', 'Add Friends', 'Global Search'];
 
     return Container(
-      width: 165,
-      height: 45,
-      padding: const EdgeInsets.all(10),
+      width: MediaQuery.of(context).size.width * 0.43,
+      height: MediaQuery.of(context).size.height * 0.06,
+      padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.025),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color:MyMateThemes.containerColor,
+        color: MyMateThemes.containerColor,
       ),
-
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
           value: isLeft
@@ -689,8 +698,8 @@ class _CheckMatchOptionsScreenState extends State<CheckMatchOptionsScreen> {
               child: Text(
                 value,
                 style: TextStyle(
-                  color:MyMateThemes.textColor,
-                  fontSize: 15,
+                  color: MyMateThemes.textColor,
+                  fontSize: MediaQuery.of(context).size.width * 0.04,
                   fontWeight: FontWeight.w400,
                 ),
               ),
@@ -702,41 +711,39 @@ class _CheckMatchOptionsScreenState extends State<CheckMatchOptionsScreen> {
                 leftDropdownValue = newValue!;
                 if (newValue == 'Add New') {
                   showAddNewPopup(true);
-                }
-                else if (newValue == 'Global Search') {
+                } else if (newValue == 'Global Search') {
                   showGlobalSearchPopup(true);
-
                 }
               } else {
                 rightDropdownValue = newValue!;
                 if (newValue == 'Add New') {
                   showAddNewPopup(false);
-                }
-                else if (newValue == 'Add Friends') {
+                } else if (newValue == 'Add Friends') {
                   showAddFriendPopup(false);
-                }
-                else{
-                showGlobalSearchPopup(false);
+                } else {
+                  showGlobalSearchPopup(false);
                 }
               }
             });
           },
-          icon: const Icon(Icons.arrow_drop_down, color: Colors.black54),
+          icon:  Icon(Icons.arrow_drop_down, color: Colors.black54),
         ),
       ),
     );
   }
   Widget buildLeftDetailContainer(Map<String, String> details) {
+
     return Column(
       children: details.entries.map((entry) =>
           Container(
-            width: 165,
-            height: 40,
-            padding: const EdgeInsets.all(8),
-            margin: const EdgeInsets.symmetric(vertical: 8),
+            width: MediaQuery.of(context).size.width * 0.43,
+            height: MediaQuery.of(context).size.height * 0.055,
+
+            padding:  EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+            margin:  EdgeInsets.symmetric(vertical:MediaQuery.of(context).size.height * 0.01),
             decoration: BoxDecoration(
               border: Border.all(color: MyMateThemes.textColor.withOpacity(0.2)),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.03),
               color: Colors.white,
             ),
             child: SingleChildScrollView(
@@ -744,10 +751,11 @@ class _CheckMatchOptionsScreenState extends State<CheckMatchOptionsScreen> {
               child: Text(
                 ' ${entry.value}',
                 style: TextStyle(
-                  fontSize: 15,
+                  fontSize: MediaQuery.of(context).size.width * 0.04,
                   fontWeight: FontWeight.normal,
-                  color: MyMateThemes.textColor.withOpacity(0.8),
+                  color: MyMateThemes.textColor,
                 ),
+
               ),
             ),
           ),
@@ -758,13 +766,14 @@ class _CheckMatchOptionsScreenState extends State<CheckMatchOptionsScreen> {
     return Column(
       children: details.entries.map((entry) =>
           Container(
-            width: 165,
-            height: 40,
-            padding: const EdgeInsets.all(8),
-            margin: const EdgeInsets.symmetric(vertical: 8),
+            width: MediaQuery.of(context).size.width * 0.43,
+            height: MediaQuery.of(context).size.height * 0.055,
+
+            padding:  EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+            margin:  EdgeInsets.symmetric(vertical:MediaQuery.of(context).size.height * 0.01),
             decoration: BoxDecoration(
               border: Border.all(color: MyMateThemes.textColor.withOpacity(0.2)),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.03),
               color: Colors.white,
             ),
             child: SingleChildScrollView(
@@ -772,9 +781,9 @@ class _CheckMatchOptionsScreenState extends State<CheckMatchOptionsScreen> {
               child: Text(
                 ' ${entry.value}',
                 style: TextStyle(
-                  fontSize: 15,
+                  fontSize: MediaQuery.of(context).size.width * 0.04,
                   fontWeight: FontWeight.normal,
-                  color: MyMateThemes.textColor.withOpacity(0.8),
+                  color: MyMateThemes.textColor,
                 ),
               ),
             ),
@@ -785,29 +794,38 @@ class _CheckMatchOptionsScreenState extends State<CheckMatchOptionsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
+      resizeToAvoidBottomInset: false, // Prevent resizing when the keyboard appears
+
       backgroundColor: Colors.white,
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: EdgeInsets.all(screenWidth * 0.05), // Responsive padding
         child: Column(
           children: [
-            SizedBox(height:30),
+            SizedBox(height: screenHeight * 0.04), // Responsive spacing
             Row(
               children: [
                 GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SubscribedhomescreenStructuredPage(docId: '',)));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SubscribedhomescreenStructuredPage(docId: ''),
+                      ),
+                    );
                   },
-                  child: SvgPicture.asset('assets/images/chevron-left.svg',
-                    height: 14,
-                    width:14,),
+                  child: SvgPicture.asset(
+                    'assets/images/chevron-left.svg',
+                    height: screenWidth * 0.04,
+                    width: screenWidth * 0.04,
+                  ),
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            SizedBox(height: screenHeight * 0.03), // Responsive spacing
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -815,56 +833,56 @@ class _CheckMatchOptionsScreenState extends State<CheckMatchOptionsScreen> {
                 buildDropdown(false),
               ],
             ),
-            SizedBox(height: 20),
+            SizedBox(height: screenHeight * 0.03),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(child: buildLeftDetailContainer(leftDetails)),
-                SizedBox(width: 20),
+                SizedBox(width: screenWidth * 0.06),
                 Expanded(child: buildRightDetailContainer(rightDetails)),
               ],
             ),
-            SizedBox(height: 40),
+            SizedBox(height: screenHeight * 0.05),
 
             Container(
-                height: 70,
-                width: 325,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
-                child:
-                ElevatedButton(
-                  onPressed: isButtonActive
-                      ? () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CheckmatchPage(clientDocId: '', soulDocId: ''),
-                      ),
-                    );
-                  }
-                      : null, // Disabled when isButtonActive is false
-                  style: ButtonStyle(
-                    foregroundColor: MaterialStateProperty.all(
-                      isButtonActive ? Colors.white : MyMateThemes.textColor, // Change color based on state
+              height: screenHeight * 0.09,
+              width: screenWidth * 0.85,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(screenWidth * 0.01),
+              ),
+              child: ElevatedButton(
+                onPressed: isButtonActive
+                    ? () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CheckmatchPage(clientDocId: '', soulDocId: ''),
                     ),
-                    backgroundColor: MaterialStateProperty.all(
-                      isButtonActive ? MyMateThemes.primaryColor : MyMateThemes.secondaryColor, // Change color based on state
-                    ),
-                    shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.0),
-                      ),
-                    ),
-                    padding: MaterialStateProperty.all(
-                      EdgeInsets.symmetric(vertical: 16.0, horizontal: 40.0),
+                  );
+                }
+                    : null, // Disabled when isButtonActive is false
+                style: ButtonStyle(
+                  foregroundColor: MaterialStateProperty.all(
+                    isButtonActive ? Colors.white : MyMateThemes.textColor, // Change color based on state
+                  ),
+                  backgroundColor: MaterialStateProperty.all(
+                    isButtonActive ? MyMateThemes.primaryColor : MyMateThemes.secondaryColor, // Change color based on state
+                  ),
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(screenWidth * 0.01),
                     ),
                   ),
-                  child: Text('Check Match'),
-                )
-
+                  padding: MaterialStateProperty.all(
+                    EdgeInsets.symmetric(
+                      vertical: screenHeight * 0.02,
+                      horizontal: screenWidth * 0.1,
+                    ),
+                  ),
+                ),
+                child: Text('Check Match'),
+              ),
             ),
-
           ],
         ),
       ),

@@ -6,9 +6,57 @@ import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import 'package:mymateapp/dbConnection/Clients.dart';
 
+import '../../ChartPages/ManualChartEnter.dart';
+import '../../ChartPages/PlaceDateTimeInput.dart';
+
 class ChartOptions extends StatefulWidget {
   final ClientData clientData;
   ChartOptions({super.key, required this.clientData});
+
+  static List<String> rasiListOrder = [
+    "Mesham",
+    "Rishabam",
+    "Mithunam",
+    "Kadagam",
+    "Simmam",
+    "Kanni",
+    "Thulam",
+    "Viruchigam",
+    "Thanusu",
+    "Magaram",
+    "Kumbam",
+    "Meenam",
+  ];
+  static List<String> nadchathiraList = [
+    "Ashwini"
+        "Bharani"
+        "Kiruthigai"
+        "Rohini"
+        "Mirugasheeridam"
+        "Thiruvathirai"
+        "Punarpusham"
+        "Pusham"
+        "Aayilyam"
+        "Magham"
+        "pooram"
+        "Uththaram"
+        "Ashththam"
+        "Chitrai"
+        "Swathi"
+        "Vishakham"
+        "Anusham"
+        "Keddai"
+        "Moolam"
+        "pooradam"
+        "Uththaradam"
+        "Thiruvonam"
+        "Aviddam"
+        "Sathayam"
+        "pooraddaathi"
+        "Uththaraddathi"
+        "Revathi"
+  ];
+
 
   @override
   State<ChartOptions> createState() => _ChartOptionsState();
@@ -16,6 +64,8 @@ class ChartOptions extends StatefulWidget {
 
 class _ChartOptionsState extends State<ChartOptions> {
   int? _selectedOptionIndex;
+
+  ClientData clientData = ClientData();
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +92,14 @@ class _ChartOptionsState extends State<ChartOptions> {
                       print(widget.clientData.personalDetails?.last_name);
                       print(widget.clientData.personalDetails?.gender);
                       print(widget.clientData.contactInfo?.mobile);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Builder(
+                                builder: (context) {
+                                  return PlaceDateTimeInput(clientData: clientData,);
+                                }
+                              )));
                     },
                     child: buildOptionContainer(
                       "Generate the chart",
@@ -62,7 +120,7 @@ class _ChartOptionsState extends State<ChartOptions> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ManualRasiChartPage(clientData: widget.clientData),
+                          builder: (context) => ManualChartEnter(clientData: widget.clientData),
                         ),
                       );
                     },

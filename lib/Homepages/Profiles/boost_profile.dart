@@ -23,31 +23,46 @@ class _boostprofileState extends State<boostprofile> {
   int _selectedTabIndex = 0;
   bool isLoading = true;
 
-  PreferredSizeWidget _buildAppBar() {
+  PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
-      backgroundColor: MyMateThemes.backgroundColor,
-      title: SafeArea(
-        child: Row(
-          children: [
-            GestureDetector(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ProfilePage(selectedBottomBarIconIndex: 3, docId: widget.docId,)));
-              },
-              child: SvgPicture.asset('assets/images/chevron-left.svg'),
-            ),
-            SizedBox(width: 70.0),
-            Center(
-              child: Text(
-                "Boost Profile",
-                style: TextStyle(
-                  color: MyMateThemes.textColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
+      backgroundColor: Colors.white,
+      title: Padding(
+        padding: EdgeInsets.symmetric(horizontal:  MediaQuery.of(context).size.width * 0.03),
+        child: SafeArea(
+          child: Row(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProfilePage(
+                        selectedBottomBarIconIndex: 3,
+                        docId: widget.docId,
+                      ),
+                    ),
+                  );
+                },
+                child: SvgPicture.asset(
+                  'assets/images/chevron-left.svg',
+                  height: MediaQuery.of(context).size.height * 0.025, // Adjust icon size
                 ),
               ),
-            ),
-          ],
+              SizedBox(width: MediaQuery.of(context).size.width * 0.01), // Responsive spacing
+              Expanded(
+                child: Center(
+                  child: Text(
+                    "Boost Profile",
+                    style: TextStyle(
+                      color: MyMateThemes.textColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: MediaQuery.of(context).size.width * 0.05, // Responsive font size
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -155,12 +170,17 @@ class _boostprofileState extends State<boostprofile> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
-      appBar: _buildAppBar(),
+      backgroundColor: Colors.white,
+      appBar: _buildAppBar(context),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.symmetric(horizontal:  MediaQuery.of(context).size.width * 0.06),
         child: Column(
           children: [
+            SizedBox(height:MediaQuery.of(context).size.height * 0.03),
             buildBoostContainer(
               context,
               title: 'Boost',
@@ -171,7 +191,7 @@ class _boostprofileState extends State<boostprofile> {
               textColor: MyMateThemes.textGray,
               titlecolor: MyMateThemes.textGray,
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: screenHeight * 0.02), // Responsive spacing
             buildBoostContainer(
               context,
               title: 'Super Boost',
@@ -182,94 +202,112 @@ class _boostprofileState extends State<boostprofile> {
               textColor: Colors.white,
               titlecolor: MyMateThemes.premiumAccent,
             ),
-            const SizedBox(height: 16),
-            _buildBoostCount(),
+            SizedBox(height: screenHeight * 0.03), // Responsive spacing
+            _buildBoostCount(context),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildBoostCount() {
+  Widget _buildBoostCount(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return DefaultTabController(
       length: 2,
-      child: Expanded(
-        child: Column(
-          children: [
-            Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: MyMateThemes.backgroundColor,
-                  borderRadius: BorderRadius.circular(16),
+      child: Column(
+        children: [
+          Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04), // Responsive padding
+            child: Container(
+              decoration: BoxDecoration(
+                color: MyMateThemes.containerColor,
+                borderRadius: BorderRadius.circular(screenWidth * 0.04), // Responsive border radius
+              ),
+              child: TabBar(
+                indicator: BoxDecoration(
+                  color: MyMateThemes.primaryColor,
+                  borderRadius: BorderRadius.circular(screenWidth * 0.04), // Responsive border radius
                 ),
-                child: TabBar(
-                  indicator: BoxDecoration(
-                    color: MyMateThemes.primaryColor,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  labelColor: Colors.white,
-                  unselectedLabelColor: MyMateThemes.primaryColor,
-                  labelStyle:
-                  const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                  tabs: [
-                    _buildTabButton('Boost'),
-                    _buildTabButton('Super Boost'),
-                  ],
-                  onTap: _handleTabChange,
+                labelColor: Colors.white,
+                unselectedLabelColor: MyMateThemes.primaryColor,
+                labelStyle: TextStyle(
+                  fontSize: screenWidth * 0.04, // Responsive font size
+                  fontWeight: FontWeight.w500,
                 ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: TabBarView(
-                children: [
-                  _buildBoostContent(
-                    noOfDays: _boostDays,
-                    noOfTokens: _noOfTokens,
-                  ),
-                  _buildBoostContent(
-                    noOfDays: _superBoostDays,
-                    noOfTokens: _noOfTokens,
-                  ),
+                tabs: [
+                  _buildTabButton(context,'Boost'),
+                  _buildTabButton(context,'Super Boost'),
                 ],
+                onTap: _handleTabChange,
               ),
             ),
-            Padding(
-              padding:
-              const EdgeInsets.symmetric(vertical: 16.0, horizontal: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: _handleClear,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey[300],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: const Text(
-                      'Clear',
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: _handleComplete,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: MyMateThemes.primaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: const Text('Complete'),
-                  ),
-                ],
-              ),
+          ),
+          SizedBox(height: screenHeight * 0.02), // Responsive spacing
+          SizedBox(
+            height: screenHeight * 0.2, // Adjust TabBarView height dynamically
+            child: TabBarView(
+              children: [
+                _buildBoostContent(
+                  noOfDays: _boostDays,
+                  noOfTokens: _noOfTokens,
+                ),
+                _buildBoostContent(
+                  noOfDays: _superBoostDays,
+                  noOfTokens: _noOfTokens,
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(
+                vertical: screenHeight * 0.01, horizontal: screenWidth * 0.03), // Responsive padding
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: _handleClear,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: MyMateThemes.containerColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(screenWidth * 0.03), // Responsive border radius
+                    ),
+                    padding: EdgeInsets.symmetric(
+                        vertical: screenHeight * 0.02, horizontal: screenWidth * 0.13), // Responsive button padding
+                  ),
+                  child: Text(
+                    'Clear',
+                    style: TextStyle(
+                      color: MyMateThemes.primaryColor,
+                      fontSize: screenWidth * 0.04, // Responsive font size
+                    ),
+                  ),
+                ),
+                SizedBox(width: screenWidth * 0.05), // Responsive spacing
+                ElevatedButton(
+                  onPressed: _handleComplete,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: MyMateThemes.primaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(screenWidth * 0.03), // Responsive border radius
+                    ),
+                    padding: EdgeInsets.symmetric(
+                        vertical: screenHeight * 0.02, horizontal: screenWidth * 0.1), // Responsive button padding
+                  ),
+                  child: Text(
+                    'Complete',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: screenWidth * 0.04, // Responsive font size
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -279,7 +317,7 @@ class _boostprofileState extends State<boostprofile> {
     required int noOfTokens,
   }) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: EdgeInsets.symmetric(horizontal:  MediaQuery.of(context).size.width * 0.06),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -289,14 +327,16 @@ class _boostprofileState extends State<boostprofile> {
             onIncrement: _handleDayIncrement,
             onDecrement: _handleDayDecrement,
             showLightningBolt: false,
-            showControls: true,
+            showControls: true, context: context,
           ),
-          const SizedBox(height: 16),
+           SizedBox(height:MediaQuery.of(context).size.height * 0.01),
+
           _buildCounterRow(
             label: "No of Tokens",
             value: noOfTokens,
             showLightningBolt: true,
             showControls: false,
+            context: context,
           ),
         ],
       ),
@@ -304,16 +344,27 @@ class _boostprofileState extends State<boostprofile> {
   }
 }
 
-Tab _buildTabButton(String title) {
+Tab _buildTabButton(BuildContext context,String title) {
+  double screenWidth = MediaQuery.of(context).size.width;
+  double screenHeight = MediaQuery.of(context).size.height;
+
   return Tab(
     child: Container(
+      width: screenWidth * 0.4, // Responsive width
       alignment: Alignment.center,
-      padding: const EdgeInsets.symmetric(vertical: 12),
-      child: Text(title),
+      padding: EdgeInsets.symmetric(
+        vertical: screenHeight * 0.015, // Responsive vertical padding
+        horizontal: screenWidth * 0.03, // Responsive horizontal padding
+      ),          child: Text(
+      title,
+      style: TextStyle(
+        fontSize: screenWidth * 0.04, // Responsive font size
+        fontWeight: FontWeight.w500,
+      ),
+    ),
     ),
   );
 }
-
 Widget buildBoostContainer(
     BuildContext context, {
       required String title,
@@ -323,75 +374,81 @@ Widget buildBoostContainer(
       required Color backgroundColor,
       required Color textColor,
     }) {
+  double screenWidth = MediaQuery.of(context).size.width;
+  double screenHeight = MediaQuery.of(context).size.height;
+
   return Container(
-    padding: const EdgeInsets.all(16.0),
+    padding: EdgeInsets.all(screenWidth * 0.04), // Responsive padding
     decoration: BoxDecoration(
       color: backgroundColor,
-      borderRadius: BorderRadius.circular(12.0),
-      border: Border.all(color: Colors.grey),
+      borderRadius: BorderRadius.circular(screenWidth * 0.07), // Responsive border radius
     ),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween, // Adjust alignment
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Row(
-                  children: [
-                    SvgPicture.asset(
-                      'assets/images/firenew.svg',
-                      height: 16.0,
-                      width: 16.0,
-                      color: textColor,
-                    ),
-                    const SizedBox(width: 4.0),
-                    Text(
-                      tokensPerDay,
-                      style: TextStyle(
-                        color: textColor.withOpacity(0.8),
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w500,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SvgPicture.asset(
+                        'assets/images/firenew.svg',
+                        height: screenWidth * 0.04, // Responsive icon size
+                        width: screenWidth * 0.04,
+                        color: textColor,
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 4.0),
-                Text(
-                  title,
-                  style: TextStyle(
-                    color: titlecolor,
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
+                      SizedBox(width: screenWidth * 0.01), // Responsive spacing
+                      Text(
+                        tokensPerDay,
+                        style: TextStyle(
+                          color: textColor.withOpacity(0.8),
+                          fontSize: screenWidth * 0.035, // Responsive font size
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                  SizedBox(height: screenHeight * 0.005), // Responsive spacing
+                  Text(
+                    title,
+                    style: TextStyle(
+                      color: titlecolor,
+                      fontSize: screenWidth * 0.045, // Responsive font size
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(width: 8.0),
+            SizedBox(width: screenWidth * 0.02), // Responsive spacing
             SvgPicture.asset(
               'assets/images/lightning-bolt.svg',
-              height: 24.0,
-              width: 24.0,
+              height: screenWidth * 0.06, // Responsive icon size
+              width: screenWidth * 0.06,
               color: title == 'Super Boost'
                   ? MyMateThemes.premiumAccent
                   : textColor,
             ),
           ],
         ),
-        const SizedBox(height: 16.0),
+        SizedBox(height: screenHeight * 0.015), // Responsive spacing
         Text(
           description,
           style: TextStyle(
             color: textColor.withOpacity(0.7),
-            fontSize: 14.0,
+            fontSize: screenWidth * 0.035, // Responsive font size
           ),
         ),
       ],
     ),
   );
 }
+
 
 Widget _buildCounterRow({
   required String label,
@@ -400,33 +457,39 @@ Widget _buildCounterRow({
   required bool showControls,
   Function()? onIncrement,
   Function()? onDecrement,
+  required BuildContext context, // Pass context for MediaQuery
 }) {
+  double screenWidth = MediaQuery.of(context).size.width;
+  double screenHeight = MediaQuery.of(context).size.height;
+
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
       Text(
         label,
-        style: const TextStyle(fontSize: 16.0),
+        style: TextStyle(
+          fontSize: screenWidth * 0.04, // Responsive font size
+        ),
       ),
       Row(
         children: [
           if (showControls)
             Padding(
-              padding: const EdgeInsets.only(right: 8.0),
+              padding: EdgeInsets.only(right: screenWidth * 0.02), // Responsive padding
               child: IconButton(
                 icon: const Icon(Icons.remove_circle_outline),
                 onPressed: onDecrement,
                 color: Colors.grey,
-                splashRadius: 20.0,
+                splashRadius: screenWidth * 0.05, // Responsive splash radius
               ),
             ),
           Container(
-            width: 56,
-            height: 36,
+            width: screenWidth * 0.15, // Responsive width
+            height: screenHeight * 0.05, // Responsive height
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.0),
+              borderRadius: BorderRadius.circular(screenWidth * 0.02), // Responsive border radius
               border: Border.all(color: Colors.grey),
             ),
             child: Row(
@@ -435,26 +498,29 @@ Widget _buildCounterRow({
                 if (showLightningBolt)
                   SvgPicture.asset(
                     'assets/images/firenew.svg',
-                    height: 16.0,
-                    width: 16.0,
+                    height: screenWidth * 0.04, // Responsive icon size
+                    width: screenWidth * 0.04,
                     color: MyMateThemes.primaryColor,
                   ),
-                if (showLightningBolt) const SizedBox(width: 4.0),
+                if (showLightningBolt) SizedBox(width: screenWidth * 0.01), // Responsive spacing
                 Text(
                   value.toString().padLeft(2, '0'),
-                  style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
+                  style: TextStyle(
+                    fontSize: screenWidth * 0.04, // Responsive font size
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ],
             ),
           ),
           if (showControls)
             Padding(
-              padding: const EdgeInsets.only(left: 8.0),
+              padding: EdgeInsets.only(left: screenWidth * 0.02), // Responsive padding
               child: IconButton(
                 icon: const Icon(Icons.add_circle_outline),
                 onPressed: onIncrement,
                 color: MyMateThemes.primaryColor,
-                splashRadius: 20.0,
+                splashRadius: screenWidth * 0.05, // Responsive splash radius
               ),
             ),
         ],
@@ -462,3 +528,4 @@ Widget _buildCounterRow({
     ],
   );
 }
+
