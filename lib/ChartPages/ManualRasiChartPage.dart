@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mymateapp/ChartPages/ManualNavamsaChartPage.dart';
+import 'package:mymateapp/ChartPages/viewRasiChart.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import 'package:mymateapp/dbConnection/Firebase_DB.dart';
@@ -472,6 +473,11 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
 
 // Navigate to next page
                             _storeSelections();
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => ViewRasiChartPage()));
+                            
                           } else {
 
                             ScaffoldMessenger.of(context).showSnackBar(

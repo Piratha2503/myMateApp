@@ -479,6 +479,10 @@ class _ManualNavamsaChartPage extends State<ManualNavamsaChartPage> {
                 onTap: () {
                   if (_areAllSelectionsComplete()) {
                     _storeSelections();
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => ViewNavamsaChartPage()));
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(

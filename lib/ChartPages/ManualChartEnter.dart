@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
+import 'package:mymateapp/ChartPages/viewRasiChart.dart';
 import 'package:mymateapp/MyMateCommonBodies/MyMateApis.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:http/http.dart' as http;
@@ -181,7 +182,7 @@ class _ManualChartEnterState extends State<ManualChartEnter> {
                         textStyle: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: width*0.045,
-                            color:MyMateThemes.textColor
+                            color:MyMateThemes.textColor.withOpacity(0.6),
                         ),
                         boxDecoration: BoxDecoration(
                             border: Border(
@@ -397,7 +398,7 @@ class _ManualChartEnterState extends State<ManualChartEnter> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => AutogeneratechartPage()));
+                                    builder: (context) => ViewRasiChartPage(clientData: clientData,)));
                           },
                           style: ButtonStyle(
                             foregroundColor: MaterialStatePropertyAll(Colors.white),
@@ -445,7 +446,7 @@ class _ManualChartEnterState extends State<ManualChartEnter> {
     if(response.statusCode == 200){
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => ChartOptions(clientData: widget.clientData)),
+        MaterialPageRoute(builder: (context) => ViewRasiChartPage(clientData: widget.clientData)),
       );
     }
     else {
