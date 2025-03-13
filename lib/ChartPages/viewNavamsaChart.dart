@@ -69,9 +69,8 @@ class _ViewNavamsaChartPageState extends State<ViewNavamsaChartPage> {
               ),
 
             ),
-            body: SingleChildScrollView(
-
-              child: Column(
+            body:
+              Column(
                 children: <Widget>[
 
                   Flex(
@@ -172,7 +171,7 @@ class _ViewNavamsaChartPageState extends State<ViewNavamsaChartPage> {
 
                 ],
               ),
-            ),
+
           );
         }
     );

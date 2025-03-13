@@ -60,9 +60,8 @@ class _ViewRasiChartPageState extends State<ViewRasiChartPage> {
               ),
 
             ),
-            body: SingleChildScrollView(
-
-              child: Column(
+            body:
+              Column(
                 children: <Widget>[
 
                   Flex(
@@ -160,11 +159,10 @@ class _ViewRasiChartPageState extends State<ViewRasiChartPage> {
 
                     ],
                   ),
-                  SizedBox(height: height*0.2,),
 
                 ],
               ),
-            ),
+
           );
         }
     );
