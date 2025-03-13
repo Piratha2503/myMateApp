@@ -191,7 +191,7 @@ Widget buildGridItem(Map<String, dynamic> profiles) {
                   ),
                 );
               } else {
-                print("Error: docId not found for this profile");
+                print("Error: docId is not found for this profile");
               }
             },
             child: Container(
