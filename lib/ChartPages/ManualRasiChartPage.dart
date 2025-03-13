@@ -199,319 +199,360 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
-
-      backgroundColor: Colors.white,
-
-      body: LayoutBuilder(
-
+    return LayoutBuilder(
         builder: (context, constraints) {
+          // Read width and height from constraints to use for responsive sizing.
+          final mediaQuery = MediaQuery.of(context);
+          final double width = mediaQuery.size.width;
+          final double height = mediaQuery.size.height;
+          double svgWidth = width * 0.5;
+          double svgHeight = height * 0.5;
 
-          double containerWidth = constraints.maxWidth * 0.87;
-          double containerHeight = constraints.maxHeight * 0.4;
-          double svgWidth = containerWidth * 0.5;
-          double svgHeight = containerHeight * 0.5;
+          return Scaffold(
 
-          return
-            Center(
-              child: Column(
-                children: [
-                  SafeArea(
-                    child:
-                    Column(
-                      children: [
-                        Text(
-                          "Enter Chart Rasi",
-                          style: TextStyle(
-                            color: MyMateThemes.textColor,
-                            fontSize: containerHeight*0.075,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1,
+          backgroundColor: Colors.white,
+
+          body:
+          LayoutBuilder(
+
+            builder: (context, constraints) {
+
+
+              return
+                Center(
+                  child: Column(
+                    children: [
+                      SafeArea(
+                        child:
+                        Column(
+                          children: [
+                            SizedBox(height: height*0.02),
+
+                            Text(
+                              "Enter Chart Rasi",
+                              style: TextStyle(
+                                color: MyMateThemes.textColor,
+                                fontSize: width*0.05,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1,
+
+                              ),
+
+                            ),
+
+                            Text(
+                              "to calculate Astrology Chart",
+                              style: TextStyle(
+                                color: MyMateThemes.primaryColor,
+                                fontSize: width*0.05,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1,
+
+                              ),
+
+                            ),
+
+                          ],
+
+                        ),
+
+                      ),
+                     SizedBox(height: height*0.01),
+                      Container(
+
+                        width: width*0.65,
+
+                        height: height*0.26,
+
+                        decoration: BoxDecoration(
+
+                          color: Colors.white,
+
+                          borderRadius: BorderRadius.circular(width*0.02),
+
+                        ),
+
+                        child: GridView.count(
+
+                         // crossAxisCount: constraints.maxWidth > 600 ? 6 : 4,
+                          crossAxisCount: 4,
+
+                          childAspectRatio: width / (height * 0.45),
+                          crossAxisSpacing: width * 0.02,
+                          mainAxisSpacing: height * 0.02,
+
+                          padding: EdgeInsets.all(width*0.001),
+
+                          children: List.generate(12, (index) => buildTopBox(index + 1, '${index + 1}')),
+
+                        ),
+
+                      ),
+                      SizedBox(height: height*0.01,),
+
+                      Center(child:
+
+                      DecoratedBox(
+                        decoration: ShapeDecoration(
+                          shape: CircleBorder(),
+                        ),
+
+                        child:
+                        Container(
+                          height: height*0.46,
+                          width: width*0.86,
+                         // width: width*0.77,
+
+                          decoration: BoxDecoration(
+                          //  borderRadius: BorderRadius.circular(300),
+                           color: Colors.white,
+
+                          ),
+                          child:
+                          Stack(
+
+                            alignment: Alignment.center,
+
+                            children: [
+                              Positioned(
+                                top: -5,
+                                left: -4,
+                                child:
+                                    SvgPicture.asset(
+                                      'assets/images/centercircle.svg',
+                                    //  color: MyMateThemes.textColor.withOpacity(0.1),
+                                   //  width: width * 0.85,
+                                    // height: height*0.43,
+                                    ),
+
+
+                              ),
+
+                              Positioned(
+
+                                top: 82,
+                                left: 94,
+
+                                child: buildBottomSegment('Sun', 'assets/images/p_sun.svg', 'assets/images/s_sun.svg',
+
+
+
+                                    width: svgWidth,
+
+                                    height: svgHeight,
+
+                                    fit: BoxFit.contain),
+
+                              ),
+
+                              Positioned(
+
+                                left: 220,
+
+                                top: 55,
+
+                                child: buildBottomSegment('Mercury', 'assets/images/p_mercury.svg', 'assets/images/s_mercury.svg',
+
+
+
+                                    width: svgWidth,
+
+                                    height: svgHeight,
+
+                                    fit: BoxFit.contain),
+
+                              ),
+
+                              Positioned(
+
+                                left: 164,
+
+                                top: 12,
+
+                                child: buildBottomSegment('Mars', 'assets/images/p_mars.svg', 'assets/images/s_mars.svg', top: 0, right: 35,width: svgWidth,
+
+                                    height: svgHeight,
+
+                                    fit: BoxFit.contain),
+
+                              ),
+
+                              Positioned(
+
+                                left: 67,
+
+                                top: 221,
+
+                                child: buildBottomSegment('Saturn', 'assets/images/p_saturn.svg', 'assets/images/s_saturn.svg', top: 65, right: 38,width: svgWidth,
+
+                                    height: svgHeight,
+
+                                    fit: BoxFit.contain),
+
+                              ),
+
+                              Positioned(
+
+                                left: 225,
+
+                                top: 161,
+
+                                child: buildBottomSegment('Jupiter', 'assets/images/p_jupitor.svg', 'assets/images/s_jupiter.svg', top: 39, right: 2,width: svgWidth,
+
+                                    height: svgHeight,
+
+                                    fit: BoxFit.contain),
+
+                              ),
+
+                              Positioned(
+
+                                left: 14,
+
+                                top: 169,
+
+                                child: buildBottomSegment('Rahu', 'assets/images/p_rahu.svg', 'assets/images/s_rahu.svg', top: 48, right: 66,width: svgWidth,
+
+                                    height: svgHeight,
+
+                                    fit: BoxFit.contain),
+
+                              ),
+
+                              Positioned(
+
+                                left:13,
+
+                                top: 63,
+
+                                child: buildBottomSegment('Ketu', 'assets/images/p_ketu.svg', 'assets/images/s_ketu.svg', top: 34, right: 65,width: svgWidth,
+
+                                    height: svgHeight,
+
+                                    fit: BoxFit.contain),
+
+                              ),
+
+                              Positioned(
+
+                                left: 170,
+
+                                top: 217,
+
+                                child: buildBottomSegment('Venus', 'assets/images/p_venus.svg', 'assets/images/s_venus.svg', top: 66, right: 35,width: svgWidth,
+
+                                    height: svgHeight,
+
+                                    fit: BoxFit.contain),
+
+                              ),
+
+                              Positioned(
+
+                                left: 58,
+
+                                top: 12,
+
+                                child: buildBottomSegment('Moon', 'assets/images/p_moon.svg', 'assets/images/s_moon.svg', top: 7,
+
+                                    width: svgWidth,
+
+                                    height: svgHeight,
+
+                                    fit: BoxFit.contain
+
+                                    , right: 43),
+
+                              ),
+
+                            ],
 
                           ),
 
                         ),
-
-                        Text(
-                          "to calculate Astrology Chart",
-                          style: TextStyle(
-                            color: MyMateThemes.primaryColor,
-                            fontSize: containerHeight*0.075,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1,
-
-                          ),
-
-                        ),
-
-                      ],
-
-                    ),
-
-                  ),
-                  SizedBox(height: containerHeight*0.01),
-                  Container(
-
-                    width: containerWidth*0.7,
-
-                    height: containerHeight*0.6,
-
-                    decoration: BoxDecoration(
-
-                      color: Colors.white,
-
-                      borderRadius: BorderRadius.circular(containerWidth*0.02),
-
-                    ),
-
-                    child: GridView.count(
-
-                      crossAxisCount: constraints.maxWidth > 600 ? 6 : 4,
-
-                      childAspectRatio: containerWidth / (containerHeight * 1), crossAxisSpacing: containerWidth * 0.02,
-
-                      mainAxisSpacing: containerHeight * 0.03,
-
-                      padding: EdgeInsets.all(containerWidth*0.001),
-
-                      children: List.generate(12, (index) => buildTopBox(index + 1, '${index + 1}')),
-
-                    ),
-
-                  ),
-                  Center(child:
-
-                  DecoratedBox(
-                    decoration: ShapeDecoration(
-                      shape: CircleBorder(),
-                    ),
-
-                    child:
-                    Container(
-                      height: 330,
-                      width: 305,
-                      color: MyMateThemes.backgroundColor,
-                      child: Stack(
-
-                        alignment: Alignment.center,
-
+                      ),
+                      ),
+                      SizedBox(height: height*0.02,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-
-                          Positioned(
-
-                            top: 75,
-
-                            left: 88,
-
-                            child: buildBottomSegment('Sun', 'assets/images/p_sun.svg', 'assets/images/s_sun.svg',
+                          SizedBox(
+                            height: height*0.08,
+                            width: width*0.35,
+                            child: ElevatedButton(
+                              onPressed: _resetSelections,
 
 
+                              style: ButtonStyle(
+                                foregroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
+                                backgroundColor: MaterialStatePropertyAll(MyMateThemes.secondaryColor),
+                                shape: MaterialStateProperty.all(
+                                    RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(width*0.01)
+                                    )),
 
-                                width: svgWidth,
-
-                                height: svgHeight,
-
-                                fit: BoxFit.contain),
-
+                              ),
+                              child:  Text(
+                                "Edit",
+                                style: TextStyle(fontSize: width*0.05),
+                              ),
+                            ),
                           ),
+                          SizedBox(width: width*0.04),
+                          SizedBox(
+                            height: height*0.08,
+                            width: width*0.35,
+                            child: ElevatedButton(
+                              onPressed: ()
+                              {
+                                if (_areAllSelectionsComplete()) {
+                                  _storeSelections();
+                                  // Navigator.push(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //         builder: (context) => ViewNavamsaChartPage()));
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                          'Please complete all selections before proceeding.'),
+                                    ),
+                                  );
+                                }
+                              },
+                              style: ButtonStyle(
+                                foregroundColor: MaterialStatePropertyAll(Colors.white),
+                                backgroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
+                                shape: MaterialStateProperty.all(
+                                    RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(width*0.01)
+                                    )),
 
-                          Positioned(
-
-                            left: 212,
-
-                            top: 46,
-
-                            child: buildBottomSegment('Mercury', 'assets/images/p_mercury.svg', 'assets/images/s_mercury.svg',
-
-
-
-                                width: svgWidth,
-
-                                height: svgHeight,
-
-                                fit: BoxFit.contain),
-
-                          ),
-
-                          Positioned(
-
-                            left: 153,
-
-                            top: 5,
-
-                            child: buildBottomSegment('Mars', 'assets/images/p_mars.svg', 'assets/images/s_mars.svg', top: 0, right: 35,width: svgWidth,
-
-                                height: svgHeight,
-
-                                fit: BoxFit.contain),
-
-                          ),
-
-                          Positioned(
-
-                            left: 60,
-
-                            top: 212,
-
-                            child: buildBottomSegment('Saturn', 'assets/images/p_saturn.svg', 'assets/images/s_saturn.svg', top: 65, right: 38,width: svgWidth,
-
-                                height: svgHeight,
-
-                                fit: BoxFit.contain),
-
-                          ),
-
-                          Positioned(
-
-                            left: 215,
-
-                            top: 150,
-
-                            child: buildBottomSegment('Jupiter', 'assets/images/p_jupitor.svg', 'assets/images/s_jupiter.svg', top: 39, right: 2,width: svgWidth,
-
-                                height: svgHeight,
-
-                                fit: BoxFit.contain),
-
-                          ),
-
-                          Positioned(
-
-                            left: 8,
-
-                            top: 162,
-
-                            child: buildBottomSegment('Rahu', 'assets/images/p_rahu.svg', 'assets/images/s_rahu.svg', top: 48, right: 66,width: svgWidth,
-
-                                height: svgHeight,
-
-                                fit: BoxFit.contain),
-
-                          ),
-
-                          Positioned(
-
-                            left:4,
-
-                            top: 58,
-
-                            child: buildBottomSegment('Ketu', 'assets/images/p_ketu.svg', 'assets/images/s_ketu.svg', top: 34, right: 65,width: svgWidth,
-
-                                height: svgHeight,
-
-                                fit: BoxFit.contain),
-
-                          ),
-
-                          Positioned(
-
-                            left: 163,
-
-                            top: 207,
-
-                            child: buildBottomSegment('Venus', 'assets/images/p_venus.svg', 'assets/images/s_venus.svg', top: 66, right: 35,width: svgWidth,
-
-                                height: svgHeight,
-
-                                fit: BoxFit.contain),
-
-                          ),
-
-                          Positioned(
-
-                            left: 47,
-
-                            top: 7,
-
-                            child: buildBottomSegment('Moon', 'assets/images/p_moon.svg', 'assets/images/s_moon.svg', top: 7,
-
-                                width: svgWidth,
-
-                                height: svgHeight,
-
-                                fit: BoxFit.contain
-
-                                , right: 43),
-
+                              ),
+                              child:  Text(
+                                "Next",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: width*0.04),
+                              ),
+                            ),
                           ),
 
                         ],
-
                       ),
-
-                    ),
-                  ),
-                  ),
-                  SizedBox(height: containerHeight*0.1),
-                  Row(
-
-                    mainAxisAlignment: MainAxisAlignment.center,
-
-                    children: [
-
-                      GestureDetector(
-
-                        onTap: _resetSelections,
-
-                        child: SvgPicture.asset('assets/images/Clear.svg',
-
-                          width: containerHeight*0.5,
-
-                          height: containerHeight*0.2,),
-
-                      ),
-
-                      SizedBox( width: MediaQuery.of(context).size.width*0.05,
-
-                      ),
-
-                      GestureDetector(
-
-                        onTap: () {
-
-                          if (_areAllSelectionsComplete()) {
-
-// Navigate to next page
-                            _storeSelections();
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => ViewRasiChartPage()));
-                            
-                          } else {
-
-                            ScaffoldMessenger.of(context).showSnackBar(
-
-                              SnackBar(content: Text('Please complete all selections before proceeding.')),
-
-                            );
-
-                          }
-
-                        },
-
-                        child: SvgPicture.asset('assets/images/can.svg', width: containerHeight*0.5,
-
-                          height: containerHeight*0.2,),
-
-                      ),
-
                     ],
 
                   ),
-                  SizedBox(height: containerHeight*0.01),
-                ],
 
-              ),
-
-            );
+                );
 
 
 
-        },
+            },
 
-      ),
+          ),
 
+        );
+      }
     );
 
   }
