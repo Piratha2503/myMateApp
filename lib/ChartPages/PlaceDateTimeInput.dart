@@ -90,6 +90,7 @@ class _PlaceDateTimeInputState extends State<PlaceDateTimeInput> {
                   print("placeDetails${prediction.lat}");
                 },
                 itemClick: (Prediction prediction) {
+
                   List<String>? stringList = prediction.description?.split(",");
                   setState(() {
                     district = stringList![0].toString();
