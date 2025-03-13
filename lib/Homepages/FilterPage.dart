@@ -8,6 +8,8 @@ import '../MyMateThemes.dart';
 import 'explorePage/explorePageMain.dart';
 
 class FilterPage extends StatefulWidget {
+
+
   const FilterPage({Key? key}) : super(key: key);
 
   @override
@@ -173,259 +175,267 @@ class _FilterPageState extends State<FilterPage> {
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: MyMateThemes.backgroundColor,
-        title: SafeArea(
-          child: Row(
-            children: [
-              // GestureDetector(
-              //   child: SvgPicture.asset('assets/images/chevron-left.svg'),
-              // ),
-              SizedBox(width: 20),
-              Text(
-                'Filter',
-                style: TextStyle(
-                  color: MyMateThemes.textColor,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+    return LayoutBuilder(
+        builder: (context, constraints) {
+          double width = MediaQuery.of(context).size.width;
+          double height = MediaQuery.of(context).size.height;
+
+          return Scaffold(
+          appBar: AppBar(
+            backgroundColor: MyMateThemes.backgroundColor,
+            title: SafeArea(
+              child: Row(
+                children: [
+                  // GestureDetector(
+                  //   child: SvgPicture.asset('assets/images/chevron-left.svg'),
+                  // ),
+                  SizedBox(width: width*0.11),
+                  Text(
+                    'Filter',
+                    style: TextStyle(
+                      color: MyMateThemes.textColor,
+                      fontSize: width*0.06,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
-      backgroundColor: MyMateThemes.backgroundColor,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Row(
+          backgroundColor: MyMateThemes.backgroundColor,
+          body: SingleChildScrollView(
+            child: Column(
               children: [
-                SizedBox(width: 60),
-                SizedBox(height: 48),
+                SizedBox(height: height*0.02),
 
-                Text(
-                  'Civil Status',
-                  style: TextStyle(
-                    color: MyMateThemes.textColor,
-                    fontSize: 14,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 5),
-            SvgPicture.asset('assets/images/Line 11.svg'),
-            SizedBox(height: 15),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _buildSelectableButton('Single', 'marital_status', () => marital_status = 'Single'),
-                _buildSelectableButton('Divorced', 'marital_status', () => marital_status = 'Divorced'),
-                _buildSelectableButton('Widowed', 'marital_status', () => marital_status = 'Widowed'),
-              ],
-            ),
-            SizedBox(height: 30),
-            Row(
-              children: [
-                SizedBox(width: 60),
-                Text(
-                  'Employment Type',
-                  style: TextStyle(
-                    color: MyMateThemes.textColor,
-                    fontSize: 14,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 5),
-            SvgPicture.asset('assets/images/Line 11.svg'),
-            SizedBox(height: 15),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _buildSelectableButton('Government', 'occupation_type', () => occupation_type = 'Government'),
-                _buildSelectableButton('Private', 'occupation_type', () => occupation_type = 'Private'),
-                _buildSelectableButton('Self', 'occupation_type', () => occupation_type = 'Self'),
-              ],
-            ),
-            // Row(
-            //   children: [
-            //     SizedBox(width: 60),
-            //     Text(
-            //       'Height',
-            //       style: TextStyle(
-            //         color: MyMateThemes.textColor,
-            //         fontSize: 14,
-            //         fontWeight: FontWeight.normal,
-            //       ),
-            //     ),
-            //   ],
-            // ),
-            // SizedBox(height: 15),
-            // SvgPicture.asset('assets/images/Line 11.svg'),
-            // SizedBox(height: 30),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     _buildText(minHeightController, 'Min'),
-            //     SizedBox(width: 20),
-            //     Text('-'),
-            //     SizedBox(width: 20),
-            //     _buildText(maxHeightController, 'Max'),
-            //   ],
-            // ),
-            // SizedBox(height: 40),
-            // Row(
-            //   children: [
-            //     SizedBox(width: 60),
-            //     Text(
-            //       'Religion',
-            //       style: TextStyle(
-            //         color: MyMateThemes.textColor,
-            //         fontSize: 14,
-            //         fontWeight: FontWeight.normal,
-            //       ),
-            //     ),
-            //   ],
-            // ),
-            // SizedBox(height: 15),
-            // SvgPicture.asset('assets/images/Line 11.svg'),
-            // SizedBox(height: 20),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.start,
-            //   children: [
-            //     SizedBox(width: 40),
-            //     buildContainer('Hindusiam', 'religion'),
-            //     SizedBox(width: 5),
-            //     buildContainer('Christianity', 'religion'),
-            //     SizedBox(width: 5),
-            //     buildContainer('Buddishm', 'religion'),
-            //   ],
-            // ),
-            // SizedBox(height: 10),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.start,
-            //   children: [
-            //     SizedBox(width: 40),
-            //     buildContainer('Islam', 'religion'),
-            //     SizedBox(width: 5),
-            //     buildContainer('Irreligious', 'religion'),
-            //     SizedBox(width: 5),
-            //     buildContainer('Others', 'religion'),
-            //   ],
-            // ),
-            // SizedBox(height: 20),
-            // Row(
-            //   children: [
-            //     SizedBox(width: 60),
-            //     Text(
-            //       'Caste',
-            //       style: TextStyle(
-            //         color: MyMateThemes.textColor,
-            //         fontSize: 14,
-            //         fontWeight: FontWeight.normal,
-            //       ),
-            //     ),
-            //   ],
-            // ),
-            // SizedBox(height: 20),
-            // SvgPicture.asset('assets/images/Line 11.svg'),
-            // SizedBox(height: 20),
-            // _buildTextField(casteController, 'Caste', _addCasteTag),
-            // SizedBox(height: 20),
-            // Wrap(
-            //   alignment: WrapAlignment.center,
-            //   children: casteTags.map((tag) => _buildTag(tag)).toList(),
-            // ),
-            // SizedBox(height: 30),
-            // Row(
-            //   children: [
-            //     SizedBox(width: 60),
-            //     Text(
-            //       'Language',
-            //       style: TextStyle(
-            //         color: MyMateThemes.textColor,
-            //         fontSize: 14,
-            //         fontWeight: FontWeight.normal,
-            //       ),
-            //     ),
-            //   ],
-            // ),
-            // SizedBox(height: 20),
-            // SvgPicture.asset('assets/images/Line 11.svg'),
-            // SizedBox(height: 20),
-            // _buildTextField(languageController, 'Language', _addLanguageTag),
-            // SizedBox(height: 20),
-            // Wrap(
-            //   alignment: WrapAlignment.center,
-            //   children: languageTags.map((tag) => _buildTag(tag)).toList(),
-            // ),
-            SizedBox(height: 30),
-            Row(
-              children: [
-                SizedBox(width: 60),
-                Text(
-                  'Age',
-                  style: TextStyle(
-                    color: MyMateThemes.textColor,
-                    fontSize: 14,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 5),
-            SvgPicture.asset('assets/images/Line 11.svg'),
-            SizedBox(height: 15),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _buildText(AgeController, 'Age'),
+                Row(
+                  children: [
+                    SizedBox(width: width*0.15),
 
+                    Text(
+                      'Civil Status',
+                      style: TextStyle(
+                        color: MyMateThemes.textColor,
+                        fontSize: width*0.038,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: height*0.01),
+                SvgPicture.asset('assets/images/Line 11.svg'),
+                SizedBox(height: height*0.02),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _buildSelectableButton('Single', 'marital_status', () => marital_status = 'Single'),
+                    _buildSelectableButton('Divorced', 'marital_status', () => marital_status = 'Divorced'),
+                    _buildSelectableButton('Widowed', 'marital_status', () => marital_status = 'Widowed'),
+                  ],
+                ),
+                SizedBox(height: height*0.05),
+                Row(
+                  children: [
+                    SizedBox(width: width*0.15),
+                    Text(
+                      'Employment Type',
+                      style: TextStyle(
+                        color: MyMateThemes.textColor,
+                        fontSize: width*0.038,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: height*0.01),
+                SvgPicture.asset('assets/images/Line 11.svg'),
+                SizedBox(height: height*0.02),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _buildSelectableButton('Government', 'occupation_type', () => occupation_type = 'Government'),
+                    _buildSelectableButton('Private', 'occupation_type', () => occupation_type = 'Private'),
+                    _buildSelectableButton('Self', 'occupation_type', () => occupation_type = 'Self'),
+                  ],
+                ),
+                // Row(
+                //   children: [
+                //     SizedBox(width: 60),
+                //     Text(
+                //       'Height',
+                //       style: TextStyle(
+                //         color: MyMateThemes.textColor,
+                //         fontSize: 14,
+                //         fontWeight: FontWeight.normal,
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                // SizedBox(height: 15),
+                // SvgPicture.asset('assets/images/Line 11.svg'),
+                // SizedBox(height: 30),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     _buildText(minHeightController, 'Min'),
+                //     SizedBox(width: 20),
+                //     Text('-'),
+                //     SizedBox(width: 20),
+                //     _buildText(maxHeightController, 'Max'),
+                //   ],
+                // ),
+                // SizedBox(height: 40),
+                // Row(
+                //   children: [
+                //     SizedBox(width: 60),
+                //     Text(
+                //       'Religion',
+                //       style: TextStyle(
+                //         color: MyMateThemes.textColor,
+                //         fontSize: 14,
+                //         fontWeight: FontWeight.normal,
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                // SizedBox(height: 15),
+                // SvgPicture.asset('assets/images/Line 11.svg'),
+                // SizedBox(height: 20),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.start,
+                //   children: [
+                //     SizedBox(width: 40),
+                //     buildContainer('Hindusiam', 'religion'),
+                //     SizedBox(width: 5),
+                //     buildContainer('Christianity', 'religion'),
+                //     SizedBox(width: 5),
+                //     buildContainer('Buddishm', 'religion'),
+                //   ],
+                // ),
+                // SizedBox(height: 10),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.start,
+                //   children: [
+                //     SizedBox(width: 40),
+                //     buildContainer('Islam', 'religion'),
+                //     SizedBox(width: 5),
+                //     buildContainer('Irreligious', 'religion'),
+                //     SizedBox(width: 5),
+                //     buildContainer('Others', 'religion'),
+                //   ],
+                // ),
+                // SizedBox(height: 20),
+                // Row(
+                //   children: [
+                //     SizedBox(width: 60),
+                //     Text(
+                //       'Caste',
+                //       style: TextStyle(
+                //         color: MyMateThemes.textColor,
+                //         fontSize: 14,
+                //         fontWeight: FontWeight.normal,
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                // SizedBox(height: 20),
+                // SvgPicture.asset('assets/images/Line 11.svg'),
+                // SizedBox(height: 20),
+                // _buildTextField(casteController, 'Caste', _addCasteTag),
+                // SizedBox(height: 20),
+                // Wrap(
+                //   alignment: WrapAlignment.center,
+                //   children: casteTags.map((tag) => _buildTag(tag)).toList(),
+                // ),
+                // SizedBox(height: 30),
+                // Row(
+                //   children: [
+                //     SizedBox(width: 60),
+                //     Text(
+                //       'Language',
+                //       style: TextStyle(
+                //         color: MyMateThemes.textColor,
+                //         fontSize: 14,
+                //         fontWeight: FontWeight.normal,
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                // SizedBox(height: 20),
+                // SvgPicture.asset('assets/images/Line 11.svg'),
+                // SizedBox(height: 20),
+                // _buildTextField(languageController, 'Language', _addLanguageTag),
+                // SizedBox(height: 20),
+                // Wrap(
+                //   alignment: WrapAlignment.center,
+                //   children: languageTags.map((tag) => _buildTag(tag)).toList(),
+                // ),
+                SizedBox(height: height*0.05),
+                Row(
+                  children: [
+                    SizedBox(width: width*0.15),
+                    Text(
+                      'Age',
+                      style: TextStyle(
+                        color: MyMateThemes.textColor,
+                        fontSize: width*0.038,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: height*0.01),
+                SvgPicture.asset('assets/images/Line 11.svg'),
+                SizedBox(height: height*0.02),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _buildText(AgeController, 'Age'),
+
+                  ],
+                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     _buildText(minAgeController, 'Min'),
+                //     SizedBox(width: 20),
+                //     _buildText(maxAgeController, 'Max'),
+                //   ],
+                // ),
+                SizedBox(height: height*0.13),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: _clearAllSelections,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: MyMateThemes.secondaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(width*0.01),
+                        ),
+                      ),
+                      child: Text('Clear', style: TextStyle(color: MyMateThemes.primaryColor,fontSize: width*0.04)),
+                    ),
+                    SizedBox(width: width*0.08),
+                    ElevatedButton(
+                      onPressed: _applyFilters,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: MyMateThemes.primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(width*0.01),
+                        ),
+                      ),
+                      child: Text('Apply', style: TextStyle(color: Colors.white,fontSize: width*0.04)),
+                    ),
+                  ],
+                ),
               ],
             ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     _buildText(minAgeController, 'Min'),
-            //     SizedBox(width: 20),
-            //     _buildText(maxAgeController, 'Max'),
-            //   ],
-            // ),
-            SizedBox(height: 100),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: _clearAllSelections,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: MyMateThemes.secondaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                  ),                  child: Text('Clear', style: TextStyle(color: Colors.black)),
-                ),
-                SizedBox(width: 20),
-                ElevatedButton(
-                  onPressed: _applyFilters,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: MyMateThemes.primaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                  ),                  child: Text('Apply', style: TextStyle(color: Colors.white)),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      }
     );
   }
 
@@ -449,24 +459,27 @@ class _FilterPageState extends State<FilterPage> {
   Widget _buildSelectableButton(String label, String category, VoidCallback onTap) {
     final isSelected = (category == 'marital_status' && marital_status == label) ||
         (category == 'occupation_type' && occupation_type == label);
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
     return GestureDetector(
       onTap: () {
         setState(onTap);
       },
       child:Container(
-        margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-        padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+        margin: EdgeInsets.symmetric(horizontal: width*0.02, vertical: height*0.04),
+        padding: EdgeInsets.symmetric(horizontal: width*0.04, vertical: height*0.014),
         decoration: BoxDecoration(
           color: isSelected
               ? MyMateThemes.primaryColor
               : MyMateThemes.secondaryColor,
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(width*0.01),
         ),
         child: Text(
           label,
           style: TextStyle(
             color: isSelected ? Colors.white : MyMateThemes.primaryColor,
-            fontSize: 14.0,
+            fontSize: width*0.035,
           ),
         ),
       ),
@@ -503,26 +516,30 @@ class _FilterPageState extends State<FilterPage> {
   }
 
   Widget _buildText(TextEditingController controller, String hintText) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
     return Column(
       children: [
         Container(
           decoration: BoxDecoration(
             color: MyMateThemes.secondaryColor,
-            borderRadius: BorderRadius.circular(8.0),
+            borderRadius: BorderRadius.circular(width*0.01),
           ),
-          width: 100,
-          height: 37, // Increased height to accommodate TextField
+          width: width*0.3,
+          height: height*0.05, // Increased height to accommodate TextField
           child: Padding(
-            padding: const EdgeInsets.all(3.0),
+            padding: EdgeInsets.symmetric(horizontal:width*0.02),
             child: TextField(
               controller: controller,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 enabledBorder: InputBorder.none,
                 focusedBorder: InputBorder.none,
-                contentPadding: EdgeInsets.all(8.0), // Adjust padding as needed
+                contentPadding: EdgeInsets.symmetric(horizontal:width*0.02,vertical:height*0.012), // Adjust padding as needed
                 hintText: hintText,
-              ),
+                hintStyle:
+                TextStyle(color: MyMateThemes.textColor.withOpacity(0.7)),              ),
               onChanged: (value) {
                 setState(() {}); // Rebuild to show suggestion tag
               },

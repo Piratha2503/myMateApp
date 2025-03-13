@@ -46,46 +46,76 @@ class _OtpPinputState extends State<OtpPinput> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Form(
-        key: formKey,
-        child:Column(
-            children: <Widget>[
-              InstructionTexts(widget.clientData.contactInfo?.mobile),
-              SizedBox( height: 90,),
-              OtpBoxes(clientData: widget.clientData,),
-              SizedBox( height: 65,),
-              OtpResend(),
-              SizedBox( height: 50, ),
-            ]
-        ),
+      backgroundColor: Colors.white,
+      body: SafeArea(child:
+      LayoutBuilder(
+          builder: (context, constraints) {
+            double width = constraints.maxWidth;
+            double height = constraints.maxHeight;
+          return Form(
+            key: formKey,
+            child:Column(
+                children: <Widget>[
+                  SizedBox( height: height*0.1),
+                  InstructionTexts(widget.clientData.contactInfo?.mobile),
+                  SizedBox( height:height*0.12),
+                  OtpBoxes(clientData: widget.clientData,),
+                  SizedBox( height:height*0.05),
+                  OtpResend(),
+                  SizedBox( height: 50, ),
+                ]
+            ),
 
+          );
+        }
       ),
+      ),
+
+
+
     );
   }
 }
 
 Widget InstructionTexts(String? mobile){
-  return Column(
-    children: <Widget>[
-      Text(
-        "Enter your Pin number",
-        style: TextStyle(
-          fontSize: 20,
-          fontFamily: "Work Sans",
-          fontWeight: FontWeight.w500,
-        ),
-      ),
-      SizedBox( height: 15,),
-      Text("Enter the code from the sms we sent", style: MyTextStyle(),),
-      Text("to $mobile", style: MyTextStyle(),),
-    ],
+  return LayoutBuilder(
+      builder: (context, constraints) {
+        double width = constraints.maxWidth;
+        double height = constraints.maxHeight;
+      return Column(
+        children: <Widget>[
+          Text(
+            "Enter verification code",
+            style: TextStyle(
+              fontSize: width*0.05,
+              color: MyMateThemes.textColor,
+              fontFamily: "Work Sans",
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        SizedBox(height: 10),
+          Text("Enter the code from the sms we sent",
+              style: TextStyle(
+                  color: MyMateThemes.textColor,
+                  fontSize: width*0.04
+              )),
+          Text("to $mobile", style: TextStyle(
+        color: MyMateThemes.textColor,
+        fontSize: width*0.04
+        ),),
+        ],
+      );
+    }
   );
 }
 
 class OtpBoxes extends StatefulWidget{
   final ClientData clientData;
+
+
   const OtpBoxes({required this.clientData,super.key});
+
+
 
   @override
   State<OtpBoxes> createState() => _OtpBoxesState();
@@ -102,88 +132,132 @@ class _OtpBoxesState extends State<OtpBoxes>{
     super.initState();
   }
 
-  static const focusedBorderColor = Color.fromRGBO(23, 171, 144, 1);
-  static const fillColor = Color.fromRGBO(243, 246, 249, 0);
-  static const borderColor = Color.fromRGBO(23, 171, 144, 0.4);
+  static const focusedBorderColor =MyMateThemes.primaryColor;
+  static const fillColor =Colors.white;
+  static const borderColor = MyMateThemes.textColor;
+  static const textColor = MyMateThemes.textColor;
 
-  final defaultPinTheme = PinTheme(
+  final defaultPinTheme =
+  PinTheme(
     width: 65,
     height: 65,
-    textStyle: const TextStyle(
+    textStyle:  TextStyle(
         fontSize: 24,
         fontWeight: FontWeight.w600,
-        color: Colors.deepPurple
+        color: MyMateThemes.primaryColor,
     ),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10),
-      border: Border.all(color: Colors.indigo,width: 1),
+      border: Border.all(color: MyMateThemes.primaryColor,width: 1),
     ),
   );
+
+  final defaultTextTheme =
+  PinTheme(
+    width: 65,
+    height: 65,
+    textStyle:  TextStyle(
+      fontSize: 24,
+      fontWeight: FontWeight.w600,
+      color: MyMateThemes.textColor,
+    ),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(10),
+      border: Border.all(color: MyMateThemes.primaryColor,width: 1),
+    ),
+
+  );
+
 
   @override
   Widget build(BuildContext context){
     String otp = "${widget.clientData.contactInfo?.otp}";
-
-    return Directionality(
-      textDirection: TextDirection.ltr,
-      child: Pinput(
-        defaultPinTheme: defaultPinTheme,
-        separatorBuilder: (index) => const SizedBox(width: 12),
-        validator: (value) {
-          return value == otp ? null : 'Incorrect Pin';
-        },
-        hapticFeedbackType: HapticFeedbackType.lightImpact,
-        onCompleted: (pin) {
-          if(pin == otp) {
-            debugPrint('onCompleted: $pin');
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>NameAndGender(clientData: widget.clientData, docId:  widget.clientData.docId ?? "Unknown",)));
-          }
-        },
-        onChanged: (pin) {
-          debugPrint('onChanged: $pin');
-        },
-        cursor: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            Container(
-              margin: const EdgeInsets.only(bottom: 9),
-              width: 30,
-              height: 3,
-              color: Colors.indigo,
+    return
+    LayoutBuilder(
+        builder: (context, constraints) {
+          double width = constraints.maxWidth;
+          double height = constraints.maxHeight;
+        return Directionality(
+          textDirection: TextDirection.ltr,
+          child: Pinput(
+            defaultPinTheme: defaultPinTheme,
+            separatorBuilder: (index) => SizedBox(width: width*0.02),
+            validator: (value) {
+              return value == otp ? null : 'Incorrect Pin';
+            },
+            hapticFeedbackType: HapticFeedbackType.lightImpact,
+            onCompleted: (pin) {
+              if(pin == otp) {
+                debugPrint('onCompleted: $pin');
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>NameAndGender(clientData: widget.clientData, docId:  widget.clientData.docId ?? "Unknown",)));
+              }
+            },
+            onChanged: (pin) {
+              debugPrint('onChanged: $pin');
+            },
+            cursor: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                Container(
+                  margin: const EdgeInsets.only(bottom: 9),
+                  width:width*0.03,
+                  height: height*0.01,
+                  color: MyMateThemes.textColor,
+                ),
+              ],
             ),
-          ],
-        ),
-        focusedPinTheme: defaultPinTheme.copyWith(
-          decoration: defaultPinTheme.decoration!.copyWith(
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: MyMateThemes.primaryColor,width: 3),
+            focusedPinTheme: defaultPinTheme.copyWith(
+              decoration: defaultPinTheme.decoration!.copyWith(
+                borderRadius: BorderRadius.circular(width*0.02),
+                border: Border.all(color: MyMateThemes.primaryColor,width: width*0.005),
+              ),
+            ),
+            submittedPinTheme: defaultPinTheme.copyWith(
+              decoration: defaultPinTheme.decoration!.copyWith(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(width*0.02),
+                border: Border.all(color: focusedBorderColor, width:width*0.005),
+              ),
+            ),
+            errorPinTheme: defaultTextTheme.copyBorderWith(
+
+              border: Border.all(color: Colors.red),
+            ),
           ),
-        ),
-        submittedPinTheme: defaultPinTheme.copyWith(
-          decoration: defaultPinTheme.decoration!.copyWith(
-            color: Color.fromRGBO(232,232,232,100),
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: focusedBorderColor, width: 2),
-          ),
-        ),
-        errorPinTheme: defaultPinTheme.copyBorderWith(
-          border: Border.all(color: Colors.redAccent),
-        ),
-      ),
+        );
+      }
     );
   }
 }
 
 Widget OtpResend(){
-  return Center(
-    child:  Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Text( "Resend OTP again in ", style: TextStyle( fontSize: 20,),),
-        Text( "01.44", style: TextStyle( fontSize: 20, fontWeight: FontWeight.bold, color: MyMateThemes.textColor),
-        )
-      ],
-    ),
+  return LayoutBuilder(
+      builder: (context, constraints) {
+        double width = constraints.maxWidth;
+        double height = constraints.maxHeight;
+      return Center(
+        child:  Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              "Resend OTP again in ",
+              style: TextStyle(
+                  fontSize:width*0.05,
+                  color: MyMateThemes.textColor
+              ),
+            ),
+          Text(
+            " 01.44",
+            style: TextStyle(
+                fontSize: width*0.05,
+                fontWeight: FontWeight.bold,
+                color: MyMateThemes.primaryColor),
+          ),
+
+          ],
+        ),
+      );
+    }
   );
 }
 

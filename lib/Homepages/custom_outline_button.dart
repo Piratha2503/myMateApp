@@ -20,46 +20,50 @@ class CustomOutlineButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OutlinedButton(
-      onPressed: onPressed,
-      style: ButtonStyle(
-        foregroundColor: MaterialStateProperty.all(
-          isSelected
-              ? MyMateThemes.secondaryColor
-              : MyMateThemes.containerColor,
-        ),
-        backgroundColor: MaterialStateProperty.all(
-          isSelected
-              ? MyMateThemes.secondaryColor
-              : MyMateThemes.containerColor,
-        ),
-        shape: MaterialStateProperty.all(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.zero,
-          ),
-        ),
-        side: MaterialStateProperty.all(BorderSide.none),
-        minimumSize: MaterialStateProperty.all(Size(103.31, 40)),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          SvgPicture.asset(
-            assetPath,
-            width: 18.29,
-            height: 18.29,
-          ),
-          SizedBox(width: 4),
-          Text(
-            label,
-            style: TextStyle(
-              color: MyMateThemes.primaryColor,
-              fontSize: 10,
-              fontWeight: FontWeight.normal,
+
+        double screenWidth = MediaQuery.of(context).size.width;
+        double screenHeight = MediaQuery.of(context).size.height;
+
+        double buttonWidth = screenWidth * 0.05; // Adjust width based on screen size
+        double buttonHeight = screenHeight * 0.05; // Keep height fixed or adjust as needed
+        double iconSize = screenWidth * 0.04; // Scales icon size dynamically
+        double fontSize = screenWidth * 0.027; // Scales font size dynamically
+
+        return OutlinedButton(
+          onPressed: onPressed,
+          style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.all(
+              isSelected ? MyMateThemes.secondaryColor : MyMateThemes.containerColor,
             ),
+            backgroundColor: MaterialStateProperty.all(
+              isSelected ? MyMateThemes.secondaryColor : MyMateThemes.containerColor,
+            ),
+            shape: MaterialStateProperty.all(
+              RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+            ),
+            side: MaterialStateProperty.all(BorderSide.none),
+            minimumSize: MaterialStateProperty.all(Size(buttonWidth, buttonHeight)),
           ),
-        ],
-      ),
-    );
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                assetPath,
+                width: iconSize,
+                height: iconSize,
+              ),
+              SizedBox(width: screenWidth * 0.01), // Adjust spacing dynamically
+              Text(
+                label,
+                style: TextStyle(
+                  color: MyMateThemes.primaryColor,
+                  fontSize: fontSize,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ],
+          ),
+        );
+
   }
 }

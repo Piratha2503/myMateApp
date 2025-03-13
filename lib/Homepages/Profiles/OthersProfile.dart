@@ -1,5 +1,4 @@
 import 'dart:convert';
-import '../notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mymateapp/MyMateThemes.dart';
@@ -7,12 +6,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../../MyMateCommonBodies/MyMateApis.dart';
 import '../../MyMateCommonBodies/MyMateBottomBar.dart';
+import '../ProfilePageScreen/MyProfileStatelessWidgets.dart';
 import '../checkMatchPages/CheckMatch.dart';
 import '../ProfilePageScreen/navamsaChartDesign.dart';
 import '../ProfilePageScreen/photoGalleryPage.dart';
 import '../ProfilePageScreen/rasiChartDesign.dart';
 import '../custom_outline_button.dart';
 import '../explorePage/explorePageMain.dart';
+import 'menuPage.dart';
 
 class OtherProfilePage extends StatefulWidget {
   final String SoulId;
@@ -51,8 +52,16 @@ class _OtherProfilePageState extends State<OtherProfilePage>
   final ScrollController _scrollController = ScrollController();
   List<TextEditingController> controllers = [];
   bool isLoading = true;
+  bool isBookmarked = false; // Track bookmark state
 
   String _notificationStatus ="";
+
+
+  final GlobalKey _anchorKey1 = GlobalKey();
+  final GlobalKey _anchorKey2 = GlobalKey();
+  final GlobalKey _anchorKey3 = GlobalKey();
+
+
 
   Future<String?> getSavedDocId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -86,11 +95,11 @@ class _OtherProfilePageState extends State<OtherProfilePage>
         _checkNotificationStatus();
 
         // String? receiverToken = 'eZSq6wLcQUy7bb4-ykFkfG:APA91bGlLxNqvzOJO4pXrgnIx7XJKEvIHVxboz6WM6hJOz8kyr2ETQR0oVukTCmH6NKQ9v9jTSu7qFOEd56d-obZ9i32OuA4XjXCI1leTVfBUIFW2vWwUIA';
-       // await _fetchFCMToken(receiverDocId);
+        // await _fetchFCMToken(receiverDocId);
 
-        if (receiverToken != null) {
-          await NotificationService.sendPushNotification(receiverToken, senderName, status);
-        }
+        // if (receiverToken != null) {
+        //   await NotificationService.sendPushNotification(receiverToken, senderName, status);
+        // }
 
       } else {
         print("Failed to update notification status. Status code: ${response.statusCode}");
@@ -236,54 +245,116 @@ class _OtherProfilePageState extends State<OtherProfilePage>
   }
 
   void _scrollListener() {
-    double containerHeight = 620.0;
-    int newIndex = (_scrollController.offset / containerHeight).floor();
-    if (newIndex != _selectedButtonIndex) {
-      setState(() {
-        _selectedButtonIndex = newIndex;
-      });
+    List<GlobalKey> anchorKeys = [_anchorKey1, _anchorKey2, _anchorKey3];
+
+    for (int i = 0; i < anchorKeys.length; i++) {
+      BuildContext? context = anchorKeys[i].currentContext;
+      if (context != null) {
+        RenderObject? renderObject = context.findRenderObject();
+        if (renderObject != null) {
+          RenderBox box = renderObject as RenderBox;
+          Offset position = box.localToGlobal(Offset.zero);
+
+          // Check if this anchor is within the viewport
+          if (position.dy >= 0 && position.dy < MediaQuery.of(context).size.height / 2) {
+            if (_selectedButtonIndex != i) {
+              setState(() {
+                _selectedButtonIndex = i;
+              });
+            }
+            break; // Stop checking further once the first visible anchor is found
+          }
+        }
+      }
     }
   }
 
-  void _scrollToContainer(int index) {
-    double containerHeight = 550.0;
-    double targetPosition = index * containerHeight - containerHeight / 2;
-    _scrollController.animateTo(
-      targetPosition,
-      duration: Duration(milliseconds: 500),
-      curve: Curves.easeInOut,
-    );
+
+  void _scrollToContainer(GlobalKey anchorKey) {
+    BuildContext? context = anchorKey.currentContext;
+    if (context != null) {
+      RenderObject? renderObject = context.findRenderObject();
+      if (renderObject != null) {
+        RenderBox box = renderObject as RenderBox;
+        Offset position = box.localToGlobal(Offset.zero);
+        double targetOffset = position.dy + _scrollController.offset;
+
+        _scrollController.animateTo(
+          targetOffset - 50, // Adjust for padding if needed
+          duration: Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+        );
+      }
+    }
   }
 
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      backgroundColor: MyMateThemes.backgroundColor,
+      backgroundColor: Colors.white,
       automaticallyImplyLeading: false,
       title: SafeArea(
         child: Row(
+          mainAxisSize: MainAxisSize.min, // Prevent Row from taking extra space
           children: [
+            // Back Button (SVG)
             GestureDetector(
               onTap: () {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ExplorePage(
-                          results: [],
-                          initialTabIndex: 0,
-                          search: [],
-                          docId: '',
-                        )));
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ExplorePage(
+                      results: [],
+                      initialTabIndex: 0,
+                      search: [],
+                      docId: '',
+                    ),
+                  ),
+                );
               },
-              child: SvgPicture.asset('assets/images/chevron-left.svg'),
+              child: SvgPicture.asset(
+                'assets/images/chevron-left.svg',
+                height: MediaQuery.of(context).size.height * 0.02,
+              ),
             ),
-            SizedBox(width: 90.0),
+
+            SizedBox(width: MediaQuery.of(context).size.width * 0.02), // Small spacing
+            Spacer(), // Pushes icons to the right
+
+            // Profile Name
             Text(
               "@ $full_name",
               style: TextStyle(
                 color: MyMateThemes.textColor,
                 fontWeight: FontWeight.bold,
-                fontSize: 20,
+                fontSize: MediaQuery.of(context).size.width * 0.05,
               ),
+            ),
+
+            Spacer(), // Pushes icons to the right
+
+            // Bookmark Icon
+            IconButton(
+              icon: Icon(
+                isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+                color: MyMateThemes.primaryColor,
+              ),
+              onPressed: () {
+                setState(() {
+                  isBookmarked = !isBookmarked;
+                });
+              },
+            ),
+
+            // Kebab Menu (Three Dots)
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => MenuPage(docId: '',)));
+
+              },
+              icon: Icon(Icons.more_vert, color: MyMateThemes.primaryColor),
             ),
           ],
         ),
@@ -294,32 +365,57 @@ class _OtherProfilePageState extends State<OtherProfilePage>
   Widget _buildProfileInfo() {
     return Column(
       children: [
-        GestureDetector(
-          onTap: _toggleSize,
-          child: AnimatedContainer(
-            duration: Duration(milliseconds: 500),
-            curve: Curves.easeInOut,
-            height: _isSmall ? 50 : 230,
-            alignment: _isSmall ? Alignment(-1.2, 1.0) : Alignment.center,
-            child: profilePictureUrl.isNotEmpty
-                ? ClipOval(
-              child: Image.network(
-                profilePictureUrl,
-                fit: BoxFit.cover,
-                height: _isSmall ? 50 : 230,
-                width: _isSmall ? 50 : 230,
-                errorBuilder: (context, error, stackTrace) {
-                  return Icon(Icons.error, size: _isSmall ? 50 : 230);
-                },
-                loadingBuilder: (context, child, progress) {
-                  if (progress == null) return child;
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                },
+        Container(
+          height: MediaQuery.of(context).size.height * 0.3,
+          width: MediaQuery.of(context).size.width * 0.5,
+          child: Center(
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.25,
+              width: MediaQuery.of(context).size.width * 0.5,
+              // decoration: BoxDecoration(
+              //   borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.25),
+              //   color: MyMateThemes.secondaryColor,
+              // ),
+              child: Center(
+                child: AnimatedContainer(
+                  duration: Duration(milliseconds: 500),
+                  curve: Curves.easeInOut,
+                  height: _isSmall ? 50 : 230,
+
+                  alignment: _isSmall ? Alignment(-0.8, 1.0) : Alignment.center,
+                  child: profilePictureUrl.isNotEmpty
+                      ? ClipOval(
+                    child: Image.network(
+                      profilePictureUrl,
+                      fit: BoxFit.cover,
+                      height: _isSmall ? 50 : 230,
+
+                      width: _isSmall
+                          ? MediaQuery.of(context).size.width * 0.15
+                          : MediaQuery.of(context).size.width * 0.45,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Icon(
+                          Icons.error,
+                          size: _isSmall
+                              ? MediaQuery.of(context).size.width * 0.15
+                              : MediaQuery.of(context).size.width * 0.45,
+                        );
+                      },
+                      loadingBuilder: (context, child, progress) {
+                        if (progress == null) return child;
+                        return Center(child: CircularProgressIndicator());
+                      },
+                    ),
+                  )
+                      : Icon(
+                    Icons.account_circle,
+                    size: _isSmall
+                        ? MediaQuery.of(context).size.width * 0.2
+                        : MediaQuery.of(context).size.width * 0.5,
+                  ),
+                ),
               ),
-            )
-                : Icon(Icons.account_circle, size: _isSmall ? 50 : 230),
+            ),
           ),
         ),
         GestureDetector(
@@ -330,7 +426,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
                 full_name,
                 style: TextStyle(
                   color: MyMateThemes.primaryColor,
-                  fontSize: 20,
+                  fontSize: MediaQuery.of(context).size.width * 0.05,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -338,7 +434,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
                 'Special Mention (Optional)',
                 style: TextStyle(
                   color: MyMateThemes.textColor,
-                  fontSize: 14,
+                  fontSize: MediaQuery.of(context).size.width * 0.035,
                 ),
               ),
             ],
@@ -350,25 +446,27 @@ class _OtherProfilePageState extends State<OtherProfilePage>
 
   Widget _buildIconWithText(String iconPath, String text1, String text2) {
     return Container(
-      width: 120,
-      height: 72,
+      width: MediaQuery.of(context).size.width * 0.28,
+      height: MediaQuery.of(context).size.height * 0.1,
       foregroundDecoration: BoxDecoration(
         border: Border(
           right: BorderSide(
             color: MyMateThemes.secondaryColor,
-            width: 2,
+            width: MediaQuery.of(context).size.width * 0.005,
           ),
         ),
       ),
       child: Column(
         children: [
-          SvgPicture.asset(iconPath),
-          SizedBox(height: 5),
+          SvgPicture.asset(iconPath,
+            width: MediaQuery.of(context).size.width * 0.08,
+            height: MediaQuery.of(context).size.width * 0.08,),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.007),
           Text(
             text1,
             style: TextStyle(
               color: MyMateThemes.textColor,
-              fontSize: 12,
+              fontSize: MediaQuery.of(context).size.width * 0.028,
               fontWeight: FontWeight.normal,
             ),
           ),
@@ -376,7 +474,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
             text2,
             style: TextStyle(
               color: MyMateThemes.primaryColor,
-              fontSize: 10,
+              fontSize: MediaQuery.of(context).size.width * 0.028,
               fontWeight: FontWeight.normal,
             ),
           ),
@@ -425,38 +523,54 @@ class _OtherProfilePageState extends State<OtherProfilePage>
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        ElevatedButton(
-          onPressed: buttonAction,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: buttonAction == null
-                ? Colors.grey
-                : MyMateThemes.primaryColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5.0),
+      SizedBox(
+       height:MediaQuery.of(context).size.height * 0.06 ,
+       width: MediaQuery.of(context).size.width * 0.35,
+          child: ElevatedButton(
+            onPressed: buttonAction,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: buttonAction == null
+                  ? Colors.grey
+                  : MyMateThemes.primaryColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.025),
+              ),
+              padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.05,
+                vertical: MediaQuery.of(context).size.height * 0.015,
+              ),
+              foregroundColor: Colors.white,
             ),
-            foregroundColor: Colors.white,
+            child: Text(buttonText),
           ),
-          child: Text(buttonText),
         ),
         SizedBox(width: 30),
-        ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => CheckmatchPage(
-                    soulDocId: widget.SoulId,
-                    clientDocId: 'E0JFHhK2x6Gq2Ac6XSyP',
-                  )),
-            );
-          },
-          style: ElevatedButton.styleFrom(
-              backgroundColor: MyMateThemes.primaryColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5.0),
-              ),
-              foregroundColor: Colors.white),
-          child: Text('Check Match'),
+        SizedBox(
+          height:MediaQuery.of(context).size.height * 0.06 ,
+          width: MediaQuery.of(context).size.width * 0.35,
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CheckmatchPage(
+                      soulDocId: widget.SoulId,
+                      clientDocId: 'E0JFHhK2x6Gq2Ac6XSyP',
+                    )),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+                backgroundColor: MyMateThemes.primaryColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.025),
+                ),
+                padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width * 0.05,
+                  vertical: MediaQuery.of(context).size.height * 0.015,
+                ),
+                foregroundColor: Colors.white),
+            child: Text('Check Match'),
+          ),
         ),
       ],
     );
@@ -488,14 +602,18 @@ class _OtherProfilePageState extends State<OtherProfilePage>
   Widget _buildSectionTitle(String title) {
     return Row(
       children: [
-        SizedBox(width: 40),
-        SvgPicture.asset('assets/images/Group 2148.svg'),
-        SizedBox(width: 4),
+        SizedBox(width: MediaQuery.of(context).size.width * 0.1),
+        SvgPicture.asset(
+          'assets/images/Group 2148.svg',
+          width: MediaQuery.of(context).size.width * 0.05,
+          height: MediaQuery.of(context).size.width * 0.05,
+        ),        SizedBox(width: 4),
+        SizedBox(width: MediaQuery.of(context).size.width * 0.01),
         Text(
           title,
           style: TextStyle(
             color: MyMateThemes.primaryColor,
-            fontSize: 16,
+            fontSize: MediaQuery.of(context).size.width * 0.045,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -513,9 +631,10 @@ class _OtherProfilePageState extends State<OtherProfilePage>
     return FutureBuilder<Map<String, dynamic>>(
         future: fetchUserById(widget.SoulId),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
+          // if (snapshot.connectionState == ConnectionState.waiting) {
+          //   return Center(child: CircularProgressIndicator());
+          // }
+           if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return Center(child: Text('No data available'));
@@ -524,20 +643,25 @@ class _OtherProfilePageState extends State<OtherProfilePage>
           final data = snapshot.data!;
 
           return Container(
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
+            padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * 0.05,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: 20),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.025),
                 _buildSectionTitle('About me'),
-                SizedBox(height: 5),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.007),
                 Row(
                   children: [
-                    SizedBox(width: 40),
-                    SvgPicture.asset('assets/images/Line 11.svg'),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.08),
+                    SvgPicture.asset(
+                      'assets/images/Line 11.svg',
+                      width: MediaQuery.of(context).size.width * 0.3,
+                    ),
                   ],
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.012),
                 _buildInfoRow('Full Name', data['full_name'] ?? 'N/A'),
                 _buildInfoRow('Education', data['education'] ?? 'N/A'),
                 _buildInfoRow('Height', '${data['height'] ?? 'N/A'} CM'),
@@ -551,22 +675,23 @@ class _OtherProfilePageState extends State<OtherProfilePage>
                 _buildInfoRow('Date of Birth', data['dob']?.toString() ?? 'N/A'),
                 _buildInfoRow('Mobile', data['contact'] ?? 'N/A'),
                 _buildInfoRow('Address', data['address'] ?? 'N/A'),
-                SizedBox(height: 20),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.045),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    SizedBox(width: 40),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.1),
                     Text(
                       'Expectations',
                       style: TextStyle(
                         color: MyMateThemes.textColor,
-                        fontSize: 20,
+                        fontSize: MediaQuery.of(context).size.width * 0.05,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+
                 _buildExpectations(),
               ],
             ),
@@ -575,51 +700,50 @@ class _OtherProfilePageState extends State<OtherProfilePage>
   }
 
   Widget _buildInfoRow(String title, String value) {
+    double containerWidth = MediaQuery.of(context).size.width * 0.8;
+    double containerHeight = MediaQuery.of(context).size.height * 0.05;
+    double fontSize = MediaQuery.of(context).size.width * 0.04;
+
     return Container(
-      height: 34,
-      width: 297,
-      margin: EdgeInsets.symmetric(vertical: 5.0),
-      padding: EdgeInsets.symmetric(horizontal: 8.0),
+      height: containerHeight,
+      width: containerWidth,
+      margin: EdgeInsets.symmetric(vertical: containerHeight * 0.13),
+      padding: EdgeInsets.all(containerHeight * 0.2),
       decoration: BoxDecoration(
-        color: MyMateThemes.containerColor,
-        borderRadius: BorderRadius.circular(5.0),
+        border: Border.all(
+          color: MyMateThemes.textColor.withOpacity(0.2),
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(containerWidth * 0.01), // Dynamic border radius
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            width: 120,
-            child: Text(
-              title,
-              style: TextStyle(
-                color: MyMateThemes.textColor,
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-              ),
-              overflow: TextOverflow.ellipsis,
+          Text(
+            title,
+            style: TextStyle(
+              color: MyMateThemes.textColor,
+              fontWeight: FontWeight.bold,
+              fontSize: fontSize,
             ),
           ),
-          SizedBox(width: 50),
-          Expanded(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Text(
-                value,
-                style: TextStyle(
-                  color: MyMateThemes.textColor,
-                  fontSize: 14,
-                  fontWeight: FontWeight.normal,
-                ),
-                softWrap: false,
-                overflow: TextOverflow.visible,
-              ),
+          Text(
+            value,
+            style: TextStyle(
+              color: MyMateThemes.textColor,
+              fontSize: fontSize,
+              fontWeight: FontWeight.normal,
             ),
           ),
         ],
       ),
-    );
-  }
+    );  }
 
   Widget _buildExpectations() {
+    double containerWidth = MediaQuery.of(context).size.width * 0.8;
+    double containerHeight = MediaQuery.of(context).size.height * 0.05;
+    double fontSize = MediaQuery.of(context).size.width * 0.04;
+
     return Column(
       children: List.generate(
         controllers.length,
@@ -627,13 +751,16 @@ class _OtherProfilePageState extends State<OtherProfilePage>
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Center(
             child: Container(
-              height: 34,
-              width: 297,
-              margin: EdgeInsets.symmetric(vertical: 5.0),
-              padding: EdgeInsets.all(8.0),
+              height: containerHeight,
+              width: containerWidth,
+              margin: const EdgeInsets.symmetric(vertical: 5.0),
+              padding: const EdgeInsets.all(8.0),
               decoration: BoxDecoration(
-                color: MyMateThemes.containerColor,
-                borderRadius: BorderRadius.circular(5.0),
+                border: Border.all(
+                  color: MyMateThemes.textColor.withOpacity(0.2),
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.circular(containerWidth * 0.01), // Dynamic border radius
               ),
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -642,7 +769,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
                   style: TextStyle(
                     color: MyMateThemes.textColor,
                     fontWeight: FontWeight.bold,
-                    fontSize: 14,
+                    fontSize: fontSize,
                   ),
                   softWrap: false,
                   overflow: TextOverflow.visible,
@@ -681,19 +808,24 @@ class _OtherProfilePageState extends State<OtherProfilePage>
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    final screenWidth = mediaQuery.size.width;
+    final screenHeight = mediaQuery.size.height;
+
     return Scaffold(
-      backgroundColor: MyMateThemes.backgroundColor,
+      backgroundColor:Colors.white,
       appBar: _buildAppBar(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Expanded(
-            child: SingleChildScrollView(
+            child:
+            SingleChildScrollView(
               controller: _scrollController,
               child: Column(
                 children: [
                   _buildProfileInfo(),
-                  SizedBox(height: 20),
+                  SizedBox(height: screenHeight * 0.04),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -703,9 +835,9 @@ class _OtherProfilePageState extends State<OtherProfilePage>
                       _buildIconWithText('assets/images/Group 2147.svg', city, '$country'),
                     ],
                   ),
-                  SizedBox(height: 30),
+                  SizedBox(height: screenHeight * 0.03),
                   _buildActionButtons(),
-                  SizedBox(height: 30),
+                  SizedBox(height: screenHeight * 0.03),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -714,34 +846,39 @@ class _OtherProfilePageState extends State<OtherProfilePage>
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           GestureDetector(
-                            child: SvgPicture.asset('assets/images/Group 2196.svg'),
+                            child: SvgPicture.asset('assets/images/Group 2196.svg', width: screenWidth * 0.13,height:screenHeight * 0.25 ,),
                             onTap: () {
-                              setState(() {
-                                _selectedButtonIndex = 0;
-                              });
-                              _scrollToContainer(1);
+
+
+                              // setState(() {
+                              //   _selectedButtonIndex = 0;
+                              // });
+                              _scrollToContainer(_anchorKey1);
+                              ;
                             },
                           ),
-                          SizedBox(width: 30),
+                          SizedBox(width: screenWidth * 0.03),
                           Column(
                             children: [
                               GestureDetector(
-                                child: SvgPicture.asset('assets/images/Group 2192.svg'),
+                                child: SvgPicture.asset('assets/images/Group 2192.svg', width: screenWidth * 0.13,height:screenHeight * 0.12 ),
                                 onTap: () {
-                                  setState(() {
-                                    _selectedButtonIndex = 1;
-                                  });
-                                  _scrollToContainer(2);
+                                  // setState(() {
+                                  //   _selectedButtonIndex = 1;
+                                  // });
+                                  _scrollToContainer(_anchorKey2);
+                                  ;
                                 },
                               ),
-                              SizedBox(height: 16),
+                              SizedBox(height: screenHeight * 0.02),
                               GestureDetector(
-                                child: SvgPicture.asset('assets/images/Group 2197.svg'),
+                                child: SvgPicture.asset('assets/images/Group 2197.svg', width: screenWidth * 0.13,height:screenHeight * 0.12),
                                 onTap: () {
-                                  setState(() {
-                                    _selectedButtonIndex = 2;
-                                  });
-                                  _scrollToContainer(3);
+                                  // setState(() {
+                                  //   _selectedButtonIndex = 2;
+                                  // });
+                                  _scrollToContainer(_anchorKey3);
+                                  ;
                                 },
                               ),
                             ],
@@ -750,129 +887,38 @@ class _OtherProfilePageState extends State<OtherProfilePage>
                       ),
                     ],
                   ),
-                  SizedBox(height: 40),
-                  _buildSectionTitle("Astrology"),
-                  SizedBox(height: 10),
-                  Row(
-                    children: [
-                      SizedBox(width: 40),
-                      SvgPicture.asset('assets/images/Line 11.svg'),
-                    ],
-                  ),
-                  SizedBox(height: 25),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 140,
-                        height: 172,
-                        margin: EdgeInsets.symmetric(vertical: 5.0),
-                        padding: EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(
-                          color: MyMateThemes.containerColor,
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              top: 10,
-                              left: 10,
-                              child: SvgPicture.asset('assets/images/Group.svg'),
-                            ),
-                            Positioned(
-                              bottom: 10,
-                              left: 5,
-                              child: Column(
-                                children: [
-                                  Text(
-                                    dob,
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        color: MyMateThemes.primaryColor,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                  Text(
-                                    dot,
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        color: MyMateThemes.textColor,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                  Text(
-                                    '$city, $country',
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        color: MyMateThemes.primaryColor,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(width: 15),
-                      Container(
-                        width: 140,
-                        height: 172,
-                        margin: EdgeInsets.symmetric(vertical: 5.0),
-                        padding: EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(
-                          color: MyMateThemes.primaryColor,
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              top: 8,
-                              left: 6.5,
-                              child: SvgPicture.asset('assets/images/Group 2217.svg'),
-                            ),
-                            Positioned(
-                              bottom: 0,
-                              left: 48,
-                              child: Column(
-                                children: [
-                                  Text(
-                                    natchathiram,
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                  Text(
-                                    rasi,
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 40),
+                  SizedBox(height: screenHeight * 0.02),
+
                   _buildContainers(
                     children: [
-                      RasiChartDesign(),
-                      SizedBox(height: 40),
-                      NavamsaChartDesign(),
-                      SizedBox(height: 40),
+
+
+                      // 🌟 Add anchor point before Astrology section
+                      SizedBox(key: _anchorKey1),
+                      SizedBox(height: screenHeight * 0.06),
+                      AstrologySection(),
+
+
+                      // 🌟 Add anchor point before Profile Details section
+                      SizedBox(key: _anchorKey2),
+                      SizedBox(height: screenHeight * 0.06),
                       _buildProfileDetails(),
-                      SizedBox(height: 40),
+
+
+
+                      // 🌟 Add anchor point before Photo Gallery section
+                      SizedBox(key: _anchorKey3),
+                      SizedBox(height: screenHeight * 0.06),
+
                       PhotoGallery(docId: widget.SoulId),
-                      SizedBox(height: 40),
                     ],
                   ),
+
                 ],
               ),
             ),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: screenHeight * 0.02),
           Align(
             alignment: Alignment.center,
             child: Row(
@@ -884,42 +930,32 @@ class _OtherProfilePageState extends State<OtherProfilePage>
                   index: 0,
                   isSelected: isButtonSelected(0),
                   onPressed: () {
-                    setState(() {
-                      _selectedButtonIndex = 0;
-                    });
-                    _scrollToContainer(1);
+                    _scrollToContainer(_anchorKey1);
                   },
                 ),
-                SizedBox(width: 10),
+                SizedBox(width: screenWidth * 0.013),
                 CustomOutlineButton(
                   assetPath: 'assets/images/Group 2150.svg',
                   label: 'About me',
                   index: 1,
                   isSelected: isButtonSelected(1),
                   onPressed: () {
-                    setState(() {
-                      _selectedButtonIndex = 1;
-                    });
-                    _scrollToContainer(2);
+                    _scrollToContainer(_anchorKey2);
                   },
                 ),
-                SizedBox(width: 10),
+                SizedBox(width: screenWidth * 0.013),
                 CustomOutlineButton(
                   assetPath: 'assets/images/Group 2149.svg',
                   label: 'Photo Gallery',
                   index: 2,
                   isSelected: isButtonSelected(2),
                   onPressed: () {
-                    setState(() {
-                      _selectedButtonIndex = 2;
-                    });
-                    _scrollToContainer(3);
+                    _scrollToContainer(_anchorKey3);
                   },
                 ),
               ],
             ),
           ),
-          SizedBox(height: 10),
         ],
       ),
       bottomNavigationBar: _buildNavigationBar(),

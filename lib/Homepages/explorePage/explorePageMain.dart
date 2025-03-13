@@ -27,6 +27,7 @@ class ExplorePage extends StatefulWidget {
   _ExplorePageState createState() => _ExplorePageState();
 }
 
+
 class _ExplorePageState extends State<ExplorePage> with SingleTickerProviderStateMixin {
   // late Timer _debounce;
   int _selectedIndex = 1;
@@ -170,180 +171,189 @@ class _ExplorePageState extends State<ExplorePage> with SingleTickerProviderStat
 
   @override
   Widget build(BuildContext context) {
-    return
-      ScreenUtilInit(
-        designSize: const Size(390,844),
-        minTextAdapt: true,
-        splitScreenMode: true,
-        builder: (context, child) {
-          return FutureBuilder<String?>(
-            future: getSavedDocId(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Scaffold(
-                  body: Center(child: CircularProgressIndicator()),
-                );
-              } else if (snapshot.hasError) {
-                return Scaffold(
-                  body: Center(child: Text('Error loading docId')),
-                );
-              } else {
-                final docId = snapshot.data ?? '';
+    return FutureBuilder<String?>(
+      future: getSavedDocId(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        } else if (snapshot.hasError) {
+          return const Scaffold(
+            body: Center(child: Text('Error loading docId')),
+          );
+        } else {
+          final docId = snapshot.data ?? '';
 
-                return Scaffold(
-                  backgroundColor: Colors.white,
-                  body: NestedScrollView(
+          return LayoutBuilder(
+            builder: (context, constraints) {
+              double width = constraints.maxWidth;
+              double height = constraints.maxWidth;
 
-                    controller: _scrollController, // Use ScrollController for advanced control
-                    headerSliverBuilder: (context, innerBoxIsScrolled) {
 
-                      return [
-                        SliverAppBar(
-                          backgroundColor: Colors.white,
-                          floating: true, // Ensures the header reappears when scrolling up
-                          snap: true, // Snaps the header into view when scrolling up
-                          pinned: false, // Allows the entire header to scroll out of view
-                          automaticallyImplyLeading: false,
-                          //    title: ExplorePageAppBar(context, _openFilterPage),
-                          bottom: PreferredSize(
-                            preferredSize: Size.fromHeight(50.h), // Adjust height to accommodate additional widgets
-                            child: Column(
-                              children: [
-                                TabBar(
-                                  controller: _tabController,
-                                  labelStyle: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12.sp,
-                                    color: MyMateThemes.textColor,
-                                  ),
-                                  unselectedLabelStyle: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 11.sp,
-                                    color: MyMateThemes.textColor.withOpacity(0.8),
-                                  ),
-                                  dividerColor: Colors.transparent,
-                                  indicatorPadding: EdgeInsets.only(bottom: 6), // Adjust this for spacing
-                                  indicator: UnderlineTabIndicator(
-                                    borderSide: BorderSide(
-                                      width: 3, // Thickness of the line
-                                      color: MyMateThemes.textColor, // Line color
-                                    ),
-                                    borderRadius: BorderRadius.circular(10), // Rounded corners for the line
-                                  ),
-                                  labelPadding: EdgeInsets.symmetric(horizontal: 2.w),
-                                  tabs: [
-                                    Tab(text: 'Explore All'),
-                                    Tab(text: 'View Matches'),
-                                    Tab(text: 'Filter'),
-                                  ],
+              return Scaffold(
+                backgroundColor: Colors.white,
+                body: NestedScrollView(
+                  controller: _scrollController,
+                  headerSliverBuilder: (context, innerBoxIsScrolled) {
+                    return [
+                      SliverAppBar(
+                        backgroundColor: Colors.white,
+                        floating: true,
+                        snap: true,
+                        pinned: false,
+                        automaticallyImplyLeading: false,
+                        bottom: PreferredSize(
+                          preferredSize: Size.fromHeight( height*0.2),
+                          child: Column(
+                            children: [
+                              TabBar(
+                                controller: _tabController,
+                                labelStyle: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: width*0.036 ,
+                                  color: MyMateThemes.textColor,
                                 ),
-                                SizedBox(height: 2.h), // Add spacing below the TabBar
-                                if (_tabController.index == 2)
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 10.w),
-                                    child: ElevatedButton(
-
-                                      style: CommonButtonStyle.commonButtonStyle(),
-                                      onPressed: () {
-                                        if (isFilterApplied) {
-                                          _clearFilter(); // ✅ Clear filters when active
-                                        } else {
-                                          _openFilterPage(); // ✅ Open filter page when no filters applied
-                                        }
-                                      },
-                                      child: Text(isFilterApplied ? 'Clear Filter' : 'Apply Filter'),
-                                    ),
+                                unselectedLabelStyle: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: width*0.035 ,
+                                  color: MyMateThemes.textColor.withOpacity(0.8),
+                                ),
+                                dividerColor: Colors.transparent,
+                                indicatorPadding: EdgeInsets.only(bottom:width*0.01),
+                                // indicator: UnderlineTabIndicator(
+                                //   borderSide:  BorderSide(
+                                //     width: 3,
+                                //     color: MyMateThemes.textColor,
+                                //   ),
+                                //   borderRadius: BorderRadius.circular(10),
+                                // ),
+                               // labelPadding: const EdgeInsets.symmetric(horizontal: 8),
+                                tabs:  [
+                                  Tab(text: 'Explore All'),
+                                  Tab(text: 'View Matches'),
+                                  Tab(text: 'Filter'),
+                                ],
+                              ),
+                              //SizedBox(height: height*0.01),
+                              if (_tabController.index == 2)
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: width*0.04),
+                                  child: ElevatedButton(
+                                    style: CommonButtonStyle.commonButtonStyle(),
+                                    onPressed: () {
+                                      if (isFilterApplied) {
+                                        _clearFilter();
+                                      } else {
+                                        _openFilterPage();
+                                      }
+                                    },
+                                    child: Text(isFilterApplied ? 'Clear Filter' : 'Apply Filter'),
                                   ),
-                                if (_tabController.index != 2)
-                                  Container(
-                                      height: 35.h,
-                                      width: 353.w,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: MyMateThemes.textColor.withOpacity(0.1),
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(10),
+                                ),
+                              if (_tabController.index != 2)
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: width*0.035,vertical: height*0.02),
+                                  child: Container(
+                                    height: height*0.1,
+                                    width:  width * 0.86 ,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: MyMateThemes.textColor.withOpacity(0.1),
+                                        width: width*0.004,
                                       ),
-                                      child:
-                                      Padding(
-                                        padding:EdgeInsets.symmetric(horizontal: 1.w),
-                                        child:TextField(
-
-                                          controller: searchController,
-                                          cursorColor: MyMateThemes.textColor,
-                                          style: TextStyle(fontSize: 14.sp, color: MyMateThemes.textColor),
-                                          decoration: InputDecoration(
-                                            prefixIcon: Padding(
-                                              //  padding:EdgeInsets.symmetric(horizontal: 25.w), // Adjust padding if needed
-                                              padding: EdgeInsets.all(8.r), // Adjust padding if needed
-                                              child: SvgPicture.asset(
-                                                'assets/images/search.svg', // Update with your SVG path
-                                                colorFilter: ColorFilter.mode(
-                                                  MyMateThemes.textColor.withOpacity(0.6),
-                                                  BlendMode.srcIn,
-                                                ),
+                                      borderRadius: BorderRadius.circular(width*0.01),
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(horizontal:width*0.01,vertical: height*0.001 ),
+                                      child: TextField(
+                                        controller: searchController,
+                                        cursorColor: MyMateThemes.textColor,
+                                        style: TextStyle(
+                                          fontSize: width*0.05 ,
+                                          color: MyMateThemes.textColor,
+                                        ),
+                                        decoration: InputDecoration(
+                                          prefixIcon: Padding(
+                                            padding:  EdgeInsets.all(height*0.02),
+                                            child: SvgPicture.asset(
+                                              'assets/images/search.svg',
+                                              colorFilter: ColorFilter.mode(
+                                                MyMateThemes.textColor.withOpacity(0.6),
+                                                BlendMode.srcIn,
                                               ),
                                             ),
-                                            contentPadding: EdgeInsets.symmetric(vertical: 3.h), // Centers text vertically
-                                            border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(10.r),
-                                              borderSide: BorderSide.none,
-                                            ),
+                                          ),
+                                          contentPadding:  EdgeInsets.symmetric(vertical:height*0.01),
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(10),
+                                            borderSide: BorderSide.none,
                                           ),
                                         ),
-
-                                      )
+                                      ),
+                                    ),
                                   ),
-                              ],
-                            ),
+                                ),
+                            ],
                           ),
                         ),
-
-                      ];
-                    },
-                    body: TabBarView(
-                      controller: _tabController,
-                      children: [
-                        ExploreAllGrid(context, exploreAllFuture!),
-                        ViewMatchesGrid(context, Future.value(filteredResults)),
-                        FilterGrid(context, filteredResults),
-                      ],
-                    ),
+                      ),
+                    ];
+                  },
+                  body: TabBarView(
+                    controller: _tabController,
+                    children: [
+                      ExploreAllGrid(context, exploreAllFuture!),
+                      ViewMatchesGrid(context, Future.value(filteredResults)),
+                      FilterGrid(context, filteredResults),
+                    ],
                   ),
-                  bottomNavigationBar: CustomBottomNavigationBar(
-                    selectedIndex: _selectedIndex,
-                    onItemTapped: (index) {
-                      setState(() {
-                        _selectedIndex = index;
-                      });
-                      // Handle navigation here based on the index
-                    },
-                    docId: docId,
-                  ),
-                );
-              }
+                ),
+                bottomNavigationBar: CustomBottomNavigationBar(
+                  selectedIndex: _selectedIndex,
+                  onItemTapped: (index) {
+                    setState(() {
+                      _selectedIndex = index;
+                    });
+                  },
+                  docId: docId,
+                ),
+              );
             },
           );
-        },
-      );
+        }
+      },
+    );
   }
 
+
 }
 
-PreferredSizeWidget ExplorePageAppBar(BuildContext context, VoidCallback onFilterTap) {
-  return AppBar(
-    backgroundColor: Colors.white,
-    automaticallyImplyLeading: false,
-    actions: [
-      IconButton(
-        icon: SvgPicture.asset('assets/images/filter1.svg', width: 24.w, height: 24.h),
-        onPressed: onFilterTap,
-      ),
-      SizedBox(width: 10.w),
-    ],
+LayoutBuilder ExplorePageAppBar(BuildContext context, VoidCallback onFilterTap) {
+  return LayoutBuilder(
+    builder: (context, constraints) {
+      double width = constraints.maxWidth;
+      double height = constraints.maxHeight;
+
+      return AppBar(
+        backgroundColor: Colors.white,
+        automaticallyImplyLeading: false,
+        actions: [
+          IconButton(
+            icon: SvgPicture.asset(
+              'assets/images/filter1.svg',
+              width:  width*0.15,
+              height:  height*0.15 ,
+            ),
+            onPressed: onFilterTap,
+          ),
+          SizedBox(width: width*0.1 ),
+        ],
+      );
+    },
   );
 }
+
 
 class _SliverTabBarDelegate extends SliverPersistentHeaderDelegate {
   final TabBar _tabBar;
@@ -368,3 +378,4 @@ class _SliverTabBarDelegate extends SliverPersistentHeaderDelegate {
     return false;
   }
 }
+

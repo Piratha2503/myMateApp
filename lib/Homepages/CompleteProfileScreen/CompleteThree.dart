@@ -141,13 +141,17 @@ class _PageThreeState extends State<PageThree> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 10),
+          SizedBox(height: height*0.03),
           CompleteProfileWidgets.buildDropdownRow(
+
             label: "Religion",
             value: _selectedReligion,
             items: [
@@ -159,38 +163,44 @@ class _PageThreeState extends State<PageThree> {
             ],
             onChanged: (value) => setState(() {
               _selectedReligion = value;
-            }),
+            }), context: context,
           ),
-          SizedBox(height: 20),
+          SizedBox(height: height*0.015),
           CompleteProfileWidgets.buildTextFieldRow(
             label: "Caste",
             hintText: "Enter your Caste",
-            controller: _casteController,
+
+            controller: _casteController, context: context,
           ),
-          SizedBox(height: 10),
+          SizedBox(height: height*0.015),
           CompleteProfileWidgets.buildDropdownRow(
             label: "Language",
             value: _selectedLanguage,
+
             items: ['-- Select Option --', 'Tamil', 'English', 'Sinhala'],
             onChanged: (value) => setState(() {
               _selectedLanguage = value;
-            }),
+            }), context: context, 
           ),
-          SizedBox(height: 10),
+          SizedBox(height: height*0.015),
           CompleteProfileWidgets.buildTextFieldRow(
             label: "No of Siblings",
             hintText: "Enter Number",
-            controller: _siblingsController,
+
+            controller: _siblingsController,  context:context ,
           ),
-          SizedBox(height: 10),
+          SizedBox(height: height*0.015),
           Container(
             decoration: BoxDecoration(
-              color: MyMateThemes.secondaryColor,
-              borderRadius: BorderRadius.circular(8.0),
+              border: Border.all(
+                color: MyMateThemes.textColor.withOpacity(0.2),
+                width: 1,
+              ),
+              borderRadius: BorderRadius.circular(width*0.02),
             ),
-            width: 346,
+            width: width*0.9,
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding:  EdgeInsets.symmetric(horizontal:width*0.035,vertical: height*0.015),
               child: Column(
                 children: [
                   TextField(
@@ -208,8 +218,8 @@ class _PageThreeState extends State<PageThree> {
                       label: Text(
                         'Bio',
                         style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
+                          fontSize: width*0.045,
+                          color:MyMateThemes.textColor,
                         ),
                       ),
                       counterText: characterCount <= 192
@@ -223,33 +233,33 @@ class _PageThreeState extends State<PageThree> {
 
             ),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: height*0.01),
           if (error.isNotEmpty)
             Align(
               alignment: Alignment.centerLeft,
               child: Padding(
-                padding: const EdgeInsets.only(left: 20),
+                padding:  EdgeInsets.only(left: width*0.02),
                 child: Text(
                   error,
                   style: TextStyle(color: Colors.red[800]),
                 ),
               ),
             ),
-          SizedBox(height: 25),
+          SizedBox(height: height*0.02),
           Row(
             children: [
-              SizedBox(width: 40),
+              SizedBox(width: width*0.01),
               Text(
                 'Expectations',
                 style: TextStyle(
                   color: MyMateThemes.textColor,
                   fontWeight: FontWeight.w500,
-                  fontSize: 20,
+                  fontSize: width*0.048,
                 ),
               ),
             ],
           ),
-          SizedBox(height: 15),
+          SizedBox(height: height*0.01),
           Column(
             children: List.generate(
               controllers.length,
@@ -265,10 +275,10 @@ class _PageThreeState extends State<PageThree> {
               ),
             ),
           ),
-          SizedBox(height: 20),
+          SizedBox(height: height*0.01),
           SizedBox(
-            width: 340.0,
-            height: 50.0,
+            width: width*0.9,
+            height: height*0.07,
             child: ElevatedButton(
               onPressed: () {
                 if (controllers.length < 5) {
@@ -277,24 +287,43 @@ class _PageThreeState extends State<PageThree> {
                   });
                 }
               },
+
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(MyMateThemes.secondaryColor),
                 foregroundColor: MaterialStateProperty.all<Color>(MyMateThemes.primaryColor),
+                shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(width*0.02)
+                    )),
               ),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text('+ Add more'),
+                child: Text('+ Add more',style: TextStyle(color: MyMateThemes.primaryColor,fontSize: width*0.04),),
               ),
             ),
           ),
-          SizedBox(height: 40),
-          ElevatedButton(
-            onPressed: () async {
-              await _saveAndUpdateForms();
-            },
-            style: CommonButtonStyle.commonButtonStyle(),
-            child: Text('Complete'),
+          SizedBox(height: height*0.06),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.07, // 6% of screen height
+              width: MediaQuery.of(context).size.width * 0.35, // 45% of screen width
+              child:     ElevatedButton(
+                onPressed: () async {
+                  await _saveAndUpdateForms();
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: MyMateThemes.primaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(3.0),
+                  ),
+                ),
+                child: Text('Complete',style: TextStyle(color: Colors.white),),
+              ),
+            ),
           ),
+          SizedBox(height: height*0.03),
+
         ],
       ),
     );
