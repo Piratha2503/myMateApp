@@ -589,7 +589,7 @@ Widget buildCurrentOffersItem(Color color, int tokenCount) {
 
       return Container(
         width: width * 0.86,
-        height: height * 0.27,
+        height: height * 0.28,
         decoration: BoxDecoration(
           color: color.withOpacity(0.03),
           border: Border.all(color: color, width: 2),
@@ -741,8 +741,8 @@ Widget buildCurrentOffersItem(Color color, int tokenCount) {
 /// Helper function to create the offer rows
 Widget buildOfferRow(String text) {
 
-  return Builder(
-    builder: (context) {
+  return LayoutBuilder(
+      builder: (context, constraints) {
       final mediaQuery = MediaQuery.of(context);
       final width = mediaQuery.size.width;
       final height = mediaQuery.size.height;

@@ -43,8 +43,8 @@ class _ViewRasiChartPageState extends State<ViewRasiChartPage> {
     return LayoutBuilder(
         builder: (context, constraints) {
           // Read width and height from constraints to use for responsive sizing.
-          final double width = constraints.maxWidth;
-          final double height = constraints.maxHeight;
+          final double width =  MediaQuery.of(context).size.width;
+          final double height =  MediaQuery.of(context).size.height;
           return Scaffold(
             backgroundColor: Colors.white,
             appBar: AppBar(
@@ -87,7 +87,7 @@ class _ViewRasiChartPageState extends State<ViewRasiChartPage> {
                     ],
                   ),
 
-                  SizedBox(height: height*0.05,),
+                  SizedBox(height: height*0.03,),
                   GestureDetector(
                     onTap:(){Navigator.push(
                         context,
@@ -97,7 +97,7 @@ class _ViewRasiChartPageState extends State<ViewRasiChartPage> {
 
                   ),
 
-                  SizedBox(height: height*0.15,),
+                  SizedBox(height: height*0.09,),
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -160,6 +160,7 @@ class _ViewRasiChartPageState extends State<ViewRasiChartPage> {
 
                     ],
                   ),
+                  SizedBox(height: height*0.2,),
 
                 ],
               ),

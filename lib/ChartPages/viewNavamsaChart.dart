@@ -96,7 +96,7 @@ class _ViewNavamsaChartPageState extends State<ViewNavamsaChartPage> {
                     ],
                   ),
 
-                  SizedBox(height: height*0.05,),
+                  SizedBox(height: height*0.03,),
                   GestureDetector(
                     onTap:(){Navigator.push(
                         context,
@@ -106,7 +106,7 @@ class _ViewNavamsaChartPageState extends State<ViewNavamsaChartPage> {
 
                   ),
 
-                  SizedBox(height: height*0.15,),
+                  SizedBox(height: height*0.09,),
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
