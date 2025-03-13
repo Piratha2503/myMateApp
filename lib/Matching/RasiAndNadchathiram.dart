@@ -14,35 +14,34 @@ class RasiNadchathiram {
     "Meenam",
   ];
   static List<int> rasiMatchNumberList = [2, 4, 6, 8];
-
   static List<String> nadchathiraList = [
-        "Ashwini"
-        "Bharani"
-        "Kiruthigai"
-        "Rohini"
-        "Mirugasheeridam"
-        "Thiruvathirai"
-        "Punarpusham"
-        "Pusham"
-        "Aayilyam"
-        "Magham"
-        "pooram"
-        "Uththaram"
-        "Ashththam"
-        "Chitrai"
-        "Swathi"
-        "Vishakham"
-        "Anusham"
-        "Keddai"
-        "Moolam"
-        "pooradam"
-        "Uththaradam"
-        "Thiruvonam"
-        "Aviddam"
-        "Sathayam"
-        "pooraddaathi"
-        "Uththaraddathi"
-        "Revathi"
+    "Ashwini",
+    "Bharani",
+    "Kiruthigai",
+    "Rohini",
+    "Mirugasheeridam",
+    "Thiruvathirai",
+    "Punarpusham",
+    "Pusham",
+    "Aayilyam",
+    "Magham",
+    "pooram",
+    "Uththaram",
+    "Ashththam",
+    "Chitrai",
+    "Swathi",
+    "Vishakham",
+    "Anusham",
+    "Keddai",
+    "Moolam",
+    "pooradam",
+    "Uththaradam",
+    "Thiruvonam",
+    "Aviddam",
+    "Sathayam",
+    "pooraddaathi",
+    "Uththaraddathi",
+    "Revathi"
   ];
 
   static List<Map<String, String>> YoniList = [

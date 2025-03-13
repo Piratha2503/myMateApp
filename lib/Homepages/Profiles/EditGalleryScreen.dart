@@ -53,42 +53,64 @@ class _EditGalleryScreenState extends State<EditGalleryScreen> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        double width = MediaQuery.of(context).size.width;
+        double height = MediaQuery.of(context).size.height;
+
         return AlertDialog(
-          content: SizedBox(
-            height: 300,
-            width: 400,
-            child: Column(
-              children: [
-                SizedBox(height: 25),
-                GestureDetector(
-                  onTap: () {
-                    _chooseImage(ImageSource.gallery);
-                    Navigator.of(context).pop();
-                  },
-                  child: SvgPicture.asset('assets/images/choose.svg'),
-                ),
-                SizedBox(height: 15),
-                GestureDetector(
-                  child: SvgPicture.asset('assets/images/or.svg'),
-                ),
-                SizedBox(height: 15),
-                GestureDetector(
-                  onTap: () {
-                    _chooseImage(ImageSource.camera);
-                    Navigator.of(context).pop();
-                  },
-                  child: SvgPicture.asset('assets/images/take.svg'),
-                ),
-                SizedBox(height: 20),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: SvgPicture.asset('assets/images/Active.svg'),
-                ),
-              ],
+          content: SingleChildScrollView(
+            child: Expanded(
+              child: SizedBox(
+                height: height * 0.8,
+                width: width*0.3 ,
+              child: Column(
+                mainAxisSize: MainAxisSize.min, // Prevents unnecessary expansion
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      _chooseImage(ImageSource.gallery);
+                      Navigator.of(context).pop();
+                    },
+                    child: SvgPicture.asset(
+                      'assets/images/choose.svg',
+                      width: width * 0.25, // Scale image size dynamically
+                    ),
+                  ),
+                  SizedBox(height: height * 0.015),
+                  GestureDetector(
+                    child: SvgPicture.asset(
+                      'assets/images/or.svg',
+                      height: height*0.1,
+
+                      width: width * 0.18,
+                    ),
+                  ),
+                  SizedBox(height: height * 0.01),
+                  GestureDetector(
+                    onTap: () {
+                      _chooseImage(ImageSource.camera);
+                      Navigator.of(context).pop();
+                    },
+                    child: SvgPicture.asset(
+                      'assets/images/take.svg',
+                      height: height*0.1,
+                    ),
+                  ),
+                  SizedBox(height: height * 0.01),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: SvgPicture.asset(
+                      'assets/images/Active.svg',
+                      height: height*0.1,
+                     // width: width * 0.25,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
+        ),
         );
       },
     );
@@ -257,103 +279,94 @@ class _BuildImageGallery extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return
-      Padding(
-        padding: new EdgeInsets.all(12.0),
-      child:
-      Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(3, (index) {
-        String? displayImageUrl = imageUrls[index];
+    final mediaQuery = MediaQuery.of(context);
+    final screenWidth = mediaQuery.size.width;
+    final screenHeight = mediaQuery.size.height;
 
-        return Expanded(
+    return Padding(
+      padding: EdgeInsets.all(screenWidth * 0.03), // Adjust padding dynamically
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: List.generate(3, (index) {
+          String? displayImageUrl = imageUrls[index];
 
+          return Expanded(
             child: Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
-              elevation: displayImageUrl != null
-                  ? 0
-                  : 0,
+              elevation: displayImageUrl != null ? 0 : 0,
               child: Container(
-                width: 120,
-                height: 180,
+                width: screenWidth * 0.3, // Dynamic width
+                height: screenHeight * 0.23, // Dynamic height
                 decoration: BoxDecoration(
-                  color: displayImageUrl != null
-                      ? Colors.white
-                      : Colors.grey[200],
+                  color: displayImageUrl != null ? Colors.white : Colors.grey[200],
                   borderRadius: BorderRadius.circular(12),
-                  border:  Border.all(
-                          color: Colors.grey.shade200,
-                          width: 1)
-
+                  border: Border.all(
+                    color: Colors.grey.shade200,
+                    width: 1,
+                  ),
                 ),
                 child: displayImageUrl != null
                     ? Column(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: Container(
-                              width: 120,
-                              height: 120,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: NetworkImage(displayImageUrl),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        width: screenWidth * 0.3,
+                        height: screenHeight * 0.15,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: NetworkImage(displayImageUrl),
+                            fit: BoxFit.cover,
                           ),
-                          SizedBox(height: 18),
-                          GestureDetector(
-                            onTap: () async {
-                              await _deleteImageFromBackend(
-                                  (context.findAncestorStateOfType<
-                                              _EditGalleryScreenState>()
-                                          as _EditGalleryScreenState)
-                                      .widget
-                                      .docId,
-                                  displayImageUrl);
-
-                              onDelete(index);
-                            },
-                            child: SvgPicture.asset(
-                              'assets/images/trash.svg',
-
-                            ),
-                          ),
-                        ],
-                )
-                    : GestureDetector(
-                        onTap: () async {
-                          openPopupScreen();
-
-                        },
-                        child: Container(
-                          width: 115,
-                          height: 170,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Colors.white,
-                          ),
-                          child:
-                              Column(
-                                children: [
-                                  SizedBox(height: 10),
-                                  Image.asset(
-                                    'assets/images/Group 2236.png',
-                                    // width: 150,
-                                    // height: 100,
-                                  ),
-
-                                ],
-                              ),
                         ),
                       ),
+                    ),
+                    SizedBox(height: screenHeight * 0.02),
+                    GestureDetector(
+                      onTap: () async {
+                        await _deleteImageFromBackend(
+                            (context.findAncestorStateOfType<_EditGalleryScreenState>()
+                            as _EditGalleryScreenState)
+                                .widget
+                                .docId,
+                            displayImageUrl);
+
+                        onDelete(index);
+                      },
+                      child: SvgPicture.asset(
+                        'assets/images/trash.svg',
+                      ),
+                    ),
+                  ],
+                )
+                    : GestureDetector(
+                  onTap: () async {
+                    openPopupScreen();
+                  },
+                  child: Container(
+                    width: screenWidth * 0.28,
+                    height: screenHeight * 0.23,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.white,
+                    ),
+                    child: Column(
+                      children: [
+                        SizedBox(height: screenHeight * 0.02),
+                        Image.asset(
+                          'assets/images/Group 2236.png',
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
-            ));
-      }),
-    ),
-      );
+            ),
+          );
+        }),
+      ),
+    );
   }
 }

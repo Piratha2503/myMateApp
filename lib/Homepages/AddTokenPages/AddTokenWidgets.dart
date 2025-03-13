@@ -21,16 +21,7 @@ final List<Widget> packageSliders = [
                   color: Colors.white,
                   border: Border.all(color: MyMateThemes.primaryColor, width: 2),
                   borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      //color:
-                      color: MyMateThemes.primaryColor.withOpacity(0.5),
-                      spreadRadius: 2,
-                      blurRadius: 4,
-                      offset: Offset(0, 3),
 
-                    )
-                  ]
               ),
 
               child: Stack(
@@ -162,9 +153,10 @@ final List<Widget> packageSliders = [
                               MyMateThemes.primaryColor, // Background color
                               foregroundColor: Colors.white, // Text color
                               minimumSize: Size(100, 30), // Width and height
-                              padding: EdgeInsets.symmetric(horizontal: 16), // Padding
+                              padding: EdgeInsets.symmetric(horizontal: 0.05,vertical: height*0.026), // Padding
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30), // Rounded corners
+                                borderRadius:
+                                BorderRadius.circular(width*0.1), // Rounded corners
                               ),
                             ),
                             child: Text('Purchase'),
@@ -198,16 +190,7 @@ final List<Widget> packageSliders = [
                 color: MyMateThemes.primaryColor,
                 border: Border.all(color: MyMateThemes.primaryColor, width: 2),
                 borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                    //color:
-                    color: MyMateThemes.primaryColor.withOpacity(0.5),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset: Offset(0, 3),
 
-                  )
-                ]
             ),
 
             child: Stack(
@@ -333,11 +316,14 @@ final List<Widget> packageSliders = [
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
-                                MyMateThemes.backgroundColor, // Background color
+                                Colors.white, // Background color
                                 foregroundColor: MyMateThemes.primaryColor, // Text color
                                 minimumSize: Size(100, 30), // Width and height
-                                padding: EdgeInsets.symmetric(horizontal: 30), // Padding
-
+                                padding: EdgeInsets.symmetric(horizontal: 0,vertical: height*0.026), // Padding
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                  BorderRadius.circular(width*0.1), // Rounded corners
+                                ),
                                 // shape: RoundedRectangleBorder(
                                 //   borderRadius: BorderRadius.circular(30), // Rounded corners
                                 // ),
@@ -369,21 +355,13 @@ final List<Widget> packageSliders = [
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
+
                     Color(0xFFAC359C),
                     Color(0xFF7D67EE),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(12), // slightly larger radius
-                  boxShadow: [
-                    BoxShadow(
-                      //color:
-                      color: MyMateThemes.primaryColor,
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                      offset: Offset(0, 3),
 
-                    )
-                  ]
               ),
 
               padding: EdgeInsets.all(2), // width of the border
@@ -538,7 +516,7 @@ final List<Widget> packageSliders = [
                                         padding: EdgeInsets.symmetric(horizontal: 0), // Padding
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
-                                          BorderRadius.circular(30), // Rounded corners
+                                          BorderRadius.circular(width*0.1), // Rounded corners
                                         ),
                                       ),
                                       child: Ink(
@@ -549,15 +527,14 @@ final List<Widget> packageSliders = [
                                           borderRadius: BorderRadius.circular(30),
                                         ),
                                         child: Container(
-                                          height: 30,
-                                          width: 100,
+                                          height: height*0.1,
+                                          width: width*0.35,
                                           alignment: Alignment.center,
                                           padding: EdgeInsets.symmetric(horizontal: 3, vertical: 3),
                                           child: Text(
                                             'Purchase',
                                             style: TextStyle(
-                                              color: Colors.white.withOpacity(0.5),
-                                              fontSize: 16,
+                                              color: Colors.white,
                                             ),
                                           ),
                                         ),
@@ -579,88 +556,221 @@ final List<Widget> packageSliders = [
     ),
 ];
 
-final List<Widget> offerSliders = [
-  Material(
-    elevation: 40,
-    child:
-    Center(
-      child: GestureDetector(
-        onTap: (){
-          print('select first');
-        },
 
-        child:  Container(
-          width: 301,
-          height: 263,
 
-          decoration: BoxDecoration(
+Widget buildCurrentOffers() {
+  return LayoutBuilder(
+    builder: (context, constraints) {
+      final mediaQuery = MediaQuery.of(context);
+      final width = mediaQuery.size.width;
+      final height = mediaQuery.size.height;
+      return Column(
+        children: [
+          buildCurrentOffersItem(Color(0xFFE16969)
+              ,20), // Example color 1
+          SizedBox(height: height * 0.02),
+          buildCurrentOffersItem(Color(0xFF55C7A9),30),
+          SizedBox(height: height * 0.02),
+// Example color 2
+          buildCurrentOffersItem(Color(0xFF7C9CD1),40), // Example color 2
 
-            color: Colors.white,
-            //border: Border.all(color: MyMateThemes.primaryColor, width: 2),
-            borderRadius: BorderRadius.circular(10),
-            image: DecorationImage(
-              image: AssetImage('assets/images/offer_1.jpg'), // Your background image
-              fit: BoxFit.cover, // Ensures the image covers the container
+        ],
+      );
+    },
+  );
+}
+
+Widget buildCurrentOffersItem(Color color, int tokenCount) {
+  return LayoutBuilder(
+    builder: (context, constraints) {
+      final mediaQuery = MediaQuery.of(context);
+      final width = mediaQuery.size.width;
+      final height = mediaQuery.size.height;
+
+      return Container(
+        width: width * 0.86,
+        height: height * 0.29,
+        decoration: BoxDecoration(
+          color: color.withOpacity(0.03),
+          border: Border.all(color: color, width: 2),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Stack(
+          children: [
+            /// Main Content
+            Column(
+              children: [
+                SizedBox(height: height * 0.02),
+
+                /// Title Row
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+                  child: Row(
+                    children: [
+                      Text(
+                        "Valentine's Week Offer",
+                        style: TextStyle(
+                          fontSize: width * 0.045,
+                          color: color,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                SizedBox(height: height * 0.02),
+
+                /// Offer List
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    buildOfferRow('Free priority match suggestions for 1 Day'),
+                    SizedBox(height: height * 0.01),
+                    buildOfferRow('Free priority searches for 1 Day'),
+                    SizedBox(height: height * 0.01),
+                    buildOfferRow('Free priority explore for 1 Day'),
+                  ],
+                ),
+
+                SizedBox(height: height * 0.03),
+
+                /// Price & Purchase Button
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(width: width * 0.06),
+
+                    Text(
+                      '\$12',
+                      style: TextStyle(
+                        fontSize: width * 0.05,
+                        color: color,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    SizedBox(width: width * 0.1),
+                    ElevatedButton(
+                      onPressed: () {
+                        print('Purchase offer');
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: color, // Background color
+                        foregroundColor: Colors.white, // Text color
+                        minimumSize: Size(100, 40), // Width and height
+                        padding: EdgeInsets.symmetric(horizontal: width*0.08,vertical: height*0.007),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(width*0.06),
+                        ),
+                      ),
+                      child: Text('Purchase'),
+                    ),
+                  ],
+                ),
+
+                /// Validity Period
+                Text(
+                  'valid on Feb 7 - Feb 14',
+                  style: TextStyle(
+                    color: color,
+                    fontSize: width * 0.03,
+                  ),
+                ),
+              ],
             ),
 
-          ),
+            /// SVG Token Banner (Top Right)
+            Positioned(
+              right: width * 0.02,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  SvgPicture.asset(
+                    'assets/images/Group badge.svg',
+                    color: color,// Your banner SVG
+                    width: width * 0.1,
+                    height: height*0.09,
+                  ),
+                  Positioned(
+                      top: height * 0.018,
+                      right: width * 0.11,
+                      child:
+                      SvgPicture.asset('assets/images/fire.svg',color: Colors.white,width: width * 0.045,height: height*0.019,)),
+                  Positioned(
+                    top: height * 0.005,
+                    right: width * 0.02,
+                    // Adjust to align inside the SVG
+                    child: Column(
+                      children: [
+                        Text(
+                          '$tokenCount',
+                          style: TextStyle(
+                            fontSize: width * 0.065,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+              Positioned(
+                top: height * 0.045,
+                right: width * 0.03,
+                child:  Text(
+                  'Tokens',
+                  style: TextStyle(
+                    fontSize: width * 0.025,
+                    color: Colors.white,
+
+
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+                ],
+              ),
+            ),
+          ],
         ),
-      ),
-    ),
-  ),
-  Material(
-    elevation: 20,
-    child:
-    GestureDetector(
-      onTap: (){
-        print('select first');
-      },
+      );
+    },
+  );
+}
 
-      child:  Container(
-        width: 301,
-        height: 263,
+/// Helper function to create the offer rows
+Widget buildOfferRow(String text) {
 
-        decoration: BoxDecoration(
+  return Builder(
+    builder: (context) {
+      final mediaQuery = MediaQuery.of(context);
+      final width = mediaQuery.size.width;
+      final height = mediaQuery.size.height;
 
-          color: Colors.white,
-          //border: Border.all(color: MyMateThemes.primaryColor, width: 2),
-          borderRadius: BorderRadius.circular(10),
-          image: DecorationImage(
-            image: AssetImage('assets/images/offer_1.jpg'), // Your background image
-            fit: BoxFit.cover, // Ensures the image covers the container
-          ),
-
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        child: Row(
+          children: [
+            SvgPicture.asset(
+              'assets/images/white.svg', // Your checkmark icon
+              width: width * 0.03,
+              color: MyMateThemes.textColor, // Adjust color as needed
+            ),
+            SizedBox(width: width * 0.02),
+            Text(
+              text,
+              style: TextStyle(
+                fontSize: width * 0.025,
+                color:MyMateThemes.textColor, // Adjust as per theme
+              ),
+            ),
+          ],
         ),
-      ),
-    ),
-  ),
-  Material(
-    elevation: 20,
-    child:
-    GestureDetector(
-      onTap: (){
-        print('select first');
-      },
+      );
+    }
+  );
+}
 
-      child:  Container(
-        width: 301,
-        height: 263,
-
-        decoration: BoxDecoration(
-
-          color: Colors.white,
-          //border: Border.all(color: MyMateThemes.primaryColor, width: 2),
-          borderRadius: BorderRadius.circular(10),
-          image: DecorationImage(
-            image: AssetImage('assets/images/offer_1.jpg'), // Your background image
-            fit: BoxFit.cover, // Ensures the image covers the container
-          ),
-
-        ),
-      ),
-    ),
-  ),
-  ];
 
   class GradientText extends StatelessWidget {
     const GradientText(this.text,

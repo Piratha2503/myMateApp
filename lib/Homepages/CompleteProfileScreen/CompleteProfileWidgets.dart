@@ -5,7 +5,9 @@ import '../../MyMateThemes.dart';
 
 class CompleteProfileWidgets {
   // AppBar widget
-  static AppBar buildAppBar(BuildContext context) {
+  static AppBar buildAppBar(BuildContext context, BoxConstraints constraints) {
+    double width = constraints.maxWidth;
+
     return AppBar(
       title: SafeArea(
         child: Row(
@@ -17,12 +19,12 @@ class CompleteProfileWidgets {
               },
               child: SvgPicture.asset('assets/images/chevron-left.svg'),
             ),
-            SizedBox(width: 100),
+            SizedBox(width: width * 0.1),
             Text(
               'Complete Profile',
               style: TextStyle(
                 color: MyMateThemes.textColor,
-                fontSize: 20,
+                fontSize: width * 0.04,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -38,46 +40,52 @@ class CompleteProfileWidgets {
     required String hintText,
     required TextEditingController controller,
     String? errorText,
-
+    required BuildContext context,
   }) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
     return Container(
       decoration: BoxDecoration(
-        color: MyMateThemes.secondaryColor,
-        borderRadius: BorderRadius.circular(8.0),
+        border: Border.all(
+          color: MyMateThemes.textColor.withOpacity(0.2),
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(10.0),
       ),
-      width: 346,
-      height: 44,
+      width: width * 0.99,
+      height: height*0.065,
       child: Stack(
         children: [
           Positioned(
-            left: 15,
+            left: width*0.03,
             top: 0,
             bottom: 0,
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Text(label, style: TextStyle(color: Colors.black)),
+              child: Text(label, style: TextStyle(color: MyMateThemes.textColor,fontSize: width*.04)),
             ),
           ),
           Positioned(
-            left: 180,
+            left: width*0.5,
             right: 0,
             top: 0,
             bottom: 0,
             child: Align(
               alignment: Alignment.centerLeft,
               child: TextField(
-                controller: controller, // Attach the controller here
+                controller: controller,
                 decoration: InputDecoration(
                   hintText: errorText == null ? hintText : null,
                   errorText: errorText,
                   hintStyle: TextStyle(
                     color: MyMateThemes.textColor.withOpacity(0.5),
+                      fontSize: width*.042
                   ),
                   border: InputBorder.none,
                 ),
-                style: TextStyle(color: MyMateThemes.textColor),
+                style: TextStyle(color: MyMateThemes.textColor,fontSize: width*.042),
               ),
-
             ),
           ),
         ],
@@ -85,27 +93,34 @@ class CompleteProfileWidgets {
     );
   }
 
-
   // Dropdown widget row
   static Widget buildDropdownRow({
     required String label,
     required String? value,
     required List<String> items,
     required ValueChanged<String?> onChanged,
+    required BuildContext context,
+
   }) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
     return Container(
       decoration: BoxDecoration(
-        color: MyMateThemes.secondaryColor,
-        borderRadius: BorderRadius.circular(8.0),
+        border: Border.all(
+          color: MyMateThemes.textColor.withOpacity(0.2),
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(10.0),
       ),
-      width: 346,
-      height: 42,
+      width: width * 0.99,
+      height: height*0.065,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(width: 15),
-          Text(label, style: TextStyle(color: Colors.black)),
+          SizedBox(width: width*0.03),
+          Text(label, style: TextStyle(color: MyMateThemes.textColor, fontSize :width*.04)),
           Spacer(),
           DropdownButtonHideUnderline(
             child: DropdownButton<String>(
@@ -129,39 +144,4 @@ class CompleteProfileWidgets {
       ),
     );
   }
-
-  // Code verification row for PageTwo
-  static Widget buildCodeVerificationRow(
-      BuildContext context, bool isChecked, Function(bool?) onCheck) {
-    return SizedBox(
-      width: 360,
-      height: 65,
-      child: Row(
-        children: [
-          SizedBox(width: 10),
-          Expanded(
-            flex: 4,
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 10.0),
-              child: Text(
-                "Enter the code from the SMS we sent to +94 7x xxx xxx",
-                style: TextStyle(color: MyMateThemes.textColor),
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Container(
-              alignment: Alignment.centerRight,
-              child: Checkbox(
-                value: isChecked,
-                onChanged: (newValue) => onCheck(newValue),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }
-

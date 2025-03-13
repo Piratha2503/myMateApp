@@ -128,7 +128,8 @@ class _ManagePageState extends State<ManagePage> {
                 left: 0,
                 right: 0,
                 height: height*0.17,
-                child: AppBar(
+                child:
+                AppBar(
                   backgroundColor: MyMateThemes.primaryColor,
                   title: Text('Manage', style: TextStyle(color: Colors.white)),
                   centerTitle: true,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_stepindicator/flutter_stepindicator.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:mymateapp/Homepages/CompleteProfileScreen/Completegallerypage.dart';
+import 'package:mymateapp/Homepages/HomeScreenBeforeSubscribe.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import '../ProfilePageScreen/MyProfileMain.dart';
 import 'CompleteOne.dart';
@@ -35,30 +37,72 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: _buildAppBar(),
-      body: SingleChildScrollView(
-        padding:
-        EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(height: 20),
-            _buildStepIndicator(),
-            SizedBox(height: 20),
-            _buildCurrentPage(currentPage),
-            SizedBox(height: 50),
-          ],
-        ),
-      ),
+    return LayoutBuilder(
+        builder: (context, constraints) {
+          double width = MediaQuery.of(context).size.width;
+          double height = MediaQuery.of(context).size.height;
+
+          return Scaffold(
+          backgroundColor: Colors.white,
+          resizeToAvoidBottomInset: false,
+          body: SafeArea(
+            child: SingleChildScrollView(
+
+              padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.05),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: height*0.02,),
+
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.02),
+                    child: Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => HomeScreenBeforeSubscibe(0,docId: widget.docId,)),
+                            );
+                          },
+                          child: SvgPicture.asset(
+                            'assets/images/chevron-left.svg',
+                            height: height * 0.02,
+                          ),
+                        ),
+                        SizedBox(width: width*0.2,),
+                        Text(
+                          "Complete Profile",
+                          style: TextStyle(
+                            color: MyMateThemes.textColor,
+                            fontWeight: FontWeight.w700,
+                            fontSize: width * 0.045,
+                          ),
+                        ),
+                        Spacer(flex: 2),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: height*0.05,),
+                  _buildStepIndicator(),
+                  SizedBox(height: height*0.01,),
+                  _buildCurrentPage(currentPage,),
+                  SizedBox(height: height*0.01,),
+                ],
+              ),
+            ),
+          ),
+        );
+      }
     );
   }
 
   AppBar _buildAppBar() {
-    return AppBar(
-      title: Text(
+    return
+      AppBar(
+      title:
+      Text(
         'Complete Profile',
         style: TextStyle(
           color: MyMateThemes.textColor,
@@ -69,17 +113,24 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
     );
   }
 
-  FlutterStepIndicator _buildStepIndicator() {
-    return FlutterStepIndicator(
-      height: 24,
-      paddingLine: const EdgeInsets.symmetric(horizontal: 0),
-      positiveColor: MyMateThemes.primaryColor,
-      progressColor: MyMateThemes.primaryColor.withOpacity(0.3),
-      negativeColor: MyMateThemes.primaryColor.withOpacity(0.3),
-      padding: const EdgeInsets.all(3),
-      list: stepStates,
-      onChange: (index) {},
-      page: currentPage,
+  LayoutBuilder _buildStepIndicator() {
+    return LayoutBuilder(
+        builder: (context, constraints) {
+          double width = MediaQuery.of(context).size.width;
+          double height = MediaQuery.of(context).size.height;
+
+        return FlutterStepIndicator(
+          height: 24,
+          paddingLine:  EdgeInsets.symmetric(horizontal: 0),
+          positiveColor: MyMateThemes.primaryColor,
+          progressColor: MyMateThemes.primaryColor.withOpacity(0.3),
+          negativeColor: MyMateThemes.primaryColor.withOpacity(0.3),
+          padding:  EdgeInsets.all(width*0.01),
+          list: stepStates,
+          onChange: (index) {},
+          page: currentPage,
+        );
+      }
     );
   }
 
@@ -87,18 +138,18 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
   Widget _buildCurrentPage(int currentPage) {
     switch (currentPage) {
       case 0:
-        return PageOne(onSave: _onPageSaved,docId: widget.docId);
+        return PageOne(onSave: _onPageSaved, docId: widget.docId);
       case 1:
-        return Completegallerypage(onSave: _onPageSaved,docId: widget.docId);
-
+        return Completegallerypage(onSave: _onPageSaved, docId: widget.docId);
       case 2:
-        return PageTwo(onSave: _onPageSaved,docId: widget.docId );
+        return PageTwo(onSave: _onPageSaved, docId: widget.docId);
       case 3:
-        return PageThree(onSave: _onPageSaved,docId:widget.docId);
+        return PageThree(onSave: _onPageSaved, docId: widget.docId);
       default:
         return SizedBox();
     }
   }
+
 
   void _onPageSaved() {
     if (currentPage < stepStates.length - 1) {
