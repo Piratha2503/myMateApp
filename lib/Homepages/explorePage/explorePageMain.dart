@@ -79,7 +79,7 @@ class _ExplorePageState extends State<ExplorePage> with SingleTickerProviderStat
     if (_debounce?.isActive ?? false) _debounce!.cancel();
 
     _debounce = Timer(const Duration(milliseconds: 1000), () {
-     // String query = searchController.text.toLowerCase().trim();
+      // String query = searchController.text.toLowerCase().trim();
 
 
       final searchCriteria = {
@@ -172,161 +172,161 @@ class _ExplorePageState extends State<ExplorePage> with SingleTickerProviderStat
   Widget build(BuildContext context) {
     return
       ScreenUtilInit(
-      designSize: const Size(390,844),
-      minTextAdapt: true,
-      splitScreenMode: true,
-      builder: (context, child) {
-        return FutureBuilder<String?>(
-          future: getSavedDocId(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Scaffold(
-                body: Center(child: CircularProgressIndicator()),
-              );
-            } else if (snapshot.hasError) {
-              return Scaffold(
-                body: Center(child: Text('Error loading docId')),
-              );
-            } else {
-              final docId = snapshot.data ?? '';
+        designSize: const Size(390,844),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (context, child) {
+          return FutureBuilder<String?>(
+            future: getSavedDocId(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Scaffold(
+                  body: Center(child: CircularProgressIndicator()),
+                );
+              } else if (snapshot.hasError) {
+                return Scaffold(
+                  body: Center(child: Text('Error loading docId')),
+                );
+              } else {
+                final docId = snapshot.data ?? '';
 
-              return Scaffold(
-                backgroundColor: Colors.white,
-                body: NestedScrollView(
+                return Scaffold(
+                  backgroundColor: Colors.white,
+                  body: NestedScrollView(
 
-                  controller: _scrollController, // Use ScrollController for advanced control
-                  headerSliverBuilder: (context, innerBoxIsScrolled) {
+                    controller: _scrollController, // Use ScrollController for advanced control
+                    headerSliverBuilder: (context, innerBoxIsScrolled) {
 
-                    return [
-                      SliverAppBar(
-                        backgroundColor: Colors.white,
-                        floating: true, // Ensures the header reappears when scrolling up
-                        snap: true, // Snaps the header into view when scrolling up
-                        pinned: false, // Allows the entire header to scroll out of view
-                        automaticallyImplyLeading: false,
-                        //    title: ExplorePageAppBar(context, _openFilterPage),
-                        bottom: PreferredSize(
-                          preferredSize: Size.fromHeight(50.h), // Adjust height to accommodate additional widgets
-                          child: Column(
-                            children: [
-                              TabBar(
-                                controller: _tabController,
-                                labelStyle: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 12.sp,
-                                  color: MyMateThemes.textColor,
-                                ),
-                                unselectedLabelStyle: TextStyle(
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 11.sp,
-                                  color: MyMateThemes.textColor.withOpacity(0.8),
-                                ),
-                                dividerColor: Colors.transparent,
-                                indicatorPadding: EdgeInsets.only(bottom: 6), // Adjust this for spacing
-                                indicator: UnderlineTabIndicator(
-                                  borderSide: BorderSide(
-                                    width: 3, // Thickness of the line
-                                    color: MyMateThemes.textColor, // Line color
+                      return [
+                        SliverAppBar(
+                          backgroundColor: Colors.white,
+                          floating: true, // Ensures the header reappears when scrolling up
+                          snap: true, // Snaps the header into view when scrolling up
+                          pinned: false, // Allows the entire header to scroll out of view
+                          automaticallyImplyLeading: false,
+                          //    title: ExplorePageAppBar(context, _openFilterPage),
+                          bottom: PreferredSize(
+                            preferredSize: Size.fromHeight(50.h), // Adjust height to accommodate additional widgets
+                            child: Column(
+                              children: [
+                                TabBar(
+                                  controller: _tabController,
+                                  labelStyle: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12.sp,
+                                    color: MyMateThemes.textColor,
                                   ),
-                                  borderRadius: BorderRadius.circular(10), // Rounded corners for the line
-                                ),
-                                labelPadding: EdgeInsets.symmetric(horizontal: 2.w),
-                                tabs: [
-                                  Tab(text: 'Explore All'),
-                                  Tab(text: 'View Matches'),
-                                  Tab(text: 'Filter'),
-                                ],
-                              ),
-                              SizedBox(height: 2.h), // Add spacing below the TabBar
-                              if (_tabController.index == 2)
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 10.w),
-                                  child: ElevatedButton(
-
-                                    style: CommonButtonStyle.commonButtonStyle(),
-                                    onPressed: () {
-                                      if (isFilterApplied) {
-                                        _clearFilter(); // ✅ Clear filters when active
-                                      } else {
-                                        _openFilterPage(); // ✅ Open filter page when no filters applied
-                                      }
-                                    },
-                                    child: Text(isFilterApplied ? 'Clear Filter' : 'Apply Filter'),
+                                  unselectedLabelStyle: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 11.sp,
+                                    color: MyMateThemes.textColor.withOpacity(0.8),
                                   ),
-                                ),
-                              if (_tabController.index != 2)
-                                Container(
-                                  height: 35.h,
-                                  width: 353.w,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: MyMateThemes.textColor.withOpacity(0.1),
-                                      width: 1,
+                                  dividerColor: Colors.transparent,
+                                  indicatorPadding: EdgeInsets.only(bottom: 6), // Adjust this for spacing
+                                  indicator: UnderlineTabIndicator(
+                                    borderSide: BorderSide(
+                                      width: 3, // Thickness of the line
+                                      color: MyMateThemes.textColor, // Line color
                                     ),
-                                    borderRadius: BorderRadius.circular(10),
+                                    borderRadius: BorderRadius.circular(10), // Rounded corners for the line
                                   ),
-                                  child:
-                                      Padding(
-                                  padding:EdgeInsets.symmetric(horizontal: 1.w),
-                                   child:TextField(
+                                  labelPadding: EdgeInsets.symmetric(horizontal: 2.w),
+                                  tabs: [
+                                    Tab(text: 'Explore All'),
+                                    Tab(text: 'View Matches'),
+                                    Tab(text: 'Filter'),
+                                  ],
+                                ),
+                                SizedBox(height: 2.h), // Add spacing below the TabBar
+                                if (_tabController.index == 2)
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                                    child: ElevatedButton(
 
-                                     controller: searchController,
-                                     cursorColor: MyMateThemes.textColor,
-                                     style: TextStyle(fontSize: 14.sp, color: MyMateThemes.textColor),
-                                     decoration: InputDecoration(
-                                       prefixIcon: Padding(
-                                         //  padding:EdgeInsets.symmetric(horizontal: 25.w), // Adjust padding if needed
-                                         padding: EdgeInsets.all(8.r), // Adjust padding if needed
-                                         child: SvgPicture.asset(
-                                           'assets/images/search.svg', // Update with your SVG path
-                                           colorFilter: ColorFilter.mode(
-                                             MyMateThemes.textColor.withOpacity(0.6),
-                                             BlendMode.srcIn,
-                                           ),
-                                         ),
-                                       ),
-                                       contentPadding: EdgeInsets.symmetric(vertical: 3.h), // Centers text vertically
-                                       border: OutlineInputBorder(
-                                         borderRadius: BorderRadius.circular(10.r),
-                                         borderSide: BorderSide.none,
-                                       ),
-                                     ),
-                                   ),
+                                      style: CommonButtonStyle.commonButtonStyle(),
+                                      onPressed: () {
+                                        if (isFilterApplied) {
+                                          _clearFilter(); // ✅ Clear filters when active
+                                        } else {
+                                          _openFilterPage(); // ✅ Open filter page when no filters applied
+                                        }
+                                      },
+                                      child: Text(isFilterApplied ? 'Clear Filter' : 'Apply Filter'),
+                                    ),
+                                  ),
+                                if (_tabController.index != 2)
+                                  Container(
+                                      height: 35.h,
+                                      width: 353.w,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: MyMateThemes.textColor.withOpacity(0.1),
+                                          width: 1,
+                                        ),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child:
+                                      Padding(
+                                        padding:EdgeInsets.symmetric(horizontal: 1.w),
+                                        child:TextField(
+
+                                          controller: searchController,
+                                          cursorColor: MyMateThemes.textColor,
+                                          style: TextStyle(fontSize: 14.sp, color: MyMateThemes.textColor),
+                                          decoration: InputDecoration(
+                                            prefixIcon: Padding(
+                                              //  padding:EdgeInsets.symmetric(horizontal: 25.w), // Adjust padding if needed
+                                              padding: EdgeInsets.all(8.r), // Adjust padding if needed
+                                              child: SvgPicture.asset(
+                                                'assets/images/search.svg', // Update with your SVG path
+                                                colorFilter: ColorFilter.mode(
+                                                  MyMateThemes.textColor.withOpacity(0.6),
+                                                  BlendMode.srcIn,
+                                                ),
+                                              ),
+                                            ),
+                                            contentPadding: EdgeInsets.symmetric(vertical: 3.h), // Centers text vertically
+                                            border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(10.r),
+                                              borderSide: BorderSide.none,
+                                            ),
+                                          ),
+                                        ),
 
                                       )
-                                ),
-                            ],
+                                  ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
 
-                    ];
-                  },
-                  body: TabBarView(
-                    controller: _tabController,
-                    children: [
-                      ExploreAllGrid(context, exploreAllFuture!),
-                      ViewMatchesGrid(context, Future.value(filteredResults)),
-                      FilterGrid(context, filteredResults),
-                    ],
+                      ];
+                    },
+                    body: TabBarView(
+                      controller: _tabController,
+                      children: [
+                        ExploreAllGrid(context, exploreAllFuture!),
+                        ViewMatchesGrid(context, Future.value(filteredResults)),
+                        FilterGrid(context, filteredResults),
+                      ],
+                    ),
                   ),
-                ),
-                bottomNavigationBar: CustomBottomNavigationBar(
-                  selectedIndex: _selectedIndex,
-                  onItemTapped: (index) {
-                    setState(() {
-                      _selectedIndex = index;
-                    });
-                    // Handle navigation here based on the index
-                  },
-                  docId: docId,
-                ),
-              );
-            }
-          },
-        );
-      },
-    );
+                  bottomNavigationBar: CustomBottomNavigationBar(
+                    selectedIndex: _selectedIndex,
+                    onItemTapped: (index) {
+                      setState(() {
+                        _selectedIndex = index;
+                      });
+                      // Handle navigation here based on the index
+                    },
+                    docId: docId,
+                  ),
+                );
+              }
+            },
+          );
+        },
+      );
   }
 
 }
