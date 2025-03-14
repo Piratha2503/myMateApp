@@ -113,7 +113,6 @@ class _PhotoGalleryState extends State<PhotoGallery> {
                       fit: BoxFit.fill,
                     )
                         : PlaceholderWidget()
-                        : SizedBox.expand(),
                   ),
                 );
               },
