@@ -238,7 +238,7 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
           _buildTextField(context,hobbyController, 'Personal Interest'),
           SizedBox(height: screenHeight * 0.03),
           Wrap(
-            children: hobbyTags.map((tag) => _buildTag(tag as BuildContext,'')).toList(),
+            children: hobbyTags.map((tag) => _buildTag(context, tag)).toList(),
           ),
           SizedBox(height: screenHeight * 0.05),
           Row(

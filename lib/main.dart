@@ -96,7 +96,7 @@ class MyApp extends StatelessWidget {
         // CheckmatchPage( clientDocId: '', soulDocId: '',),
         //RegisterPage()
       // SubscribedhomescreenStructuredPage(docId: 'E0JFHhK2x6Gq2Ac6XSyP',)
-     // CompleteProfilePage(docId: 'uL82irbLGveGxNP6Gyfd')
+      CompleteProfilePage(docId: 'uL82irbLGveGxNP6Gyfd')
       // EditPage(docId: 'qizCb7sXUhWEPy0awx0e', onSave: () {  },)
        // GenerateChart()
         //AstroChartScreen()
@@ -104,9 +104,8 @@ class MyApp extends StatelessWidget {
           //PageThree(docId: 'qHPJAB0C6DavcfYnHAoO', onSave: () {  },)
            //   MyMatePage(results: [], search: [], docId: 'qHPJAB0C6DavcfYnHAoO',)
             // NotificationPage(0, docId: 'zx7sjs4q0Kq43FPwrybU',)
-               MyMatePage(results: [], search: [], docId: "uL82irbLGveGxNP6Gyfd",)
-              //
-      // MessagePage(docId: 'SYfMHh6YUL6yobmIZXwO', soulId: 'E0JFHhK2x6Gq2Ac6XSyP',)
+              // MyMatePage(results: [], search: [], docId: "uL82irbLGveGxNP6Gyfd",)
+              //MessagePage(docId: 'uL82irbLGveGxNP6Gyfd', soulId: 'E0JFHhK2x6Gq2Ac6XSyP',)
     );
     }
     );

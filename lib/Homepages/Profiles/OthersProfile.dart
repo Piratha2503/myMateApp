@@ -13,6 +13,7 @@ import '../ProfilePageScreen/photoGalleryPage.dart';
 import '../ProfilePageScreen/rasiChartDesign.dart';
 import '../custom_outline_button.dart';
 import '../explorePage/explorePageMain.dart';
+import '../notification_service.dart';
 import 'menuPage.dart';
 
 class OtherProfilePage extends StatefulWidget {
@@ -94,12 +95,11 @@ class _OtherProfilePageState extends State<OtherProfilePage>
         print("Notification status updated successfully to $status");
         _checkNotificationStatus();
 
-        // String? receiverToken = 'eZSq6wLcQUy7bb4-ykFkfG:APA91bGlLxNqvzOJO4pXrgnIx7XJKEvIHVxboz6WM6hJOz8kyr2ETQR0oVukTCmH6NKQ9v9jTSu7qFOEd56d-obZ9i32OuA4XjXCI1leTVfBUIFW2vWwUIA';
-        // await _fetchFCMToken(receiverDocId);
+        String? receiverToken = 'eZSq6wLcQUy7bb4-ykFkfG:APA91bGlLxNqvzOJO4pXrgnIx7XJKEvIHVxboz6WM6hJOz8kyr2ETQR0oVukTCmH6NKQ9v9jTSu7qFOEd56d-obZ9i32OuA4XjXCI1leTVfBUIFW2vWwUIA';
 
-        // if (receiverToken != null) {
-        //   await NotificationService.sendPushNotification(receiverToken, senderName, status);
-        // }
+        if (receiverToken != null) {
+          await NotificationService.sendPushNotification(receiverToken, senderName, status);
+        }
 
       } else {
         print("Failed to update notification status. Status code: ${response.statusCode}");
