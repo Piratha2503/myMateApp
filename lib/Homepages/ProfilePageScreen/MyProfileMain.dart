@@ -6,6 +6,7 @@ import 'package:mymateapp/Homepages/ProfilePageScreen/MyProfileBody.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import '../../../MyMateCommonBodies/MyMateBottomBar.dart';
 import '../../../dbConnection/Firebase.dart';
+import '../../MyMateCommonBodies/MyMateApis.dart';
 import '../BadgeWidget.dart';
 import 'MyProfileWidgets.dart';
 
@@ -78,6 +79,8 @@ class _ProfilePageState extends State<ProfilePage>
 
       appBar: AppBar(
         backgroundColor: MyMateThemes.backgroundColor,
+        automaticallyImplyLeading: false,
+
         title: MyProfileMainAppbar(),
       ),
 
@@ -88,50 +91,60 @@ class _ProfilePageState extends State<ProfilePage>
   }
 
   Widget MyProfileMainAppbar() {
-
-    return AppBar(
-      backgroundColor: Colors.white,
-      automaticallyImplyLeading: false,
-
-      title: SafeArea(
-
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(width: MediaQuery.of(context).size.width * 0.2), // Adjust spacing dynamically
-                Text(
-                  '@user240676',
-                  style: TextStyle(
-                    color: MyMateThemes.textColor,
-                    fontSize: MediaQuery.of(context).size.width * 0.05, // Responsive font size
-                    fontWeight: FontWeight.w500,
+    return SafeArea(
+      child: Row(
+        children: [
+          // Back Button
+          IconButton(
+            icon: Icon(Icons.arrow_back, color: MyMateThemes.primaryColor),
+            onPressed: () => Navigator.pop(context),
+          ),
+          const SizedBox(width: 8),
+          // Title
+          Expanded(
+            child: FutureBuilder<Map<String, dynamic>>(
+              future: fetchUserById(widget.docId),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return SizedBox(width: 20, height: 20);
+                }
+                if (snapshot.hasError || !snapshot.hasData) {
+                  return Text(
+                    'User',
+                    style: TextStyle(color: Colors.red, fontSize: 16),
+                  );
+                }
+                final fullName = snapshot.data!['full_name'] ?? 'Unknown';
+                return SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Text(
+                    fullName,
+                    style: TextStyle(
+                      color: MyMateThemes.textColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    softWrap: false,
+                    overflow: TextOverflow.visible,
                   ),
-                ),
-                SizedBox(width: MediaQuery.of(context).size.width * 0.08),
-                SvgPicture.asset('assets/images/fire.svg',height: MediaQuery.of(context).size.height * 0.02,),
-                SizedBox(width: MediaQuery.of(context).size.width * 0.01),
-
-                Text('78',style: TextStyle(color: MyMateThemes.textColor,fontSize:MediaQuery.of(context).size.width * 0.05 ),),
-                SizedBox(width: MediaQuery.of(context).size.width * 0.01),
-
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.menu, color: MyMateThemes.primaryColor),
-                ),
-                  //
-                  //
-                  // BadgeWidget(assetPath: 'assets/images/bell.svg', badgeValue: badgeValue1),
-                  // SizedBox(width: MediaQuery.of(context).size.width  * 0.045),
-                  // BadgeWidget(assetPath: 'assets/images/Group 2157.svg', badgeValue: badgeValue2),
-                  // SizedBox(width:MediaQuery.of(context).size.width  * 0.045),
-
-              ],
+                );
+              },
             ),
-          ],
-        ),
+          ),
+          const SizedBox(width: 15),
+          // Fire Icon and number
+          SvgPicture.asset('assets/images/fire.svg', height: 20),
+          const SizedBox(width: 4),
+          Text(
+            '78',
+            style: TextStyle(color: MyMateThemes.textColor, fontSize: 16),
+          ),
+          const SizedBox(width: 8),
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.menu, color: MyMateThemes.primaryColor),
+          ),
+        ],
       ),
     );
   }

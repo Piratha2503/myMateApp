@@ -37,15 +37,15 @@ Map<String, String>? appliedSearch;
 //       _isLoading = false;
 //     }
 //   }
-Future<List<Map<String, dynamic>>> getProfiles() async {
-  try {
-    final data = await fetchAllUsers();
-    return data.isNotEmpty ? data : [];
-  } catch (e) {
-    print('Error fetching profiles: $e');
-    return [];
-  }
-}
+// Future<List<Map<String, dynamic>>> getProfiles() async {
+//   try {
+//     final data = await fetchAllUsers();
+//     return data.isNotEmpty ? data : [];
+//   } catch (e) {
+//     print('Error fetching profiles: $e');
+//     return [];
+//   }
+// }
 Future<List<Map<String, dynamic>>> getFilteredProfiles() async {
 
   try {
@@ -107,7 +107,6 @@ Widget MyMatesGrid(BuildContext context, Future<List<Map<String, dynamic>>> prof
           crossAxisSpacing:0.1.h,
           mainAxisSpacing: 0.3.w,
           childAspectRatio: 0.7.h,
-          // Fixed width-to-height ratio
           children: data.map((profile) => buildGridItem(profile)).toList(),
         ),
 
@@ -176,7 +175,7 @@ Widget sendRequestGrid(BuildContext context, Future<List<Map<String, dynamic>>> 
 }
 
 
-Widget buildGridItem(Map<String, dynamic> profile) {
+Widget buildGridItem(Map<String, dynamic> profiles) {
   return Builder(
     builder: (context) {
       return
@@ -184,16 +183,20 @@ Widget buildGridItem(Map<String, dynamic> profile) {
           child:
           GestureDetector(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => OtherProfilePage(SoulId: profile['id']),
-                ),
-              );
+              if (profiles.containsKey('docId')) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => OtherProfilePage(SoulId: profiles['docId']),
+                  ),
+                );
+              } else {
+                print("Error: docId not found for this profile");
+              }
             },
             child: Container(
-              height: 300.h,  // Responsive height
-              width: 152.w,   // Responsive width
+              height: 300.h,
+              width: 152.w,
               decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(
@@ -202,7 +205,7 @@ Widget buildGridItem(Map<String, dynamic> profile) {
                 ),
                 borderRadius: BorderRadius.circular(8.r),
               ),
-              margin: EdgeInsets.all(8.w),  // Responsive margin
+              margin: EdgeInsets.all(8.w),
               child: Stack(
                 children: [
                   // Profile Image
@@ -215,14 +218,14 @@ Widget buildGridItem(Map<String, dynamic> profile) {
                       //   width: 1,
                       // ),
                       borderRadius: BorderRadius.circular(8),
-                      image: (profile['images'] != null && profile['images'].isNotEmpty)
+                      image: (profiles['profileImages']?['profile_pic_url'] != null && profiles['profileImages']?['profile_pic_url'].isNotEmpty)
                           ? DecorationImage(
-                        image: NetworkImage(profile['images']),
+                        image: NetworkImage(profiles['profileImages']?['profile_pic_url']),
                         fit: BoxFit.cover,
                       )
                           : null,
                     ),
-                    child: (profile['images'] == null || profile['images'].isEmpty)
+                    child: (profiles['profileImages']?['profile_pic_url'] == null || profiles['profileImages']?['profile_pic_url'].isEmpty)
                         ? Icon(Icons.person, size: 80.r, color: Colors.grey[400])
                         : null,
                   ),
@@ -246,7 +249,7 @@ Widget buildGridItem(Map<String, dynamic> profile) {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            profile['full_name'] ?? 'N/A',
+                            profiles['personalDetails']?['full_name'] ?? 'N/A',
                             style: TextStyle(
                               color: MyMateThemes.textColor,
                               fontWeight: FontWeight.w700,
@@ -254,20 +257,20 @@ Widget buildGridItem(Map<String, dynamic> profile) {
                             ),
                           ),
                           Text(
-                            '${profile['age'] ?? 'N/A'}, ${profile['marital_status'] ?? 'N/A'}',
+                            '${profiles ['personalDetails']?['age'] ?? 'N/A'}, ${profiles ['personalDetails']?['marital_status'] ?? 'N/A'}',
                             style: TextStyle(
                               color: MyMateThemes.textColor,
                               fontSize:  11.sp,
                             ),
                           ),
                           Text(
-                            profile['occupation'] ?? 'N/A',
+                            profiles['careerStudies']?['occupation'] ?? 'N/A',
                             style: TextStyle(
                               color: MyMateThemes.textColor,
                               fontSize:  11.sp,
                             ),
                           ),
-                          Text(profile['city'] ?? 'N/A',
+                          Text(profiles['contactInfo']?['address']?['city'] ?? 'N/A',
                               style: TextStyle(
                                   color: MyMateThemes.textColor, fontSize: 11.sp)),
                           SizedBox(height: 5.h),

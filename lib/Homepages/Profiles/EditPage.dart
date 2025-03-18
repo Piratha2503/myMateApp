@@ -593,7 +593,7 @@ class _EditPageState extends State<EditPage> {
       case 3:
         return 'Regularly Smoker';
       case 4:
-        return 'chain smoker';
+        return 'Chain Smoker';
       default:
         return 'Unknown';
     }

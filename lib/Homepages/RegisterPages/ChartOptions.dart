@@ -97,7 +97,7 @@ class _ChartOptionsState extends State<ChartOptions> {
                           MaterialPageRoute(
                               builder: (context) => Builder(
                                 builder: (context) {
-                                  return PlaceDateTimeInput(clientData: clientData,);
+                                  return PlaceDateTimeInput(clientData: clientData,docId:clientData.docId!,);
                                 }
                               )));
                     },

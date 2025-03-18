@@ -397,7 +397,7 @@ class _ManualChartEnterState extends State<ManualChartEnter> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => AutogeneratechartPage()));
+                                    builder: (context) => AutogeneratechartPage(docId: clientData.docId!,)));
                           },
                           style: ButtonStyle(
                             foregroundColor: MaterialStatePropertyAll(Colors.white),

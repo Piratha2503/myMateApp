@@ -8,6 +8,7 @@ import '../ProfilePageScreen/MyProfileMain.dart';
 
 class MoreAboutMePage extends StatefulWidget {
   final String docId;
+
   const MoreAboutMePage({super.key,required this.docId});
 
   @override
@@ -123,7 +124,7 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
       case 3:
         return 'Regularly Smoker';
       case 4:
-        return 'chain smoker';
+        return 'Chain smoker';
       default:
         return 'Unknown';
     }

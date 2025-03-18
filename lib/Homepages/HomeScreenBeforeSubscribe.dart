@@ -33,7 +33,7 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
       duration: Duration(milliseconds: 500),
     );
     _controller.forward();
-    print(widget.docId);
+    print('docId in unsubscribedscrren is:${widget.docId}');
     _controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         setState(() {
