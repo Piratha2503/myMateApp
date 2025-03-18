@@ -13,7 +13,8 @@ import 'AutoGenerateChart.dart';
 
 class PlaceDateTimeInput extends StatefulWidget {
   ClientData clientData;
-  PlaceDateTimeInput({super.key, required this.clientData});
+  final String docId;
+  PlaceDateTimeInput({super.key, required this.clientData,required this.docId});
 
   @override
   State<PlaceDateTimeInput> createState() => _PlaceDateTimeInputState();
@@ -37,7 +38,6 @@ class _PlaceDateTimeInputState extends State<PlaceDateTimeInput> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
         builder: (context, constraints) {
-          // Read width and height from constraints to use for responsive sizing.
           final double width = constraints.maxWidth;
           final double height = constraints.maxHeight;
         return Scaffold(
@@ -50,7 +50,7 @@ class _PlaceDateTimeInputState extends State<PlaceDateTimeInput> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ChartOptions(clientData:clientData ,)));
+                        builder: (context) => ChartOptions(clientData:clientData )));
               },
             ),
 
@@ -241,13 +241,13 @@ class _PlaceDateTimeInputState extends State<PlaceDateTimeInput> {
                       height: height*0.08,
                       width: width*0.35,
                       child: ElevatedButton(
-                        onPressed: ()
+                        onPressed:  () async
                         {
-                          updatePlaceDateTime();
-                          Navigator.push(
+                         await updatePlaceDateTime();
+                        await  Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => AutogeneratechartPage()));
+                                  builder: (context) => AutogeneratechartPage(docId:widget.docId)));
                         },
                         style: ButtonStyle(
                           foregroundColor: MaterialStatePropertyAll(Colors.white),
@@ -285,6 +285,7 @@ class _PlaceDateTimeInputState extends State<PlaceDateTimeInput> {
     astrology.birth_location = district;
     widget.clientData.astrology = astrology;
     print(jsonEncode(widget.clientData.toMap()));
+    print('docId in place dateinput :${clientData.docId}');
 
     final url = Uri.parse("https://backend.graycorp.io:9000/mymate/api/v1/updateClient");
     final response = await http.put(

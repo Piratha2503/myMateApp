@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:mymateapp/Homepages/RegisterPages/NameAndGenderPage.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
@@ -6,11 +8,13 @@ import 'package:pinput/pinput.dart';
 import 'package:smart_auth/smart_auth.dart';
 
 import '../../MyMateThemes.dart';
+import '../ProfilePageScreen/MyProfileMain.dart';
 import 'OTPPage.dart';
 
 class OtpPinput extends StatefulWidget {
   final ClientData clientData;
-  OtpPinput({super.key, required this.clientData, required String docId});
+  final String docId;
+  OtpPinput({super.key, required this.clientData, required this. docId});
 
   @override
   State<OtpPinput> createState() => _OtpPinputState();
@@ -46,76 +50,49 @@ class _OtpPinputState extends State<OtpPinput> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(child:
-      LayoutBuilder(
-          builder: (context, constraints) {
-            double width = constraints.maxWidth;
-            double height = constraints.maxHeight;
-          return Form(
-            key: formKey,
-            child:Column(
-                children: <Widget>[
-                  SizedBox( height: height*0.1),
-                  InstructionTexts(widget.clientData.contactInfo?.mobile),
-                  SizedBox( height:height*0.12),
-                  OtpBoxes(clientData: widget.clientData,),
-                  SizedBox( height:height*0.05),
-                  OtpResend(),
-                  SizedBox( height: 50, ),
-                ]
-            ),
-
-          );
-        }
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
       ),
+      body: Form(
+        key: formKey,
+        child:Column(
+            children: <Widget>[
+              InstructionTexts(widget.clientData.contactInfo?.mobile),
+              SizedBox( height: 90,),
+              OtpBoxes(clientData: widget.clientData, docId: widget.docId,),
+              SizedBox( height: 65,),
+              OtpResend(),
+              SizedBox( height: 50, ),
+            ]
+        ),
+
       ),
-
-
-
     );
   }
 }
 
 Widget InstructionTexts(String? mobile){
-  return LayoutBuilder(
-      builder: (context, constraints) {
-        double width = constraints.maxWidth;
-        double height = constraints.maxHeight;
-      return Column(
-        children: <Widget>[
-          Text(
-            "Enter verification code",
-            style: TextStyle(
-              fontSize: width*0.05,
-              color: MyMateThemes.textColor,
-              fontFamily: "Work Sans",
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        SizedBox(height: 10),
-          Text("Enter the code from the sms we sent",
-              style: TextStyle(
-                  color: MyMateThemes.textColor,
-                  fontSize: width*0.04
-              )),
-          Text("to $mobile", style: TextStyle(
-        color: MyMateThemes.textColor,
-        fontSize: width*0.04
-        ),),
-        ],
-      );
-    }
+  return Column(
+    children: <Widget>[
+      Text(
+        "Enter your Pin number",
+        style: TextStyle(
+          fontSize: 20,
+          fontFamily: "Work Sans",
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+      SizedBox( height: 15,),
+      Text("Enter the code from the sms we sent", style: MyTextStyle(),),
+      Text("to $mobile", style: MyTextStyle(),),
+    ],
   );
 }
 
 class OtpBoxes extends StatefulWidget{
   final ClientData clientData;
-
-
-  const OtpBoxes({required this.clientData,super.key});
-
-
+  final String docId;
+  const OtpBoxes({required this.clientData,required this.docId,super.key});
 
   @override
   State<OtpBoxes> createState() => _OtpBoxesState();
@@ -132,132 +109,130 @@ class _OtpBoxesState extends State<OtpBoxes>{
     super.initState();
   }
 
-  static const focusedBorderColor =MyMateThemes.primaryColor;
-  static const fillColor =Colors.white;
-  static const borderColor = MyMateThemes.textColor;
-  static const textColor = MyMateThemes.textColor;
+  static const focusedBorderColor = Color.fromRGBO(23, 171, 144, 1);
+  static const fillColor = Color.fromRGBO(243, 246, 249, 0);
+  static const borderColor = Color.fromRGBO(23, 171, 144, 0.4);
 
-  final defaultPinTheme =
-  PinTheme(
+  final defaultPinTheme = PinTheme(
     width: 65,
     height: 65,
-    textStyle:  TextStyle(
+    textStyle: const TextStyle(
         fontSize: 24,
         fontWeight: FontWeight.w600,
-        color: MyMateThemes.primaryColor,
+        color: Colors.deepPurple
     ),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10),
-      border: Border.all(color: MyMateThemes.primaryColor,width: 1),
+      border: Border.all(color: Colors.indigo,width: 1),
     ),
   );
-
-  final defaultTextTheme =
-  PinTheme(
-    width: 65,
-    height: 65,
-    textStyle:  TextStyle(
-      fontSize: 24,
-      fontWeight: FontWeight.w600,
-      color: MyMateThemes.textColor,
-    ),
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(10),
-      border: Border.all(color: MyMateThemes.primaryColor,width: 1),
-    ),
-
-  );
-
 
   @override
   Widget build(BuildContext context){
     String otp = "${widget.clientData.contactInfo?.otp}";
-    return
-    LayoutBuilder(
-        builder: (context, constraints) {
-          double width = constraints.maxWidth;
-          double height = constraints.maxHeight;
-        return Directionality(
-          textDirection: TextDirection.ltr,
-          child: Pinput(
-            defaultPinTheme: defaultPinTheme,
-            separatorBuilder: (index) => SizedBox(width: width*0.02),
-            validator: (value) {
-              return value == otp ? null : 'Incorrect Pin';
-            },
-            hapticFeedbackType: HapticFeedbackType.lightImpact,
-            onCompleted: (pin) {
-              if(pin == otp) {
-                debugPrint('onCompleted: $pin');
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>NameAndGender(clientData: widget.clientData, docId:  widget.clientData.docId ?? "Unknown",)));
-              }
-            },
-            onChanged: (pin) {
-              debugPrint('onChanged: $pin');
-            },
-            cursor: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                Container(
-                  margin: const EdgeInsets.only(bottom: 9),
-                  width:width*0.03,
-                  height: height*0.01,
-                  color: MyMateThemes.textColor,
-                ),
-              ],
-            ),
-            focusedPinTheme: defaultPinTheme.copyWith(
-              decoration: defaultPinTheme.decoration!.copyWith(
-                borderRadius: BorderRadius.circular(width*0.02),
-                border: Border.all(color: MyMateThemes.primaryColor,width: width*0.005),
-              ),
-            ),
-            submittedPinTheme: defaultPinTheme.copyWith(
-              decoration: defaultPinTheme.decoration!.copyWith(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(width*0.02),
-                border: Border.all(color: focusedBorderColor, width:width*0.005),
-              ),
-            ),
-            errorPinTheme: defaultTextTheme.copyBorderWith(
 
-              border: Border.all(color: Colors.red),
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: Pinput(
+        defaultPinTheme: defaultPinTheme,
+        separatorBuilder: (index) => const SizedBox(width: 12),
+        validator: (value) {
+          return value == otp ? null : 'Incorrect Pin';
+        },
+        hapticFeedbackType: HapticFeedbackType.lightImpact,
+        onCompleted: (pin) async {
+          if (pin == otp) {
+            debugPrint('OTP Correct: $pin');
+
+            String docId = widget.docId;
+            if (docId.isEmpty) {
+              debugPrint("Error: docId is missing!");
+              return;
+            }
+
+            try {
+              final response = await http.get(
+                Uri.parse('https://backend.graycorp.io:9000/mymate/api/v1/getClientDataByDocId?docId=$docId'),
+              );
+
+              if (response.statusCode == 200) {
+                Map<String, dynamic> userData = jsonDecode(response.body);
+                bool page3Complete = userData['completeProfilePending']['_page3_complete'] ?? false;
+                print(page3Complete);
+
+                if (page3Complete) {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProfilePage(docId: docId, selectedBottomBarIconIndex: 3,),
+                    ),
+                  );
+                } else {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => NameAndGender(
+                        clientData: widget.clientData,
+                        docId: docId,
+                      ),
+                    ),
+                  );
+                }
+              } else {
+                debugPrint("API Error: ${response.statusCode} - ${response.body}");
+              }
+            } catch (e) {
+              debugPrint("Error fetching user data: $e");
+            }
+          } else {
+            debugPrint("Incorrect OTP!");
+          }
+        },
+        onChanged: (pin) {
+          debugPrint('onChanged: $pin');
+        },
+        cursor: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Container(
+              margin: const EdgeInsets.only(bottom: 9),
+              width: 30,
+              height: 3,
+              color: Colors.indigo,
             ),
+          ],
+        ),
+        focusedPinTheme: defaultPinTheme.copyWith(
+          decoration: defaultPinTheme.decoration!.copyWith(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: MyMateThemes.primaryColor,width: 3),
           ),
-        );
-      }
+        ),
+        submittedPinTheme: defaultPinTheme.copyWith(
+          decoration: defaultPinTheme.decoration!.copyWith(
+            color: Color.fromRGBO(232,232,232,100),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: focusedBorderColor, width: 2),
+          ),
+        ),
+        errorPinTheme: defaultPinTheme.copyBorderWith(
+          border: Border.all(color: Colors.redAccent),
+        ),
+      ),
     );
   }
 }
 
 Widget OtpResend(){
-  return LayoutBuilder(
-      builder: (context, constraints) {
-        double width = constraints.maxWidth;
-        double height = constraints.maxHeight;
-      return Center(
-        child:  Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              "Resend OTP again in ",
-              style: TextStyle(
-                  fontSize:width*0.05,
-                  color: MyMateThemes.textColor
-              ),
-            ),
-          Text(
-            " 01.44",
-            style: TextStyle(
-                fontSize: width*0.05,
-                fontWeight: FontWeight.bold,
-                color: MyMateThemes.primaryColor),
-          ),
-
-          ],
-        ),
-      );
-    }
+  return Center(
+    child:  Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text( "Resend OTP again in ", style: TextStyle( fontSize: 20,),),
+        Text( "01.44", style: TextStyle( fontSize: 20, fontWeight: FontWeight.bold, color: MyMateThemes.textColor),
+        )
+      ],
+    ),
   );
 }
 
@@ -287,6 +262,5 @@ class SmsRetrieverImpl implements SmsRetriever {
   @override
   bool get listenForMultipleSms => false;
 }
-
 
 

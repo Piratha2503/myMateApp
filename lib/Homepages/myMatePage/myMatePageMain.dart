@@ -10,11 +10,9 @@ import '../../MyMateCommonBodies/MyMateBottomBar.dart';
 import '../../MyMateThemes.dart';
 import 'package:http/http.dart' as http;
 
-
 class MyMatePage extends StatefulWidget {
   final int initialTabIndex;
   final List<Map<String, dynamic>> results;
-
 
   const MyMatePage({
     Key? key,
@@ -28,10 +26,10 @@ class MyMatePage extends StatefulWidget {
   _MyMatePageState createState() => _MyMatePageState();
 }
 
-class _MyMatePageState extends State<MyMatePage> with SingleTickerProviderStateMixin {
+class _MyMatePageState extends State<MyMatePage>
+    with SingleTickerProviderStateMixin {
   // late Timer _debounce;
   int _selectedIndex = 1;
-
 
   late TabController _tabController;
   Future<List<Map<String, dynamic>>>? myMatesFuture;
@@ -45,29 +43,29 @@ class _MyMatePageState extends State<MyMatePage> with SingleTickerProviderStateM
   ScrollController _scrollController = ScrollController();
   bool _showHeader = true;
 
-
-
-
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this, initialIndex: widget.initialTabIndex);
+    _tabController = TabController(
+        length: 3, vsync: this, initialIndex: widget.initialTabIndex);
     _tabController.addListener(() {
       setState(() {});
     });
+    myMatesFuture = Future.value([]);
+    receiveRequestFuture = Future.value([]);
+    sendRequestFuture = Future.value([]);
 
     fetchClientData();
 
-
-
     searchController.addListener(_performSearch);
-
   }
 
-  Future<List<Map<String, dynamic>>> fetchProfilesByDocIds(List<String> docIds) async {
+  Future<List<Map<String, dynamic>>> fetchProfilesByDocIds(
+      List<String> docIds) async {
     try {
       final response = await http.get(
-        Uri.parse('https://backend.graycorp.io:9000/mymate/api/v1/getClientDataList'),
+        Uri.parse(
+            'https://backend.graycorp.io:9000/mymate/api/v1/getClientDataList'),
         headers: {'Content-Type': 'application/json'},
       );
 
@@ -79,7 +77,8 @@ class _MyMatePageState extends State<MyMatePage> with SingleTickerProviderStateM
           return [];
         }
 
-        List<Map<String, dynamic>> allProfilesList = List<Map<String, dynamic>>.from(allProfiles);
+        List<Map<String, dynamic>> allProfilesList =
+            List<Map<String, dynamic>>.from(allProfiles);
 
         List<Map<String, dynamic>> filteredProfiles = allProfilesList
             .where((profile) => docIds.contains(profile['docId']))
@@ -102,20 +101,27 @@ class _MyMatePageState extends State<MyMatePage> with SingleTickerProviderStateM
       if (docId == null) return;
 
       final response = await http.get(
-        Uri.parse('https://backend.graycorp.io:9000/mymate/api/v1/getClientDataByDocId?docId=$docId'),
+        Uri.parse(
+            'https://backend.graycorp.io:9000/mymate/api/v1/getClientDataByDocId?docId=$docId'),
         headers: {'Content-Type': 'application/json'},
       );
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
 
-        List<String> requestSentDocIds = List<String>.from(data['matchings']['requestSentDocIdList'] ?? []);
-        List<String> acceptedDocIds = List<String>.from(data['matchings']['acceptDocIdList'] ?? []);
-        List<String> receivedRequestDocIds = List<String>.from(data['matchings']['requestReceivedDocIdList'] ?? []);
+        List<String> requestSentDocIds =
+            List<String>.from(data['matchings']['requestSentDocIdList'] ?? []);
+        List<String> acceptedDocIds =
+            List<String>.from(data['matchings']['acceptDocIdList'] ?? []);
+        List<String> receivedRequestDocIds = List<String>.from(
+            data['matchings']['requestReceivedDocIdList'] ?? []);
 
-        List<Map<String, dynamic>> requestSentProfiles = await fetchProfilesByDocIds(requestSentDocIds);
-        List<Map<String, dynamic>> acceptedProfiles = await fetchProfilesByDocIds(acceptedDocIds);
-        List<Map<String, dynamic>> receivedRequestProfiles = await fetchProfilesByDocIds(receivedRequestDocIds);
+        List<Map<String, dynamic>> requestSentProfiles =
+            await fetchProfilesByDocIds(requestSentDocIds);
+        List<Map<String, dynamic>> acceptedProfiles =
+            await fetchProfilesByDocIds(acceptedDocIds);
+        List<Map<String, dynamic>> receivedRequestProfiles =
+            await fetchProfilesByDocIds(receivedRequestDocIds);
 
         setState(() {
           sendRequestFuture = Future.value(requestSentProfiles);
@@ -136,32 +142,24 @@ class _MyMatePageState extends State<MyMatePage> with SingleTickerProviderStateM
   }
 
   void _performSearch() {
-
     if (_debounce?.isActive ?? false) _debounce!.cancel();
 
     _debounce = Timer(const Duration(milliseconds: 1000), () {
-
-
       final searchCriteria = {
         'full_name': searchController.text.trim(),
       };
       setState(() {
-
         if (searchCriteria['full_name']!.isEmpty) {
           sendRequestFuture = searchAllUsers(searchCriteria);
           receiveRequestFuture = searchAllUsers(searchCriteria);
-
         } else {
           myMatesFuture = searchAllUsers(searchCriteria);
           sendRequestFuture = searchAllUsers(searchCriteria);
           receiveRequestFuture = searchAllUsers(searchCriteria);
         }
-      }
-      );
-    }
-    );
+      });
+    });
   }
-
 
   Future<void> _applySearch() async {
     final searchCriteria = {
@@ -175,7 +173,6 @@ class _MyMatePageState extends State<MyMatePage> with SingleTickerProviderStateM
         myMatesFuture = searchAllUsers(searchCriteria);
         sendRequestFuture = searchAllUsers(searchCriteria);
         receiveRequestFuture = searchAllUsers(searchCriteria);
-
       }
     });
   }
@@ -188,10 +185,8 @@ class _MyMatePageState extends State<MyMatePage> with SingleTickerProviderStateM
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     return FutureBuilder<String?>(
       future: getSavedDocId(),
       builder: (context, snapshot) {
@@ -256,45 +251,45 @@ class _MyMatePageState extends State<MyMatePage> with SingleTickerProviderStateM
                               width: 353.w,
                               decoration: BoxDecoration(
                                 border: Border.all(
-                                  color: MyMateThemes.textColor.withOpacity(0.1),
+                                  color:
+                                      MyMateThemes.textColor.withOpacity(0.1),
                                   width: 1,
                                 ),
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              child:
-                              Padding(
-                                padding:EdgeInsets.symmetric(horizontal: 1.w),
-                                child:TextField(
-
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 1.w),
+                                child: TextField(
                                   controller: searchController,
                                   cursorColor: MyMateThemes.textColor,
-                                  style: TextStyle(fontSize: 14.sp, color: MyMateThemes.textColor),
+                                  style: TextStyle(
+                                      fontSize: 14.sp,
+                                      color: MyMateThemes.textColor),
                                   decoration: InputDecoration(
                                     prefixIcon: Padding(
                                       padding: EdgeInsets.all(8.r),
                                       child: SvgPicture.asset(
                                         'assets/images/search.svg',
                                         colorFilter: ColorFilter.mode(
-                                          MyMateThemes.textColor.withOpacity(0.6),
+                                          MyMateThemes.textColor
+                                              .withOpacity(0.6),
                                           BlendMode.srcIn,
                                         ),
                                       ),
                                     ),
-                                    contentPadding: EdgeInsets.symmetric(vertical: 3.h),
+                                    contentPadding:
+                                        EdgeInsets.symmetric(vertical: 3.h),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10.r),
                                       borderSide: BorderSide.none,
                                     ),
                                   ),
                                 ),
-
-                              )
-                          ),
+                              )),
                         ],
                       ),
                     ),
                   ),
-
                 ];
               },
               body: TabBarView(
@@ -302,7 +297,7 @@ class _MyMatePageState extends State<MyMatePage> with SingleTickerProviderStateM
                 children: [
                   MyMatesGrid(context, myMatesFuture!),
                   receiveRequestGrid(context, receiveRequestFuture!),
-                  sendRequestGrid(context,sendRequestFuture!),
+                  sendRequestGrid(context, sendRequestFuture!),
                 ],
               ),
             ),
@@ -319,9 +314,7 @@ class _MyMatePageState extends State<MyMatePage> with SingleTickerProviderStateM
         }
       },
     );
-
   }
-
 }
 
 PreferredSizeWidget myMatesPageAppBar(BuildContext context) {
@@ -330,9 +323,11 @@ PreferredSizeWidget myMatesPageAppBar(BuildContext context) {
     automaticallyImplyLeading: false,
     title: Text(
       'My Mates',
-      style: TextStyle(fontSize: 16, color: MyMateThemes.textColor, fontWeight: FontWeight.w500),
+      style: TextStyle(
+          fontSize: 16,
+          color: MyMateThemes.textColor,
+          fontWeight: FontWeight.w500),
     ),
-
   );
 }
 
@@ -347,7 +342,8 @@ class _SliverTabBarDelegate extends SliverPersistentHeaderDelegate {
   double get maxExtent => _tabBar.preferredSize.height;
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
       color: Colors.white,
       child: _tabBar,

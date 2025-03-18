@@ -92,11 +92,11 @@ class MyApp extends StatelessWidget {
         home:
            // ProfilePage(selectedBottomBarIconIndex: 3, docId: 'zx7sjs4q0Kq43FPwrybU')
           //AuthcheckState()
-         // ProfilePage(docId: "uL82irbLGveGxNP6Gyfd", selectedBottomBarIconIndex:0,),
+         // ProfilePage(docId: "JTqExt8GKY2R5w7VFYj6", selectedBottomBarIconIndex:0,),
         // CheckmatchPage( clientDocId: '', soulDocId: '',),
         //RegisterPage()
-      // SubscribedhomescreenStructuredPage(docId: 'E0JFHhK2x6Gq2Ac6XSyP',)
-      CompleteProfilePage(docId: 'uL82irbLGveGxNP6Gyfd')
+       //SubscribedhomescreenStructuredPage(docId: 'JTqExt8GKY2R5w7VFYj6',)
+      CompleteProfilePage(docId: 'SYfMHh6YUL6yobmIZXwO')
       // EditPage(docId: 'qizCb7sXUhWEPy0awx0e', onSave: () {  },)
        // GenerateChart()
         //AstroChartScreen()

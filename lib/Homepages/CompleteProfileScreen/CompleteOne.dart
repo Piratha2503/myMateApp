@@ -59,7 +59,7 @@ class _PageOneState extends State<PageOne> {
     }
 
     print('Saved Image URL: $_savedImageUrl');
-    print(widget.docId);
+    print('doc id is: $widget.docId');
 
     widget.onSave();
   }
