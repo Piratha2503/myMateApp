@@ -4,12 +4,15 @@ import '../../MyMateCommonBodies/MyMateApis.dart';
 import '../../MyMateCommonBodies/MyMateBottomBar.dart';
 import '../BadgeWidget.dart';
 import '../CompleteProfileScreen/CompleteProfileMain.dart';
+import '../MessagePage.dart';
 import '../checkMatchPages/checkMatchOptions.dart';
 import 'SubscribedHomeScreenWidgets.dart';
 
 class SubscribedhomescreenStructuredPage extends StatefulWidget {
   final String docId;
-  const SubscribedhomescreenStructuredPage({super.key, required this.docId});
+  final bool ShowPopupOnLoad;
+
+  const SubscribedhomescreenStructuredPage({super.key, required this.docId,this.ShowPopupOnLoad=false});
 
   @override
   State<SubscribedhomescreenStructuredPage> createState() =>
@@ -24,18 +27,23 @@ class _SubscribedhomescreenStructuredPageState
   void initState() {
     super.initState();
     getClient();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _showPopupDialog();
-      print("Subscribe HomeScreen docId:- \${widget.docId}");
-    });
+
+    if (widget.ShowPopupOnLoad) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _showPopupDialog();
+        print("Subscribe HomeScreen docId:- \${widget.docId}");
+      });
+    }
   }
 
   int badgeValue1 = 2;
   int badgeValue2 = 10;
-  String name = 'Your Name';
+   String name = 'Your Name';
 
   Future<void> getClient() async {
     final data = await fetchUserById(widget.docId);
+    print("Fetched user data: $data"); // Debug print
+
 
     if (data.isNotEmpty) {
       setState(() {
@@ -109,7 +117,17 @@ class _SubscribedhomescreenStructuredPageState
 
                       BadgeWidget(assetPath: 'assets/images/bell.svg', badgeValue: badgeValue1),
                       SizedBox(width: constraints.maxWidth * 0.045),
-                      BadgeWidget(assetPath: 'assets/images/Group 2157.svg', badgeValue: badgeValue2),
+
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => MessagePage(docId: widget.docId, soulId: 'JTqExt8GKY2R5w7VFYj6',)),
+
+                          );
+                        },
+                       child:  BadgeWidget(assetPath: 'assets/images/Group 2157.svg', badgeValue: badgeValue2),
+                      ),
                       SizedBox(width: constraints.maxWidth * 0.045),
                     ],
                   ),

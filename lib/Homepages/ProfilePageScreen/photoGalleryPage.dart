@@ -34,16 +34,17 @@ class _PhotoGalleryState extends State<PhotoGallery> {
 
   Future<void> _fetchImages() async {
     try {
-      // String apiUrl = MyMateAPIs.get_client_byDocId_API;
-      // Uri url = Uri.parse('$apiUrl?$widget.docId');
-      // final response = await http.get(url);
-      // final data = jsonDecode(response.body);
-      // setState(() {
-      //   imagePaths = ["https://piratha.com/images/Piratha.jpg"];
-      // });
       final data = await fetchUserById(widget.docId);
+      final galleryData = data['gallery_image_urls'];
+
       setState(() {
-        imagePaths = List<String>.from(data['gallery_image_urls'] ?? []);
+        if (galleryData is List) {
+          imagePaths = List<String>.from(galleryData);
+        } else if (galleryData is String && galleryData.isNotEmpty) {
+          imagePaths = [galleryData];
+        } else {
+          imagePaths = [];
+        }
         isLoading = false;
         print(imagePaths);
       });
@@ -58,6 +59,7 @@ class _PhotoGalleryState extends State<PhotoGallery> {
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
+    final bool hasImages = imagePaths.isNotEmpty;
     final double screenWidth = MediaQuery.of(context).size.width;
 
     return isLoading
@@ -89,13 +91,11 @@ class _PhotoGalleryState extends State<PhotoGallery> {
               borderRadius: BorderRadius.circular(20),
             ),
             child: CarouselSlider.builder(
-              itemCount: imagePaths.length,
-
+              itemCount: hasImages ? imagePaths.length : 3,
               itemBuilder: (context, index, realIndex) {
                 bool isCentered = index == _currentIndex;
 
                 return AnimatedContainer(
-
                   duration: Duration(milliseconds: 100),
                   width: screenWidth*0.7,
                   height: screenHeight*0.6,
@@ -112,7 +112,7 @@ class _PhotoGalleryState extends State<PhotoGallery> {
                       imagePaths[index],
                       fit: BoxFit.fill,
                     )
-                        : SizedBox.expand(),
+                        : PlaceholderWidget()
                   ),
                 );
               },
@@ -155,5 +155,27 @@ Widget SectionTitle(BuildContext context, String title) {
         ),
       ),
     ],
+  );
+}
+
+Widget PlaceholderWidget() {
+  return Container(
+    decoration: BoxDecoration(
+      color: Colors.grey[300],
+      borderRadius: BorderRadius.circular(15),
+    ),
+    child: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.image_not_supported, size: 50, color: Colors.grey[600]),
+          SizedBox(height: 8),
+          Text(
+            "No Image Available",
+            style: TextStyle(color: Colors.grey[600], fontSize: 14),
+          ),
+        ],
+      ),
+    ),
   );
 }

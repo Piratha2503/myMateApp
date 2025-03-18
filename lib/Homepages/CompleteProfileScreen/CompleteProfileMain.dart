@@ -5,6 +5,7 @@ import 'package:mymateapp/Homepages/CompleteProfileScreen/Completegallerypage.da
 import 'package:mymateapp/Homepages/HomeScreenBeforeSubscribe.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import '../ProfilePageScreen/MyProfileMain.dart';
+import '../SubscribedhomeScreen/SubscribedHomeScreenStructured.dart';
 import 'CompleteOne.dart';
 import 'CompleteThree.dart';
 import 'CompleteTwo.dart';
@@ -162,9 +163,7 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ProfilePage(
-            docId: widget.docId, selectedBottomBarIconIndex: 3,
-          ),
+          builder: (context) => SubscribedhomescreenStructuredPage(docId: widget.docId,)
         ),
       );
     }

@@ -63,7 +63,7 @@ class _EditGalleryScreenState extends State<EditGalleryScreen> {
                 height: height * 0.8,
                 width: width*0.3 ,
               child: Column(
-                mainAxisSize: MainAxisSize.min, // Prevents unnecessary expansion
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   GestureDetector(
                     onTap: () {
@@ -72,7 +72,7 @@ class _EditGalleryScreenState extends State<EditGalleryScreen> {
                     },
                     child: SvgPicture.asset(
                       'assets/images/choose.svg',
-                      width: width * 0.25, // Scale image size dynamically
+                      width: width * 0.25,
                     ),
                   ),
                   SizedBox(height: height * 0.015),

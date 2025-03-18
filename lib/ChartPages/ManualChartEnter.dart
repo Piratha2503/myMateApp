@@ -399,6 +399,7 @@ class _ManualChartEnterState extends State<ManualChartEnter> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => ViewRasiChartPage(clientData: clientData,)));
+                                    builder: (context) => AutogeneratechartPage(docId: clientData.docId!,)));
                           },
                           style: ButtonStyle(
                             foregroundColor: MaterialStatePropertyAll(Colors.white),

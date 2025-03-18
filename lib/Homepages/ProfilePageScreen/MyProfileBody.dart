@@ -29,7 +29,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
   final Firebase firebase = Firebase();
   late List<double> _positions;
 
-  bool isFormFilled = true;
+  bool isFormFilled = false;
 
   String full_name = "";
   String gender = "";
@@ -140,12 +140,22 @@ class _MyProfileBodyState extends State<MyProfileBody> {
         personalDetails.religion = data['religion'] ?? "N/A";
         personalDetails.num_of_siblings = data['num_of_siblings'] ?? "N/A";
         personalDetails.height = data['height'] ?? "N/A";
+        isLoading = false;
 
+        if (data.containsKey("completeProfilePending") &&
+            data["completeProfilePending"] != null) {
+          isFormFilled = data["completeProfilePending"]["_anything_filled_lifestyle"] ?? false;
+        } else {
+          isFormFilled = false;
+        }
+      });
+    } else {
+      setState(() {
+        isLoading = false;
+        isFormFilled = false;
       });
     }
-
   }
-
 
   @override
   void dispose() {
@@ -163,6 +173,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
     getClient().then((_) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _calculatePositions();
+        print('more about me is :$isFormFilled');
       });
     });
   }

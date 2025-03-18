@@ -13,7 +13,7 @@ class NameAndGender extends StatefulWidget {
   final ClientData clientData;
   final String docId;
 
-  const NameAndGender({super.key, required this.clientData, required this.docId});
+   const NameAndGender({super.key, required this.clientData, required this.docId});
 
   @override
   State<NameAndGender> createState() => _NameAndGenderState();
@@ -83,6 +83,7 @@ class _NameAndGenderState extends State<NameAndGender> {
                     child: NextButton(
                       clientData: widget.clientData,
                       personalDetails: personalDetails,
+                      docId: widget.docId,
                       firstTextController: firstNameController,
                       lastTextController: lastNameController,
                       selectedGender: selectedGender,
@@ -214,6 +215,7 @@ class NextButton extends StatelessWidget {
   final String selectedGender;
   final double width;
   final double height;
+  final String docId;
 
   NextButton({
     required this.clientData,
@@ -223,7 +225,7 @@ class NextButton extends StatelessWidget {
     required this.selectedGender,
     required this.width,
     required this.height,
-
+    required this.docId,
     super.key,
 
   });
@@ -233,7 +235,6 @@ class NextButton extends StatelessWidget {
     personalDetails.last_name = lastTextController.text;
     personalDetails.gender = selectedGender;
     clientData.personalDetails = personalDetails;
-
 
 
     print("docId before toMap: ${clientData.docId}");
@@ -253,7 +254,7 @@ class NextButton extends StatelessWidget {
       print("Response Body: ${response.body}");
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => PlaceDateTimeInput(clientData: clientData)),
+        MaterialPageRoute(builder: (context) => PlaceDateTimeInput(clientData: clientData,docId:docId,)),
       );
     } else {
       print("Error Status: ${response.statusCode}");
@@ -265,7 +266,7 @@ class NextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: height * 0.08,
-      width: width * 0.42,
+      width: width * 0.50,
       child: ElevatedButton(
         onPressed: () => updateClientProfile(context),
         style: CommonButtonStyle.commonButtonStyle(),

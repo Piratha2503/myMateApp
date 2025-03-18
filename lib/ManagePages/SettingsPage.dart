@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mymateapp/Homepages/Profiles/EditGalleryScreen.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 
-import '../Homepages/Notification.dart';
 import '../Homepages/ProfilePageScreen/MyProfileMain.dart';
+import '../Homepages/notification_page.dart';
 import 'ManagePage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
