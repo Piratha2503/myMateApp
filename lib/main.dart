@@ -90,22 +90,23 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
 
         home:
-           // ProfilePage(selectedBottomBarIconIndex: 3, docId: 'zx7sjs4q0Kq43FPwrybU')
-          //AuthcheckState()
-          //ProfilePage(docId: "uL82irbLGveGxNP6Gyfd", selectedBottomBarIconIndex:0,),
-        // CheckmatchPage( clientDocId: '', soulDocId: '',),
-       // RegisterPage()
-      // SubscribedhomescreenStructuredPage(docId: 'E0JFHhK2x6Gq2Ac6XSyP',)
-     // CompleteProfilePage(docId: '3qmCKRqXr06udbChynui')
-      // EditPage(docId: 'qizCb7sXUhWEPy0awx0e', onSave: () {  },)
-       // GenerateChart()
-        //AstroChartScreen()
-         // boostprofile(docId: 'SYfMHh6YUL6yobmIZXwO',)
-          //PageThree(docId: 'qHPJAB0C6DavcfYnHAoO', onSave: () {  },)
-           //   MyMatePage(results: [], search: [], docId: 'qHPJAB0C6DavcfYnHAoO',)
-            // NotificationPage(0, docId: 'zx7sjs4q0Kq43FPwrybU',)
-             //  MyMatePage(results: [], search: [], docId: "SYfMHh6YUL6yobmIZXwO",)
-               MessagePage(docId: 'SYfMHh6YUL6yobmIZXwO', soulId: 'E0JFHhK2x6Gq2Ac6XSyP',)
+              // ProfilePage(selectedBottomBarIconIndex: 3, docId: 'eW9KDOxknMwzr8WFTNrO')
+             //AuthcheckState()
+            ProfilePage(docId: "eW9KDOxknMwzr8WFTNrO", selectedBottomBarIconIndex:0,),
+           //CheckmatchPage( clientDocId: '', soulDocId: '',),
+          //RegisterPage()
+         //SubscribedhomescreenStructuredPage(docId: 'JTqExt8GKY2R5w7VFYj6',)
+        //CompleteProfilePage(docId: 'eW9KDOxknMwzr8WFTNrO')
+       //EditPage(docId: 'qizCb7sXUhWEPy0awx0e', onSave: () {  },)
+      //GenerateChart()
+       //AstroChartScreen()
+        // boostprofile(docId: 'SYfMHh6YUL6yobmIZXwO',)
+         //PageThree(docId: 'qHPJAB0C6DavcfYnHAoO', onSave: () {  },)
+          //MyMatePage(results: [], search: [], docId: 'qHPJAB0C6DavcfYnHAoO',)
+           //NotificationPage(0, docId: 'NotificationPage',)
+            //MyMatePage(results: [], search: [], docId: "uL82irbLGveGxNP6Gyfd",)
+             //MessagePage(docId: 'eW9KDOxknMwzr8WFTNrO', soulId: 'E0JFHhK2x6Gq2Ac6XSyP',)
+              //ChatPage(docId: '',)
     );
     }
     );
