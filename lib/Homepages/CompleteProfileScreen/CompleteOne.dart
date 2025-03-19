@@ -22,6 +22,7 @@ class PageOne extends StatefulWidget {
 class _PageOneState extends State<PageOne> {
   File? _imageFile;
   String? _savedImageUrl;
+  bool _isLoading = false;
 
   void _chooseImage(ImageSource source) async {
     final picker = ImagePicker();
@@ -46,22 +47,25 @@ class _PageOneState extends State<PageOne> {
         });
 
 
-        // await _uploadImageToBackend(thumbnailFile);
       }
     }
   }
 
   void _onSave() async {
     if (_imageFile != null) {
+      setState(() {
+        _isLoading = true;
+      });
+
+
       await _uploadImageToBackend(_imageFile!);
+      setState(() {
+        _isLoading = false;
+      });
+      widget.onSave();
     } else {
-      print("No image selected to save.");
+      print("no image is selected to save .");
     }
-
-    print('Saved Image URL: $_savedImageUrl');
-    print('doc id is: $widget.docId');
-
-    widget.onSave();
   }
 
   Future<File> _createThumbnail(File imageFile) async {
@@ -69,7 +73,7 @@ class _PageOneState extends State<PageOne> {
     final originalImage = img.decodeImage(await imageFile.readAsBytes());
 
 
-    final resizedImage = img.copyResize(originalImage!, width: 150, height: 150);
+    final resizedImage = img.copyResize(originalImage!, width: 200, height: 200);
 
 
     final tempDir = Directory.systemTemp;
@@ -260,9 +264,14 @@ class _PageOneState extends State<PageOne> {
                 width: MediaQuery.of(context).size.width * 0.32,
                 child:
                 ElevatedButton(
-                  onPressed: _onSave,
+                  onPressed: _isLoading ? null : _onSave,
                   style: CommonButtonStyle.commonButtonStyle(),
-                  child: Text(
+                  child:_isLoading
+                  ? CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+
+                  )
+                  : Text(
                     'Next',
                     style: TextStyle(fontSize: screenWidth * 0.045), // Responsive font size
                   ),

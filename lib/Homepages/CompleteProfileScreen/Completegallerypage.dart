@@ -23,8 +23,8 @@ class Completegallerypage extends StatefulWidget {
 }
 
 class _CompletegallerypageState extends State<Completegallerypage> {
-
   List<Object?> _slots = [null, null, null];
+  bool _isloading = false;
 
   @override
   void initState() {
@@ -58,7 +58,8 @@ class _CompletegallerypageState extends State<Completegallerypage> {
         setState(() {});
         print("Gallery images fetched successfully.");
       } else {
-        print("Failed to fetch gallery images. Status code: ${response.statusCode}");
+        print(
+            "Failed to fetch gallery images. Status code: ${response.statusCode}");
       }
     } catch (e) {
       print("Error fetching gallery images: $e");
@@ -66,6 +67,10 @@ class _CompletegallerypageState extends State<Completegallerypage> {
   }
 
   Future<void> _onConfirm() async {
+    setState(() {
+      _isloading = true;
+    });
+
     for (int i = 0; i < _slots.length; i++) {
       if (_slots[i] is File) {
         final file = _slots[i] as File;
@@ -76,6 +81,10 @@ class _CompletegallerypageState extends State<Completegallerypage> {
 
     await _fetchGalleryImages();
 
+    setState(() {
+      _isloading = false;
+    });
+
     widget.onSave();
   }
 
@@ -85,10 +94,12 @@ class _CompletegallerypageState extends State<Completegallerypage> {
 
   Future<File> _createThumbnail(File imageFile) async {
     final originalImage = img.decodeImage(await imageFile.readAsBytes());
-    final resizedImage = img.copyResize(originalImage!, width: 150, height: 150);
+    final resizedImage =
+        img.copyResize(originalImage!, width: 150, height: 150);
     final tempDir = Directory.systemTemp;
-    final thumbnailFile = File('${tempDir.path}/thumbnail_${_generateRandomFileName()}.jpg')
-      ..writeAsBytesSync(img.encodeJpg(resizedImage));
+    final thumbnailFile =
+        File('${tempDir.path}/thumbnail_${_generateRandomFileName()}.jpg')
+          ..writeAsBytesSync(img.encodeJpg(resizedImage));
     return thumbnailFile;
   }
 
@@ -121,7 +132,8 @@ class _CompletegallerypageState extends State<Completegallerypage> {
   String _generateRandomFileName() {
     final random = Random();
     const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
-    return List.generate(10, (index) => characters[random.nextInt(characters.length)]).join();
+    return List.generate(
+        10, (index) => characters[random.nextInt(characters.length)]).join();
   }
 
   Future<void> _deleteImageFromBackend(String docId, String url) async {
@@ -173,7 +185,8 @@ class _CompletegallerypageState extends State<Completegallerypage> {
         }
       }
     } else {
-      final XFile? pickedFile = await picker.pickImage(source: ImageSource.camera);
+      final XFile? pickedFile =
+          await picker.pickImage(source: ImageSource.camera);
       if (pickedFile == null) return;
 
       final cropped = await _cropImage(pickedFile.path);
@@ -249,10 +262,10 @@ class _CompletegallerypageState extends State<Completegallerypage> {
   Widget _buildEmptySlot() {
     return Container(
       decoration: BoxDecoration(
-      color: MyMateThemes.backgroundColor,
+        color: MyMateThemes.backgroundColor,
         border: Border.all(
           color: Colors.grey,
-          width:0.5,
+          width: 0.5,
         ),
         borderRadius: BorderRadius.circular(12),
       ),
@@ -264,7 +277,6 @@ class _CompletegallerypageState extends State<Completegallerypage> {
             'assets/images/plus.png',
             width: 100,
             height: 110,
-
           ),
           Expanded(child: Container()),
         ],
@@ -274,52 +286,52 @@ class _CompletegallerypageState extends State<Completegallerypage> {
 
   Widget _buildFilledSlot(Object slot, int index) {
     Widget imageWidget = slot is String
-        ? Image.network(slot, fit: BoxFit.cover, width: double.infinity, height: double.infinity)
-        : Image.file(slot as File, fit: BoxFit.cover, width: double.infinity, height: double.infinity);
+        ? Image.network(slot,
+            fit: BoxFit.cover, width: double.infinity, height: double.infinity)
+        : Image.file(slot as File,
+            fit: BoxFit.cover, width: double.infinity, height: double.infinity);
 
     return Container(
-      decoration: BoxDecoration(
-        color: MyMateThemes.backgroundColor,
-        border: Border.all(color: Colors.grey,width:0.5),
-        borderRadius: BorderRadius.circular(12),
-
-    ) ,
-      child:Column(
-      children: [
-        Expanded(
-          child: ClipRRect(
-
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(12),
-              topRight: Radius.circular(12),
-            ),
-            child: imageWidget,
-          ),
+        decoration: BoxDecoration(
+          color: MyMateThemes.backgroundColor,
+          border: Border.all(color: Colors.grey, width: 0.5),
+          borderRadius: BorderRadius.circular(12),
         ),
-        Container(
-          height: 40,
-          decoration: BoxDecoration(
-            color: MyMateThemes.backgroundColor,
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(12),
-              bottomRight: Radius.circular(12),
+        child: Column(
+          children: [
+            Expanded(
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(12),
+                  topRight: Radius.circular(12),
+                ),
+                child: imageWidget,
+              ),
             ),
-          ),
-          child: IconButton(
-            icon: Image.asset('assets/images/trash.png', width: 24, height: 24),
-            onPressed: () async {
-              if (slot is String) {
-                await _deleteImageFromBackend(widget.docId, slot);
-              }
-              setState(() {
-                _slots[index] = null;
-              });
-            },
-          ),
-        ),
-      ],
-      )
-    );
+            Container(
+              height: 40,
+              decoration: BoxDecoration(
+                color: MyMateThemes.backgroundColor,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(12),
+                  bottomRight: Radius.circular(12),
+                ),
+              ),
+              child: IconButton(
+                icon: Image.asset('assets/images/trash.png',
+                    width: 24, height: 24),
+                onPressed: () async {
+                  if (slot is String) {
+                    await _deleteImageFromBackend(widget.docId, slot);
+                  }
+                  setState(() {
+                    _slots[index] = null;
+                  });
+                },
+              ),
+            ),
+          ],
+        ));
   }
 
   Widget _buildFooterRow() {
@@ -359,13 +371,17 @@ class _CompletegallerypageState extends State<Completegallerypage> {
                 borderRadius: BorderRadius.circular(3.0),
               ),
             ),
-            child: Text(
-              'Confirm',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: MediaQuery.of(context).size.width * 0.04,
-              ),
-            ),
+            child: _isloading
+                ? CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                  )
+                : Text(
+                    'Confirm',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: MediaQuery.of(context).size.width * 0.04,
+                    ),
+                  ),
           ),
         ),
       ],

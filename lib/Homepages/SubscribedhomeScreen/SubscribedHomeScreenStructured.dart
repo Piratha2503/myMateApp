@@ -122,7 +122,7 @@ class _SubscribedhomescreenStructuredPageState
                         onTap: (){
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => MessagePage(docId: widget.docId, soulId: 'JTqExt8GKY2R5w7VFYj6',)),
+                            MaterialPageRoute(builder: (context) => MessagePage(docId: widget.docId, soulId: 'E0JFHhK2x6Gq2Ac6XSyP',)),
 
                           );
                         },

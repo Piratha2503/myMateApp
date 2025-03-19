@@ -95,11 +95,11 @@ class _ProfilePageState extends State<ProfilePage>
       child: Row(
         children: [
           // Back Button
-          IconButton(
-            icon: Icon(Icons.arrow_back, color: MyMateThemes.primaryColor),
-            onPressed: () => Navigator.pop(context),
-          ),
-          const SizedBox(width: 8),
+          // IconButton(
+          //   icon: Icon(Icons.arrow_back, color: MyMateThemes.primaryColor),
+          //   onPressed: () => Navigator.pop(context),
+          // ),
+          const SizedBox(width: 100),
           // Title
           Expanded(
             child: FutureBuilder<Map<String, dynamic>>(

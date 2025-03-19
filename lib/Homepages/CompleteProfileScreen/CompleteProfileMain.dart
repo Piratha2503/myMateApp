@@ -62,10 +62,18 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => HomeScreenBeforeSubscibe(0,docId: widget.docId,)),
-                            );
+                            if (currentPage >0){
+                              setState(() {
+                                currentPage--;
+                              });
+                            }else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) =>
+                                    HomeScreenBeforeSubscibe(
+                                      0, docId: widget.docId,)),
+                              );
+                            }
                           },
                           child: SvgPicture.asset(
                             'assets/images/chevron-left.svg',

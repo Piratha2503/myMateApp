@@ -8,7 +8,7 @@ import 'package:mymateapp/MyMateThemes.dart';
 import '../Homepages/AddTokenPages/AddTokenMain.dart';
 import '../Homepages/HomeScreenBeforeSubscribe.dart';
 
-import '../Homepages/Notification.dart';
+import '../Homepages/chatPage.dart';
 import '../Homepages/myMatePage/myMatePageMain.dart';
 import 'RouterFunction.dart';
 

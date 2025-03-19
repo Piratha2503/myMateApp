@@ -95,7 +95,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
         print("Notification status updated successfully to $status");
         _checkNotificationStatus();
 
-        String? receiverToken = 'eZSq6wLcQUy7bb4-ykFkfG:APA91bGlLxNqvzOJO4pXrgnIx7XJKEvIHVxboz6WM6hJOz8kyr2ETQR0oVukTCmH6NKQ9v9jTSu7qFOEd56d-obZ9i32OuA4XjXCI1leTVfBUIFW2vWwUIA';
+        String? receiverToken = 'e4njpC4BR6mQOrOo4npCh-:APA91bGrcKyCqpEiWaoHPDNrocmnZ9Blh0CsN5sL_v84jwf2trGkjhijEUTcm0rNkt_xgyVuuiDjLfW0JUUEXTZqvEdVGUvMXP9o1kFccqPcozcWiBaZMp8';
 
         if (receiverToken != null) {
           await NotificationService.sendPushNotification(receiverToken, senderName, status);

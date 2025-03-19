@@ -1,10 +1,10 @@
 import 'dart:convert';
+import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mymateapp/MyMateThemes.dart';
-
 import '../ProfilePageScreen/MyProfileMain.dart';
 
 class boostprofile extends StatefulWidget {
@@ -26,6 +26,7 @@ class _boostprofileState extends State<boostprofile> {
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.white,
+      automaticallyImplyLeading: false,
       title: Padding(
         padding: EdgeInsets.symmetric(horizontal:  MediaQuery.of(context).size.width * 0.03),
         child: SafeArea(
@@ -327,7 +328,8 @@ class _boostprofileState extends State<boostprofile> {
             onIncrement: _handleDayIncrement,
             onDecrement: _handleDayDecrement,
             showLightningBolt: false,
-            showControls: true, context: context,
+            showControls: true,
+             context: context,
           ),
            SizedBox(height:MediaQuery.of(context).size.height * 0.01),
 
@@ -336,7 +338,7 @@ class _boostprofileState extends State<boostprofile> {
             value: noOfTokens,
             showLightningBolt: true,
             showControls: false,
-            context: context,
+             context: context,
           ),
         ],
       ),
@@ -457,7 +459,7 @@ Widget _buildCounterRow({
   required bool showControls,
   Function()? onIncrement,
   Function()? onDecrement,
-  required BuildContext context, // Pass context for MediaQuery
+  required BuildContext context,
 }) {
   double screenWidth = MediaQuery.of(context).size.width;
   double screenHeight = MediaQuery.of(context).size.height;
@@ -468,59 +470,92 @@ Widget _buildCounterRow({
     children: [
       Text(
         label,
-        style: TextStyle(
-          fontSize: screenWidth * 0.04, // Responsive font size
+        style:  TextStyle(
+            fontSize: screenWidth * 0.04,
         ),
       ),
       Row(
         children: [
           if (showControls)
             Padding(
-              padding: EdgeInsets.only(right: screenWidth * 0.02), // Responsive padding
+              padding: const EdgeInsets.only(right: 2.0),
               child: IconButton(
                 icon: const Icon(Icons.remove_circle_outline),
                 onPressed: onDecrement,
                 color: Colors.grey,
-                splashRadius: screenWidth * 0.05, // Responsive splash radius
+                splashRadius: screenWidth * 0.05,
               ),
             ),
-          Container(
-            width: screenWidth * 0.15, // Responsive width
-            height: screenHeight * 0.05, // Responsive height
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(screenWidth * 0.02), // Responsive border radius
-              border: Border.all(color: Colors.grey),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                if (showLightningBolt)
-                  SvgPicture.asset(
-                    'assets/images/firenew.svg',
-                    height: screenWidth * 0.04, // Responsive icon size
-                    width: screenWidth * 0.04,
-                    color: MyMateThemes.primaryColor,
-                  ),
-                if (showLightningBolt) SizedBox(width: screenWidth * 0.01), // Responsive spacing
-                Text(
-                  value.toString().padLeft(2, '0'),
-                  style: TextStyle(
-                    fontSize: screenWidth * 0.04, // Responsive font size
-                    fontWeight: FontWeight.w500,
-                  ),
+          // Conditionally apply the padding for "No of Tokens" only
+          if (label == "No of Tokens")
+            Padding(
+              padding: const EdgeInsets.only(right: 55.0), // Adjust padding as needed
+              child: Container(
+                width: screenWidth * 0.20,
+                height: screenHeight * 0.04,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(screenWidth*0.02),
+                  border: Border.all(color: Colors.grey),
                 ),
-              ],
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (showLightningBolt)
+                      SvgPicture.asset(
+                        'assets/images/firenew.svg',
+                        height: screenHeight*0.02,
+                        width: screenWidth*0.04,
+                        color: MyMateThemes.primaryColor,
+                      ),
+                    if (showLightningBolt)  SizedBox(width:screenWidth*0.01 ),
+                    Text(
+                      value.toString().padLeft(2, '0'),
+                      style:  TextStyle(
+                          fontSize:screenWidth * 0.04,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          else
+            Container(
+              width: screenWidth*0.20,
+              height: screenHeight*0.04,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12.0),
+                border: Border.all(color: Colors.grey),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (showLightningBolt)
+                    SvgPicture.asset(
+                      'assets/images/firenew.svg',
+                      height: screenHeight*0.04,
+                      width: screenWidth*0.04,
+                      color: MyMateThemes.primaryColor,
+                    ),
+                  if (showLightningBolt)  SizedBox(width:screenWidth * 0.01 ),
+                  Text(
+                    value.toString().padLeft(2, '0'),
+                    style: TextStyle(
+                        fontSize: screenWidth * 0.04,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
             ),
-          ),
           if (showControls)
             Padding(
-              padding: EdgeInsets.only(left: screenWidth * 0.02), // Responsive padding
+              padding: const EdgeInsets.only(left: 6.0),
               child: IconButton(
                 icon: const Icon(Icons.add_circle_outline),
                 onPressed: onIncrement,
                 color: MyMateThemes.primaryColor,
-                splashRadius: screenWidth * 0.05, // Responsive splash radius
+                splashRadius: screenWidth*0.05,
               ),
             ),
         ],
@@ -528,4 +563,3 @@ Widget _buildCounterRow({
     ],
   );
 }
-

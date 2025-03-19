@@ -17,6 +17,7 @@ class PageTwo extends StatefulWidget {
 
 class _PageTwoState extends State<PageTwo> {
   bool isChecked = false;
+  bool _isloading = false;
   String? _selectedCivilStatus;
   String? _selectedEmploymentType;
   String? _selectedDistrict;
@@ -207,10 +208,16 @@ class _PageTwoState extends State<PageTwo> {
   }
 
   void _onSave() {
+    setState(() {
+      _isloading=true;
+    });
     if (_validateFields()) {
       _saveDataToBackend();
       _updateForm();
       widget.onSave();
+      setState(() {
+        _isloading=false;
+      });
     }
   }
 
@@ -308,9 +315,13 @@ class _PageTwoState extends State<PageTwo> {
 
           SizedBox(height: height*0.06),
           ElevatedButton(
-            onPressed: _onSave,
+            onPressed: _isloading ? null : _onSave,
             style: CommonButtonStyle.commonButtonStyle(),
-            child: Text('Next'),
+            child: _isloading
+                    ? CircularProgressIndicator(
+                     valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                          )
+                    :Text('Next'),
           ),
         ],
       ),
