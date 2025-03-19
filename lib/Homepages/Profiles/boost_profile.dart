@@ -180,7 +180,7 @@ class _boostprofileState extends State<boostprofile> {
         padding: EdgeInsets.symmetric(horizontal:  MediaQuery.of(context).size.width * 0.06),
         child: Column(
           children: [
-            SizedBox(height:MediaQuery.of(context).size.height * 0.03),
+            SizedBox(height:MediaQuery.of(context).size.height * 0.025),
             buildBoostContainer(
               context,
               title: 'Boost',
@@ -247,7 +247,7 @@ class _boostprofileState extends State<boostprofile> {
           ),
           SizedBox(height: screenHeight * 0.02), // Responsive spacing
           SizedBox(
-            height: screenHeight * 0.2, // Adjust TabBarView height dynamically
+            height: screenHeight * 0.18, // Adjust TabBarView height dynamically
             child: TabBarView(
               children: [
                 _buildBoostContent(

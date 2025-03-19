@@ -24,7 +24,7 @@ class _NotificationPageState extends State<NotificationPage> {
   void initState() {
     super.initState();
     NotificationService.initialize();
-     _fetchNotifications();
+    _fetchNotifications();
     print("doc id passed here is :${widget.docId}");
     print (notifications);
   }
@@ -56,21 +56,21 @@ class _NotificationPageState extends State<NotificationPage> {
               child: notifications.isEmpty
                   ? Center(child: Text("No new notifications"))
                   : ListView.builder(
-                      itemCount: notifications.length,
-                      itemBuilder: (context, index) {
-                        String name = notifications[index]['fullName'];
-                        String imageUrl = notifications[index]['profileImage'];
-                        String type = notifications[index]
-                            ['type']; // 'request' or 'accept'
-                        String docId = notifications[index]['docId'];
+                itemCount: notifications.length,
+                itemBuilder: (context, index) {
+                  String name = notifications[index]['fullName'];
+                  String imageUrl = notifications[index]['profileImage'];
+                  String type = notifications[index]
+                  ['type']; // 'request' or 'accept'
+                  String docId = notifications[index]['docId'];
 
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16.0, vertical: 10.0),
-                          child: NotificationContainer(
-                              name, imageUrl, type, docId, context),
-                        );
-                      },
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0, vertical: 10.0),
+                    child: NotificationContainer(
+                        name, imageUrl, type, docId, context),
+                  );
+                },
               ),
             ),
           ],
@@ -171,4 +171,3 @@ Widget NotificationContainer(String name, String imageUrl, String type, String d
     ),
   );
 }
-

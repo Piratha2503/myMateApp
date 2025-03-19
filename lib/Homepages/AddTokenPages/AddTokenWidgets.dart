@@ -589,7 +589,7 @@ Widget buildCurrentOffersItem(Color color, int tokenCount) {
 
       return Container(
         width: width * 0.86,
-        height: height * 0.27,
+        height: height * 0.29,
         decoration: BoxDecoration(
           color: color.withOpacity(0.03),
           border: Border.all(color: color, width: 2),

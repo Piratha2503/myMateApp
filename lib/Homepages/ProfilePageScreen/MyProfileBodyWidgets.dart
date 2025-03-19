@@ -32,7 +32,7 @@ Widget IconWithText(BuildContext context, String iconPath, String text1, String 
           text1,
           style: TextStyle(
             color: MyMateThemes.textColor,
-            fontSize: MediaQuery.of(context).size.width * 0.03,
+            fontSize: MediaQuery.of(context).size.width * 0.028,
             fontWeight: FontWeight.normal,
           ),
         ),
@@ -40,7 +40,7 @@ Widget IconWithText(BuildContext context, String iconPath, String text1, String 
           text2,
           style: TextStyle(
             color: MyMateThemes.primaryColor,
-            fontSize: MediaQuery.of(context).size.width * 0.025,
+            fontSize: MediaQuery.of(context).size.width * 0.028,
             fontWeight: FontWeight.normal,
           ),
         ),

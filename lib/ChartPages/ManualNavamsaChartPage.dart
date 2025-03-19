@@ -217,56 +217,54 @@ class _ManualNavamsaChartPage extends State<ManualNavamsaChartPage> {
     return GestureDetector(
       onTap: () => _onTapTopBox(boxNumber),
       child: Container(
-        width: 57,
-        height: 48,
         decoration: BoxDecoration(
-          color: (selectedTopBox == boxNumber) ? MyMateThemes.primaryColor : MyMateThemes.secondaryColor ,
-          borderRadius: BorderRadius.circular(6), // Optional rounded corners
+          color: (selectedTopBox == boxNumber) ? MyMateThemes.primaryColor : MyMateThemes.secondaryColor,
+          borderRadius: BorderRadius.circular(6),
         ),
-        padding: const EdgeInsets.all(16), // Padding inside the box
+        padding: const EdgeInsets.all(10),
         child: Center(
           child: Text(
             assetName,
             style: TextStyle(
-              color: (selectedTopBox == boxNumber) ? MyMateThemes.backgroundColor  : MyMateThemes.textColor ,
+              color: (selectedTopBox == boxNumber) ? MyMateThemes.backgroundColor : MyMateThemes.textColor,
               fontWeight: FontWeight.bold,
               fontSize: 16,
             ),
           ),
-
-
         ),
       ),
     );
   }
 
 
-  Widget buildBottomSegment(String segment, String assetName,String selectedAssetName) {
+  Widget buildBottomSegment(
+      String segment,
+      String assetName,
+      String selectedAssetName, {
+        double? top,
+        double? right,
+        double? left,
+        double? bottom,
+        required double width,
+        required double height,
+        required BoxFit fit
+      }) {
     return GestureDetector(
       onTap: () => _onTapBottomSegment(segment),
       child: Stack(
         children: [
-          // Opacity(
-          //   opacity: isSegmentSelected(segment) ? 0.8 : 1.0, // Keeping opacity same
-          //   child: SvgPicture.asset(
-          //     assetName,
-          //     color: isSegmentSelected(segment) ? MyMateThemes.secondaryColor : MyMateThemes.primaryColor, // Change color based on selection
-          //   ),
-          // ),
           Opacity(
-            opacity: 1.0, // Keep opacity constant
+            opacity: 1.0,
             child: SvgPicture.asset(
-              isSegmentSelected(segment) ? selectedAssetName : assetName, // Dynamically change asset
+              isSegmentSelected(segment) ? selectedAssetName : assetName,
             ),
           ),
-          // Opacity(
-          //   opacity: isSegmentSelected(segment) ? 0.7 : 1.0,
-          //   child: SvgPicture.asset(assetName),
-          // ),
           if (getSegmentBadge(segment) != null)
             Positioned(
-              top: 10,
-              right: 15,
+              top: top ?? 20,
+              right: right ?? 10,
+              left: left,
+              bottom: bottom,
               child: CircleAvatar(
                 radius: 13,
                 backgroundColor: MyMateThemes.premiumAccent,
@@ -283,217 +281,362 @@ class _ManualNavamsaChartPage extends State<ManualNavamsaChartPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor:Colors.white,
-      body: Column(
-        children: [
-          SizedBox(height: 10),
-          SafeArea(
-            child: Column(
-              children: [
-                Text(
-                  "Enter Chart Navamsa",
-                  style: TextStyle(
-                      color: MyMateThemes.textColor,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 0.8
-                  ),
-                ),
-                Text(
-                  "to calculate Astrology Chart",
-                  style: TextStyle(
-                      color: MyMateThemes.primaryColor,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1
-                  ),
-                ),
-              ],
-            ),
-          ),
-          //SizedBox(height:10),
-          Card(
-            elevation: 4.0, // Adjust elevation as needed
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0), // Rounded corners
-            ),
-            child: Container(
-              width: 300,
-              height: 188,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8.0), // Match the border radius of the Card
-              ),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: GridView(
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 4,
-                        childAspectRatio: 14 / 11,
-                        mainAxisSpacing: 8.0,
-                        crossAxisSpacing: 8.0,
-                      ),
-                      padding: const EdgeInsets.all(8.0),
-                      children: boxes.map((box) {
-                        return buildTopBox(box['boxNumber'], box['assetName']);
-                      }).toList(),
+
+    return LayoutBuilder(
+        builder: (context, constraints) {
+          // Read width and height from constraints to use for responsive sizing.
+          final mediaQuery = MediaQuery.of(context);
+          final double width = mediaQuery.size.width;
+          final double height = mediaQuery.size.height;
+          double svgWidth = width * 0.5;
+          double svgHeight = height * 0.5;
+
+          return Scaffold(
+
+            backgroundColor: Colors.white,
+
+            body:
+            LayoutBuilder(
+
+              builder: (context, constraints) {
+
+
+                return
+                  Center(
+                    child: Column(
+                      children: [
+                        SafeArea(
+                          child:
+                          Column(
+                            children: [
+                              SizedBox(height: height*0.02),
+
+                              Text(
+                                "Enter Chart Navamsa",
+                                style: TextStyle(
+                                  color: MyMateThemes.textColor,
+                                  fontSize: width*0.05,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1,
+
+                                ),
+
+                              ),
+
+                              Text(
+                                "to calculate Astrology Chart",
+                                style: TextStyle(
+                                  color: MyMateThemes.primaryColor,
+                                  fontSize: width*0.05,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1,
+
+                                ),
+
+                              ),
+
+                            ],
+
+                          ),
+
+                        ),
+                        SizedBox(height: height*0.01),
+                        Container(
+
+                          width: width*0.65,
+
+                          height: height*0.26,
+
+                          decoration: BoxDecoration(
+
+                            color: Colors.white,
+
+                            borderRadius: BorderRadius.circular(width*0.02),
+
+                          ),
+
+                          child: GridView.count(
+
+                            // crossAxisCount: constraints.maxWidth > 600 ? 6 : 4,
+                            crossAxisCount: 4,
+
+                            childAspectRatio: width / (height * 0.45),
+                            crossAxisSpacing: width * 0.02,
+                            mainAxisSpacing: height * 0.02,
+
+                            padding: EdgeInsets.all(width*0.001),
+
+                            children: List.generate(12, (index) => buildTopBox(index + 1, '${index + 1}')),
+
+                          ),
+
+                        ),
+                        SizedBox(height: height*0.01,),
+
+                        Center(child:
+
+                        DecoratedBox(
+                          decoration: ShapeDecoration(
+                            shape: CircleBorder(),
+                          ),
+
+                          child:
+                          Container(
+                            height: height*0.46,
+                            width: width*0.86,
+                            // width: width*0.77,
+
+                            decoration: BoxDecoration(
+                              //  borderRadius: BorderRadius.circular(300),
+                              color: Colors.white,
+
+                            ),
+                            child:
+                            Stack(
+
+                              alignment: Alignment.center,
+
+                              children: [
+                                Positioned(
+                                  top: -5,
+                                  left: -4,
+                                  child:
+                                  SvgPicture.asset(
+                                    'assets/images/centercircle.svg',
+                                   //  color: MyMateThemes.textColor.withOpacity(0.05),
+                                    //  width: width * 0.85,
+                                    // height: height*0.43,
+                                  ),
+
+
+                                ),
+
+                                Positioned(
+
+                                  top: 82,
+                                  left: 94,
+
+                                  child: buildBottomSegment('Sun', 'assets/images/p_sun.svg', 'assets/images/s_sun.svg',
+
+
+
+                                      width: svgWidth,
+
+                                      height: svgHeight,
+
+                                      fit: BoxFit.contain),
+
+                                ),
+
+                                Positioned(
+
+                                  left: 220,
+
+                                  top: 55,
+
+                                  child: buildBottomSegment('Mercury', 'assets/images/p_mercury.svg', 'assets/images/s_mercury.svg',
+
+
+
+                                      width: svgWidth,
+
+                                      height: svgHeight,
+
+                                      fit: BoxFit.contain),
+
+                                ),
+
+                                Positioned(
+
+                                  left: 164,
+
+                                  top: 12,
+
+                                  child: buildBottomSegment('Mars', 'assets/images/p_mars.svg', 'assets/images/s_mars.svg', top: 0, right: 35,width: svgWidth,
+
+                                      height: svgHeight,
+
+                                      fit: BoxFit.contain),
+
+                                ),
+
+                                Positioned(
+
+                                  left: 67,
+
+                                  top: 221,
+
+                                  child: buildBottomSegment('Saturn', 'assets/images/p_saturn.svg', 'assets/images/s_saturn.svg', top: 65, right: 38,width: svgWidth,
+
+                                      height: svgHeight,
+
+                                      fit: BoxFit.contain),
+
+                                ),
+
+                                Positioned(
+
+                                  left: 225,
+
+                                  top: 161,
+
+                                  child: buildBottomSegment('Jupiter', 'assets/images/p_jupitor.svg', 'assets/images/s_jupiter.svg', top: 39, right: 2,width: svgWidth,
+
+                                      height: svgHeight,
+
+                                      fit: BoxFit.contain),
+
+                                ),
+
+                                Positioned(
+
+                                  left: 14,
+
+                                  top: 169,
+
+                                  child: buildBottomSegment('Rahu', 'assets/images/p_rahu.svg', 'assets/images/s_rahu.svg', top: 48, right: 66,width: svgWidth,
+
+                                      height: svgHeight,
+
+                                      fit: BoxFit.contain),
+
+                                ),
+
+                                Positioned(
+
+                                  left:13,
+
+                                  top: 63,
+
+                                  child: buildBottomSegment('Ketu', 'assets/images/p_ketu.svg', 'assets/images/s_ketu.svg', top: 34, right: 65,width: svgWidth,
+
+                                      height: svgHeight,
+
+                                      fit: BoxFit.contain),
+
+                                ),
+
+                                Positioned(
+
+                                  left: 170,
+
+                                  top: 217,
+
+                                  child: buildBottomSegment('Venus', 'assets/images/p_venus.svg', 'assets/images/s_venus.svg', top: 66, right: 35,width: svgWidth,
+
+                                      height: svgHeight,
+
+                                      fit: BoxFit.contain),
+
+                                ),
+
+                                Positioned(
+
+                                  left: 58,
+
+                                  top: 12,
+
+                                  child: buildBottomSegment('Moon', 'assets/images/p_moon.svg', 'assets/images/s_moon.svg', top: 7,
+
+                                      width: svgWidth,
+
+                                      height: svgHeight,
+
+                                      fit: BoxFit.contain
+
+                                      , right: 43),
+
+                                ),
+
+                              ],
+
+                            ),
+
+                          ),
+                        ),
+                        ),
+                        SizedBox(height: height*0.02,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              height: height*0.08,
+                              width: width*0.35,
+                              child: ElevatedButton(
+                                onPressed: _resetSelections,
+
+
+                                style: ButtonStyle(
+                                  foregroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
+                                  backgroundColor: MaterialStatePropertyAll(MyMateThemes.secondaryColor),
+                                  shape: MaterialStateProperty.all(
+                                      RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(width*0.01)
+                                      )),
+
+                                ),
+                                child:  Text(
+                                  "Edit",
+                                  style: TextStyle(fontSize: width*0.05),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: width*0.04),
+                            SizedBox(
+                              height: height*0.08,
+                              width: width*0.35,
+                              child: ElevatedButton(
+                                onPressed: ()
+                                {
+                                  if (_areAllSelectionsComplete()) {
+                                    _storeSelections();
+                                    // Navigator.push(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //         builder: (context) => ViewNavamsaChartPage()));
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                            'Please complete all selections before proceeding.'),
+                                      ),
+                                    );
+                                  }
+                                },
+                                style: ButtonStyle(
+                                  foregroundColor: MaterialStatePropertyAll(Colors.white),
+                                  backgroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
+                                  shape: MaterialStateProperty.all(
+                                      RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(width*0.01)
+                                      )),
+
+                                ),
+                                child:  Text(
+                                  "Next",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: width*0.04),
+                                ),
+                              ),
+                            ),
+
+                          ],
+                        ),
+                      ],
+
                     ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(height:20),
 
-          // Container(
-          //   width: 310,
-          //   height: 208,
-          //   color: Colors.white,
-          //   child: Column(
-          //     children: [
-          //       SizedBox(height: 4),
-          //       Row(
-          //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //         children: [
-          //           SizedBox(width: 10),
-          //           buildTopBox(1, 'assets/images/one.svg'),
-          //           SizedBox(width: 10),
-          //           buildTopBox(2, 'assets/images/two.svg'),
-          //           SizedBox(width: 10),
-          //           buildTopBox(3, 'assets/images/three.svg'),
-          //           SizedBox(width: 10),
-          //           buildTopBox(4, 'assets/images/four.svg'),
-          //           SizedBox(width: 10),
-          //         ],
-          //       ),
-          //       SizedBox(height: 4),
-          //       Row(
-          //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //         children: [
-          //           SizedBox(width: 10),
-          //           buildTopBox(5, 'assets/images/five.svg'),
-          //           SizedBox(width: 10),
-          //           buildTopBox(6, 'assets/images/six.svg'),
-          //           SizedBox(width: 10),
-          //           buildTopBox(7, 'assets/images/seven.svg'),
-          //           SizedBox(width: 10),
-          //           buildTopBox(8, 'assets/images/eight.svg'),
-          //           SizedBox(width: 10),
-          //         ],
-          //       ),
-          //      // SizedBox(height: 10),
-          //       Row(
-          //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //         children: [
-          //           SizedBox(width: 10),
-          //           buildTopBox(9, 'assets/images/nine.svg'),
-          //           SizedBox(width: 10),
-          //           buildTopBox(10, 'assets/images/ten.svg'),
-          //           SizedBox(width: 10),
-          //           buildTopBox(11, 'assets/images/eleven.svg'),
-          //           SizedBox(width: 10),
-          //           buildTopBox(12, 'assets/images/twelve.svg'),
-          //           SizedBox(width: 10),
-          //         ],
-          //       ),
-          //      // SizedBox(height: 10),
-          //     ],
-          //   ),
-          // ),
-          Center(child:
+                  );
 
-          DecoratedBox(
-            decoration: ShapeDecoration(
-              shape: CircleBorder(),
+
+
+              },
+
             ),
 
-            child:
-            Container(
-              height: 330,
-              width: 305,
-              color: MyMateThemes.backgroundColor,
-              child: Stack(
-                children: [
-                  Positioned(
-                      top: 88,
-                      left: 88,
-                      child:
-                      buildBottomSegment('Sun', 'assets/images/p_sun.svg','assets/images/s_sun.svg')),
-                  Positioned(
-                      left: 217,
-                      top: 60,
-                      child: buildBottomSegment(
-                          'Mercury', 'assets/images/p_mercury.svg','assets/images/s_mercury.svg')),
-                  Positioned(
-                      left: 156,
-                      top: 15,
-                      child:
-                      buildBottomSegment('Mars', 'assets/images/p_mars.svg','assets/images/s_mars.svg')),
-                  Positioned(
-                      left: 57,
-                      top: 229,
-                      child: buildBottomSegment(
-                          'Saturn', 'assets/images/p_saturn.svg','assets/images/s_saturn.svg')),
-                  Positioned(
-                      left: 217,
-                      top: 168,
-                      child: buildBottomSegment(
-                          'Jupiter', 'assets/images/p_jupitor.svg','assets/images/s_jupiter.svg')),
-                  Positioned(
-                      left:8,
-                      top: 172,
-                      child:
-                      buildBottomSegment('Rahu', 'assets/images/p_rahu.svg','assets/images/s_rahu.svg')),
-                  Positioned(
-                      left:6,
-                      top: 68,
-                      child:
-                      buildBottomSegment('Ketu', 'assets/images/p_ketu.svg','assets/images/s_ketu.svg')),
-                  Positioned(
-                      left: 163,
-                      top: 227,
-                      child: buildBottomSegment(
-                          'Venus', 'assets/images/p_venus.svg','assets/images/s_venus.svg')),
-                  Positioned(
-                      left: 49,
-                      top: 16,
-                      child:
-                      buildBottomSegment('Moon', 'assets/images/p_moon.svg','assets/images/s_moon.svg')),
-                ],
-              ),
-            ),
-          ),
-    ),
-      SizedBox(height: 45),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              GestureDetector(
-                onTap: _resetSelections,
-                child: SvgPicture.asset('assets/images/ast_edit.svg'),
-              ),
-              SizedBox(width: 18),
-              GestureDetector(
-                onTap: () {
-                  if (_areAllSelectionsComplete()) {
-                    _storeSelections();
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                            'Please complete all selections before proceeding.'),
-                      ),
-                    );
-                  }
-                },
-                child: SvgPicture.asset('assets/images/can.svg'),
-              ),
-            ],
-          ),
-        ],
-      ),
+          );
+        }
     );
+
   }
 }

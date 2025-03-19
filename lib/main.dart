@@ -13,6 +13,7 @@ import 'package:mymateapp/MyMateCommonBodies/MyMateApis.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'ChartPages/GenerateChart.dart';
+import 'ChartPages/viewNavamsaChart.dart';
 import 'Homepages/CompleteProfileScreen/CompleteThree.dart';
 import 'Homepages/MessagePage.dart';
 import 'Homepages/ProfilePageScreen/MyProfileMain.dart';
@@ -42,7 +43,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
 
   );
-  await NotificationService.initialize();
+  //await NotificationService.initialize();
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
@@ -84,6 +85,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
+            fontFamily: 'Inter',
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
             primaryColor: Colors.blue[200]),
@@ -95,11 +97,11 @@ class MyApp extends StatelessWidget {
          // ProfilePage(docId: "JTqExt8GKY2R5w7VFYj6", selectedBottomBarIconIndex:0,),
         // CheckmatchPage( clientDocId: '', soulDocId: '',),
         //RegisterPage()
-       //SubscribedhomescreenStructuredPage(docId: 'JTqExt8GKY2R5w7VFYj6',)
-      CompleteProfilePage(docId: 'SYfMHh6YUL6yobmIZXwO')
+      // SubscribedhomescreenStructuredPage(docId: 'JTqExt8GKY2R5w7VFYj6',)
+     // CompleteProfilePage(docId: 'SYfMHh6YUL6yobmIZXwO')
       // EditPage(docId: 'qizCb7sXUhWEPy0awx0e', onSave: () {  },)
        // GenerateChart()
-        //AstroChartScreen()
+        ViewNavamsaChartPage(clientData: clientData,)
          // boostprofile(docId: 'SYfMHh6YUL6yobmIZXwO',)
           //PageThree(docId: 'qHPJAB0C6DavcfYnHAoO', onSave: () {  },)
            //   MyMatePage(results: [], search: [], docId: 'qHPJAB0C6DavcfYnHAoO',)

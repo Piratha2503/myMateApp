@@ -825,7 +825,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
               child: Column(
                 children: [
                   _buildProfileInfo(),
-                  SizedBox(height: screenHeight * 0.04),
+                  SizedBox(height: screenHeight * 0.03),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,

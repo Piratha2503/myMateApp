@@ -105,7 +105,7 @@ class NotificationService {
     final String accessToken = await getAccessToken();
 
     String notificationMessage = actionType == "Request_Sent"
-     ? "$senderName wants to connect with you !"
+        ? "$senderName wants to connect with you !"
         : "$senderName accepted your request !";
 
     try {
