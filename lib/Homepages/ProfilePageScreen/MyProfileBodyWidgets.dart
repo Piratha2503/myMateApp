@@ -12,14 +12,14 @@ Widget IconWithText(BuildContext context, String iconPath, String text1, String 
   return Container(
     width: MediaQuery.of(context).size.width * 0.28,
     height: MediaQuery.of(context).size.height * 0.1,
-    foregroundDecoration: BoxDecoration(
-      border: Border(
-        right: BorderSide(
-          color: MyMateThemes.secondaryColor,
-          width: MediaQuery.of(context).size.width * 0.005,
-        ),
-      ),
-    ),
+    // foregroundDecoration: BoxDecoration(
+    //   border: Border(
+    //     right: BorderSide(
+    //       color: MyMateThemes.textColor.withOpacity(0.2),
+    //       width: MediaQuery.of(context).size.width * 0.003,
+    //     ),
+    //   ),
+    // ),
     child: Column(
       children: [
         SvgPicture.asset(
@@ -55,7 +55,7 @@ Widget ActionButtons(BuildContext context, String docId) {
     children: [
       SizedBox(
         height:MediaQuery.of(context).size.height * 0.06 ,
-        width: MediaQuery.of(context).size.width * 0.35,
+        width: MediaQuery.of(context).size.width * 0.43,
         child:
         ElevatedButton(
           onPressed: () {
@@ -68,7 +68,7 @@ Widget ActionButtons(BuildContext context, String docId) {
           style: ElevatedButton.styleFrom(
             backgroundColor: MyMateThemes.primaryColor,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.025),
+              borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.02),
             ),
             padding: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width * 0.05,
@@ -82,10 +82,10 @@ Widget ActionButtons(BuildContext context, String docId) {
         ),
 
       ),
-      SizedBox(width: MediaQuery.of(context).size.width * 0.1),
+      SizedBox(width: MediaQuery.of(context).size.width * 0.04),
       SizedBox(
         height:MediaQuery.of(context).size.height * 0.06 ,
-        width: MediaQuery.of(context).size.width * 0.35,
+        width: MediaQuery.of(context).size.width * 0.43,
         child: ElevatedButton(
           onPressed: () {
             NavigatorFunction(
@@ -98,7 +98,7 @@ Widget ActionButtons(BuildContext context, String docId) {
           style: ElevatedButton.styleFrom(
             backgroundColor: MyMateThemes.primaryColor,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.025),
+              borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.02),
             ),
             padding: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width * 0.05,
@@ -220,6 +220,7 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
                 style: TextStyle(
                   color: MyMateThemes.textColor,
                   fontSize: screenWidth * 0.044,
+                  fontWeight: FontWeight.normal,
                 ),
               ),
             ],
@@ -235,10 +236,15 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
             ],
           ),
           SizedBox(height: screenHeight * 0.02),
-          _buildTextField(context,hobbyController, 'Personal Interest'),
-          SizedBox(height: screenHeight * 0.03),
-          Wrap(
-            children: hobbyTags.map((tag) => _buildTag(context, tag)).toList(),
+          // _buildTextField(context,hobbyController, 'Personal Interest'),
+          // SizedBox(height: screenHeight * 0.03),
+          Row(
+            children: [
+              SizedBox(width: screenWidth*0.08,),
+              Wrap(
+                children: hobbyTags.map((tag) => _buildTag(context, tag)).toList(),
+              ),
+            ],
           ),
           SizedBox(height: screenHeight * 0.05),
           Row(
@@ -272,7 +278,7 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
                 style: TextStyle(
                   color: MyMateThemes.textColor.withOpacity(0.7),
                   fontSize: screenWidth * 0.04,
-                  fontWeight: FontWeight.normal,
+                  fontWeight: FontWeight.w400,
                 ),
               ),
             ],
@@ -315,7 +321,7 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
                 style: TextStyle(
                   color: MyMateThemes.textColor.withOpacity(0.7),
                   fontSize: screenWidth * 0.04,
-                  fontWeight: FontWeight.normal,
+                  fontWeight: FontWeight.w400,
                 ),
               ),
             ],
@@ -331,7 +337,7 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
                 style: TextStyle(
                   color: MyMateThemes.textColor.withOpacity(0.7),
                   fontSize: screenWidth * 0.04,
-                  fontWeight: FontWeight.normal,
+                  fontWeight: FontWeight.w400,
                 ),
               ),
             ],
@@ -346,8 +352,8 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
                 'Cooking',
                 style: TextStyle(
                   color: MyMateThemes.textColor,
-                  fontSize: screenWidth * 0.045,
-                  fontWeight: FontWeight.w500,
+                  fontSize: screenWidth * 0.043,
+                  fontWeight: FontWeight.normal,
                 ),
               ),
             ],
@@ -392,21 +398,21 @@ Widget Tag(BuildContext context, String text) {
   );
 }
 
-Widget SectionTitle(BuildContext context, String title) {
+Widget SectionTitle(BuildContext context, String title, String svg) {
   return Row(
     children: [
-      SizedBox(width: MediaQuery.of(context).size.width * 0.1), // 10% of screen width
+      SizedBox(width: MediaQuery.of(context).size.width * 0.05), // 10% of screen width
       SvgPicture.asset(
-        'assets/images/Group 2148.svg',
-        width: MediaQuery.of(context).size.width * 0.06, // Responsive icon size
+        svg,
+        width: MediaQuery.of(context).size.width * 0.05, // Responsive icon size
       ),
-      SizedBox(width: MediaQuery.of(context).size.width * 0.01), // Small spacing
+      SizedBox(width: MediaQuery.of(context).size.width * 0.013), // Small spacing
       Text(
         title,
         style: TextStyle(
           color: MyMateThemes.primaryColor,
-          fontSize: MediaQuery.of(context).size.width * 0.045, // Responsive font size
-          fontWeight: FontWeight.bold,
+          fontSize: MediaQuery.of(context).size.width * 0.043, // Responsive font size
+          fontWeight: FontWeight.normal,
         ),
       ),
     ],

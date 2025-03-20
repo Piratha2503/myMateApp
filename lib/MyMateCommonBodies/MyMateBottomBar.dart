@@ -46,7 +46,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
       case 2: NavigatorFunction(context, MyMatePage( docId: widget.docId, results: [], search: [],));
       case 3: NavigatorFunction(context, AddTokenMainPage( docId: widget.docId));
       case 4: Navigator.push(context, MaterialPageRoute(builder: (context)=> ProfilePage(docId: widget.docId,
-        selectedBottomBarIconIndex: 3,)));
+        selectedBottomBarIconIndex: 4,)));
     }
   }
 

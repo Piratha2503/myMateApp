@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mymateapp/Homepages/ProfilePageScreen/MyProfileMain.dart';
 import 'package:mymateapp/ManagePages/AboutPage.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/ManagePages/AccountPage.dart';
@@ -9,6 +11,7 @@ import 'package:mymateapp/ManagePages/SettingsPage.dart';
 import 'package:mymateapp/ManagePages/SummaryPage.dart';
 
 import '../Homepages/AddTokenPage.dart';
+import 'CustomOutlineButton.dart';
 
 class ManagePage extends StatefulWidget {
   final String docId;
@@ -135,7 +138,10 @@ class _ManagePageState extends State<ManagePage> {
                   centerTitle: true,
                   leading: IconButton(
                     icon: Icon(Icons.arrow_back_ios, color: Colors.white),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pop(context); // Ensure proper navigation back
+
+                    },
                   ),
                 ),
               ),
@@ -256,21 +262,59 @@ class _ManagePageState extends State<ManagePage> {
                       ),
                     ),
                     SizedBox(width: width*0.25),
-                    Transform.scale(
-                      scaleY: 0.6,
-                      scaleX: 0.9,
-                      child: Switch(
-                        value: _isSwitched,
-                        onChanged: (value) {
-                          setState(() {
-                            _isSwitched = value;
-                            if (_isSwitched) {
-                              _showCustomDialog();
-                            }
-                          });
-                        },
-                      ),
+                    // StyledSwitch(
+                    //
+                    //   onToggled:  (value) {
+                    //      setState(() {
+                    //   _isSwitched = value;
+                    //   if (_isSwitched) {
+                    //   _showCustomDialog();
+                    //   }
+                    //   });
+                    //    },
+                    //   initialValue: _isSwitched, // Maintain switch state
+                    //   activeColor: MyMateThemes.secondaryColor, // Track color when ON
+                    //   inactiveColor: MyMateThemes.textColor.withOpacity(0.1), // Track color when OFF
+                    //   thumbColorActive: MyMateThemes.primaryColor, // Thumb color when ON
+                    //   thumbColorInactive: MyMateThemes.textColor, // Thumb color when OFF
+                    // ),
+
+
+                    CustomSwitch(
+                      value: _isSwitched,
+                      onChanged: (value) {
+                        setState(() {
+                          _isSwitched = value;
+                          if (_isSwitched) {
+                            _showCustomDialog();
+                          }
+                        });
+                      },
+                      activeColor: MyMateThemes.secondaryColor, // ON track color
+                      inactiveColor: MyMateThemes.textColor.withOpacity(0.1), // OFF track color
+                      thumbColorActive: MyMateThemes.primaryColor, // ON thumb color
+                      thumbColorInactive: MyMateThemes.textColor, // OFF thumb color
                     ),
+                    // Transform.scale(
+                    //   scaleY: 0.8,
+                    //   scaleX: 0.9,
+                    //
+                    //   child: Switch(
+                    //     value: _isSwitched,
+                    //     onChanged: (value) {
+                    //       setState(() {
+                    //         _isSwitched = value;
+                    //         if (_isSwitched) {
+                    //           _showCustomDialog();
+                    //         }
+                    //       });
+                    //     },
+                    //     activeColor: MyMateThemes.primaryColor,  // Color of the switch when ON
+                    //     inactiveTrackColor: MyMateThemes.textColor.withOpacity(0.1), // Track color when OFF
+                    //     activeTrackColor: MyMateThemes.secondaryColor,  // Track color when ON
+                    //     inactiveThumbColor: MyMateThemes.textColor, // Thumb color when OFF
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
@@ -286,9 +330,8 @@ class _ManagePageState extends State<ManagePage> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
+                            Navigator.of(context).push(
+                                CupertinoPageRoute(
                                     builder: (context) => Summarypage(docId: widget.docId,)));
                           },
                           child: SvgPicture.asset(
@@ -303,9 +346,8 @@ class _ManagePageState extends State<ManagePage> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
+                            Navigator.of(context).push(
+                                CupertinoPageRoute(
                                     builder: (context) => Settingspage(docId: widget.docId,)));
                           },
                           child: SvgPicture.asset(
@@ -319,10 +361,9 @@ class _ManagePageState extends State<ManagePage> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Allactionpage(docId: widget.docId,)));
+                            Navigator.of(context).push(
+                                CupertinoPageRoute(
+                                    builder: (context)=> Allactionpage(docId: widget.docId,)));
                           },
                           child: SvgPicture.asset(
                             'assets/images/Actions.svg',
@@ -336,9 +377,8 @@ class _ManagePageState extends State<ManagePage> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
+                            Navigator.of(context).push(
+                                CupertinoPageRoute(
                                     builder: (context) => AddTokenPage(docId: widget.docId,)));
                           },
                           child: SvgPicture.asset(
@@ -353,9 +393,8 @@ class _ManagePageState extends State<ManagePage> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
+                            Navigator.of(context).push(
+                                CupertinoPageRoute(
                                     builder: (context) => Accountpage()));
                           },
                           child: SvgPicture.asset(
@@ -370,9 +409,8 @@ class _ManagePageState extends State<ManagePage> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
+                            Navigator.of(context).push(
+                                CupertinoPageRoute(
                                     builder: (context) => Helppage(docId: widget.docId,)));
                           },
                           child: SvgPicture.asset(
@@ -387,10 +425,9 @@ class _ManagePageState extends State<ManagePage> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Aboutpage()));
+                            Navigator.of(context).push(
+                                CupertinoPageRoute(
+                                    builder: (context)=> Aboutpage()));
                           },
                           child: SvgPicture.asset(
                             'assets/images/About.svg',

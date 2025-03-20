@@ -32,10 +32,9 @@ class _SummarypageState extends State<Summarypage> {
                         SizedBox(width: width * 0.02),
                         GestureDetector(
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => ManagePage(docId: widget.docId,)),
-                            );
+                              Navigator.pop(context); // Ensure proper navigation back
+
+
                           },
                           child: SvgPicture.asset(
                             'assets/images/chevron-left.svg',
