@@ -171,255 +171,324 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
       //     ),
       //   ),
       // ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(height:65),
-            Row(
-              children: [
-                SizedBox(width: 110),
-                Text(
-                  'More About Me',
-                  style: TextStyle(
-                    color: MyMateThemes.textColor,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height:30),
-            Row(
-              children: [
-                SizedBox(width: 45),
-                Text(
-                  'Personal Interest',
-                  style: TextStyle(
-                    color: MyMateThemes.textColor,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 10),
-            Row(
-              children: [
-                SizedBox(width: 35),
-                SvgPicture.asset('assets/images/Line 11.svg'),
-              ],
-            ),
-            SizedBox(height: 15),
-            _buildTextField(hobbyController, 'Personal Interest', _addHobbyTag),
-            SizedBox(height: 20),
-            Wrap(
-              children: hobbyTags.map((tag) => _buildTag(tag)).toList(),
-            ),
-            SizedBox(height: 40),
-            Row(
-              children: [
-                SizedBox(width: 45),
-                Text(
-                  'Habits',
-                  style: TextStyle(
-                    color: MyMateThemes.textColor,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 10),
-            Row(
-              children: [
-                SizedBox(width: 35),
-                SvgPicture.asset('assets/images/Line 11.svg'),
-              ],
-            ),
-            SizedBox(height: 15),
-            Row(
-              children: [
-                SizedBox(width: 45),
-                Text(
-                  'Eating Habits',
-                  style: TextStyle(
-                    color: MyMateThemes.textColor,
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Row(
-                  children: [
-                    Radio<String>(
-                      value: 'Vegetarian',
-                      groupValue: _selectedValue,
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedValue = value!;
-                        });
-                      },
-                      activeColor: MyMateThemes.primaryColor,
-                      // Change color if needed
-                    ),
-                    Text('Vegetarian'),
-                  ],
-                ),
-                SizedBox(width: 50),
-                Row(
-                  children: [
-                    Radio<String>(
-                      value: 'Non- Vegetarian',
-                      groupValue: _selectedValue,
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedValue = value!;
-                        });
-                      },
-                      activeColor: MyMateThemes.primaryColor, // Change color if needed
-                    ),
-                    Text('Non- Vegetarian'),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(height: 30),
-            Row(
-              children: [
-                SizedBox(width: 45),
-                Text(
-                  'Alcohol',
-                  style: TextStyle(
-                    color: MyMateThemes.textColor,
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-              ],
-            ),
+      body: LayoutBuilder(
+          builder: (context, constraints) {
+            // Read width and height from constraints to use for responsive sizing.
+            final double screenWidth = MediaQuery.of(context).size.width;
+            final double screenHeight = MediaQuery.of(context).size.height;
 
-            SizedBox(height: 30),
-            _buildAlcoholSelection(),
-            SizedBox(height: 45),
-            Row(
+            return SingleChildScrollView(
+            child: Column(
               children: [
-                SizedBox(width: 45),
-                Text(
-                  'Smoking',
-                  style: TextStyle(
-                    color: MyMateThemes.textColor,
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 30),
-            _buildSmokingSelection(),
-            SizedBox(height: 45),
-            Row(
-              children: [
-                SizedBox(width: 45),
-                Text(
-                  'Cooking',
-                  style: TextStyle(
-                    color: MyMateThemes.textColor,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 10),
-            Row(
-              children: [
-                SizedBox(width: 35),
-                SvgPicture.asset('assets/images/Line 11.svg'),
-              ],
-            ),
-            SizedBox(height: 30),
-            _buildCookingSelection(),
-            SizedBox(height: 80),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      hobbyTags.clear();
-                      favoritesTags.clear();
-                      sportsTags.clear();
-                      hobbyController.clear();
-                      favoritesController.clear();
-                      sportsController.clear();
-                      selectedAlcoholIndex = -1;
-                      selectedCookingIndex = -1;
-                      selectedSmokingIndex = -1;
-                    });
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: MyMateThemes.secondaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
+                SizedBox(height: screenHeight * 0.08),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'More About Me',
+                      style: TextStyle(
+                        color: MyMateThemes.textColor,
+                        fontSize: screenWidth * 0.05,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                  ),
-                  child: Text(
-                    'Clear All',
-                    style: TextStyle(color: Colors.black, letterSpacing: 1.5),
-                  ),
+                  ],
                 ),
-                SizedBox(width: 26),
-                ElevatedButton(
-                  onPressed: () {
-                    // Store the selected values
-                    _StoreSelectedValues();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: MyMateThemes.primaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
+                SizedBox(height: screenHeight * 0.04),
+                Row(
+                  children: [
+                    SizedBox(width: screenWidth * 0.1),
+                    Text(
+                      'Personal Interest',
+                      style: TextStyle(
+                        color: MyMateThemes.textColor,
+                        fontSize: screenWidth * 0.04,
+                        fontWeight: FontWeight.normal,
+                      ),
                     ),
-                  ),
-                  child: Text(
-                    'Complete',
-                    style: TextStyle(color: Colors.white, letterSpacing: 1.5),
-                  ),
+                  ],
                 ),
+                SizedBox(height: screenHeight * 0.015),
+                Row(
+                  children: [
+                    SizedBox(width: screenWidth * 0.06),
+                    SvgPicture.asset('assets/images/Line 11.svg',width: screenWidth*0.88,),
+                  ],
+                ),
+                SizedBox(height: screenHeight * 0.02),
+                _buildTextField(hobbyController, '-- Type here --', _addHobbyTag),
+                SizedBox(height: screenHeight * 0.03),
+                Wrap(
+                  children: hobbyTags.map((tag) => _buildTag(tag)).toList(),
+                ),
+                SizedBox(height: screenHeight * 0.03),
+                Row(
+                  children: [
+                    SizedBox(width: screenWidth * 0.1),
+
+                    Text(
+                      'Life Style',
+                      style: TextStyle(
+                        color: MyMateThemes.textColor,
+                        fontSize: screenWidth * 0.04,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: screenHeight * 0.015),
+                Row(
+                  children: [
+                    SizedBox(width: screenWidth * 0.06),
+                    SvgPicture.asset('assets/images/Line 11.svg',width: screenWidth*0.88,),
+                  ],
+                ),
+                SizedBox(height: screenHeight * 0.02),
+                Row(
+                  children: [
+                    SizedBox(width: screenWidth*0.08),
+                    Text(
+                      'Eating Habits',
+                      style: TextStyle(
+                        color: MyMateThemes.textColor,
+                        fontSize: screenWidth * 0.035,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: screenHeight * 0.02),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      children: [
+                        SizedBox(width: screenWidth * 0.07),
+
+                        Theme(
+                          data: ThemeData(
+                            radioTheme: RadioThemeData(
+                              fillColor: MaterialStateProperty.resolveWith<Color>((states) {
+                                if (states.contains(MaterialState.selected)) {
+                                  return MyMateThemes.primaryColor; // Change selected color
+                                }
+                                return MyMateThemes.secondaryColor; // Unselected color
+                              }),
+                              visualDensity: VisualDensity.compact, // Reduce spacing
+                            ),
+                          ),
+                          child:
+                          Transform.scale(
+                            scale: screenWidth*0.0033, // Adjust size (increase value to make it bigger)
+                            child: Radio<String>(
+                              value: 'Vegetarian',
+                              groupValue: _selectedValue,
+                              onChanged: (value) {
+                                setState(() {
+                                  _selectedValue = value!;
+                                });
+                              },
+                              activeColor: MyMateThemes.primaryColor, // Border color when selected
+                              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap, // Prevent extra padding
+                            ),
+                          ),                        ),
+
+                        Text('Vegetarian',style: TextStyle(color: MyMateThemes.textColor,fontWeight: FontWeight.normal,fontSize: screenWidth*0.03),),
+                      ],
+                    ),
+                    SizedBox(width: screenWidth * 0.138),
+                    Row(
+                      children: [
+                        Theme(
+                          data: ThemeData(
+                            radioTheme: RadioThemeData(
+                              fillColor: MaterialStateProperty.resolveWith<Color>((states) {
+                                if (states.contains(MaterialState.selected)) {
+                                  return MyMateThemes.primaryColor; // Change selected color
+                                }
+                                return MyMateThemes.secondaryColor; // Unselected color
+                              }),
+                              visualDensity: VisualDensity.compact, // Reduce spacing
+                              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+
+                            ),
+                          ),
+                          child: Transform.scale(
+                            scale: screenWidth*0.0033,
+                            child: Radio<String>(
+                              value: 'Non- Vegetarian',
+                              groupValue: _selectedValue,
+                              onChanged: (value) {
+                                setState(() {
+                                  _selectedValue = value!;
+                                });
+                              },
+                              activeColor: MyMateThemes.primaryColor, // Change color if needed
+                            ),
+                          ),
+                        ),
+                        Text('Non- Vegetarian',style: TextStyle(color: MyMateThemes.textColor,fontWeight: FontWeight.normal,fontSize: screenWidth*0.03),),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(height: screenHeight*0.03),
+                Row(
+                  children: [
+                    SizedBox(width: screenWidth*0.1),
+                    Text(
+                      'Alcohol',
+                      style: TextStyle(
+                        color: MyMateThemes.textColor,
+                        fontSize: screenWidth*0.035,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: screenHeight*0.02),
+                _buildAlcoholSelection(),
+                SizedBox(height: screenHeight * 0.05),
+                Row(
+                  children: [
+                    SizedBox(width: screenWidth*0.1),
+                    Text(
+                      'Smoking',
+                      style: TextStyle(
+                        color: MyMateThemes.textColor,
+                        fontSize: screenWidth*0.035,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: screenHeight * 0.03),
+                _buildSmokingSelection(),
+                SizedBox(height: screenHeight * 0.05),
+                Row(
+                  children: [
+                    SizedBox(width: screenWidth*0.1),
+                    Text(
+                      'Cooking',
+                      style: TextStyle(
+                        color: MyMateThemes.textColor,
+                        fontSize: screenWidth * 0.04,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: screenHeight * 0.015),
+                Row(
+                  children: [
+                    SizedBox(width: screenWidth * 0.06),
+                    SvgPicture.asset('assets/images/Line 11.svg',width: screenWidth*0.88,),
+                  ],
+                ),
+                SizedBox(height: screenHeight * 0.04),
+                _buildCookingSelection(),
+                SizedBox(height: screenHeight * 0.08),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+
+                    SizedBox(
+                      height: screenHeight*0.07,
+                      width: screenWidth*0.35,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            hobbyTags.clear();
+                            favoritesTags.clear();
+                            sportsTags.clear();
+                            hobbyController.clear();
+                            favoritesController.clear();
+                            sportsController.clear();
+                            selectedAlcoholIndex = -1;
+                            selectedCookingIndex = -1;
+                            selectedSmokingIndex = -1;
+                          });
+                        },
+                        style: ButtonStyle(
+                          foregroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
+                          backgroundColor: MaterialStatePropertyAll(MyMateThemes.secondaryColor),
+                          shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(screenWidth*0.01)
+                              )),
+
+                        ),
+                        child: Text(
+                          'Clear All',
+                          style: TextStyle(color:MyMateThemes.textColor, letterSpacing: 1.5,fontSize: screenWidth*0.04),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: screenWidth*0.05),
+                    SizedBox(
+                      height: screenHeight*0.07,
+                      width: screenWidth*0.35,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // Store the selected values
+                          _StoreSelectedValues();
+                        },
+                        style: ButtonStyle(
+                          foregroundColor: MaterialStatePropertyAll(Colors.white),
+                          backgroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
+                          shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(screenWidth*0.01)
+                              )),
+
+                        ),
+                        child: Text(
+                          'Complete',
+                          style: TextStyle(color: Colors.white, letterSpacing: 1.5,fontSize: screenWidth*0.04),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: screenHeight * 0.08),
               ],
             ),
-            SizedBox(height: 68),
-          ],
-        ),
+          );
+        }
       ),
     );
   }
 
   Widget _buildTextField(TextEditingController controller, String hintText,
       VoidCallback onSubmitted) {
+    double containerWidth = MediaQuery.of(context).size.width * 0.9;
+    double containerHeight = MediaQuery.of(context).size.height * 0.055;
+    double fontSize = MediaQuery.of(context).size.width * 0.04;
+
     return Column(
       children: [
         Container(
+          height: containerHeight,
+          width: containerWidth,
           decoration: BoxDecoration(
-            color: MyMateThemes.containerColor,
-            borderRadius: BorderRadius.circular(8.0),
+            border: Border.all(
+              color: MyMateThemes.textColor.withOpacity(0.2),
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(containerWidth * 0.03), // Dynamic border radius
           ),
-          width: 330,
-          height: 37, // Increased height to accommodate TextField
+        // Increased height to accommodate TextField
           child: Padding(
-            padding: const EdgeInsets.only(left: 10.0),
+            padding:  EdgeInsets.only(left: containerWidth*0.02),
             child: TextField(
               controller: controller,
               decoration: InputDecoration(
-                hintStyle:TextStyle(color: MyMateThemes.textColor.withOpacity(0.5)),
+                hintStyle:TextStyle(color: MyMateThemes.textColor,fontSize: containerWidth*0.035,fontWeight: FontWeight.w300),
                 border: InputBorder.none,
                 enabledBorder: InputBorder.none,
                 focusedBorder: InputBorder.none,
-                contentPadding: EdgeInsets.all(9.0),
+                contentPadding: EdgeInsets.all(containerWidth*0.045),
                 // Adjust padding as needed
                 hintText: hintText,
 
@@ -468,24 +537,31 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
   }
 
   Widget _buildTag(String text) {
+    double containerWidth = MediaQuery.of(context).size.width * 0.9;
+    double containerHeight = MediaQuery.of(context).size.height * 0.055;
+    double fontSize = MediaQuery.of(context).size.width * 0.04;
+
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-      padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+      margin: EdgeInsets.symmetric(horizontal:containerWidth*0.01, vertical: containerHeight*0.01),
+      padding: EdgeInsets.symmetric(horizontal: containerWidth*0.04, vertical: containerHeight*0.25),
       decoration: BoxDecoration(
         color: MyMateThemes.primaryColor,
-        borderRadius: BorderRadius.circular(8.0),
+        borderRadius: BorderRadius.circular(containerWidth*0.02),
       ),
       child: Text(
         text,
         style: TextStyle(
           color: Colors.white,
-          fontSize: 14.0,
+          fontSize: containerWidth*0.045,
         ),
       ),
     );
   }
 
   Widget _buildAlcoholSelection() {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+
     return Stack(
       children: [
         CustomPaint(
@@ -494,7 +570,7 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
         ),
         Row(
           children: [
-            SizedBox(width: 15),
+            SizedBox(width: screenWidth*0.02),
             Expanded(
               child: GestureDetector(
                 onTap: () {
@@ -508,27 +584,31 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                       painter:
                       _CirclePainter(isActive: selectedAlcoholIndex >= 0),
                       child: SizedBox(
-                        width: 24,
-                        height: 24,
+                        width: screenWidth*0.06,
+                        height: screenHeight*0.03,
                       ),
                     ),
-                    SizedBox(height: 13),
+                    SizedBox(height: screenHeight*0.015),
                     Text(
                       'Never',
                       style: TextStyle(
                         color: selectedAlcoholIndex >= 0
-                            ? Colors.black
-                            : Colors.grey[700],
-                        fontSize: 10,
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
+                        fontSize: screenWidth*0.026,
+                        fontWeight: FontWeight.w300
+
                       ),
                     ),
                     Text(
                       'Had',
                       style: TextStyle(
-                        color: selectedAlcoholIndex >= 0
-                            ? Colors.black
-                            : Colors.grey[700],
-                        fontSize: 10,
+                          color: selectedAlcoholIndex >= 0
+                              ? MyMateThemes.textColor
+                              : MyMateThemes.textColor.withOpacity(0.6),
+                          fontSize: screenWidth*0.026,
+                          fontWeight: FontWeight.w300
+
                       ),
                     ),
                   ],
@@ -548,27 +628,29 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                       painter:
                       _CirclePainter(isActive: selectedAlcoholIndex >= 1),
                       child: SizedBox(
-                        width: 24,
-                        height: 24,
+                        width: screenWidth*0.06,
+                        height: screenHeight*0.03,
                       ),
                     ),
-                    SizedBox(height: 13),
+                    SizedBox(height: screenHeight*0.015),
                     Text(
                       'Rarely',
                       style: TextStyle(
                         color: selectedAlcoholIndex >= 1
-                            ? Colors.black
-                            : Colors.grey[700],
-                        fontSize: 10,
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
+                          fontSize: screenWidth*0.026,
+                          fontWeight: FontWeight.w300
                       ),
                     ),
                     Text(
                       'Drinker',
                       style: TextStyle(
                         color: selectedAlcoholIndex >= 1
-                            ? Colors.black
-                            : Colors.grey[700],
-                        fontSize: 10,
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
+                          fontSize: screenWidth*0.026,
+                          fontWeight: FontWeight.w300
                       ),
                     ),
                   ],
@@ -588,27 +670,29 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                       painter:
                       _CirclePainter(isActive: selectedAlcoholIndex >= 2),
                       child: SizedBox(
-                        width: 24,
-                        height: 24,
+                        width: screenWidth*0.06,
+                        height: screenHeight*0.03,
                       ),
                     ),
-                    SizedBox(height: 13),
+                    SizedBox(height: screenHeight*0.015),
                     Text(
                       'Occasionally',
                       style: TextStyle(
                         color: selectedAlcoholIndex >= 2
-                            ? Colors.black
-                            : Colors.grey[700],
-                        fontSize: 10,
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
+                          fontSize: screenWidth*0.026,
+                          fontWeight: FontWeight.w300
                       ),
                     ),
                     Text(
                       'Drinker',
                       style: TextStyle(
                         color: selectedAlcoholIndex >= 2
-                            ? Colors.black
-                            : Colors.grey[700],
-                        fontSize: 10,
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
+                          fontSize: screenWidth*0.026,
+                          fontWeight: FontWeight.w300
                       ),
                     ),
                   ],
@@ -628,27 +712,29 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                       painter:
                       _CirclePainter(isActive: selectedAlcoholIndex >= 3),
                       child: SizedBox(
-                        width: 24,
-                        height: 24,
+                        width: screenWidth*0.06,
+                        height: screenHeight*0.03,
                       ),
                     ),
-                    SizedBox(height: 13),
+                    SizedBox(height: screenHeight*0.015),
                     Text(
                       'Regularly',
                       style: TextStyle(
                         color: selectedAlcoholIndex >= 3
-                            ? Colors.black
-                            : Colors.grey[700],
-                        fontSize: 10,
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
+                          fontSize: screenWidth*0.026,
+                          fontWeight: FontWeight.w300
                       ),
                     ),
                     Text(
                       'Drinker',
                       style: TextStyle(
                         color: selectedAlcoholIndex >= 3
-                            ? Colors.black
-                            : Colors.grey[700],
-                        fontSize: 10,
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
+                          fontSize: screenWidth*0.026,
+                          fontWeight: FontWeight.w300
                       ),
                     ),
                   ],
@@ -668,27 +754,29 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                       painter:
                       _CirclePainter(isActive: selectedAlcoholIndex >= 4),
                       child: SizedBox(
-                        width: 24,
-                        height: 24,
+                        width: screenWidth*0.06,
+                        height: screenHeight*0.03,
                       ),
                     ),
-                    SizedBox(height: 13),
+                    SizedBox(height: screenHeight*0.015),
                     Text(
                       'Swimming',
                       style: TextStyle(
                         color: selectedAlcoholIndex >= 4
-                            ? Colors.black
-                            : Colors.grey[700],
-                        fontSize: 10,
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
+                          fontSize: screenWidth*0.026,
+                          fontWeight: FontWeight.w300
                       ),
                     ),
                     Text(
                       'in it (24/7)',
                       style: TextStyle(
                         color: selectedAlcoholIndex >= 4
-                            ? Colors.black
-                            : Colors.grey[700],
-                        fontSize: 10,
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
+                          fontSize: screenWidth*0.026,
+                          fontWeight: FontWeight.w300
                       ),
                     ),
                   ],
@@ -702,6 +790,9 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
   }
 
   Widget _buildSmokingSelection() {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+
     return Stack(
       children: [
         CustomPaint(
@@ -710,7 +801,7 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
         ),
         Row(
           children: [
-            SizedBox(width: 15),
+            SizedBox(width: screenWidth*0.02),
             Expanded(
               child: GestureDetector(
                 onTap: () {
@@ -724,27 +815,29 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                       painter:
                       _CirclePainter(isActive: selectedSmokingIndex >= 0),
                       child: SizedBox(
-                        width: 24,
-                        height: 24,
+                        width: screenWidth*0.06,
+                        height: screenHeight*0.03,
                       ),
                     ),
-                    SizedBox(height: 13),
+                    SizedBox(height: screenHeight*0.015),
                     Text(
                       'Never',
                       style: TextStyle(
                         color: selectedSmokingIndex >= 0
-                            ? Colors.black
-                            : Colors.grey[700],
-                        fontSize: 10,
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
+                          fontSize: screenWidth*0.026,
+                          fontWeight: FontWeight.w300
                       ),
                     ),
                     Text(
                       'Had',
                       style: TextStyle(
                         color: selectedSmokingIndex >= 0
-                            ? Colors.black
-                            : Colors.grey[700],
-                        fontSize: 10,
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
+                          fontSize: screenWidth*0.026,
+                          fontWeight: FontWeight.w300
                       ),
                     ),
                   ],
@@ -764,27 +857,29 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                       painter:
                       _CirclePainter(isActive: selectedSmokingIndex >= 1),
                       child: SizedBox(
-                        width: 24,
-                        height: 24,
+                        width: screenWidth*0.06,
+                        height: screenHeight*0.03,
                       ),
                     ),
-                    SizedBox(height: 13),
+                    SizedBox(height: screenHeight*0.015),
                     Text(
                       'Rarely',
                       style: TextStyle(
                         color: selectedSmokingIndex >= 1
-                            ? Colors.black
-                            : Colors.grey[700],
-                        fontSize: 10,
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
+                          fontSize: screenWidth*0.026,
+                          fontWeight: FontWeight.w300
                       ),
                     ),
                     Text(
                       'Smoker',
                       style: TextStyle(
                         color: selectedSmokingIndex >= 1
-                            ? Colors.black
-                            : Colors.grey[700],
-                        fontSize: 10,
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
+                          fontSize: screenWidth*0.026,
+                          fontWeight: FontWeight.w300
                       ),
                     ),
                   ],
@@ -804,27 +899,29 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                       painter:
                       _CirclePainter(isActive: selectedSmokingIndex >= 2),
                       child: SizedBox(
-                        width: 24,
-                        height: 24,
+                        width: screenWidth*0.06,
+                        height: screenHeight*0.03,
                       ),
                     ),
-                    SizedBox(height: 13),
+                    SizedBox(height: screenHeight*0.015),
                     Text(
                       'Occasionally',
                       style: TextStyle(
                         color: selectedSmokingIndex >= 2
-                            ? Colors.black
-                            : Colors.grey[700],
-                        fontSize: 10,
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
+                          fontSize: screenWidth*0.026,
+                          fontWeight: FontWeight.w300
                       ),
                     ),
                     Text(
                       'Smoker',
                       style: TextStyle(
                         color: selectedSmokingIndex >= 2
-                            ? Colors.black
-                            : Colors.grey[700],
-                        fontSize: 10,
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
+                          fontSize: screenWidth*0.026,
+                          fontWeight: FontWeight.w300
                       ),
                     ),
                   ],
@@ -844,27 +941,29 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                       painter:
                       _CirclePainter(isActive: selectedSmokingIndex >= 3),
                       child: SizedBox(
-                        width: 24,
-                        height: 24,
+                        width: screenWidth*0.06,
+                        height: screenHeight*0.03,
                       ),
                     ),
-                    SizedBox(height: 13),
+                    SizedBox(height: screenHeight*0.015),
                     Text(
                       'Regularly',
                       style: TextStyle(
                         color: selectedSmokingIndex >= 3
-                            ? Colors.black
-                            : Colors.grey[700],
-                        fontSize: 10,
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
+                          fontSize: screenWidth*0.026,
+                          fontWeight: FontWeight.w300
                       ),
                     ),
                     Text(
                       'Smoker',
                       style: TextStyle(
                         color: selectedSmokingIndex >= 3
-                            ? Colors.black
-                            : Colors.grey[700],
-                        fontSize: 10,
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
+                          fontSize: screenWidth*0.026,
+                          fontWeight: FontWeight.w300
                       ),
                     ),
                   ],
@@ -884,27 +983,29 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                       painter:
                       _CirclePainter(isActive: selectedSmokingIndex >= 4),
                       child: SizedBox(
-                        width: 24,
-                        height: 24,
+                        width: screenWidth*0.06,
+                        height: screenHeight*0.03,
                       ),
                     ),
-                    SizedBox(height: 13),
+                    SizedBox(height: screenHeight*0.015),
                     Text(
                       'Chain',
                       style: TextStyle(
                         color: selectedSmokingIndex >= 4
-                            ? Colors.black
-                            : Colors.grey[700],
-                        fontSize: 10,
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
+                          fontSize: screenWidth*0.026,
+                          fontWeight: FontWeight.w300
                       ),
                     ),
                     Text(
                       'Smoker',
                       style: TextStyle(
                         color: selectedSmokingIndex >= 4
-                            ? Colors.black
-                            : Colors.grey[700],
-                        fontSize: 10,
+                            ? MyMateThemes.textColor
+                            : MyMateThemes.textColor.withOpacity(0.6),
+                          fontSize: screenWidth*0.026,
+                          fontWeight: FontWeight.w300
                       ),
                     ),
                   ],
@@ -918,6 +1019,9 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
   }
 
   Widget _buildCookingSelection() {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+
     return Stack(
       children: [
         CustomPaint(
@@ -926,7 +1030,7 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
         ),
         Row(
           children: [
-            SizedBox(width: 15),
+            SizedBox(width: screenWidth*0.02),
             Expanded(
               child: GestureDetector(
                 onTap: () {
@@ -940,18 +1044,19 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                       painter:
                       _CirclePainter(isActive: selectedCookingIndex >= 0),
                       child: SizedBox(
-                        width: 24,
-                        height: 24,
+                        width: screenWidth*0.06,
+                        height: screenHeight*0.03,
                       ),
                     ),
-                    SizedBox(height: 13),
+                    SizedBox(height: screenHeight*0.015),
                     Text(
                       'Zero',
                       style: TextStyle(
-                        color: selectedCookingIndex == 0
+                        color: selectedCookingIndex >= 0
                             ? MyMateThemes.textColor
-                            : Colors.grey[700],
-                        fontSize: 10,
+                            : MyMateThemes.textColor.withOpacity(0.6),
+                          fontSize: screenWidth*0.026,
+                          fontWeight: FontWeight.w300
                       ),
                     ),
                   ],
@@ -971,18 +1076,19 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                       painter:
                       _CirclePainter(isActive: selectedCookingIndex >= 1),
                       child: SizedBox(
-                        width: 24,
-                        height: 24,
+                        width: screenWidth*0.06,
+                        height: screenHeight*0.03,
                       ),
                     ),
-                    SizedBox(height: 13),
+                    SizedBox(height: screenHeight*0.015),
                     Text(
                       'Novice',
                       style: TextStyle(
-                        color: selectedCookingIndex == 1
+                        color: selectedCookingIndex >= 1
                             ? MyMateThemes.textColor
-                            : Colors.grey[700],
-                        fontSize: 10,
+                            : MyMateThemes.textColor.withOpacity(0.6),
+                          fontSize: screenWidth*0.026,
+                          fontWeight: FontWeight.w300
                       ),
                     ),
                   ],
@@ -1002,18 +1108,19 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                       painter:
                       _CirclePainter(isActive: selectedCookingIndex >= 2),
                       child: SizedBox(
-                        width: 24,
-                        height: 24,
+                        width: screenWidth*0.06,
+                        height: screenHeight*0.03,
                       ),
                     ),
-                    SizedBox(height: 13),
+                    SizedBox(height: screenHeight*0.015),
                     Text(
                       'Basic',
                       style: TextStyle(
-                        color: selectedCookingIndex == 2
+                        color: selectedCookingIndex >= 2
                             ? MyMateThemes.textColor
-                            : Colors.grey[700],
-                        fontSize: 10,
+                            : MyMateThemes.textColor.withOpacity(0.6),
+                          fontSize: screenWidth*0.026,
+                          fontWeight: FontWeight.w300
                       ),
                     ),
                   ],
@@ -1033,18 +1140,19 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                       painter:
                       _CirclePainter(isActive: selectedCookingIndex >= 3),
                       child: SizedBox(
-                        width: 24,
-                        height: 24,
+                        width: screenWidth*0.06,
+                        height: screenHeight*0.03,
                       ),
                     ),
-                    SizedBox(height: 13),
+                    SizedBox(height: screenHeight*0.015),
                     Text(
                       'Intermediate',
                       style: TextStyle(
-                        color: selectedCookingIndex == 3
+                        color: selectedCookingIndex >= 3
                             ? MyMateThemes.textColor
-                            : Colors.grey[700],
-                        fontSize: 10,
+                            : MyMateThemes.textColor.withOpacity(0.6),
+                          fontSize: screenWidth*0.026,
+                          fontWeight: FontWeight.w300
                       ),
                     ),
                   ],
@@ -1064,18 +1172,19 @@ class _MoreAboutMePageState extends State<MoreAboutMePage> {
                       painter:
                       _CirclePainter(isActive: selectedCookingIndex >= 4),
                       child: SizedBox(
-                        width: 24,
-                        height: 24,
+                        width: screenWidth*0.06,
+                        height: screenHeight*0.03,
                       ),
                     ),
-                    SizedBox(height: 13),
+                    SizedBox(height: screenHeight*0.015),
                     Text(
                       'Advanced',
                       style: TextStyle(
-                        color: selectedCookingIndex == 4
+                        color: selectedCookingIndex >= 4
                             ? MyMateThemes.textColor
-                            : Colors.grey[700],
-                        fontSize: 10,
+                            : MyMateThemes.textColor.withOpacity(0.6),
+                          fontSize: screenWidth*0.026,
+                          fontWeight: FontWeight.w300
                       ),
                     ),
                   ],
@@ -1096,14 +1205,34 @@ class _CirclePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color =
-      isActive ? MyMateThemes.primaryColor : Colors.grey.withOpacity(0.3)
-      ..style = PaintingStyle.fill;
+    final Paint paint = Paint()
+      ..color = isActive ? MyMateThemes.primaryColor : Colors.white // Fill only if active
+      ..style = isActive ? PaintingStyle.fill : PaintingStyle.stroke
+      ..strokeWidth = 3.0; // Border thickness
 
+    final Paint borderPaint = Paint()
+      ..color = isActive ? MyMateThemes.primaryColor : MyMateThemes.secondaryColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 3.0;
+
+    // Draw circle with border
     canvas.drawCircle(
-        Offset(size.width / 2, size.height / 2), size.width / 2, paint);
+      Offset(size.width / 2, size.height / 2),
+      size.width / 2.2,
+      borderPaint,
+    );
+
+    // Draw filled circle only when active
+    if (isActive) {
+      canvas.drawCircle(
+        Offset(size.width / 2, size.height / 2),
+        size.width / 2.2,
+        paint,
+      );
+    }
   }
+
+
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
@@ -1121,7 +1250,7 @@ class _LinePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
       ..color = MyMateThemes.primaryColor
-      ..strokeWidth = 4;
+      ..strokeWidth = 3;
 
     final double segmentWidth = size.width / 5;
 
@@ -1133,8 +1262,8 @@ class _LinePainter extends CustomPainter {
         paint.color = Colors.grey.withOpacity(0.1);
       }
       canvas.drawLine(
-        Offset((i + 0.5) * segmentWidth, size.height / 2),
-        Offset((i + 1.5) * segmentWidth, size.height / 2),
+        Offset((i + 0.7) * segmentWidth, size.height / 2),
+        Offset((i + 1.4) * segmentWidth, size.height / 2),
         paint,
       );
     }
@@ -1156,7 +1285,7 @@ class _SmokingLinePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
       ..color = MyMateThemes.primaryColor
-      ..strokeWidth = 4;
+      ..strokeWidth = 3;
 
     final double segmentWidth = size.width / 5;
 
@@ -1168,8 +1297,8 @@ class _SmokingLinePainter extends CustomPainter {
         paint.color = Colors.grey.withOpacity(0.1);
       }
       canvas.drawLine(
-        Offset((i + 0.5) * segmentWidth, size.height / 2),
-        Offset((i + 1.5) * segmentWidth, size.height / 2),
+        Offset((i + 0.7) * segmentWidth, size.height / 2),
+        Offset((i + 1.4) * segmentWidth, size.height / 2),
         paint,
       );
     }
@@ -1192,7 +1321,7 @@ class _LinearPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
       ..color = MyMateThemes.primaryColor
-      ..strokeWidth = 4;
+      ..strokeWidth = 3;
 
     final double segmentWidth = size.width / 5;
 
@@ -1204,8 +1333,8 @@ class _LinearPainter extends CustomPainter {
         paint.color = Colors.grey.withOpacity(0.1);
       }
       canvas.drawLine(
-        Offset((i + 0.5) * segmentWidth, size.height / 2),
-        Offset((i + 1.5) * segmentWidth, size.height / 2),
+        Offset((i + 0.7) * segmentWidth, size.height / 2),
+        Offset((i + 1.4) * segmentWidth, size.height / 2),
         paint,
       );
     }
