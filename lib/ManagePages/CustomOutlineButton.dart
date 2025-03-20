@@ -1,73 +1,130 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
 import 'package:flutter/material.dart';
 
-class StyledSwitch extends StatefulWidget {
-  final void Function(bool isToggled) onToggled;
-  final bool initialValue;
+class CustomSwitch extends StatefulWidget {
+  final bool value;
   final Color activeColor;
   final Color inactiveColor;
   final Color thumbColorActive;
   final Color thumbColorInactive;
-  final double size;
+  final double width;
+  final double height;
+  final double switchHeight;
+  final double switchWidth;
+  final ValueChanged<bool> onChanged;
 
-  const StyledSwitch({
+  const CustomSwitch({
     Key? key,
-    required this.onToggled,
-    this.initialValue = false,
-    this.activeColor = Colors.blue,
+    required this.value,
+    required this.onChanged,
+    this.activeColor = Colors.green,
     this.inactiveColor = Colors.grey,
     this.thumbColorActive = Colors.white,
     this.thumbColorInactive = Colors.white,
-    this.size = 25,
+    this.width = 48.0,
+    this.height = 24.0,
+    this.switchHeight = 20.0,
+    this.switchWidth = 20.0,
   }) : super(key: key);
 
   @override
-  State<StyledSwitch> createState() => _StyledSwitchState();
+  _CustomSwitchState createState() => _CustomSwitchState();
 }
 
-class _StyledSwitchState extends State<StyledSwitch> {
-  late bool isToggled;
-  late double innerPadding;
+class _CustomSwitchState extends State<CustomSwitch>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<Alignment> _circleAnimation;
 
   @override
   void initState() {
     super.initState();
-    isToggled = widget.initialValue;
-    innerPadding = widget.size / 10;
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 200),
+    );
+
+    _circleAnimation = AlignmentTween(
+      begin: widget.value ? Alignment.centerRight : Alignment.centerLeft, // ✅ Fix initial alignment
+      end: widget.value ? Alignment.centerLeft : Alignment.centerRight,
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
+    ));
+
+    if (widget.value) {
+      _animationController.value = 1.0; // ✅ Ensure correct initial position
+    }
+  }
+
+  @override
+  void didUpdateWidget(CustomSwitch oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.value != oldWidget.value) {
+      if (widget.value) {
+        _animationController.forward();
+      } else {
+        _animationController.reverse();
+      }
+    }
   }
 
   void _toggleSwitch() {
-    setState(() => isToggled = !isToggled);
-    widget.onToggled(isToggled);
+    if (widget.value) {
+      _animationController.reverse();
+    } else {
+      _animationController.forward();
+    }
+
+    // Call onChanged after animation completes
+    Future.delayed(Duration(milliseconds: 200), () {
+      widget.onChanged(!widget.value);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: _toggleSwitch,
-      child: AnimatedContainer(
-        height: widget.size,
-        width: widget.size * 2,
-        padding: EdgeInsets.all(innerPadding),
-        alignment: isToggled ? Alignment.centerRight : Alignment.centerLeft, // Fixed alignment issue
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeOut,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(50),
-          color: isToggled ? widget.activeColor.withOpacity(0.5) : widget.inactiveColor.withOpacity(0.5),
-        ),
-        child: Container(
-          width: widget.size - innerPadding * 2,
-          height: widget.size - innerPadding * 2,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(100),
-            color: isToggled ? widget.thumbColorActive : widget.thumbColorInactive,
-          ),
-        ),
+      child: AnimatedBuilder(
+        animation: _animationController,
+        builder: (context, child) {
+          return Container(
+            width: widget.width,
+            height: widget.height,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(24.0),
+              color: _animationController.value > 0.5
+                  ? widget.activeColor
+                  : widget.inactiveColor,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: Align(
+                alignment: _circleAnimation.value, // ✅ Now updates properly
+                child: Container(
+                  width: widget.switchWidth,
+                  height: widget.switchHeight,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: _animationController.value > 0.5
+                        ? widget.thumbColorActive
+                        : widget.thumbColorInactive,
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 }

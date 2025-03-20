@@ -279,26 +279,42 @@ class _ManagePageState extends State<ManagePage> {
                     //   thumbColorInactive: MyMateThemes.textColor, // Thumb color when OFF
                     // ),
 
-                    Transform.scale(
-                      scaleY: 0.8,
-                      scaleX: 0.9,
 
-                      child: Switch(
-                        value: _isSwitched,
-                        onChanged: (value) {
-                          setState(() {
-                            _isSwitched = value;
-                            if (_isSwitched) {
-                              _showCustomDialog();
-                            }
-                          });
-                        },
-                        activeColor: MyMateThemes.primaryColor,  // Color of the switch when ON
-                        inactiveTrackColor: MyMateThemes.textColor.withOpacity(0.1), // Track color when OFF
-                        activeTrackColor: MyMateThemes.secondaryColor,  // Track color when ON
-                        inactiveThumbColor: MyMateThemes.textColor, // Thumb color when OFF
-                      ),
+                    CustomSwitch(
+                      value: _isSwitched,
+                      onChanged: (value) {
+                        setState(() {
+                          _isSwitched = value;
+                          if (_isSwitched) {
+                            _showCustomDialog();
+                          }
+                        });
+                      },
+                      activeColor: MyMateThemes.secondaryColor, // ON track color
+                      inactiveColor: MyMateThemes.textColor.withOpacity(0.1), // OFF track color
+                      thumbColorActive: MyMateThemes.primaryColor, // ON thumb color
+                      thumbColorInactive: MyMateThemes.textColor, // OFF thumb color
                     ),
+                    // Transform.scale(
+                    //   scaleY: 0.8,
+                    //   scaleX: 0.9,
+                    //
+                    //   child: Switch(
+                    //     value: _isSwitched,
+                    //     onChanged: (value) {
+                    //       setState(() {
+                    //         _isSwitched = value;
+                    //         if (_isSwitched) {
+                    //           _showCustomDialog();
+                    //         }
+                    //       });
+                    //     },
+                    //     activeColor: MyMateThemes.primaryColor,  // Color of the switch when ON
+                    //     inactiveTrackColor: MyMateThemes.textColor.withOpacity(0.1), // Track color when OFF
+                    //     activeTrackColor: MyMateThemes.secondaryColor,  // Track color when ON
+                    //     inactiveThumbColor: MyMateThemes.textColor, // Thumb color when OFF
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
