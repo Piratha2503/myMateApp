@@ -87,7 +87,7 @@ class _ExpectationsWidgetState extends State<ExpectationsWidget> {
                   controllers[index].text,
                   style: TextStyle(
                     color: MyMateThemes.textColor,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.normal,
                     fontSize: fontSize,
                   ),
                   softWrap: false,

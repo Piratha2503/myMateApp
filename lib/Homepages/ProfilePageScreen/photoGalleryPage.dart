@@ -77,16 +77,16 @@ class _PhotoGalleryState extends State<PhotoGallery> {
 
           Row(
             children: [
-              SizedBox(width: screenWidth*0.1),
-              SvgPicture.asset('assets/images/Line 11.svg'),
+              SizedBox(width: screenWidth*0.05),
+              SvgPicture.asset('assets/images/Line 11.svg',width: screenHeight*0.45,),
             ],
           ),
                 SizedBox(height: screenHeight*0.03),
 
 
           Container(
-            height: screenHeight * 0.35,
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
+            height: screenHeight * 0.45,
+            padding: EdgeInsets.symmetric(horizontal: 2.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
             ),
@@ -140,18 +140,18 @@ class _PhotoGalleryState extends State<PhotoGallery> {
 Widget SectionTitle(BuildContext context, String title) {
   return Row(
     children: [
-      SizedBox(width: MediaQuery.of(context).size.width * 0.1),
+      SizedBox(width: MediaQuery.of(context).size.width * 0.05),
       SvgPicture.asset(
-        'assets/images/Group 2148.svg',
-        width: MediaQuery.of(context).size.width * 0.07,
+        'assets/images/cash.svg',
+        width: MediaQuery.of(context).size.width * 0.05,
       ),
-      SizedBox(width: MediaQuery.of(context).size.width * 0.01),
+      SizedBox(width: MediaQuery.of(context).size.width * 0.015),
       Text(
         title,
         style: TextStyle(
           color: MyMateThemes.primaryColor,
-          fontSize: MediaQuery.of(context).size.width * 0.045,
-          fontWeight: FontWeight.bold,
+          fontSize: MediaQuery.of(context).size.width * 0.043,
+          fontWeight: FontWeight.normal,
         ),
       ),
     ],

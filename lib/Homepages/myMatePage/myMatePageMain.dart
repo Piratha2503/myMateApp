@@ -29,7 +29,7 @@ class MyMatePage extends StatefulWidget {
 class _MyMatePageState extends State<MyMatePage>
     with SingleTickerProviderStateMixin {
   // late Timer _debounce;
-  int _selectedIndex = 1;
+  int _selectedIndex = 2;
 
   late TabController _tabController;
   Future<List<Map<String, dynamic>>>? myMatesFuture;
