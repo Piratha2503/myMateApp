@@ -231,13 +231,7 @@ class _MyMatePageState extends State<MyMatePage>
                             ),
                             dividerColor: Colors.transparent,
                             indicatorPadding: EdgeInsets.only(bottom: 6),
-                            indicator: UnderlineTabIndicator(
-                              borderSide: BorderSide(
-                                width: 3,
-                                color: MyMateThemes.textColor,
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
+                            indicatorColor: Colors.transparent,
                             labelPadding: EdgeInsets.symmetric(horizontal: 2.w),
                             tabs: [
                               Tab(text: 'My Mates'),
@@ -247,15 +241,15 @@ class _MyMatePageState extends State<MyMatePage>
                           ),
                           SizedBox(height: 2.h),
                           Container(
-                              height: 35.h,
-                              width: 353.w,
+                              height: 40.h,
+                              width: 351.w,
                               decoration: BoxDecoration(
                                 border: Border.all(
                                   color:
                                       MyMateThemes.textColor.withOpacity(0.1),
                                   width: 1,
                                 ),
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(5.r),
                               ),
                               child: Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 1.w),

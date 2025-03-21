@@ -296,6 +296,8 @@ class _OtherProfilePageState extends State<OtherProfilePage>
         child: Row(
           mainAxisSize: MainAxisSize.min, // Prevent Row from taking extra space
           children: [
+            SizedBox(width: MediaQuery.of(context).size.width * 0.02), // Small spacing
+
             // Back Button (SVG)
             GestureDetector(
               onTap: () {
@@ -317,7 +319,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
               ),
             ),
 
-            SizedBox(width: MediaQuery.of(context).size.width * 0.02), // Small spacing
+            SizedBox(width: MediaQuery.of(context).size.width * 0.2), // Small spacing
             Spacer(), // Pushes icons to the right
 
             // Profile Name
@@ -325,10 +327,11 @@ class _OtherProfilePageState extends State<OtherProfilePage>
               "@ $full_name",
               style: TextStyle(
                 color: MyMateThemes.textColor,
-                fontWeight: FontWeight.bold,
-                fontSize: MediaQuery.of(context).size.width * 0.05,
+                fontSize: MediaQuery.of(context).size.width*0.045,
+                fontWeight: FontWeight.w600,
               ),
             ),
+            SizedBox(width: MediaQuery.of(context).size.width * 0.07), // Small spacing
 
             Spacer(), // Pushes icons to the right
 
@@ -337,6 +340,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
               icon: Icon(
                 isBookmarked ? Icons.bookmark : Icons.bookmark_border,
                 color: MyMateThemes.primaryColor,
+                  size: MediaQuery.of(context).size.width*0.065
               ),
               onPressed: () {
                 setState(() {
@@ -354,8 +358,9 @@ class _OtherProfilePageState extends State<OtherProfilePage>
                         builder: (context) => MenuPage(docId: '',)));
 
               },
-              icon: Icon(Icons.more_vert, color: MyMateThemes.primaryColor),
+              icon: Icon(Icons.more_vert, color: MyMateThemes.primaryColor,  size: MediaQuery.of(context).size.width*0.065),
             ),
+
           ],
         ),
       ),
@@ -427,16 +432,25 @@ class _OtherProfilePageState extends State<OtherProfilePage>
                 style: TextStyle(
                   color: MyMateThemes.primaryColor,
                   fontSize: MediaQuery.of(context).size.width * 0.05,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-              Text(
-                'Special Mention (Optional)',
-                style: TextStyle(
-                  color: MyMateThemes.textColor,
-                  fontSize: MediaQuery.of(context).size.width * 0.035,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset('assets/images/heart .svg',color:MyMateThemes.textColor.withOpacity(0.5)),
+                  SizedBox(width:MediaQuery.of(context).size.width * 0.01 ,),
+                  Text(
+                    '2.57 k',
+                    style: TextStyle(
+                      color: MyMateThemes.textColor.withOpacity(0.5),
+                      fontSize: MediaQuery.of(context).size.width * 0.035,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                ],
               ),
+
             ],
           ),
         ),
@@ -448,14 +462,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
     return Container(
       width: MediaQuery.of(context).size.width * 0.28,
       height: MediaQuery.of(context).size.height * 0.1,
-      foregroundDecoration: BoxDecoration(
-        border: Border(
-          right: BorderSide(
-            color: MyMateThemes.secondaryColor,
-            width: MediaQuery.of(context).size.width * 0.005,
-          ),
-        ),
-      ),
+
       child: Column(
         children: [
           SvgPicture.asset(iconPath,
@@ -524,8 +531,8 @@ class _OtherProfilePageState extends State<OtherProfilePage>
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
       SizedBox(
-       height:MediaQuery.of(context).size.height * 0.06 ,
-       width: MediaQuery.of(context).size.width * 0.35,
+        height:MediaQuery.of(context).size.height * 0.06 ,
+        width: MediaQuery.of(context).size.width * 0.43,
           child: ElevatedButton(
             onPressed: buttonAction,
             style: ElevatedButton.styleFrom(
@@ -544,10 +551,10 @@ class _OtherProfilePageState extends State<OtherProfilePage>
             child: Text(buttonText),
           ),
         ),
-        SizedBox(width: 30),
+        SizedBox(width: MediaQuery.of(context).size.width * 0.04),
         SizedBox(
           height:MediaQuery.of(context).size.height * 0.06 ,
-          width: MediaQuery.of(context).size.width * 0.35,
+          width: MediaQuery.of(context).size.width * 0.43,
           child: ElevatedButton(
             onPressed: () {
               Navigator.push(
@@ -562,7 +569,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
             style: ElevatedButton.styleFrom(
                 backgroundColor: MyMateThemes.primaryColor,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.025),
+                  borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.02),
                 ),
                 padding: EdgeInsets.symmetric(
                   horizontal: MediaQuery.of(context).size.width * 0.05,
@@ -602,19 +609,18 @@ class _OtherProfilePageState extends State<OtherProfilePage>
   Widget _buildSectionTitle(String title) {
     return Row(
       children: [
-        SizedBox(width: MediaQuery.of(context).size.width * 0.1),
+        SizedBox(width: MediaQuery.of(context).size.width * 0.05), // 10% of screen width
         SvgPicture.asset(
-          'assets/images/Group 2148.svg',
+          'assets/images/heart .svg',
           width: MediaQuery.of(context).size.width * 0.05,
-          height: MediaQuery.of(context).size.width * 0.05,
-        ),        SizedBox(width: 4),
-        SizedBox(width: MediaQuery.of(context).size.width * 0.01),
+        ),
+        SizedBox(width: MediaQuery.of(context).size.width * 0.013), // Small spacing
         Text(
           title,
           style: TextStyle(
             color: MyMateThemes.primaryColor,
-            fontSize: MediaQuery.of(context).size.width * 0.045,
-            fontWeight: FontWeight.bold,
+            fontSize: MediaQuery.of(context).size.width * 0.043, // Responsive font size
+            fontWeight: FontWeight.normal,
           ),
         ),
       ],
@@ -644,21 +650,18 @@ class _OtherProfilePageState extends State<OtherProfilePage>
 
           return Container(
             padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width * 0.05,
+              horizontal: MediaQuery.of(context).size.width * 0.01,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: MediaQuery.of(context).size.height * 0.025),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                 _buildSectionTitle('About me'),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.007),
                 Row(
                   children: [
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.08),
-                    SvgPicture.asset(
-                      'assets/images/Line 11.svg',
-                      width: MediaQuery.of(context).size.width * 0.3,
-                    ),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.05),
+                    SvgPicture.asset('assets/images/Line 11.svg', width: MediaQuery.of(context).size.width * 0.9),
                   ],
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.012),
@@ -683,13 +686,15 @@ class _OtherProfilePageState extends State<OtherProfilePage>
                     Text(
                       'Expectations',
                       style: TextStyle(
-                        color: MyMateThemes.textColor,
-                        fontSize: MediaQuery.of(context).size.width * 0.05,
-                        fontWeight: FontWeight.bold,
+                          color: MyMateThemes.textColor,
+                          fontSize: MediaQuery.of(context).size.width * 0.055,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 0.8
                       ),
                     ),
                   ],
                 ),
+
                 SizedBox(height: MediaQuery.of(context).size.height * 0.02),
 
                 _buildExpectations(),
@@ -700,7 +705,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
   }
 
   Widget _buildInfoRow(String title, String value) {
-    double containerWidth = MediaQuery.of(context).size.width * 0.8;
+    double containerWidth = MediaQuery.of(context).size.width * 0.88;
     double containerHeight = MediaQuery.of(context).size.height * 0.05;
     double fontSize = MediaQuery.of(context).size.width * 0.04;
 
@@ -723,7 +728,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
             title,
             style: TextStyle(
               color: MyMateThemes.textColor,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.normal,
               fontSize: fontSize,
             ),
           ),
@@ -768,7 +773,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
                   controllers[index].text,
                   style: TextStyle(
                     color: MyMateThemes.textColor,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.normal,
                     fontSize: fontSize,
                   ),
                   softWrap: false,
@@ -826,15 +831,49 @@ class _OtherProfilePageState extends State<OtherProfilePage>
                 children: [
                   _buildProfileInfo(),
                   SizedBox(height: screenHeight * 0.03),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _buildIconWithText('assets/images/Group 2145.svg', '$age years', dob),
+                      Container(
+                        width: screenWidth*0.001,           // Divider thickness
+                        height: screenHeight*0.08, // Full height
+                        color: MyMateThemes.textColor.withOpacity(0.3), // Divider color
+                      ),
                       _buildIconWithText('assets/images/Group 2146.svg', occupation, '$city'),
+                      Container(
+                        width: screenWidth*0.001,           // Divider thickness
+                        height: screenHeight*0.08, // Full height
+                        color: MyMateThemes.textColor.withOpacity(0.3), // Divider color
+                      ),
                       _buildIconWithText('assets/images/Group 2147.svg', city, '$country'),
                     ],
                   ),
+                  SizedBox(height: screenHeight * 0.03),
+
+                  Container(
+                    height: screenHeight*0.14,
+                    width: screenWidth*0.9,
+                    margin: EdgeInsets.symmetric(vertical: screenHeight * 0.01),
+                    padding: EdgeInsets.all(screenHeight * 0.2),
+                    decoration: BoxDecoration(
+                      color: MyMateThemes.containerColor,
+                      borderRadius: BorderRadius.circular(screenWidth * 0.01), // Dynamic border radius
+                    ),
+                    child:
+                    Text(
+                      'Bio',
+                      style: TextStyle(
+                        color: MyMateThemes.textColor,
+                        fontWeight: FontWeight.w500,
+                        fontSize: screenWidth*0.05,
+                      ),
+                    ),
+
+                  ),
+
                   SizedBox(height: screenHeight * 0.03),
                   _buildActionButtons(),
                   SizedBox(height: screenHeight * 0.03),
@@ -846,7 +885,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           GestureDetector(
-                            child: SvgPicture.asset('assets/images/Group 2196.svg', width: screenWidth * 0.13,height:screenHeight * 0.25 ,),
+                            child: SvgPicture.asset('assets/images/Group 2196.svg', width: screenWidth * 0.12,height:screenHeight * 0.23,),
                             onTap: () {
 
 
@@ -860,8 +899,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
                           SizedBox(width: screenWidth * 0.03),
                           Column(
                             children: [
-                              GestureDetector(
-                                child: SvgPicture.asset('assets/images/Group 2192.svg', width: screenWidth * 0.13,height:screenHeight * 0.12 ),
+                              GestureDetector(child: SvgPicture.asset('assets/images/Group 2192.svg', width: screenWidth * 0.12,height:screenHeight * 0.11 ),
                                 onTap: () {
                                   // setState(() {
                                   //   _selectedButtonIndex = 1;
@@ -872,7 +910,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
                               ),
                               SizedBox(height: screenHeight * 0.02),
                               GestureDetector(
-                                child: SvgPicture.asset('assets/images/Group 2197.svg', width: screenWidth * 0.13,height:screenHeight * 0.12),
+                                child: SvgPicture.asset('assets/images/Group 2197.svg', width: screenWidth * 0.12,height:screenHeight * 0.11),
                                 onTap: () {
                                   // setState(() {
                                   //   _selectedButtonIndex = 2;
@@ -918,7 +956,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
               ),
             ),
           ),
-          SizedBox(height: screenHeight * 0.02),
+          SizedBox(height: screenHeight * 0.05),
           Align(
             alignment: Alignment.center,
             child: Row(
@@ -933,9 +971,9 @@ class _OtherProfilePageState extends State<OtherProfilePage>
                     _scrollToContainer(_anchorKey1);
                   },
                 ),
-                SizedBox(width: screenWidth * 0.013),
+                SizedBox(width: screenWidth * 0.02),
                 CustomOutlineButton(
-                  assetPath: 'assets/images/Group 2150.svg',
+                  assetPath: 'assets/images/heart .svg',
                   label: 'About me',
                   index: 1,
                   isSelected: isButtonSelected(1),
@@ -943,9 +981,9 @@ class _OtherProfilePageState extends State<OtherProfilePage>
                     _scrollToContainer(_anchorKey2);
                   },
                 ),
-                SizedBox(width: screenWidth * 0.013),
+                SizedBox(width: screenWidth * 0.02),
                 CustomOutlineButton(
-                  assetPath: 'assets/images/Group 2149.svg',
+                  assetPath: 'assets/images/cash.svg',
                   label: 'Photo Gallery',
                   index: 2,
                   isSelected: isButtonSelected(2),

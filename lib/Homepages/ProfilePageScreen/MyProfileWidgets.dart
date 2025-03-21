@@ -26,7 +26,7 @@ Widget Tag(BuildContext context, String text) {
 }
 
 Widget InfoRow(BuildContext context, String title, String value) {
-  double containerWidth = MediaQuery.of(context).size.width * 0.8;
+  double containerWidth = MediaQuery.of(context).size.width * 0.88;
   double containerHeight = MediaQuery.of(context).size.height * 0.05;
   double fontSize = MediaQuery.of(context).size.width * 0.04;
 

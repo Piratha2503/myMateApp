@@ -69,7 +69,7 @@ class _AboutMeState extends State<AboutMe>{
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(width: MediaQuery.of(context).size.width * 0.12),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.1),
                 Text(
                   'Expectations',
                   style: TextStyle(
