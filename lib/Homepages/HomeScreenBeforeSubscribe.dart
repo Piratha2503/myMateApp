@@ -340,7 +340,7 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
             style: TextStyle(
               color: MyMateThemes.primaryColor,
               fontSize: width*0.043,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w500,
             ),
           ),
         );
@@ -391,7 +391,7 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
               'Free',
               style: TextStyle(
                 color: MyMateThemes.textColor,
-                fontSize: MyMateThemes.nomalFontSize,
+                fontSize:16,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -424,7 +424,8 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
                 'Premium',
                 style: TextStyle(
                   color: MyMateThemes.primaryColor,
-                  fontSize: MyMateThemes.nomalFontSize,
+                  fontSize:16,
+
                   fontWeight: FontWeight.w500,
 
                 ),
@@ -483,9 +484,20 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(width: width*0.05),
-            SizedBox(
+            Container(
               height: height*0.14, //height of button
               width: width*0.43, //width of button
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(35),
+                // boxShadow: [
+                //   BoxShadow(
+                //     color:MyMateThemes.containerColor, // Shadow color with opacity
+                //     spreadRadius: 0, // Spread value
+                //     blurRadius: 10, // Blur value
+                //     offset: Offset(1, 0), // Offset (horizontal, vertical)
+                //   ),
+                // ],
+              ),
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.push(
@@ -494,7 +506,8 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: MyMateThemes.containerColor,
+                  backgroundColor: MyMateThemes.secondaryColor,
+                  elevation:0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(width*0.01),
                   ),
@@ -502,14 +515,25 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
                 ),
                 child: Text(
                   'Complete Profile ',
-                  style: TextStyle(color: MyMateThemes.primaryColor,fontSize: width*0.037),
+                  style: TextStyle(color: MyMateThemes.primaryColor,fontSize: width*0.037,fontWeight: FontWeight.normal),
                 ),
               ),
             ),
             SizedBox(width: width*0.045),
-            SizedBox(
+            Container(
               height: height*0.14, //height of button
               width: width*0.43, //width of button
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(35),
+                // boxShadow: [
+                //   BoxShadow(
+                //     color:MyMateThemes.primaryColor, // Shadow color with opacity
+                //     spreadRadius: 0, // Spread value
+                //     blurRadius: 10, // Blur value
+                //     offset: Offset(1, 0), // Offset (horizontal, vertical)
+                //   ),
+                // ],
+              ),
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.push(
@@ -519,11 +543,12 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: MyMateThemes.primaryColor,
+                  elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(width*0.01),
                   ),
                 ),
-                child: Text('Subscribe', style: TextStyle(color: Colors.white,fontSize: width*0.037)),
+                child: Text('Subscribe', style: TextStyle(color: Colors.white,fontSize: width*0.037,fontWeight: FontWeight.normal)),
               ),
             ),
           ],

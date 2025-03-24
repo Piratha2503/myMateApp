@@ -299,12 +299,12 @@ class _PaymentDetailsPageState extends State<PaymentDetailsPage> {
                                       _activeFocusNode?.requestFocus(); // Request focus manually
                                     });
                                   },
-                                  style: TextStyle(fontSize:width * 0.034,color: MyMateThemes.textColor), // Smaller font size
+                                  style: TextStyle(fontSize:width * 0.036,color: MyMateThemes.textColor), // Smaller font size
 
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
 
-                                    contentPadding: EdgeInsets.symmetric(horizontal:width* 0.02, vertical:height* 0.0235), // Adjust padding
+                                    contentPadding: EdgeInsets.symmetric(horizontal:width* 0.02, vertical:height* 0.022), // Adjust padding
                                   ),
 
                                 ),
@@ -405,7 +405,7 @@ class _PaymentDetailsPageState extends State<PaymentDetailsPage> {
                                           child: Text(
                                             item,
                                             style: TextStyle(
-                                              color: MyMateThemes.textColor.withOpacity(0.7),
+                                              color: MyMateThemes.textColor,
                                               fontSize: width * 0.034,
                                               fontWeight: FontWeight.normal,
                                             ),
@@ -535,7 +535,7 @@ class _PaymentDetailsPageState extends State<PaymentDetailsPage> {
                                           child: Text(
                                             item,
                                             style: TextStyle(
-                                              color: MyMateThemes.textColor.withOpacity(0.7),
+                                              color: MyMateThemes.textColor,
                                               fontSize: width * 0.033,
                                               fontWeight: FontWeight.normal,
                                             ),
@@ -589,9 +589,9 @@ class _PaymentDetailsPageState extends State<PaymentDetailsPage> {
                                      _activeFocusNode?.requestFocus(); // Request focus manually
                                     });
                                   },
-                                  style: TextStyle(fontSize:width * 0.034,color: MyMateThemes.textColor), // Smaller font size
+                                  style: TextStyle(fontSize:width * 0.036,color: MyMateThemes.textColor), // Smaller font size
                                   decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(horizontal:width* 0.025, vertical:height* 0.023), // Adjust padding
+                                    contentPadding: EdgeInsets.symmetric(horizontal:width* 0.025, vertical:height* 0.02), // Adjust padding
                                     border: InputBorder.none,
 
                                   ),
