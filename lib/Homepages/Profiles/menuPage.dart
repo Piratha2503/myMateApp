@@ -31,9 +31,9 @@ class _MenuPageState extends State<MenuPage> {
                 backgroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
 
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width*0.06),
                 ),
-                contentPadding: EdgeInsets.all(10),
+          contentPadding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width*0.055,vertical: MediaQuery.of(context).size.height*0.04),
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -232,9 +232,9 @@ class _MenuPageState extends State<MenuPage> {
           backgroundColor: Colors.white,
           shape: RoundedRectangleBorder(
 
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width*0.06),
           ),
-          contentPadding: EdgeInsets.all(10),
+          contentPadding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width*0.05,vertical: MediaQuery.of(context).size.height*0.04),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -468,7 +468,9 @@ class _MenuPageState extends State<MenuPage> {
                     children: [
                       SizedBox(width:width*0.1),
 
-                      IconButton(onPressed: (){},
+                      IconButton(onPressed: (){
+                        _showReportDialog();
+                      },
                           icon:Icon(Icons.report,color: MyMateThemes.textColor) ),
                       TextButton(
                         onPressed: (){_showReportDialog();},
@@ -482,7 +484,8 @@ class _MenuPageState extends State<MenuPage> {
                     children: [
                       SizedBox(width:width*0.1),
 
-                            IconButton(onPressed: (){
+                            IconButton(
+                                onPressed: (){
                               _showBlockDialog();
                             },
                              icon:Icon(Icons.block,color: MyMateThemes.textColor) ),
@@ -497,10 +500,13 @@ class _MenuPageState extends State<MenuPage> {
 
                   Row(
                     children: [
-                      SizedBox(width:width*0.1),
+                      SizedBox(width:width*0.15),
+                      GestureDetector(
+                        onTap: (){},
+                        child: SvgPicture.asset('assets/images/Glyph.svg'),
+                      ),
+                      SizedBox(width:width*0.04),
 
-                      IconButton(onPressed: (){},
-                          icon:Icon(Icons.share,color: MyMateThemes.textColor) ),
                       TextButton(
                         onPressed: (){_showBlockDialog();},
                         child: Text('Share Profile',style: TextStyle(color: MyMateThemes.textColor,fontSize: width*0.0435,fontWeight: FontWeight.w500),),

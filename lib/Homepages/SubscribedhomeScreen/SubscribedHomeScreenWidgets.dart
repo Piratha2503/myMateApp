@@ -36,7 +36,7 @@ Widget SubscribedhomescreenStructuredPageTotalMatchColumn(BuildContext context, 
 
                 ),
                 Positioned(
-                  top: constraints.maxHeight * 0.28, // Adjust top position
+                  top: constraints.maxHeight * 0.3, // Adjust top position
                   left: 0,
                   right: 0,
                   child: Center(
@@ -93,7 +93,7 @@ Widget SubscribedhomescreenStructuredPageTokenContainers(BuildContext context, S
                   ),
                   Positioned(
                     top: constraints.maxHeight * 0.54, // Adjust top
-                    right: constraints.maxWidth * 0.55, // Adjust right
+                    right: constraints.maxWidth * 0.54, // Adjust right
                     child: SvgPicture.asset('assets/images/fire.svg',
 
                       color: MyMateThemes.textColor,
@@ -102,16 +102,16 @@ Widget SubscribedhomescreenStructuredPageTokenContainers(BuildContext context, S
                     ),
                   ),
                   Positioned(
-                    top: constraints.maxHeight * 0.64, // Adjust top
+                    top: constraints.maxHeight * 0.65, // Adjust top
                     right: constraints.maxWidth * 0.48, // Adjust right
                     child: Text('Tokens',style: TextStyle(fontSize: constraints.maxWidth * 0.031,color: MyMateThemes.textColor),),
 
 
                   ),
                   Positioned(
-                    top: constraints.maxHeight * 0.09, // Adjust top
+                    top: constraints.maxHeight * 0.05, // Adjust top
                     right: constraints.maxWidth * 0.05, // Adjust right
-                    child: CommonTextStyleForPage('10', MyMateThemes.textColor, FontWeight.w500, constraints.maxWidth * 0.045),
+                    child: CommonTextStyleForPage('10', MyMateThemes.textColor, FontWeight.w500, constraints.maxWidth * 0.048),
                   ),
                   Positioned(
                     top: constraints.maxHeight * 0.11, // Adjust top
@@ -150,7 +150,7 @@ Widget SubscribedhomescreenStructuredPageTokenContainers(BuildContext context, S
                           ),
                         ),
                         Positioned(
-                          top: constraints.maxHeight * 0.63, // Adjust top
+                          top: constraints.maxHeight * 0.64, // Adjust top
                           right: constraints.maxWidth * 0.11, // Adjust right
                           child: Text('My Mates',
                               style: TextStyle(
@@ -162,7 +162,7 @@ Widget SubscribedhomescreenStructuredPageTokenContainers(BuildContext context, S
                   ),
                   Positioned(
                     top: constraints.maxHeight * 0.55, // Adjust top
-                    right: constraints.maxWidth * 0.22, // Adjust right
+                    right: constraints.maxWidth * 0.21, // Adjust right
                     child: SvgPicture.asset('assets/images/heart .svg',
                         width: constraints.maxWidth * 0.24, // Adjust width
                         height: constraints.maxHeight * 0.08,

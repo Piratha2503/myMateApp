@@ -184,7 +184,9 @@ class _FilterPageState extends State<FilterPage> {
 
           return Scaffold(
           appBar: AppBar(
-            backgroundColor: MyMateThemes.backgroundColor,
+            backgroundColor: Colors.white,
+            automaticallyImplyLeading: false,
+
             title: SafeArea(
               child: Row(
                 children: [
@@ -196,7 +198,7 @@ class _FilterPageState extends State<FilterPage> {
                     'Filter',
                     style: TextStyle(
                       color: MyMateThemes.textColor,
-                      fontSize: width*0.06,
+                      fontSize: width*0.05,
                       fontWeight: FontWeight.normal,
                     ),
                   ),
@@ -225,8 +227,8 @@ class _FilterPageState extends State<FilterPage> {
                   ],
                 ),
                 SizedBox(height: height*0.01),
-                SvgPicture.asset('assets/images/Line 11.svg'),
-                SizedBox(height: height*0.02),
+                SvgPicture.asset('assets/images/Line 11.svg',width: width*0.8,),
+                SizedBox(height: height*0.005),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -250,8 +252,8 @@ class _FilterPageState extends State<FilterPage> {
                   ],
                 ),
                 SizedBox(height: height*0.01),
-                SvgPicture.asset('assets/images/Line 11.svg'),
-                SizedBox(height: height*0.02),
+                SvgPicture.asset('assets/images/Line 11.svg',width: width*0.8,),
+                SizedBox(height: height*0.005),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -387,8 +389,8 @@ class _FilterPageState extends State<FilterPage> {
                   ],
                 ),
                 SizedBox(height: height*0.01),
-                SvgPicture.asset('assets/images/Line 11.svg'),
-                SizedBox(height: height*0.02),
+                SvgPicture.asset('assets/images/Line 11.svg',width: width*0.8,),
+                SizedBox(height: height*0.04),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -408,26 +410,40 @@ class _FilterPageState extends State<FilterPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ElevatedButton(
-                      onPressed: _clearAllSelections,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: MyMateThemes.secondaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(width*0.01),
+                    SizedBox(
+                      height: height*0.07,
+                      width: width*0.3,
+                      child: ElevatedButton(
+                        onPressed: _clearAllSelections,
+                        style: ButtonStyle(
+                          foregroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
+                          backgroundColor: MaterialStatePropertyAll(MyMateThemes.containerColor),
+                          shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(width*0.01)
+                              )),
+
                         ),
+                        child: Text('Clear', style: TextStyle(color: MyMateThemes.primaryColor,fontSize: width*0.04)),
                       ),
-                      child: Text('Clear', style: TextStyle(color: MyMateThemes.primaryColor,fontSize: width*0.04)),
                     ),
                     SizedBox(width: width*0.08),
-                    ElevatedButton(
-                      onPressed: _applyFilters,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: MyMateThemes.primaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(width*0.01),
+                    SizedBox(
+                      height: height*0.07,
+                      width: width*0.3,
+                      child: ElevatedButton(
+                        onPressed: _applyFilters,
+                        style: ButtonStyle(
+                          foregroundColor: MaterialStatePropertyAll(Colors.white),
+                          backgroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
+                          shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(width*0.01)
+                              )),
+
                         ),
+                        child: Text('Apply', style: TextStyle(color: Colors.white,fontSize: width*0.04)),
                       ),
-                      child: Text('Apply', style: TextStyle(color: Colors.white,fontSize: width*0.04)),
                     ),
                   ],
                 ),
@@ -468,11 +484,11 @@ class _FilterPageState extends State<FilterPage> {
       },
       child:Container(
         margin: EdgeInsets.symmetric(horizontal: width*0.02, vertical: height*0.04),
-        padding: EdgeInsets.symmetric(horizontal: width*0.04, vertical: height*0.014),
+        padding: EdgeInsets.symmetric(horizontal: width*0.045, vertical: height*0.016),
         decoration: BoxDecoration(
           color: isSelected
               ? MyMateThemes.primaryColor
-              : MyMateThemes.secondaryColor,
+              : MyMateThemes.containerColor,
           borderRadius: BorderRadius.circular(width*0.01),
         ),
         child: Text(
@@ -523,23 +539,28 @@ class _FilterPageState extends State<FilterPage> {
       children: [
         Container(
           decoration: BoxDecoration(
-            color: MyMateThemes.secondaryColor,
+            color: MyMateThemes.containerColor,
             borderRadius: BorderRadius.circular(width*0.01),
           ),
           width: width*0.3,
-          height: height*0.05, // Increased height to accommodate TextField
+          height: height*0.055, // Increased height to accommodate TextField
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal:width*0.02),
+            padding: EdgeInsets.symmetric(horizontal:width*0.025,vertical: height*0.005),
             child: TextField(
-              controller: controller,
+              style: TextStyle(color: MyMateThemes.textColor,fontWeight: FontWeight.normal,fontSize: width*0.04),
+
+
+    controller: controller,
               decoration: InputDecoration(
+
                 border: InputBorder.none,
                 enabledBorder: InputBorder.none,
                 focusedBorder: InputBorder.none,
                 contentPadding: EdgeInsets.symmetric(horizontal:width*0.02,vertical:height*0.012), // Adjust padding as needed
+
                 hintText: hintText,
                 hintStyle:
-                TextStyle(color: MyMateThemes.textColor.withOpacity(0.7)),              ),
+                TextStyle(color: MyMateThemes.textColor.withOpacity(0.7),fontWeight: FontWeight.normal,fontSize: width*0.04),              ),
               onChanged: (value) {
                 setState(() {}); // Rebuild to show suggestion tag
               },
