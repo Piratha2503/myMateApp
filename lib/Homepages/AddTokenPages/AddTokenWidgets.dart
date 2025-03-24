@@ -13,8 +13,9 @@ final List<Widget> packageSliders = [
             final double width = constraints.maxWidth;
             final double height = constraints.maxHeight;
           return Expanded(
-            child:            Container(
-              width: width * 1,
+            child:
+            Container(
+              width: width * 1.1,
               height: height * 0.5,
               decoration:
               BoxDecoration(
@@ -29,7 +30,7 @@ final List<Widget> packageSliders = [
                   Positioned(
                     top: constraints.maxHeight * 0.04,
                     //top: constraints.maxHeight * 0.2,
-                    left:constraints.maxWidth * 0.08,
+                    left:constraints.maxWidth * 0.15,
                     // top: 18,
                     // left: 55,
                     child:
@@ -42,7 +43,7 @@ final List<Widget> packageSliders = [
                     Text(
                       'Basic',
                       style: TextStyle(
-                          fontSize: width * 0.08,
+                          fontSize: width * 0.06,
                           color: MyMateThemes.primaryColor,
                           fontWeight: FontWeight.w600),
                     ),
@@ -183,7 +184,7 @@ final List<Widget> packageSliders = [
           final double height = constraints.maxHeight;
         return Expanded(
             child: Container(
-              width: width * 1,
+              width: width * 1.1,
               height: height * 0.5,
             decoration:
             BoxDecoration(
@@ -197,7 +198,7 @@ final List<Widget> packageSliders = [
               children: [
                 Positioned(
                   top: constraints.maxHeight * 0.04,
-                  left:constraints.maxWidth * 0.08,
+                  left:constraints.maxWidth * 0.15,
                   child:
                   SvgPicture.asset('assets/images/whi.svg'),
                 ),
@@ -208,9 +209,9 @@ final List<Widget> packageSliders = [
                   Text(
                       'Standard',
                     style: TextStyle(
-                        fontSize:  width * 0.08,
+                        fontSize:  width * 0.06,
                         color: Colors.white,
-                        fontWeight: FontWeight.w700),
+                        fontWeight: FontWeight.w600),
                   ),
                 ),
                 Positioned(
@@ -366,7 +367,7 @@ final List<Widget> packageSliders = [
 
               padding: EdgeInsets.all(2), // width of the border
               child: Container(
-                width: width * 1,
+                width: width * 1.1,
                 height: height * 0.5,
                 decoration: BoxDecoration(
                   color: MyMateThemes.premiumColor,
@@ -376,7 +377,7 @@ final List<Widget> packageSliders = [
                   children: [
                     Positioned(
                       top: constraints.maxHeight * 0.04,
-                      left:constraints.maxWidth * 0.08,
+                      left:constraints.maxWidth * 0.15,
                       child: SvgPicture.asset('assets/images/mixed.svg'),
                     ),
                     Positioned(
@@ -393,9 +394,9 @@ final List<Widget> packageSliders = [
                       Text(
                         'Premium',
                         style: TextStyle(
-                            fontSize: width * 0.08,
+                            fontSize: width * 0.06,
                             color: Colors.white,
-                            fontWeight: FontWeight.w800),
+                            fontWeight: FontWeight.w600),
                       ),
                     ),
                     Positioned(

@@ -59,7 +59,7 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
 
           return Scaffold(
           backgroundColor: MyMateThemes.backgroundColor,
-          appBar: _buildAppBar(),
+         // appBar: _buildAppBar(),
           body: _buildBody(),
           bottomNavigationBar: CustomBottomNavigationBar(
             selectedIndex: widget.selectedBottomBarIconIndex,
@@ -75,66 +75,77 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
   }
 
   PreferredSizeWidget _buildAppBar() {
+
     return PreferredSize(
-      preferredSize: Size.fromHeight(40.0),
-      child: AppBar(
-        backgroundColor: MyMateThemes.backgroundColor,
-        automaticallyImplyLeading: false,
 
-        title: SafeArea(
-          child:  LayoutBuilder(
-              builder: (context, constraints) {
-                double width = constraints.maxWidth;
-                double height = constraints.maxWidth;
-                return Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  SizedBox(height: height*0.02),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      AnimatedOpacity(
-                        opacity: showHello ? 1.0 : 0.0,
-                        duration: Duration(milliseconds: 5000),
-                        child: Column(children: [
-                          Row(
-                            children: [
-                              Text(
-                                'Hello ,',
-                                style: TextStyle(
-                                  color: MyMateThemes.primaryColor,
-                                  fontSize: width*0.05,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                               SizedBox(width: width*0.01),
-                               Text(
-                                'Your Name',
-                                style: TextStyle(
-                                  color: MyMateThemes.textColor,
-                                  fontSize: width*0.05,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ]),
-                      ),
+      preferredSize: Size.fromHeight(60.0),
+      child:
+      Padding(
+        padding: EdgeInsets.symmetric(horizontal:30,vertical: 1),
+        child: AppBar(
+          backgroundColor: MyMateThemes.backgroundColor,
+          automaticallyImplyLeading: false,
 
-                      SizedBox(width: width*0.3),
-                      BadgeWidget(
-                          assetPath: 'assets/images/Group 2157.svg',
-                          badgeValue: badgeValue1),
-                      SizedBox(width: width*0.035),
-                      BadgeWidget(
-                          assetPath: 'assets/images/Group 2153.svg',
-                          badgeValue: badgeValue2),
-                    ],
-                  ),
-                ],
-              );
-            }
+          title: SafeArea(
+            child:  LayoutBuilder(
+                builder: (context, constraints) {
+                  double width = constraints.maxWidth;
+                  double height = constraints.maxWidth;
+                  return Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(height: height*0.02),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        AnimatedOpacity(
+                          opacity: showHello ? 1.0 : 0.0,
+                          duration: Duration(milliseconds: 5000),
+                          child: Column(children: [
+                            Row(
+                              children: [
+                                SizedBox(width: width*0.3),
+
+                                Text(
+                                  'Hello ,',
+                                  style: TextStyle(
+                                    color: MyMateThemes.primaryColor,
+                                    fontSize: width*0.05,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                 SizedBox(width: width*0.01),
+                                 Text(
+                                  'Your Name',
+                                  style: TextStyle(
+                                    color: MyMateThemes.textColor,
+                                    fontSize: width*0.05,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ]),
+                        ),
+                        SizedBox(width: width*0.1),
+
+                      ],
+                    ),
+                  ],
+                );
+              }
+            ),
           ),
+          actions: <Widget>[
+            BadgeWidget(assetPath: 'assets/images/Group 2157.svg', badgeValue: badgeValue1),
+           SizedBox(width: 0.03),
+            BadgeWidget(
+                assetPath: 'assets/images/Group 2153.svg',
+                badgeValue: badgeValue2),
+
+          //  SizedBox(width: constraints.maxWidth * 0.045),
+          ],
+
         ),
       ),
     );
@@ -150,7 +161,96 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: height * 0.01),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.05),
+                child: AppBar(
+                  backgroundColor: MyMateThemes.backgroundColor,
+                  automaticallyImplyLeading: false,
+
+                  title:
+                    LayoutBuilder(
+                        builder: (context, constraints) {
+                          double width = constraints.maxWidth;
+                          double height = constraints.maxWidth;
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                             // SizedBox(height: height*0.01),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(width: width*0.42),
+
+                                  AnimatedOpacity(
+                                    opacity: showHello ? 1.0 : 0.0,
+                                    duration: Duration(milliseconds: 5000),
+                                    child: Column(children: [
+                                      Row(
+
+                                        children: [
+                                          SizedBox(width: width*0.1),
+
+                                          Text(
+                                            'Hello ,',
+                                            style: TextStyle(
+                                              color: MyMateThemes.primaryColor,
+                                              fontSize: width*0.06,
+                                              fontWeight: FontWeight.normal,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ]),
+                                  ),
+                                  SizedBox(width: width*0.1),
+
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  SizedBox(width: width*0.48),
+
+                                  AnimatedOpacity(
+                                    opacity: showHello ? 1.0 : 0.0,
+                                    duration: Duration(milliseconds: 5000),
+                                    child: Column(children: [
+                                      Row(
+                                        children: [
+                                          SizedBox(width: width*0.04),
+                                          Text(
+                                            'Your Name',
+                                            style: TextStyle(
+                                              color: MyMateThemes.textColor,
+                                              fontSize: width*0.08,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ]),
+                                  ),
+                                ],
+                              ),
+
+                            ],
+                          );
+                        }
+                    ),
+
+                  actions: <Widget>[
+                    BadgeWidget(assetPath: 'assets/images/Group 2157.svg', badgeValue: badgeValue1),
+                    SizedBox(width: constraints.maxWidth * 0.04),
+                    BadgeWidget(
+                        assetPath: 'assets/images/Group 2153.svg',
+                        badgeValue: badgeValue2),
+
+                    SizedBox(width: constraints.maxWidth * 0.045),
+                  ],
+
+                ),
+              ),
+
+              //SizedBox(height: height * 0.005),
               _buildHeaderText('Congratulations'),
               _buildSubHeaderText("You're successfully registered"),
 
@@ -178,15 +278,15 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
                               ),
                             ),
                             Positioned(
-                              top: constraints.maxHeight * 0.3, // Adjust top position
+                              top: constraints.maxHeight * 0.33, // Adjust top position
                               left: 0,
                               right: 0,
                               child: Center(
                                 child: CommonTextStyleForPage(
                                   '137',
                                   Colors.white,
-                                  FontWeight.w700,
-                                  constraints.maxWidth * 0.08, // Adjust font size
+                                  FontWeight.w600,
+                                  constraints.maxWidth * 0.1, // Adjust font size
                                 ),
                               ),
                             ),
@@ -211,9 +311,9 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
                 ),
               ),
 
-              SizedBox(height: height * 0.02),
+              SizedBox(height: height * 0.04),
               _buildHeaderText('View Matches'),
-              SizedBox(height: height * 0.015),
+              SizedBox(height: height * 0.03),
               _buildFreePremiumRow(),
               SizedBox(height: height * 0.01),
               _buildImageContainers(),
@@ -239,8 +339,8 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
             text,
             style: TextStyle(
               color: MyMateThemes.primaryColor,
-              fontSize: width*0.042,
-              fontWeight: FontWeight.w500,
+              fontSize: width*0.043,
+              fontWeight: FontWeight.w600,
             ),
           ),
         );
@@ -310,6 +410,7 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
 
 
           return Container(
+
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -346,14 +447,24 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
           children: [
             Container(
               width: width*0.43,
-              height: height*0.45,
-              color: MyMateThemes.containerColor,
+              height: height*0.5,
+              decoration: BoxDecoration(
+                color: MyMateThemes.containerColor,
+                borderRadius: BorderRadius.circular(width*0.01),
+
+
+              ),
               alignment: Alignment.bottomLeft,
             ),
             Container(
               width: width*0.43,
-              height:  height*0.45,
-              color: MyMateThemes.secondaryColor,
+              height:  height*0.5,
+              decoration: BoxDecoration(
+                color: MyMateThemes.secondaryColor,
+                borderRadius: BorderRadius.circular(width*0.01),
+
+
+              ),
               alignment: Alignment.bottomRight,
             ),
           ],
@@ -373,7 +484,7 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
           children: [
             SizedBox(width: width*0.05),
             SizedBox(
-              height: height*0.13, //height of button
+              height: height*0.14, //height of button
               width: width*0.43, //width of button
               child: ElevatedButton(
                 onPressed: () {
@@ -391,13 +502,13 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
                 ),
                 child: Text(
                   'Complete Profile ',
-                  style: TextStyle(color: MyMateThemes.primaryColor),
+                  style: TextStyle(color: MyMateThemes.primaryColor,fontSize: width*0.037),
                 ),
               ),
             ),
             SizedBox(width: width*0.045),
             SizedBox(
-              height: height*0.13, //height of button
+              height: height*0.14, //height of button
               width: width*0.43, //width of button
               child: ElevatedButton(
                 onPressed: () {
@@ -412,7 +523,7 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
                     borderRadius: BorderRadius.circular(width*0.01),
                   ),
                 ),
-                child: Text('Subscribe', style: TextStyle(color: Colors.white)),
+                child: Text('Subscribe', style: TextStyle(color: Colors.white,fontSize: width*0.037)),
               ),
             ),
           ],
