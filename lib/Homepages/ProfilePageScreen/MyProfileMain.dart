@@ -3,9 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mymateapp/Homepages/ProfilePageScreen/MyProfileBody.dart';
+import 'package:mymateapp/ManagePages/ManagePage.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import '../../../MyMateCommonBodies/MyMateBottomBar.dart';
 import '../../../dbConnection/Firebase.dart';
+import '../../MyMateCommonBodies/MyMateApis.dart';
 import '../BadgeWidget.dart';
 import 'MyProfileWidgets.dart';
 
@@ -73,65 +75,99 @@ class _ProfilePageState extends State<ProfilePage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: MyMateThemes.backgroundColor,
+    return LayoutBuilder(
+        builder: (context, constraints) {
+          // Read width and height from constraints to use for responsive sizing.
+          final double width = constraints.maxWidth;
+          final double height = constraints.maxHeight;
+        return Scaffold(
+          backgroundColor: Colors.white,
 
-      appBar: AppBar(
-        backgroundColor: MyMateThemes.backgroundColor,
-        title: MyProfileMainAppbar(),
-      ),
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            automaticallyImplyLeading: false,
 
-      body: MyProfileBody(docId: widget.docId),
+            title: MyProfileMainAppbar(),
+          ),
 
-      bottomNavigationBar: NavigationBar(),
+          body: MyProfileBody(docId: widget.docId),
+
+          bottomNavigationBar: NavigationBar(),
+        );
+      }
     );
   }
 
   Widget MyProfileMainAppbar() {
 
-    return AppBar(
-      backgroundColor: Colors.white,
-      automaticallyImplyLeading: false,
+    return SafeArea(
 
-      title: SafeArea(
-
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(width: MediaQuery.of(context).size.width * 0.2), // Adjust spacing dynamically
-                Text(
-                  '@user240676',
-                  style: TextStyle(
-                    color: MyMateThemes.textColor,
-                    fontSize: MediaQuery.of(context).size.width * 0.05, // Responsive font size
-                    fontWeight: FontWeight.w500,
-                  ),
+      child: LayoutBuilder(
+          builder: (context, constraints) {
+            // Read width and height from constraints to use for responsive sizing.
+            final double width = constraints.maxWidth;
+            final double height = constraints.maxHeight;
+          return Row(
+            children: [
+              // Back Button
+              // IconButton(
+              //   icon: Icon(Icons.arrow_back, color: MyMateThemes.primaryColor),
+              //   onPressed: () => Navigator.pop(context),
+              // ),
+             SizedBox(width:width*0.35),
+              // Title
+              Expanded(
+                child: FutureBuilder<Map<String, dynamic>>(
+                  future: fetchUserById(widget.docId),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return SizedBox(width: width*0.015, height: height*0.015);
+                    }
+                    if (snapshot.hasError || !snapshot.hasData) {
+                      return Text(
+                        'User',
+                        style: TextStyle(color: Colors.red, fontSize: width*0.02),
+                      );
+                    }
+                    final fullName = snapshot.data!['full_name'] ?? 'Unknown';
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Text(
+                        fullName,
+                        style: TextStyle(
+                          color: MyMateThemes.textColor,
+                          fontSize: width*0.045,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        softWrap: false,
+                        overflow: TextOverflow.visible,
+                      ),
+                    );
+                  },
                 ),
-                SizedBox(width: MediaQuery.of(context).size.width * 0.08),
-                SvgPicture.asset('assets/images/fire.svg',height: MediaQuery.of(context).size.height * 0.02,),
-                SizedBox(width: MediaQuery.of(context).size.width * 0.01),
-
-                Text('78',style: TextStyle(color: MyMateThemes.textColor,fontSize:MediaQuery.of(context).size.width * 0.05 ),),
-                SizedBox(width: MediaQuery.of(context).size.width * 0.01),
-
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.menu, color: MyMateThemes.primaryColor),
-                ),
-                  //
-                  //
-                  // BadgeWidget(assetPath: 'assets/images/bell.svg', badgeValue: badgeValue1),
-                  // SizedBox(width: MediaQuery.of(context).size.width  * 0.045),
-                  // BadgeWidget(assetPath: 'assets/images/Group 2157.svg', badgeValue: badgeValue2),
-                  // SizedBox(width:MediaQuery.of(context).size.width  * 0.045),
-
-              ],
-            ),
-          ],
-        ),
+              ),
+               SizedBox(width: width*0.02),
+              // Fire Icon and number
+              SvgPicture.asset('assets/images/fire.svg', width: width*0.04),
+              SizedBox(width: width*0.01),
+              Text(
+                '78',
+                style: TextStyle(color: MyMateThemes.textColor, fontSize: width*0.045),
+              ),
+           // SizedBox(width:width*0.01),
+              IconButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    CupertinoPageRoute(
+                      builder: (context) => ManagePage(docId: 'E0JFHhK2x6Gq2Ac6XSyP',),
+                    ),
+                  );
+                },
+                icon: Icon(Icons.menu,size: width*0.065, color: MyMateThemes.primaryColor),
+              ),
+            ],
+          );
+        }
       ),
     );
   }

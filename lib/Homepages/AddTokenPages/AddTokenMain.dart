@@ -53,18 +53,28 @@ class _AddTokenMainPageState extends State<AddTokenMainPage> {
                                 },
                                 child: SvgPicture.asset(
                                   'assets/images/chevron-left.svg',
-                                  width: width * 0.035,
+                                  width: width * 0.025,
+                                  height: height*0.015,
+
                                 ),
                               ),
-                              SizedBox(width: width * 0.1),
+                              SizedBox(width: width * 0.25),
                               Text(
                                 "Package Plan",
                                 style: TextStyle(
                                   color: MyMateThemes.textColor,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: width * 0.05,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: width * 0.045,
                                   letterSpacing: 0.8,
                                 ),
+                              ),
+                              SizedBox(width: width*0.2),
+                              // Fire Icon and number
+                              SvgPicture.asset('assets/images/fire.svg', width: width*0.04),
+                              SizedBox(width: width*0.01),
+                              Text(
+                                '78',
+                                style: TextStyle(color: MyMateThemes.textColor, fontSize: width*0.045),
                               ),
                             ],
                           ),
@@ -80,17 +90,17 @@ class _AddTokenMainPageState extends State<AddTokenMainPage> {
                             autoPlayCurve: Curves.fastOutSlowIn,
                             enableInfiniteScroll: false,
                             autoPlayAnimationDuration: const Duration(milliseconds: 800),
-                            viewportFraction: 0.8,
+                            viewportFraction: 0.84,
                           ),
                         ),
-                        SizedBox(height: height * 0.03),
+                        SizedBox(height: height * 0.05),
                         // Video play container with text overlay
                         GestureDetector(
                           onTap: () {
                             print('play video');
                           },
                           child: Container(
-                            width: width * 0.8,
+                            width: width * 0.84,
                             height: height * 0.11,
                             decoration: BoxDecoration(
                               color: MyMateThemes.premiumAccent,
@@ -130,7 +140,25 @@ class _AddTokenMainPageState extends State<AddTokenMainPage> {
                             ),
                           ),
                         ),
-                        SizedBox(height: height * 0.03),
+                        SizedBox(height: height * 0.05),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(width: width * 0.1),
+
+                            Text(
+                              "Special offers",
+                              style: TextStyle(
+                                color: MyMateThemes.textColor,
+                                fontWeight: FontWeight.w500,
+                                fontSize: width * 0.045,
+                                letterSpacing: 0.8,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: height * 0.02),
+
                         // Offer slider carousel
                         buildCurrentOffers(),
                         SizedBox(height: height * 0.05),

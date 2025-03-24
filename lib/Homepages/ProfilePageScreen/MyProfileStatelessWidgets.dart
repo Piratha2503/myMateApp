@@ -31,28 +31,28 @@ class _AboutMeState extends State<AboutMe>{
     return SingleChildScrollView(
       child: Container(
         padding: EdgeInsets.symmetric(
-          horizontal: MediaQuery.of(context).size.width * 0.04,
+          horizontal: MediaQuery.of(context).size.width * 0.01,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: MediaQuery.of(context).size.height * 0.025),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.02),
 
             // Section Title
-            SectionTitle( context,'About me'),
+            SectionTitle( context,'About me','assets/images/heart .svg'),
             SizedBox(height: MediaQuery.of(context).size.height * 0.007),
 
             // Decorative Line
             Row(
               children: [
-                SizedBox(width: MediaQuery.of(context).size.width * 0.08),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.05),
                 SvgPicture.asset(
                   'assets/images/Line 11.svg',
-                  width: MediaQuery.of(context).size.width * 0.3,
+                  width: MediaQuery.of(context).size.width * 0.9,
                 ),
               ],
             ),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.012),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.02),
 
             // Info Rows
             InfoRow(context, 'Education', widget.education),
@@ -74,8 +74,9 @@ class _AboutMeState extends State<AboutMe>{
                   'Expectations',
                   style: TextStyle(
                     color: MyMateThemes.textColor,
-                    fontSize: MediaQuery.of(context).size.width * 0.05,
-                    fontWeight: FontWeight.bold,
+                    fontSize: MediaQuery.of(context).size.width * 0.055,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 0.8
                   ),
                 ),
               ],
@@ -108,14 +109,14 @@ class AstrologySection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: screenHeight * 0.02),
-          SectionTitle( context,'Astrology' ),
+          SectionTitle( context,'Astrology' ,'assets/images/Group 2148.svg'),
           SizedBox(height: screenHeight * 0.007),
 
           // Decorative Line
           Row(
             children: [
-              SizedBox(width: screenWidth * 0.1),
-              SvgPicture.asset('assets/images/Line 11.svg', width: screenWidth * 0.8),
+              SizedBox(width: screenWidth * 0.05),
+              SvgPicture.asset('assets/images/Line 11.svg', width: screenWidth * 0.9),
             ],
           ),
           SizedBox(height: screenHeight * 0.02),

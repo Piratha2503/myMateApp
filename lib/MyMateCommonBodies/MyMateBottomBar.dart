@@ -46,56 +46,56 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
       case 2: NavigatorFunction(context, MyMatePage( docId: widget.docId, results: [], search: [],));
       case 3: NavigatorFunction(context, AddTokenMainPage( docId: widget.docId));
       case 4: Navigator.push(context, MaterialPageRoute(builder: (context)=> ProfilePage(docId: widget.docId,
-        selectedBottomBarIconIndex: 3,)));
+        selectedBottomBarIconIndex: 4,)));
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return
-    LayoutBuilder(
-        builder: (context, constraints) {
-          // Read width and height from constraints to use for responsive sizing.
-          final double width = constraints.maxWidth;
-          final double height = constraints.maxHeight;
-        return Expanded(child:
-        SizedBox(
-         //height: 96.h,
-         // height: height * 0.1,
-          child: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            backgroundColor: Colors.transparent, // Transparent to blend with page
-            elevation: 0,
-            showSelectedLabels: false, // Hides selected item labels
-            showUnselectedLabels: false,// Removes shadow/border
-            items: [
+      LayoutBuilder(
+          builder: (context, constraints) {
+            // Read width and height from constraints to use for responsive sizing.
+            final double width = constraints.maxWidth;
+            final double height = constraints.maxHeight;
+            return Expanded(child:
+            SizedBox(
+              //height: 96.h,
+              // height: height * 0.1,
+              child: BottomNavigationBar(
+                type: BottomNavigationBarType.fixed,
+                backgroundColor: Colors.transparent, // Transparent to blend with page
+                elevation: 0,
+                showSelectedLabels: false, // Hides selected item labels
+                showUnselectedLabels: false,// Removes shadow/border
+                items: [
 
-              _buildBottomNavigationBarItem(
-                  'assets/images/bhome.svg', 'Home', 0),
-              _buildBottomNavigationBarItem(
-                  'assets/images/bexplore.svg', 'Explore', 1),
-              _buildBottomNavigationBarItem(
-                  'assets/images/bheart.svg', 'myMate', 2),
-              _buildBottomNavigationBarItem(
-                  'assets/images/bfire.svg', 'token', 3),
+                  _buildBottomNavigationBarItem(
+                      'assets/images/bhome.svg', 'Home', 0),
+                  _buildBottomNavigationBarItem(
+                      'assets/images/bexplore.svg', 'Explore', 1),
+                  _buildBottomNavigationBarItem(
+                      'assets/images/bheart.svg', 'myMate', 2),
+                  _buildBottomNavigationBarItem(
+                      'assets/images/bfire.svg', 'token', 3),
 
-              _buildBottomNavigationBarItem(
-                  'assets/images/buser.svg', 'Profile', 4),
-            ],
-            currentIndex: _selectedIndex,
-            selectedItemColor: MyMateThemes.primaryColor,
-            unselectedItemColor: MyMateThemes.secondaryColor,
-            onTap: (index) {
-              setState(() {
-                _selectedIndex = index;
-              });
-              onTab(index);
-            },
-          ),
-        ),
-        );
-      }
-    );
+                  _buildBottomNavigationBarItem(
+                      'assets/images/buser.svg', 'Profile', 4),
+                ],
+                currentIndex: _selectedIndex,
+                selectedItemColor: MyMateThemes.primaryColor,
+                unselectedItemColor: MyMateThemes.secondaryColor,
+                onTap: (index) {
+                  setState(() {
+                    _selectedIndex = index;
+                  });
+                  onTab(index);
+                },
+              ),
+            ),
+            );
+          }
+      );
   }
 
   BottomNavigationBarItem _buildBottomNavigationBarItem(
@@ -105,13 +105,13 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
     return
       BottomNavigationBarItem(
         icon:SvgPicture.asset(
-            assetName,
-            // height: 24, // Ensure a fixed height for proper alignment
-            // width: 24,
-            color: _selectedIndex == index
-                ? MyMateThemes.primaryColor
-                : MyMateThemes.secondaryColor,
-          ),
+          assetName,
+          // height: 24, // Ensure a fixed height for proper alignment
+          // width: 24,
+          color: _selectedIndex == index
+              ? MyMateThemes.primaryColor
+              : MyMateThemes.secondaryColor,
+        ),
 
         label: '',
       )

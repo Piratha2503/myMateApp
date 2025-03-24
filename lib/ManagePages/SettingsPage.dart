@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mymateapp/Homepages/Profiles/EditGalleryScreen.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 
-import '../Homepages/Notification.dart';
 import '../Homepages/ProfilePageScreen/MyProfileMain.dart';
+import '../Homepages/notification_page.dart';
 import 'ManagePage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -139,10 +139,8 @@ class _SettingspageState extends State<Settingspage> {
                       SizedBox(width: width*0.02),
                       GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ManagePage(docId: widget.docId,)));
+                          Navigator.pop(context); // Ensure proper navigation back
+
                         },
                         child: SvgPicture.asset('assets/images/chevron-left.svg'),
                       ),

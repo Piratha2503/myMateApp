@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 
-import '../Homepages/Notification.dart';
 import '../Homepages/ProfilePageScreen/MyProfileMain.dart';
+import '../Homepages/notification_page.dart';
 import 'ManagePage.dart';
 
 class Allactionpage extends StatefulWidget {
@@ -35,10 +35,7 @@ class _AllactionpageState extends State<Allactionpage> {
                       SizedBox(width:width*0.04),
                       GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ManagePage(docId: widget.docId)));
+                          Navigator.pop(context); // Ensure proper navigation back
                         },
                         child: SvgPicture.asset('assets/images/chevron-left.svg'),
                       ),

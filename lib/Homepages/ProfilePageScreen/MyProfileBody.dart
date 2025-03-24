@@ -29,7 +29,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
   final Firebase firebase = Firebase();
   late List<double> _positions;
 
-  bool isFormFilled = true;
+  bool isFormFilled = false;
 
   String full_name = "";
   String gender = "";
@@ -140,12 +140,22 @@ class _MyProfileBodyState extends State<MyProfileBody> {
         personalDetails.religion = data['religion'] ?? "N/A";
         personalDetails.num_of_siblings = data['num_of_siblings'] ?? "N/A";
         personalDetails.height = data['height'] ?? "N/A";
+        isLoading = false;
 
+        if (data.containsKey("completeProfilePending") &&
+            data["completeProfilePending"] != null) {
+          isFormFilled = data["completeProfilePending"]["_anything_filled_lifestyle"] ?? false;
+        } else {
+          isFormFilled = false;
+        }
+      });
+    } else {
+      setState(() {
+        isLoading = false;
+        isFormFilled = false;
       });
     }
-
   }
-
 
   @override
   void dispose() {
@@ -163,6 +173,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
     getClient().then((_) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _calculatePositions();
+        print('more about me is :$isFormFilled');
       });
     });
   }
@@ -183,10 +194,12 @@ class _MyProfileBodyState extends State<MyProfileBody> {
     final screenHeight = mediaQuery.size.height;
 
     return Column(
+
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Expanded(
           child: SingleChildScrollView(
+
             controller: _scrollController,
             child: Column(
               children: [
@@ -197,11 +210,44 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     IconWithText(context,'assets/images/Group 2145.svg', '$age years', dob),
+                    Container(
+                      width: screenWidth*0.001,           // Divider thickness
+                      height: screenHeight*0.08, // Full height
+                      color: MyMateThemes.textColor.withOpacity(0.3), // Divider color
+                    ),
+
                     IconWithText(context,'assets/images/Group 2146.svg', occupation, '$city - '),
+                    Container(
+                      width: screenWidth*0.001,           // Divider thickness
+                      height: screenHeight*0.08, // Full height
+                      color: MyMateThemes.textColor.withOpacity(0.3), // Divider color
+                    ),
                     IconWithText(context,'assets/images/Group 2147.svg', city, city),
                   ],
                 ),
+            Container(
+              height: screenHeight*0.14,
+              width: screenWidth*0.9,
+              margin: EdgeInsets.symmetric(vertical: screenHeight * 0.01),
+              padding: EdgeInsets.all(screenHeight * 0.2),
+              decoration: BoxDecoration(
+                color: MyMateThemes.containerColor,
+                borderRadius: BorderRadius.circular(screenWidth * 0.01), // Dynamic border radius
+              ),
+              child:
+                  Text(
+                    'Bio',
+                    style: TextStyle(
+                      color: MyMateThemes.textColor,
+                      fontWeight: FontWeight.w500,
+                      fontSize: screenWidth*0.05,
+                    ),
+                  ),
+
+            ),
+
                 SizedBox(height: screenHeight * 0.03),
+
                 ActionButtons(context, widget.docId),
                 SizedBox(height: screenHeight * 0.03),
                 Column(
@@ -212,7 +258,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         GestureDetector(
-                          child: SvgPicture.asset('assets/images/Group 2196.svg', width: screenWidth * 0.13,height:screenHeight * 0.25 ,),
+                          child: SvgPicture.asset('assets/images/Group 2196.svg', width: screenWidth * 0.12,height:screenHeight * 0.23,),
                           onTap: () {
 
 
@@ -226,8 +272,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                         SizedBox(width: screenWidth * 0.03),
                         Column(
                           children: [
-                            GestureDetector(
-                              child: SvgPicture.asset('assets/images/Group 2192.svg', width: screenWidth * 0.13,height:screenHeight * 0.12 ),
+                            GestureDetector(child: SvgPicture.asset('assets/images/Group 2192.svg', width: screenWidth * 0.12,height:screenHeight * 0.11 ),
                               onTap: () {
                                 // setState(() {
                                 //   _selectedButtonIndex = 1;
@@ -238,7 +283,7 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                             ),
                             SizedBox(height: screenHeight * 0.02),
                             GestureDetector(
-                              child: SvgPicture.asset('assets/images/Group 2197.svg', width: screenWidth * 0.13,height:screenHeight * 0.12),
+                              child: SvgPicture.asset('assets/images/Group 2197.svg', width: screenWidth * 0.12,height:screenHeight * 0.11),
                               onTap: () {
                                 // setState(() {
                                 //   _selectedButtonIndex = 2;
@@ -267,13 +312,13 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                     SizedBox(height: screenHeight * 0.06),
 
                     PhotoGallery(docId: widget.docId),
-                    SizedBox(height: screenHeight * 0.04),
+                    SizedBox(height: screenHeight * 0.08),
                     SectionTitle(context,'More about me',),
                     SizedBox(height: screenHeight * 0.01),
                     Row(
                       children: [
-                        SizedBox(width: screenWidth * 0.1),
-                        SvgPicture.asset('assets/images/Line 11.svg'),
+                        SizedBox(width: screenWidth * 0.05),
+                        SvgPicture.asset('assets/images/Line 11.svg',width: screenWidth*0.9,),
                       ],
                     ),
                     SizedBox(height: screenHeight * 0.03),
@@ -344,9 +389,9 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                   _scrollToContainer(_anchorKey1);
                 },
               ),
-              SizedBox(width: screenWidth * 0.013),
+              SizedBox(width: screenWidth * 0.02),
               CustomOutlineButton(
-                assetPath: 'assets/images/Group 2150.svg',
+                assetPath: 'assets/images/heart .svg',
                 label: 'About me',
                 index: 1,
                 isSelected: isButtonSelected(1),
@@ -354,9 +399,9 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                   _scrollToContainer(_anchorKey2);
                 },
               ),
-              SizedBox(width: screenWidth * 0.013),
+              SizedBox(width: screenWidth * 0.02),
               CustomOutlineButton(
-                assetPath: 'assets/images/Group 2149.svg',
+                assetPath: 'assets/images/cash.svg',
                 label: 'Photo Gallery',
                 index: 2,
                 isSelected: isButtonSelected(2),
@@ -444,16 +489,24 @@ class _MyProfileBodyState extends State<MyProfileBody> {
                   style: TextStyle(
                     color: MyMateThemes.primaryColor,
                     fontSize: MediaQuery.of(context).size.width * 0.05,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
-                Text(
-                  'Special Mention (Optional)',
-                  style: TextStyle(
-                    color: MyMateThemes.textColor,
-                    fontSize: MediaQuery.of(context).size.width * 0.035,
-                    fontWeight: FontWeight.normal,
-                  ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset('assets/images/heart .svg',color:MyMateThemes.textColor.withOpacity(0.5)),
+                    SizedBox(width:MediaQuery.of(context).size.width * 0.01 ,),
+                    Text(
+                      '2.57 k',
+                      style: TextStyle(
+                        color: MyMateThemes.textColor.withOpacity(0.5),
+                        fontSize: MediaQuery.of(context).size.width * 0.035,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -468,19 +521,19 @@ class _MyProfileBodyState extends State<MyProfileBody> {
 Widget SectionTitle(BuildContext context, String title) {
   return Row(
     children: [
-      SizedBox(width: MediaQuery.of(context).size.width * 0.1),
+      SizedBox(width: MediaQuery.of(context).size.width * 0.05),
       SvgPicture.asset(
-        'assets/images/Group 2148.svg',
-        width: MediaQuery.of(context).size.width * 0.05,
-        height: MediaQuery.of(context).size.width * 0.05,
+        'assets/images/heart .svg',
+        width: MediaQuery.of(context).size.width * 0.04,
+        height: MediaQuery.of(context).size.width * 0.04,
       ),
-      SizedBox(width: MediaQuery.of(context).size.width * 0.01),
+      SizedBox(width: MediaQuery.of(context).size.width * 0.015),
       Text(
         title,
         style: TextStyle(
           color: MyMateThemes.primaryColor,
-          fontSize: MediaQuery.of(context).size.width * 0.045,
-          fontWeight: FontWeight.bold,
+          fontSize: MediaQuery.of(context).size.width * 0.043,
+          fontWeight: FontWeight.normal,
         ),
       ),
     ],

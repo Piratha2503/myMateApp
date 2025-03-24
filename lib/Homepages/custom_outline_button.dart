@@ -24,23 +24,24 @@ class CustomOutlineButton extends StatelessWidget {
         double screenWidth = MediaQuery.of(context).size.width;
         double screenHeight = MediaQuery.of(context).size.height;
 
-        double buttonWidth = screenWidth * 0.05; // Adjust width based on screen size
+        double buttonWidth = screenWidth * 0.01; // Adjust width based on screen size
         double buttonHeight = screenHeight * 0.05; // Keep height fixed or adjust as needed
-        double iconSize = screenWidth * 0.04; // Scales icon size dynamically
-        double fontSize = screenWidth * 0.027; // Scales font size dynamically
+        double iconSize = screenWidth * 0.02; // Scales icon size dynamically
+        double fontSize = screenWidth * 0.025; // Scales font size dynamically
 
         return OutlinedButton(
           onPressed: onPressed,
           style: ButtonStyle(
             foregroundColor: MaterialStateProperty.all(
-              isSelected ? MyMateThemes.secondaryColor : MyMateThemes.containerColor,
+              isSelected ? MyMateThemes.primaryColor : MyMateThemes.textColor,
             ),
             backgroundColor: MaterialStateProperty.all(
               isSelected ? MyMateThemes.secondaryColor : MyMateThemes.containerColor,
             ),
             shape: MaterialStateProperty.all(
-              RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-            ),
+                RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(screenWidth*0.01)
+                )),
             side: MaterialStateProperty.all(BorderSide.none),
             minimumSize: MaterialStateProperty.all(Size(buttonWidth, buttonHeight)),
           ),
@@ -49,14 +50,17 @@ class CustomOutlineButton extends StatelessWidget {
             children: [
               SvgPicture.asset(
                 assetPath,
-                width: iconSize,
-                height: iconSize,
+                color: isSelected ? MyMateThemes.primaryColor : MyMateThemes.textColor,
+
+                width: buttonWidth*0.28,
+                height: buttonHeight*0.28,
               ),
               SizedBox(width: screenWidth * 0.01), // Adjust spacing dynamically
               Text(
                 label,
                 style: TextStyle(
-                  color: MyMateThemes.primaryColor,
+                  color: isSelected ? MyMateThemes.primaryColor : MyMateThemes.textColor,
+
                   fontSize: fontSize,
                   fontWeight: FontWeight.normal,
                 ),

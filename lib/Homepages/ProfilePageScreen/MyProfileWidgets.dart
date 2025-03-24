@@ -26,11 +26,12 @@ Widget Tag(BuildContext context, String text) {
 }
 
 Widget InfoRow(BuildContext context, String title, String value) {
-  double containerWidth = MediaQuery.of(context).size.width * 0.8;
+  double containerWidth = MediaQuery.of(context).size.width * 0.88;
   double containerHeight = MediaQuery.of(context).size.height * 0.05;
   double fontSize = MediaQuery.of(context).size.width * 0.04;
 
-  return Container(
+  return
+    Container(
     height: containerHeight,
     width: containerWidth,
     margin: EdgeInsets.symmetric(vertical: containerHeight * 0.13),
@@ -49,7 +50,7 @@ Widget InfoRow(BuildContext context, String title, String value) {
           title,
           style: TextStyle(
             color: MyMateThemes.textColor,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.normal,
             fontSize: fontSize,
           ),
         ),

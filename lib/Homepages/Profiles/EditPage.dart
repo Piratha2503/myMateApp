@@ -310,11 +310,11 @@ class _EditPageState extends State<EditPage> {
         // Label
         Row(
           children: [
-            SizedBox(width: screenWidth * 0.09), // 9% of screen width
+            SizedBox(width: screenWidth * 0.06), // 9% of screen width
             Text(
               label,
               style: TextStyle(
-                color: MyMateThemes.textColor,
+                color: MyMateThemes.textColor, // Change to your theme color
                 fontWeight: FontWeight.w400,
                 fontSize: screenWidth * 0.042, // Adjust font size dynamically
               ),
@@ -346,9 +346,9 @@ class _EditPageState extends State<EditPage> {
               contentPadding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05), // Responsive padding
             ),
             style: TextStyle(
-              color: MyMateThemes.textColor.withOpacity(0.7),
-              fontSize: screenWidth * 0.04, // Dynamic font size
-              fontWeight: FontWeight.w400,
+              color: MyMateThemes.textColor.withOpacity(0.7), // Selected item text color
+              fontSize: screenWidth * 0.038,
+              fontWeight: FontWeight.normal,
             ),
           ),
         ),
@@ -367,12 +367,13 @@ class _EditPageState extends State<EditPage> {
     double height = MediaQuery.of(context).size.height;
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
+
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Label
         Row(
           children: [
-            SizedBox(width: width*0.09),
+            SizedBox(width: width*0.02),
             Text(
               label,
               style: TextStyle(
@@ -593,7 +594,7 @@ class _EditPageState extends State<EditPage> {
       case 3:
         return 'Regularly Smoker';
       case 4:
-        return 'chain smoker';
+        return 'Chain Smoker';
       default:
         return 'Unknown';
     }
@@ -689,18 +690,11 @@ class _EditPageState extends State<EditPage> {
                             child: profilePicUrl != null
                                 ? Container(
                               width:
-                              width*0.3, // Double the radius for width and height
-                              height: height*0.15,
+                              width*0.32, // Double the radius for width and height
+                              height: height*0.16,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: MyMateThemes.textColor
-                                        .withOpacity(0.4),
-                                    spreadRadius: 4,
-                                    blurRadius: 4,
-                                  )
-                                ],
+
                                 border: Border.all(
                                   color: MyMateThemes
                                       .secondaryColor, // Set the border color
@@ -744,7 +738,7 @@ class _EditPageState extends State<EditPage> {
                       onSave: () {},
                     ),
                     SizedBox(height: height*0.03),
-                    _buildDropdownRow(
+                    CustomDropdown(
                       label: 'Civil Status',
                       value: _selectedCivilStatus,
                       items: [
@@ -761,7 +755,7 @@ class _EditPageState extends State<EditPage> {
                       },
                     ),
                     SizedBox(height: height*0.018),
-                    _buildDropdownRow(
+                    CustomDropdown(
                       label: 'Employment Type',
                       value: _selectedEmploymentType,
                       items: [
@@ -809,7 +803,7 @@ class _EditPageState extends State<EditPage> {
                     ),
 
                     SizedBox(height: height*0.018),
-                    _buildDropdownRow(
+                    CustomDropdown(
                       label: 'Religion',
                       value: _selectedReligion,
                       items: [
@@ -944,7 +938,7 @@ class _EditPageState extends State<EditPage> {
               SizedBox(height: height*0.08),
               Row(
                 children: [
-                  SizedBox(width: width*0.04),
+                  SizedBox(width: width*0.02),
                   Text(
                     'More About Me',
                     style: TextStyle(
@@ -957,13 +951,13 @@ class _EditPageState extends State<EditPage> {
               SizedBox(height: height*0.06),
               Row(
                 children: [
-                  SizedBox(width: width*0.1),
+                  SizedBox(width: width*0.02),
                   Text(
                     'Personal Interest',
                     style: TextStyle(
                       color: MyMateThemes.textColor,
                       fontSize: width*0.042,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.normal,
                     ),
                   ),
                 ],
@@ -971,11 +965,11 @@ class _EditPageState extends State<EditPage> {
               SizedBox(height: height*0.015),
               Row(
                 children: [
-                  SizedBox(width: width*0.07),
-                  SvgPicture.asset('assets/images/Line 11.svg'),
+                  SizedBox(width: width*0.03),
+                  SvgPicture.asset('assets/images/Line 11.svg',width: width*0.87,),
                 ],
               ),
-              SizedBox(height: height*0.02),
+              SizedBox(height: height*0.03),
               _buildTextField(hobbyController, '-- Type here --', _addHobbyTag),
               SizedBox(height:  height*0.025),
               Wrap(
@@ -983,16 +977,16 @@ class _EditPageState extends State<EditPage> {
                   return _buildTagWithCloseButton(tag);
                 }).toList(),
               ),
-              SizedBox(height:  width*0.1),
+              SizedBox(height:height*0.06),
               Row(
                 children: [
-                  SizedBox(width: width*0.1),
+                  SizedBox(width: width*0.02),
                   Text(
-                    'Life Style',
+                    'Skills & Habits',
                     style: TextStyle(
                       color: MyMateThemes.textColor,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
+                      fontSize: width*0.042,
+                      fontWeight: FontWeight.normal,
                     ),
                   ),
                 ],
@@ -1000,85 +994,159 @@ class _EditPageState extends State<EditPage> {
               SizedBox(height:height*0.015),
               Row(
                 children: [
-                  SizedBox(width:width*0.07),
-                  SvgPicture.asset('assets/images/Line 11.svg'),
+                  SizedBox(width:width*0.03),
+                  SvgPicture.asset('assets/images/Line 11.svg',width: width*0.87,),
                 ],
               ),
               SizedBox(height: height*0.03),
               Row(
                 children: [
-                  SizedBox(width: width*0.08),
+                  SizedBox(width: width*0.02),
                   Text(
                     'Eating Habits',
                     style: TextStyle(
-                      color: MyMateThemes.textColor.withOpacity(0.7),
+                      color: MyMateThemes.textColor,
                       fontSize: width*0.04,
                       fontWeight: FontWeight.normal,
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: height*0.005),
+              SizedBox(height: height*0.03),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  SizedBox(width:width*0.04),
+                  SizedBox(width:width*0.06 ),
                   Row(
                     children: [
-                      Radio<String>(
-                        value: 'Vegetarian',
-                        groupValue: _selectedValue,
-                        onChanged: (value) {
+                      GestureDetector(
+                        onTap: () {
                           setState(() {
-                            _selectedValue = value!;
+                            _selectedValue = 'Vegetarian'; // Update selected state
                           });
                         },
-                        activeColor: MyMateThemes.primaryColor,
-                        // Change color if needed
+                        child: Container(
+                          width: width * 0.063, // Circle size
+                          height: width * 0.063,
+                          decoration: BoxDecoration(
+                            color: _selectedValue == 'Vegetarian'
+                                ? MyMateThemes.primaryColor // Selected color (filled)
+                                : Colors.transparent, // Unselected (transparent inside)
+                            border: Border.all(
+                              color: _selectedValue == 'Vegetarian'
+                                  ? Colors.transparent // Selected color (filled)
+                                  : MyMateThemes.secondaryColor, // Outline color
+                              width: 3, // Thickness of the outline
+                            ),
+                            shape: BoxShape.circle,
+                          ),
+                          child: _selectedValue == 'Vegetarian'
+                              ? Center(
+                            child: Container(
+                              width: width * 0.015, // Inner dot size
+                              height: width * 0.015,
+                              decoration: BoxDecoration(
+                                color: Colors.white, // White inner dot for selected state
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                          )
+                              : null, // No inner dot when unselected
+                        ),
                       ),
+
+                      SizedBox(width: width * 0.025),
+
                       Text(
                         'Vegetarian',
                         style: TextStyle(
                           color: MyMateThemes.textColor,
-                          fontSize: width*0.037,
                           fontWeight: FontWeight.normal,
+                          fontSize: width * 0.027,
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(width: 50),
+                  SizedBox(width: width * 0.15),
                   Row(
                     children: [
-                      Radio<String>(
-                        value: 'Non- Vegetarian',
-                        groupValue: _selectedValue,
-                        onChanged: (value) {
+                      GestureDetector(
+                        onTap: () {
                           setState(() {
-                            _selectedValue = value!;
+                            _selectedValue = 'Non-Vegetarian'; // Update selected state
                           });
                         },
-                        activeColor: MyMateThemes.primaryColor,
+                        child: Container(
+                          width: width * 0.063, // Circle size
+                          height: width * 0.063,
+                          decoration: BoxDecoration(
+                            color: _selectedValue == 'Non-Vegetarian'
+                                ? MyMateThemes.primaryColor // Selected color (filled)
+                                : Colors.transparent, // Unselected (transparent inside)
+                            border: Border.all(
+                              color: _selectedValue == 'Non-Vegetarian'
+                                  ? Colors.transparent // Selected color (filled)
+                                  : MyMateThemes.secondaryColor, // Outline color
+                              width: 3, // Thickness of the outline
+                            ),
+                            shape: BoxShape.circle,
+                          ),
+                          child: _selectedValue == 'Non-Vegetarian'
+                              ? Center(
+                            child: Container(
+                              width: width * 0.015, // Inner dot size
+                              height: width * 0.015,
+                              decoration: BoxDecoration(
+                                color: Colors.white, // White inner dot for selected state
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                          )
+                              : null, // No inner dot when unselected
+                        ),
                       ),
+
+                      SizedBox(width: width * 0.025),
+
                       Text(
-                        'Non- Vegetarian',
+                        'Non-Vegetarian',
                         style: TextStyle(
                           color: MyMateThemes.textColor,
-                          fontSize:  width*0.037,
                           fontWeight: FontWeight.normal,
+                          fontSize: width * 0.027,
                         ),
                       ),
                     ],
+                  )
+                ],
+              ),
+              SizedBox(height:  height*0.05),
+
+              Row(
+                children: [
+                  SizedBox(width:  width*0.02),
+                  Text(
+                    'Cooking',
+                    style: TextStyle(
+                      color: MyMateThemes.textColor,
+                      fontSize:  width*0.04,
+                      fontWeight: FontWeight.normal,
+                    ),
                   ),
                 ],
               ),
+              SizedBox(height: height*0.04),
+              _buildCookingSelection(),
+
               SizedBox(height: height*0.05),
+
               Row(
                 children: [
-                  SizedBox(width: width*0.08),
+                  SizedBox(width: width*0.02),
                   Text(
                     'Alcohol',
                     style: TextStyle(
-                      color: MyMateThemes.textColor.withOpacity(0.7),
+                      color: MyMateThemes.textColor,
                       fontSize:  width*0.04,
                       fontWeight: FontWeight.normal,
                     ),
@@ -1087,14 +1155,16 @@ class _EditPageState extends State<EditPage> {
               ),
               SizedBox(height:  height*0.04),
               _buildAlcoholSelection(),
-              SizedBox(height: width*0.1),
+
+              SizedBox(height: height*0.05),
+
               Row(
                 children: [
-                  SizedBox(width: width*0.08),
+                  SizedBox(width: width*0.02),
                   Text(
                     'Smoking',
                     style: TextStyle(
-                      color: MyMateThemes.textColor.withOpacity(0.7),
+                      color: MyMateThemes.textColor,
                       fontSize:  width*0.04,
                       fontWeight: FontWeight.normal,
                     ),
@@ -1103,29 +1173,7 @@ class _EditPageState extends State<EditPage> {
               ),
               SizedBox(height:  height*0.04),
               _buildSmokingSelection(),
-              SizedBox(height:  height*0.08),
-              Row(
-                children: [
-                  SizedBox(width:  width*0.1),
-                  Text(
-                    'Cooking',
-                    style: TextStyle(
-                      color: MyMateThemes.textColor,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height:  height*0.015),
-              Row(
-                children: [
-                  SizedBox(width:  width*0.07),
-                  SvgPicture.asset('assets/images/Line 11.svg'),
-                ],
-              ),
-              SizedBox(height: height*0.04),
-              _buildCookingSelection(),
+
               SizedBox(height:  height*0.1),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -1302,18 +1350,16 @@ class _EditPageState extends State<EditPage> {
                     Text(
                       'Never',
                       style: TextStyle(
-                        color: selectedAlcoholIndex >= 0
-                            ? MyMateThemes.textColor
-                            : MyMateThemes.textColor.withOpacity(0.6),
+                        color:MyMateThemes.textColor,
+
                         fontSize:  width*0.027,
                       ),
                     ),
                     Text(
                       'Had',
                       style: TextStyle(
-                        color: selectedAlcoholIndex >= 0
-                            ? MyMateThemes.textColor
-                            : MyMateThemes.textColor.withOpacity(0.6),
+                        color:MyMateThemes.textColor,
+
                         fontSize:  width*0.027,
                       ),
                     ),
@@ -1342,18 +1388,18 @@ class _EditPageState extends State<EditPage> {
                     Text(
                       'Rarely',
                       style: TextStyle(
-                        color: selectedAlcoholIndex >= 1
-                            ? MyMateThemes.textColor
-                            : MyMateThemes.textColor.withOpacity(0.6),
+                        color:MyMateThemes.textColor,
+                        fontWeight: FontWeight.w300,
+
                         fontSize:  width*0.027,
                       ),
                     ),
                     Text(
                       'Drinker',
                       style: TextStyle(
-                        color: selectedAlcoholIndex >= 1
-                            ? MyMateThemes.textColor
-                            : MyMateThemes.textColor.withOpacity(0.6),
+                        color:MyMateThemes.textColor,
+                        fontWeight: FontWeight.w300,
+
                         fontSize:  width*0.027,
                       ),
                     ),
@@ -1382,18 +1428,18 @@ class _EditPageState extends State<EditPage> {
                     Text(
                       'Occasionally',
                       style: TextStyle(
-                        color: selectedAlcoholIndex >= 2
-                            ? MyMateThemes.textColor
-                            : MyMateThemes.textColor.withOpacity(0.6),
+                        color:MyMateThemes.textColor,
+                        fontWeight: FontWeight.w300,
+
                         fontSize: width*0.027,
                       ),
                     ),
                     Text(
                       'Drinker',
                       style: TextStyle(
-                        color: selectedAlcoholIndex >= 2
-                            ? MyMateThemes.textColor
-                            : MyMateThemes.textColor.withOpacity(0.6),
+                        color:MyMateThemes.textColor,
+                        fontWeight: FontWeight.w300,
+
                         fontSize:  width*0.027,
                       ),
                     ),
@@ -1422,18 +1468,18 @@ class _EditPageState extends State<EditPage> {
                     Text(
                       'Regularly',
                       style: TextStyle(
-                        color: selectedAlcoholIndex >= 3
-                            ? MyMateThemes.textColor
-                            : MyMateThemes.textColor.withOpacity(0.6),
+                        color:MyMateThemes.textColor,
+                        fontWeight: FontWeight.w300,
+
                         fontSize: width*0.027,
                       ),
                     ),
                     Text(
                       'Drinker',
                       style: TextStyle(
-                        color: selectedAlcoholIndex >= 3
-                            ? MyMateThemes.textColor
-                            : MyMateThemes.textColor.withOpacity(0.6),
+                        color:MyMateThemes.textColor,
+                        fontWeight: FontWeight.w300,
+
                         fontSize:  width*0.027,
                       ),
                     ),
@@ -1462,18 +1508,18 @@ class _EditPageState extends State<EditPage> {
                     Text(
                       'Swimming',
                       style: TextStyle(
-                        color: selectedAlcoholIndex >= 4
-                            ? MyMateThemes.textColor
-                            : MyMateThemes.textColor.withOpacity(0.6),
+                        color:MyMateThemes.textColor,
+                        fontWeight: FontWeight.w300,
+
                         fontSize:  width*0.027,
                       ),
                     ),
                     Text(
                       'in it (24/7)',
                       style: TextStyle(
-                        color: selectedAlcoholIndex >= 4
-                            ? MyMateThemes.textColor
-                            : MyMateThemes.textColor.withOpacity(0.6),
+                        color:MyMateThemes.textColor,
+                        fontWeight: FontWeight.w300,
+
                         fontSize:  width*0.027,
                       ),
                     ),
@@ -1526,14 +1572,16 @@ class _EditPageState extends State<EditPage> {
                             ? MyMateThemes.textColor
                             : MyMateThemes.textColor.withOpacity(0.6),
                         fontSize: width*0.027,
+                          fontWeight: FontWeight.w300
+
                       ),
                     ),
                     Text(
                       'Had',
                       style: TextStyle(
-                        color: selectedSmokingIndex >= 0
-                            ? MyMateThemes.textColor
-                            : MyMateThemes.textColor.withOpacity(0.6),
+                        color:MyMateThemes.textColor,
+                        fontWeight: FontWeight.w300,
+
                         fontSize: width*0.027,
                       ),
                     ),
@@ -1562,18 +1610,18 @@ class _EditPageState extends State<EditPage> {
                     Text(
                       'Rarely',
                       style: TextStyle(
-                        color: selectedSmokingIndex >= 1
-                            ? MyMateThemes.textColor
-                            : MyMateThemes.textColor.withOpacity(0.6),
+                        color:MyMateThemes.textColor,
+                        fontWeight: FontWeight.w300,
+
                         fontSize: width*0.027,
                       ),
                     ),
                     Text(
                       'Smoker',
                       style: TextStyle(
-                        color: selectedSmokingIndex >= 1
-                            ? MyMateThemes.textColor
-                            : MyMateThemes.textColor.withOpacity(0.6),
+                        color:MyMateThemes.textColor,
+                        fontWeight: FontWeight.w300,
+
                         fontSize: width*0.027,
                       ),
                     ),
@@ -1602,18 +1650,18 @@ class _EditPageState extends State<EditPage> {
                     Text(
                       'Occasionally',
                       style: TextStyle(
-                        color: selectedSmokingIndex >= 2
-                            ? MyMateThemes.textColor
-                            : MyMateThemes.textColor.withOpacity(0.6),
+                        color:MyMateThemes.textColor,
+                        fontWeight: FontWeight.w300,
+
                         fontSize: width*0.027,
                       ),
                     ),
                     Text(
                       'Smoker',
                       style: TextStyle(
-                        color: selectedSmokingIndex >= 2
-                            ? MyMateThemes.textColor
-                            : MyMateThemes.textColor.withOpacity(0.6),
+                        color:MyMateThemes.textColor,
+                        fontWeight: FontWeight.w300,
+
                         fontSize: width*0.027,
                       ),
                     ),
@@ -1642,18 +1690,18 @@ class _EditPageState extends State<EditPage> {
                     Text(
                       'Regularly',
                       style: TextStyle(
-                        color: selectedSmokingIndex >= 3
-                            ? MyMateThemes.textColor
-                            : MyMateThemes.textColor.withOpacity(0.6),
+                        color:MyMateThemes.textColor,
+                        fontWeight: FontWeight.w300,
+
                         fontSize: width*0.027,
                       ),
                     ),
                     Text(
                       'Smoker',
                       style: TextStyle(
-                        color: selectedSmokingIndex >= 3
-                            ? MyMateThemes.textColor
-                            : MyMateThemes.textColor.withOpacity(0.6),
+                        color:MyMateThemes.textColor,
+                        fontWeight: FontWeight.w300,
+
                         fontSize: width*0.027,
                       ),
                     ),
@@ -1682,18 +1730,18 @@ class _EditPageState extends State<EditPage> {
                     Text(
                       'Chain',
                       style: TextStyle(
-                        color: selectedSmokingIndex >= 4
-                            ? MyMateThemes.textColor
-                            : MyMateThemes.textColor.withOpacity(0.6),
+                        color:MyMateThemes.textColor,
+                        fontWeight: FontWeight.w300,
+
                         fontSize: width*0.027,
                       ),
                     ),
                     Text(
                       'Smoker',
                       style: TextStyle(
-                        color: selectedSmokingIndex >= 4
-                            ? MyMateThemes.textColor
-                            : MyMateThemes.textColor.withOpacity(0.6),
+                        color:MyMateThemes.textColor,
+                        fontWeight: FontWeight.w300,
+
                         fontSize: width*0.027,
                       ),
                     ),
@@ -1741,10 +1789,12 @@ class _EditPageState extends State<EditPage> {
                     Text(
                       'Zero',
                       style: TextStyle(
-                        color: selectedCookingIndex >= 0
-                            ? MyMateThemes.textColor
-                            : MyMateThemes.textColor.withOpacity(0.6),
+                        color:MyMateThemes.textColor,
+                        //selectedCookingIndex >= 0
+                            // ? MyMateThemes.textColor
+                            // : MyMateThemes.textColor.withOpacity(0.6),
                         fontSize: width*0.027,
+                        fontWeight: FontWeight.w300
                       ),
                     ),
                   ],
@@ -1772,10 +1822,12 @@ class _EditPageState extends State<EditPage> {
                     Text(
                       'Novice',
                       style: TextStyle(
-                        color: selectedCookingIndex >= 1
-                            ? MyMateThemes.textColor
-                            : MyMateThemes.textColor.withOpacity(0.6),
+                        color:MyMateThemes.textColor,
+
                         fontSize: width*0.027,
+                          fontWeight: FontWeight.w300,
+
+
                       ),
                     ),
                   ],
@@ -1803,10 +1855,11 @@ class _EditPageState extends State<EditPage> {
                     Text(
                       'Basic',
                       style: TextStyle(
-                        color: selectedCookingIndex >= 2
-                            ? MyMateThemes.textColor
-                            : MyMateThemes.textColor.withOpacity(0.6),
-                        fontSize: width*0.027,
+                          color:MyMateThemes.textColor,
+
+                          fontSize: width*0.027,
+                          fontWeight: FontWeight.w300
+
                       ),
                     ),
                   ],
@@ -1834,10 +1887,11 @@ class _EditPageState extends State<EditPage> {
                     Text(
                       'Intermediate',
                       style: TextStyle(
-                        color: selectedCookingIndex >= 3
-                            ? MyMateThemes.textColor
-                            : MyMateThemes.textColor.withOpacity(0.6),
-                        fontSize: width*0.027,
+                     color:MyMateThemes.textColor,
+
+                          fontSize: width*0.027,
+                          fontWeight: FontWeight.w300
+
                       ),
                     ),
                   ],
@@ -1865,10 +1919,11 @@ class _EditPageState extends State<EditPage> {
                     Text(
                       'Advanced',
                       style: TextStyle(
-                        color: selectedCookingIndex >= 4
-                            ? MyMateThemes.textColor
-                            : MyMateThemes.textColor.withOpacity(0.6),
-                        fontSize: width*0.027,
+                          color:MyMateThemes.textColor,
+
+                          fontSize: width*0.027,
+                          fontWeight: FontWeight.w300
+
                       ),
                     ),
                   ],
@@ -1889,27 +1944,45 @@ class _CirclePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color =
-      isActive ? MyMateThemes.primaryColor : Colors.grey.withOpacity(0.3)
-      ..style = PaintingStyle.fill;
+    final Paint paint = Paint()
+      ..color = isActive ? MyMateThemes.primaryColor : Colors.white // Fill only if active
+      ..style = isActive ? PaintingStyle.fill : PaintingStyle.stroke
+      ..strokeWidth = 3.0; // Border thickness
 
+    final Paint borderPaint = Paint()
+      ..color = isActive ? MyMateThemes.primaryColor : MyMateThemes.secondaryColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 3.0;
+
+    // Draw circle with border
     canvas.drawCircle(
-        Offset(size.width / 2, size.height / 2), size.width / 2, paint);
+      Offset(size.width / 2, size.height / 2),
+      size.width / 2.2,
+      borderPaint,
+    );
+
+    // Draw filled circle only when active
+    if (isActive) {
+      canvas.drawCircle(
+        Offset(size.width / 2, size.height / 2),
+        size.width / 2.2,
+        paint,
+      );
+    }
   }
+
+
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
     return true;
   }
 }
-
 class _LinePainter extends CustomPainter {
   final int selectedAlcoholIndex;
 
-  _LinePainter({
-    required this.selectedAlcoholIndex,
-  });
+
+  _LinePainter({required this.selectedAlcoholIndex,});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -1927,8 +2000,8 @@ class _LinePainter extends CustomPainter {
         paint.color = Colors.grey.withOpacity(0.1);
       }
       canvas.drawLine(
-        Offset((i + 0.5) * segmentWidth, size.height / 2),
-        Offset((i + 1.5) * segmentWidth, size.height / 2),
+        Offset((i + 0.7) * segmentWidth, size.height / 2),
+        Offset((i + 1.4) * segmentWidth, size.height / 2),
         paint,
       );
     }
@@ -1943,9 +2016,8 @@ class _LinePainter extends CustomPainter {
 class _SmokingLinePainter extends CustomPainter {
   final int selectedSmokingIndex;
 
-  _SmokingLinePainter({
-    required this.selectedSmokingIndex,
-  });
+
+  _SmokingLinePainter({required this.selectedSmokingIndex,});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -1963,8 +2035,8 @@ class _SmokingLinePainter extends CustomPainter {
         paint.color = Colors.grey.withOpacity(0.1);
       }
       canvas.drawLine(
-        Offset((i + 0.5) * segmentWidth, size.height / 2),
-        Offset((i + 1.5) * segmentWidth, size.height / 2),
+        Offset((i + 0.7) * segmentWidth, size.height / 2),
+        Offset((i + 1.4) * segmentWidth, size.height / 2),
         paint,
       );
     }
@@ -1975,6 +2047,8 @@ class _SmokingLinePainter extends CustomPainter {
     return true;
   }
 }
+
+
 
 class _LinearPainter extends CustomPainter {
   final int selectedCookingIndex;
@@ -1997,8 +2071,8 @@ class _LinearPainter extends CustomPainter {
         paint.color = Colors.grey.withOpacity(0.1);
       }
       canvas.drawLine(
-        Offset((i + 0.5) * segmentWidth, size.height / 2),
-        Offset((i + 1.5) * segmentWidth, size.height / 2),
+        Offset((i + 0.7) * segmentWidth, size.height / 2),
+        Offset((i + 1.4) * segmentWidth, size.height / 2),
         paint,
       );
     }

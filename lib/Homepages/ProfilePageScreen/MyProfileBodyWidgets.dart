@@ -12,14 +12,14 @@ Widget IconWithText(BuildContext context, String iconPath, String text1, String 
   return Container(
     width: MediaQuery.of(context).size.width * 0.28,
     height: MediaQuery.of(context).size.height * 0.1,
-    foregroundDecoration: BoxDecoration(
-      border: Border(
-        right: BorderSide(
-          color: MyMateThemes.secondaryColor,
-          width: MediaQuery.of(context).size.width * 0.005,
-        ),
-      ),
-    ),
+    // foregroundDecoration: BoxDecoration(
+    //   border: Border(
+    //     right: BorderSide(
+    //       color: MyMateThemes.textColor.withOpacity(0.2),
+    //       width: MediaQuery.of(context).size.width * 0.003,
+    //     ),
+    //   ),
+    // ),
     child: Column(
       children: [
         SvgPicture.asset(
@@ -55,7 +55,7 @@ Widget ActionButtons(BuildContext context, String docId) {
     children: [
       SizedBox(
         height:MediaQuery.of(context).size.height * 0.06 ,
-        width: MediaQuery.of(context).size.width * 0.35,
+        width: MediaQuery.of(context).size.width * 0.43,
         child:
         ElevatedButton(
           onPressed: () {
@@ -68,7 +68,7 @@ Widget ActionButtons(BuildContext context, String docId) {
           style: ElevatedButton.styleFrom(
             backgroundColor: MyMateThemes.primaryColor,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.025),
+              borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.02),
             ),
             padding: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width * 0.05,
@@ -82,10 +82,10 @@ Widget ActionButtons(BuildContext context, String docId) {
         ),
 
       ),
-      SizedBox(width: MediaQuery.of(context).size.width * 0.1),
+      SizedBox(width: MediaQuery.of(context).size.width * 0.04),
       SizedBox(
         height:MediaQuery.of(context).size.height * 0.06 ,
-        width: MediaQuery.of(context).size.width * 0.35,
+        width: MediaQuery.of(context).size.width * 0.43,
         child: ElevatedButton(
           onPressed: () {
             NavigatorFunction(
@@ -98,7 +98,7 @@ Widget ActionButtons(BuildContext context, String docId) {
           style: ElevatedButton.styleFrom(
             backgroundColor: MyMateThemes.primaryColor,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.025),
+              borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.02),
             ),
             padding: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width * 0.05,
@@ -214,107 +214,220 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
         children: [
           Row(
             children: [
-              SizedBox(width: screenWidth * 0.1),
+              SizedBox(width: screenWidth*0.02),
               Text(
                 'Personal Interest',
                 style: TextStyle(
                   color: MyMateThemes.textColor,
-                  fontSize: screenWidth * 0.044,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: screenHeight * 0.013),
-          Row(
-            children: [
-              SizedBox(width: screenWidth * 0.09),
-              SvgPicture.asset(
-                'assets/images/Line 11.svg',
-                width: screenWidth * 0.79,
-              ),
-            ],
-          ),
-          SizedBox(height: screenHeight * 0.02),
-          _buildTextField(context,hobbyController, 'Personal Interest'),
-          SizedBox(height: screenHeight * 0.03),
-          Wrap(
-            children: hobbyTags.map((tag) => _buildTag(tag as BuildContext,'')).toList(),
-          ),
-          SizedBox(height: screenHeight * 0.05),
-          Row(
-            children: [
-              SizedBox(width: screenWidth * 0.1),
-              Text(
-                'Life style',
-                style: TextStyle(
-                  color: MyMateThemes.textColor,
-                  fontSize: screenWidth * 0.044,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: screenHeight * 0.013),
-          Row(
-            children: [
-              SizedBox(width: screenWidth * 0.09),
-              SvgPicture.asset(
-                'assets/images/Line 11.svg',
-                width: screenWidth * 0.79,
-              ),
-            ],
-          ),
-          SizedBox(height: screenHeight * 0.02),
-          Row(
-            children: [
-              SizedBox(width: screenWidth * 0.1),
-              Text(
-                'Eating Habits',
-                style: TextStyle(
-                  color: MyMateThemes.textColor.withOpacity(0.7),
-                  fontSize: screenWidth * 0.04,
+                  fontSize: screenWidth*0.042,
                   fontWeight: FontWeight.normal,
                 ),
               ),
             ],
           ),
-          SizedBox(height: screenHeight * 0.02),
+          SizedBox(height: screenHeight * 0.013),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Row(
-                children: [
-                  Radio<String>(
-                    value: 'Vegetarian',
-                    groupValue: _selectedValue,
-                    onChanged: null,
-                    activeColor: MyMateThemes.primaryColor,
-                  ),
-                  Text('Vegetarian'),
-                ],
+            children: [
+              SizedBox(width: screenWidth*0.03),
+              SvgPicture.asset('assets/images/Line 11.svg',width: screenWidth*0.87,),
+            ],
+          ),
+          SizedBox(height: screenHeight * 0.02),
+          // _buildTextField(context,hobbyController, 'Personal Interest'),
+          // SizedBox(height: screenHeight * 0.03),
+          Row(
+            children: [
+              SizedBox(width: screenWidth*0.08,),
+              Wrap(
+                children: hobbyTags.map((tag) => _buildTag(context, tag)).toList(),
               ),
-              SizedBox(width: screenWidth * 0.12),
+            ],
+          ),
+          SizedBox(height: screenHeight * 0.05),
+          Row(
+            children: [
+              SizedBox(width: screenWidth*0.02),
+              Text(
+                'Skills & Habits',
+                style: TextStyle(
+                  color: MyMateThemes.textColor,
+                  fontSize: screenWidth*0.042,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: screenHeight * 0.013),
+          Row(
+            children: [
               Row(
                 children: [
-                  Radio<String>(
-                    value: 'Non-Vegetarian',
-                    groupValue: _selectedValue,
-                    onChanged: null,
-                    activeColor: MyMateThemes.primaryColor,
-                  ),
-                  Text('Non-Vegetarian'),
+                  SizedBox(width: screenWidth*0.03),
+                  SvgPicture.asset('assets/images/Line 11.svg',width: screenWidth*0.87,),
                 ],
               ),
             ],
           ),
+          SizedBox(height: screenHeight * 0.02),
+          Row(
+            children: [
+              SizedBox(width: screenWidth*0.02),
+              Text(
+                'Eating Habits',
+                style: TextStyle(
+                  color: MyMateThemes.textColor,
+                  fontSize: screenWidth*0.04,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: screenHeight*0.03),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              SizedBox(width:screenWidth*0.06 ),
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _selectedValue = 'Vegetarian'; // Update selected state
+                      });
+                    },
+                    child: Container(
+                      width: screenWidth * 0.063, // Circle size
+                      height: screenHeight * 0.063,
+                      decoration: BoxDecoration(
+                        color: _selectedValue == 'Vegetarian'
+                            ? MyMateThemes.primaryColor // Selected color (filled)
+                            : Colors.transparent, // Unselected (transparent inside)
+                        border: Border.all(
+                          color: _selectedValue == 'Vegetarian'
+                              ? Colors.transparent // Selected color (filled)
+                              : MyMateThemes.secondaryColor, // Outline color
+                          width: 3, // Thickness of the outline
+                        ),
+                        shape: BoxShape.circle,
+                      ),
+                      child: _selectedValue == 'Vegetarian'
+                          ? Center(
+                        child: Container(
+                          width: screenWidth * 0.015, // Inner dot size
+                          height: screenHeight * 0.015,
+                          decoration: BoxDecoration(
+                            color: Colors.white, // White inner dot for selected state
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                      )
+                          : null, // No inner dot when unselected
+                    ),
+                  ),
+
+                  SizedBox(width: screenWidth * 0.025),
+
+                  Text(
+                    'Vegetarian',
+                    style: TextStyle(
+                      color: MyMateThemes.textColor,
+                      fontWeight: FontWeight.normal,
+                      fontSize: screenWidth * 0.027,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(width: screenWidth * 0.15),
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _selectedValue = 'Non-Vegetarian'; // Update selected state
+                      });
+                    },
+                    child:
+                    Container(
+                      width: screenWidth * 0.063, // Circle size
+                      height: screenHeight * 0.063,
+                      decoration: BoxDecoration(
+                        color: _selectedValue == 'Non-Vegetarian'
+                            ? MyMateThemes.primaryColor // Selected color (filled)
+                            : Colors.transparent, // Unselected (transparent inside)
+                        border: Border.all(
+                          color: _selectedValue == 'Non-Vegetarian'
+                              ? Colors.transparent // Selected color (filled)
+                              : MyMateThemes.secondaryColor, // Outline color
+                          width: 3, // Thickness of the outline
+                        ),
+                        shape: BoxShape.circle,
+                      ),
+                      child: _selectedValue == 'Non-Vegetarian'
+                          ? Center(
+                        child: Container(
+                          width: screenWidth * 0.015, // Inner dot size
+                          height: screenHeight * 0.015,
+                          decoration: BoxDecoration(
+                            color: Colors.white, // White inner dot for selected state
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                      )
+                          : null, // No inner dot when unselected
+                    ),
+                  ),
+
+                  SizedBox(width: screenWidth * 0.025),
+
+                  Text(
+                    'Non-Vegetarian',
+                    style: TextStyle(
+                      color: MyMateThemes.textColor,
+                      fontWeight: FontWeight.normal,
+                      fontSize: screenWidth * 0.027,
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        //  Row(
+          //  mainAxisAlignment: MainAxisAlignment.center,
+            //children: <Widget>[
+              // Row(
+              //   children: [
+              //     Radio<String>(
+              //       value: 'Vegetarian',
+              //       groupValue: _selectedValue,
+              //       onChanged: null,
+              //       activeColor: MyMateThemes.primaryColor,
+              //     ),
+              //     Text('Vegetarian'),
+              //   ],
+              // ),
+              // SizedBox(width: screenWidth * 0.12),
+              // Row(
+              //   children: [
+              //     Radio<String>(
+              //       value: 'Non-Vegetarian',
+              //       groupValue: _selectedValue,
+              //       onChanged: null,
+              //       activeColor: MyMateThemes.primaryColor,
+              //     ),
+              //     Text('Non-Vegetarian'),
+              //   ],
+              // ),
+          //  ],
+          //),
           SizedBox(height: screenHeight * 0.04),
           Row(
             children: [
-              SizedBox(width: screenWidth * 0.1),
+              SizedBox(width: screenWidth*0.02),
               Text(
                 'Alcohol',
                 style: TextStyle(
-                  color: MyMateThemes.textColor.withOpacity(0.7),
-                  fontSize: screenWidth * 0.04,
+                  color: MyMateThemes.textColor,
+                  fontSize: screenWidth*0.04,
                   fontWeight: FontWeight.normal,
                 ),
               ),
@@ -325,12 +438,12 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
           SizedBox(height: screenHeight * 0.06),
           Row(
             children: [
-              SizedBox(width: screenWidth * 0.1),
+              SizedBox(width: screenWidth*0.02),
               Text(
                 'Smoking',
                 style: TextStyle(
-                  color: MyMateThemes.textColor.withOpacity(0.7),
-                  fontSize: screenWidth * 0.04,
+                  color: MyMateThemes.textColor,
+                  fontSize: screenWidth*0.04,
                   fontWeight: FontWeight.normal,
                 ),
               ),
@@ -341,29 +454,18 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
           SizedBox(height: screenHeight * 0.06),
           Row(
             children: [
-              SizedBox(width: screenWidth * 0.1),
+              SizedBox(width: screenWidth*0.02),
               Text(
                 'Cooking',
                 style: TextStyle(
                   color: MyMateThemes.textColor,
-                  fontSize: screenWidth * 0.045,
-                  fontWeight: FontWeight.w500,
+                  fontSize: screenWidth*0.04,
+                  fontWeight: FontWeight.normal,
                 ),
               ),
             ],
           ),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.007),
 
-          // Decorative Line
-          Row(
-            children: [
-              SizedBox(width: MediaQuery.of(context).size.width * 0.08),
-              SvgPicture.asset(
-                'assets/images/Line 11.svg',
-                width: MediaQuery.of(context).size.width * 0.8,
-              ),
-            ],
-          ),
           SizedBox(height: MediaQuery.of(context).size.height * 0.04),
 
           _buildCookingSelection(selectedCookingIndex, context),
@@ -392,21 +494,21 @@ Widget Tag(BuildContext context, String text) {
   );
 }
 
-Widget SectionTitle(BuildContext context, String title) {
+Widget SectionTitle(BuildContext context, String title, String svg) {
   return Row(
     children: [
-      SizedBox(width: MediaQuery.of(context).size.width * 0.1), // 10% of screen width
+      SizedBox(width: MediaQuery.of(context).size.width * 0.05), // 10% of screen width
       SvgPicture.asset(
-        'assets/images/Group 2148.svg',
-        width: MediaQuery.of(context).size.width * 0.06, // Responsive icon size
+        svg,
+        width: MediaQuery.of(context).size.width * 0.05, // Responsive icon size
       ),
-      SizedBox(width: MediaQuery.of(context).size.width * 0.01), // Small spacing
+      SizedBox(width: MediaQuery.of(context).size.width * 0.013), // Small spacing
       Text(
         title,
         style: TextStyle(
           color: MyMateThemes.primaryColor,
-          fontSize: MediaQuery.of(context).size.width * 0.045, // Responsive font size
-          fontWeight: FontWeight.bold,
+          fontSize: MediaQuery.of(context).size.width * 0.043, // Responsive font size
+          fontWeight: FontWeight.normal,
         ),
       ),
     ],
@@ -471,7 +573,7 @@ Widget _buildAlcoholSelection(
     BuildContext context,
     ) {
   double circleSize = MediaQuery.of(context).size.width * 0.06;
-  double textSize = MediaQuery.of(context).size.width * 0.025;
+  double textSize = MediaQuery.of(context).size.width * 0.027;
   double spacing = MediaQuery.of(context).size.height * 0.015;
 
   return Stack(
@@ -498,8 +600,10 @@ Widget _buildAlcoholSelection(
                   Text(
                     _alcoholOptions[i].split(' ')[0],
                     style: TextStyle(
-                      color: Colors.grey[700],
+                      color: MyMateThemes.textColor,
                       fontSize: textSize,
+                        fontWeight: FontWeight.w300
+
                     ),
                   ),
                 ],
@@ -516,7 +620,7 @@ Widget _buildSmokingSelection(
     BuildContext context,
     ) {
   double circleSize = MediaQuery.of(context).size.width * 0.06;
-  double textSize = MediaQuery.of(context).size.width * 0.025;
+  double textSize = MediaQuery.of(context).size.width * 0.027;
   double spacing = MediaQuery.of(context).size.height * 0.015;
 
   return Stack(
@@ -543,8 +647,10 @@ Widget _buildSmokingSelection(
                   Text(
                     _smokingOptions[i].split(' ')[0],
                     style: TextStyle(
-                      color: Colors.grey[700],
+                      color: MyMateThemes.textColor,
                       fontSize: textSize,
+                        fontWeight: FontWeight.w300
+
                     ),
                   ),
                 ],
@@ -561,7 +667,7 @@ Widget _buildCookingSelection(
     BuildContext context,
     ) {
   double circleSize = MediaQuery.of(context).size.width * 0.06;
-  double textSize = MediaQuery.of(context).size.width * 0.025;
+  double textSize = MediaQuery.of(context).size.width * 0.027;
   double spacing = MediaQuery.of(context).size.height * 0.015;
 
   return Stack(
@@ -588,8 +694,9 @@ Widget _buildCookingSelection(
                   Text(
                     _cookingOptions[i],
                     style: TextStyle(
-                      color: Colors.grey[700],
+                      color:MyMateThemes.textColor,
                       fontSize: textSize,
+                      fontWeight: FontWeight.w300
                     ),
                   ),
                 ],
@@ -608,46 +715,68 @@ class _CirclePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color =
-      isActive ? MyMateThemes.primaryColor : Colors.grey.withOpacity(0.3)
-      ..style = PaintingStyle.fill;
+    final Paint paint = Paint()
+      ..color = isActive ? MyMateThemes.primaryColor : Colors.white // Fill only if active
+      ..style = isActive ? PaintingStyle.fill : PaintingStyle.stroke
+      ..strokeWidth = 3.0; // Border thickness
 
+    final Paint borderPaint = Paint()
+      ..color = isActive ? MyMateThemes.primaryColor : MyMateThemes.secondaryColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 3.0;
+
+    // Draw circle with border
     canvas.drawCircle(
-        Offset(size.width / 2, size.height / 2), size.width / 2, paint);
+      Offset(size.width / 2, size.height / 2),
+      size.width / 2.2,
+      borderPaint,
+    );
+
+    // Draw filled circle only when active
+    if (isActive) {
+      canvas.drawCircle(
+        Offset(size.width / 2, size.height / 2),
+        size.width / 2.2,
+        paint,
+      );
+    }
   }
+
+
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
     return true;
   }
 }
-
 class _LinePainter extends CustomPainter {
   final int selectedAlcoholIndex;
 
-  _LinePainter({required this.selectedAlcoholIndex});
+
+  _LinePainter({required this.selectedAlcoholIndex,});
 
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
       ..color = MyMateThemes.primaryColor
-      ..strokeWidth = 4;
+      ..strokeWidth = 3;
 
     final double segmentWidth = size.width / 5;
 
+    // Draw lines between circles
     for (int i = 0; i < 4; i++) {
-      paint.color = i < selectedAlcoholIndex
-          ? MyMateThemes.primaryColor
-          : Colors.grey.withOpacity(0.1);
+      if (i < selectedAlcoholIndex) {
+        paint.color = MyMateThemes.primaryColor;
+      } else {
+        paint.color = Colors.grey.withOpacity(0.1);
+      }
       canvas.drawLine(
-        Offset((i + 0.5) * segmentWidth, size.height / 2),
-        Offset((i + 1.5) * segmentWidth, size.height / 2),
+        Offset((i + 0.7) * segmentWidth, size.height / 2),
+        Offset((i + 1.4) * segmentWidth, size.height / 2),
         paint,
       );
     }
   }
-
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
@@ -658,23 +787,27 @@ class _LinePainter extends CustomPainter {
 class _SmokingLinePainter extends CustomPainter {
   final int selectedSmokingIndex;
 
-  _SmokingLinePainter({required this.selectedSmokingIndex});
+
+  _SmokingLinePainter({required this.selectedSmokingIndex,});
 
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
       ..color = MyMateThemes.primaryColor
-      ..strokeWidth = 4;
+      ..strokeWidth = 3;
 
     final double segmentWidth = size.width / 5;
 
+    // Draw lines between circles
     for (int i = 0; i < 4; i++) {
-      paint.color = i < selectedSmokingIndex
-          ? MyMateThemes.primaryColor
-          : Colors.grey.withOpacity(0.1);
+      if (i < selectedSmokingIndex) {
+        paint.color = MyMateThemes.primaryColor;
+      } else {
+        paint.color = Colors.grey.withOpacity(0.1);
+      }
       canvas.drawLine(
-        Offset((i + 0.5) * segmentWidth, size.height / 2),
-        Offset((i + 1.5) * segmentWidth, size.height / 2),
+        Offset((i + 0.7) * segmentWidth, size.height / 2),
+        Offset((i + 1.4) * segmentWidth, size.height / 2),
         paint,
       );
     }
@@ -686,6 +819,8 @@ class _SmokingLinePainter extends CustomPainter {
   }
 }
 
+
+
 class _LinearPainter extends CustomPainter {
   final int selectedCookingIndex;
 
@@ -695,17 +830,20 @@ class _LinearPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
       ..color = MyMateThemes.primaryColor
-      ..strokeWidth = 4;
+      ..strokeWidth = 3;
 
     final double segmentWidth = size.width / 5;
 
+    // Draw lines between circles
     for (int i = 0; i < 4; i++) {
-      paint.color = i < selectedCookingIndex
-          ? MyMateThemes.primaryColor
-          : Colors.grey.withOpacity(0.1);
+      if (i < selectedCookingIndex) {
+        paint.color = MyMateThemes.primaryColor;
+      } else {
+        paint.color = Colors.grey.withOpacity(0.1);
+      }
       canvas.drawLine(
-        Offset((i + 0.5) * segmentWidth, size.height / 2),
-        Offset((i + 1.5) * segmentWidth, size.height / 2),
+        Offset((i + 0.7) * segmentWidth, size.height / 2),
+        Offset((i + 1.4) * segmentWidth, size.height / 2),
         paint,
       );
     }

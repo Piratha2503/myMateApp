@@ -211,15 +211,16 @@ class _ExplorePageState extends State<ExplorePage> with SingleTickerProviderStat
                                 controller: _tabController,
                                 labelStyle: TextStyle(
                                   fontWeight: FontWeight.w600,
-                                  fontSize: width*0.036 ,
+                                  fontSize: 12.sp,
                                   color: MyMateThemes.textColor,
                                 ),
                                 unselectedLabelStyle: TextStyle(
                                   fontWeight: FontWeight.normal,
-                                  fontSize: width*0.035 ,
+                                  fontSize: 11.sp,
                                   color: MyMateThemes.textColor.withOpacity(0.8),
                                 ),
                                 dividerColor: Colors.transparent,
+                                indicatorColor:  Colors.transparent,
                                 indicatorPadding: EdgeInsets.only(bottom:width*0.01),
                                 // indicator: UnderlineTabIndicator(
                                 //   borderSide:  BorderSide(
@@ -256,7 +257,7 @@ class _ExplorePageState extends State<ExplorePage> with SingleTickerProviderStat
                                   padding: EdgeInsets.symmetric(horizontal: width*0.035,vertical: height*0.02),
                                   child: Container(
                                     height: height*0.1,
-                                    width:  width * 0.86 ,
+                                    width:  width * 0.88 ,
                                     decoration: BoxDecoration(
                                       border: Border.all(
                                         color: MyMateThemes.textColor.withOpacity(0.1),

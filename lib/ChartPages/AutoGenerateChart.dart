@@ -10,7 +10,8 @@ import 'PlaceDateTimeInput.dart';
 
 
 class AutogeneratechartPage extends StatefulWidget {
-  const AutogeneratechartPage({super.key});
+  final String docId;
+  const AutogeneratechartPage({super.key,required this.docId});
 
   @override
   State<AutogeneratechartPage> createState() => _AutogeneratechartPageState();
@@ -38,7 +39,7 @@ class _AutogeneratechartPageState extends State<AutogeneratechartPage> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => PlaceDateTimeInput(clientData: clientData,)));
+                    builder: (context) => PlaceDateTimeInput(clientData: clientData,docId: widget.docId,)));
           },
         ),
 
@@ -134,7 +135,7 @@ class _AutogeneratechartPageState extends State<AutogeneratechartPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => HomeScreenBeforeSubscibe(0,docId: '',)));
+                              builder: (context) => HomeScreenBeforeSubscibe(0,docId: widget.docId,)));
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: MyMateThemes.primaryColor,

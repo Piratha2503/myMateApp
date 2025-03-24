@@ -37,15 +37,15 @@ Map<String, String>? appliedSearch;
 //       _isLoading = false;
 //     }
 //   }
-Future<List<Map<String, dynamic>>> getProfiles() async {
-  try {
-    final data = await fetchAllUsers();
-    return data.isNotEmpty ? data : [];
-  } catch (e) {
-    print('Error fetching profiles: $e');
-    return [];
-  }
-}
+// Future<List<Map<String, dynamic>>> getProfiles() async {
+//   try {
+//     final data = await fetchAllUsers();
+//     return data.isNotEmpty ? data : [];
+//   } catch (e) {
+//     print('Error fetching profiles: $e');
+//     return [];
+//   }
+// }
 Future<List<Map<String, dynamic>>> getFilteredProfiles() async {
 
   try {
@@ -100,18 +100,20 @@ Widget MyMatesGrid(BuildContext context, Future<List<Map<String, dynamic>>> prof
       }
 
       final data = snapshot.data!;
-      return Expanded (
-        child:   GridView.count(
-          padding: EdgeInsets.symmetric(horizontal: 10.w),
-          crossAxisCount: 2,
-          crossAxisSpacing:0.1.h,
-          mainAxisSpacing: 0.3.w,
-          childAspectRatio: 0.7.h,
-          // Fixed width-to-height ratio
-          children: data.map((profile) => buildGridItem(profile)).toList(),
-        ),
+      return
+        LayoutBuilder(
+          builder: (context, constraints) {
 
-      );
+            return GridView.count(
+              padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.04),
+              crossAxisSpacing: constraints.maxWidth * 0.005,
+              mainAxisSpacing: constraints.maxHeight * 0.005,
+              childAspectRatio:  2.6,
+              crossAxisCount: 1,
+              children: data.map((profile) => buildViewItem(profile)).toList(),
+            );
+          },
+        );
 
     },
   );
@@ -129,18 +131,20 @@ Widget receiveRequestGrid(BuildContext context, Future<List<Map<String, dynamic>
       }
 
       final data = snapshot.data!;
-      return Expanded (
-        child:   GridView.count(
-          padding: EdgeInsets.symmetric(horizontal: 10.w),
-          crossAxisCount: 2,
-          crossAxisSpacing:0.1.h,
-          mainAxisSpacing: 0.3.w,
-          childAspectRatio: 0.7.h,
-          // Fixed width-to-height ratio
-          children: data.map((profile) => buildGridItem(profile)).toList(),
-        ),
+      return
+        LayoutBuilder(
+          builder: (context, constraints) {
 
-      );
+            return GridView.count(
+              padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.04),
+              crossAxisSpacing: constraints.maxWidth * 0.005,
+              mainAxisSpacing: constraints.maxHeight * 0.005,
+              childAspectRatio:  2.6,
+              crossAxisCount: 1,
+              children: data.map((profile) => buildViewItem(profile)).toList(),
+            );
+          },
+        );
 
     },
   );
@@ -158,25 +162,27 @@ Widget sendRequestGrid(BuildContext context, Future<List<Map<String, dynamic>>> 
       }
 
       final data = snapshot.data!;
-      return Expanded (
-        child:   GridView.count(
-          padding: EdgeInsets.symmetric(horizontal: 10.w),
-          crossAxisCount: 2,
-          crossAxisSpacing:0.1.h,
-          mainAxisSpacing: 0.3.w,
-          childAspectRatio: 0.7.h,
-          // Fixed width-to-height ratio
-          children: data.map((profile) => buildGridItem(profile)).toList(),
-        ),
+      return
+        LayoutBuilder(
+          builder: (context, constraints) {
 
-      );
+            return GridView.count(
+              padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.04),
+              crossAxisSpacing: constraints.maxWidth * 0.005,
+              mainAxisSpacing: constraints.maxHeight * 0.005,
+              childAspectRatio:  2.6,
+              crossAxisCount: 1,
+              children: data.map((profile) => buildViewItem(profile)).toList(),
+            );
+          },
+        );
 
     },
   );
 }
 
 
-Widget buildGridItem(Map<String, dynamic> profile) {
+Widget buildGridItem(Map<String, dynamic> profiles) {
   return Builder(
     builder: (context) {
       return
@@ -184,16 +190,20 @@ Widget buildGridItem(Map<String, dynamic> profile) {
           child:
           GestureDetector(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => OtherProfilePage(SoulId: profile['id']),
-                ),
-              );
+              if (profiles.containsKey('docId')) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => OtherProfilePage(SoulId: profiles['docId']),
+                  ),
+                );
+              } else {
+                print("Error: docId not found for this profile");
+              }
             },
             child: Container(
-              height: 300.h,  // Responsive height
-              width: 152.w,   // Responsive width
+              height: 300.h,
+              width: 152.w,
               decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(
@@ -202,7 +212,7 @@ Widget buildGridItem(Map<String, dynamic> profile) {
                 ),
                 borderRadius: BorderRadius.circular(8.r),
               ),
-              margin: EdgeInsets.all(8.w),  // Responsive margin
+              margin: EdgeInsets.all(8.w),
               child: Stack(
                 children: [
                   // Profile Image
@@ -215,14 +225,14 @@ Widget buildGridItem(Map<String, dynamic> profile) {
                       //   width: 1,
                       // ),
                       borderRadius: BorderRadius.circular(8),
-                      image: (profile['images'] != null && profile['images'].isNotEmpty)
+                      image: (profiles['profileImages']?['profile_pic_url'] != null && profiles['profileImages']?['profile_pic_url'].isNotEmpty)
                           ? DecorationImage(
-                        image: NetworkImage(profile['images']),
+                        image: NetworkImage(profiles['profileImages']?['profile_pic_url']),
                         fit: BoxFit.cover,
                       )
                           : null,
                     ),
-                    child: (profile['images'] == null || profile['images'].isEmpty)
+                    child: (profiles['profileImages']?['profile_pic_url'] == null || profiles['profileImages']?['profile_pic_url'].isEmpty)
                         ? Icon(Icons.person, size: 80.r, color: Colors.grey[400])
                         : null,
                   ),
@@ -246,7 +256,7 @@ Widget buildGridItem(Map<String, dynamic> profile) {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            profile['full_name'] ?? 'N/A',
+                            profiles['personalDetails']?['full_name'] ?? 'N/A',
                             style: TextStyle(
                               color: MyMateThemes.textColor,
                               fontWeight: FontWeight.w700,
@@ -254,20 +264,20 @@ Widget buildGridItem(Map<String, dynamic> profile) {
                             ),
                           ),
                           Text(
-                            '${profile['age'] ?? 'N/A'}, ${profile['marital_status'] ?? 'N/A'}',
+                            '${profiles ['personalDetails']?['age'] ?? 'N/A'}, ${profiles ['personalDetails']?['marital_status'] ?? 'N/A'}',
                             style: TextStyle(
                               color: MyMateThemes.textColor,
                               fontSize:  11.sp,
                             ),
                           ),
                           Text(
-                            profile['occupation'] ?? 'N/A',
+                            profiles['careerStudies']?['occupation'] ?? 'N/A',
                             style: TextStyle(
                               color: MyMateThemes.textColor,
                               fontSize:  11.sp,
                             ),
                           ),
-                          Text(profile['city'] ?? 'N/A',
+                          Text(profiles['contactInfo']?['address']?['city'] ?? 'N/A',
                               style: TextStyle(
                                   color: MyMateThemes.textColor, fontSize: 11.sp)),
                           SizedBox(height: 5.h),
@@ -298,6 +308,157 @@ Widget buildGridItem(Map<String, dynamic> profile) {
             ),
           ),);
 
+    },
+  );
+}
+
+Widget buildViewItem(Map<String, dynamic> profile) {
+  return LayoutBuilder(
+    builder: (context, constraints) {
+      return GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => OtherProfilePage(SoulId: profile['id']),
+            ),
+          );
+        },
+        child: Container(
+          height: constraints.maxHeight * 0.2,  // Responsive height
+          width: constraints.maxWidth * 0.8,   // Responsive width
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(
+              //color: MyMateThemes.textColor.withOpacity(0.8),
+              color: Colors.white,
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(constraints.maxWidth * 0.02),
+          ),
+          margin: EdgeInsets.all(constraints.maxWidth * 0.02),
+          child:
+          Column(
+            children: [
+              SizedBox(height: constraints.maxHeight * 0.1), // Use constraints
+
+              Row(
+                children: [
+                  SizedBox(width: constraints.maxWidth * 0.05), // Use constraints
+                  Container(
+                    width: constraints.maxWidth * 0.3,
+                    height: constraints.maxWidth * 0.3,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: MyMateThemes.premiumAccent,
+                        width: constraints.maxWidth * 0.01,
+                      ),
+                      image: (profile['images'] != null && profile['images'].isNotEmpty)
+                          ? DecorationImage(
+                        image: NetworkImage(profile['images']),
+                        fit: BoxFit.cover,
+                      )
+                          : null,
+                    ),
+                    child: (profile['images'] == null || profile['images'].isEmpty)
+                        ? ClipOval(
+                      child: Icon(
+                        Icons.person,
+                        size: constraints.maxWidth * 0.1,
+                        color: Colors.grey[400],
+                      ),
+                    )
+                        : null,
+                  ),
+
+                  SizedBox(width: constraints.maxWidth * 0.06),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height:  constraints.maxHeight * 0.06),
+                      Padding(
+                        padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.02), // Use constraints
+                        child:
+                        Text(
+                          profile['full_name'] ?? 'N/A',
+                          style: TextStyle(
+                            color: MyMateThemes.textColor,
+                            fontWeight: FontWeight.w700,
+                            fontSize: constraints.maxWidth * 0.04,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.02), // Use constraints
+                        child: Row(
+                          children: [
+                            Text(
+                              '${profile['age'] ?? 'N/A'}, ${profile['marital_status'] ?? 'N/A'}',
+                              style: TextStyle(
+                                color: MyMateThemes.textColor,
+                                fontSize: constraints.maxWidth * 0.03,
+                              ),
+                            ),
+
+                          ],
+                        ),
+                      ),
+
+                      Padding(
+                        padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.04), // Use constraints
+                        child:
+                        Text(
+                          profile['city'] ?? 'N/A',
+                          style: TextStyle(
+                            color: MyMateThemes.textColor,
+                            fontSize: constraints.maxWidth * 0.03,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.02), // Use constraints
+                        child: Container(
+                          width: constraints.maxWidth * 0.25, // Use constraints
+                          height: constraints.maxHeight * 0.18, // Use constraints
+                          decoration: BoxDecoration(
+                            color: MyMateThemes.secondaryColor,
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                'assets/images/heart .svg',
+
+                                width: constraints.maxWidth * 0.03,
+                              ),
+                              SizedBox(width: constraints.maxWidth * 0.02),
+                              Text(
+                                '80 - 100%',
+                                style: TextStyle(
+                                  color: MyMateThemes.primaryColor,
+                                  fontSize: constraints.maxWidth * 0.03,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+
+                    ],
+
+
+
+                  ),
+                ],
+              ),
+
+            ],
+          ),
+        ),
+      );
     },
   );
 }
