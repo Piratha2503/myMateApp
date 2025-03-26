@@ -264,7 +264,7 @@ class _OtpResendWidget extends StatefulWidget {
 }
 
 class __OtpResendWidgetState extends State<_OtpResendWidget> {
-  int resendTime = 20;
+  int resendTime = 120;
   Timer? countdownTimer;
 
   @override
@@ -324,7 +324,7 @@ class __OtpResendWidgetState extends State<_OtpResendWidget> {
             ),
             onPressed: () {
               setState(() {
-                resendTime = 20;
+                resendTime = 120;
                 startTimer();
               });
             },
