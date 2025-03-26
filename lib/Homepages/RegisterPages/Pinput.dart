@@ -50,7 +50,9 @@ class _OtpPinputState extends State<OtpPinput> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
       ),
       body: Form(
@@ -72,20 +74,38 @@ class _OtpPinputState extends State<OtpPinput> {
 }
 
 Widget InstructionTexts(String? mobile){
-  return Column(
-    children: <Widget>[
-      Text(
-        "Enter your Pin number",
-        style: TextStyle(
-          fontSize: 20,
-          fontFamily: "Work Sans",
-          fontWeight: FontWeight.w500,
-        ),
-      ),
-      SizedBox( height: 15,),
-      Text("Enter the code from the sms we sent", style: MyTextStyle(),),
-      Text("to $mobile", style: MyTextStyle(),),
-    ],
+  return Builder(
+    builder: (context) {
+      double width = MediaQuery.of(context).size.width;
+      double height = MediaQuery.of(context).size.height;
+      return Column(
+        children: <Widget>[
+          Text(
+            "Enter verification code",
+            style: TextStyle(
+              fontSize: width*0.05,
+              color: MyMateThemes.textColor,
+              fontWeight: FontWeight.w600,
+              letterSpacing: 0.5
+            ),
+          ),
+          SizedBox( height: 15,),
+          Text("Enter the code from the sms we sent",
+            style: TextStyle(
+            fontSize: width*0.038,
+            color: MyMateThemes.textColor,
+            fontWeight: FontWeight.normal,
+          ),
+          ),
+          Text("to $mobile",    style: TextStyle(
+            fontSize: width*0.038,
+            color: MyMateThemes.textColor,
+            fontWeight: FontWeight.normal,
+          )
+            ,),
+        ],
+      );
+    }
   );
 }
 
@@ -114,28 +134,30 @@ class _OtpBoxesState extends State<OtpBoxes>{
   static const borderColor = Color.fromRGBO(23, 171, 144, 0.4);
 
   final defaultPinTheme = PinTheme(
-    width: 65,
-    height: 65,
-    textStyle: const TextStyle(
+    width: 60,
+    height: 60,
+    textStyle:  TextStyle(
         fontSize: 24,
-        fontWeight: FontWeight.w600,
-        color: Colors.deepPurple
+        fontWeight: FontWeight.normal,
+        color: MyMateThemes.primaryColor
     ),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10),
-      border: Border.all(color: Colors.indigo,width: 1),
+      color: MyMateThemes.secondaryColor,
+     // border: Border.all(color:MyMateThemes.primaryColor,width: 1),
     ),
   );
 
   @override
   Widget build(BuildContext context){
     String otp = "${widget.clientData.contactInfo?.otp}";
-
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Pinput(
         defaultPinTheme: defaultPinTheme,
-        separatorBuilder: (index) => const SizedBox(width: 12),
+        separatorBuilder: (index) =>  SizedBox(width: width*0.025),
         validator: (value) {
           return value == otp ? null : 'Incorrect Pin';
         },
@@ -195,28 +217,30 @@ class _OtpBoxesState extends State<OtpBoxes>{
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             Container(
-              margin: const EdgeInsets.only(bottom: 9),
-              width: 30,
-              height: 3,
-              color: Colors.indigo,
+              margin:  EdgeInsets.only(bottom: height*0.01),
+              width: width*0.1,
+              height: height*0.001,
+              color: MyMateThemes.textColor,
+
             ),
           ],
         ),
         focusedPinTheme: defaultPinTheme.copyWith(
           decoration: defaultPinTheme.decoration!.copyWith(
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: MyMateThemes.primaryColor,width: 3),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(width*0.02),
+            border: Border.all(color: MyMateThemes.primaryColor,width:width*0.002),
           ),
         ),
         submittedPinTheme: defaultPinTheme.copyWith(
           decoration: defaultPinTheme.decoration!.copyWith(
-            color: Color.fromRGBO(232,232,232,100),
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: focusedBorderColor, width: 2),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(width*0.02),
+            border: Border.all(color: MyMateThemes.primaryColor,width:width*0.004),
           ),
         ),
         errorPinTheme: defaultPinTheme.copyBorderWith(
-          border: Border.all(color: Colors.redAccent),
+          border: Border.all(color: Color(0xF8F81628)),
         ),
       ),
     );
@@ -224,16 +248,37 @@ class _OtpBoxesState extends State<OtpBoxes>{
 }
 
 Widget OtpResend(){
-  return Center(
-    child:  Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Text( "Resend OTP again in ", style: TextStyle( fontSize: 20,),),
-        Text( "01.44", style: TextStyle( fontSize: 20, fontWeight: FontWeight.bold, color: MyMateThemes.textColor),
-        )
-      ],
-    ),
-  );
+  return
+    Builder(
+      builder: (context) {
+        double width = MediaQuery.of(context).size.width;
+        double height = MediaQuery.of(context).size.height;
+        return Center(
+          child:  Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+
+            children: <Widget>[
+              Text(
+                "Resend OTP again in ",
+                style: TextStyle(
+                    fontSize:width*0.05,
+                    color: MyMateThemes.textColor,
+                  fontWeight: FontWeight.normal
+                ),
+              ),
+              Text(
+                " 01.44",
+                style: TextStyle(
+                    fontSize: width*0.05,
+                    fontWeight: FontWeight.w700,
+                    color: MyMateThemes.primaryColor),
+              )
+            ],
+          ),
+        );
+      }
+    )
+  ;
 }
 
 class SmsRetrieverImpl implements SmsRetriever {

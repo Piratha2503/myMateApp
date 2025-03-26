@@ -30,23 +30,22 @@ class _WelcomePageState extends State<WelcomePage> {
           children: <Widget>[
             SizedBox(height: height*0.08),
             ImageCarouselWidget(),
-            SizedBox(height: height*0.03),
+            SizedBox(height: height*0.02),
             FindYourSoulmate(),
-            SizedBox(height: height*0.05),
+            SizedBox(height: height*0.04),
             ReadOurPrivacyPolicy(),
             PolicyRead(),
             TermsAndPolicies(),
             SizedBox(height: height*0.02),
             GetStartButton(width,height),
-            SizedBox(height:height*0.04),
+            SizedBox(height:height*0.03),
             Text(
               " Copyright @ 2025 Gray Corp (Pvt) Ltd",
               style: TextStyle(
-                fontSize: width*0.03,
+                fontSize: width*0.026,
                 fontWeight: FontWeight.normal,
                 color: MyMateThemes.textColor,
-                fontFamily: "Work Sans",
-                letterSpacing: 0.6
+                letterSpacing: 0.5
 
               ),
             ),
@@ -63,8 +62,8 @@ class _WelcomePageState extends State<WelcomePage> {
           double height = constraints.maxHeight;
         return Center(
           child: Container(
-            height:  constraints.maxWidth* 1.1,
-            width:  constraints.maxWidth*0.88,
+            height:  constraints.maxWidth* 1.25,
+            width:  constraints.maxWidth*0.93,
             child: Column(
               children: [
                 Expanded(
@@ -106,8 +105,8 @@ class _WelcomePageState extends State<WelcomePage> {
                     return AnimatedContainer(
                       duration:  Duration(milliseconds: 300),
                       margin:  EdgeInsets.symmetric(horizontal: 5),
-                      height: width *0.025,
-                      width: width*0.025,
+                      height: width *0.02,
+                      width: width*0.02,
                       //width: currentStepIndex == index ? 20 : 10,
                       decoration: BoxDecoration(
                         color: currentStepIndex == index
@@ -139,19 +138,19 @@ Widget FindYourSoulmate() {
             "Find your soulmate with",
             style: TextStyle(
               color: MyMateThemes.textColor,
-              fontSize: width*0.04,
+              fontSize: width*0.042,
               fontWeight: FontWeight.normal,
-              fontFamily: "Work Sans",
+              letterSpacing: 0.8
 
             ),
           ),
           Text(
             " MyMate",
             style: TextStyle(
-              fontSize:  width*0.04,
+              fontSize:  width*0.042,
               fontWeight: FontWeight.w700,
               color: MyMateThemes.primaryColor,
-              fontFamily: "Work Sans",
+              letterSpacing: 0.8
 
             ),
           ),
@@ -172,9 +171,10 @@ Widget ReadOurPrivacyPolicy() {
            Text(
             "Read our",
             style: TextStyle(
-              fontSize: width*0.035,
+              fontSize: width*0.033,
               color: MyMateThemes.textColor,
-              letterSpacing: 0.8
+              fontWeight: FontWeight.normal,
+              letterSpacing: 0.5
 
             ),
           ),
@@ -184,7 +184,7 @@ Widget ReadOurPrivacyPolicy() {
                 fontSize: width*0.033,
                 fontWeight: FontWeight.w500,
                 color: MyMateThemes.primaryColor,
-                letterSpacing: 0.8
+                letterSpacing: 0.5
 
             ),
           ),
@@ -208,7 +208,7 @@ Widget TermsAndPolicies() {
                 fontSize: width*0.033,
                 fontWeight: FontWeight.w500,
                 color: MyMateThemes.primaryColor,
-                letterSpacing: 0.8
+                letterSpacing: 0.5
 
             ),
           ),
@@ -246,15 +246,15 @@ class PolicyRead extends StatelessWidget {
                       fontSize: width*0.033,
                       fontWeight: FontWeight.normal,
                       color: MyMateThemes.textColor,
-                        letterSpacing: 0.8
+                        letterSpacing: 0.5
                     ),),
                   Text(
                     ' "Get Started"',
                     style: TextStyle(
                         fontSize:width*0.033,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w500,
                         color: MyMateThemes.primaryColor,
-                        letterSpacing: 0.8
+                        letterSpacing: 0.5
                     ),
                   ),
                    Text(' you agree to our',
@@ -262,7 +262,7 @@ class PolicyRead extends StatelessWidget {
                       fontSize: width*0.033,
                       fontWeight: FontWeight.normal,
                       color: MyMateThemes.textColor,
-                          letterSpacing: 0.8
+                          letterSpacing: 0.5
                       )),
                 ],
               ),

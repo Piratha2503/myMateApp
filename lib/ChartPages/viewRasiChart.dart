@@ -96,7 +96,7 @@ class _ViewRasiChartPageState extends State<ViewRasiChartPage> {
 
                   ),
 
-                  SizedBox(height: height*0.09,),
+                  SizedBox(height: height*0.06,),
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -159,6 +159,7 @@ class _ViewRasiChartPageState extends State<ViewRasiChartPage> {
 
                     ],
                   ),
+                  SizedBox(height: height*0.01,),
 
                 ],
               ),
