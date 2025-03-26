@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:mymateapp/Homepages/RegisterPages/NameAndGenderPage.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import 'package:mymateapp/dbConnection/Firebase_DB.dart';
 import 'package:pinput/pinput.dart';
+import 'package:shaky_animated_listview/animators/grid_animator.dart';
 import 'package:smart_auth/smart_auth.dart';
 
 import '../../MyMateThemes.dart';
@@ -23,6 +25,7 @@ class OtpPinput extends StatefulWidget {
 class _OtpPinputState extends State<OtpPinput> {
 
   _OtpPinputState();
+
 
   late final SmsRetriever smsRetriever;
   late final TextEditingController pinController;
@@ -49,6 +52,8 @@ class _OtpPinputState extends State<OtpPinput> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -60,11 +65,11 @@ class _OtpPinputState extends State<OtpPinput> {
         child:Column(
             children: <Widget>[
               InstructionTexts(widget.clientData.contactInfo?.mobile),
-              SizedBox( height: 90,),
+              SizedBox( height: height*0.08,),
               OtpBoxes(clientData: widget.clientData, docId: widget.docId,),
-              SizedBox( height: 65,),
+              SizedBox( height: height*0.03,),
               OtpResend(),
-              SizedBox( height: 50, ),
+              SizedBox( height:height*0.05, ),
             ]
         ),
 
@@ -85,7 +90,7 @@ Widget InstructionTexts(String? mobile){
             style: TextStyle(
               fontSize: width*0.05,
               color: MyMateThemes.textColor,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w500,
               letterSpacing: 0.5
             ),
           ),
@@ -143,8 +148,8 @@ class _OtpBoxesState extends State<OtpBoxes>{
     ),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10),
-      color: MyMateThemes.secondaryColor,
-     // border: Border.all(color:MyMateThemes.primaryColor,width: 1),
+
+      border: Border.all(color:MyMateThemes.primaryColor,width: 1),
     ),
   );
 
@@ -247,38 +252,104 @@ class _OtpBoxesState extends State<OtpBoxes>{
   }
 }
 
-Widget OtpResend(){
-  return
-    Builder(
-      builder: (context) {
-        double width = MediaQuery.of(context).size.width;
-        double height = MediaQuery.of(context).size.height;
-        return Center(
-          child:  Row(
-            mainAxisAlignment: MainAxisAlignment.center,
 
-            children: <Widget>[
-              Text(
-                "Resend OTP again in ",
-                style: TextStyle(
-                    fontSize:width*0.05,
-                    color: MyMateThemes.textColor,
-                  fontWeight: FontWeight.normal
-                ),
-              ),
-              Text(
-                " 01.44",
-                style: TextStyle(
-                    fontSize: width*0.05,
-                    fontWeight: FontWeight.w700,
-                    color: MyMateThemes.primaryColor),
-              )
-            ],
-          ),
-        );
+
+Widget OtpResend() {
+  return _OtpResendWidget();
+}
+
+class _OtpResendWidget extends StatefulWidget {
+  @override
+  __OtpResendWidgetState createState() => __OtpResendWidgetState();
+}
+
+class __OtpResendWidgetState extends State<_OtpResendWidget> {
+  int resendTime = 20;
+  Timer? countdownTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    startTimer();
+  }
+
+  void startTimer() {
+    countdownTimer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (resendTime == 0) {
+        timer.cancel();
+      } else {
+        setState(() {
+          resendTime--;
+        });
       }
-    )
-  ;
+    });
+  }
+
+  @override
+  void dispose() {
+    countdownTimer?.cancel();
+    super.dispose();
+  }
+
+  String formatTime(int seconds) {
+    int minutes = seconds ~/ 60;
+    int remainingSeconds = seconds % 60;
+    return '${minutes.toString().padLeft(2, '0')}:${remainingSeconds.toString().padLeft(2, '0')}';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+
+    return Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center, // Force vertical center alignment
+        children: <Widget>[
+          Text(
+            resendTime == 0 ? '' : "Resend OTP in ",
+            style: TextStyle(
+              fontSize: width * 0.05,
+              color: MyMateThemes.textColor,
+              fontWeight: FontWeight.normal,
+            ),
+          ),
+          resendTime == 0
+              ? TextButton(
+            style: TextButton.styleFrom(
+              padding: EdgeInsets.zero, // Removes vertical padding
+              minimumSize: Size(0, 0), // Removes min height constraint
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              alignment: Alignment.centerLeft, // Aligns the text inside properly
+            ),
+            onPressed: () {
+              setState(() {
+                resendTime = 20;
+                startTimer();
+              });
+            },
+            child: Text(
+              'Resend OTP',
+              style: TextStyle(
+                color: MyMateThemes.primaryColor,
+                fontSize: width * 0.045, // Match font size
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          )
+              : Text(
+            formatTime(resendTime),
+            style: TextStyle(
+              fontSize: width * 0.05,
+              fontWeight: FontWeight.w600,
+              color: MyMateThemes.primaryColor,
+              letterSpacing: 0.8,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class SmsRetrieverImpl implements SmsRetriever {
