@@ -53,7 +53,7 @@ class _NameAndGenderState extends State<NameAndGender> {
         PersonalDetails personalDetails = PersonalDetails();
 
         return Scaffold(
-          backgroundColor: MyMateThemes.backgroundColor,
+          backgroundColor:Colors.white,
           body: SingleChildScrollView(
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
 
@@ -158,21 +158,26 @@ class GenderButton extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
-    return SizedBox(
-      height: height*0.14,
+    return Container(
+      height: height*0.145,
       width: width*0.27,
+
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: isSelected ? MyMateThemes.primaryColor.withOpacity(0.8) : MyMateThemes.textColor.withOpacity(0.3),
+          width:  isSelected ? width * 0.004 :width * 0.002 , // Use constraints
+        ),
+        borderRadius: BorderRadius.circular(width*0.01),
+      ),
       child: ElevatedButton(
         onPressed: onSelected,
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(MyMateThemes.backgroundColor),
-          side: MaterialStateProperty.all(
-            BorderSide(
-              color: isSelected ? MyMateThemes.primaryColor : MyMateThemes.secondaryColor,
-              width: width*0.005,
-            ),
+        style: ElevatedButton.styleFrom(
+          backgroundColor:Colors.white,
+          elevation:0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(width*0.01),
           ),
-          fixedSize: MaterialStateProperty.all(Size(width * 0.3, width * 0.3)),
-          shape: MaterialStateProperty.all(RoundedRectangleBorder()),
+          // padding: EdgeInsets.all(10)
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -181,7 +186,7 @@ class GenderButton extends StatelessWidget {
             SizedBox(height: width * 0.02),
             Text(
               gender,
-              style: TextStyle(fontWeight: FontWeight.w500, fontSize: width * 0.04),
+              style: TextStyle(fontWeight: FontWeight.normal,color: MyMateThemes.textColor, fontSize: width * 0.04),
             ),
           ],
         ),
@@ -208,7 +213,7 @@ Widget InputField(String inputName, TextEditingController nameController) {
               contentPadding: EdgeInsets.symmetric(horizontal:width* 0.02), // Adjust padding
 
               hintText: inputName,
-              hintStyle: TextStyle(color: MyMateThemes.textColor.withOpacity(0.5), fontSize: width*0.05,fontWeight: FontWeight.normal),
+              hintStyle: TextStyle(color: MyMateThemes.textColor.withOpacity(0.5), fontSize: width*0.045,fontWeight: FontWeight.normal),
                   enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
                   color: MyMateThemes.textColor.withOpacity(0.3),
@@ -225,7 +230,7 @@ Widget InputField(String inputName, TextEditingController nameController) {
             style: TextStyle(
               fontWeight: FontWeight.normal,
               color: MyMateThemes.textColor,
-              fontSize: width*0.05,
+              fontSize: width*0.045,
             ),
           ),
         ),
@@ -299,7 +304,7 @@ class NextButton extends StatelessWidget {
         style: CommonButtonStyle.commonButtonStyle(),
         child: Text(
           "Get Started",
-          style: TextStyle(fontSize: width * 0.04),
+          style: TextStyle(fontSize: width * 0.04,fontWeight: FontWeight.normal),
         ),
       ),
     );

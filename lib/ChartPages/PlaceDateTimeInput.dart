@@ -38,14 +38,14 @@ class _PlaceDateTimeInputState extends State<PlaceDateTimeInput> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
         builder: (context, constraints) {
-          final double width = constraints.maxWidth;
-          final double height = constraints.maxHeight;
+          final width = MediaQuery.of(context).size.width;
+          final height = MediaQuery.of(context).size.height;
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
             backgroundColor: Colors.white,
             leading: IconButton(
-              icon: Icon(Icons.arrow_back_ios, color: MyMateThemes.primaryColor),
+              icon: Icon(Icons.arrow_back_ios, size:height*0.025,color: MyMateThemes.primaryColor),
               onPressed: () {
                 Navigator.push(
                     context,
@@ -66,31 +66,32 @@ class _PlaceDateTimeInputState extends State<PlaceDateTimeInput> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(birthDetails,
-                      style: TextStyle( fontSize: width*0.054,fontWeight: FontWeight.w700 ,color: MyMateThemes.textColor,letterSpacing: 0.8),
+                      style: TextStyle( fontSize: width*0.05,fontWeight: FontWeight.w600 ,color: MyMateThemes.textColor,letterSpacing:1),
                     ),
                     // SizedBox(height:5),
                     Text( calculate,
-                      style: TextStyle( fontSize: width*0.054,fontWeight: FontWeight.w700 ,color: MyMateThemes.primaryColor,letterSpacing: 0.8),
+                      style: TextStyle( fontSize: width*0.05,fontWeight: FontWeight.w600 ,color: MyMateThemes.primaryColor,letterSpacing: 1),
 
                     ),
                     SizedBox(height: height*0.02),
-                    Text(text1,style: TextStyle(color: MyMateThemes.textColor,fontSize: width*0.038,fontWeight: FontWeight.normal,letterSpacing: 0.5),),
-                    Text(text2,style: TextStyle(color: MyMateThemes.textColor,fontSize:  width*0.038,fontWeight: FontWeight.normal,letterSpacing: 0.5),),
-                    Text(text3,style: TextStyle(color: MyMateThemes.textColor,fontSize:  width*0.038,fontWeight: FontWeight.normal,letterSpacing: 0.5),),
+                    Text(text1,style: TextStyle(color: MyMateThemes.textColor,fontSize: width*0.036,fontWeight: FontWeight.normal),),
+                    Text(text2,style: TextStyle(color: MyMateThemes.textColor,fontSize:  width*0.036,fontWeight: FontWeight.normal),),
+                    Text(text3,style: TextStyle(color: MyMateThemes.textColor,fontSize:  width*0.036,fontWeight: FontWeight.normal),),
 
                     SizedBox(height: height*0.03),
                   ],
                 ),
+
                 Center(
                   child: SizedBox(
                     width: width*0.8,
                     child: GooglePlaceAutoCompleteTextField(
                       countries: ["LK"],
-                      textStyle: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: width*0.045,
-                          color:MyMateThemes.textColor
-                      ),
+                      // textStyle: TextStyle(
+                      //     fontWeight: FontWeight.w600,
+                      //     fontSize: width*0.045,
+                      //     color:MyMateThemes.textColor
+                      // ),
                       boxDecoration: BoxDecoration(
                           border: Border(
                               bottom: BorderSide(width: 1.0,color:MyMateThemes.textColor.withOpacity(0.3)))
@@ -101,11 +102,17 @@ class _PlaceDateTimeInputState extends State<PlaceDateTimeInput> {
                         hintText: "Place of birth (city)",
                         hintStyle: TextStyle(
                           color:MyMateThemes.textColor.withOpacity(0.3),
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.normal,
                           fontSize: width*0.045,
                         ),
+
                         border: InputBorder.none,
                         enabledBorder: InputBorder.none,
+                      ),
+                      textStyle: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        color: MyMateThemes.textColor,
+                        fontSize: width*0.045,
                       ),
                       debounceTime: 400,
                       isLatLngRequired: true,
@@ -148,6 +155,8 @@ class _PlaceDateTimeInputState extends State<PlaceDateTimeInput> {
                     ),
                   ),
                 ),
+
+                SizedBox(height: height*0.01),
                 Center(
                   child: Container(
                       width: width*0.8,
@@ -164,13 +173,16 @@ class _PlaceDateTimeInputState extends State<PlaceDateTimeInput> {
                             border: InputBorder.none,
                             suffixIcon:  Icon(Icons.calendar_month,color: MyMateThemes.primaryColor,),
                             hintText:  widget.date_default_text,
-
                             hintStyle: TextStyle(
-
                               color: MyMateThemes.textColor.withOpacity(0.3),
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.normal,
                               fontSize: width*0.045,),
 
+                          ),
+                          style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            color: MyMateThemes.textColor,
+                            fontSize: width*0.05,
                           ),
                           onTap: (){
                             DatePicker.showDatePicker(
@@ -192,6 +204,8 @@ class _PlaceDateTimeInputState extends State<PlaceDateTimeInput> {
                       )
                   ),
                 ),
+
+                SizedBox(height: height*0.01),
                 Center(
                   child: Container(
                       width: width*0.77,
@@ -207,10 +221,15 @@ class _PlaceDateTimeInputState extends State<PlaceDateTimeInput> {
                               hintText: widget.time_default_text,
                               hintStyle: TextStyle(
                                 color: MyMateThemes.textColor.withOpacity(0.3),
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.normal,
                                 fontSize: width*0.045,
                               ),
                               border: InputBorder.none
+                          ),
+                          style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            color: MyMateThemes.textColor,
+                            fontSize: width*0.05,
                           ),
                           onTap: (){
                             DatePicker.showTimePicker(
@@ -233,7 +252,9 @@ class _PlaceDateTimeInputState extends State<PlaceDateTimeInput> {
                       )
                   ),
                 ),
+
                 SizedBox(height: height*0.1,),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
