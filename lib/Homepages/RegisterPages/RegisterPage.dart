@@ -9,6 +9,7 @@ import 'package:mymateapp/MyMateCommonBodies/MyMateApis.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/dbConnection/Firebase_DB.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:country_picker/country_picker.dart';
 
 import '../../dbConnection/ClientDatabase.dart';
 
@@ -32,16 +33,24 @@ class _RegisterPageState extends State<RegisterPage> {
     }
 
     return Scaffold(
-        backgroundColor: Color(0xFFFBFFFB),
-        appBar: AppBar(),
-        body: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            EnterYourPhoneNumber(),
-            SizedBox(height: 15,),
-            TextInstructions(),
-            PhoneFieldAndNextButton(),
-          ],
+        backgroundColor: Colors.white,
+        // appBar: AppBar(),
+        body: LayoutBuilder(
+            builder: (context, constraints) {
+              double width = constraints.maxWidth;
+              double height = constraints.maxHeight;
+              return Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  SizedBox(height: height*0.1,),
+
+                  EnterYourPhoneNumber(),
+                  SizedBox(height: height*0.02,),
+                  TextInstructions(),
+                  PhoneFieldAndNextButton(),
+                ],
+              );
+            }
         )
     );
   }
@@ -50,71 +59,79 @@ class _RegisterPageState extends State<RegisterPage> {
 
 
 Widget EnterYourPhoneNumber(){
-  return Center(
-    child: Text(
-      "Enter your phone number",
-      style: TextStyle(
-        fontSize: 20,
-        fontFamily: "Work Sans",
-        fontWeight: FontWeight.w700,
-        color: MyMateThemes.textColor,
-        letterSpacing: 0.8,
+  return LayoutBuilder(
+      builder: (context, constraints) {
+        double width = constraints.maxWidth;
+        double height = constraints.maxHeight;
+        return Center(
+          child: Text(
+            "Enter your phone number",
+            style: TextStyle(
+              fontSize: width*0.046,
+              fontWeight: FontWeight.w600,
+              color: MyMateThemes.textColor,
+              letterSpacing: 0.8,
 
-      ),
-    ),
+            ),
+          ),
+        );
+      }
   );
 }
 
 Widget TextInstructions(){
-  return Column(
-    children: <Widget>[
-      Center(
-        child: Text("Make sure this number can receive SMS.",
-          style: TextStyle(
-              fontSize: 14,
-              color: MyMateThemes.textColor,
-              fontFamily: "Work Sans",
-              fontWeight: FontWeight.normal,
-              letterSpacing: 0.6,
-              wordSpacing: 0.5
+  return LayoutBuilder(
+      builder: (context, constraints) {
+        double width = constraints.maxWidth;
+        double height = constraints.maxHeight;
+        return Column(
+          children: <Widget>[
+            Center(
+              child: Text("Make sure this number can receive SMS.",
+                style: TextStyle(
+                    fontSize: width*0.035,
+                    color: MyMateThemes.textColor,
+                    fontWeight: FontWeight.normal,
+                    letterSpacing: 0.6,
+                    wordSpacing: 0.5
 
 
-          ),
-        ),
-      ),
-      Center(
-        child: Text(
-          "You will receive your activation code",
-          style: TextStyle(
-              fontSize: 14,
-              color: MyMateThemes.textColor,
-              fontFamily: "Work Sans",
-              fontWeight: FontWeight.normal,
-              letterSpacing: 0.6,
-              wordSpacing: 0.5
-
-
-
-          ),
-        ),
-      ),
-      Center(
-        child: Text(
-          "through it",
-          style: TextStyle(
-              fontSize: 14,
-              color: MyMateThemes.textColor,
-              fontFamily: "Work Sans",
-              fontWeight: FontWeight.normal,
-              letterSpacing: 0.6,
-              wordSpacing: 0.5
+                ),
+              ),
+            ),
+            Center(
+              child: Text(
+                "You will receive your activation code",
+                style: TextStyle(
+                    fontSize: width*0.035,
+                    color: MyMateThemes.textColor,
+                    fontWeight: FontWeight.normal,
+                    letterSpacing: 0.6,
+                    wordSpacing: 0.5
 
 
 
-          ),
-        ),
-      ),
-    ],
+                ),
+              ),
+            ),
+            Center(
+              child: Text(
+                "through it",
+                style: TextStyle(
+                    fontSize: width*0.035,
+                    color: MyMateThemes.textColor,
+                    fontWeight: FontWeight.normal,
+                    letterSpacing: 0.6,
+                    wordSpacing: 0.5
+
+
+
+                ),
+              ),
+            ),
+          ],
+        );
+      }
   );
 }
 
@@ -133,6 +150,10 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
   String mobile_country_code = "";
   String client_country = "";
   String mobile_code = "94";
+
+  String country_flag = '🇱🇰'; // Default flag for Sri Lanka
+
+
   int? otp = 0;
   FirebaseDB firebaseDB = FirebaseDB();
 
@@ -251,36 +272,48 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
   void _openPopupScreen(BuildContext context, String mobileNumber) {
     // Declare the state variable outside the inner builder so it persists.
     bool isYesButtonDisabled = false;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenheight = MediaQuery.of(context).size.height;
+
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
+
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(screenWidth*0.03),
+              ),
+              backgroundColor: Colors.white,
+              contentPadding: EdgeInsets.symmetric(horizontal: screenWidth*0.08,vertical: screenheight*0.05),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const SizedBox(height: 10),
-                  const Text(
+                   Text(
                     "Is this your Phone number",
                     style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
+                      fontSize: screenWidth*0.04,
+                      color: MyMateThemes.textColor,
+                      fontWeight: FontWeight.normal,
                       letterSpacing: 0.8,
 
                     ),
                   ),
-                  const SizedBox(height: 10),
+                 // SizedBox(height: screenheight*0.01),
                   TextField(
                     controller: TextEditingController(text: mobileNumber),
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                    style:  TextStyle(
+                      fontSize: screenWidth*0.045,
+                      color: MyMateThemes.textColor,
+                      fontWeight: FontWeight.normal,
                       // color: MyMateThemes.textColor,
+
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: screenheight*0.05),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -288,16 +321,22 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: MyMateThemes.secondaryColor,
-                          foregroundColor: MyMateThemes.primaryColor,
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(2),
+                        style: ButtonStyle(
+                          foregroundColor: MaterialStateProperty.all(MyMateThemes.primaryColor),
+
+                          backgroundColor: MaterialStateProperty.all(MyMateThemes.secondaryColor),
+                          shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5.0)
+                              )),
+                          padding: MaterialStateProperty.all(
+                            EdgeInsets.symmetric(vertical: 14.0, horizontal: 40.0), // Adjust values as needed
                           ),
+
                         ),
-                        child: const Text("Edit"),
+                        child:  Text("Edit",style: TextStyle(color: MyMateThemes.primaryColor,fontSize: screenWidth*0.04,letterSpacing: 0.5),),
                       ),
+                      SizedBox(width: screenWidth*0.02,),
                       ElevatedButton(
                         onPressed: isYesButtonDisabled
                             ? null
@@ -328,12 +367,16 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
                             },
                           ),
                           shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(2),
-                            ),
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5.0)
+                              )),
+                          padding: MaterialStateProperty.all(
+                            EdgeInsets.symmetric(vertical: 14.0, horizontal: 40.0), // Adjust values as needed
                           ),
+
                         ),
-                        child: const Text("Yes"),
+
+                        child:  Text("Yes",style: TextStyle(color: Colors.white,fontSize: screenWidth*0.04,letterSpacing: 0.5)),
                       ),
                     ],
                   ),
@@ -349,110 +392,209 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    return Builder(
+      builder: (context) {
+        return Column(
+          children: <Widget>[
+            SizedBox(height: screenHeight * 0.05),
+
+            /// Country selector
+// At the top of your widget (State)
 
 
-    return Column(
-      children: <Widget>[
-        SizedBox(
-          height: 50,
-        ),
-        Center(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 50,vertical: 5),
-            child: IntlPhoneField(
-              readOnly: true,
-              showCursor: false,
-              dropdownIconPosition: IconPosition.leading,
-              onCountryChanged: (country) {
-                setState(() {
-                  client_country = country.name;
-                  mobile_country_code = country.code;
-                  mobile_code = country.dialCode;
-                });
-              },
-              inputFormatters: [
-                LengthLimitingTextInputFormatter(10),
-                FilteringTextInputFormatter.digitsOnly,
-              ],
-              decoration: InputDecoration(hintText: client_country,
-                  hintStyle: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 18,
-                      color: Colors.grey
-                  )),
-            ),
-          ),
-        ),
-        Center(
-          child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 50,),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    width: 45,
-                    decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 1,color: Colors.grey))),
-                    child: TextField(
-                      readOnly: true,
-                      decoration: InputDecoration(
-                          hintText: "+$mobile_code",
-                          hintStyle: TextStyle(color: Colors.grey)
-                      ),
-                      style: TextStyle(fontSize: 18,color: Colors.grey),),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: screenWidth * 0.1,
+                vertical: screenHeight * 0.015,
+              ),
+              child: GestureDetector(
+                onTap: () {
+                  showCountryPicker(
+                    context: context,
+                    showPhoneCode: false, // hides +94
+                    onSelect: (Country country) {
+                      setState(() {
+                        client_country = country.name;
+                        mobile_country_code = country.countryCode;
+                        mobile_code = country.phoneCode;
+                        country_flag = country.flagEmoji;
+                      });
+                    },
+                  );
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: screenWidth * 0.01,
+                    vertical: screenHeight * 0.015,
                   ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    width: 235,
-                    child: TextField(
-                      style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),
-                      controller: _controller,
-                      decoration: InputDecoration(
-                          border: UnderlineInputBorder(borderSide: BorderSide(width: 1,color: Colors.grey))
+                  // inputFormatters: [
+                  //   LengthLimitingTextInputFormatter(10),
+                  //   FilteringTextInputFormatter.digitsOnly,
+                  // ],
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: MyMateThemes.textColor.withOpacity(0.8),
+                        width: screenWidth * 0.001,
                       ),
-                      onChanged: (number){
-                        setState(() {
-                          phoneNumber = number;
-                        });
-                        print(phoneNumber);
-                      },
                     ),
-                  )
-                ],
-              )
-          ),
-        ),
-        SizedBox(
-          height: 50,
-        ),
-        Center(
-          child: SizedBox(
-            height: 58,
-            width: 166,
-            child: ElevatedButton(
-              onPressed: ()
-              {
-                _openPopupScreen(context,"+$mobile_code$phoneNumber");
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
 
-              },
+                          Text(
+                            client_country.isNotEmpty
+                                ? '$country_flag  $client_country'
+                                : '🇱🇰   Sri Lanka',
+                            style: TextStyle(
+                              fontSize: screenWidth * 0.042,
+                              fontWeight: FontWeight.w600,
+                              color: client_country.isNotEmpty
+                                  ? MyMateThemes.textColor  // New style after selection
+                                  : MyMateThemes.textColor.withOpacity(0.5), // Default style
+                            ),
+                          ),
+                        ],
+                      ),
 
-              style: ButtonStyle(
-                foregroundColor: MaterialStatePropertyAll(Colors.white),
-                backgroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
-                shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                    borderRadius: BorderRadius.zero)
+                      Icon(Icons.keyboard_arrow_down_outlined, color: MyMateThemes.textColor.withOpacity(0.6)),
+                    ],
+                  ),
                 ),
               ),
-              child: const Text(
-                "Get Started",
-                style: TextStyle(fontSize: 16),
+            ),
+            SizedBox(height: screenHeight * 0.01),
+
+            /// Phone number field
+            Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.11),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      width: screenWidth * 0.15,
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            color: MyMateThemes.textColor.withOpacity(0.8),
+                            width: screenWidth * 0.001,
+                          ),
+                        ),
+                      ),
+                      child: TextField(
+                        readOnly: true,
+                        showCursor: true,
+
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(horizontal:screenWidth* 0.025), // Adjust padding
+                          hintText: "+$mobile_code",
+                          hintStyle: TextStyle(color: MyMateThemes.textColor, fontSize: screenWidth*0.042,fontWeight: FontWeight.w600
+                          ),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: MyMateThemes.textColor.withOpacity(0.3),
+                              width: 1,
+                            ),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: MyMateThemes.textColor, // active color on focus
+                              width: 1.0,
+                            ),
+                          ),
+                        ),
+
+                        style: TextStyle( fontSize: screenWidth*0.042,color: MyMateThemes.textColor,fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                    SizedBox(width: screenWidth * 0.03),
+                    Container(
+                      width: screenWidth * 0.6,
+
+                      child: TextField(
+                        style: TextStyle(
+                          fontSize: screenWidth*0.042,
+                          color: MyMateThemes.textColor,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        controller: _controller,
+                        keyboardType: TextInputType.number,
+
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(horizontal:screenWidth* 0.025), // Adjust padding
+                          hintText: "Phone number",
+                          hintStyle: TextStyle(color: MyMateThemes.textColor.withOpacity(0.5), fontSize: screenWidth*0.042,fontWeight: FontWeight.w600
+                          ),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: MyMateThemes.textColor.withOpacity(0.3),
+                              width: 1,
+                            ),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: MyMateThemes.textColor, // active color on focus
+                              width: 1.0,
+                            ),
+                          ),
+
+                        ),
+
+                        onChanged: (number) {
+                          setState(() {
+                            phoneNumber = number;
+                          });
+                          print(phoneNumber);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ),
 
-      ],
+            SizedBox(height: screenHeight * 0.06),
+
+            /// Button
+            Center(
+              child: SizedBox(
+                height: screenHeight * 0.07,
+                width: screenWidth * 0.45,
+                child: ElevatedButton(
+                  onPressed: () {
+                    _openPopupScreen(context, "+$mobile_code$phoneNumber");
+                  },
+                  style: ButtonStyle(
+                    foregroundColor:
+                    MaterialStatePropertyAll(Colors.white),
+                    backgroundColor: MaterialStatePropertyAll(
+                        MyMateThemes.primaryColor),
+                    shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5.0)
+                        )),
+                    padding: MaterialStateProperty.all(
+                      EdgeInsets.symmetric(vertical: 16.0, horizontal: 40.0), // Adjust values as needed
+                    ),
+                  ),
+                  child: const Text(
+                    "Get Started",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
+
 }

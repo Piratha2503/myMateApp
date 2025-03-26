@@ -226,7 +226,7 @@ class _CompletegallerypageState extends State<Completegallerypage> {
           padding: const EdgeInsets.symmetric(horizontal: 6.0),
           child: SizedBox(
             width: 100,
-            height: 160,
+            height: 150,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Card(
@@ -395,9 +395,9 @@ class _CompletegallerypageState extends State<Completegallerypage> {
               onTap: () => _chooseImage(ImageSource.camera),
               child: SvgPicture.asset('assets/images/took.svg'),
             ),
-            SizedBox(height: 40),
+            SizedBox(height: 35),
             _buildImageSlots(),
-            SizedBox(height: 40),
+            SizedBox(height: 30),
             _buildFooterRow(),
           ],
         ),

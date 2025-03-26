@@ -105,7 +105,7 @@ class _ViewNavamsaChartPageState extends State<ViewNavamsaChartPage> {
 
                   ),
 
-                  SizedBox(height: height*0.09,),
+                  SizedBox(height: height*0.06,),
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -168,6 +168,7 @@ class _ViewNavamsaChartPageState extends State<ViewNavamsaChartPage> {
 
                     ],
                   ),
+                  SizedBox(height: height*0.01,),
 
                 ],
               ),

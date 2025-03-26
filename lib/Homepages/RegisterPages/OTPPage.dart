@@ -43,7 +43,6 @@ class _otpPage extends State<otpPage> {
                   style: TextStyle(
                     fontSize: width*0.05,
                     color: MyMateThemes.textColor,
-                    fontFamily: "Work Sans",
                     fontWeight: FontWeight.w700,
                   ),
                 ),

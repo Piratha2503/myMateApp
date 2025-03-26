@@ -53,14 +53,14 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
   Widget build(BuildContext context) {
     return  LayoutBuilder(
         builder: (context, constraints) {
-          double width = constraints.maxWidth;
-          double height = constraints.maxWidth;
+          double width = MediaQuery.of(context).size.width;
+          double height = MediaQuery.of(context).size.height;
 
 
           return Scaffold(
           backgroundColor: MyMateThemes.backgroundColor,
          // appBar: _buildAppBar(),
-          body: _buildBody(),
+           body: _buildBody(),
           bottomNavigationBar: CustomBottomNavigationBar(
             selectedIndex: widget.selectedBottomBarIconIndex,
             onItemTapped: (index) {
@@ -89,8 +89,8 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
           title: SafeArea(
             child:  LayoutBuilder(
                 builder: (context, constraints) {
-                  double width = constraints.maxWidth;
-                  double height = constraints.maxWidth;
+                  double width = MediaQuery.of(context).size.width;
+                  double height = MediaQuery.of(context).size.height;
                   return Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -154,15 +154,15 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
   Widget _buildBody() {
     return LayoutBuilder(
       builder: (context, constraints) {
-        double width = constraints.maxWidth;
-        double height = constraints.maxHeight;
+        double width = MediaQuery.of(context).size.width;
+        double height = MediaQuery.of(context).size.height;
 
         return Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.05),
+                padding: EdgeInsets.symmetric(horizontal:width * 0.05),
                 child: AppBar(
                   backgroundColor: MyMateThemes.backgroundColor,
                   automaticallyImplyLeading: false,
@@ -239,12 +239,12 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
 
                   actions: <Widget>[
                     BadgeWidget(assetPath: 'assets/images/Group 2157.svg', badgeValue: badgeValue1),
-                    SizedBox(width: constraints.maxWidth * 0.04),
+                    SizedBox(width:width * 0.04),
                     BadgeWidget(
                         assetPath: 'assets/images/Group 2153.svg',
                         badgeValue: badgeValue2),
 
-                    SizedBox(width: constraints.maxWidth * 0.045),
+                    SizedBox(width: width * 0.045),
                   ],
 
                 ),
@@ -256,7 +256,7 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
 
               // Use a SizedBox with a defined height to maintain proportions
               SizedBox(
-                height: height * 0.3, // Adjust height for large screens
+                height: height * 0.28, // Adjust height for large screens
                 width: width * 1.3, // Ensures better width scaling
                 child: LayoutBuilder(
                   builder: (BuildContext context, BoxConstraints constraints) {
@@ -272,13 +272,13 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
                               alignment: Alignment.center,
                               child: SvgPicture.asset(
                                 'assets/images/Frame.svg',
-                                height: constraints.maxHeight * 1.3,
-                                width: constraints.maxWidth * 1,
+                                height:height * 0.35,
+                                width: width * 0.5,
                                 fit: BoxFit.cover,
                               ),
                             ),
                             Positioned(
-                              top: constraints.maxHeight * 0.33, // Adjust top position
+                              top: height * 0.106, // Adjust top position
                               left: 0,
                               right: 0,
                               child: Center(
@@ -286,12 +286,12 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
                                   '137',
                                   Colors.white,
                                   FontWeight.w600,
-                                  constraints.maxWidth * 0.1, // Adjust font size
+                                  width * 0.1, // Adjust font size
                                 ),
                               ),
                             ),
                             Positioned(
-                              top: constraints.maxHeight * 0.56, // Adjust top position
+                              top: height * 0.168, // Adjust top position
                               left: 0,
                               right: 0,
                               child: Center(
@@ -299,7 +299,7 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
                                   'Matches Found',
                                   Colors.white,
                                   FontWeight.w500,
-                                  constraints.maxWidth * 0.043, // Adjust font size
+                                  width* 0.05, // Adjust font size
                                 ),
                               ),
                             ),
@@ -311,7 +311,7 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
                 ),
               ),
 
-              SizedBox(height: height * 0.04),
+              SizedBox(height: height * 0.01),
               _buildHeaderText('View Matches'),
               SizedBox(height: height * 0.03),
               _buildFreePremiumRow(),
@@ -330,8 +330,8 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
   Widget _buildHeaderText(String text) {
     return LayoutBuilder(
         builder: (context, constraints) {
-          double width = constraints.maxWidth;
-          double height = constraints.maxWidth;
+          double width = MediaQuery.of(context).size.width;
+          double height = MediaQuery.of(context).size.height;
 
 
           return Center(
@@ -351,8 +351,8 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
   Widget _buildSubHeaderText(String text) {
     return LayoutBuilder(
         builder: (context, constraints) {
-          double width = constraints.maxWidth;
-          double height = constraints.maxWidth;
+          double width = MediaQuery.of(context).size.width;
+          double height = MediaQuery.of(context).size.height;
 
           return Center(
           child: Text(
@@ -381,8 +381,8 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
   Widget _buildFreePremiumRow() {
     return LayoutBuilder(
         builder: (context, constraints) {
-          double width = constraints.maxWidth;
-          double height = constraints.maxWidth;
+          double width = MediaQuery.of(context).size.width;
+          double height = MediaQuery.of(context).size.height;
 
           return Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -391,7 +391,7 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
               'Free',
               style: TextStyle(
                 color: MyMateThemes.textColor,
-                fontSize:16,
+                fontSize:width*0.038,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -405,10 +405,8 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
   Widget _buildPremiumLabel() {
     return LayoutBuilder(
         builder: (context, constraints) {
-          double width = constraints.maxWidth;
-          double height = constraints.maxWidth;
-
-
+          double width = MediaQuery.of(context).size.width;
+          double height = MediaQuery.of(context).size.height;
           return Container(
 
           child: Row(
@@ -416,16 +414,15 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
             children: [
               SvgPicture.asset(
                 'assets/images/Layer 1.svg',
-                width: 20,
-                height: 20,
+                width: width*0.03,
+                height: height*0.03,
               ),
-              SizedBox(width: 4),
+              SizedBox(width:width*0.01),
               Text(
                 'Premium',
                 style: TextStyle(
                   color: MyMateThemes.primaryColor,
-                  fontSize:16,
-
+                  fontSize:width*0.038,
                   fontWeight: FontWeight.w500,
 
                 ),
@@ -438,17 +435,15 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
   }
 
   Widget _buildImageContainers() {
-    return  LayoutBuilder(
-        builder: (context, constraints) {
-          double width = constraints.maxWidth;
-          double height = constraints.maxWidth;
 
+          double width = MediaQuery.of(context).size.width;
+          double height = MediaQuery.of(context).size.height;
           return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Container(
               width: width*0.43,
-              height: height*0.5,
+              height: height*0.25,
               decoration: BoxDecoration(
                 color: MyMateThemes.containerColor,
                 borderRadius: BorderRadius.circular(width*0.01),
@@ -459,7 +454,7 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
             ),
             Container(
               width: width*0.43,
-              height:  height*0.5,
+              height:  height*0.25,
               decoration: BoxDecoration(
                 color: MyMateThemes.secondaryColor,
                 borderRadius: BorderRadius.circular(width*0.01),
@@ -470,22 +465,20 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
             ),
           ],
         );
-      }
-    );
+
   }
 
   Widget _buildFooterRow() {
     return  LayoutBuilder(
         builder: (context, constraints) {
-          double width = constraints.maxWidth;
-          double height = constraints.maxWidth;
-
+          double width = MediaQuery.of(context).size.width;
+          double height = MediaQuery.of(context).size.height;
           return Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(width: width*0.05),
             Container(
-              height: height*0.14, //height of button
+              height: height*0.06, //height of button
               width: width*0.43, //width of button
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(35),
@@ -521,7 +514,7 @@ class _HomeScreenBeforeSubscibeState extends State<HomeScreenBeforeSubscibe>
             ),
             SizedBox(width: width*0.045),
             Container(
-              height: height*0.14, //height of button
+              height: height*0.06, //height of button
               width: width*0.43, //width of button
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(35),
