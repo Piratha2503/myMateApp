@@ -31,10 +31,10 @@ class _AutogeneratechartPageState extends State<AutogeneratechartPage> {
       appBar:
       AppBar(
         backgroundColor: Colors.white,
-        title: Text('Your Horoscope', style: TextStyle(color: MyMateThemes.textColor,fontSize: width*0.05,fontWeight: FontWeight.w500)),
+        title: Text('Your Horoscope', style: TextStyle(fontSize: width*0.05,fontWeight: FontWeight.w500 ,color: MyMateThemes.textColor,letterSpacing: 0.6)),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: MyMateThemes.primaryColor),
+          icon: Icon(Icons.arrow_back_ios, color: MyMateThemes.primaryColor,size: height*0.025,),
           onPressed: () {
             Navigator.push(
                 context,
@@ -45,118 +45,115 @@ class _AutogeneratechartPageState extends State<AutogeneratechartPage> {
 
       ),
       body:SingleChildScrollView(
-        child: Column(
-          children: [
-            SvgPicture.asset('assets/images/Line 11.svg',width: width*0.85,),
-            SizedBox(height: height*0.02,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
 
-              children: [
-                Container(
-                  height:height*0.08,
-                  width: width*0.35,
-                  decoration: BoxDecoration(
-                    color: MyMateThemes.secondaryColor,
-                    borderRadius: BorderRadius.circular(width * 0.02), // Responsive border radius
+        child: Center(
+          child: Column(
+            children: [
+              SvgPicture.asset('assets/images/Line 11.svg',width: width*0.85,),
+              SizedBox(height: height*0.02,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+
+                children: [
+                  Container(
+                    height:height*0.08,
+                    width: width*0.35,
+                    decoration: BoxDecoration(
+                      color: MyMateThemes.containerColor,
+                      borderRadius: BorderRadius.circular(width * 0.02), // Responsive border radius
+                    ),
+                    child:
+                    Center(
+                      child: Text('name',style: TextStyle(color: MyMateThemes.textColor,fontSize: width*0.04,fontWeight: FontWeight.normal)),
+
+                    ),
                   ),
-                  child:
-                  Center(
-                    child: Text('name',style: TextStyle(color: MyMateThemes.textColor,fontSize: width*0.04,fontWeight: FontWeight.w500)),
+                  SizedBox(width: width*0.03,),
+                  Container(
+                    height:height*0.08,
+                    width: width*0.35,
+                    decoration: BoxDecoration(
+                      color: MyMateThemes.primaryColor,
+                      borderRadius: BorderRadius.circular(width * 0.02), // Responsive border radius
+                    ),
+                    child:
+                    Center(
+                      child: Text('dob',style: TextStyle(color: Colors.white,fontSize: width*0.04,fontWeight: FontWeight.normal)),
+
+                    ),
 
                   ),
-                ),
-                SizedBox(width: width*0.03,),
-                Container(
-                  height:height*0.08,
-                  width: width*0.35,
-                  decoration: BoxDecoration(
-                    color: MyMateThemes.primaryColor,
-                    borderRadius: BorderRadius.circular(width * 0.02), // Responsive border radius
-                  ),
-                  child:
-                  Center(
-                    child: Text('dob',style: TextStyle(color: Colors.white,fontSize: width*0.04,fontWeight: FontWeight.w500)),
+                ],
+              ),
+              SizedBox(height: height*0.02,),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height:height*0.08,
+                    width: width*0.35,
+                    decoration: BoxDecoration(
+                      color: MyMateThemes.containerColor,
+                      borderRadius: BorderRadius.circular(width * 0.02), // Responsive border radius
+                    ),
+                    child:
+                        Center(
+                          child: Text('rasi',style: TextStyle(color: MyMateThemes.textColor,fontSize: width*0.04,fontWeight: FontWeight.normal)),
+
+                        ),
 
                   ),
+                  SizedBox(width: width*0.03,),
+                  Container(
+                    height:height*0.08,
+                    width: width*0.35,
+                    decoration: BoxDecoration(
+                      color: MyMateThemes.containerColor,
+                      borderRadius: BorderRadius.circular(width * 0.02), // Responsive border radius
+                    ),
+                    child:  Center(
+                      child: Text('nadchathira',style: TextStyle(color: MyMateThemes.textColor,fontSize: width*0.04,fontWeight: FontWeight.normal)),
 
-                ),
-              ],
-            ),
-            SizedBox(height: height*0.02,),
+                    ),
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  height:height*0.08,
-                  width: width*0.35,
-                  decoration: BoxDecoration(
-                    color: MyMateThemes.secondaryColor,
-                    borderRadius: BorderRadius.circular(width * 0.02), // Responsive border radius
                   ),
-                  child:
-                      Center(
-                        child: Text('rasi',style: TextStyle(color: MyMateThemes.textColor,fontSize: width*0.04,fontWeight: FontWeight.w500)),
 
+                ],
+              ),
+              SizedBox(height: height*0.03,),
+              RasiChartDesign(context),
+              SizedBox(height: height * 0.03),
+              NavamsaChartDesign(context),
+              SizedBox(height: height * 0.1),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  SizedBox(
+                    height: height*0.08,
+                    width: width*0.4,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HomeScreenBeforeSubscibe(0,docId: widget.docId,)));
+                      },
+                      style: CommonButtonStyle.commonButtonStyle(),
+                      child:  Text(
+                        "Next",
+                        style: TextStyle(fontSize: width*0.05,fontWeight: FontWeight.normal),
                       ),
-
-                ),
-                SizedBox(width: width*0.03,),
-                Container(
-                  height:height*0.08,
-                  width: width*0.35,
-                  decoration: BoxDecoration(
-                    color: MyMateThemes.secondaryColor,
-                    borderRadius: BorderRadius.circular(width * 0.02), // Responsive border radius
+                    ),
                   ),
-                  child:  Center(
-                    child: Text('nadchathira',style: TextStyle(color: MyMateThemes.textColor,fontSize: width*0.04,fontWeight: FontWeight.w500)),
+                  SizedBox(width: width * 0.06),
 
-                  ),
+                ],
+              ),
+              SizedBox(height: height * 0.06),
 
-                ),
-
-              ],
-            ),
-            SizedBox(height: height*0.03,),
-            RasiChartDesign(context),
-            SizedBox(height: height * 0.03),
-            NavamsaChartDesign(context),
-            SizedBox(height: height * 0.06),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                SizedBox(
-                  height:height * 0.06 ,
-                  width: width * 0.3,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => HomeScreenBeforeSubscibe(0,docId: widget.docId,)));
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: MyMateThemes.primaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(width * 0.025),
-                        ),
-                        padding: EdgeInsets.symmetric(
-                          horizontal:width * 0.05,
-                          vertical: height * 0.015,
-                        ),
-                        foregroundColor: Colors.white),
-                    child: Text('Next'),
-                  ),
-                ),
-                SizedBox(width: width * 0.06),
-
-              ],
-            ),
-            SizedBox(height: height * 0.04),
-
-          ],
+            ],
+          ),
         ),
       ) ,
     );

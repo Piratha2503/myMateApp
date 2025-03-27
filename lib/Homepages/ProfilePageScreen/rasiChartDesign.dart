@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../MyMateThemes.dart';
 
@@ -13,7 +14,7 @@ Widget RasiChartDesign(BuildContext context) {
   return Container(
     height: containerSize,
     width: containerSize,
-    color: MyMateThemes.containerColor,
+    color: Colors.white,
     child: Stack(
       children: [
         Positioned(top: boxSize * 0.13, left: boxSize * 0.14, child: IndividualBox(context,"01")),
@@ -44,12 +45,12 @@ Widget RasiChartDesign(BuildContext context) {
             Stack(
               children: [
                 Positioned(
-                  top: screenHeight * 0.01,
+                  top: screenHeight * 0.013,
                   left: screenWidth * 0.06,
-                  child: SvgPicture.asset('assets/images/Group 2217.svg', width: screenWidth * 0.1,height: screenHeight*0.1,),
+                  child: SvgPicture.asset('assets/images/Group 2217.svg', width: screenWidth * 0.12,height: screenHeight*0.11,),
                 ),
                 Positioned(
-                  bottom: screenHeight * 0.005,
+                  bottom: screenHeight * 0.02,
                   left: screenWidth * 0.01,
                   child: Column(
                     children: [
@@ -61,6 +62,15 @@ Widget RasiChartDesign(BuildContext context) {
                           fontWeight: FontWeight.normal,
                         ),
                       ),
+                    ],
+                  ),
+                ),
+                Positioned(
+                  bottom: screenHeight * 0.005,
+                  left: screenWidth * 0.01,
+                  child: Column(
+                    children: [
+
                       Text(
                         'Virgo (kanni)',
                         style: TextStyle(
@@ -80,8 +90,9 @@ Widget RasiChartDesign(BuildContext context) {
     ),
   );
 }
+
 List<Widget> widgetList = [
-  Text("sun"),
+  Text("sun",style: TextStyle(fontWeight: FontWeight.normal,color:Colors.white,fontSize: 10),),
 
 ];
 
@@ -97,27 +108,40 @@ Widget IndividualBox(BuildContext context, String number) {
       color: MyMateThemes.primaryColor,
       borderRadius: BorderRadius.circular(borderRadius),
     ),
-    child: Stack(
-      children: [
+    child:
         Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            Row(
+              children: [
+                SizedBox(width: 3),
+                Text(
+                  number,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal,
+                    fontSize: fontSize,
+                  ),
+                ),
 
-            Text(
-              number,
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
-                fontSize: fontSize,
-              ),
+              ],
             ),
             SizedBox(height: boxSize*0.3,),
-            Column(
-              children: widgetList,
-            )
+            Row(
+              children: [
+                SizedBox(width: 3),
+                Column(
+                  children:
+                  widgetList,
+
+                )
+
+              ],
+            ),
+
           ],
         ),
-      ],
-    ),
+
   );
 }

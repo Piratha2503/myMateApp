@@ -56,10 +56,13 @@ class _ManualChartEnterState extends State<ManualChartEnter> {
         double screenHeight = MediaQuery.of(context).size.height;
 
         return Container(
-          color: Colors.white,
           width: screenWidth * 0.9,
-          height: screenHeight * 0.4,
-          padding: EdgeInsets.all(screenWidth * 0.03),
+          height: screenHeight * 0.9,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(screenWidth * 0.02), // Responsive border radius
+          ),
+          padding: EdgeInsets.all(screenWidth * 0.04),
           child: ListView(
             shrinkWrap: true,
             children: RasiNadchathiram.rasiListOrder.map((rasi) {
@@ -101,11 +104,13 @@ class _ManualChartEnterState extends State<ManualChartEnter> {
         double screenHeight = MediaQuery.of(context).size.height;
 
         return Container(
-          color: Colors.white,
           width: screenWidth * 0.9, // 90% of screen width
-          height: screenHeight * 0.4, // 40% of screen height
-
-          padding: EdgeInsets.all(screenWidth * 0.03), // 3% of width for padding
+          height: screenHeight * 0.9, // 90% of screen height
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(screenWidth * 0.02), // Responsive border radius
+          ),
+          padding: EdgeInsets.all(screenWidth * 0.04), // 3% of width for padding
           child: ListView(
             shrinkWrap: true,
             children: RasiNadchathiram.nadchathiraList.map((nadchatra) {
