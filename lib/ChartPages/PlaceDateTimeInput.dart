@@ -23,8 +23,12 @@ class PlaceDateTimeInput extends StatefulWidget {
   String time_default_text = 'Time of birth';
 }
 
+
 class _PlaceDateTimeInputState extends State<PlaceDateTimeInput> {
   TextEditingController textEditingController = TextEditingController();
+  TextEditingController _dateController = TextEditingController();
+  TextEditingController _timeController = TextEditingController();
+
   String birthDetails = "Enter birth details";
   String calculate = "to calculate Astrology chart ";
   String text1 = "Make sure this number can receive SMS.";
@@ -32,6 +36,7 @@ class _PlaceDateTimeInputState extends State<PlaceDateTimeInput> {
   String text3 = "through it.";
   String district = "";
   ClientData clientData = ClientData();
+
 
 
   @override
@@ -66,11 +71,11 @@ class _PlaceDateTimeInputState extends State<PlaceDateTimeInput> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(birthDetails,
-                      style: TextStyle( fontSize: width*0.05,fontWeight: FontWeight.w600 ,color: MyMateThemes.textColor,letterSpacing:1),
+                      style: TextStyle( fontSize: width*0.05,fontWeight: FontWeight.w500 ,color: MyMateThemes.textColor,letterSpacing:0.8),
                     ),
                     // SizedBox(height:5),
                     Text( calculate,
-                      style: TextStyle( fontSize: width*0.05,fontWeight: FontWeight.w600 ,color: MyMateThemes.primaryColor,letterSpacing: 1),
+                      style: TextStyle( fontSize: width*0.05,fontWeight: FontWeight.w500 ,color: MyMateThemes.primaryColor,letterSpacing: 0.8),
 
                     ),
                     SizedBox(height: height*0.02),
@@ -93,6 +98,7 @@ class _PlaceDateTimeInputState extends State<PlaceDateTimeInput> {
                       //     color:MyMateThemes.textColor
                       // ),
                       boxDecoration: BoxDecoration(
+                          color: Colors.white,
                           border: Border(
                               bottom: BorderSide(width: 1.0,color:MyMateThemes.textColor.withOpacity(0.3)))
                       ),
@@ -103,7 +109,7 @@ class _PlaceDateTimeInputState extends State<PlaceDateTimeInput> {
                         hintStyle: TextStyle(
                           color:MyMateThemes.textColor.withOpacity(0.3),
                           fontWeight: FontWeight.normal,
-                          fontSize: width*0.045,
+                          fontSize: width*0.042,
                         ),
 
                         border: InputBorder.none,
@@ -112,7 +118,7 @@ class _PlaceDateTimeInputState extends State<PlaceDateTimeInput> {
                       textStyle: TextStyle(
                         fontWeight: FontWeight.normal,
                         color: MyMateThemes.textColor,
-                        fontSize: width*0.045,
+                        fontSize: width*0.042,
                       ),
                       debounceTime: 400,
                       isLatLngRequired: true,
@@ -129,21 +135,31 @@ class _PlaceDateTimeInputState extends State<PlaceDateTimeInput> {
                         textEditingController.selection = TextSelection.fromPosition(
                             TextPosition(offset: prediction.description?.length ?? 0));
                       },
-                      seperatedBuilder: Divider(),
+                      seperatedBuilder: Container(
+                        height: height*0.002,
+                        color: Colors.transparent, // Ensure transparent background
+                        child: Divider(
+                          color: MyMateThemes.textColor,
+                        ),
+                      ),
                       containerHorizontalPadding: width*0.03,
+
                       itemBuilder: (context, index, Prediction prediction) {
                         return Container(
-                          padding: EdgeInsets.all(width*0.01),
+                          color: Colors.white,
+                          padding: EdgeInsets.all(width*0.006),
+                          // decoration: ,
                           child: Row(
                             children: [
-                              Icon(Icons.location_on),
+                              Icon(Icons.location_on,color: MyMateThemes.textColor,),
                               SizedBox(width: width*0.02),
                               Expanded(
                                   child: Text(
                                     prediction.description ?? "",
                                     style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: width*0.03,
+                                      fontWeight: FontWeight.normal,
+                                      color: MyMateThemes.textColor,
+                                      fontSize: width*0.035,
                                     ),
                                   )
                               ),
@@ -155,57 +171,59 @@ class _PlaceDateTimeInputState extends State<PlaceDateTimeInput> {
                     ),
                   ),
                 ),
-
                 SizedBox(height: height*0.01),
+
                 Center(
                   child: Container(
-                      width: width*0.8,
-
-                      decoration: BoxDecoration(
-                          border: Border(bottom: BorderSide(width: 1,color: MyMateThemes.textColor.withOpacity(0.3)))
-                      ),
-
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal:width*0.028),
-                        child: TextField(
-                          readOnly: true,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            suffixIcon:  Icon(Icons.calendar_month,color: MyMateThemes.primaryColor,),
-                            hintText:  widget.date_default_text,
-                            hintStyle: TextStyle(
-                              color: MyMateThemes.textColor.withOpacity(0.3),
-                              fontWeight: FontWeight.normal,
-                              fontSize: width*0.045,),
-
-                          ),
-                          style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            color: MyMateThemes.textColor,
-                            fontSize: width*0.05,
-                          ),
-                          onTap: (){
-                            DatePicker.showDatePicker(
-                                context,
-                                showTitleActions: true,
-                                onConfirm: (date){
-                                  print(date.toLocal());
-                                  setState(() {
-                                    String year = date.year.toString().padLeft(2, '0');
-                                    String month = date.month.toString().padLeft(2, '0');
-                                    String day = date.day.toString().padLeft(2, '0');
-                                    widget.date_default_text = '$year-$month-$day';
-
-                                  });
-                                }
-                            );
-                          },
+                    width: width * 0.8,
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          width: 1,
+                          color: MyMateThemes.textColor.withOpacity(0.3),
                         ),
-                      )
+                      ),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: width * 0.028),
+                      child: TextField(
+                        controller: _dateController, // Use _dateController directly
+                        readOnly: true,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          suffixIcon: Icon(Icons.calendar_month, color: MyMateThemes.primaryColor),
+                          hintText: widget.date_default_text,
+                          hintStyle: TextStyle(
+                            color: MyMateThemes.textColor.withOpacity(0.3),
+                            fontWeight: FontWeight.normal,
+                            fontSize: width * 0.042,
+                          ),
+                        ),
+                        style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          color: MyMateThemes.textColor,
+                          fontSize: width * 0.042,
+                        ),
+                        onTap: () {
+                          DatePicker.showDatePicker(
+                            context,
+                            showTitleActions: true,
+                            onConfirm: (date) {
+                              setState(() {
+                                String year = date.year.toString().padLeft(2, '0');
+                                String month = date.month.toString().padLeft(2, '0');
+                                String day = date.day.toString().padLeft(2, '0');
+                                _dateController.text = '$year-$month-$day';
+                              });
+                            },
+                          );
+                        },
+                      ),
+                    ),
                   ),
                 ),
-
                 SizedBox(height: height*0.01),
+
                 Center(
                   child: Container(
                       width: width*0.77,
@@ -216,20 +234,21 @@ class _PlaceDateTimeInputState extends State<PlaceDateTimeInput> {
                         padding: EdgeInsets.all(width*0.01),
                         child: TextField(
                           readOnly: true,
+                          controller: _timeController, // Use _dateController directly
                           decoration: InputDecoration(
                               suffixIcon: Icon(Icons.alarm,color: MyMateThemes.primaryColor,),
                               hintText: widget.time_default_text,
                               hintStyle: TextStyle(
                                 color: MyMateThemes.textColor.withOpacity(0.3),
                                 fontWeight: FontWeight.normal,
-                                fontSize: width*0.045,
+                                fontSize: width*0.042,
                               ),
                               border: InputBorder.none
                           ),
                           style: TextStyle(
                             fontWeight: FontWeight.normal,
                             color: MyMateThemes.textColor,
-                            fontSize: width*0.05,
+                            fontSize: width*0.042,
                           ),
                           onTap: (){
                             DatePicker.showTimePicker(
@@ -242,7 +261,7 @@ class _PlaceDateTimeInputState extends State<PlaceDateTimeInput> {
                                     String minute = date.minute.toString().padLeft(2, '0');
                                     String second = date.second.toString().padLeft(2, '0');
                                     print('$hour-$minute-$second');
-                                    widget.time_default_text =   "$hour:$minute:$second";
+                                    _timeController.text =   "$hour:$minute:$second";
 
                                   });
                                 }
@@ -252,7 +271,6 @@ class _PlaceDateTimeInputState extends State<PlaceDateTimeInput> {
                       )
                   ),
                 ),
-
                 SizedBox(height: height*0.1,),
 
                 Row(
@@ -270,18 +288,11 @@ class _PlaceDateTimeInputState extends State<PlaceDateTimeInput> {
                               MaterialPageRoute(
                                   builder: (context) => AutogeneratechartPage(docId:widget.docId)));
                         },
-                        style: ButtonStyle(
-                          foregroundColor: MaterialStatePropertyAll(Colors.white),
-                          backgroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
-                          shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(width*0.01)
-                              )),
+                        style: CommonButtonStyle.commonButtonStyle(),
 
-                        ),
                         child:  Text(
                           "Next",
-                          style: TextStyle(fontSize: width*0.05),
+                          style: TextStyle(fontSize: width*0.05,fontWeight: FontWeight.normal),
                         ),
                       ),
                     ),
@@ -298,6 +309,15 @@ class _PlaceDateTimeInputState extends State<PlaceDateTimeInput> {
     );
   }
 
+
+
+  @override
+  void dispose() {
+    _dateController.dispose();
+    _timeController.dispose();
+
+    super.dispose();
+  }
   Future<void> updatePlaceDateTime() async{
 
     Astrology astrology = Astrology();

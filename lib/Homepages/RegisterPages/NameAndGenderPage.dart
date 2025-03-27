@@ -67,7 +67,7 @@ class _NameAndGenderState extends State<NameAndGender> {
                     style: TextStyle(
                       color: MyMateThemes.textColor,
                       fontSize: width * 0.05,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
                       letterSpacing: 0.8,
                     ),
                   ),

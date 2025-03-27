@@ -152,7 +152,7 @@ class _ChartOptionsState extends State<ChartOptions> {
               "Choose Preferred",
               style: TextStyle(
                 fontSize: width*0.05,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w500,
                 color: MyMateThemes.textColor,
                 letterSpacing: 0.8,
               ),
@@ -161,7 +161,7 @@ class _ChartOptionsState extends State<ChartOptions> {
               "Astrology chart input method",
               style: TextStyle(
                 fontSize: width*0.05,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w500,
                 color: MyMateThemes.primaryColor,
                 letterSpacing: 0.8,
               ),
@@ -223,7 +223,7 @@ class _ChartOptionsState extends State<ChartOptions> {
                 title,
                 style: TextStyle(
                   fontSize: width * 0.042,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.normal,
                   color: MyMateThemes.textColor,
                 ),
               ),
