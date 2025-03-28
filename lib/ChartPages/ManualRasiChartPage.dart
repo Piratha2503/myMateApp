@@ -112,9 +112,14 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ManualNavamsaChartPage(
+        // builder: (context) => ManualNavamsaChartPage(
+        //   clientData: widget.clientData,
+        //   astrology: astrology,
+        // ),
+
+        builder: (context) =>
+            ViewRasiChartPage(
           clientData: widget.clientData,
-          astrology: astrology,
         ),
       ),
     );
@@ -132,6 +137,11 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
   }
 
   Widget buildTopBox(int boxNumber, String assetName) {
+
+    final mediaQuery = MediaQuery.of(context);
+    final double width = mediaQuery.size.width;
+    final double height = mediaQuery.size.height;
+
     return GestureDetector(
       onTap: () => _onTapTopBox(boxNumber),
       child: Container(
@@ -145,8 +155,8 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
             assetName,
             style: TextStyle(
               color: (selectedTopBox == boxNumber) ? MyMateThemes.backgroundColor : MyMateThemes.textColor,
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              fontSize: width*0.041,
             ),
           ),
         ),
@@ -226,27 +236,44 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
                         child:
                         Column(
                           children: [
-                            SizedBox(height: height*0.02),
+                            AppBar(
+                              backgroundColor: Colors.white,
+                              leading: IconButton(
+                                icon: Icon(Icons.arrow_back_ios,size: height*0.025, color: MyMateThemes.primaryColor),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            ViewRasiChartPage(
+                                              clientData: widget.clientData,
+                                            ),)
+                                  );
+
+
+                                },
+                              ),
+                            ),
 
                             Text(
-                              "Enter Chart Rasi",
+                              "Manual Rasi Chart",
                               style: TextStyle(
                                 color: MyMateThemes.textColor,
                                 fontSize: width*0.05,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 1,
+                                fontWeight: FontWeight.w500,
+                                letterSpacing: 0.8,
 
                               ),
 
                             ),
 
                             Text(
-                              "to calculate Astrology Chart",
+                              "to enter Rasi Chart manually",
                               style: TextStyle(
                                 color: MyMateThemes.primaryColor,
                                 fontSize: width*0.05,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 1,
+                                fontWeight: FontWeight.w500,
+                                letterSpacing: 0.8,
 
                               ),
 
@@ -257,12 +284,12 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
                         ),
 
                       ),
-                     SizedBox(height: height*0.01),
+                     SizedBox(height: height*0.02),
                       Container(
 
                         width: width*0.65,
 
-                        height: height*0.26,
+                        height: height*0.25,
 
                         decoration: BoxDecoration(
 
@@ -279,7 +306,7 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
 
                           childAspectRatio: width / (height * 0.45),
                           crossAxisSpacing: width * 0.02,
-                          mainAxisSpacing: height * 0.02,
+                          mainAxisSpacing: height * 0.014,
 
                           padding: EdgeInsets.all(width*0.001),
 
@@ -288,7 +315,7 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
                         ),
 
                       ),
-                      SizedBox(height: height*0.01,),
+                    //  SizedBox(height: height*0.01,),
 
                       Center(child:
 
@@ -299,7 +326,7 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
 
                         child:
                         Container(
-                          height: height*0.46,
+                          height: height*0.44,
                           width: width*0.86,
                          // width: width*0.77,
 
@@ -472,45 +499,48 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
                         ),
                       ),
                       ),
-                      SizedBox(height: height*0.02,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(
                             height: height*0.08,
-                            width: width*0.35,
+                            width: width*0.44,
                             child: ElevatedButton(
                               onPressed: _resetSelections,
 
 
-                              style: ButtonStyle(
-                                foregroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
-                                backgroundColor: MaterialStatePropertyAll(MyMateThemes.secondaryColor),
-                                shape: MaterialStateProperty.all(
+                              style: ElevatedButton.styleFrom(
+                                foregroundColor:(MyMateThemes.primaryColor),
+                                backgroundColor:(MyMateThemes.secondaryColor),
+                                elevation:0,
+                                shape: (
                                     RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(width*0.01)
                                     )),
-
+                                // padding: EdgeInsets.all(10)
                               ),
                               child:  Text(
                                 "Edit",
-                                style: TextStyle(fontSize: width*0.05),
+                                style: TextStyle(fontSize: width*0.045,fontWeight: FontWeight.normal),
                               ),
                             ),
                           ),
                           SizedBox(width: width*0.04),
                           SizedBox(
                             height: height*0.08,
-                            width: width*0.35,
+                            width: width*0.44,
                             child: ElevatedButton(
                               onPressed: ()
                               {
                                 if (_areAllSelectionsComplete()) {
                                   _storeSelections();
-                                  // Navigator.push(
-                                  //     context,
-                                  //     MaterialPageRoute(
-                                  //         builder: (context) => ViewNavamsaChartPage()));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ViewRasiChartPage(
+                                            clientData: widget.clientData,
+                                          ),));
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
@@ -532,7 +562,7 @@ class _ManualRasiChartPage extends State<ManualRasiChartPage> {
                               child:  Text(
                                 "Next",
                                 textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: width*0.04),
+                                style: TextStyle(fontSize: width*0.045,fontWeight: FontWeight.normal),
                               ),
                             ),
                           ),

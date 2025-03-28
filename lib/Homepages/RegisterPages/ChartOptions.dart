@@ -105,7 +105,7 @@ class _ChartOptionsState extends State<ChartOptions> {
                     },
                     child: buildOptionContainer(
                       "Generate the chart",
-                      'assets/images/chart.svg',
+                      'assets/images/auto.svg',
                       _selectedOptionIndex == 1,
 
                     ),

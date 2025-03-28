@@ -56,41 +56,41 @@ class _ViewNavamsaChartPageState extends State<ViewNavamsaChartPage> {
           final double height = constraints.maxHeight;
           return Scaffold(
             backgroundColor: Colors.white,
-            appBar: AppBar(
-              backgroundColor: Colors.white,
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back_ios, color: MyMateThemes.primaryColor),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ViewRasiChartPage(clientData:clientData ,)));
-                },
-              ),
 
-            ),
             body:
               Column(
                 children: <Widget>[
+                  AppBar(
+                    backgroundColor: Colors.white,
+                    leading: IconButton(
+                      icon: Icon(Icons.arrow_back_ios,size: height*0.025, color: MyMateThemes.primaryColor),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ViewRasiChartPage(clientData:clientData ,)));
+                      },
+                    ),
 
+                  ),
                   Flex(
                     direction: Axis.vertical,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(rasiDetails,
-                        style: TextStyle( fontSize: width*0.054,fontWeight: FontWeight.w700 ,color: MyMateThemes.textColor,letterSpacing: 0.8),
+                        style: TextStyle( fontSize: width*0.05,fontWeight: FontWeight.w500 ,color: MyMateThemes.textColor,letterSpacing: 0.8),
                       ),
                       // SizedBox(height:5),
                       Text( calculate,
-                        style: TextStyle( fontSize: width*0.054,fontWeight: FontWeight.w700 ,color: MyMateThemes.primaryColor,letterSpacing: 0.8),
+                        style: TextStyle( fontSize: width*0.05,fontWeight: FontWeight.w500 ,color: MyMateThemes.primaryColor,letterSpacing: 0.8),
 
                       ),
                       SizedBox(height: height*0.02),
-                      Text(text1,style: TextStyle(color: MyMateThemes.textColor,fontSize: width*0.037,fontWeight: FontWeight.normal,letterSpacing: 0.8),),
-                      Text(text2,style: TextStyle(color: MyMateThemes.textColor,fontSize:  width*0.037,fontWeight: FontWeight.normal,letterSpacing: 0.8),),
-                      Text(text3,style: TextStyle(color: MyMateThemes.textColor,fontSize:  width*0.037,fontWeight: FontWeight.normal,letterSpacing: 0.8),),
-                      Text(text4,style: TextStyle(color: MyMateThemes.textColor,fontSize:  width*0.037,fontWeight: FontWeight.normal,letterSpacing: 0.8),),
-                      Text(text5,style: TextStyle(color: MyMateThemes.textColor,fontSize:  width*0.037,fontWeight: FontWeight.normal,letterSpacing: 0.8),),
+                      Text(text1,style: TextStyle(color: MyMateThemes.textColor,fontSize: width*0.036,fontWeight: FontWeight.normal),),
+                      Text(text2,style: TextStyle(color: MyMateThemes.textColor,fontSize:  width*0.036,fontWeight: FontWeight.normal),),
+                      Text(text3,style: TextStyle(color: MyMateThemes.textColor,fontSize:  width*0.036,fontWeight: FontWeight.normal),),
+                      Text(text4,style: TextStyle(color: MyMateThemes.textColor,fontSize:  width*0.036,fontWeight: FontWeight.normal),),
+                      Text(text5,style: TextStyle(color: MyMateThemes.textColor,fontSize:  width*0.036,fontWeight: FontWeight.normal),),
 
                     ],
                   ),
@@ -105,49 +105,51 @@ class _ViewNavamsaChartPageState extends State<ViewNavamsaChartPage> {
 
                   ),
 
-                  SizedBox(height: height*0.06,),
-
+                 // SizedBox(height: height*0.06,),
+                  Spacer(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
                         height: height*0.08,
-                        width: width*0.35,
+                        width: width*0.44,
                         child: ElevatedButton(
                           onPressed: ()
                           {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ManualNavamsaChartPage(clientData: clientData, astrology:astrology ,)));
+                                    builder: (context) => ManualNavamsaChartPage(clientData: clientData, astrology: astrology,)));
 
                           },
-                          style: ButtonStyle(
-                            foregroundColor: MaterialStatePropertyAll(MyMateThemes.primaryColor),
-                            backgroundColor: MaterialStatePropertyAll(MyMateThemes.secondaryColor),
-                            shape: MaterialStateProperty.all(
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor:(MyMateThemes.primaryColor),
+                            backgroundColor:(MyMateThemes.secondaryColor),
+                            elevation:0,
+                            shape: (
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(width*0.01)
                                 )),
-
+                            // padding: EdgeInsets.all(10)
                           ),
+
                           child:  Text(
                             "Edit",
-                            style: TextStyle(fontSize: width*0.05),
+                            style: TextStyle(fontSize: width*0.045,fontWeight: FontWeight.normal),
                           ),
                         ),
                       ),
                       SizedBox(width: width*0.04),
                       SizedBox(
                         height: height*0.08,
-                        width: width*0.35,
+                        width: width*0.44,
                         child: ElevatedButton(
                           onPressed: ()
                           {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => HomeScreenBeforeSubscibe(0, docId: '')));
+                                    builder: (context) => ViewNavamsaChartPage(clientData: clientData)));
                           },
                           style: ButtonStyle(
                             foregroundColor: MaterialStatePropertyAll(Colors.white),
@@ -161,14 +163,14 @@ class _ViewNavamsaChartPageState extends State<ViewNavamsaChartPage> {
                           child:  Text(
                             "Next",
                             textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: width*0.04),
+                            style: TextStyle(fontSize: width*0.045,fontWeight: FontWeight.normal),
                           ),
                         ),
                       ),
 
                     ],
                   ),
-                  SizedBox(height: height*0.01,),
+                  SizedBox(height: height*0.05,),
 
                 ],
               ),
