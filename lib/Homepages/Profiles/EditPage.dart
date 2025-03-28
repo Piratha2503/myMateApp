@@ -886,6 +886,7 @@ class _EditPageState extends State<EditPage> {
                       ),
                     ),
                     SizedBox(height: height*0.03),
+
                     SizedBox(
                       width: width*0.9,
                       height: height*0.07,
@@ -911,7 +912,7 @@ class _EditPageState extends State<EditPage> {
                           child: Text(
                             '+ Add more',
 
-                            style: TextStyle(color:MyMateThemes.primaryColor,fontSize: width*0.038,letterSpacing: 0.8),
+                            style: TextStyle(color:MyMateThemes.primaryColor,fontSize: width*0.038,letterSpacing: 0.8,fontWeight: FontWeight.normal),
                           ),
                         ),
                       ),
@@ -948,7 +949,7 @@ class _EditPageState extends State<EditPage> {
                   ),
                 ],
               ),
-              SizedBox(height: height*0.06),
+              SizedBox(height: height*0.04),
               Row(
                 children: [
                   SizedBox(width: width*0.02),
@@ -977,7 +978,7 @@ class _EditPageState extends State<EditPage> {
                   return _buildTagWithCloseButton(tag);
                 }).toList(),
               ),
-              SizedBox(height:height*0.06),
+              SizedBox(height:height*0.02),
               Row(
                 children: [
                   SizedBox(width: width*0.02),
@@ -1176,18 +1177,22 @@ class _EditPageState extends State<EditPage> {
 
               SizedBox(height:  height*0.1),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  ElevatedButton(
-                    onPressed: () async {
-                      // Store the selected values
-                      await _saveChanges();
-                      // await  StoreSelectedValues();
-                    },
-                    style: CommonButtonStyle.commonButtonStyle(),
-                    child: Text(
-                      'Save',
-                      style: TextStyle(color: Colors.white,fontSize: width*0.04, letterSpacing: 1.5),
+                  SizedBox(
+                    height: height*0.08,
+                    width: width*0.35,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        // Store the selected values
+                        await _saveChanges();
+                        // await  StoreSelectedValues();
+                      },
+                      style: CommonButtonStyle.commonButtonStyle(),
+                      child: Text(
+                        'Save',
+                        style: TextStyle(color: Colors.white,fontWeight:FontWeight.normal,fontSize: width*0.045),
+                      ),
                     ),
                   ),
                 ],
@@ -1351,16 +1356,18 @@ class _EditPageState extends State<EditPage> {
                       'Never',
                       style: TextStyle(
                         color:MyMateThemes.textColor,
-
                         fontSize:  width*0.027,
+                          fontWeight: FontWeight.w300
+
                       ),
                     ),
                     Text(
                       'Had',
                       style: TextStyle(
                         color:MyMateThemes.textColor,
-
                         fontSize:  width*0.027,
+                          fontWeight: FontWeight.w300
+
                       ),
                     ),
                   ],
@@ -1568,10 +1575,8 @@ class _EditPageState extends State<EditPage> {
                     Text(
                       'Never',
                       style: TextStyle(
-                        color: selectedSmokingIndex >= 0
-                            ? MyMateThemes.textColor
-                            : MyMateThemes.textColor.withOpacity(0.6),
-                        fontSize: width*0.027,
+                          color:MyMateThemes.textColor,
+                          fontSize:  width*0.027,
                           fontWeight: FontWeight.w300
 
                       ),
@@ -1581,7 +1586,6 @@ class _EditPageState extends State<EditPage> {
                       style: TextStyle(
                         color:MyMateThemes.textColor,
                         fontWeight: FontWeight.w300,
-
                         fontSize: width*0.027,
                       ),
                     ),

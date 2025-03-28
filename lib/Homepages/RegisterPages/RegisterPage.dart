@@ -68,7 +68,7 @@ Widget EnterYourPhoneNumber(){
             "Enter your phone number",
             style: TextStyle(
               fontSize: width*0.046,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w500,
               color: MyMateThemes.textColor,
               letterSpacing: 0.8,
 
@@ -491,7 +491,6 @@ class _PhoneFieldAndNextButtonState extends State<PhoneFieldAndNextButton>{
                       child: TextField(
                         readOnly: true,
                         showCursor: true,
-
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(horizontal:screenWidth* 0.025), // Adjust padding
                           hintText: "+$mobile_code",

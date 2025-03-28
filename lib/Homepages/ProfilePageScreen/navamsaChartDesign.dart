@@ -14,7 +14,7 @@ Widget NavamsaChartDesign(BuildContext context) {
   return Container(
     height: containerSize,
     width: containerSize,
-    color: MyMateThemes.containerColor,
+    color: Colors.white,
     child: Stack(
       children: [
         Positioned(top: boxSize * 0.13, left: boxSize * 0.14, child: IndividualBox(context,"01")),
@@ -45,12 +45,12 @@ Widget NavamsaChartDesign(BuildContext context) {
             Stack(
               children: [
                 Positioned(
-                  top: screenHeight * 0.01,
+                  top: screenHeight * 0.013,
                   left: screenWidth * 0.06,
-                  child: SvgPicture.asset('assets/images/Group 2217.svg', width: screenWidth * 0.1,height: screenHeight*0.1,),
+                  child: SvgPicture.asset('assets/images/Group 2217.svg', width: screenWidth * 0.12,height: screenHeight*0.11,),
                 ),
                 Positioned(
-                  bottom: screenHeight * 0.005,
+                  bottom: screenHeight * 0.02,
                   left: screenWidth * 0.01,
                   child: Column(
                     children: [
@@ -62,6 +62,15 @@ Widget NavamsaChartDesign(BuildContext context) {
                           fontWeight: FontWeight.normal,
                         ),
                       ),
+                    ],
+                  ),
+                ),
+                Positioned(
+                  bottom: screenHeight * 0.005,
+                  left: screenWidth * 0.01,
+                  child: Column(
+                    children: [
+
                       Text(
                         'Virgo (kanni)',
                         style: TextStyle(
@@ -83,12 +92,12 @@ Widget NavamsaChartDesign(BuildContext context) {
 }
 
 List<Widget> widgetList = [
-  Text("sun"),
+  Text("sun",style: TextStyle(fontWeight: FontWeight.normal,color:Colors.white,fontSize: 10),),
 
 ];
 
 Widget IndividualBox(BuildContext context, String number) {
-  double boxSize = MediaQuery.of(context).size.width * 0.14;
+  double boxSize = MediaQuery.of(context).size.width * 0.155;
   double borderRadius = boxSize * 0.08;
   double fontSize = boxSize * 0.2;
 
@@ -99,27 +108,40 @@ Widget IndividualBox(BuildContext context, String number) {
       color: MyMateThemes.primaryColor,
       borderRadius: BorderRadius.circular(borderRadius),
     ),
-    child: Stack(
-      children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-
+    child:
+    Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Row(
+          children: [
+            SizedBox(width: 3),
             Text(
               number,
               style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
+                color: Colors.black,
+                fontWeight: FontWeight.normal,
                 fontSize: fontSize,
               ),
             ),
-            SizedBox(height: boxSize*0.3,),
-            Column(
-              children: widgetList,
-            )
+
           ],
         ),
+        SizedBox(height: boxSize*0.3,),
+        Row(
+          children: [
+            SizedBox(width: 3),
+            Column(
+              children:
+              widgetList,
+
+            )
+
+          ],
+        ),
+
       ],
     ),
+
   );
 }

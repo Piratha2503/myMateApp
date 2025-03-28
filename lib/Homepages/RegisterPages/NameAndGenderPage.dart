@@ -53,7 +53,7 @@ class _NameAndGenderState extends State<NameAndGender> {
         PersonalDetails personalDetails = PersonalDetails();
 
         return Scaffold(
-          backgroundColor: MyMateThemes.backgroundColor,
+          backgroundColor:Colors.white,
           body: SingleChildScrollView(
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
 
@@ -66,17 +66,17 @@ class _NameAndGenderState extends State<NameAndGender> {
                     'Enter your details',
                     style: TextStyle(
                       color: MyMateThemes.textColor,
-                      fontSize: width * 0.06,
-                      fontWeight: FontWeight.w800,
+                      fontSize: width * 0.05,
+                      fontWeight: FontWeight.w500,
                       letterSpacing: 0.8,
                     ),
                   ),
                   SizedBox(height: height * 0.04),
-                  InputField("First name", firstNameController, width,height),
+                  InputField("First name", firstNameController),
                   SizedBox(height: height * 0.02),
-                  InputField("Last name", lastNameController, width,height),
+                  InputField("Last name", lastNameController),
                   SizedBox(height: height * 0.05),
-                  GenderButtons(personalDetails, width),
+                  GenderButtons(personalDetails),
                   SizedBox(height: height * 0.1),
                   Align(
                     alignment: Alignment.bottomRight,
@@ -87,8 +87,6 @@ class _NameAndGenderState extends State<NameAndGender> {
                       firstTextController: firstNameController,
                       lastTextController: lastNameController,
                       selectedGender: selectedGender,
-                      width: width,
-                      height: height,
 
                     ),
                   ),
@@ -101,36 +99,42 @@ class _NameAndGenderState extends State<NameAndGender> {
     );
   }
 
-  Widget GenderButtons(PersonalDetails personalDetails, double width) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        GenderButton(
-          gender: "Male",
-          icon: Icons.male_outlined,
-          isSelected: selectedGender == "Male",
-          onSelected: () {
-            setState(() {
-              selectedGender = "Male";
-              personalDetails.gender = selectedGender;
-            });
-          },
-          width: width,
-        ),
-        SizedBox(width: width * 0.05),
-        GenderButton(
-          gender: "Female",
-          icon: Icons.female_outlined,
-          isSelected: selectedGender == "Female",
-          onSelected: () {
-            setState(() {
-              selectedGender = "Female";
-              personalDetails.gender = selectedGender;
-            });
-          },
-          width: width,
-        ),
-      ],
+  Widget GenderButtons(PersonalDetails personalDetails) {
+
+    return Builder(
+      builder: (context) {
+        final width = MediaQuery.of(context).size.width;
+        final height = MediaQuery.of(context).size.height;
+
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            GenderButton(
+              gender: "Male",
+              icon: Icons.male_outlined,
+              isSelected: selectedGender == "Male",
+              onSelected: () {
+                setState(() {
+                  selectedGender = "Male";
+                  personalDetails.gender = selectedGender;
+                });
+              },
+            ),
+            SizedBox(width: width * 0.05),
+            GenderButton(
+              gender: "Female",
+              icon: Icons.female_outlined,
+              isSelected: selectedGender == "Female",
+              onSelected: () {
+                setState(() {
+                  selectedGender = "Female";
+                  personalDetails.gender = selectedGender;
+                });
+              },
+            ),
+          ],
+        );
+      }
     );
   }
 }
@@ -140,69 +144,98 @@ class GenderButton extends StatelessWidget {
   final IconData icon;
   final bool isSelected;
   final VoidCallback onSelected;
-  final double width;
 
   const GenderButton({
     required this.gender,
     required this.icon,
     required this.isSelected,
     required this.onSelected,
-    required this.width,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onSelected,
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(MyMateThemes.backgroundColor),
-        side: MaterialStateProperty.all(
-          BorderSide(
-            color: isSelected ? MyMateThemes.primaryColor : MyMateThemes.secondaryColor,
-            width: 2,
-          ),
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
+    return Container(
+      height: height*0.145,
+      width: width*0.27,
+
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: isSelected ? MyMateThemes.primaryColor.withOpacity(0.8) : MyMateThemes.textColor.withOpacity(0.3),
+          width:  isSelected ? width * 0.004 :width * 0.002 , // Use constraints
         ),
-        fixedSize: MaterialStateProperty.all(Size(width * 0.3, width * 0.3)),
-        shape: MaterialStateProperty.all(RoundedRectangleBorder()),
+        borderRadius: BorderRadius.circular(width*0.01),
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, size: width * 0.1, color: MyMateThemes.primaryColor),
-          SizedBox(height: width * 0.02),
-          Text(
-            gender,
-            style: TextStyle(fontWeight: FontWeight.w800, fontSize: width * 0.04),
+      child: ElevatedButton(
+        onPressed: onSelected,
+        style: ElevatedButton.styleFrom(
+          backgroundColor:Colors.white,
+          elevation:0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(width*0.01),
           ),
-        ],
+          // padding: EdgeInsets.all(10)
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: width * 0.15, color: MyMateThemes.primaryColor),
+            SizedBox(height: width * 0.02),
+            Text(
+              gender,
+              style: TextStyle(fontWeight: FontWeight.normal,color: MyMateThemes.textColor, fontSize: width * 0.04),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
-Widget InputField(String inputName, TextEditingController nameController, double width,double height) {
+Widget InputField(String inputName, TextEditingController nameController) {
 
-  return SizedBox(
-    width: width * 0.8,
-    height: height*0.08,
-    child: TextField(
-      controller: nameController,
-      decoration: InputDecoration(
-        label: Text(inputName),
-        labelStyle: TextStyle(
-          fontWeight: FontWeight.w600,
-          color: MyMateThemes.textColor.withOpacity(0.6),
-          fontSize:width*0.05 ,
-          letterSpacing: 0.8,
+  return Builder(
+    builder: (context) {
+      final width = MediaQuery.of(context).size.width;
+      final height = MediaQuery.of(context).size.height;
+
+      return SizedBox(
+        width: width * 0.8,
+        height: height*0.08,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: width * 0.02,vertical: height*0.01),
+          child: TextField(
+            controller: nameController,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(horizontal:width* 0.02), // Adjust padding
+
+              hintText: inputName,
+              hintStyle: TextStyle(color: MyMateThemes.textColor.withOpacity(0.5), fontSize: width*0.045,fontWeight: FontWeight.normal),
+                  enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(
+                  color: MyMateThemes.textColor.withOpacity(0.3),
+                  width: width*0.0025,
+                ),
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(
+                  color: MyMateThemes.textColor.withOpacity(0.4), // active color on focus
+                  width: width*0.003,
+                ),
+              ),
+            ),
+            style: TextStyle(
+              fontWeight: FontWeight.normal,
+              color: MyMateThemes.textColor,
+              fontSize: width*0.045,
+            ),
+          ),
         ),
-      ),
-      style: TextStyle(
-        fontWeight: FontWeight.w600,
-        color: MyMateThemes.textColor,
-        fontSize: width*0.05,
-      ),
-    ),
+      );
+    }
   );
 }
 
@@ -213,8 +246,6 @@ class NextButton extends StatelessWidget {
   final TextEditingController firstTextController;
   final TextEditingController lastTextController;
   final String selectedGender;
-  final double width;
-  final double height;
   final String docId;
 
   NextButton({
@@ -223,8 +254,6 @@ class NextButton extends StatelessWidget {
     required this.firstTextController,
     required this.lastTextController,
     required this.selectedGender,
-    required this.width,
-    required this.height,
     required this.docId,
     super.key,
 
@@ -264,6 +293,9 @@ class NextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
     return SizedBox(
       height: height * 0.08,
       width: width * 0.50,
@@ -272,7 +304,7 @@ class NextButton extends StatelessWidget {
         style: CommonButtonStyle.commonButtonStyle(),
         child: Text(
           "Get Started",
-          style: TextStyle(fontSize: width * 0.04),
+          style: TextStyle(fontSize: width * 0.04,fontWeight: FontWeight.normal),
         ),
       ),
     );

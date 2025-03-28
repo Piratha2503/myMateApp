@@ -70,18 +70,18 @@ class _ChartOptionsState extends State<ChartOptions> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyMateThemes.backgroundColor,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
-            double width = constraints.maxWidth;
-            double height = constraints.maxHeight;
+            double width = MediaQuery.of(context).size.width;
+            double height = MediaQuery.of(context).size.height;
 
             return Center(
               child: Column(
                 children: [
-                  SizedBox(height: height * 0.1),
-                  ChartOptionsTexts(width, height),
+                  SizedBox(height: height * 0.08),
+                  ChartOptionsTexts(),
                   SizedBox(height: height * 0.015),
                   GestureDetector(
                     onTap: () {
@@ -97,21 +97,22 @@ class _ChartOptionsState extends State<ChartOptions> {
                           MaterialPageRoute(
                               builder: (context) => Builder(
                                 builder: (context) {
-                                  return PlaceDateTimeInput(clientData: clientData,docId:clientData.docId!,);
+                                 // return PlaceDateTimeInput(clientData: clientData,docId:clientData.docId!,);
+                                  return PlaceDateTimeInput(clientData: clientData, docId: '',);
+
                                 }
                               )));
                     },
                     child: buildOptionContainer(
                       "Generate the chart",
-                      Icons.table_chart,
+                      'assets/images/auto.svg',
                       _selectedOptionIndex == 1,
-                      width * 0.8,
-                      height * 0.2,
+
                     ),
                   ),
-                  SizedBox(height: height * 0.035),
-                  SvgPicture.asset('assets/images/or.svg', width: width * 0.8),
-                  SizedBox(height: height * 0.035),
+                  SizedBox(height: height * 0.04),
+                  SvgPicture.asset('assets/images/or.svg', width: width * 0.75),
+                  SizedBox(height: height * 0.04),
                   GestureDetector(
                     onTap: () {
                       setState(() {
@@ -126,10 +127,9 @@ class _ChartOptionsState extends State<ChartOptions> {
                     },
                     child: buildOptionContainer(
                       "Enter chart manually",
-                      Icons.ads_click,
+                      'assets/images/pointer.svg',
                       _selectedOptionIndex == 2,
-                      width * 0.8,
-                      height * 0.2,
+
                     ),
                   ),
                 ],
@@ -141,83 +141,96 @@ class _ChartOptionsState extends State<ChartOptions> {
     );
   }
 
-  Widget ChartOptionsTexts(double width, double height) {
-    return Column(
-      children: [
-        Text(
-          "Choose Preferred",
-          style: TextStyle(
-            fontSize: width*0.055,
-            fontWeight: FontWeight.w700,
-            color: MyMateThemes.textColor,
-            letterSpacing: 0.8,
-          ),
-        ),
-        Text(
-          "Astrology chart input method",
-          style: TextStyle(
-            fontSize: width*0.05,
-            fontWeight: FontWeight.w700,
-            color: MyMateThemes.primaryColor,
-            letterSpacing: 0.8,
-          ),
-        ),
-        SizedBox(height: height * 0.02),
-        Text(
-          'You can generate astrology chart with ',
-          style: TextStyle(color: MyMateThemes.textColor, fontSize: width * 0.04, fontWeight: FontWeight.normal, letterSpacing: 0.5),
-        ),
-        Text(
-          'required birth details ',
-          style: TextStyle(color: MyMateThemes.textColor, fontSize: width * 0.04, fontWeight: FontWeight.normal, letterSpacing: 0.5),
-        ),
-        Text(
-          'or you can enter manually',
-          style: TextStyle(color: MyMateThemes.textColor, fontSize: width * 0.04, fontWeight: FontWeight.normal, letterSpacing: 0.5),
-        ),
-        SizedBox(height: height * 0.03),
-      ],
+  Widget ChartOptionsTexts() {
+    return Builder(
+      builder: (context) {
+        double width = MediaQuery.of(context).size.width;
+        double height = MediaQuery.of(context).size.height;
+        return Column(
+          children: [
+            Text(
+              "Choose Preferred",
+              style: TextStyle(
+                fontSize: width*0.05,
+                fontWeight: FontWeight.w500,
+                color: MyMateThemes.textColor,
+                letterSpacing: 0.8,
+              ),
+            ),
+            Text(
+              "Astrology chart input method",
+              style: TextStyle(
+                fontSize: width*0.05,
+                fontWeight: FontWeight.w500,
+                color: MyMateThemes.primaryColor,
+                letterSpacing: 0.8,
+              ),
+            ),
+            SizedBox(height: height * 0.025),
+            Text(
+              'You can generate astrology chart with ',
+              style: TextStyle(color: MyMateThemes.textColor, fontSize: width * 0.036, fontWeight: FontWeight.normal),
+            ),
+            Text(
+              'required birth details ',
+              style: TextStyle(color: MyMateThemes.textColor, fontSize: width * 0.036, fontWeight: FontWeight.normal),
+            ),
+            Text(
+              'or you can enter manually',
+              style: TextStyle(color: MyMateThemes.textColor, fontSize: width * 0.036, fontWeight: FontWeight.normal),
+            ),
+            SizedBox(height: height * 0.03),
+          ],
+        );
+      }
     );
   }
 
-  Widget buildOptionContainer(String title, IconData icon, bool isSelected, double width, double height) {
-    return Container(
-      height: height*1,
-      width: width,
-      decoration: BoxDecoration(
-        color: MyMateThemes.backgroundColor,
-        boxShadow: [
-          BoxShadow(
-            color: MyMateThemes.secondaryColor,
-            spreadRadius: 2,
-            offset: Offset(0, 0),
-          ),
-        ],
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: isSelected ? MyMateThemes.primaryColor : MyMateThemes.backgroundColor,
-          width: 2,
-        ),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            icon,
-            size: height * 0.4,
-            color: MyMateThemes.primaryColor,
-          ),
-          SizedBox(height: height * 0.1),
-          Text(
-            title,
-            style: TextStyle(
-              fontSize: width * 0.06,
-              fontWeight: FontWeight.w600,
-              color: MyMateThemes.textGray,
+  Widget buildOptionContainer(String title, svg, bool isSelected) {
+    return Builder(
+      builder: (context) {
+        double width = MediaQuery.of(context).size.width;
+        double height = MediaQuery.of(context).size.height;
+        return Container(
+          height: height*0.14,
+          width: width * 0.73,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            // boxShadow: [
+            //   BoxShadow(
+            //     color: MyMateThemes.secondaryColor,
+            //     spreadRadius: 1,
+            //     offset: Offset(0, 0),
+            //   ),
+            // ],
+            borderRadius: BorderRadius.circular(width*0.015),
+            border: Border.all(
+              color: isSelected ? MyMateThemes.primaryColor : MyMateThemes.primaryColor.withOpacity(0.3),
+              width: width*0.004,
             ),
           ),
-        ],
-      ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(svg,height:height*0.047),
+              // Icon(
+              //   icon,
+              //   size: height * 0.05,
+              //   color: MyMateThemes.primaryColor,
+              // ),
+              SizedBox(height: height * 0.015),
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: width * 0.042,
+                  fontWeight: FontWeight.normal,
+                  color: MyMateThemes.textColor,
+                ),
+              ),
+            ],
+          ),
+        );
+      }
     );
   }
 }
