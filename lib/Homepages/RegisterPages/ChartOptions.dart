@@ -103,7 +103,7 @@ class _ChartOptionsState extends State<ChartOptions> {
                                 }
                               )));
                     },
-                    child: buildOptionContainer(
+                    child: buildGenerateContainer(
                       "Generate the chart",
                       'assets/images/auto.svg',
                       _selectedOptionIndex == 1,
@@ -125,7 +125,7 @@ class _ChartOptionsState extends State<ChartOptions> {
                         ),
                       );
                     },
-                    child: buildOptionContainer(
+                    child: buildManualContainer(
                       "Enter chart manually",
                       'assets/images/pointer.svg',
                       _selectedOptionIndex == 2,
@@ -186,14 +186,16 @@ class _ChartOptionsState extends State<ChartOptions> {
     );
   }
 
-  Widget buildOptionContainer(String title, svg, bool isSelected) {
+  Widget buildGenerateContainer(String title, svg, bool isSelected) {
     return Builder(
       builder: (context) {
+
         double width = MediaQuery.of(context).size.width;
         double height = MediaQuery.of(context).size.height;
         return Container(
           height: height*0.14,
           width: width * 0.73,
+
           decoration: BoxDecoration(
             color: Colors.white,
             // boxShadow: [
@@ -205,8 +207,8 @@ class _ChartOptionsState extends State<ChartOptions> {
             // ],
             borderRadius: BorderRadius.circular(width*0.015),
             border: Border.all(
-              color: isSelected ? MyMateThemes.primaryColor : MyMateThemes.primaryColor.withOpacity(0.3),
-              width: width*0.004,
+              color: isSelected ? MyMateThemes.primaryColor.withOpacity(0.8) : MyMateThemes.primaryColor.withOpacity(0.3),
+              width:  isSelected ? width * 0.004 :width * 0.002 , // Use constraints
             ),
           ),
           child: Column(
@@ -233,4 +235,54 @@ class _ChartOptionsState extends State<ChartOptions> {
       }
     );
   }
+  Widget buildManualContainer(String title, svg, bool isSelected) {
+    return Builder(
+        builder: (context) {
+
+          double width = MediaQuery.of(context).size.width;
+          double height = MediaQuery.of(context).size.height;
+          return Container(
+            height: height*0.14,
+            width: width * 0.73,
+
+            decoration: BoxDecoration(
+              color: Colors.white,
+              // boxShadow: [
+              //   BoxShadow(
+              //     color: MyMateThemes.secondaryColor,
+              //     spreadRadius: 1,
+              //     offset: Offset(0, 0),
+              //   ),
+              // ],
+              borderRadius: BorderRadius.circular(width*0.015),
+              border: Border.all(
+                color: isSelected ? MyMateThemes.primaryColor.withOpacity(0.8) : MyMateThemes.textColor.withOpacity(0.3),
+                width:  isSelected ? width * 0.004 :width * 0.002 , // Use constraints
+              ),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(svg,height:height*0.047),
+                // Icon(
+                //   icon,
+                //   size: height * 0.05,
+                //   color: MyMateThemes.primaryColor,
+                // ),
+                SizedBox(height: height * 0.015),
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: width * 0.042,
+                    fontWeight: FontWeight.normal,
+                    color: MyMateThemes.textColor,
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+    );
+  }
+
 }

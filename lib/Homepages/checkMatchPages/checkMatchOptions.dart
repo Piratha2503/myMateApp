@@ -1,3 +1,4 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
@@ -31,13 +32,11 @@ class _CheckMatchOptionsScreenState extends State<CheckMatchOptionsScreen> {
   String? _selectedValue;
 
   String soulfull_name = "";
-  String? soulprofilePicUrl;
   String souldob = "";
   String souldot = "";
   String soulcity = "";
   String soulcountry = "";
 
-  String? clientprofilePicUrl;
   String? clientfull_name="";
   String? clientdob="";
   String? clientdot="";
@@ -52,7 +51,6 @@ class _CheckMatchOptionsScreenState extends State<CheckMatchOptionsScreen> {
     if (soulData.isNotEmpty && clientData.isNotEmpty) {
       setState(() {
         soulfull_name = soulData['full_name'] ?? "N/A";
-        soulprofilePicUrl = soulData['profile_pic_url'] ?? '';
         souldob = soulData['dob'] ?? "N/A";
         souldot = soulData['dot'] ?? "N/A";
         soulcity = soulData['city'] ?? "N/A";
@@ -60,7 +58,6 @@ class _CheckMatchOptionsScreenState extends State<CheckMatchOptionsScreen> {
 
 
         clientfull_name = clientData['full_name'] ?? "N/A";
-        clientprofilePicUrl = clientData['profile_pic_url'] ?? '';  // Fetching client pic separately
         clientdob = clientData['dob'] ?? "N/A";
         clientdot = clientData['dot'] ?? "N/A";
         clientcity = clientData['city'] ?? "N/A";
@@ -445,7 +442,6 @@ class _CheckMatchOptionsScreenState extends State<CheckMatchOptionsScreen> {
       },
     );
   }
-
   void showAddFriendPopup(bool isLeft) {
     showDialog(
       context: context,
@@ -674,37 +670,45 @@ class _CheckMatchOptionsScreenState extends State<CheckMatchOptionsScreen> {
     );
   }
 
+
   Widget buildDropdown(bool isLeft) {
     List<String> dropdownItems = isLeft
         ? ['@ My username', 'Add New', 'Global Search']
         : ['Select', 'Add New', 'Add Friends', 'Global Search'];
 
     return Container(
-      width: MediaQuery.of(context).size.width * 0.43,
+      width: MediaQuery.of(context).size.width * 0.44,
       height: MediaQuery.of(context).size.height * 0.06,
       padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.025),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: MyMateThemes.containerColor,
       ),
-      child: DropdownButtonHideUnderline(
+      child:
+      DropdownButtonHideUnderline(
         child: DropdownButton<String>(
+
           value: isLeft
               ? (dropdownItems.contains(leftDropdownValue) ? leftDropdownValue : dropdownItems.first)
               : (dropdownItems.contains(rightDropdownValue) ? rightDropdownValue : dropdownItems.first),
           items: dropdownItems.map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
+
               value: value,
               child: Text(
                 value,
                 style: TextStyle(
                   color: MyMateThemes.textColor,
                   fontSize: MediaQuery.of(context).size.width * 0.04,
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.normal,
                 ),
               ),
             );
+
           }).toList(),
+       dropdownColor: Colors.white,
+          borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width  * 0.02),
+
           onChanged: (String? newValue) {
             setState(() {
               if (isLeft) {
@@ -726,7 +730,7 @@ class _CheckMatchOptionsScreenState extends State<CheckMatchOptionsScreen> {
               }
             });
           },
-          icon:  Icon(Icons.arrow_drop_down, color: Colors.black54),
+          icon:  Icon(Icons.keyboard_arrow_down_outlined, color:MyMateThemes.textColor),
         ),
       ),
     );
@@ -736,7 +740,7 @@ class _CheckMatchOptionsScreenState extends State<CheckMatchOptionsScreen> {
     return Column(
       children: details.entries.map((entry) =>
           Container(
-            width: MediaQuery.of(context).size.width * 0.43,
+            width: MediaQuery.of(context).size.width * 0.44,
             height: MediaQuery.of(context).size.height * 0.055,
 
             padding:  EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
@@ -766,7 +770,7 @@ class _CheckMatchOptionsScreenState extends State<CheckMatchOptionsScreen> {
     return Column(
       children: details.entries.map((entry) =>
           Container(
-            width: MediaQuery.of(context).size.width * 0.43,
+            width: MediaQuery.of(context).size.width * 0.44,
             height: MediaQuery.of(context).size.height * 0.055,
 
             padding:  EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
@@ -802,10 +806,10 @@ class _CheckMatchOptionsScreenState extends State<CheckMatchOptionsScreen> {
 
       backgroundColor: Colors.white,
       body: Padding(
-        padding: EdgeInsets.all(screenWidth * 0.05), // Responsive padding
+        padding: EdgeInsets.all(screenWidth * 0.04), // Responsive padding
         child: Column(
           children: [
-            SizedBox(height: screenHeight * 0.04), // Responsive spacing
+            SizedBox(height: screenHeight * 0.06), // Responsive spacing
             Row(
               children: [
                 GestureDetector(
@@ -819,8 +823,8 @@ class _CheckMatchOptionsScreenState extends State<CheckMatchOptionsScreen> {
                   },
                   child: SvgPicture.asset(
                     'assets/images/chevron-left.svg',
-                    height: screenWidth * 0.04,
-                    width: screenWidth * 0.04,
+                    height: screenWidth * 0.035,
+                    width: screenWidth * 0.035,
                   ),
                 ),
               ],
@@ -846,7 +850,7 @@ class _CheckMatchOptionsScreenState extends State<CheckMatchOptionsScreen> {
 
             Container(
               height: screenHeight * 0.09,
-              width: screenWidth * 0.85,
+              width: screenWidth * 0.9,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(screenWidth * 0.01),
               ),
@@ -876,11 +880,11 @@ class _CheckMatchOptionsScreenState extends State<CheckMatchOptionsScreen> {
                   padding: MaterialStateProperty.all(
                     EdgeInsets.symmetric(
                       vertical: screenHeight * 0.02,
-                      horizontal: screenWidth * 0.1,
+                      horizontal: screenWidth * 0.01,
                     ),
                   ),
                 ),
-                child: Text('Check Match'),
+                child: Text('Check Match',style: TextStyle(fontWeight: FontWeight.normal,fontSize: screenWidth*0.04),),
               ),
             ),
           ],

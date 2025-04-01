@@ -198,37 +198,57 @@ class _PageThreeState extends State<PageThree> {
               ),
               borderRadius: BorderRadius.circular(width*0.02),
             ),
+            height: height*0.15,
             width: width*0.9,
             child: Padding(
-              padding:  EdgeInsets.symmetric(horizontal:width*0.035,vertical: height*0.015),
-              child: Column(
-                children: [
-                  TextField(
-                    controller: _bioController,
-                    maxLength: 192,
-                    maxLines: null,
-                    minLines: 1,
-                    onChanged: (text) {
-                      setState(() {
-                        characterCount = _bioController.text.length;
-                        error = characterCount > 192 ? 'Character limit exceeded' : '';
-                      });
-                    },
-                    decoration: InputDecoration(
-                      label: Text(
-                        'Bio',
-                        style: TextStyle(
-                          fontSize: width*0.045,
-                          color:MyMateThemes.textColor,
-                        ),
-                      ),
-                      counterText: characterCount <= 192
-                          ? '$characterCount/192'
-                          : '',
-                    ),
-                  ),
+              padding:  EdgeInsets.symmetric(horizontal:width*0.035,vertical: height*0.001),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    TextField(
 
-                ],
+                      controller: _bioController,
+                      maxLength: 192,
+                      maxLines: null,
+                      minLines: 1,
+                      onChanged: (text) {
+                        setState(() {
+                          characterCount = _bioController.text.length;
+                          error = characterCount > 192 ? 'Character limit exceeded' : '';
+                        });
+                      },
+                      decoration: InputDecoration(
+                border: InputBorder.none,
+                        label:
+                        Row(children: [
+                          Text(
+                            'Bio',
+                            style: TextStyle(
+                              fontSize: width*0.045,
+                              color:MyMateThemes.textColor,
+                            ),
+                          ),
+                          SizedBox(width: width*0.01,),
+                          Text(
+                            '(192 Letters)',
+                            style: TextStyle(
+                              fontSize: width*0.025,
+                              color:MyMateThemes.textColor.withOpacity(0.3),
+                            ),
+                          ),
+
+                        ],),
+                        //
+                        // counterText: characterCount <= 192
+                        //     ? '$characterCount/192'
+                        //     : '',
+                        counterText: '',
+
+                      ),
+                    ),
+
+                  ],
+                ),
               ),
 
             ),
@@ -254,7 +274,7 @@ class _PageThreeState extends State<PageThree> {
                 style: TextStyle(
                   color: MyMateThemes.textColor,
                   fontWeight: FontWeight.w500,
-                  fontSize: width*0.048,
+                  fontSize: width*0.045,
                 ),
               ),
             ],
@@ -288,13 +308,12 @@ class _PageThreeState extends State<PageThree> {
                 }
               },
 
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(MyMateThemes.secondaryColor),
-                foregroundColor: MaterialStateProperty.all<Color>(MyMateThemes.primaryColor),
-                shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(width*0.02)
-                    )),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: MyMateThemes.secondaryColor,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(width*0.03),
+                ),
               ),
               child: Align(
                 alignment: Alignment.centerLeft,
@@ -306,22 +325,23 @@ class _PageThreeState extends State<PageThree> {
           Align(
             alignment: Alignment.bottomRight,
             child: SizedBox(
-              height: MediaQuery.of(context).size.height * 0.07, // 6% of screen height
-              width: MediaQuery.of(context).size.width * 0.35, // 45% of screen width
+              height: MediaQuery.of(context).size.height * 0.08,
+              width: MediaQuery.of(context).size.width * 0.45,
               child:     ElevatedButton(
                 onPressed: () async {
                   await _saveAndUpdateForms();
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: MyMateThemes.primaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(3.0),
-                  ),
+                backgroundColor: MyMateThemes.primaryColor,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(width*0.01),
                 ),
-                child: Text('Complete',style: TextStyle(color: Colors.white),),
+              ),
+                child: Text('Complete', style: TextStyle(color:Colors.white,fontSize: width * 0.045,fontWeight: FontWeight.normal), // Responsive font size
+    ),),
               ),
             ),
-          ),
           SizedBox(height: height*0.03),
 
         ],

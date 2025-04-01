@@ -53,7 +53,7 @@ class CompleteProfileWidgets {
         ),
         borderRadius: BorderRadius.circular(10.0),
       ),
-      width: width * 0.99,
+      width: width * 1,
       height: height*0.065,
       child: Stack(
         children: [
@@ -63,11 +63,11 @@ class CompleteProfileWidgets {
             bottom: 0,
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Text(label, style: TextStyle(color: MyMateThemes.textColor,fontSize: width*.04)),
+              child: Text(label, style: TextStyle(fontWeight:FontWeight.normal,color: MyMateThemes.textColor,fontSize: width*.04)),
             ),
           ),
           Positioned(
-            left: width*0.5,
+            left: width*0.53,
             right: 0,
             top: 0,
             bottom: 0,
@@ -79,12 +79,15 @@ class CompleteProfileWidgets {
                   hintText: errorText == null ? hintText : null,
                   errorText: errorText,
                   hintStyle: TextStyle(
-                    color: MyMateThemes.textColor.withOpacity(0.5),
-                      fontSize: width*.042
+                    color: MyMateThemes.textColor.withOpacity(0.3),
+                    fontWeight: FontWeight.normal,
+                    fontSize: MediaQuery.of(context).size.width * 0.04,
                   ),
                   border: InputBorder.none,
                 ),
-                style: TextStyle(color: MyMateThemes.textColor,fontSize: width*.042),
+                style: TextStyle(color: MyMateThemes.textColor,
+                  fontWeight: FontWeight.normal,
+                  fontSize: MediaQuery.of(context).size.width * 0.04,),
               ),
             ),
           ),
@@ -113,17 +116,19 @@ class CompleteProfileWidgets {
         ),
         borderRadius: BorderRadius.circular(10.0),
       ),
-      width: width * 0.99,
+      width: width * 1,
       height: height*0.065,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(width: width*0.03),
-          Text(label, style: TextStyle(color: MyMateThemes.textColor, fontSize :width*.04)),
+          Text(label, style: TextStyle(color: MyMateThemes.textColor, fontSize :width*.04,fontWeight:FontWeight.normal)),
           Spacer(),
           DropdownButtonHideUnderline(
             child: DropdownButton<String>(
+              icon:  Icon(Icons.keyboard_arrow_down_outlined, color:MyMateThemes.primaryColor),
+
               value: value,
               onChanged: onChanged,
               items: items.map<DropdownMenuItem<String>>((String item) {
@@ -133,12 +138,25 @@ class CompleteProfileWidgets {
                     item,
                     style: item == '-- Select Option --'
                         ? TextStyle(
-                        color: MyMateThemes.textColor.withOpacity(0.5))
-                        : TextStyle(color: MyMateThemes.textColor),
+                        color: MyMateThemes.textColor.withOpacity(0.3),
+                      fontWeight: FontWeight.normal,
+                      fontSize: MediaQuery.of(context).size.width * 0.04,
+
+                    )
+                        : TextStyle(color: MyMateThemes.textColor,
+                      fontWeight: FontWeight.normal,
+                      fontSize: MediaQuery.of(context).size.width * 0.04,
+
+                    ),
                   ),
                 );
               }).toList(),
+              dropdownColor: Colors.white,
+              borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width  * 0.02),
+
             ),
+
+
           ),
         ],
       ),

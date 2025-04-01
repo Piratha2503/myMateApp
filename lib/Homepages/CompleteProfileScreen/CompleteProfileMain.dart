@@ -57,7 +57,7 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
                   SizedBox(height: height*0.02,),
 
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.02),
+                    padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.005),
                     child: Row(
                       children: [
                         GestureDetector(
@@ -69,16 +69,16 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
                           },
                           child: SvgPicture.asset(
                             'assets/images/chevron-left.svg',
-                            height: height * 0.02,
+                            height: height * 0.015,
                           ),
                         ),
-                        SizedBox(width: width*0.2,),
+                        SizedBox(width: width*0.23,),
                         Text(
                           "Complete Profile",
                           style: TextStyle(
                             color: MyMateThemes.textColor,
-                            fontWeight: FontWeight.w700,
-                            fontSize: width * 0.045,
+                            fontWeight: FontWeight.w500,
+                            fontSize: width * 0.05,
                           ),
                         ),
                         Spacer(flex: 2),
@@ -86,7 +86,8 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
                     ),
                   ),
                   SizedBox(height: height*0.05,),
-                  _buildStepIndicator(),
+
+                  _buildCustomStepIndicator(currentPage),
                   SizedBox(height: height*0.01,),
                   _buildCurrentPage(currentPage,),
                   SizedBox(height: height*0.01,),
@@ -114,24 +115,47 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
     );
   }
 
-  LayoutBuilder _buildStepIndicator() {
-    return LayoutBuilder(
-        builder: (context, constraints) {
-          double width = MediaQuery.of(context).size.width;
-          double height = MediaQuery.of(context).size.height;
+  Widget _buildCustomStepIndicator(int currentPage) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: List.generate(4 * 2 - 1, (index) {
+        if (index.isEven) {
+          // Circle
+          int stepIndex = index ~/ 2;
+          bool isCompleted = stepIndex < currentPage;
+          bool isCurrent = stepIndex == currentPage;
 
-        return FlutterStepIndicator(
-          height: 24,
-          paddingLine:  EdgeInsets.symmetric(horizontal: 0),
-          positiveColor: MyMateThemes.primaryColor,
-          progressColor: MyMateThemes.primaryColor.withOpacity(0.3),
-          negativeColor: MyMateThemes.primaryColor.withOpacity(0.3),
-          padding:  EdgeInsets.all(width*0.01),
-          list: stepStates,
-          onChange: (index) {},
-          page: currentPage,
-        );
-      }
+          return Container(
+            width: width*0.07,
+            height: height*0.04,
+            decoration: BoxDecoration(
+              color: isCompleted ? MyMateThemes.primaryColor : Colors.white,
+              border: Border.all(
+                color: isCompleted || isCurrent
+                    ? MyMateThemes.primaryColor
+                    : MyMateThemes.secondaryColor,
+                width: width * 0.004,
+              ),
+              shape: BoxShape.circle,
+            ),
+            child: isCompleted
+                ? Icon(Icons.check, color: Colors.white, size:width*0.05)
+                : null,
+          );
+        } else {
+          // Line between circles
+          int lineIndex = (index - 1) ~/ 2;
+          return Container(
+            width: width*0.2, // Adjust this to control line length
+            height: height*0.0015,
+            color: lineIndex < currentPage - 1
+                ? MyMateThemes.primaryColor
+                : MyMateThemes.primaryColor
+          );
+        }
+      }),
     );
   }
 

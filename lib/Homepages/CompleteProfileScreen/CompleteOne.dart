@@ -121,6 +121,7 @@ class _PageOneState extends State<PageOne> {
         print("Failed to upload image. Status code: ${response.statusCode}");
       }
     } catch (e) {
+    } catch (e) {
       print("Error uploading image: $e");
     }
   }
@@ -186,6 +187,7 @@ class _PageOneState extends State<PageOne> {
 
     return Center(
       child: Column(
+
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           SizedBox(height: screenHeight * 0.04),
@@ -194,7 +196,8 @@ class _PageOneState extends State<PageOne> {
             "Update Your Profile",
             style: TextStyle(
               color: MyMateThemes.textColor,
-              fontSize: screenWidth * 0.05, // Adjust font size based on screen width
+              fontWeight: FontWeight.normal,
+              fontSize: screenWidth * 0.04, // Adjust font size based on screen width
             ),
           ),
 
@@ -204,32 +207,81 @@ class _PageOneState extends State<PageOne> {
             alignment: Alignment.center,
             children: [
               GestureDetector(
+                child:
+                Container(
+                  width: screenWidth * 0.29,
+                  height:screenHeight* 0.14,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: MyMateThemes.secondaryColor,
+                    border: Border.all(
+                      color: MyMateThemes.primaryColor,
+                      width: screenWidth * 0.004,
+                    ),
+
+                  ),
                 child: _imageFile != null
                     ? CircleAvatar(
-                  radius: screenWidth * 0.12, // Adjust avatar size dynamically
+                  radius: screenWidth * 0.13, // Adjust avatar size dynamically
                   backgroundImage: FileImage(_imageFile!),
                 )
                     : SvgPicture.asset(
-                  'assets/images/circle.svg',
-                  height: screenHeight * 0.15, // Responsive size
+                  '',
+                  height: screenHeight * 0.13, // Responsive size
                 ),
+              ),
               ),
             ],
           ),
 
-          SizedBox(height: screenHeight * 0.06),
+          SizedBox(height: screenHeight * 0.08),
 
           GestureDetector(
             onTap: () {
               _chooseImage(ImageSource.gallery);
             },
-            child: SvgPicture.asset(
-              'assets/images/cloud.svg',
-              height: screenHeight * 0.11, // Responsive icon size
-            ),
+            child:
+                Row(
+
+                  children: [
+                    SizedBox(width: screenWidth * 0.18),
+                    SizedBox(
+                      height: screenHeight * 0.07,
+                      width: screenWidth* 0.58,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: MyMateThemes.secondaryColor,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(screenWidth*0.01),
+                          ),
+                        ),
+                        onPressed: () {  },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              'assets/images/choosephoto.svg',height: screenHeight*0.02,
+                            ),
+                            SizedBox(width: screenWidth * 0.03),
+
+                            Text(
+                              'Choose Photo',
+                              style: TextStyle(color:MyMateThemes.primaryColor,fontSize: screenWidth * 0.04,fontWeight: FontWeight.normal), // Responsive font size
+
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+
+                  ],
+                ),
+
           ),
 
-          SizedBox(height: screenHeight * 0.015),
+          SizedBox(height: screenHeight * 0.02),
 
           GestureDetector(
             child: SvgPicture.asset(
@@ -238,38 +290,77 @@ class _PageOneState extends State<PageOne> {
             ),
           ),
 
-          SizedBox(height: screenHeight * 0.015),
+          SizedBox(height: screenHeight * 0.02),
 
           GestureDetector(
             onTap: () {
               _chooseImage(ImageSource.camera);
             },
-            child: SvgPicture.asset(
-              'assets/images/took.svg',
-              height: screenHeight * 0.08, // Adjust icon size
+            child:
+            Row(
+              children: [
+                SizedBox(width: screenWidth * 0.18),
+
+                SizedBox(
+                  height: screenHeight * 0.07,
+                  width: screenWidth* 0.58,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: MyMateThemes.secondaryColor,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(screenWidth*0.01),
+                      ),
+                    ),
+                    onPressed: () {  },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+
+                      children: [
+                        SvgPicture.asset(
+                          'assets/images/takephoto.svg',height: screenHeight*0.02,
+                        ),
+                        SizedBox(width: screenWidth * 0.03),
+                        Text(
+                          'Take Photo',
+                          style: TextStyle(color:MyMateThemes.primaryColor,fontSize: screenWidth * 0.04,fontWeight: FontWeight.normal), // Responsive font size
+
+                        ),
+
+                      ],
+                    ),
+                  ),
+                ),
+
+              ],
             ),
           ),
 
-          SizedBox(height: screenHeight * 0.05),
+          SizedBox(height: screenHeight * 0.15),
 
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.08,
-                width: MediaQuery.of(context).size.width * 0.32,
+                width: MediaQuery.of(context).size.width * 0.45,
                 child:
                 ElevatedButton(
                   onPressed: _onSave,
-                  style: CommonButtonStyle.commonButtonStyle(),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: MyMateThemes.primaryColor,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(screenWidth*0.01),
+                    ),
+                  ),
                   child: Text(
                     'Next',
-                    style: TextStyle(fontSize: screenWidth * 0.045), // Responsive font size
+                    style: TextStyle(color:Colors.white,fontSize: screenWidth * 0.045,fontWeight: FontWeight.normal), // Responsive font size
                   ),
                 ),
               ),
 
-              SizedBox(width: screenWidth * 0.1),
             ],
           ),
         ],

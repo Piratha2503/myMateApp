@@ -413,7 +413,8 @@ class _SubscribeHomeScreenStructuredPageCarouselSlidersState extends State<Subsc
                       builder: (context) =>
                           OtherProfilePage(SoulId: clientData.docId.toString())));
             },
-            child: Container(
+            child:
+            Container(
               margin: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.01), // Use constraints
               decoration: BoxDecoration(
                 border: Border.all(
