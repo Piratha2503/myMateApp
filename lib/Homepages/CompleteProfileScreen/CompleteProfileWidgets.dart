@@ -67,7 +67,7 @@ class CompleteProfileWidgets {
             ),
           ),
           Positioned(
-            left: width*0.53,
+            left: width*0.432,
             right: 0,
             top: 0,
             bottom: 0,
@@ -80,7 +80,7 @@ class CompleteProfileWidgets {
                   errorText: errorText,
                   hintStyle: TextStyle(
                     color: MyMateThemes.textColor.withOpacity(0.3),
-                    fontWeight: FontWeight.normal,
+                    fontWeight: FontWeight.w300,
                     fontSize: MediaQuery.of(context).size.width * 0.04,
                   ),
                   border: InputBorder.none,
@@ -91,6 +91,7 @@ class CompleteProfileWidgets {
               ),
             ),
           ),
+
         ],
       ),
     );
@@ -118,13 +119,15 @@ class CompleteProfileWidgets {
       ),
       width: width * 1,
       height: height*0.065,
-      child: Row(
+      child:
+      Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(width: width*0.03),
           Text(label, style: TextStyle(color: MyMateThemes.textColor, fontSize :width*.04,fontWeight:FontWeight.normal)),
           Spacer(),
+
           DropdownButtonHideUnderline(
             child: DropdownButton<String>(
               icon:  Icon(Icons.keyboard_arrow_down_outlined, color:MyMateThemes.primaryColor),
@@ -134,20 +137,28 @@ class CompleteProfileWidgets {
               items: items.map<DropdownMenuItem<String>>((String item) {
                 return DropdownMenuItem<String>(
                   value: item,
-                  child: Text(
-                    item,
-                    style: item == '-- Select Option --'
-                        ? TextStyle(
-                        color: MyMateThemes.textColor.withOpacity(0.3),
-                      fontWeight: FontWeight.normal,
-                      fontSize: MediaQuery.of(context).size.width * 0.04,
+                  child:
+                  Row(
+                    children: [
 
-                    )
-                        : TextStyle(color: MyMateThemes.textColor,
-                      fontWeight: FontWeight.normal,
-                      fontSize: MediaQuery.of(context).size.width * 0.04,
+                      Text(
+                        item,
+                        style: item == '-- Select Option --'
+                            ? TextStyle(
+                            color: MyMateThemes.textColor.withOpacity(0.3),
+                          fontWeight: FontWeight.w300,
+                          fontSize: MediaQuery.of(context).size.width * 0.04,
 
-                    ),
+                        )
+                            : TextStyle(color: MyMateThemes.textColor,
+                          fontWeight: FontWeight.normal,
+                          fontSize: MediaQuery.of(context).size.width * 0.04,
+
+                        ),
+                      ),
+                      SizedBox(width: width*0.08),
+
+                    ],
                   ),
                 );
               }).toList(),
@@ -158,6 +169,8 @@ class CompleteProfileWidgets {
 
 
           ),
+          SizedBox(width: width*0.02),
+
         ],
       ),
     );

@@ -180,7 +180,7 @@ class _PageThreeState extends State<PageThree> {
             items: ['-- Select Option --', 'Tamil', 'English', 'Sinhala'],
             onChanged: (value) => setState(() {
               _selectedLanguage = value;
-            }), context: context, 
+            }), context: context,
           ),
           SizedBox(height: height*0.015),
           CompleteProfileWidgets.buildTextFieldRow(
@@ -189,6 +189,20 @@ class _PageThreeState extends State<PageThree> {
 
             controller: _siblingsController,  context:context ,
           ),
+          SizedBox(height: height*0.03),
+          Row(
+            children: [
+              SizedBox(width: width*0.01),
+              Text(
+                'Bio',
+                style: TextStyle(
+                  color: MyMateThemes.textColor,
+                  fontWeight: FontWeight.normal,
+                  fontSize: width*0.045,
+                ),
+              ),
+            ],
+          ),
           SizedBox(height: height*0.015),
           Container(
             decoration: BoxDecoration(
@@ -196,63 +210,50 @@ class _PageThreeState extends State<PageThree> {
                 color: MyMateThemes.textColor.withOpacity(0.2),
                 width: 1,
               ),
-              borderRadius: BorderRadius.circular(width*0.02),
+              borderRadius: BorderRadius.circular(width * 0.02),
             ),
-            height: height*0.15,
-            width: width*0.9,
-            child: Padding(
-              padding:  EdgeInsets.symmetric(horizontal:width*0.035,vertical: height*0.001),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    TextField(
-
-                      controller: _bioController,
-                      maxLength: 192,
-                      maxLines: null,
-                      minLines: 1,
-                      onChanged: (text) {
-                        setState(() {
-                          characterCount = _bioController.text.length;
-                          error = characterCount > 192 ? 'Character limit exceeded' : '';
-                        });
-                      },
-                      decoration: InputDecoration(
-                border: InputBorder.none,
-                        label:
-                        Row(children: [
-                          Text(
-                            'Bio',
-                            style: TextStyle(
-                              fontSize: width*0.045,
-                              color:MyMateThemes.textColor,
-                            ),
-                          ),
-                          SizedBox(width: width*0.01,),
-                          Text(
-                            '(192 Letters)',
-                            style: TextStyle(
-                              fontSize: width*0.025,
-                              color:MyMateThemes.textColor.withOpacity(0.3),
-                            ),
-                          ),
-
-                        ],),
-                        //
-                        // counterText: characterCount <= 192
-                        //     ? '$characterCount/192'
-                        //     : '',
-                        counterText: '',
-
-                      ),
+            height: height * 0.15,
+            width: width * 0.9,
+            padding: EdgeInsets.symmetric(
+              horizontal: width * 0.035,
+              vertical: height * 0.01,
+            ),
+            child: Column(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _bioController,
+                    maxLength: 192,
+                    maxLines: null,
+                    minLines: 1,
+                    onChanged: (text) {
+                      setState(() {
+                        characterCount = _bioController.text.length;
+                        error = characterCount > 192 ? 'Character limit exceeded' : '';
+                      });
+                    },
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      counterText: '', // Hide default counter
                     ),
-
-                  ],
+                  ),
                 ),
-              ),
-
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    characterCount <= 192
+                        ? '$characterCount/192'
+                        : 'Character limit exceeded',
+                    style: TextStyle(
+                      color: characterCount > 192 ? Colors.red : Colors.grey,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
+
           SizedBox(height: height*0.01),
           if (error.isNotEmpty)
             Align(
@@ -273,7 +274,7 @@ class _PageThreeState extends State<PageThree> {
                 'Expectations',
                 style: TextStyle(
                   color: MyMateThemes.textColor,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.normal,
                   fontSize: width*0.045,
                 ),
               ),
@@ -284,6 +285,7 @@ class _PageThreeState extends State<PageThree> {
             children: List.generate(
               controllers.length,
                   (index) => ClosableContainer(
+
                 controller: controllers[index],
                 index: index,
                 onClose: (idx) {
@@ -317,7 +319,7 @@ class _PageThreeState extends State<PageThree> {
               ),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text('+ Add more',style: TextStyle(color: MyMateThemes.primaryColor,fontSize: width*0.04),),
+                child: Text('+ Add more',style: TextStyle(color: MyMateThemes.primaryColor,fontSize: width*0.04,fontWeight: FontWeight.normal),),
               ),
             ),
           ),

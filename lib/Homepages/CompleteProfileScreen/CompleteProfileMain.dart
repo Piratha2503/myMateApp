@@ -45,7 +45,7 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
 
           return Scaffold(
           backgroundColor: Colors.white,
-          resizeToAvoidBottomInset: false,
+          resizeToAvoidBottomInset: true,
           body: SafeArea(
             child: SingleChildScrollView(
 
