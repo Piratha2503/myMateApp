@@ -20,6 +20,7 @@ class CommonButtonStyle {
   static ButtonStyle commonButtonStyle() {
     return
       ButtonStyle(
+
       foregroundColor: MaterialStateProperty.all(Colors.white),
       backgroundColor: MaterialStateProperty.all(MyMateThemes.primaryColor),
       shape: MaterialStateProperty.all(
@@ -80,7 +81,8 @@ class CustomDropdown extends StatelessWidget {
           ),
           width: width * 0.9,
           height: height * 0.06,
-          child: DropdownButtonHideUnderline(
+          child:
+          DropdownButtonHideUnderline(
             child: DropdownButton2<String>(
               value: value,
               onChanged: onChanged,

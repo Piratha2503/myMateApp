@@ -233,7 +233,8 @@ class _PageTwoState extends State<PageTwo> {
             items: ['-- Select Option --', 'Unmarried', 'Divorced', 'Widowed'],
             onChanged: (value) => setState(() {
               _selectedCivilStatus = value;
-            }), context: context,
+            }),
+            context: context,
           ),
           SizedBox(height: height*0.015),
           CompleteProfileWidgets.buildDropdownRow(
@@ -301,16 +302,33 @@ class _PageTwoState extends State<PageTwo> {
                 padding: const EdgeInsets.only(right: 2),
                 child: Text(
                   "These fields are mandatory.",
-                  style: TextStyle(color: Colors.red[800]),
+                  style: TextStyle(color: Colors.red[800],fontWeight: FontWeight.normal,fontSize: width*0.04),
                 ),
               ),
             ),
 
           SizedBox(height: height*0.06),
-          ElevatedButton(
-            onPressed: _onSave,
-            style: CommonButtonStyle.commonButtonStyle(),
-            child: Text('Next'),
+          Row(
+            mainAxisAlignment:MainAxisAlignment.end,
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.08,
+                width: MediaQuery.of(context).size.width * 0.45,
+                child: ElevatedButton(
+                  onPressed: _onSave,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: MyMateThemes.primaryColor,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(width*0.01),
+                    ),
+                  ),
+                  child: Text('Next',
+                    style: TextStyle(color:Colors.white,fontSize: width * 0.045,fontWeight: FontWeight.normal), // Responsive font size
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),

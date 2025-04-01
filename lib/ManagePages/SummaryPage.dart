@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'ManagePage.dart';
 
-class Summarypage extends StatefulWidget {
+  class Summarypage extends StatefulWidget {
   final docId;
   const Summarypage({super.key,required this.docId});
 
@@ -18,8 +18,8 @@ class _SummarypageState extends State<Summarypage> {
       backgroundColor: Colors.white,
       body: LayoutBuilder(
           builder: (context, constraints) {
-            double width = constraints.maxWidth;
-            double height = constraints.maxHeight;
+            double width = MediaQuery.of(context).size.width;
+            double height = MediaQuery.of(context).size.height;
             return SafeArea(
 
               child: Column(
@@ -36,17 +36,19 @@ class _SummarypageState extends State<Summarypage> {
 
 
                           },
-                          child: SvgPicture.asset(
+                          child:
+                          SvgPicture.asset(
                             'assets/images/chevron-left.svg',
-                            height: height * 0.025,
+                            height: height * 0.02,
                           ),
+                          //  Icon(Icons.arrow_back_ios,size: height*0.025, color: MyMateThemes.primaryColor)
                         ),
                         SizedBox(width: width*0.3,),
                         Text(
                           "Summary",
                           style: TextStyle(
                             color: MyMateThemes.primaryColor,
-                            fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w500,
                             fontSize: width * 0.05,
                           ),
                         ),
@@ -57,7 +59,7 @@ class _SummarypageState extends State<Summarypage> {
                   SizedBox(height: height * 0.02),
                   Row(
                     children: [
-                      SizedBox(width: width * 0.1),
+                      SizedBox(width: width * 0.07),
                       Text(
                         'Hi, Name',
                         style: TextStyle(
@@ -70,11 +72,12 @@ class _SummarypageState extends State<Summarypage> {
                   ),
                   Row(
                     children: [
-                      SizedBox(width: width * 0.1),
+                      SizedBox(width: width * 0.07),
                       Text(
                         'Here is your summary',
                         style: TextStyle(
                           fontSize: width * 0.035,
+                          fontWeight: FontWeight.normal,
                           color: MyMateThemes.primaryColor,
                         ),
                       ),
@@ -87,18 +90,18 @@ class _SummarypageState extends State<Summarypage> {
                       _buildSummaryCard(
                         context,
                         width: width* 0.4,
-                        height: height * 0.23,
+                        height: height * 0.24,
                         color: MyMateThemes.primaryColor,
                         textColor: Colors.white,
                         title: '187',
                         subtitle1: 'Interests',
                         subtitle2: 'received',
                       ),
-                      SizedBox(width: width * 0.05),
-                      _buildSummaryCard(
+                      SizedBox(width: width * 0.04),
+                      _buildSummaryWideCard(
                         context,
-                        width: width * 0.42,
-                        height: height * 0.23,
+                        width: width * 0.45,
+                        height: height * 0.24,
                         color: MyMateThemes.containerColor,
                         textColor: MyMateThemes.primaryColor,
                         title: '1K',
@@ -122,7 +125,7 @@ class _SummarypageState extends State<Summarypage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        width: width*0.88,
+                        width: width*0.89,
                         height: height*0.2,
                         decoration: BoxDecoration(
                           color: MyMateThemes.containerColor,
@@ -138,7 +141,7 @@ class _SummarypageState extends State<Summarypage> {
                                   style: TextStyle(
                                       fontSize: width*0.1,
                                       color: MyMateThemes.primaryColor,
-                                      fontWeight: FontWeight.bold),
+                                      fontWeight: FontWeight.w500),
                                 )),
                             Positioned(
                               bottom: height*0.015,
@@ -152,7 +155,7 @@ class _SummarypageState extends State<Summarypage> {
                                         style: TextStyle(
                                             fontSize:width*0.05,
                                             color: MyMateThemes.primaryColor,
-                                            fontWeight: FontWeight.bold),
+                                            fontWeight: FontWeight.w500),
                                       ),
                                     ],
                                   ),
@@ -169,21 +172,21 @@ class _SummarypageState extends State<Summarypage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      _buildSummaryCard(
+                      _buildSummaryWideCard(
                         context,
-                        width: width * 0.42,
-                        height: height * 0.23,
+                        width: width * 0.45,
+                        height: height * 0.24,
                         color: MyMateThemes.containerColor,
                         textColor: MyMateThemes.primaryColor,
                         title: '1K',
                         subtitle1: 'Matches',
                         subtitle2: 'sent',
                       ),
-                      SizedBox(width: width * 0.05),
+                      SizedBox(width: width * 0.04),
                       _buildSummaryCard(
                         context,
                         width: width * 0.4,
-                        height: height * 0.23,
+                        height: height * 0.24,
                         color: MyMateThemes.primaryColor,
                         textColor: Colors.white,
                         title: '187',
@@ -207,7 +210,8 @@ class _SummarypageState extends State<Summarypage> {
         required Color textColor,
         required String title,
         required String subtitle1,
-        required String subtitle2}) {
+        required String subtitle2}
+      ) {
     return Container(
       width: width,
       height: height,
@@ -225,7 +229,7 @@ class _SummarypageState extends State<Summarypage> {
               style: TextStyle(
                 fontSize: width * 0.25,
                 color: textColor,
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ),
@@ -235,9 +239,70 @@ class _SummarypageState extends State<Summarypage> {
             child: Text(
               subtitle1,
               style: TextStyle(
-                  fontSize: width * 0.125,
+                  fontSize: width * 0.12,
                   color: textColor,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 0.8
+              ),
+            ),
+          ),
+          if (subtitle2.isNotEmpty)
+            Positioned(
+              bottom: height * 0.06,
+              left: width * 0.08,
+              child: Text(
+                subtitle2,
+                style: TextStyle(
+                  fontSize: width * 0.09,
+                  color: textColor,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSummaryWideCard(BuildContext context,
+      {required double width,
+        required double height,
+        required Color color,
+        required Color textColor,
+        required String title,
+        required String subtitle1,
+        required String subtitle2}
+      ) {
+    return Container(
+      width: width,
+      height: height,
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(width*0.06),
+      ),
+      child: Stack(
+        children: [
+          Positioned(
+            top: height * 0.05,
+            left: width * 0.58,
+            child: Text(
+              title,
+              style: TextStyle(
+                fontSize: width * 0.25,
+                color: textColor,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: height * 0.15,
+            left: width * 0.07,
+            child: Text(
+              subtitle1,
+              style: TextStyle(
+                  fontSize: width * 0.12,
+                  color: textColor,
+                  fontWeight: FontWeight.w500,
                   letterSpacing: 0.8
               ),
             ),

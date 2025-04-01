@@ -218,15 +218,18 @@ class _CompletegallerypageState extends State<Completegallerypage> {
   }
 
   Widget _buildImageSlots() {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(3, (index) {
         final slot = _slots[index];
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 6.0),
+          padding:  EdgeInsets.symmetric(horizontal: screenWidth*0.005),
           child: SizedBox(
-            width: 100,
-            height: 150,
+            width: screenWidth*0.29,
+            height: screenHeight*0.2,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Card(
@@ -306,7 +309,7 @@ class _CompletegallerypageState extends State<Completegallerypage> {
             ),
           ),
           child: IconButton(
-            icon: Image.asset('assets/images/trash.png', width: 24, height: 24),
+            icon: SvgPicture.asset('assets/images/trash.svg', width: 18, height: 18),
             onPressed: () async {
               if (slot is String) {
                 await _deleteImageFromBackend(widget.docId, slot);
@@ -323,48 +326,47 @@ class _CompletegallerypageState extends State<Completegallerypage> {
   }
 
   Widget _buildFooterRow() {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(width: 22),
         SizedBox(
-          height: MediaQuery.of(context).size.height * 0.07,
-          width: MediaQuery.of(context).size.width * 0.35,
+          height: screenHeight * 0.07,
+          width: screenWidth* 0.435,
           child: ElevatedButton(
             onPressed: _onSkip,
             style: ElevatedButton.styleFrom(
-              backgroundColor: MyMateThemes.primaryColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(3.0),
-              ),
+            backgroundColor: MyMateThemes.secondaryColor,
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(screenWidth*0.01),
             ),
+          ),
             child: Text(
               'Skip',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: MediaQuery.of(context).size.width * 0.04,
-              ),
+              style: TextStyle(color:MyMateThemes.primaryColor,fontSize: screenWidth * 0.045,fontWeight: FontWeight.normal), // Responsive font size
+
             ),
           ),
         ),
-        SizedBox(width: 20),
+        SizedBox(width: screenWidth*0.03),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.07,
-          width: MediaQuery.of(context).size.width * 0.35,
+          width: MediaQuery.of(context).size.width * 0.435,
           child: ElevatedButton(
             onPressed: _onConfirm,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: MyMateThemes.primaryColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(3.0),
-              ),
-            ),
+    style: ElevatedButton.styleFrom(
+    backgroundColor: MyMateThemes.primaryColor,
+    elevation: 0,
+    shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(screenWidth*0.01),
+    ),
+    ),
             child: Text(
               'Confirm',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: MediaQuery.of(context).size.width * 0.04,
-              ),
+              style: TextStyle(color:Colors.white,fontSize: screenWidth * 0.045,fontWeight: FontWeight.normal), // Responsive font size
+
             ),
           ),
         ),
@@ -374,30 +376,75 @@ class _CompletegallerypageState extends State<Completegallerypage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Center(
       child: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 30),
-            Text("Upload to My Mate gallery"),
-            SizedBox(height: 20),
+            SizedBox(height:screenHeight*0.05),
+            Text("Upload to My Mate gallery",
+              style: TextStyle(
+              color: MyMateThemes.textColor,
+              fontWeight: FontWeight.normal,
+              fontSize: screenWidth * 0.04, // Adjust font size based on screen width
+            ),),
+            SizedBox(height: screenHeight*0.02),
             GestureDetector(
               onTap: () => _chooseImage(ImageSource.gallery),
               child: SvgPicture.asset('assets/images/cloud.svg'),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: screenHeight*0.025),
             GestureDetector(
               child: SvgPicture.asset('assets/images/orr.svg'),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: screenHeight*0.025),
             // Pick from camera
             GestureDetector(
               onTap: () => _chooseImage(ImageSource.camera),
-              child: SvgPicture.asset('assets/images/took.svg'),
+              child:
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  //SizedBox(width: screenWidth * 0.18),
+                  SizedBox(
+                    height: screenHeight * 0.07,
+                    width: screenWidth* 0.58,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: MyMateThemes.secondaryColor,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(screenWidth*0.01),
+                        ),
+                      ),
+                      onPressed: () {  },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+
+                        children: [
+                          SvgPicture.asset(
+                            'assets/images/takephoto.svg',height: screenHeight*0.02,
+                          ),
+                          SizedBox(width: screenWidth * 0.03),
+                          Text(
+                            'Take Photo',
+                            style: TextStyle(color:MyMateThemes.primaryColor,fontSize: screenWidth * 0.04,fontWeight: FontWeight.normal), // Responsive font size
+
+                          ),
+
+                        ],
+                      ),
+                    ),
+                  ),
+
+                ],
+              ),
             ),
-            SizedBox(height: 35),
+            SizedBox(height: screenHeight*0.06),
             _buildImageSlots(),
-            SizedBox(height: 30),
+            SizedBox(height: screenHeight*0.04),
             _buildFooterRow(),
           ],
         ),

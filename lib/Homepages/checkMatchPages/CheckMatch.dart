@@ -42,7 +42,7 @@ class _CheckmatchPageState extends State<CheckmatchPage> {
   String? clientcity="";
   String? clientcountry="";
 
-
+  bool _isExpanded = false;
 
   int _selectedIndex = 0;
   int? _expandedTileIndex;
@@ -61,8 +61,8 @@ class _CheckmatchPageState extends State<CheckmatchPage> {
       "matches": [
         "Viruksha Matching",
         "mahendra Matching",
-        "Thina Matching"
-            "Kana Matching",
+        "Thina Matching",
+        "Kana Matching",
 
       ],
     },
@@ -175,7 +175,7 @@ class _CheckmatchPageState extends State<CheckmatchPage> {
     final double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-        backgroundColor: MyMateThemes.backgroundColor,
+        backgroundColor:Colors.white,
         body: SafeArea(
         child: SingleChildScrollView(
         child: Padding(
@@ -188,7 +188,7 @@ class _CheckmatchPageState extends State<CheckmatchPage> {
     children: [
     GestureDetector(
     onTap: () => Navigator.pop(context),
-    child: SvgPicture.asset('assets/images/chevron-left.svg', width: screenWidth * 0.04),
+    child: SvgPicture.asset('assets/images/chevron-left.svg',  height: screenHeight * 0.02),
     ),
     ],
     ),
@@ -201,26 +201,26 @@ class _CheckmatchPageState extends State<CheckmatchPage> {
           GestureDetector(
             child: clientprofilePicUrl != null
                 ? profilePicture(clientprofilePicUrl!)
-                : SvgPicture.asset('assets/images/circle.svg', width: screenWidth * 0.3),
+                : SvgPicture.asset('assets/images/circle.svg', width: screenWidth * 0.26),
           ),
-          SizedBox(height: screenHeight * 0.03),
-          Text(clientfull_name!,style: TextStyle(color: MyMateThemes.textColor,fontSize: screenWidth*0.04),),
+          SizedBox(height: screenHeight * 0.01),
+          Text(clientfull_name!,style: TextStyle(color: MyMateThemes.textColor,fontSize: screenWidth*0.035),),
 
         ],
       ),
-      SizedBox(width: screenWidth * 0.07),
-      SvgPicture.asset('assets/images/heart .svg', height: screenWidth * 0.08),
-      SizedBox(width: screenWidth * 0.07),
+      SizedBox(width: screenWidth * 0.15),
+      SvgPicture.asset('assets/images/heart .svg', height: screenWidth * 0.06),
+      SizedBox(width: screenWidth * 0.15),
 
       Column(
         children: [
           GestureDetector(
             child: soulprofilePicUrl != null
                 ? profilePicture(soulprofilePicUrl!)
-                : SvgPicture.asset('assets/images/circle.svg', width: screenWidth * 0.3),
+                : SvgPicture.asset('assets/images/circle.svg', width: screenWidth * 0.26),
           ),
-          SizedBox(height: screenHeight * 0.03),
-          Text(soulfull_name,style: TextStyle(color: MyMateThemes.textColor,fontSize: screenWidth*0.04)),
+          SizedBox(height: screenHeight * 0.01),
+          Text(soulfull_name,style: TextStyle(color: MyMateThemes.textColor,fontSize: screenWidth*0.035)),
 
         ],
       ),
@@ -229,24 +229,16 @@ class _CheckmatchPageState extends State<CheckmatchPage> {
     ],
     ),
 
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(width: screenWidth * 0.2),
-
-        ],
-      ),
-    SizedBox(height: screenHeight * 0.02),
+    //SizedBox(height: screenHeight * 0.01),
     Center(child: matchPercentageWidget()),
-    SizedBox(height: screenHeight * 0.015),
     Center(
     child: ElevatedButton(
     onPressed: () {},
     style: CommonButtonStyle.commonButtonStyle(),
-    child: Text('Send Request', style: TextStyle(color: Colors.white, letterSpacing: 1.5)),
+    child: Text('Send Request', style: TextStyle(color: Colors.white,fontWeight: FontWeight.normal, letterSpacing: 0.5,fontSize: screenWidth*0.036)),
     ),
     ),
-    SizedBox(height: screenHeight * 0.06),
+    SizedBox(height: screenHeight * 0.07),
               Column(
                 children: categorizedMatchResults.entries.map((entry) {
                   String categoryTitle = entry.key;
@@ -267,8 +259,8 @@ class _CheckmatchPageState extends State<CheckmatchPage> {
                   ),
                   borderRadius: BorderRadius.circular(10.0),
                   ),
-                  width: screenWidth*0.86,
-                  height: screenHeight*0.08,
+                  width: screenWidth*0.9,
+                  height: screenHeight*0.075,
                   child: Padding(
                   padding:  EdgeInsets.only(left:screenWidth*0.03),
                   child: Column(
@@ -335,10 +327,10 @@ class _CheckmatchPageState extends State<CheckmatchPage> {
       SizedBox(height: screenHeight*0.03),
               Row(
                 children: [
-                  SizedBox(width: screenWidth*0.06),
+                  SizedBox(width: screenWidth*0.005),
 
                   Icon( Icons.info_outline_rounded,color: MyMateThemes.primaryColor,size: screenHeight*0.02,),
-                  SizedBox(width: screenWidth*0.02),
+                  SizedBox(width: screenWidth*0.015),
 
                   Text(
                     'Details',
@@ -350,40 +342,48 @@ class _CheckmatchPageState extends State<CheckmatchPage> {
                   ),
                 ],
               ),
-      SizedBox(height: screenHeight*0.015),
+      SizedBox(height: screenHeight*0.01),
               Row(
                 children: [
-                  SizedBox(width: screenWidth*0.04),
-                  SvgPicture.asset('assets/images/Line 11.svg'),
+                  SvgPicture.asset('assets/images/Line 11.svg',width: screenWidth*0.9,),
                 ],
               ),
-      SizedBox(height: screenHeight*0.025),
-            Padding(
-        padding:  EdgeInsets.only(left: screenWidth*0.025,right:  screenWidth*0.025),
-              child:
-                  Container(
+            SizedBox(height: screenHeight*0.025),
 
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: MyMateThemes.textColor.withOpacity(0.2),
-                        width: screenWidth*0.003,
-                      ),            borderRadius: BorderRadius.circular(screenWidth*0.03),
-                    ),
-                    child: ExpansionTile(
+              Padding(
+        padding: EdgeInsets.symmetric(horizontal: 0,vertical: 0), // Padding
+        child: Container(
 
-                    title: Text(clientfull_name!,style: TextStyle(color: MyMateThemes.textColor,fontSize: screenWidth*0.04),),
-                    children: <Widget>[
-                      Padding(
-                    padding: const EdgeInsets.all(2.0),                        child: _buildExpansionTileClient(
-                        ),
-                      ),
-                    ],
-                  ),
-                  ),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: MyMateThemes.textColor.withOpacity(0.2),
+              width: screenWidth*0.003,
             ),
+            borderRadius: BorderRadius.circular(screenWidth*0.03),
+          ),
+          child: Theme(
+            data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+
+            child: ExpansionTile(
+
+              title: Text(
+                clientfull_name!,
+                style:TextStyle(color: MyMateThemes.textColor,fontSize: screenWidth*0.04),
+              ),
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 0,vertical: 0), // Padding
+                  child: _buildExpansionTileClient(),  // This widget will be inside the inner container
+
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
               SizedBox(height: screenHeight*0.02),
               Padding(
-                padding:  EdgeInsets.only(left: screenWidth*0.025,right:  screenWidth*0.025),
+                padding: EdgeInsets.symmetric(horizontal: 0,vertical: 0), // Padding
                 child: Container(
 
                   decoration: BoxDecoration(
@@ -393,21 +393,26 @@ class _CheckmatchPageState extends State<CheckmatchPage> {
                     ),
                     borderRadius: BorderRadius.circular(screenWidth*0.03),
                   ),
-                  child: ExpansionTile(
-                    title: Text(
-                      soulfull_name,
-                      style:TextStyle(color: MyMateThemes.textColor,fontSize: screenWidth*0.04),
-                    ),
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(2.0),  // Add padding inside the expanded section
-                          child: _buildExpansionTileSoul(),  // This widget will be inside the inner container
+                  child: Theme(
+                    data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
 
+                    child: ExpansionTile(
+                      title: Text(
+                        soulfull_name,
+                        style:TextStyle(color: MyMateThemes.textColor,fontSize: screenWidth*0.04),
                       ),
-                    ],
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 0,vertical: 0), // Padding
+                            child: _buildExpansionTileSoul(),  // This widget will be inside the inner container
+
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
+
               Center(
                 child: Column(
                   children: [
@@ -418,28 +423,32 @@ class _CheckmatchPageState extends State<CheckmatchPage> {
                   ],
                 ),
               ),
-      SizedBox(height: screenHeight*0.05),
+      SizedBox(height: screenHeight*0.08),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      // Handle button press
-                    },
-                    style: CommonButtonStyle.commonButtonStyle(),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset('assets/images/upload.svg'),
-                        SizedBox(width:5),
-                        Text(
-                          'Export',
-                          style: TextStyle(color: Colors.white, letterSpacing: 1.5),
-                        ),
-                      ],
-                    ),
+                  SizedBox(
+                    width: screenWidth*0.42,
+                    height: screenHeight*0.073,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Handle button press
+                      },
+                      style: CommonButtonStyle.commonButtonStyle(),
+                      child: Row(
+                        children: [
+                          SvgPicture.asset('assets/images/upload.svg',width: screenWidth*0.04,),
+                          SizedBox(width:screenWidth*0.02),
+                          Text(
+                            'Export',
+                            style: TextStyle(color: Colors.white, letterSpacing: 1,fontWeight: FontWeight.normal),
+                          ),
+                        ],
+                      ),
 
+                    ),
                   ),
-                  SizedBox(width: screenWidth*0.05),
+                  SizedBox(width: screenWidth*0.01),
 
                 ],
               ),
@@ -465,8 +474,8 @@ class _CheckmatchPageState extends State<CheckmatchPage> {
 
   Widget profilePicture(String imageUrl) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double profileSize = screenWidth * 0.28; // Adjust size dynamically
-    double borderWidth = screenWidth * 0.006;
+    double profileSize = screenWidth * 0.25; // Adjust size dynamically
+    double borderWidth = screenWidth * 0.005;
 
     return Container(
       width: profileSize,
@@ -492,18 +501,18 @@ class _CheckmatchPageState extends State<CheckmatchPage> {
     double screenHeight = MediaQuery.of(context).size.height;
     double frameWidth = screenWidth * 0.7;
     double frameHeight = frameWidth * 0.9;
-    double textFontSize = screenWidth * 0.1;
+    double textFontSize = screenWidth * 0.11;
     double subTextFontSize = screenWidth * 0.05;
 
     return Stack(
       children: [
         SvgPicture.asset('assets/images/Frame.svg', width: frameWidth, height: frameHeight),
         Positioned(
-          top: frameHeight * 0.36,
+          top: frameHeight * 0.35,
           right: frameWidth * 0.4,
           child: Text(
-            '60%',
-            style: TextStyle(color: Colors.white, letterSpacing:1,fontSize: textFontSize, fontWeight: FontWeight.w500),
+            '80%',
+            style: TextStyle(color: Colors.white, letterSpacing:0.8,fontSize: textFontSize, fontWeight: FontWeight.w500),
           ),
         ),
         Positioned(
@@ -522,14 +531,17 @@ class _CheckmatchPageState extends State<CheckmatchPage> {
   Widget _buildExpansionTileClient() {
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: MediaQuery.of(context).size.width * 0.05,
+        horizontal: 0,vertical: 6
       ),
-      child: Column(
+      child:
+      Column(
         children: [
           Container(
+
             width: MediaQuery.of(context).size.width * 0.85,
-            height: MediaQuery.of(context).size.height * 0.07,
+            height: MediaQuery.of(context).size.height * 0.065,
             padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.04),
+            clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(
               border: Border.all(
                 color: MyMateThemes.textColor.withOpacity(0.2),
@@ -542,7 +554,7 @@ class _CheckmatchPageState extends State<CheckmatchPage> {
           SizedBox(height: MediaQuery.of(context).size.height * 0.015),
           Container(
             width: MediaQuery.of(context).size.width * 0.85,
-            height: MediaQuery.of(context).size.height * 0.07,
+            height: MediaQuery.of(context).size.height * 0.065,
             padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.04),
             decoration: BoxDecoration(
               border: Border.all(
@@ -556,7 +568,7 @@ class _CheckmatchPageState extends State<CheckmatchPage> {
           SizedBox(height: MediaQuery.of(context).size.height * 0.015),
           Container(
             width: MediaQuery.of(context).size.width * 0.85,
-            height: MediaQuery.of(context).size.height * 0.07,
+            height: MediaQuery.of(context).size.height * 0.065,
             padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.04),
             decoration: BoxDecoration(
               border: Border.all(
@@ -574,13 +586,13 @@ class _CheckmatchPageState extends State<CheckmatchPage> {
   Widget _buildExpansionTileSoul() {
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: MediaQuery.of(context).size.width * 0.05,
+        horizontal: 0,vertical: 6
       ),
       child: Column(
         children: [
           Container(
             width: MediaQuery.of(context).size.width * 0.85,
-            height: MediaQuery.of(context).size.height * 0.07,
+            height: MediaQuery.of(context).size.height * 0.065,
             padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.04),
             decoration: BoxDecoration(
               border: Border.all(
@@ -594,7 +606,7 @@ class _CheckmatchPageState extends State<CheckmatchPage> {
           SizedBox(height: MediaQuery.of(context).size.height * 0.015),
           Container(
             width: MediaQuery.of(context).size.width * 0.85,
-            height: MediaQuery.of(context).size.height * 0.07,
+            height: MediaQuery.of(context).size.height * 0.065,
             padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.04),
             decoration: BoxDecoration(
               border: Border.all(
@@ -608,7 +620,7 @@ class _CheckmatchPageState extends State<CheckmatchPage> {
           SizedBox(height: MediaQuery.of(context).size.height * 0.015),
           Container(
             width: MediaQuery.of(context).size.width * 0.85,
-            height: MediaQuery.of(context).size.height * 0.07,
+            height: MediaQuery.of(context).size.height * 0.065,
             padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.04),
             decoration: BoxDecoration(
               border: Border.all(
@@ -628,53 +640,63 @@ class _CheckmatchPageState extends State<CheckmatchPage> {
     return LayoutBuilder(
       builder: (context, constraints) {
         double screenWidth = MediaQuery.of(context).size.width;
-        double containerWidth = screenWidth * 0.85;
-        double containerHeight = screenWidth * 0.12;
-        double fontSize = screenWidth * 0.036;
+        double screenHeight = MediaQuery.of(context).size.height;
+
+        double containerWidth = screenWidth * 0.95;
+        double containerHeight = screenHeight * 0.038;
+        double fontSize = screenWidth * 0.028;
         double statusFontSize = screenWidth * 0.026;
 
-        return Column(
-          children: [
-            Container(
-              width: containerWidth,
-              height: containerHeight,
-              margin: EdgeInsets.all(screenWidth * 0.015),
-              padding: EdgeInsets.all(screenWidth * 0.03),
-              decoration: BoxDecoration(
-                color: item['status'] == "true"
-                    ? MyMateThemes.primaryColor
-                    : MyMateThemes.secondaryColor,
-                borderRadius: BorderRadius.circular(10),
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: 0,vertical: screenHeight*0.01), // Padding
+          child: Column(
+            children: [
+              Container(
+                width: containerWidth,
+                height: containerHeight,
+              //  margin: EdgeInsets.all(screenWidth * 0.02),
+                padding: EdgeInsets.symmetric(horizontal: screenWidth*0.02,vertical: screenHeight*0.007), // Padding
+                decoration: BoxDecoration(
+                  color: item['status'] == "true"
+                      ? MyMateThemes.primaryColor
+                      : MyMateThemes.secondaryColor,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Stack(
+                  children: [
+                    Positioned(
+                      top: 0,
+                      child: Text(
+                        item['name']!,
+                        style: TextStyle(
+                            color: item['status'] == "true"
+                            ? Colors.white
+                            : MyMateThemes.textColor, fontSize: fontSize),
+                      ),
+                    ),
+                    Positioned(
+                      top: 0,
+                      right: screenWidth * 0.07,
+                      child: Text(
+                        item['status']!,
+                        style: TextStyle(  color: item['status'] == "true"
+                            ? Colors.white
+                            : MyMateThemes.textColor, fontSize: statusFontSize),
+                      ),
+                    ),
+                    Positioned(
+                      top: 2,
+                      right: screenWidth * 0.02,
+                      child: SvgPicture.asset(
+                        item['svg']!,
+                        width: screenWidth * 0.03,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 0,
-                    child: Text(
-                      item['name']!,
-                      style: TextStyle(color: Colors.white, fontSize: fontSize),
-                    ),
-                  ),
-                  Positioned(
-                    top: 2,
-                    right: screenWidth * 0.1,
-                    child: Text(
-                      item['status']!,
-                      style: TextStyle(color: Colors.white, fontSize: statusFontSize),
-                    ),
-                  ),
-                  Positioned(
-                    top: 2,
-                    right: screenWidth * 0.02,
-                    child: SvgPicture.asset(
-                      item['svg']!,
-                      width: screenWidth * 0.05,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
         );
       },
     );
