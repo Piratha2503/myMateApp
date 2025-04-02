@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mymateapp/Homepages/ProfilePageScreen/rasiChartDesign.dart';
+import 'package:mymateapp/MyMateCommonBodies/MyMateApis.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import '../../MyMateThemes.dart';
 import 'MyProfileBodyWidgets.dart';
@@ -12,12 +13,15 @@ import 'navamsaChartDesign.dart';
 class AboutMe extends StatefulWidget {
   final String education;
   final PersonalDetails personalDetails;
+  final docId;
 
-  const AboutMe({super.key, required this.education,required this.personalDetails});
+  const AboutMe({super.key, required this.education,required this.personalDetails,required this.docId});
 
   @override
   State<AboutMe> createState() => _AboutMeState();
 }
+
+
 
 class _AboutMeState extends State<AboutMe>{
   @override
@@ -26,55 +30,61 @@ class _AboutMeState extends State<AboutMe>{
 
     return SingleChildScrollView(
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        padding: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width * 0.01,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 20),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.02),
 
             // Section Title
-            SectionTitle('About me'),
-            SizedBox(height: 5),
+            SectionTitle( context,'About me','assets/images/heart .svg'),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.007),
 
             // Decorative Line
             Row(
               children: [
-                SizedBox(width: 40),
-                SvgPicture.asset('assets/images/Line 11.svg'),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.05),
+                SvgPicture.asset(
+                  'assets/images/Line 11.svg',
+                  width: MediaQuery.of(context).size.width * 0.9,
+                ),
               ],
             ),
-            SizedBox(height: 10),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.02),
 
             // Info Rows
-            InfoRow('Education', widget.education),
-            InfoRow('Height', widget.personalDetails.height.toString()),
-            InfoRow('Religion', widget.personalDetails.religion.toString()),
-            InfoRow('Language', widget.personalDetails.language.toString()),
-            InfoRow('Caste', widget.personalDetails.caste.toString()),
-            InfoRow('Father\'s Name', widget.personalDetails.first_name.toString()),
-            InfoRow('Mother\'s Name', widget.personalDetails.mother_name.toString()),
-            InfoRow('Siblings', widget.personalDetails.num_of_siblings.toString()),
-            SizedBox(height: 35),
+            InfoRow(context, 'Education', widget.education),
+            InfoRow(context, 'Height', widget.personalDetails.height.toString()),
+            InfoRow(context, 'Religion', widget.personalDetails.religion.toString()),
+            InfoRow(context, 'Language', widget.personalDetails.language.toString()),
+            InfoRow(context, 'Caste', widget.personalDetails.caste.toString()),
+            InfoRow(context, 'Father\'s Name', widget.personalDetails.first_name.toString()),
+            InfoRow(context, 'Mother\'s Name', widget.personalDetails.mother_name.toString()),
+            InfoRow(context, 'Siblings', widget.personalDetails.num_of_siblings.toString()),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.045),
 
             // Expectations Section
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(width: 40),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.1),
                 Text(
                   'Expectations',
                   style: TextStyle(
                     color: MyMateThemes.textColor,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                    fontSize: MediaQuery.of(context).size.width * 0.055,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 0.8
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 15),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.02),
 
             // Expectations Widget
-            Expectations(),
+            ExpectationsWidget(docId: widget.docId),
           ],
         ),
       ),
@@ -85,27 +95,31 @@ class _AboutMeState extends State<AboutMe>{
 
 
 
+
+
 class AstrologySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final double screenHeight = MediaQuery.of(context).size.height; // Screen height from MediaQuery
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final double screenWidth = MediaQuery.of(context).size.width;
+   final key ;// Assign key to the section
 
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 15),
-          SectionTitle("Astrology"),
-          SizedBox(height: 5),
+          SizedBox(height: screenHeight * 0.02),
+          SectionTitle( context,'Astrology' ,'assets/images/Group 2148.svg'),
+          SizedBox(height: screenHeight * 0.007),
 
           // Decorative Line
           Row(
             children: [
-              SizedBox(width: 42),
-              SvgPicture.asset('assets/images/Line 11.svg'),
+              SizedBox(width: screenWidth * 0.05),
+              SvgPicture.asset('assets/images/Line 11.svg', width: screenWidth * 0.9),
             ],
           ),
-          SizedBox(height: 16),
+          SizedBox(height: screenHeight * 0.02),
 
           // Row of Astrology Info
           Row(
@@ -113,30 +127,30 @@ class AstrologySection extends StatelessWidget {
             children: [
               // First Info Card
               Container(
-                height: screenHeight * 0.2, // Adjust height relative to screen height
-                width: 140,
-                margin: EdgeInsets.symmetric(vertical: 5.0),
-                padding: EdgeInsets.all(8.0),
+                height: screenHeight * 0.25,
+                width: screenWidth * 0.4,
+                margin: EdgeInsets.symmetric(vertical: screenHeight * 0.007),
+                padding: EdgeInsets.all(screenWidth * 0.02),
                 decoration: BoxDecoration(
                   color: MyMateThemes.containerColor,
-                  borderRadius: BorderRadius.circular(15.0),
+                  borderRadius: BorderRadius.circular(screenWidth * 0.04),
                 ),
                 child: Stack(
                   children: [
                     Positioned(
-                      top: 10,
-                      left: 10,
-                      child: SvgPicture.asset('assets/images/Group.svg'),
+                      top: screenHeight * 0.01,
+                      left: screenWidth * 0.03,
+                      child: SvgPicture.asset('assets/images/Group.svg', width: screenWidth * 0.2),
                     ),
                     Positioned(
-                      bottom: 10,
-                      left: 5,
+                      bottom: screenHeight * 0.01,
+                      left: screenWidth * 0.01,
                       child: Column(
                         children: [
                           Text(
                             '19 OCT 1998',
                             style: TextStyle(
-                              fontSize: 12,
+                              fontSize: screenWidth * 0.03,
                               color: MyMateThemes.primaryColor,
                               fontWeight: FontWeight.normal,
                             ),
@@ -144,7 +158,7 @@ class AstrologySection extends StatelessWidget {
                           Text(
                             '10.30 AM',
                             style: TextStyle(
-                              fontSize: 10,
+                              fontSize: screenWidth * 0.025,
                               color: MyMateThemes.textColor,
                               fontWeight: FontWeight.normal,
                             ),
@@ -152,7 +166,7 @@ class AstrologySection extends StatelessWidget {
                           Text(
                             'Jaffna, Sri Lanka',
                             style: TextStyle(
-                              fontSize: 12,
+                              fontSize: screenWidth * 0.03,
                               color: MyMateThemes.primaryColor,
                               fontWeight: FontWeight.normal,
                             ),
@@ -163,34 +177,35 @@ class AstrologySection extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(width: 15),
+              SizedBox(width: screenWidth * 0.04),
 
               // Second Info Card
               Container(
-                height: screenHeight * 0.2, // Adjust height relative to screen height
-                width: 140,
-                margin: EdgeInsets.symmetric(vertical: 5.0),
-                padding: EdgeInsets.all(8.0),
+                height: screenHeight * 0.25,
+                width: screenWidth * 0.4,
+                margin: EdgeInsets.symmetric(vertical: screenHeight * 0.007),
+                padding: EdgeInsets.all(screenWidth * 0.02),
                 decoration: BoxDecoration(
                   color: MyMateThemes.primaryColor,
-                  borderRadius: BorderRadius.circular(15.0),
+                  borderRadius: BorderRadius.circular(screenWidth * 0.04),
                 ),
-                child: Stack(
+                child:
+                Stack(
                   children: [
                     Positioned(
-                      top: 8,
-                      left: 6.5,
-                      child: SvgPicture.asset('assets/images/Group 2217.svg'),
+                      top: screenHeight * 0.01,
+                      left: screenWidth * 0.02,
+                      child: SvgPicture.asset('assets/images/Group 2217.svg', width: screenWidth * 0.15,height: screenHeight*0.16,),
                     ),
                     Positioned(
-                      bottom: 0,
-                      left: 48,
+                      bottom: screenHeight * 0.005,
+                      left: screenWidth * 0.15,
                       child: Column(
                         children: [
                           Text(
                             'Hastam',
                             style: TextStyle(
-                              fontSize: 12,
+                              fontSize: screenWidth * 0.03,
                               color: Colors.white,
                               fontWeight: FontWeight.normal,
                             ),
@@ -198,7 +213,7 @@ class AstrologySection extends StatelessWidget {
                           Text(
                             'Virgo (kanni)',
                             style: TextStyle(
-                              fontSize: 12,
+                              fontSize: screenWidth * 0.03,
                               color: Colors.white,
                               fontWeight: FontWeight.normal,
                             ),
@@ -212,21 +227,21 @@ class AstrologySection extends StatelessWidget {
             ],
           ),
 
-          SizedBox(height: 40),
+          SizedBox(height: screenHeight * 0.05),
 
           // Center Content: Rasi and Navamsa Charts
           Center(
             child: Column(
               children: [
-                RasiChartDesign(),
-                SizedBox(height: 48),
-                NavamsaChartDesign(),
-                SizedBox(height: 13),
+                RasiChartDesign(context),
+                SizedBox(height: screenHeight * 0.06),
+                NavamsaChartDesign(context),
+                SizedBox(height: screenHeight * 0.02),
               ],
             ),
           ),
         ],
       ),
     );
-  }
-}
+  }}
+

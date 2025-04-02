@@ -1,10 +1,12 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-
+import 'package:image/image.dart' as img;
 import '../../MyMateThemes.dart';
 
 class PageOne extends StatefulWidget {
@@ -19,7 +21,7 @@ class PageOne extends StatefulWidget {
 
 class _PageOneState extends State<PageOne> {
   File? _imageFile;
-  String? _savedImageUrl; // To store the uploaded image URL
+  String? _savedImageUrl;
 
   void _chooseImage(ImageSource source) async {
     final picker = ImagePicker();
@@ -36,17 +38,62 @@ class _PageOneState extends State<PageOne> {
       );
 
       if (croppedFile != null) {
+
+        File thumbnailFile = await _createThumbnail(File(croppedFile.path));
+
         setState(() {
-          _imageFile = File(croppedFile.path); // Convert CroppedFile to File
+          _imageFile = thumbnailFile;
         });
 
-        // Upload the image to the backend
-        await _uploadImageToBackend(File(croppedFile.path));
+
+        // await _uploadImageToBackend(thumbnailFile);
       }
     }
   }
 
+  void _onSave() async {
+    if (_imageFile != null) {
+      await _uploadImageToBackend(_imageFile!);
+    } else {
+      print("No image selected to save.");
+    }
+
+    print('Saved Image URL: $_savedImageUrl');
+    print('doc id is: $widget.docId');
+
+    widget.onSave();
+  }
+
+  Future<File> _createThumbnail(File imageFile) async {
+
+    final originalImage = img.decodeImage(await imageFile.readAsBytes());
+
+
+    final resizedImage = img.copyResize(originalImage!, width: 150, height: 150);
+
+
+    final tempDir = Directory.systemTemp;
+    final thumbnailFile = File('${tempDir.path}/thumbnail.jpg')
+      ..writeAsBytesSync(img.encodeJpg(resizedImage));
+
+    return thumbnailFile;
+  }
+
+
   Future<void> _uploadImageToBackend(File imageFile) async {
+    String randomFileName = _generateRandomFileName() + '.jpg';
+
+    final fileSize = await imageFile.length();
+    print("Image File Size: ${fileSize / 1024} KB");
+
+
+    final imageBytes = await imageFile.readAsBytes();
+    final decodedImage = img.decodeImage(imageBytes);
+    if (decodedImage != null) {
+      print("Image Resolution: ${decodedImage.width}x${decodedImage.height}");
+    } else {
+      print("Unable to decode image resolution.");
+    }
     final url = Uri.parse(
         "https://backend.graycorp.io:9000/mymate/api/v1/uploadProfileImages");
 
@@ -56,6 +103,7 @@ class _PageOneState extends State<PageOne> {
         ..files.add(await http.MultipartFile.fromPath(
           'profile_Image',
           imageFile.path,
+          filename: randomFileName,
         ));
 
       final response = await request.send();
@@ -73,15 +121,18 @@ class _PageOneState extends State<PageOne> {
         print("Failed to upload image. Status code: ${response.statusCode}");
       }
     } catch (e) {
+    } catch (e) {
       print("Error uploading image: $e");
     }
   }
 
-  void _onSave() {
-    // Log the image URL to confirm upload
-    print('Saved Image URL: $_savedImageUrl');
-    widget.onSave();
+  String _generateRandomFileName() {
+    final random = Random();
+    const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    return List.generate(10, (index) => characters[random.nextInt(characters.length)]).join();
   }
+
+
 
   void _openPopupScreen() {
     showDialog(
@@ -130,62 +181,187 @@ class _PageOneState extends State<PageOne> {
 
   @override
   Widget build(BuildContext context) {
+    // Get screen width & height using MediaQuery
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Center(
       child: Column(
+
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          SizedBox(height: 50),
-          Text("Update Your Profile"),
-          SizedBox(height: 20),
+          SizedBox(height: screenHeight * 0.04),
+
+          Text(
+            "Update Your Profile",
+            style: TextStyle(
+              color: MyMateThemes.textColor,
+              fontWeight: FontWeight.normal,
+              fontSize: screenWidth * 0.04, // Adjust font size based on screen width
+            ),
+          ),
+
+          SizedBox(height: screenHeight * 0.02),
+
           Stack(
+            alignment: Alignment.center,
             children: [
               GestureDetector(
-                onTap: _openPopupScreen,
-                child: _savedImageUrl != null
+                child:
+                Container(
+                  width: screenWidth * 0.29,
+                  height:screenHeight* 0.14,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: MyMateThemes.secondaryColor,
+                    border: Border.all(
+                      color: MyMateThemes.primaryColor,
+                      width: screenWidth * 0.004,
+                    ),
+
+                  ),
+                child: _imageFile != null
                     ? CircleAvatar(
-                  radius: 50,
-                  backgroundImage: NetworkImage(_savedImageUrl!),
-                )
-                    : _imageFile != null
-                    ? CircleAvatar(
-                  radius: 50,
+                  radius: screenWidth * 0.13, // Adjust avatar size dynamically
                   backgroundImage: FileImage(_imageFile!),
                 )
-                    : SvgPicture.asset('assets/images/circle.svg'),
-              ),
-              Positioned(
-                bottom: -1,
-                left: 95,
-                child: GestureDetector(
-                  onTap: _openPopupScreen,
-                  child: SvgPicture.asset('assets/images/edit.svg'),
+                    : SvgPicture.asset(
+                  '',
+                  height: screenHeight * 0.13, // Responsive size
                 ),
+              ),
               ),
             ],
           ),
-          SizedBox(height: 60),
+
+          SizedBox(height: screenHeight * 0.08),
+
           GestureDetector(
             onTap: () {
               _chooseImage(ImageSource.gallery);
             },
-            child: SvgPicture.asset('assets/images/cloud.svg'),
+            child:
+                Row(
+
+                  children: [
+                    SizedBox(width: screenWidth * 0.18),
+                    SizedBox(
+                      height: screenHeight * 0.07,
+                      width: screenWidth* 0.58,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: MyMateThemes.secondaryColor,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(screenWidth*0.01),
+                          ),
+                        ),
+                        onPressed: () {  },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              'assets/images/choosephoto.svg',height: screenHeight*0.02,
+                            ),
+                            SizedBox(width: screenWidth * 0.03),
+
+                            Text(
+                              'Choose Photo',
+                              style: TextStyle(color:MyMateThemes.primaryColor,fontSize: screenWidth * 0.04,fontWeight: FontWeight.normal), // Responsive font size
+
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+
+                  ],
+                ),
+
           ),
-          SizedBox(height: 20),
+
+          SizedBox(height: screenHeight * 0.02),
+
           GestureDetector(
-            child: SvgPicture.asset('assets/images/orr.svg'),
+            child: SvgPicture.asset(
+              'assets/images/orr.svg',
+              height: screenHeight * 0.04, // Adjust icon size
+            ),
           ),
-          SizedBox(height: 20),
+
+          SizedBox(height: screenHeight * 0.02),
+
           GestureDetector(
             onTap: () {
               _chooseImage(ImageSource.camera);
             },
-            child: SvgPicture.asset('assets/images/took.svg'),
+            child:
+            Row(
+              children: [
+                SizedBox(width: screenWidth * 0.18),
+
+                SizedBox(
+                  height: screenHeight * 0.07,
+                  width: screenWidth* 0.58,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: MyMateThemes.secondaryColor,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(screenWidth*0.01),
+                      ),
+                    ),
+                    onPressed: () {  },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+
+                      children: [
+                        SvgPicture.asset(
+                          'assets/images/takephoto.svg',height: screenHeight*0.02,
+                        ),
+                        SizedBox(width: screenWidth * 0.03),
+                        Text(
+                          'Take Photo',
+                          style: TextStyle(color:MyMateThemes.primaryColor,fontSize: screenWidth * 0.04,fontWeight: FontWeight.normal), // Responsive font size
+
+                        ),
+
+                      ],
+                    ),
+                  ),
+                ),
+
+              ],
+            ),
           ),
-          SizedBox(height: 40),
-          ElevatedButton(
-            onPressed: _onSave, // Save and navigate to the next page
-            style: CommonButtonStyle.commonButtonStyle(),
-            child: Text('Next'),
+
+          SizedBox(height: screenHeight * 0.15),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.08,
+                width: MediaQuery.of(context).size.width * 0.45,
+                child:
+                ElevatedButton(
+                  onPressed: _onSave,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: MyMateThemes.primaryColor,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(screenWidth*0.01),
+                    ),
+                  ),
+                  child: Text(
+                    'Next',
+                    style: TextStyle(color:Colors.white,fontSize: screenWidth * 0.045,fontWeight: FontWeight.normal), // Responsive font size
+                  ),
+                ),
+              ),
+
+            ],
           ),
         ],
       ),

@@ -1,172 +1,287 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:mymateapp/ChartPages/GenerateChart.dart';
 import 'package:mymateapp/ChartPages/ManualRasiChartPage.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 import 'package:mymateapp/dbConnection/ClientDatabase.dart';
 import 'package:mymateapp/dbConnection/Clients.dart';
 
-class ChartOptions extends StatefulWidget{
-  ClientData clientData;
+import '../../ChartPages/ManualChartEnter.dart';
+import '../../ChartPages/PlaceDateTimeInput.dart';
+
+class ChartOptions extends StatefulWidget {
+  final ClientData clientData;
   ChartOptions({super.key, required this.clientData});
+
+  static List<String> rasiListOrder = [
+    "Mesham",
+    "Rishabam",
+    "Mithunam",
+    "Kadagam",
+    "Simmam",
+    "Kanni",
+    "Thulam",
+    "Viruchigam",
+    "Thanusu",
+    "Magaram",
+    "Kumbam",
+    "Meenam",
+  ];
+  static List<String> nadchathiraList = [
+    "Ashwini"
+        "Bharani"
+        "Kiruthigai"
+        "Rohini"
+        "Mirugasheeridam"
+        "Thiruvathirai"
+        "Punarpusham"
+        "Pusham"
+        "Aayilyam"
+        "Magham"
+        "pooram"
+        "Uththaram"
+        "Ashththam"
+        "Chitrai"
+        "Swathi"
+        "Vishakham"
+        "Anusham"
+        "Keddai"
+        "Moolam"
+        "pooradam"
+        "Uththaradam"
+        "Thiruvonam"
+        "Aviddam"
+        "Sathayam"
+        "pooraddaathi"
+        "Uththaraddathi"
+        "Revathi"
+  ];
+
 
   @override
   State<ChartOptions> createState() => _ChartOptionsState();
 }
 
 class _ChartOptionsState extends State<ChartOptions> {
+  int? _selectedOptionIndex;
+
+  ClientData clientData = ClientData();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyMateThemes.backgroundColor,
+      backgroundColor: Colors.white,
       body: SafeArea(
-          child: Center(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            double width = MediaQuery.of(context).size.width;
+            double height = MediaQuery.of(context).size.height;
+
+            return Center(
+              child: Column(
+                children: [
+                  SizedBox(height: height * 0.08),
+                  ChartOptionsTexts(),
+                  SizedBox(height: height * 0.015),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _selectedOptionIndex = 1;
+                      });
+                      print(widget.clientData.personalDetails?.first_name);
+                      print(widget.clientData.personalDetails?.last_name);
+                      print(widget.clientData.personalDetails?.gender);
+                      print(widget.clientData.contactInfo?.mobile);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Builder(
+                                builder: (context) {
+                                 // return PlaceDateTimeInput(clientData: clientData,docId:clientData.docId!,);
+                                  return PlaceDateTimeInput(clientData: clientData, docId: '',);
+
+                                }
+                              )));
+                    },
+                    child: buildGenerateContainer(
+                      "Generate the chart",
+                      'assets/images/auto.svg',
+                      _selectedOptionIndex == 1,
+
+                    ),
+                  ),
+                  SizedBox(height: height * 0.04),
+                  SvgPicture.asset('assets/images/or.svg', width: width * 0.75),
+                  SizedBox(height: height * 0.04),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _selectedOptionIndex = 2;
+                      });
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ManualChartEnter(clientData: widget.clientData),
+                        ),
+                      );
+                    },
+                    child: buildManualContainer(
+                      "Enter chart manually",
+                      'assets/images/pointer.svg',
+                      _selectedOptionIndex == 2,
+
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget ChartOptionsTexts() {
+    return Builder(
+      builder: (context) {
+        double width = MediaQuery.of(context).size.width;
+        double height = MediaQuery.of(context).size.height;
+        return Column(
+          children: [
+            Text(
+              "Choose Preferred",
+              style: TextStyle(
+                fontSize: width*0.05,
+                fontWeight: FontWeight.w500,
+                color: MyMateThemes.textColor,
+                letterSpacing: 0.8,
+              ),
+            ),
+            Text(
+              "Astrology chart input method",
+              style: TextStyle(
+                fontSize: width*0.05,
+                fontWeight: FontWeight.w500,
+                color: MyMateThemes.primaryColor,
+                letterSpacing: 0.8,
+              ),
+            ),
+            SizedBox(height: height * 0.025),
+            Text(
+              'You can generate astrology chart with ',
+              style: TextStyle(color: MyMateThemes.textColor, fontSize: width * 0.036, fontWeight: FontWeight.normal),
+            ),
+            Text(
+              'required birth details ',
+              style: TextStyle(color: MyMateThemes.textColor, fontSize: width * 0.036, fontWeight: FontWeight.normal),
+            ),
+            Text(
+              'or you can enter manually',
+              style: TextStyle(color: MyMateThemes.textColor, fontSize: width * 0.036, fontWeight: FontWeight.normal),
+            ),
+            SizedBox(height: height * 0.03),
+          ],
+        );
+      }
+    );
+  }
+
+  Widget buildGenerateContainer(String title, svg, bool isSelected) {
+    return Builder(
+      builder: (context) {
+
+        double width = MediaQuery.of(context).size.width;
+        double height = MediaQuery.of(context).size.height;
+        return Container(
+          height: height*0.14,
+          width: width * 0.73,
+
+          decoration: BoxDecoration(
+            color: Colors.white,
+            // boxShadow: [
+            //   BoxShadow(
+            //     color: MyMateThemes.secondaryColor,
+            //     spreadRadius: 1,
+            //     offset: Offset(0, 0),
+            //   ),
+            // ],
+            borderRadius: BorderRadius.circular(width*0.015),
+            border: Border.all(
+              color: isSelected ? MyMateThemes.primaryColor.withOpacity(0.8) : MyMateThemes.primaryColor.withOpacity(0.3),
+              width:  isSelected ? width * 0.004 :width * 0.002 , // Use constraints
+            ),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(svg,height:height*0.047),
+              // Icon(
+              //   icon,
+              //   size: height * 0.05,
+              //   color: MyMateThemes.primaryColor,
+              // ),
+              SizedBox(height: height * 0.015),
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: width * 0.042,
+                  fontWeight: FontWeight.normal,
+                  color: MyMateThemes.textColor,
+                ),
+              ),
+            ],
+          ),
+        );
+      }
+    );
+  }
+  Widget buildManualContainer(String title, svg, bool isSelected) {
+    return Builder(
+        builder: (context) {
+
+          double width = MediaQuery.of(context).size.width;
+          double height = MediaQuery.of(context).size.height;
+          return Container(
+            height: height*0.14,
+            width: width * 0.73,
+
+            decoration: BoxDecoration(
+              color: Colors.white,
+              // boxShadow: [
+              //   BoxShadow(
+              //     color: MyMateThemes.secondaryColor,
+              //     spreadRadius: 1,
+              //     offset: Offset(0, 0),
+              //   ),
+              // ],
+              borderRadius: BorderRadius.circular(width*0.015),
+              border: Border.all(
+                color: isSelected ? MyMateThemes.primaryColor.withOpacity(0.8) : MyMateThemes.textColor.withOpacity(0.3),
+                width:  isSelected ? width * 0.004 :width * 0.002 , // Use constraints
+              ),
+            ),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: 10,),
-                ChartOptionsTexts(),
-                GenerateChartOption(widget.clientData),
-                SizedBox(height: 50),
-                Divider(height: 5),
-                SizedBox(height: 50),
-                ManualChartOption(clientData: widget.clientData,),
+                SvgPicture.asset(svg,height:height*0.047),
+                // Icon(
+                //   icon,
+                //   size: height * 0.05,
+                //   color: MyMateThemes.primaryColor,
+                // ),
+                SizedBox(height: height * 0.015),
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: width * 0.042,
+                    fontWeight: FontWeight.normal,
+                    color: MyMateThemes.textColor,
+                  ),
+                ),
               ],
             ),
-          )),
-    );
-  }
-
-}
-
-Widget ChartOptionsTexts(){
-  return  Flex(
-    direction: Axis.vertical,
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-      Text( "Choose Preferred",
-        style: TextStyle( fontSize: MyMateThemes.nomalFontSize, ),
-      ),
-      SizedBox(height: 10),
-      Text( "Astrology chart input method",
-        style: TextStyle(
-            fontSize: MyMateThemes.subHeadFontSize,
-            color: MyMateThemes.textColor
-        ),
-      ),
-      SizedBox(height: 10),
-      Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        child: Text("You can generate astrology chart with required "
-            "birth details or you can enter manually"),
-      ),
-      SizedBox(height: 30),
-    ],
-  );
-}
-
-class GenerateChartOption extends StatelessWidget {
-  ClientData clientData;
-  GenerateChartOption(this.clientData,{super.key});
-
-  void onTab(BuildContext context){
-    print(clientData.personalDetails?.first_name);
-    print(clientData.personalDetails?.last_name);
-    print(clientData.personalDetails?.gender);
-    print(clientData.contactInfo?.mobile);
-    //Navigator.push(context, MaterialPageRoute(builder: (context)=>GenerateChart()));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: (){
-        onTab(context);
-      },
-      child: Container(
-        height: 125,
-        width: 300,
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: MyMateThemes.secondaryColor,
-              spreadRadius: 5,
-              offset: Offset(0, 3), // changes position of shadow
-            ),
-          ],
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: const Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.table_chart,
-              size: 50,
-              color: MyMateThemes.textColor,
-
-            ),
-            SizedBox(height: 10,),
-            Text(
-              "Generate the chart",
-
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  color: MyMateThemes.textGray),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-
-
-}
-
-class ManualChartOption extends StatelessWidget{
-
-  ClientData clientData;
-  ManualChartOption({super.key, required this.clientData});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: (){
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>ManualRasiChartPage(clientData: clientData)));
-      },
-      child: Container(
-
-        height: 125,
-        width: 300,
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: MyMateThemes.secondaryColor,
-              spreadRadius: 5,
-              offset: Offset(0, 3), // changes position of shadow
-            ),
-          ],
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: const Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.ads_click,
-              size: 50,
-              color: MyMateThemes.textColor,
-            ),
-            SizedBox( height: 10, ),
-            Text(
-              "Enter chart manually",
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  color: MyMateThemes.textGray),
-            )
-          ],
-        ),
-      ),
+          );
+        }
     );
   }
 

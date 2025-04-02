@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mymateapp/Homepages/HomeScreenBeforeSubscibe.dart';
+import 'package:mymateapp/Homepages/HomeScreenBeforeSubscribe.dart';
 import 'package:mymateapp/MyMateThemes.dart';
 
 import '../Homepages/AnimatedPages/ChartCalculating.dart';
+
+
 
 
 Widget ChartImage() {

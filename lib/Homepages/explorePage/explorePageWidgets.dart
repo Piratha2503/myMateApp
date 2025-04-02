@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../MyMateCommonBodies/MyMateApis.dart';
 import '../../MyMateThemes.dart';
 import 'package:http/http.dart' as http;
@@ -87,12 +89,44 @@ Future<List<Map<String, dynamic>>> getFilteredProfiles() async {
   }
 }
 
+
 Widget ExploreAllGrid(BuildContext context, Future<List<Map<String, dynamic>>> profilesFuture) {
   return FutureBuilder<List<Map<String, dynamic>>>(
-    future: profilesFuture, // Dynamically pass the future
+    future: profilesFuture,
     builder: (context, snapshot) {
       if (snapshot.connectionState == ConnectionState.waiting) {
-        return const Center(child: CircularProgressIndicator());
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            return GridView.count(
+              padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.04),
+              crossAxisSpacing: constraints.maxWidth * 0.005,
+              mainAxisSpacing: constraints.maxHeight * 0.005,
+              childAspectRatio: 2.6,
+              crossAxisCount: 1,
+              children: List.generate(
+                4, // Show 6 shimmer placeholders while loading
+                    (index) => Shimmer.fromColors(
+                  baseColor: MyMateThemes.containerColor.withOpacity(0.5),
+                  highlightColor: MyMateThemes.containerColor!,
+                  child:
+                  Container(
+                    margin: const EdgeInsets.symmetric(vertical: 8),
+
+                    height: MediaQuery.of(context).size.height * 0.1,
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+
+                    ),
+                    child: Row(),
+                  ),
+
+                ),
+              ),
+            );
+          },
+        );
       } else if (snapshot.hasError) {
         return Center(child: Text('Error: ${snapshot.error}'));
       } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
@@ -100,16 +134,23 @@ Widget ExploreAllGrid(BuildContext context, Future<List<Map<String, dynamic>>> p
       }
 
       final data = snapshot.data!;
-      return GridView.count(
-        crossAxisCount: 2,
-        crossAxisSpacing: 12.0,
-        mainAxisSpacing: 12.0,
-        childAspectRatio: 152 / 200,
-        children: data.map((profile) => buildGridItem(profile)).toList(),
+
+      return LayoutBuilder(
+        builder: (context, constraints) {
+          return GridView.count(
+            padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.04),
+            crossAxisSpacing: constraints.maxWidth * 0.005,
+            mainAxisSpacing: constraints.maxHeight * 0.005,
+            childAspectRatio: 2.6,
+            crossAxisCount: 1,
+            children: data.map((profile) => buildViewItem(profile)).toList(),
+          );
+        },
       );
     },
   );
 }
+
 Widget ViewMatchesGrid(BuildContext context, Future<List<Map<String, dynamic>>> future) {
   return FutureBuilder<List<Map<String, dynamic>>>(
     future: getFilteredProfiles(),
@@ -123,155 +164,346 @@ Widget ViewMatchesGrid(BuildContext context, Future<List<Map<String, dynamic>>> 
       }
 
       final data = snapshot.data!;
-      return GridView.count(
-        crossAxisCount: 2,
-        crossAxisSpacing: 10.0,
-        mainAxisSpacing: 12.0,
-        childAspectRatio: 152 / 200,
-        children: data.map((profile) => buildGridItem(profile)).toList(),
-      );
+      return
+        LayoutBuilder(
+          builder: (context, constraints) {
+
+            return GridView.count(
+              padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.04),
+              crossAxisSpacing: constraints.maxWidth * 0.005,
+              mainAxisSpacing: constraints.maxHeight * 0.005,
+              childAspectRatio:  2.6,
+              crossAxisCount: 1,
+              children: data.map((profile) => buildViewItem(profile)).toList(),
+            );
+          },
+        );
     },
   );
 }
-Widget FilterGrid(BuildContext context,filteredResults) {
+Widget FilterGrid(BuildContext context, List<Map<String, dynamic>> filteredResults) {
   return FutureBuilder<List<Map<String, dynamic>>>(
     future: getFilteredProfiles(),
     builder: (context, snapshot) {
       if (snapshot.connectionState == ConnectionState.waiting) {
         return const Center(child: CircularProgressIndicator());
-      } else if (snapshot.hasError) {
-        return Center(child: Text('Error: ${snapshot.error}'));
-      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+      } else if (filteredResults.isEmpty) {
         return const Center(child: Text('No filtered profiles found'));
       }
+
 
       final data = List<Map<String, dynamic>>.from(filteredResults);
       print('Filtered Profiles in UI: $data'); // Log filtered profiles in UI
 
       return
+        LayoutBuilder(
+          builder: (context, constraints) {
 
-
-
-        GridView.count(
-        crossAxisCount: 2,
-        crossAxisSpacing: 10.0,
-        mainAxisSpacing: 12.0,
-        childAspectRatio: 152 / 200,
-        children: data.map((profile) => buildGridItem(profile)).toList(),
-      );
+            return GridView.count(
+              padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.04),
+              crossAxisSpacing: constraints.maxWidth * 0.005,
+              mainAxisSpacing: constraints.maxHeight * 0.005,
+              childAspectRatio:  2.6,
+              crossAxisCount: 1,
+              children: data.map((profile) => buildViewItem(profile)).toList(),
+            );
+          },
+        );
     },
   );
 }
 
 
 Widget buildGridItem(Map<String, dynamic> profile) {
-  return
-    Builder(
-      builder: (context) {
-        return GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context, // Valid context provided by Builder
-              MaterialPageRoute(
-                builder: (context) => OtherProfilePage(docId: profile['id']),
-              ),
-            );
-          },
-          child:
-          Container(
-            height: 265,
-            width: 152,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(3.0),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 4.0,
-                  spreadRadius: 2.0,
-                  offset: Offset(0, 2),
-                ),
-              ],
+  return LayoutBuilder(
+    builder: (context, constraints) {
+      return GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => OtherProfilePage(SoulId: profile['id']),
             ),
-            margin: const EdgeInsets.all(12.0),
-            child: Stack(
-              children: [
-                Container(
-                  height: 145,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(3.0),
-                    image: ((profile['images']?? 'N/A') != null && (profile['images']?? 'N/A').isNotEmpty)
-                        ? DecorationImage(
-                      image: NetworkImage(profile['images']?? 'N/A'),
-                      fit: BoxFit.cover,
-                    )
-                        : null,
+          );
+        },
+        child: Container(
+          height: constraints.maxHeight * 0.75,  // Responsive height
+          width: constraints.maxWidth * 0.45,   // Responsive width
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(
+              color: MyMateThemes.textColor.withOpacity(0.8),
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(constraints.maxWidth * 0.02),
+          ),
+          margin: EdgeInsets.all(constraints.maxWidth * 0.02),
+          child:
+          Expanded(
+              child:
+          Stack(
+            children: [
+              // Profile Image
+              Container(
+                width: constraints.maxWidth * 0.2, // Ensure it has width & height
+                height: constraints.maxWidth * 0.2,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: MyMateThemes.premiumAccent,
+                    width: constraints.maxWidth * 0.01,
                   ),
-                  child: ((profile['images']?? 'N/A') == null || (profile['images']?? 'N/A').isEmpty)
-                      ? Icon(Icons.person, size: 80, color: Colors.grey[400])
+                  image: (profile['images'] != null && profile['images'].isNotEmpty)
+                      ? DecorationImage(
+                    image: Image.network(profile['images']).image, // Ensures proper fetching
+                    fit: BoxFit.cover,
+                  )
                       : null,
                 ),
-                Positioned(
-                  top: 120.0,
-                  left: 0.0,
-                  right: 0.0,
-                  child: Container(
-                    height: 126,
-                    padding: const EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: const BorderRadius.only(
-                        bottomLeft: Radius.circular(3.0),
-                        bottomRight: Radius.circular(3.0),
-                      ),
+                child: (profile['images'] == null || profile['images'].isEmpty)
+                    ? ClipOval(
+                  child: Icon(
+                    Icons.person,
+                    size: constraints.maxWidth * 0.1,
+                    color: Colors.grey[400],
+                  ),
+                )
+                    : null,
+              ),              // Profile Details
+
+              Positioned(
+                top: constraints.maxHeight * 0.5,
+                left: 0,
+                right: 0,
+                child: Container(
+                  padding: EdgeInsets.all(constraints.maxWidth * 0.03),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(constraints.maxWidth * 0.02),
+                      bottomRight: Radius.circular(constraints.maxWidth * 0.02),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        profile['full_name'] ?? 'N/A',
+                        style: TextStyle(
+                          color: MyMateThemes.textColor,
+                          fontWeight: FontWeight.w700,
+                          fontSize: constraints.maxWidth * 0.075,
+                        ),
+                      ),
+                      Text(
+                        '${profile['age'] ?? 'N/A'}, ${profile['marital_status'] ?? 'N/A'}',
+                        style: TextStyle(
+                          color: MyMateThemes.textColor,
+                          fontSize: constraints.maxWidth * 0.06,
+                        ),
+                      ),
+                      Text(
+                        profile['occupation'] ?? 'N/A',
+                        style: TextStyle(
+                          color: MyMateThemes.textColor,
+                          fontSize: constraints.maxWidth * 0.06,
+                        ),
+                      ),
+                      Text(
+                        profile['city'] ?? 'N/A',
+                        style: TextStyle(
+                          color: MyMateThemes.textColor,
+                          fontSize: constraints.maxWidth * 0.06,
+                        ),
+                      ),
+                      SizedBox(height: constraints.maxHeight * 0.015),
+                      Container(
+                        width: constraints.maxWidth * 0.4,
+                        height: constraints.maxHeight * 0.2,
+                        decoration: BoxDecoration(
+                          color: MyMateThemes.secondaryColor,
+                          borderRadius: BorderRadius.circular(constraints.maxWidth * 0.02),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              'assets/images/heart .svg',
+
+                              width: constraints.maxWidth * 0.07,
+                            ),
+                            SizedBox(width: constraints.maxWidth * 0.02),
+                            Text(
+                              '80%',
+                              style: TextStyle(
+                                color: MyMateThemes.primaryColor,
+                                fontSize: constraints.maxWidth * 0.06,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          )
+          ),
+        ),
+      );
+    },
+  );
+}
+
+
+Widget buildViewItem(Map<String, dynamic> profile) {
+  return LayoutBuilder(
+    builder: (context, constraints) {
+      return GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => OtherProfilePage(SoulId: profile['id']),
+            ),
+          );
+        },
+        child: Container(
+          height: constraints.maxHeight * 0.2,  // Responsive height
+          width: constraints.maxWidth * 0.8,   // Responsive width
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(
+              //color: MyMateThemes.textColor.withOpacity(0.8),
+              color: Colors.white,
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(constraints.maxWidth * 0.02),
+          ),
+          margin: EdgeInsets.all(constraints.maxWidth * 0.02),
+          child:
+          Column(
+              children: [
+                SizedBox(height: constraints.maxHeight * 0.1), // Use constraints
+
+                Row(
+                  children: [
+                    SizedBox(width: constraints.maxWidth * 0.05), // Use constraints
+                    Container(
+                      width: constraints.maxWidth * 0.3,
+                      height: constraints.maxWidth * 0.3,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: MyMateThemes.premiumAccent,
+                          width: constraints.maxWidth * 0.01,
+                        ),
+                        image: (profile['images'] != null && profile['images'].isNotEmpty)
+                            ? DecorationImage(
+                          image: NetworkImage(profile['images']),
+                          fit: BoxFit.cover,
+                        )
+                            : null,
+                      ),
+                      child: (profile['images'] == null || profile['images'].isEmpty)
+                          ? ClipOval(
+                        child: Icon(
+                          Icons.person,
+                          size: constraints.maxWidth * 0.1,
+                          color: Colors.grey[400],
+                        ),
+                      )
+                          : null,
+                    ),
+
+                    SizedBox(width: constraints.maxWidth * 0.06),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(profile['full_name'] ?? 'N/A',
+                        SizedBox(height:  constraints.maxHeight * 0.06),
+                        Padding(
+                          padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.02), // Use constraints
+                          child:
+                          Text(
+                            profile['full_name'] ?? 'N/A',
                             style: TextStyle(
-                                color: MyMateThemes.textColor,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 13)),
-                        Text('${profile['age'] ?? 'N/A'}, ${profile['marital_status'] ?? 'N/A'}',
-                            style: TextStyle(
-                                color: MyMateThemes.textColor, fontSize: 11)),
-                        Text(profile['occupation'] ?? 'N/A',
-                            style: TextStyle(
-                                color: MyMateThemes.textColor, fontSize: 11)),
-                        Text(profile['city'] ?? 'N/A',
-                            style: TextStyle(
-                                color: MyMateThemes.textColor, fontSize: 11)),
-                        const SizedBox(height: 5),
-                        Container(
-                          width: 108.43,
-                          height: 20.85,
-                          decoration: BoxDecoration(
-                            color: MyMateThemes.secondaryColor,
-                            borderRadius: BorderRadius.circular(4.0),
+                              color: MyMateThemes.textColor,
+                              fontWeight: FontWeight.w700,
+                              fontSize: constraints.maxWidth * 0.04,
+                            ),
                           ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.02), // Use constraints
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              SvgPicture.asset('assets/images/heart .svg'),
-                              Text('80%',
-                                  style: TextStyle(
-                                      color: MyMateThemes.primaryColor,
-                                      fontSize: 14)),
+                              Text(
+                                '${profile['age'] ?? 'N/A'}, ${profile['marital_status'] ?? 'N/A'}',
+                                style: TextStyle(
+                                  color: MyMateThemes.textColor,
+                                  fontSize: constraints.maxWidth * 0.03,
+                                ),
+                              ),
+
                             ],
                           ),
                         ),
+
+                        Padding(
+                          padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.04), // Use constraints
+                          child:
+                          Text(
+                            profile['city'] ?? 'N/A',
+                            style: TextStyle(
+                              color: MyMateThemes.textColor,
+                              fontSize: constraints.maxWidth * 0.03,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(bottom: constraints.maxHeight * 0.02), // Use constraints
+                          child: Container(
+                            width: constraints.maxWidth * 0.25, // Use constraints
+                            height: constraints.maxHeight * 0.18, // Use constraints
+                            decoration: BoxDecoration(
+                              color: MyMateThemes.secondaryColor,
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/images/heart .svg',
+
+                                  width: constraints.maxWidth * 0.03,
+                                ),
+                                SizedBox(width: constraints.maxWidth * 0.02),
+                                Text(
+                                  '80 - 100%',
+                                  style: TextStyle(
+                                    color: MyMateThemes.primaryColor,
+                                    fontSize: constraints.maxWidth * 0.03,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+
+
                       ],
+
+
+
                     ),
-                  ),
+                  ],
                 ),
+
               ],
-            ),
           ),
-        );
-      },
-    );
-
-
+        ),
+      );
+    },
+  );
 }
-

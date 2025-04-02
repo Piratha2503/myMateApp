@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
 import '../Homepages/explorePage/explorePageWidgets.dart';
+import '../dbConnection/ClientDatabase.dart';
 
 class MyMateAPIs{
 
@@ -21,10 +21,17 @@ class MyMateAPIs{
 
   static String save_client_API = "$vpsApi$commonEndPoint/saveClientData";
 
+  static String filter_Clients_API = "$vpsApi+$commonEndPoint/clientFilter";
+
+  static String send_request_API = "https://backend.graycorp.io:9000/mymate/api/v1/RequestSent";
+
+
+
 
 }
-Future<Map<String, dynamic>> fetchUserById(String docId) async {
+Future<Map<String, dynamic>> fetchUserById(String docId,) async {
   final String apiUrl = MyMateAPIs.get_client_byDocId_API;
+
 
   try {
     if (docId.isEmpty) {
@@ -32,7 +39,7 @@ Future<Map<String, dynamic>> fetchUserById(String docId) async {
       return {};
     }
     final Uri url = Uri.parse('$apiUrl?docId=$docId');
-
+    print('Fetching details from: $url');
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -62,6 +69,9 @@ Future<Map<String, dynamic>> fetchUserById(String docId) async {
       // if (mobileNumber.isNotEmpty && !mobileNumber.startsWith(countryCode)) {
       //   mobileNumber = '$countryCode$mobileNumber';
       // }
+      final isProfileComplete = data['isProfileComplete'] ?? false;
+      final completeProfilePending = data['completeProfilePending'] ?? {};
+
 
       final formattedAddress =
       (houseNumber.isNotEmpty ||
@@ -75,20 +85,22 @@ Future<Map<String, dynamic>> fetchUserById(String docId) async {
 
       return {
         'id': docId,
-
+        'isProfileComplete': isProfileComplete,
+        'completeProfilePending':completeProfilePending,
         'full_name': personalDetails['full_name'] ?? 'N/A',
         'first_name': personalDetails['first_name'] ?? 'N/A',
         'age': personalDetails['age'] ?? 'N/A',
         'dob': astrology['dob'] ?? 'N/A',
         'dot': astrology['dot'] ?? 'N/A',
         'occupation': careerStudies['occupation'] ?? 'N/A',
-        'occupation_type' : careerStudies['occupation_type'] ?? 'N/A',
+        'occupation_type' : data['careerStudies']?['occupation_type'] ?? 'N/A',
         'address': formattedAddress,
         //'address' : contactInfo['address'] ?? 'N/A',
 
         'city' : address['city'] ?? 'N/A',
         'education': careerStudies['higher_studies'] ?? 'N/A',
-        'height': personalDetails['height'] ?? 'N/A',
+        'height': personalDetails['height'] ?? 0.0,
+        'language': personalDetails['language'] ?? 'N/A',
         'religion': personalDetails['religion'] ?? 'N/A',
         'caste': personalDetails['caste'] ?? 'N/A',
         'mother_name': personalDetails['mother_name'] ?? 'N/A',
@@ -98,16 +110,21 @@ Future<Map<String, dynamic>> fetchUserById(String docId) async {
         'favorites': lifestyle['personal_interest'] ?? 'N/A',
         'alcohol': lifestyle['habits'] ?? 'N/A',
         'sports': data['sports'] ?? 'N/A',
-        'cooking': data['cooking'] ?? 'N/A',
+        // 'cooking': data['cooking'] ?? 'N/A',
         'bio': personalDetails['bio'] ?? 'N/A',
         'images': userImages,
         'civil_status' : personalDetails['marital_status'] ?? 'N/A',
         'expectations' :lifestyle['expectations'] ?? 'N/A',
-        'profile_pic_url': data['profileImages']?['profile_pic_url'] ?? 'N/A',
+        'profile_pic_url': data['profileImages']?['profile_pic_url'] ?? 'https://piratha.com/images/profile.png',
         'gallery_image_urls': data['profileImages']?['gallery_image_urls'] ?? 'N/A',
         'country' : address['country'] ?? 'N/A',
         'rasi': astrology['rasi'] ?? 'N/A',
         'natchathiram': astrology['natchathiram'] ?? 'N/A',
+        'alcoholIntake' :lifestyle['alcoholIntake'] ?? 'N/A',
+        'cooking' :lifestyle['cooking'] ?? 'N/A',
+        'eating_habit' :lifestyle['eating_habit'] ?? 'N/A',
+        'smoking' :lifestyle['smoking'] ?? 'N/A',
+        'personal_intrest': lifestyle['personal_intrest'] ?? 'N/A',
 
 
       };
@@ -274,3 +291,35 @@ Future<List<Map<String, dynamic>>> searchAllUsers(Map<String, String> searchPara
 
 
 
+Future<void> updateClientData(ClientData clientData) async {
+  final url = Uri.parse('https://backend.graycorp.io:9000/mymate/api/v1/updateClient');
+
+  try {
+    final Map<String, dynamic> clientDataMap = clientData.toMap();
+    print("📤 Sending JSON Data: ${jsonEncode(clientDataMap)}"); // Debugging
+
+    final response = await http.put(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+
+      },
+      body: jsonEncode(clientDataMap),
+    );
+
+    print("🔹 Response Code: ${response.statusCode}");
+    print("🔹 Response Body: ${response.body}");
+
+    if (response.statusCode == 200) {
+      // final clientData = jsonDecode(response.body);
+      // final astrology = clientData['astrology'] ?? {};
+      //
+
+      print("✅ Client data updated successfully.");
+    } else {
+      print("❌ Error updating client data: ${response.statusCode} - ${response.body}");
+    }
+  } catch (e) {
+    print("❌ API error: $e");
+  }
+}

@@ -1,22 +1,27 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mymateapp/MyMateThemes.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 import '../../MyMateCommonBodies/MyMateApis.dart';
 import '../../MyMateCommonBodies/MyMateBottomBar.dart';
-import '../CheckMatch.dart';
+import '../ProfilePageScreen/MyProfileStatelessWidgets.dart';
+import '../checkMatchPages/CheckMatch.dart';
 import '../ProfilePageScreen/navamsaChartDesign.dart';
 import '../ProfilePageScreen/photoGalleryPage.dart';
 import '../ProfilePageScreen/rasiChartDesign.dart';
 import '../custom_outline_button.dart';
 import '../explorePage/explorePageMain.dart';
+import '../notification_service.dart';
+import 'menuPage.dart';
 
 class OtherProfilePage extends StatefulWidget {
-  final String docId;
+  final String SoulId;
 
-  const OtherProfilePage({required this.docId, super.key});
+  const OtherProfilePage({required this.SoulId, super.key});
 
-  String get soulDocId => docId;
+  String get soulDocId => SoulId;
 
   @override
   State<OtherProfilePage> createState() => _OtherProfilePageState();
@@ -48,11 +53,117 @@ class _OtherProfilePageState extends State<OtherProfilePage>
   final ScrollController _scrollController = ScrollController();
   List<TextEditingController> controllers = [];
   bool isLoading = true;
+  bool isBookmarked = false; // Track bookmark state
 
-  /// Fetch data from API using fetchUserById
+  String _notificationStatus ="";
+
+
+  final GlobalKey _anchorKey1 = GlobalKey();
+  final GlobalKey _anchorKey2 = GlobalKey();
+  final GlobalKey _anchorKey3 = GlobalKey();
+
+
+
+  Future<String?> getSavedDocId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('docId');
+
+  }
+
+  Future <String?> getSavedToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('token');
+  }
+
+
+  Future<void> _updateNotificationStatus(String status) async {
+    final senderDocId = await getSavedDocId();
+    final receiverDocId = widget.SoulId;
+    final String? receiverToken = await getSavedToken();
+    final senderName = await _fetchdetails(senderDocId);
+    final url = Uri.parse(
+      "https://backend.graycorp.io:9000/mymate/api/v1/requestSending?sender_docId=$senderDocId&receiver_docId=$receiverDocId&notification_status=$status",
+    );
+
+    try {
+      final response = await http.put(
+        url,
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      if (response.statusCode == 200) {
+        print("Notification status updated successfully to $status");
+        _checkNotificationStatus();
+
+        String? receiverToken = 'eZSq6wLcQUy7bb4-ykFkfG:APA91bGlLxNqvzOJO4pXrgnIx7XJKEvIHVxboz6WM6hJOz8kyr2ETQR0oVukTCmH6NKQ9v9jTSu7qFOEd56d-obZ9i32OuA4XjXCI1leTVfBUIFW2vWwUIA';
+
+        if (receiverToken != null) {
+          await NotificationService.sendPushNotification(receiverToken, senderName, status);
+        }
+
+      } else {
+        print("Failed to update notification status. Status code: ${response.statusCode}");
+        print("Response body: ${response.body}");
+      }
+    } catch (e) {
+      print("Error updating notification status: $e");
+    }
+  }
+
+  Future<String> _fetchdetails(String? docId) async {
+    final senderDocId = await getSavedDocId();
+
+
+    final url = Uri.parse("https://backend.graycorp.io:9000/mymate/api/v1/getClientDataByDocId?docId=$senderDocId");
+
+    try {
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = jsonDecode(response.body);
+        return data['personalDetails']['full_name'] ?? "Unknown User";
+
+      } else {
+        print(" Failed to fetch sender's name: ${response.statusCode}");
+        return "Unknown User";
+      }
+    } catch (e) {
+      print(" Error fetching sender's name: $e");
+      return "Unknown User";
+    }
+  }
+
+
+
+  Future<void> _checkNotificationStatus() async {
+    final senderDocId = await getSavedDocId();
+    final receiverDocId = widget.SoulId;
+    try {
+      final url = Uri.parse(
+        'https://backend.graycorp.io:9000/mymate/api/v1/checkNotificationStatus?sender_docId=$senderDocId&receiver_docId=$receiverDocId',
+      );
+
+      final response = await http.get(url, headers: {'Content-Type': 'application/json'});
+
+      if (response.statusCode == 200) {
+        setState(() {
+          _notificationStatus = response.body.trim();
+          print(_notificationStatus);
+        });
+      } else {
+        print('Failed to fetch notification status: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error checking notification status: $e');
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
   Future<void> getClient() async {
     try {
-      final data = await fetchUserById(widget.docId);
+      final data = await fetchUserById(widget.SoulId);
 
       if (data.isNotEmpty) {
         setState(() {
@@ -63,13 +174,13 @@ class _OtherProfilePageState extends State<OtherProfilePage>
           occupation = data['occupation'] ?? "N/A";
           mobile = data['mobile'].toString() ?? "N/A";
           religion = data['religion'] ?? "N/A";
-          age = data['age'].toString() ?? "N/A";
+          age = data['age']?.toString() ?? "N/A";
           dob = data['dob'] ?? "N/A";
           dot = data['dot'] ?? "N/A";
           country = data['country'] ?? "N/A";
           rasi = data['rasi'] ?? "N/A";
           natchathiram = data['natchathiram'] ?? "N/A";
-          profilePictureUrl =data['profile_pic_url'] ?? "N/A";
+          profilePictureUrl = data['profile_pic_url'] ?? "N/A";
           address = data['address'] ?? "N/A";
           isLoading = false;
           var expectations = data['expectations'] ?? [];
@@ -94,7 +205,6 @@ class _OtherProfilePageState extends State<OtherProfilePage>
           isLoading = false;
         });
         print('Profile Picture URL: $profilePictureUrl');
-
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Client data not found!')),
         );
@@ -107,7 +217,6 @@ class _OtherProfilePageState extends State<OtherProfilePage>
         SnackBar(content: Text('Error: $e')),
       );
     }
-
   }
 
   @override
@@ -115,6 +224,7 @@ class _OtherProfilePageState extends State<OtherProfilePage>
     super.initState();
     getClient();
     _scrollController.addListener(_scrollListener);
+    _checkNotificationStatus();
   }
 
   @override
@@ -135,49 +245,122 @@ class _OtherProfilePageState extends State<OtherProfilePage>
   }
 
   void _scrollListener() {
-    double containerHeight = 620.0;
-    int newIndex = (_scrollController.offset / containerHeight).floor();
-    if (newIndex != _selectedButtonIndex) {
-      setState(() {
-        _selectedButtonIndex = newIndex;
-      });
+    List<GlobalKey> anchorKeys = [_anchorKey1, _anchorKey2, _anchorKey3];
+
+    for (int i = 0; i < anchorKeys.length; i++) {
+      BuildContext? context = anchorKeys[i].currentContext;
+      if (context != null) {
+        RenderObject? renderObject = context.findRenderObject();
+        if (renderObject != null) {
+          RenderBox box = renderObject as RenderBox;
+          Offset position = box.localToGlobal(Offset.zero);
+
+          // Check if this anchor is within the viewport
+          if (position.dy >= 0 && position.dy < MediaQuery.of(context).size.height / 2) {
+            if (_selectedButtonIndex != i) {
+              setState(() {
+                _selectedButtonIndex = i;
+              });
+            }
+            break; // Stop checking further once the first visible anchor is found
+          }
+        }
+      }
     }
   }
 
-  void _scrollToContainer(int index) {
-    double containerHeight = 550.0;
-    double targetPosition = index * containerHeight - containerHeight / 2;
-    _scrollController.animateTo(
-      targetPosition,
-      duration: Duration(milliseconds: 500),
-      curve: Curves.easeInOut,
-    );
+
+  void _scrollToContainer(GlobalKey anchorKey) {
+    BuildContext? context = anchorKey.currentContext;
+    if (context != null) {
+      RenderObject? renderObject = context.findRenderObject();
+      if (renderObject != null) {
+        RenderBox box = renderObject as RenderBox;
+        Offset position = box.localToGlobal(Offset.zero);
+        double targetOffset = position.dy + _scrollController.offset;
+
+        _scrollController.animateTo(
+          targetOffset - 50, // Adjust for padding if needed
+          duration: Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+        );
+      }
+    }
   }
 
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      backgroundColor: MyMateThemes.backgroundColor,
-      automaticallyImplyLeading: false, // Prevents the default back arrow
-
+      backgroundColor: Colors.white,
+      automaticallyImplyLeading: false,
       title: SafeArea(
         child: Row(
+          mainAxisSize: MainAxisSize.min, // Prevent Row from taking extra space
           children: [
+            SizedBox(width: MediaQuery.of(context).size.width * 0.02), // Small spacing
+
+            // Back Button (SVG)
             GestureDetector(
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ExplorePage(results: [], initialTabIndex: 0, search: [], docId: '',)));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ExplorePage(
+                      results: [],
+                      initialTabIndex: 0,
+                      search: [],
+                      docId: '',
+                    ),
+                  ),
+                );
               },
-              child: SvgPicture.asset('assets/images/chevron-left.svg'),
+              child: SvgPicture.asset(
+                'assets/images/chevron-left.svg',
+                height: MediaQuery.of(context).size.height * 0.02,
+              ),
             ),
-            SizedBox(width: 70.0),
+
+            SizedBox(width: MediaQuery.of(context).size.width * 0.2), // Small spacing
+            Spacer(), // Pushes icons to the right
+
+            // Profile Name
             Text(
               "@ $full_name",
               style: TextStyle(
                 color: MyMateThemes.textColor,
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
+                fontSize: MediaQuery.of(context).size.width*0.045,
+                fontWeight: FontWeight.w600,
               ),
             ),
+            SizedBox(width: MediaQuery.of(context).size.width * 0.07), // Small spacing
+
+            Spacer(), // Pushes icons to the right
+
+            // Bookmark Icon
+            IconButton(
+              icon: Icon(
+                isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+                color: MyMateThemes.primaryColor,
+                  size: MediaQuery.of(context).size.width*0.065
+              ),
+              onPressed: () {
+                setState(() {
+                  isBookmarked = !isBookmarked;
+                });
+              },
+            ),
+
+            // Kebab Menu (Three Dots)
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => MenuPage(docId: '',)));
+
+              },
+              icon: Icon(Icons.more_vert, color: MyMateThemes.primaryColor,  size: MediaQuery.of(context).size.width*0.065),
+            ),
+
           ],
         ),
       ),
@@ -187,32 +370,57 @@ class _OtherProfilePageState extends State<OtherProfilePage>
   Widget _buildProfileInfo() {
     return Column(
       children: [
-        GestureDetector(
-          onTap: _toggleSize,
-          child: AnimatedContainer(
-            duration: Duration(milliseconds: 500),
-            curve: Curves.easeInOut,
-            height: _isSmall ? 50 : 230,
-            alignment: _isSmall ? Alignment(-1.2, 1.0) : Alignment.center,
-            child: profilePictureUrl.isNotEmpty
-                ? ClipOval(
-              child: Image.network(
-                profilePictureUrl,
-                fit: BoxFit.cover,
-                height: _isSmall ? 50 : 230,
-                width: _isSmall ? 50 : 230,
-                errorBuilder: (context, error, stackTrace) {
-                  return Icon(Icons.error, size: _isSmall ? 50 : 230);
-                },
-                loadingBuilder: (context, child, progress) {
-                  if (progress == null) return child;
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                },
+        Container(
+          height: MediaQuery.of(context).size.height * 0.3,
+          width: MediaQuery.of(context).size.width * 0.5,
+          child: Center(
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.25,
+              width: MediaQuery.of(context).size.width * 0.5,
+              // decoration: BoxDecoration(
+              //   borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.25),
+              //   color: MyMateThemes.secondaryColor,
+              // ),
+              child: Center(
+                child: AnimatedContainer(
+                  duration: Duration(milliseconds: 500),
+                  curve: Curves.easeInOut,
+                  height: _isSmall ? 50 : 230,
+
+                  alignment: _isSmall ? Alignment(-0.8, 1.0) : Alignment.center,
+                  child: profilePictureUrl.isNotEmpty
+                      ? ClipOval(
+                    child: Image.network(
+                      profilePictureUrl,
+                      fit: BoxFit.cover,
+                      height: _isSmall ? 50 : 230,
+
+                      width: _isSmall
+                          ? MediaQuery.of(context).size.width * 0.15
+                          : MediaQuery.of(context).size.width * 0.45,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Icon(
+                          Icons.error,
+                          size: _isSmall
+                              ? MediaQuery.of(context).size.width * 0.15
+                              : MediaQuery.of(context).size.width * 0.45,
+                        );
+                      },
+                      loadingBuilder: (context, child, progress) {
+                        if (progress == null) return child;
+                        return Center(child: CircularProgressIndicator());
+                      },
+                    ),
+                  )
+                      : Icon(
+                    Icons.account_circle,
+                    size: _isSmall
+                        ? MediaQuery.of(context).size.width * 0.2
+                        : MediaQuery.of(context).size.width * 0.5,
+                  ),
+                ),
               ),
-            )
-                : Icon(Icons.account_circle, size: _isSmall ? 50 : 230),
+            ),
           ),
         ),
         GestureDetector(
@@ -223,17 +431,26 @@ class _OtherProfilePageState extends State<OtherProfilePage>
                 full_name,
                 style: TextStyle(
                   color: MyMateThemes.primaryColor,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
+                  fontSize: MediaQuery.of(context).size.width * 0.05,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-              Text(
-                'Special Mention (Optional)',
-                style: TextStyle(
-                  color: MyMateThemes.textColor,
-                  fontSize: 14,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset('assets/images/heart .svg',color:MyMateThemes.textColor.withOpacity(0.5)),
+                  SizedBox(width:MediaQuery.of(context).size.width * 0.01 ,),
+                  Text(
+                    '2.57 k',
+                    style: TextStyle(
+                      color: MyMateThemes.textColor.withOpacity(0.5),
+                      fontSize: MediaQuery.of(context).size.width * 0.035,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                ],
               ),
+
             ],
           ),
         ),
@@ -241,35 +458,30 @@ class _OtherProfilePageState extends State<OtherProfilePage>
     );
   }
 
-  Widget _buildIconWithText(String iconPath, String age, String dob) {
+  Widget _buildIconWithText(String iconPath, String text1, String text2) {
     return Container(
-      width: 120,
-      height: 72,
-      foregroundDecoration: BoxDecoration(
-        border: Border(
-          right: BorderSide(
-            color: MyMateThemes.secondaryColor,
-            width: 2,
-          ),
-        ),
-      ),
+      width: MediaQuery.of(context).size.width * 0.28,
+      height: MediaQuery.of(context).size.height * 0.1,
+
       child: Column(
         children: [
-          SvgPicture.asset(iconPath),
-          SizedBox(height: 5),
+          SvgPicture.asset(iconPath,
+            width: MediaQuery.of(context).size.width * 0.08,
+            height: MediaQuery.of(context).size.width * 0.08,),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.007),
           Text(
-            age,
+            text1,
             style: TextStyle(
               color: MyMateThemes.textColor,
-              fontSize: 12,
+              fontSize: MediaQuery.of(context).size.width * 0.028,
               fontWeight: FontWeight.normal,
             ),
           ),
           Text(
-            dob,
+            text2,
             style: TextStyle(
               color: MyMateThemes.primaryColor,
-              fontSize: 10,
+              fontSize: MediaQuery.of(context).size.width * 0.028,
               fontWeight: FontWeight.normal,
             ),
           ),
@@ -278,53 +490,137 @@ class _OtherProfilePageState extends State<OtherProfilePage>
     );
   }
 
+
   Widget _buildActionButtons() {
+    String buttonText;
+    VoidCallback? buttonAction;
+
+    if (_notificationStatus == "New") {
+      buttonText = "Send Request";
+      buttonAction = () {
+        _showConfirmationDialog(
+          "Are you sure you want to send the request?",
+          onConfirm: () => _updateNotificationStatus("Request_Sent"),
+        );
+      };
+    } else if (_notificationStatus == "Request_Sent") {
+      buttonText = "Request Sent";
+      buttonAction = null;
+    } else if (_notificationStatus == "Request Received") {
+      buttonText = "Accept Request";
+      buttonAction = () {
+        _showConfirmationDialog(
+          "Are you sure you want to accept the request?",
+          onConfirm: () => _updateNotificationStatus("Accept"),
+        );
+      };
+    } else if (_notificationStatus == "Accept") {
+      buttonText = "Connected";
+      buttonAction = null;
+    } else {
+      buttonText = "Send Request";
+      buttonAction = () {
+        _showConfirmationDialog(
+          "Are you sure you want to send the request?",
+          onConfirm: () => _updateNotificationStatus("Request_Sent"),
+        );
+      };
+    }
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        ElevatedButton(
-          onPressed: () {},
-          style: ElevatedButton.styleFrom(
-              backgroundColor: MyMateThemes.primaryColor,
+      SizedBox(
+        height:MediaQuery.of(context).size.height * 0.06 ,
+        width: MediaQuery.of(context).size.width * 0.43,
+          child: ElevatedButton(
+            onPressed: buttonAction,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: buttonAction == null
+                  ? Colors.grey
+                  : MyMateThemes.primaryColor,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5.0),
+                borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.025),
               ),
-              foregroundColor: Colors.white
+              padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.05,
+                vertical: MediaQuery.of(context).size.height * 0.015,
+              ),
+              foregroundColor: Colors.white,
+            ),
+            child: Text(buttonText),
           ),
-          child: Text('Send Request '),
         ),
-        SizedBox(width: 30),
-        ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => CheckmatchPage(soulDocId: widget.docId, clientDocId: 'E0JFHhK2x6Gq2Ac6XSyP',)),
-            );
-          },
-          style: ElevatedButton.styleFrom(
-              backgroundColor: MyMateThemes.primaryColor,
-              shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(5.0),),
-              foregroundColor: Colors.white
+        SizedBox(width: MediaQuery.of(context).size.width * 0.04),
+        SizedBox(
+          height:MediaQuery.of(context).size.height * 0.06 ,
+          width: MediaQuery.of(context).size.width * 0.43,
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CheckmatchPage(
+                      soulDocId: widget.SoulId,
+                      clientDocId: 'E0JFHhK2x6Gq2Ac6XSyP',
+                    )),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+                backgroundColor: MyMateThemes.primaryColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.02),
+                ),
+                padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width * 0.05,
+                  vertical: MediaQuery.of(context).size.height * 0.015,
+                ),
+                foregroundColor: Colors.white),
+            child: Text('Check Match'),
           ),
-          child: Text('Check Match'),
-
         ),
       ],
+    );
+  }
+
+  void _showConfirmationDialog(String message, {required VoidCallback onConfirm}) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Confirmation"),
+        content: Text(message),
+        actions: [
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text("No"),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              onConfirm();
+            },
+            child: Text("Yes"),
+          ),
+        ],
+      ),
     );
   }
 
   Widget _buildSectionTitle(String title) {
     return Row(
       children: [
-        SizedBox(width: 40),
-        SvgPicture.asset('assets/images/Group 2148.svg'),
-        SizedBox(width: 4),
+        SizedBox(width: MediaQuery.of(context).size.width * 0.05), // 10% of screen width
+        SvgPicture.asset(
+          'assets/images/heart .svg',
+          width: MediaQuery.of(context).size.width * 0.05,
+        ),
+        SizedBox(width: MediaQuery.of(context).size.width * 0.013), // Small spacing
         Text(
           title,
           style: TextStyle(
             color: MyMateThemes.primaryColor,
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
+            fontSize: MediaQuery.of(context).size.width * 0.043, // Responsive font size
+            fontWeight: FontWeight.normal,
           ),
         ),
       ],
@@ -339,11 +635,12 @@ class _OtherProfilePageState extends State<OtherProfilePage>
 
   Widget _buildProfileDetails() {
     return FutureBuilder<Map<String, dynamic>>(
-        future: fetchUserById(widget.docId), // Call API with docId
+        future: fetchUserById(widget.SoulId),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
+          // if (snapshot.connectionState == ConnectionState.waiting) {
+          //   return Center(child: CircularProgressIndicator());
+          // }
+           if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return Center(child: Text('No data available'));
@@ -352,20 +649,22 @@ class _OtherProfilePageState extends State<OtherProfilePage>
           final data = snapshot.data!;
 
           return Container(
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
+            padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * 0.01,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: 20),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                 _buildSectionTitle('About me'),
-                SizedBox(height: 5),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.007),
                 Row(
                   children: [
-                    SizedBox(width: 40),
-                    SvgPicture.asset('assets/images/Line 11.svg'),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.05),
+                    SvgPicture.asset('assets/images/Line 11.svg', width: MediaQuery.of(context).size.width * 0.9),
                   ],
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.012),
                 _buildInfoRow('Full Name', data['full_name'] ?? 'N/A'),
                 _buildInfoRow('Education', data['education'] ?? 'N/A'),
                 _buildInfoRow('Height', '${data['height'] ?? 'N/A'} CM'),
@@ -374,173 +673,210 @@ class _OtherProfilePageState extends State<OtherProfilePage>
                 _buildInfoRow('Caste', data['caste'] ?? 'Optional'),
                 _buildInfoRow('Father\'s Name', data['first_name'] ?? 'N/A'),
                 _buildInfoRow('Mother\'s Name', data['mother_name'] ?? 'N/A'),
-                _buildInfoRow(
-                    'Siblings', data['num_of_siblings']?.toString() ?? 'N/A'),
+                _buildInfoRow('Siblings', data['num_of_siblings']?.toString() ?? 'N/A'),
                 _buildInfoRow('Age', data['age']?.toString() ?? 'N/A'),
-                _buildInfoRow(
-                    'Date of Birth', data['dob']?.toString() ?? 'N/A'),
+                _buildInfoRow('Date of Birth', data['dob']?.toString() ?? 'N/A'),
                 _buildInfoRow('Mobile', data['contact'] ?? 'N/A'),
                 _buildInfoRow('Address', data['address'] ?? 'N/A'),
-
-                SizedBox(height: 20),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.045),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    SizedBox(width: 40),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.1),
                     Text(
                       'Expectations',
                       style: TextStyle(
-                        color: MyMateThemes.textColor,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                          color: MyMateThemes.textColor,
+                          fontSize: MediaQuery.of(context).size.width * 0.055,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 0.8
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
+
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+
                 _buildExpectations(),
               ],
             ),
           );
-        }
-    );
-
+        });
   }
 
   Widget _buildInfoRow(String title, String value) {
+    double containerWidth = MediaQuery.of(context).size.width * 0.88;
+    double containerHeight = MediaQuery.of(context).size.height * 0.05;
+    double fontSize = MediaQuery.of(context).size.width * 0.04;
+
     return Container(
-      height: 34,
-      width: 297,
-      margin: EdgeInsets.symmetric(vertical: 5.0),
-      padding: EdgeInsets.symmetric(horizontal: 8.0),
+      height: containerHeight,
+      width: containerWidth,
+      margin: EdgeInsets.symmetric(vertical: containerHeight * 0.13),
+      padding: EdgeInsets.all(containerHeight * 0.2),
       decoration: BoxDecoration(
-        color: MyMateThemes.containerColor,
-        borderRadius: BorderRadius.circular(5.0),
+        border: Border.all(
+          color: MyMateThemes.textColor.withOpacity(0.2),
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(containerWidth * 0.01), // Dynamic border radius
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Fixed width for title
-          Container(
-            width: 120, // Adjust the width based on your design
-            child: Text(
-              title,
-              style: TextStyle(
-                color: MyMateThemes.textColor,
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-              ),
-              overflow: TextOverflow.ellipsis,
+          Text(
+            title,
+            style: TextStyle(
+              color: MyMateThemes.textColor,
+              fontWeight: FontWeight.normal,
+              fontSize: fontSize,
             ),
           ),
-          SizedBox(width: 50), // Space between title and value
-
-          // Scrollable text for value
-          Expanded(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Text(
-                value,
-                style: TextStyle(
-                  color: MyMateThemes.textColor,
-                  fontSize: 14,
-                  fontWeight: FontWeight.normal,
-                ),
-                softWrap: false,
-                overflow: TextOverflow.visible,
-              ),
+          Text(
+            value,
+            style: TextStyle(
+              color: MyMateThemes.textColor,
+              fontSize: fontSize,
+              fontWeight: FontWeight.normal,
             ),
           ),
         ],
       ),
-    );
-  }
+    );  }
 
   Widget _buildExpectations() {
+    double containerWidth = MediaQuery.of(context).size.width * 0.8;
+    double containerHeight = MediaQuery.of(context).size.height * 0.05;
+    double fontSize = MediaQuery.of(context).size.width * 0.04;
+
     return Column(
       children: List.generate(
         controllers.length,
             (index) => Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Center(
-            child:Container(
-              height: 34,
-              width: 297,
-              margin: EdgeInsets.symmetric(vertical: 5.0),
-              padding: EdgeInsets.all(8.0),
+            child: Container(
+              height: containerHeight,
+              width: containerWidth,
+              margin: const EdgeInsets.symmetric(vertical: 5.0),
+              padding: const EdgeInsets.all(8.0),
               decoration: BoxDecoration(
-                color: MyMateThemes.containerColor,
-                borderRadius: BorderRadius.circular(5.0),
-              ),
-              child: Expanded(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child:
-                  Text(
-                    controllers[index].text,
-                    style: TextStyle(
-                      color: MyMateThemes.textColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                    ),
-                    softWrap: false,
-                    overflow: TextOverflow.visible,
-                  ),
-
+                border: Border.all(
+                  color: MyMateThemes.textColor.withOpacity(0.2),
+                  width: 1,
                 ),
-
+                borderRadius: BorderRadius.circular(containerWidth * 0.01), // Dynamic border radius
+              ),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Text(
+                  controllers[index].text,
+                  style: TextStyle(
+                    color: MyMateThemes.textColor,
+                    fontWeight: FontWeight.normal,
+                    fontSize: fontSize,
+                  ),
+                  softWrap: false,
+                  overflow: TextOverflow.visible,
+                ),
               ),
             ),
-
           ),
         ),
       ),
-
     );
   }
 
   Widget _buildNavigationBar() {
-    return CustomBottomNavigationBar(
-      selectedIndex: _selectedIndex,
-      onItemTapped: (index) {
-        setState(() {
-          _selectedIndex = index;
-        });
-
-      }, docId: widget.docId,
+    return FutureBuilder<String?>(
+      future: getSavedDocId(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error loading docId'));
+        } else {
+          final docId = snapshot.data ?? '';
+          return CustomBottomNavigationBar(
+            selectedIndex: _selectedIndex,
+            onItemTapped: (index) {
+              setState(() {
+                _selectedIndex = index;
+              });
+            },
+            docId: docId,
+          );
+        }
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    final screenWidth = mediaQuery.size.width;
+    final screenHeight = mediaQuery.size.height;
+
     return Scaffold(
-      backgroundColor: MyMateThemes.backgroundColor,
+      backgroundColor:Colors.white,
       appBar: _buildAppBar(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Expanded(
-            child: SingleChildScrollView(
+            child:
+            SingleChildScrollView(
               controller: _scrollController,
               child: Column(
                 children: [
                   _buildProfileInfo(),
-                  SizedBox(height: 20),
+                  SizedBox(height: screenHeight * 0.03),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _buildIconWithText(
-                          'assets/images/Group 2145.svg', '$age years', dob),
-                      _buildIconWithText('assets/images/Group 2146.svg',
-                          occupation, '$city  '),
-                      _buildIconWithText('assets/images/Group 2147.svg',
-                          city, '$country'),
+                      _buildIconWithText('assets/images/Group 2145.svg', '$age years', dob),
+                      Container(
+                        width: screenWidth*0.001,           // Divider thickness
+                        height: screenHeight*0.08, // Full height
+                        color: MyMateThemes.textColor.withOpacity(0.3), // Divider color
+                      ),
+                      _buildIconWithText('assets/images/Group 2146.svg', occupation, '$city'),
+                      Container(
+                        width: screenWidth*0.001,           // Divider thickness
+                        height: screenHeight*0.08, // Full height
+                        color: MyMateThemes.textColor.withOpacity(0.3), // Divider color
+                      ),
+                      _buildIconWithText('assets/images/Group 2147.svg', city, '$country'),
                     ],
                   ),
+                  SizedBox(height: screenHeight * 0.03),
 
-                  SizedBox(height: 30),
+                  Container(
+                    height: screenHeight*0.14,
+                    width: screenWidth*0.9,
+                    margin: EdgeInsets.symmetric(vertical: screenHeight * 0.01),
+                    padding: EdgeInsets.all(screenHeight * 0.2),
+                    decoration: BoxDecoration(
+                      color: MyMateThemes.containerColor,
+                      borderRadius: BorderRadius.circular(screenWidth * 0.01), // Dynamic border radius
+                    ),
+                    child:
+                    Text(
+                      'Bio',
+                      style: TextStyle(
+                        color: MyMateThemes.textColor,
+                        fontWeight: FontWeight.w500,
+                        fontSize: screenWidth*0.05,
+                      ),
+                    ),
+
+                  ),
+
+                  SizedBox(height: screenHeight * 0.03),
                   _buildActionButtons(),
-                  SizedBox(height: 30),
+                  SizedBox(height: screenHeight * 0.03),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -549,37 +885,38 @@ class _OtherProfilePageState extends State<OtherProfilePage>
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           GestureDetector(
-                            child: SvgPicture.asset(
-                                'assets/images/Group 2196.svg'),
+                            child: SvgPicture.asset('assets/images/Group 2196.svg', width: screenWidth * 0.12,height:screenHeight * 0.23,),
                             onTap: () {
-                              setState(() {
-                                _selectedButtonIndex = 0;
-                              });
-                              _scrollToContainer(1);
+
+
+                              // setState(() {
+                              //   _selectedButtonIndex = 0;
+                              // });
+                              _scrollToContainer(_anchorKey1);
+                              ;
                             },
                           ),
-                          SizedBox(width: 30),
+                          SizedBox(width: screenWidth * 0.03),
                           Column(
                             children: [
-                              GestureDetector(
-                                child: SvgPicture.asset(
-                                    'assets/images/Group 2192.svg'),
+                              GestureDetector(child: SvgPicture.asset('assets/images/Group 2192.svg', width: screenWidth * 0.12,height:screenHeight * 0.11 ),
                                 onTap: () {
-                                  setState(() {
-                                    _selectedButtonIndex = 1;
-                                  });
-                                  _scrollToContainer(2);
+                                  // setState(() {
+                                  //   _selectedButtonIndex = 1;
+                                  // });
+                                  _scrollToContainer(_anchorKey2);
+                                  ;
                                 },
                               ),
-                              SizedBox(height: 16),
+                              SizedBox(height: screenHeight * 0.02),
                               GestureDetector(
-                                child: SvgPicture.asset(
-                                    'assets/images/Group 2197.svg'),
+                                child: SvgPicture.asset('assets/images/Group 2197.svg', width: screenWidth * 0.12,height:screenHeight * 0.11),
                                 onTap: () {
-                                  setState(() {
-                                    _selectedButtonIndex = 2;
-                                  });
-                                  _scrollToContainer(3);
+                                  // setState(() {
+                                  //   _selectedButtonIndex = 2;
+                                  // });
+                                  _scrollToContainer(_anchorKey3);
+                                  ;
                                 },
                               ),
                             ],
@@ -588,131 +925,38 @@ class _OtherProfilePageState extends State<OtherProfilePage>
                       ),
                     ],
                   ),
-                  SizedBox(height: 40),
-                  _buildSectionTitle("Astrology"),
-                  SizedBox(height: 10),
-                  Row(
-                    children: [
-                      SizedBox(width: 40),
-                      SvgPicture.asset('assets/images/Line 11.svg'),
-                    ],
-                  ),
-                  SizedBox(height: 25),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 140,
-                        height: 172,
-                        margin: EdgeInsets.symmetric(vertical: 5.0),
-                        padding: EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(
-                          color: MyMateThemes.containerColor,
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              top: 10,
-                              left: 10,
-                              child:
-                              SvgPicture.asset('assets/images/Group.svg'),
-                            ),
-                            Positioned(
-                              bottom: 10,
-                              left: 5,
-                              child: Column(
-                                children: [
-                                  Text(
-                                    dob,
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        color: MyMateThemes.primaryColor,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                  Text(
-                                    dot,
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        color: MyMateThemes.textColor,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                  Text(
-                                    '$city ,$country  ',
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        color: MyMateThemes.primaryColor,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(width: 15),
-                      Container(
-                        width: 140,
-                        height: 172,
-                        margin: EdgeInsets.symmetric(vertical: 5.0),
-                        padding: EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(
-                          color: MyMateThemes.primaryColor,
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              top: 8,
-                              left: 6.5,
-                              child: SvgPicture.asset(
-                                  'assets/images/Group 2217.svg'),
-                            ),
-                            Positioned(
-                              bottom: 0,
-                              left: 48,
-                              child: Column(
-                                children: [
-                                  Text(
-                                    natchathiram,
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                  Text(
-                                    rasi,
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 40),
+                  SizedBox(height: screenHeight * 0.02),
+
                   _buildContainers(
                     children: [
-                      RasiChartDesign(),
-                      SizedBox(height: 40),
-                      NavamsaChartDesign(),
-                      SizedBox(height: 40),
+
+
+                      // 🌟 Add anchor point before Astrology section
+                      SizedBox(key: _anchorKey1),
+                      SizedBox(height: screenHeight * 0.06),
+                      AstrologySection(),
+
+
+                      // 🌟 Add anchor point before Profile Details section
+                      SizedBox(key: _anchorKey2),
+                      SizedBox(height: screenHeight * 0.06),
                       _buildProfileDetails(),
-                      SizedBox(height: 40),
-                      PhotoGallery(docId: widget.docId),
-                      SizedBox(height: 40),
+
+
+
+                      // 🌟 Add anchor point before Photo Gallery section
+                      SizedBox(key: _anchorKey3),
+                      SizedBox(height: screenHeight * 0.06),
+
+                      PhotoGallery(docId: widget.SoulId),
                     ],
                   ),
+
                 ],
               ),
             ),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: screenHeight * 0.05),
           Align(
             alignment: Alignment.center,
             child: Row(
@@ -724,43 +968,32 @@ class _OtherProfilePageState extends State<OtherProfilePage>
                   index: 0,
                   isSelected: isButtonSelected(0),
                   onPressed: () {
-                    setState(() {
-                      _selectedButtonIndex = 0;
-                    });
-                    _scrollToContainer(1);
+                    _scrollToContainer(_anchorKey1);
                   },
                 ),
-                SizedBox(width: 10),
+                SizedBox(width: screenWidth * 0.02),
                 CustomOutlineButton(
-                  assetPath: 'assets/images/Group 2150.svg',
+                  assetPath: 'assets/images/heart .svg',
                   label: 'About me',
                   index: 1,
                   isSelected: isButtonSelected(1),
                   onPressed: () {
-                    setState(() {
-                      _selectedButtonIndex = 1;
-                    });
-                    _scrollToContainer(2);
+                    _scrollToContainer(_anchorKey2);
                   },
                 ),
-                SizedBox(width: 10),
+                SizedBox(width: screenWidth * 0.02),
                 CustomOutlineButton(
-                  assetPath: 'assets/images/Group 2149.svg',
+                  assetPath: 'assets/images/cash.svg',
                   label: 'Photo Gallery',
                   index: 2,
                   isSelected: isButtonSelected(2),
                   onPressed: () {
-                    setState(() {
-                      _selectedButtonIndex = 2;
-                    });
-                    _scrollToContainer(3);
+                    _scrollToContainer(_anchorKey3);
                   },
                 ),
               ],
             ),
           ),
-          SizedBox(height: 10),
-
         ],
       ),
       bottomNavigationBar: _buildNavigationBar(),

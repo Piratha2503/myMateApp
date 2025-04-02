@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http; // For making the HTTP request
 import 'dart:convert'; // For encoding the data
 import '../../MyMateThemes.dart';
 import '../ClosableContainer.dart';
+import '../ProfilePageScreen/MyProfileMain.dart';
 import 'CompleteProfileWidgets.dart';
 
 class PageThree extends StatefulWidget {
@@ -52,11 +53,16 @@ class _PageThreeState extends State<PageThree> {
 
   Future<void> _saveForm() async {
     if (_validateForm()) {
+      final expectations = controllers
+          .map((c) => c.text.trim())
+          .where((text) => text.isNotEmpty)
+          .toList();
+
       final Map<String, dynamic> data = {
         'docId': widget.docId,
-
         'lifestyle': {
-          'expectations': controllers.map((c) => c.text).toList(),
+          // If there are no expectations, send null.
+          'expectations': expectations.isEmpty ? null : expectations,
         },
       };
 
@@ -74,9 +80,7 @@ class _PageThreeState extends State<PageThree> {
         print('Response status: ${response.statusCode}');
         print('Response body: ${response.body}');
 
-        if (response.statusCode == 200) {
-          widget.onSave();
-        } else {
+        if (response.statusCode != 200) {
           setState(() {
             error = 'Failed to save data: ${response.body}';
           });
@@ -88,37 +92,28 @@ class _PageThreeState extends State<PageThree> {
       }
     }
   }
+
 
   Future<void> _updateForm() async {
     if (_validateForm()) {
-      final Map<String, dynamic> data = {
-        'docId': widget.docId,
-        'personalDetails': {
-          'religion': _selectedReligion,
-          'language': _selectedLanguage,
-          'caste': _casteController.text,
-          'num_of_siblings': _siblingsController.text,
-          'bio': _bioController.text,
-        },
-
-      };
-
-      final url = 'https://backend.graycorp.io:9000/mymate/api/v1/updateClient';
       try {
-        print('Sending data: ${json.encode(data)}');
         final response = await http.put(
-          Uri.parse(url),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: json.encode(data),
+          Uri.parse('https://backend.graycorp.io:9000/mymate/api/v1/updateClient'),
+          headers: {'Content-Type': 'application/json'},
+          body: json.encode({
+            'docId': widget.docId,
+            'personalDetails': {
+              'religion': _selectedReligion,
+              'language': _selectedLanguage,
+              'caste': _casteController.text,
+              'num_of_siblings': _siblingsController.text,
+              'bio': _bioController.text,
+            },
+          }),
         );
 
-        print('Response status: ${response.statusCode}');
-        print('Response body: ${response.body}');
-
         if (response.statusCode == 200) {
-          widget.onSave();
+          print('Data updated successfully');
         } else {
           setState(() {
             error = 'Failed to save data: ${response.body}';
@@ -126,26 +121,37 @@ class _PageThreeState extends State<PageThree> {
         }
       } catch (e) {
         setState(() {
-          error = 'Error while saving data: $e';
+          error = 'Error while updating data: $e';
         });
       }
     }
   }
 
-  Future<void> _saveAndUpdateForms() async {
+  Future <void> _saveAndUpdateForms() async {
+    print("Triggered _saveAndUpdateForms");
+
     await _saveForm();
     await _updateForm();
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => ProfilePage(docId: widget.docId, selectedBottomBarIconIndex: 3,)),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 10),
+          SizedBox(height: height*0.03),
           CompleteProfileWidgets.buildDropdownRow(
+
             label: "Religion",
             value: _selectedReligion,
             items: [
@@ -157,41 +163,65 @@ class _PageThreeState extends State<PageThree> {
             ],
             onChanged: (value) => setState(() {
               _selectedReligion = value;
-            }),
+            }), context: context,
           ),
-          SizedBox(height: 20),
+          SizedBox(height: height*0.015),
           CompleteProfileWidgets.buildTextFieldRow(
             label: "Caste",
             hintText: "Enter your Caste",
-            controller: _casteController,
+
+            controller: _casteController, context: context,
           ),
-          SizedBox(height: 10),
+          SizedBox(height: height*0.015),
           CompleteProfileWidgets.buildDropdownRow(
             label: "Language",
             value: _selectedLanguage,
+
             items: ['-- Select Option --', 'Tamil', 'English', 'Sinhala'],
             onChanged: (value) => setState(() {
               _selectedLanguage = value;
-            }),
+            }), context: context,
           ),
-          SizedBox(height: 10),
+          SizedBox(height: height*0.015),
           CompleteProfileWidgets.buildTextFieldRow(
             label: "No of Siblings",
             hintText: "Enter Number",
-            controller: _siblingsController,
+
+            controller: _siblingsController,  context:context ,
           ),
-          SizedBox(height: 10),
+          SizedBox(height: height*0.03),
+          Row(
+            children: [
+              SizedBox(width: width*0.01),
+              Text(
+                'Bio',
+                style: TextStyle(
+                  color: MyMateThemes.textColor,
+                  fontWeight: FontWeight.normal,
+                  fontSize: width*0.045,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: height*0.015),
           Container(
             decoration: BoxDecoration(
-              color: MyMateThemes.secondaryColor,
-              borderRadius: BorderRadius.circular(8.0),
+              border: Border.all(
+                color: MyMateThemes.textColor.withOpacity(0.2),
+                width: 1,
+              ),
+              borderRadius: BorderRadius.circular(width * 0.02),
             ),
-            width: 346,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  TextField(
+            height: height * 0.15,
+            width: width * 0.9,
+            padding: EdgeInsets.symmetric(
+              horizontal: width * 0.035,
+              vertical: height * 0.01,
+            ),
+            child: Column(
+              children: [
+                Expanded(
+                  child: TextField(
                     controller: _bioController,
                     maxLength: 192,
                     maxLines: null,
@@ -203,46 +233,59 @@ class _PageThreeState extends State<PageThree> {
                       });
                     },
                     decoration: InputDecoration(
-                      label: Text(
-                        'Bio',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                        ),
-                      ),
-                      counterText: characterCount <= 192
-                          ? '$characterCount/192'
-                          : '',
+                      border: InputBorder.none,
+                      counterText: '', // Hide default counter
                     ),
                   ),
-                  if (error.isNotEmpty)
-                    Text(
-                      error,
-                      style: TextStyle(color: Colors.red),
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    characterCount <= 192
+                        ? '$characterCount/192'
+                        : 'Character limit exceeded',
+                    style: TextStyle(
+                      color: characterCount > 192 ? Colors.red : Colors.grey,
+                      fontSize: 12,
                     ),
-                ],
-              ),
+                  ),
+                ),
+              ],
             ),
           ),
-          SizedBox(height: 25),
+
+          SizedBox(height: height*0.01),
+          if (error.isNotEmpty)
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding:  EdgeInsets.only(left: width*0.02),
+                child: Text(
+                  error,
+                  style: TextStyle(color: Colors.red[800]),
+                ),
+              ),
+            ),
+          SizedBox(height: height*0.02),
           Row(
             children: [
-              SizedBox(width: 40),
+              SizedBox(width: width*0.01),
               Text(
                 'Expectations',
                 style: TextStyle(
                   color: MyMateThemes.textColor,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 20,
+                  fontWeight: FontWeight.normal,
+                  fontSize: width*0.045,
                 ),
               ),
             ],
           ),
-          SizedBox(height: 15),
+          SizedBox(height: height*0.01),
           Column(
             children: List.generate(
               controllers.length,
                   (index) => ClosableContainer(
+
                 controller: controllers[index],
                 index: index,
                 onClose: (idx) {
@@ -254,10 +297,10 @@ class _PageThreeState extends State<PageThree> {
               ),
             ),
           ),
-          SizedBox(height: 20),
+          SizedBox(height: height*0.01),
           SizedBox(
-            width: 340.0,
-            height: 50.0,
+            width: width*0.9,
+            height: height*0.07,
             child: ElevatedButton(
               onPressed: () {
                 if (controllers.length < 5) {
@@ -266,22 +309,43 @@ class _PageThreeState extends State<PageThree> {
                   });
                 }
               },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(MyMateThemes.secondaryColor),
-                foregroundColor: MaterialStateProperty.all<Color>(MyMateThemes.primaryColor),
+
+              style: ElevatedButton.styleFrom(
+                backgroundColor: MyMateThemes.secondaryColor,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(width*0.03),
+                ),
               ),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text('+ Add more'),
+                child: Text('+ Add more',style: TextStyle(color: MyMateThemes.primaryColor,fontSize: width*0.04,fontWeight: FontWeight.normal),),
               ),
             ),
           ),
-          SizedBox(height: 40),
-          ElevatedButton(
-            onPressed: _saveAndUpdateForms, // Save form data when pressed
-            style: CommonButtonStyle.commonButtonStyle(),
-            child: Text('Complete'),
-          ),
+          SizedBox(height: height*0.06),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.08,
+              width: MediaQuery.of(context).size.width * 0.45,
+              child:     ElevatedButton(
+                onPressed: () async {
+                  await _saveAndUpdateForms();
+                },
+                style: ElevatedButton.styleFrom(
+                backgroundColor: MyMateThemes.primaryColor,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(width*0.01),
+                ),
+              ),
+                child: Text('Complete', style: TextStyle(color:Colors.white,fontSize: width * 0.045,fontWeight: FontWeight.normal), // Responsive font size
+    ),),
+              ),
+            ),
+          SizedBox(height: height*0.03),
+
         ],
       ),
     );
