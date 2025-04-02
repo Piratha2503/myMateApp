@@ -35,7 +35,7 @@ class _LoginState extends State<Login> {
         //print(_phoneController.text);
           Navigator.push(context, MaterialPageRoute(builder: (context)=>SubscribedhomescreenStructuredPage(docId: widget.docId,)));
       } else {
-        print("Wrong Password");
+        print("Wrong Passwor");
         print(_passwordController.text);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
