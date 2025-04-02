@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../MyMateCommonBodies/MyMateApis.dart';
 import '../../MyMateThemes.dart';
 import 'package:http/http.dart' as http;
@@ -88,35 +89,64 @@ Future<List<Map<String, dynamic>>> getFilteredProfiles() async {
   }
 }
 
+
 Widget ExploreAllGrid(BuildContext context, Future<List<Map<String, dynamic>>> profilesFuture) {
   return FutureBuilder<List<Map<String, dynamic>>>(
     future: profilesFuture,
     builder: (context, snapshot) {
       if (snapshot.connectionState == ConnectionState.waiting) {
-        return const Center(child: CircularProgressIndicator());
-      } else if (snapshot.hasError) {
-        return Center(child: Text('Error: ${snapshot.error}'));
-      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-        return const Center(child: Text('No profiles found'));
-
-      }
-
-      final data = snapshot.data!;
-
-      return
-        LayoutBuilder(
+        return LayoutBuilder(
           builder: (context, constraints) {
-
             return GridView.count(
               padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.04),
               crossAxisSpacing: constraints.maxWidth * 0.005,
               mainAxisSpacing: constraints.maxHeight * 0.005,
-              childAspectRatio:  2.6,
+              childAspectRatio: 2.6,
               crossAxisCount: 1,
-              children: data.map((profile) => buildViewItem(profile)).toList(),
+              children: List.generate(
+                4, // Show 6 shimmer placeholders while loading
+                    (index) => Shimmer.fromColors(
+                  baseColor: MyMateThemes.containerColor.withOpacity(0.5),
+                  highlightColor: MyMateThemes.containerColor!,
+                  child:
+                  Container(
+                    margin: const EdgeInsets.symmetric(vertical: 8),
+
+                    height: MediaQuery.of(context).size.height * 0.1,
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+
+                    ),
+                    child: Row(),
+                  ),
+
+                ),
+              ),
             );
           },
         );
+      } else if (snapshot.hasError) {
+        return Center(child: Text('Error: ${snapshot.error}'));
+      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+        return const Center(child: Text('No profiles found'));
+      }
+
+      final data = snapshot.data!;
+
+      return LayoutBuilder(
+        builder: (context, constraints) {
+          return GridView.count(
+            padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.04),
+            crossAxisSpacing: constraints.maxWidth * 0.005,
+            mainAxisSpacing: constraints.maxHeight * 0.005,
+            childAspectRatio: 2.6,
+            crossAxisCount: 1,
+            children: data.map((profile) => buildViewItem(profile)).toList(),
+          );
+        },
+      );
     },
   );
 }
